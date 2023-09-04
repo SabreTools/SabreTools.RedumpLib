@@ -1,4 +1,4 @@
-﻿#if NET6_0
+﻿#if NET5_0_OR_GREATER
 
 using System;
 using System.Collections.Generic;
@@ -42,7 +42,7 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Validate supplied credentials
         /// </summary>
-        public async static Task<(bool?, string)> ValidateCredentials(string username, string password)
+        public async static Task<(bool?, string?)> ValidateCredentials(string username, string password)
         {
             // If options are invalid or we're missing something key, just return
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
@@ -102,7 +102,9 @@ namespace SabreTools.RedumpLib.Web
 
                     // Send the login request and get the result
                     var response = await PostAsync(Constants.LoginUrl, postContent);
-                    string responseContent = await response?.Content?.ReadAsStringAsync();
+                    string? responseContent = null;
+                    if (response?.Content != null)
+                        responseContent = await response.Content.ReadAsStringAsync();
 
                     if (string.IsNullOrWhiteSpace(responseContent))
                     {
@@ -150,7 +152,7 @@ namespace SabreTools.RedumpLib.Web
             List<int> ids = new();
 
             // Try up to 3 times to retrieve the data
-            string dumpsPage = await DownloadString(url, retries: 3);
+            string? dumpsPage = await DownloadString(url, retries: 3);
 
             // If we have no dumps left
             if (dumpsPage == null || dumpsPage.Contains("No discs found."))
@@ -195,7 +197,7 @@ namespace SabreTools.RedumpLib.Web
         public async Task<bool> CheckSingleSitePage(string url, string outDir, bool failOnSingle)
         {
             // Try up to 3 times to retrieve the data
-            string dumpsPage = await DownloadString(url, retries: 3);
+            string? dumpsPage = await DownloadString(url, retries: 3);
 
             // If we have no dumps left
             if (dumpsPage == null || dumpsPage.Contains("No discs found."))
@@ -248,7 +250,7 @@ namespace SabreTools.RedumpLib.Web
             List<int> ids = new();
 
             // Try up to 3 times to retrieve the data
-            string dumpsPage = await DownloadString(url, retries: 3);
+            string? dumpsPage = await DownloadString(url, retries: 3);
 
             // If we have no dumps left
             if (dumpsPage == null || dumpsPage.Contains("No discs found."))
@@ -283,7 +285,7 @@ namespace SabreTools.RedumpLib.Web
         public async Task<bool> CheckSingleWIPPage(string url, string outDir, bool failOnSingle)
         {
             // Try up to 3 times to retrieve the data
-            string dumpsPage = await DownloadString(url, retries: 3);
+            string? dumpsPage = await DownloadString(url, retries: 3);
 
             // If we have no dumps left
             if (dumpsPage == null || dumpsPage.Contains("No discs found."))
@@ -322,7 +324,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="url">Base URL to download using</param>
         /// <param name="system">System to download packs for</param>
         /// <returns>Byte array containing the downloaded pack, null on error</returns>
-        public async Task<byte[]> DownloadSinglePack(string url, RedumpSystem? system)
+        public async Task<byte[]?> DownloadSinglePack(string url, RedumpSystem? system)
         {
             try
             {
@@ -354,7 +356,7 @@ namespace SabreTools.RedumpLib.Web
                 string packUri = string.Format(url, system.ShortName());
 
                 // Make the call to get the pack
-                string remoteFileName = await DownloadFile(packUri, tempfile);
+                string? remoteFileName = await DownloadFile(packUri, tempfile);
                 MoveOrDelete(tempfile, remoteFileName, outDir, subfolder);
                 return true;
             }
@@ -370,7 +372,7 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
-        public async Task<string> DownloadSingleSiteID(int id)
+        public async Task<string?> DownloadSingleSiteID(int id)
         {
             string paddedId = id.ToString().PadLeft(5, '0');
             Console.WriteLine($"Processing ID: {paddedId}");
@@ -378,7 +380,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 // Try up to 3 times to retrieve the data
                 string discPageUri = string.Format(Constants.DiscPageUrl, +id);
-                string discPage = await DownloadString(discPageUri, retries: 3);
+                string? discPage = await DownloadString(discPageUri, retries: 3);
 
                 if (discPage == null || discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
                 {
@@ -416,7 +418,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 // Try up to 3 times to retrieve the data
                 string discPageUri = string.Format(Constants.DiscPageUrl, +id);
-                string discPage = await DownloadString(discPageUri, retries: 3);
+                string? discPage = await DownloadString(discPageUri, retries: 3);
 
                 if (discPage == null || discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
                 {
@@ -532,7 +534,7 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="id">Redump WIP disc ID to retrieve</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
-        public async Task<string> DownloadSingleWIPID(int id)
+        public async Task<string?> DownloadSingleWIPID(int id)
         {
             string paddedId = id.ToString().PadLeft(5, '0');
             Console.WriteLine($"Processing ID: {paddedId}");
@@ -540,7 +542,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 // Try up to 3 times to retrieve the data
                 string discPageUri = string.Format(Constants.WipDiscPageUrl, +id);
-                string discPage = await DownloadString(discPageUri, retries: 3);
+                string? discPage = await DownloadString(discPageUri, retries: 3);
 
                 if (discPage == null || discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
                 {
@@ -578,7 +580,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 // Try up to 3 times to retrieve the data
                 string discPageUri = string.Format(Constants.WipDiscPageUrl, +id);
-                string discPage = await DownloadString(discPageUri, retries: 3);
+                string? discPage = await DownloadString(discPageUri, retries: 3);
 
                 if (discPage == null || discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
                 {
@@ -668,12 +670,12 @@ namespace SabreTools.RedumpLib.Web
                     continue;
 
                 // If the system is unknown, we can't do anything
-                string longName = system.LongName();
+                string? longName = system.LongName();
                 if (string.IsNullOrWhiteSpace(longName))
                     continue;
 
                 Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName.Length - 1)}");
-                byte[] pack = await DownloadSinglePack(url, system);
+                byte[]? pack = await DownloadSinglePack(url, system);
                 if (pack != null)
                     packsDictionary.Add(system.Value, pack);
             }
@@ -706,7 +708,7 @@ namespace SabreTools.RedumpLib.Web
                     continue;
 
                 // If the system is unknown, we can't do anything
-                string longName = system.LongName();
+                string? longName = system.LongName();
                 if (string.IsNullOrWhiteSpace(longName))
                     continue;
 
@@ -725,7 +727,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="uri">Remote URI to retrieve</param>
         /// <param name="fileName">Filename to write to</param>
         /// <returns>The remote filename from the URI, null on error</returns>
-        private async Task<string> DownloadFile(string uri, string fileName)
+        private async Task<string?> DownloadFile(string uri, string fileName)
         {
             // Make the call to get the file
             var response = await GetAsync(uri);
@@ -751,7 +753,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="uri">Remote URI to retrieve</param>
         /// <param name="retries">Number of times to retry on error</param>
         /// <returns>String from the URI, null on error</returns>
-        private async Task<string> DownloadString(string uri, int retries = 3)
+        private async Task<string?> DownloadString(string uri, int retries = 3)
         {
             // Only retry a positive number of times
             if (retries <= 0)
@@ -776,7 +778,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="newfile">Path to new output file</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Optional subfolder to append to the path</param>
-        private static void MoveOrDelete(string tempfile, string newfile, string outDir, string subfolder)
+        private static void MoveOrDelete(string tempfile, string? newfile, string outDir, string subfolder)
         {
             // If we don't have a file to move to, just delete the temp file
             if (string.IsNullOrWhiteSpace(newfile))
