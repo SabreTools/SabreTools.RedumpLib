@@ -1,9 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Assembly Properties -->
+    <TargetFrameworks>net48;net6.0;net7.0;net8.0</TargetFrameworks>
+    <RuntimeIdentifiers>win-x86;win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
+    <Version>1.1.0</Version>
+
+    <!-- Package Properties -->
+    <Authors>Matt Nadareski</Authors>
+    <Description>Code to interact with redump.org</Description>
+    <Copyright>Copyright (c) Matt Nadareski 2020-2023</Copyright>
+    <PackageProjectUrl>https://github.com/SabreTools/</PackageProjectUrl>
+    <PackageReadmeFile>README.MD</PackageReadmeFile>
+    <RepositoryUrl>PLACEHOLDER</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>web client redump</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'!='net48'">
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
 
 </Project>
