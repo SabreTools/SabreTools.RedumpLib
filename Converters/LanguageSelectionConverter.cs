@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RedumpLib.Data;
+using SabreTools.RedumpLib.Data;
 
 namespace SabreTools.RedumpLib.Converters
 {

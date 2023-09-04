@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using RedumpLib.Attributes;
+using SabreTools.RedumpLib.Attributes;
 
 namespace SabreTools.RedumpLib.Data
 {
