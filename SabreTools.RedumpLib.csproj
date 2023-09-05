@@ -12,7 +12,7 @@
     <Copyright>Copyright (c) Matt Nadareski 2020-2023</Copyright>
     <PackageProjectUrl>https://github.com/SabreTools/</PackageProjectUrl>
     <PackageReadmeFile>README.MD</PackageReadmeFile>
-    <RepositoryUrl>PLACEHOLDER</RepositoryUrl>
+    <RepositoryUrl>https://github.com/SabreTools/SabreTools.RedumpLib</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>web client redump</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -21,6 +21,10 @@
   <PropertyGroup Condition="'$(TargetFramework)'!='net48'">
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
