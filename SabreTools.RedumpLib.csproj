@@ -11,7 +11,7 @@
     <Description>Code to interact with redump.org</Description>
     <Copyright>Copyright (c) Matt Nadareski 2020-2023</Copyright>
     <PackageProjectUrl>https://github.com/SabreTools/</PackageProjectUrl>
-    <PackageReadmeFile>README.MD</PackageReadmeFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/SabreTools/SabreTools.RedumpLib</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>web client redump</PackageTags>
@@ -23,7 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\"/>
+    <None Include="README.md" Pack="true" PackagePath=""/>
   </ItemGroup>
 
   <ItemGroup>
