@@ -1376,6 +1376,7 @@ namespace SabreTools.RedumpLib.Data
                 case "atarijagcd":
                 case "atarijaguarcd":
                 case "atari jaguar cd":
+                case "atari jaguar cd interactive multimedia system":
                     return RedumpSystem.AtariJaguarCDInteractiveMultimediaSystem;
                 case "qis":
                 case "playdia":
@@ -1443,6 +1444,7 @@ namespace SabreTools.RedumpLib.Data
                 case "videonow jr":
                 case "hasbrovideonowjr":
                 case "hasbro videonow jr":
+                case "hasbro videonow jr.":
                     return RedumpSystem.HasbroVideoNowJr;
                 case "xvnxp":
                 case "videonowxp":
@@ -1516,6 +1518,7 @@ namespace SabreTools.RedumpLib.Data
                 case "nec pc-engine cd":
                 case "nec turbografx cd":
                 case "nec pc-engine / turbografx cd":
+                case "nec pc-engine cd & turbografx cd":
                     return RedumpSystem.NECPCEngineCDTurboGrafxCD;
                 case "pcfx":
                 case "pc-fx":
@@ -1526,6 +1529,7 @@ namespace SabreTools.RedumpLib.Data
                 case "nec pc-fx":
                 case "nec pc-fxga":
                 case "nec pc-fx / pc-fxga":
+                case "nec pc-fx & pc-fxga":
                     return RedumpSystem.NECPCFXPCFXGA;
                 case "gc":
                 case "gamecube":
@@ -1560,6 +1564,7 @@ namespace SabreTools.RedumpLib.Data
                 case "sonysupernintendocd":
                 case "sony super nintendo cd":
                 case "sony super nintendo-cd":
+                case "nintendo-sony super nes cd-rom system":
                     return RedumpSystem.NintendoSonySuperNESCDROMSystem;
                 case "wii":
                 case "nintendowii":
@@ -1595,6 +1600,7 @@ namespace SabreTools.RedumpLib.Data
                 case "sega cd":
                 case "mega cd":
                 case "sega cd / mega cd":
+                case "sega mega cd & sega cd":
                     return RedumpSystem.SegaMegaCDSegaCD;
                 case "dc":
                 case "sdc":
@@ -1698,6 +1704,7 @@ namespace SabreTools.RedumpLib.Data
                 case "vtech vsmile pro":
                 case "vtech v.smile pro":
                 case "vtech v.flash - v.smile pro":
+                case "vtech v.flash & v.smile pro":
                     return RedumpSystem.VTechVFlashVSmilePro;
                 case "gamewave":
                 case "game wave":
@@ -1729,6 +1736,7 @@ namespace SabreTools.RedumpLib.Data
                 case "amiga":
                 case "commodoreamiga":
                 case "commodore amiga":
+                case "commodore amiga cd":
                     return RedumpSystem.CommodoreAmigaCD;
                 case "fmtowns":
                 case "fmt":
@@ -1748,12 +1756,14 @@ namespace SabreTools.RedumpLib.Data
                 case "necpc88":
                 case "nec pc88":
                 case "nec pc-88":
+                case "nec pc-88 series":
                     return RedumpSystem.NECPC88series;
                 case "pc98":
                 case "pc-98":
                 case "necpc98":
                 case "nec pc98":
                 case "nec pc-98":
+                case "nec pc-98 series":
                     return RedumpSystem.NECPC98series;
                 case "x68k":
                 case "x68kcd":
@@ -1937,6 +1947,7 @@ namespace SabreTools.RedumpLib.Data
                 case "capcomsupersystem256":
                 case "capcom super system 256":
                 case "namco / capcom system 256/super system 256":
+                case "namco system 246 / system 256":
                     return RedumpSystem.NamcoSystem246256;
                 case "triforce":
                 case "namcotriforce":
@@ -1946,6 +1957,7 @@ namespace SabreTools.RedumpLib.Data
                 case "nintendotriforce":
                 case "nintendo triforce":
                 case "namco / sega / nintendo triforce":
+                case "Namco · Sega · Nintendo Triforce":
                     return RedumpSystem.NamcoSegaNintendoTriforce;
                 case "ns12":
                 case "system12":
@@ -2104,6 +2116,7 @@ namespace SabreTools.RedumpLib.Data
                 case "hddvdvideo":
                 case "hddvd-video":
                 case "hd-dvd-video":
+                case "hd dvd-video":
                     return RedumpSystem.HDDVDVideo;
                 case "navi21":
                 case "naviken":
@@ -2116,6 +2129,7 @@ namespace SabreTools.RedumpLib.Data
                     return RedumpSystem.NavisoftNaviken21;
                 case "palm":
                 case "palmos":
+                case "palm os":
                     return RedumpSystem.PalmOS;
                 case "photo":
                 case "photocd":
@@ -2145,6 +2159,7 @@ namespace SabreTools.RedumpLib.Data
                 case "segaprologue21":
                 case "sega prologue21":
                 case "sega prologue 21":
+                case "sega prologue 21 multimedia karaoke system":
                     return RedumpSystem.SegaPrologue21MultimediaKaraokeSystem;
                 case "electronicbook":
                 case "sonyelectronicbook":
