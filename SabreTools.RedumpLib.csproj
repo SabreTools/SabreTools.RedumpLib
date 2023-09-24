@@ -3,7 +3,6 @@
   <PropertyGroup>
     <!-- Assembly Properties -->
     <TargetFrameworks>net48;net6.0;net7.0;net8.0</TargetFrameworks>
-    <RuntimeIdentifiers>win7-x64;win8-x64;win81-x64;win10-x64;linux-x64;osx-x64</RuntimeIdentifiers>
     <Version>1.1.1</Version>
 
     <!-- Package Properties -->
@@ -20,6 +19,14 @@
 
   <PropertyGroup Condition="'$(TargetFramework)'!='net48'">
     <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <!-- .NET 8.0 RC1 doesn't support the winX-x64 identifiers -->
+  <PropertyGroup Condition="'$(TargetFramework)'!='net8.0'">
+    <RuntimeIdentifiers>win7-x64;win8-x64;win81-x64;win10-x64;linux-x64;osx-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'=='net8.0'">
+    <RuntimeIdentifiers>win-x86;win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
