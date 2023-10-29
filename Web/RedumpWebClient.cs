@@ -420,7 +420,7 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>String containing the page contents if successful, null on error</returns>
         public string DownloadSingleSiteID(int id)
         {
-            string paddedId = id.ToString().PadLeft(5, '0');
+            string paddedId = id.ToString().PadLeft(6, '0');
             Console.WriteLine($"Processing ID: {paddedId}");
             try
             {
@@ -466,7 +466,7 @@ namespace SabreTools.RedumpLib.Web
             if (string.IsNullOrWhiteSpace(outDir))
                 outDir = Environment.CurrentDirectory;
 
-            string paddedId = id.ToString().PadLeft(5, '0');
+            string paddedId = id.ToString().PadLeft(6, '0');
             string paddedIdDir = Path.Combine(outDir, paddedId);
             Console.WriteLine($"Processing ID: {paddedId}");
             try
@@ -600,7 +600,7 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>String containing the page contents if successful, null on error</returns>
         public string DownloadSingleWIPID(int id)
         {
-            string paddedId = id.ToString().PadLeft(5, '0');
+            string paddedId = id.ToString().PadLeft(6, '0');
             Console.WriteLine($"Processing ID: {paddedId}");
             try
             {
@@ -646,7 +646,7 @@ namespace SabreTools.RedumpLib.Web
             if (string.IsNullOrWhiteSpace(outDir))
                 outDir = Environment.CurrentDirectory;
 
-            string paddedId = id.ToString().PadLeft(5, '0');
+            string paddedId = id.ToString().PadLeft(6, '0');
             string paddedIdDir = Path.Combine(outDir, paddedId);
             Console.WriteLine($"Processing ID: {paddedId}");
             try
