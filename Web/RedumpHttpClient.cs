@@ -170,8 +170,11 @@ namespace SabreTools.RedumpLib.Web
 
             // Otherwise, traverse each dump on the page
             var matches = Constants.DiscRegex.Matches(dumpsPage);
-            foreach (Match match in matches)
+            foreach (Match? match in matches)
             {
+                if (match == null)
+                    continue;
+
                 try
                 {
                     if (int.TryParse(match.Groups[1].Value, out int value))
@@ -219,8 +222,11 @@ namespace SabreTools.RedumpLib.Web
 
             // Otherwise, traverse each dump on the page
             var matches = Constants.DiscRegex.Matches(dumpsPage);
-            foreach (Match match in matches)
+            foreach (Match? match in matches)
             {
+                if (match == null)
+                    continue;
+
                 try
                 {
                     if (int.TryParse(match.Groups[1].Value, out int value))
@@ -258,8 +264,11 @@ namespace SabreTools.RedumpLib.Web
 
             // Otherwise, traverse each dump on the page
             var matches = Constants.NewDiscRegex.Matches(dumpsPage);
-            foreach (Match match in matches)
+            foreach (Match? match in matches)
             {
+                if (match == null)
+                    continue;
+
                 try
                 {
                     if (int.TryParse(match.Groups[2].Value, out int value))
@@ -293,8 +302,11 @@ namespace SabreTools.RedumpLib.Web
 
             // Otherwise, traverse each dump on the page
             var matches = Constants.NewDiscRegex.Matches(dumpsPage);
-            foreach (Match match in matches)
+            foreach (Match? match in matches)
             {
+                if (match == null)
+                    continue;
+
                 try
                 {
                     if (int.TryParse(match.Groups[2].Value, out int value))

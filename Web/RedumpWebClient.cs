@@ -101,7 +101,11 @@ namespace SabreTools.RedumpLib.Web
             }
 
             // HTTP encode the password
+#if NET40
+            password = Uri.EscapeUriString(password);
+#else
             password = WebUtility.UrlEncode(password);
+#endif
 
             // Attempt to login up to 3 times
             for (int i = 0; i < 3; i++)

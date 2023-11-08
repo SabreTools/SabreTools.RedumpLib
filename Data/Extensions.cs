@@ -1053,7 +1053,7 @@ namespace SabreTools.RedumpLib.Data
 
             foreach (var val in Enum.GetValues(typeof(MediaType)))
             {
-                if (((MediaType)val) == MediaType.NONE)
+                if (val == null || ((MediaType)val) == MediaType.NONE)
                     continue;
 
                 mediaTypes.Add($"{((MediaType?)val).ShortName()} - {((MediaType?)val).LongName()}");
