@@ -812,11 +812,7 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-#if NET48
-        public static string LongName(this DiscCategory? category) => AttributeHelper<DiscCategory?>.GetAttribute(category)?.LongName;
-#else
         public static string? LongName(this DiscCategory? category) => AttributeHelper<DiscCategory?>.GetAttribute(category)?.LongName;
-#endif
 
         /// <summary>
         /// Get the Category enum value for a given string
@@ -865,11 +861,7 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="discType"></param>
         /// <returns></returns>
-#if NET48
-        public static string LongName(this DiscType? discType) => AttributeHelper<DiscType?>.GetAttribute(discType)?.LongName;
-#else
         public static string? LongName(this DiscType? discType) => AttributeHelper<DiscType?>.GetAttribute(discType)?.LongName;
-#endif
 
         /// <summary>
         /// Get the DiscType enum value for a given string
@@ -955,22 +947,14 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="language"></param>
         /// <returns></returns>
-#if NET48
-        public static string LongName(this Language? language) => AttributeHelper<Language?>.GetAttribute(language)?.LongName;
-#else
         public static string? LongName(this Language? language) => AttributeHelper<Language?>.GetAttribute(language)?.LongName;
-#endif
 
         /// <summary>
         /// Get the Redump shortnames for each known language
         /// </summary>
         /// <param name="language"></param>
         /// <returns></returns>
-#if NET48
-        public static string ShortName(this Language? language)
-#else
         public static string? ShortName(this Language? language)
-#endif
         {
             // Some languages need to use the alternate code instead
             switch (language)
@@ -1029,33 +1013,21 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="language"></param>
         /// <returns></returns>
-#if NET48
-        public static string ThreeLetterCode(this Language? language) => ((LanguageAttribute)AttributeHelper<Language?>.GetAttribute(language))?.ThreeLetterCode;
-#else
         public static string? ThreeLetterCode(this Language? language) => (AttributeHelper<Language?>.GetAttribute(language) as LanguageAttribute)?.ThreeLetterCode;
-#endif
 
         /// <summary>
         /// Get the ISO 639-2 alternate code for each known language
         /// </summary>
         /// <param name="language"></param>
         /// <returns></returns>
-#if NET48
-        public static string ThreeLetterCodeAlt(this Language? language) => ((LanguageAttribute)AttributeHelper<Language?>.GetAttribute(language))?.ThreeLetterCodeAlt;
-#else
         public static string? ThreeLetterCodeAlt(this Language? language) => (AttributeHelper<Language?>.GetAttribute(language) as LanguageAttribute)?.ThreeLetterCodeAlt;
-#endif
 
         /// <summary>
         /// Get the ISO 639-1 code for each known language
         /// </summary>
         /// <param name="language"></param>
         /// <returns></returns>
-#if NET48
-        public static string TwoLetterCode(this Language? language) => ((LanguageAttribute)AttributeHelper<Language?>.GetAttribute(language))?.TwoLetterCode;
-#else
         public static string? TwoLetterCode(this Language? language) => (AttributeHelper<Language?>.GetAttribute(language) as LanguageAttribute)?.TwoLetterCode;
-#endif
 
         #endregion
 
@@ -1066,11 +1038,7 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="langSelect">LanguageSelection value to convert</param>
         /// <returns>String representing the value, if possible</returns>
-#if NET48
-        public static string LongName(this LanguageSelection? langSelect) => AttributeHelper<LanguageSelection?>.GetAttribute(langSelect)?.LongName;
-#else
         public static string? LongName(this LanguageSelection? langSelect) => AttributeHelper<LanguageSelection?>.GetAttribute(langSelect)?.LongName;
-#endif
 
         #endregion
 
@@ -1099,22 +1067,14 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="mediaType"></param>
         /// <returns></returns>
-#if NET48
-        public static string LongName(this MediaType? mediaType) => AttributeHelper<MediaType?>.GetAttribute(mediaType)?.LongName;
-#else
         public static string? LongName(this MediaType? mediaType) => AttributeHelper<MediaType?>.GetAttribute(mediaType)?.LongName;
-#endif
 
         /// <summary>
         /// Get the Redump shortnames for each known media type
         /// </summary>
         /// <param name="mediaType"></param>
         /// <returns></returns>
-#if NET48
-        public static string ShortName(this MediaType? mediaType) => AttributeHelper<MediaType?>.GetAttribute(mediaType)?.ShortName;
-#else
         public static string? ShortName(this MediaType? mediaType) => AttributeHelper<MediaType?>.GetAttribute(mediaType)?.ShortName;
-#endif
 
         #endregion
 
@@ -1125,22 +1085,14 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="region"></param>
         /// <returns></returns>
-#if NET48
-        public static string LongName(this Region? region) => AttributeHelper<Region?>.GetAttribute(region)?.LongName;
-#else
         public static string? LongName(this Region? region) => AttributeHelper<Region?>.GetAttribute(region)?.LongName;
-#endif
 
         /// <summary>
         /// Get the Redump shortnames for each known region
         /// </summary>
         /// <param name="region"></param>
         /// <returns></returns>
-#if NET48
-        public static string ShortName(this Region? region) => AttributeHelper<Region?>.GetAttribute(region)?.ShortName;
-#else
         public static string? ShortName(this Region? region) => AttributeHelper<Region?>.GetAttribute(region)?.ShortName;
-#endif
 
         /// <summary>
         /// Get the Region enum value for a given string
@@ -1172,22 +1124,14 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="siteCode"></param>
         /// <returns></returns>
-#if NET48
-        public static string LongName(this SiteCode? siteCode) => AttributeHelper<SiteCode?>.GetAttribute(siteCode)?.LongName;
-#else
         public static string? LongName(this SiteCode? siteCode) => AttributeHelper<SiteCode?>.GetAttribute(siteCode)?.LongName;
-#endif
 
         /// <summary>
         /// Get the short tag for each known site code
         /// </summary>
         /// <param name="siteCode"></param>
         /// <returns></returns>
-#if NET48
-        public static string ShortName(this SiteCode? siteCode) => AttributeHelper<SiteCode?>.GetAttribute(siteCode)?.ShortName;
-#else
         public static string? ShortName(this SiteCode? siteCode) => AttributeHelper<SiteCode?>.GetAttribute(siteCode)?.ShortName;
-#endif
 
         #endregion
 
@@ -1238,22 +1182,14 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="system"></param>
         /// <returns></returns>
-#if NET48
-        public static string LongName(this RedumpSystem? system) => AttributeHelper<RedumpSystem?>.GetAttribute(system)?.LongName;
-#else
         public static string? LongName(this RedumpSystem? system) => AttributeHelper<RedumpSystem?>.GetAttribute(system)?.LongName;
-#endif
 
         /// <summary>
         /// Get the Redump shortnames for each known system
         /// </summary>
         /// <param name="system"></param>
         /// <returns></returns>
-#if NET48
-        public static string ShortName(this RedumpSystem? system) => AttributeHelper<RedumpSystem?>.GetAttribute(system)?.ShortName;
-#else
         public static string? ShortName(this RedumpSystem? system) => AttributeHelper<RedumpSystem?>.GetAttribute(system)?.ShortName;
-#endif
 
         /// <summary>
         /// Determine the category of a system
@@ -2201,11 +2137,7 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-#if NET48
-        public static string LongName(this SystemCategory? category) => AttributeHelper<SystemCategory?>.GetAttribute(category)?.LongName;
-#else
         public static string? LongName(this SystemCategory? category) => AttributeHelper<SystemCategory?>.GetAttribute(category)?.LongName;
-#endif
 
         #endregion
 

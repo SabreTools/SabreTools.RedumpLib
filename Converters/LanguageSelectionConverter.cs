@@ -12,20 +12,12 @@ namespace SabreTools.RedumpLib.Converters
     {
         public override bool CanRead { get { return false; } }
 
-#if NET48
-        public override LanguageSelection?[] ReadJson(JsonReader reader, Type objectType, LanguageSelection?[] existingValue, bool hasExistingValue, JsonSerializer serializer)
-#else
         public override LanguageSelection?[] ReadJson(JsonReader reader, Type objectType, LanguageSelection?[]? existingValue, bool hasExistingValue, JsonSerializer serializer)
-#endif
         {
             throw new NotImplementedException();
         }
 
-#if NET48
-        public override void WriteJson(JsonWriter writer, LanguageSelection?[] value, JsonSerializer serializer)
-#else
         public override void WriteJson(JsonWriter writer, LanguageSelection?[]? value, JsonSerializer serializer)
-#endif
         {
             if (value == null)
                 return;

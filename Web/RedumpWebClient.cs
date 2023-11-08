@@ -1,4 +1,4 @@
-﻿#if NET48
+﻿#if NETFRAMEWORK
 
 using System;
 using System.Collections.Generic;
@@ -29,7 +29,7 @@ namespace SabreTools.RedumpLib.Web
         /// Get the last downloaded filename, if possible
         /// </summary>
         /// <returns></returns>
-        public string GetLastFilename()
+        public string? GetLastFilename()
         {
             // If the response headers are null or empty
             if (ResponseHeaders == null || ResponseHeaders.Count == 0)
@@ -41,11 +41,7 @@ namespace SabreTools.RedumpLib.Web
                 return null;
 
             // Extract the filename from the value
-#if NETSTANDARD2_1
-            return headerValue[(headerValue.IndexOf("filename=") + 9)..].Replace("\"", "");
-#else
             return headerValue.Substring(headerValue.IndexOf("filename=") + 9).Replace("\"", "");
-#endif
         }
 
         /// <inheritdoc/>
@@ -61,19 +57,15 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Validate supplied credentials
         /// </summary>
-        public static (bool?, string) ValidateCredentials(string username, string password)
+        public static (bool?, string?) ValidateCredentials(string username, string password)
         {
             // If options are invalid or we're missing something key, just return
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                 return (false, null);
 
             // Try logging in with the supplied credentials otherwise
-#if NETSTANDARD2_1
-            using RedumpWebClient wc = new RedumpWebClient();
-#else
             using (RedumpWebClient wc = new RedumpWebClient())
             {
-#endif
                 bool? loggedIn = wc.Login(username, password);
                 if (loggedIn == true)
                     return (true, "Redump username and password accepted!");
@@ -81,9 +73,7 @@ namespace SabreTools.RedumpLib.Web
                     return (false, "Redump username and password denied!");
                 else
                     return (null, "An error occurred validating your credentials!");
-#if NET48
             }
-#endif
         }
 
         /// <summary>
@@ -216,7 +206,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="failOnSingle">True to return on first error, false otherwise</param>
         /// <returns>True if the page could be downloaded, false otherwise</returns>
-        public bool CheckSingleSitePage(string url, string outDir, bool failOnSingle)
+        public bool CheckSingleSitePage(string url, string? outDir, bool failOnSingle)
         {
             string dumpsPage = string.Empty;
 
@@ -323,7 +313,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="failOnSingle">True to return on first error, false otherwise</param>
         /// <returns>True if the page could be downloaded, false otherwise</returns>
-        public bool CheckSingleWIPPage(string url, string outDir, bool failOnSingle)
+        public bool CheckSingleWIPPage(string url, string? outDir, bool failOnSingle)
         {
             string dumpsPage = string.Empty;
 
@@ -375,7 +365,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="url">Base URL to download using</param>
         /// <param name="system">System to download packs for</param>
         /// <returns>Byte array containing the downloaded pack, null on error</returns>
-        public byte[] DownloadSinglePack(string url, RedumpSystem? system)
+        public byte[]? DownloadSinglePack(string url, RedumpSystem? system)
         {
             try
             {
@@ -395,7 +385,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="system">System to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
-        public void DownloadSinglePack(string url, RedumpSystem? system, string outDir, string subfolder)
+        public void DownloadSinglePack(string url, RedumpSystem? system, string? outDir, string? subfolder)
         {
             try
             {
@@ -405,7 +395,7 @@ namespace SabreTools.RedumpLib.Web
 
                 string tempfile = Path.Combine(outDir, "tmp" + Guid.NewGuid().ToString());
                 DownloadFile(string.Format(url, system.ShortName()), tempfile);
-                MoveOrDelete(tempfile, GetLastFilename(), outDir, subfolder);
+                MoveOrDelete(tempfile, GetLastFilename(), outDir!, subfolder);
             }
             catch (Exception ex)
             {
@@ -418,7 +408,7 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
-        public string DownloadSingleSiteID(int id)
+        public string? DownloadSingleSiteID(int id)
         {
             string paddedId = id.ToString().PadLeft(6, '0');
             Console.WriteLine($"Processing ID: {paddedId}");
@@ -460,7 +450,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
-        public bool DownloadSingleSiteID(int id, string outDir, bool rename)
+        public bool DownloadSingleSiteID(int id, string? outDir, bool rename)
         {
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrWhiteSpace(outDir))
@@ -598,7 +588,7 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="id">Redump WIP disc ID to retrieve</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
-        public string DownloadSingleWIPID(int id)
+        public string? DownloadSingleWIPID(int id)
         {
             string paddedId = id.ToString().PadLeft(6, '0');
             Console.WriteLine($"Processing ID: {paddedId}");
@@ -640,7 +630,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
-        public bool DownloadSingleWIPID(int id, string outDir, bool rename)
+        public bool DownloadSingleWIPID(int id, string? outDir, bool rename)
         {
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrWhiteSpace(outDir))
@@ -752,12 +742,12 @@ namespace SabreTools.RedumpLib.Web
                     continue;
 
                 // If the system is unknown, we can't do anything
-                string longName = system.LongName();
+                string? longName = system.LongName();
                 if (string.IsNullOrWhiteSpace(longName))
                     continue;
 
-                Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName.Length - 1)}");
-                byte[] pack = DownloadSinglePack(url, system);
+                Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
+                byte[]? pack = DownloadSinglePack(url, system);
                 if (pack != null)
                     packsDictionary.Add(system.Value, pack);
             }
@@ -776,7 +766,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="title">Name of the pack that is downloading</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
-        public void DownloadPacks(string url, RedumpSystem?[] systems, string title, string outDir, string subfolder)
+        public void DownloadPacks(string url, RedumpSystem?[] systems, string title, string? outDir, string? subfolder)
         {
             Console.WriteLine($"Downloading {title}");
             foreach (var system in systems)
@@ -790,11 +780,11 @@ namespace SabreTools.RedumpLib.Web
                     continue;
 
                 // If the system is unknown, we can't do anything
-                string longName = system.LongName();
+                string? longName = system.LongName();
                 if (string.IsNullOrWhiteSpace(longName))
                     continue;
 
-                Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName.Length - 1)}");
+                Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
                 DownloadSinglePack(url, system, outDir, subfolder);
             }
 
@@ -809,7 +799,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="newfile">Path to new output file</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Optional subfolder to append to the path</param>
-        private static void MoveOrDelete(string tempfile, string newfile, string outDir, string subfolder)
+        private static void MoveOrDelete(string tempfile, string? newfile, string outDir, string? subfolder)
         {
             if (!string.IsNullOrWhiteSpace(newfile))
             {
@@ -827,7 +817,9 @@ namespace SabreTools.RedumpLib.Web
                     File.Move(tempfile, Path.Combine(outDir, newfile));
             }
             else
+            {
                 File.Delete(tempfile);
+            }
         }
 
         #endregion

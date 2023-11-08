@@ -4,6 +4,9 @@
     <!-- Assembly Properties -->
     <TargetFrameworks>net48;net6.0;net7.0;net8.0</TargetFrameworks>
     <RuntimeIdentifiers>win-x86;win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Version>1.1.1</Version>
 
     <!-- Package Properties -->
@@ -16,10 +19,6 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>web client redump</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)'!='net48'">
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

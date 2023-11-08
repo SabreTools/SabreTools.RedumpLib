@@ -15,19 +15,11 @@ namespace SabreTools.RedumpLib.Attributes
         /// <summary>
         /// Human-readable name of the item
         /// </summary>
-#if NET48
-        public string LongName { get; set; }
-#else
         public string? LongName { get; set; }
-#endif
 
         /// <summary>
         /// Internally used name of the item
         /// </summary>
-#if NET48
-        public string ShortName { get; set; }
-#else
         public string? ShortName { get; set; }
-#endif
     }
 }

@@ -1,4 +1,4 @@
-﻿#if NET6_0_OR_GREATER
+﻿#if !NETFRAMEWORK
 
 using System;
 using System.Collections.Generic;
@@ -194,7 +194,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="failOnSingle">True to return on first error, false otherwise</param>
         /// <returns>True if the page could be downloaded, false otherwise</returns>
-        public async Task<bool> CheckSingleSitePage(string url, string outDir, bool failOnSingle)
+        public async Task<bool> CheckSingleSitePage(string url, string? outDir, bool failOnSingle)
         {
             // Try up to 3 times to retrieve the data
             string? dumpsPage = await DownloadString(url, retries: 3);
@@ -282,7 +282,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="failOnSingle">True to return on first error, false otherwise</param>
         /// <returns>True if the page could be downloaded, false otherwise</returns>
-        public async Task<bool> CheckSingleWIPPage(string url, string outDir, bool failOnSingle)
+        public async Task<bool> CheckSingleWIPPage(string url, string? outDir, bool failOnSingle)
         {
             // Try up to 3 times to retrieve the data
             string? dumpsPage = await DownloadString(url, retries: 3);
@@ -344,7 +344,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="system">System to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
-        public async Task<bool> DownloadSinglePack(string url, RedumpSystem? system, string outDir, string subfolder)
+        public async Task<bool> DownloadSinglePack(string url, RedumpSystem? system, string? outDir, string? subfolder)
         {
             try
             {
@@ -357,7 +357,7 @@ namespace SabreTools.RedumpLib.Web
 
                 // Make the call to get the pack
                 string? remoteFileName = await DownloadFile(packUri, tempfile);
-                MoveOrDelete(tempfile, remoteFileName, outDir, subfolder);
+                MoveOrDelete(tempfile, remoteFileName, outDir!, subfolder);
                 return true;
             }
             catch (Exception ex)
@@ -405,7 +405,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
-        public async Task<bool> DownloadSingleSiteID(int id, string outDir, bool rename)
+        public async Task<bool> DownloadSingleSiteID(int id, string? outDir, bool rename)
         {
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrWhiteSpace(outDir))
@@ -567,7 +567,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
-        public async Task<bool> DownloadSingleWIPID(int id, string outDir, bool rename)
+        public async Task<bool> DownloadSingleWIPID(int id, string? outDir, bool rename)
         {
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrWhiteSpace(outDir))
@@ -694,7 +694,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="title">Name of the pack that is downloading</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
-        public async Task<bool> DownloadPacks(string url, RedumpSystem?[] systems, string title, string outDir, string subfolder)
+        public async Task<bool> DownloadPacks(string url, RedumpSystem?[] systems, string title, string? outDir, string? subfolder)
         {
             Console.WriteLine($"Downloading {title}");
             foreach (var system in systems)
@@ -778,7 +778,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="newfile">Path to new output file</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Optional subfolder to append to the path</param>
-        private static void MoveOrDelete(string tempfile, string? newfile, string outDir, string subfolder)
+        private static void MoveOrDelete(string tempfile, string? newfile, string outDir, string? subfolder)
         {
             // If we don't have a file to move to, just delete the temp file
             if (string.IsNullOrWhiteSpace(newfile))

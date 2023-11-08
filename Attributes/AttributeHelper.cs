@@ -10,11 +10,7 @@ namespace SabreTools.RedumpLib.Attributes
         /// </summary>
         /// <param name="value">Value to use</param>
         /// <returns>HumanReadableAttribute attached to the value</returns>
-#if NET48
-        public static HumanReadableAttribute GetAttribute(T value)
-#else
         public static HumanReadableAttribute? GetAttribute(T value)
-#endif
         {
             // Null value in, null value out
             if (value == null)
@@ -26,11 +22,7 @@ namespace SabreTools.RedumpLib.Attributes
                 enumType = Nullable.GetUnderlyingType(enumType);
 
             // If the value returns a null on ToString, just return null
-#if NET48
-            string valueStr = value?.ToString();
-#else
             string? valueStr = value?.ToString();
-#endif
             if (string.IsNullOrWhiteSpace(valueStr))
                 return null;
             
