@@ -733,31 +733,20 @@ namespace SabreTools.RedumpLib.Data
         /// <returns>DiscType if possible, null on error</returns>
         public static DiscType? ToDiscType(this MediaType? mediaType)
         {
-            switch (mediaType)
+            return mediaType switch
             {
-                case MediaType.BluRay:
-                    return DiscType.BD50;
-                case MediaType.CDROM:
-                    return DiscType.CD;
-                case MediaType.DVD:
-                    return DiscType.DVD9;
-                case MediaType.GDROM:
-                    return DiscType.GDROM;
-                case MediaType.HDDVD:
-                    return DiscType.HDDVDSL;
-                // case MediaType.MILCD: // TODO: Support this?
-                //     return DiscType.MILCD;
-                case MediaType.NintendoGameCubeGameDisc:
-                    return DiscType.NintendoGameCubeGameDisc;
-                case MediaType.NintendoWiiOpticalDisc:
-                    return DiscType.NintendoWiiOpticalDiscDL;
-                case MediaType.NintendoWiiUOpticalDisc:
-                    return DiscType.NintendoWiiUOpticalDiscSL;
-                case MediaType.UMD:
-                    return DiscType.UMDDL;
-                default:
-                    return null;
-            }
+                MediaType.BluRay => DiscType.BD50,
+                MediaType.CDROM => DiscType.CD,
+                MediaType.DVD => DiscType.DVD9,
+                MediaType.GDROM => DiscType.GDROM,
+                MediaType.HDDVD => DiscType.HDDVDSL,
+                // MediaType.MILCD => DiscType.MILCD, // TODO: Support this?
+                MediaType.NintendoGameCubeGameDisc => DiscType.NintendoGameCubeGameDisc,
+                MediaType.NintendoWiiOpticalDisc => DiscType.NintendoWiiOpticalDiscDL,
+                MediaType.NintendoWiiUOpticalDisc => DiscType.NintendoWiiUOpticalDiscSL,
+                MediaType.UMD => DiscType.UMDDL,
+                _ => null,
+            };
         }
 
         /// <summary>
@@ -767,40 +756,29 @@ namespace SabreTools.RedumpLib.Data
         /// <returns>MediaType if possible, null on error</returns>
         public static MediaType? ToMediaType(this DiscType? discType)
         {
-            switch (discType)
+            return discType switch
             {
-                case DiscType.BD25:
-                case DiscType.BD33:
-                case DiscType.BD50:
-                case DiscType.BD66:
-                case DiscType.BD100:
-                case DiscType.BD128:
-                    return MediaType.BluRay;
-                case DiscType.CD:
-                    return MediaType.CDROM;
-                case DiscType.DVD5:
-                case DiscType.DVD9:
-                    return MediaType.DVD;
-                case DiscType.GDROM:
-                    return MediaType.GDROM;
-                case DiscType.HDDVDSL:
-                case DiscType.HDDVDDL:
-                    return MediaType.HDDVD;
-                // case DiscType.MILCD: // TODO: Support this?
-                //     return MediaType.MILCD;
-                case DiscType.NintendoGameCubeGameDisc:
-                    return MediaType.NintendoGameCubeGameDisc;
-                case DiscType.NintendoWiiOpticalDiscSL:
-                case DiscType.NintendoWiiOpticalDiscDL:
-                    return MediaType.NintendoWiiOpticalDisc;
-                case DiscType.NintendoWiiUOpticalDiscSL:
-                    return MediaType.NintendoWiiUOpticalDisc;
-                case DiscType.UMDSL:
-                case DiscType.UMDDL:
-                    return MediaType.UMD;
-                default:
-                    return null;
-            }
+                DiscType.BD25
+                    or DiscType.BD33
+                    or DiscType.BD50
+                    or DiscType.BD66
+                    or DiscType.BD100
+                    or DiscType.BD128 => MediaType.BluRay,
+                DiscType.CD => MediaType.CDROM,
+                DiscType.DVD5
+                    or DiscType.DVD9 => MediaType.DVD,
+                DiscType.GDROM => MediaType.GDROM,
+                DiscType.HDDVDSL
+                    or DiscType.HDDVDDL => MediaType.HDDVD,
+                // DiscType.MILCD => MediaType.MILCD, // TODO: Support this?
+                DiscType.NintendoGameCubeGameDisc => MediaType.NintendoGameCubeGameDisc,
+                DiscType.NintendoWiiOpticalDiscSL
+                    or DiscType.NintendoWiiOpticalDiscDL => MediaType.NintendoWiiOpticalDisc,
+                DiscType.NintendoWiiUOpticalDiscSL => MediaType.NintendoWiiUOpticalDisc,
+                DiscType.UMDSL
+                    or DiscType.UMDDL => MediaType.UMD,
+                _ => null,
+            };
         }
 
         #endregion
@@ -821,35 +799,23 @@ namespace SabreTools.RedumpLib.Data
         /// <returns>Category represented by the string, if possible</returns>
         public static DiscCategory? ToDiscCategory(string category)
         {
-            switch (category?.ToLowerInvariant())
+            return (category?.ToLowerInvariant()) switch
             {
-                case "games":
-                    return DiscCategory.Games;
-                case "demos":
-                    return DiscCategory.Demos;
-                case "video":
-                    return DiscCategory.Video;
-                case "audio":
-                    return DiscCategory.Audio;
-                case "multimedia":
-                    return DiscCategory.Multimedia;
-                case "applications":
-                    return DiscCategory.Applications;
-                case "coverdiscs":
-                    return DiscCategory.Coverdiscs;
-                case "educational":
-                    return DiscCategory.Educational;
-                case "bonusdiscs":
-                case "bonus discs":
-                    return DiscCategory.BonusDiscs;
-                case "preproduction":
-                    return DiscCategory.Preproduction;
-                case "addons":
-                case "add-ons":
-                    return DiscCategory.AddOns;
-                default:
-                    return DiscCategory.Games;
-            }
+                "games" => (DiscCategory?)DiscCategory.Games,
+                "demos" => (DiscCategory?)DiscCategory.Demos,
+                "video" => (DiscCategory?)DiscCategory.Video,
+                "audio" => (DiscCategory?)DiscCategory.Audio,
+                "multimedia" => (DiscCategory?)DiscCategory.Multimedia,
+                "applications" => (DiscCategory?)DiscCategory.Applications,
+                "coverdiscs" => (DiscCategory?)DiscCategory.Coverdiscs,
+                "educational" => (DiscCategory?)DiscCategory.Educational,
+                "bonusdiscs"
+                    or "bonus discs" => (DiscCategory?)DiscCategory.BonusDiscs,
+                "preproduction" => (DiscCategory?)DiscCategory.Preproduction,
+                "addons"
+                    or "add-ons" => (DiscCategory?)DiscCategory.AddOns,
+                _ => (DiscCategory?)DiscCategory.Games,
+            };
         }
 
         #endregion
@@ -870,72 +836,52 @@ namespace SabreTools.RedumpLib.Data
         /// <returns>DiscType represented by the string, if possible</returns>
         public static DiscType? ToDiscType(string discType)
         {
-            switch (discType?.ToLowerInvariant())
+            return (discType?.ToLowerInvariant()) switch
             {
-                case "bd25":
-                case "bd-25":
-                    return DiscType.BD25;
-                case "bd33":
-                case "bd-33":
-                    return DiscType.BD33;
-                case "bd50":
-                case "bd-50":
-                    return DiscType.BD50;
-                case "bd66":
-                case "bd-66":
-                    return DiscType.BD66;
-                case "bd100":
-                case "bd-100":
-                    return DiscType.BD100;
-                case "bd128":
-                case "bd-128":
-                    return DiscType.BD128;
-                case "cd":
-                case "cdrom":
-                case "cd-rom":
-                    return DiscType.CD;
-                case "dvd5":
-                case "dvd-5":
-                    return DiscType.DVD5;
-                case "dvd9":
-                case "dvd-9":
-                    return DiscType.DVD9;
-                case "gd":
-                case "gdrom":
-                case "gd-rom":
-                    return DiscType.GDROM;
-                case "hddvd":
-                case "hddvdsl":
-                case "hd-dvd sl":
-                    return DiscType.HDDVDSL;
-                case "hddvddl":
-                case "hd-dvd dl":
-                    return DiscType.HDDVDDL;
-                case "milcd":
-                case "mil-cd":
-                    return DiscType.MILCD;
-                case "nintendogamecubegamedisc":
-                case "nintendo game cube game disc":
-                    return DiscType.NintendoGameCubeGameDisc;
-                case "nintendowiiopticaldiscsl":
-                case "nintendo wii optical disc sl":
-                    return DiscType.NintendoWiiOpticalDiscSL;
-                case "nintendowiiopticaldiscdl":
-                case "nintendo wii optical disc dl":
-                    return DiscType.NintendoWiiOpticalDiscDL;
-                case "nintendowiiuopticaldiscsl":
-                case "nintendo wii u optical disc sl":
-                    return DiscType.NintendoWiiUOpticalDiscSL;
-                case "umd":
-                case "umdsl":
-                case "umd sl":
-                    return DiscType.UMDSL;
-                case "umddl":
-                case "umd dl":
-                    return DiscType.UMDDL;
-                default:
-                    return null;
-            }
+                "bd25"
+                    or "bd-25" => (DiscType?)DiscType.BD25,
+                "bd33"
+                    or "bd-33" => (DiscType?)DiscType.BD33,
+                "bd50"
+                    or "bd-50" => (DiscType?)DiscType.BD50,
+                "bd66"
+                    or "bd-66" => (DiscType?)DiscType.BD66,
+                "bd100"
+                    or "bd-100" => (DiscType?)DiscType.BD100,
+                "bd128"
+                    or "bd-128" => (DiscType?)DiscType.BD128,
+                "cd"
+                    or "cdrom"
+                    or "cd-rom" => (DiscType?)DiscType.CD,
+                "dvd5"
+                    or "dvd-5" => (DiscType?)DiscType.DVD5,
+                "dvd9"
+                    or "dvd-9" => (DiscType?)DiscType.DVD9,
+                "gd"
+                    or "gdrom"
+                    or "gd-rom" => (DiscType?)DiscType.GDROM,
+                "hddvd"
+                    or "hddvdsl"
+                    or "hd-dvd sl" => (DiscType?)DiscType.HDDVDSL,
+                "hddvddl"
+                    or "hd-dvd dl" => (DiscType?)DiscType.HDDVDDL,
+                "milcd"
+                    or "mil-cd" => (DiscType?)DiscType.MILCD,
+                "nintendogamecubegamedisc"
+                    or "nintendo game cube game disc" => (DiscType?)DiscType.NintendoGameCubeGameDisc,
+                "nintendowiiopticaldiscsl"
+                    or "nintendo wii optical disc sl" => (DiscType?)DiscType.NintendoWiiOpticalDiscSL,
+                "nintendowiiopticaldiscdl"
+                    or "nintendo wii optical disc dl" => (DiscType?)DiscType.NintendoWiiOpticalDiscDL,
+                "nintendowiiuopticaldiscsl"
+                    or "nintendo wii u optical disc sl" => (DiscType?)DiscType.NintendoWiiUOpticalDiscSL,
+                "umd"
+                    or "umdsl"
+                    or "umd sl" => (DiscType?)DiscType.UMDSL,
+                "umddl"
+                    or "umd dl" => (DiscType?)DiscType.UMDDL,
+                _ => null,
+            };
         }
 
         #endregion
@@ -957,19 +903,16 @@ namespace SabreTools.RedumpLib.Data
         public static string? ShortName(this Language? language)
         {
             // Some languages need to use the alternate code instead
-            switch (language)
+            return language switch
             {
-                case Language.Albanian:
-                case Language.Armenian:
-                case Language.Icelandic:
-                case Language.Macedonian:
-                case Language.Romanian:
-                case Language.Slovak:
-                    return language.ThreeLetterCodeAlt();
-
-                default:
-                    return language.ThreeLetterCode();
-            }
+                Language.Albanian
+                    or Language.Armenian
+                    or Language.Icelandic
+                    or Language.Macedonian
+                    or Language.Romanian
+                    or Language.Slovak => language.ThreeLetterCodeAlt(),
+                _ => language.ThreeLetterCode(),
+            };
         }
 
         /// <summary>
@@ -1120,6 +1063,31 @@ namespace SabreTools.RedumpLib.Data
         #region Site Code
 
         /// <summary>
+        /// Check if a site code is multi-line or not
+        /// </summary>
+        /// <param name="siteCode">SiteCode to check</param>
+        /// <returns>True if the code field is multiline by default, false otherwise</returns>
+        public static bool IsMultiLine(this SiteCode? siteCode)
+        {
+            return siteCode switch
+            {
+                SiteCode.Extras => true,
+                SiteCode.Filename => true,
+                SiteCode.Games => true,
+                SiteCode.GameFootage => true,
+                SiteCode.Multisession => true,
+                SiteCode.NetYarozeGames => true,
+                SiteCode.Patches => true,
+                SiteCode.PlayableDemos => true,
+                SiteCode.RollingDemos => true,
+                SiteCode.Savegames => true,
+                SiteCode.TechDemos => true,
+                SiteCode.Videos => true,
+                _ => false,
+            };
+        }
+
+        /// <summary>
         /// Get the HTML version for each known site code
         /// </summary>
         /// <param name="siteCode"></param>
@@ -1138,23 +1106,110 @@ namespace SabreTools.RedumpLib.Data
         #region System
 
         /// <summary>
+        /// Determine if a system is okay if it's not detected by Windows
+        /// </summary>
+        /// <param name="system">RedumpSystem value to check</param>
+        /// <returns>True if Windows show see a disc when dumping, false otherwise</returns>
+        public static bool DetectedByWindows(this RedumpSystem? system)
+        {
+            return system switch
+            {
+                RedumpSystem.AmericanLaserGames3DO
+                    or RedumpSystem.AppleMacintosh
+                    or RedumpSystem.Atari3DO
+                    or RedumpSystem.AtariJaguarCDInteractiveMultimediaSystem
+                    or RedumpSystem.NewJatreCDi
+                    or RedumpSystem.NintendoGameCube
+                    or RedumpSystem.NintendoWii
+                    or RedumpSystem.NintendoWiiU
+                    or RedumpSystem.PhilipsCDi
+                    or RedumpSystem.PhilipsCDiDigitalVideo
+                    or RedumpSystem.Panasonic3DOInteractiveMultiplayer
+                    or RedumpSystem.PanasonicM2
+                    or RedumpSystem.PioneerLaserActive
+                    or RedumpSystem.SuperAudioCD => false,
+                _ => true,
+            };
+        }
+
+        /// <summary>
+        /// Determine if a system has reversed ringcodes
+        /// </summary>
+        /// <param name="system">RedumpSystem value to check</param>
+        /// <returns>True if the system has reversed ringcodes, false otherwise</returns>
+        public static bool HasReversedRingcodes(this RedumpSystem? system)
+        {
+            return system switch
+            {
+                RedumpSystem.SonyPlayStation2
+                    or RedumpSystem.SonyPlayStation3
+                    or RedumpSystem.SonyPlayStation4
+                    or RedumpSystem.SonyPlayStation5
+                    or RedumpSystem.SonyPlayStationPortable => true,
+                _ => false,
+            };
+        }
+
+        /// <summary>
+        /// Determine if a system is considered audio-only
+        /// </summary>
+        /// <param name="system">RedumpSystem value to check</param>
+        /// <returns>True if the system is audio-only, false otherwise</returns>
+        /// <remarks>
+        /// Philips CD-i should NOT be in this list. It's being included until there's a
+        /// reasonable distinction between CD-i and CD-i ready on the database side.
+        /// </remarks>
+        public static bool IsAudio(this RedumpSystem? system)
+        {
+            return system switch
+            {
+                RedumpSystem.AtariJaguarCDInteractiveMultimediaSystem
+                    or RedumpSystem.AudioCD
+                    or RedumpSystem.DVDAudio
+                    or RedumpSystem.HasbroiONEducationalGamingSystem
+                    or RedumpSystem.HasbroVideoNow
+                    or RedumpSystem.HasbroVideoNowColor
+                    or RedumpSystem.HasbroVideoNowJr
+                    or RedumpSystem.HasbroVideoNowXP
+                    or RedumpSystem.PhilipsCDi
+                    or RedumpSystem.PlayStationGameSharkUpdates
+                    or RedumpSystem.SuperAudioCD => true,
+                _ => false,
+            };
+        }
+
+        /// <summary>
         /// Determine if a system is a marker value
         /// </summary>
         /// <param name="system">RedumpSystem value to check</param>
         /// <returns>True if the system is a marker value, false otherwise</returns>
         public static bool IsMarker(this RedumpSystem? system)
         {
-            switch (system)
+            return system switch
             {
-                case RedumpSystem.MarkerArcadeEnd:
-                case RedumpSystem.MarkerComputerEnd:
-                case RedumpSystem.MarkerDiscBasedConsoleEnd:
-                // case RedumpSystem.MarkerOtherConsoleEnd:
-                case RedumpSystem.MarkerOtherEnd:
-                    return true;
-                default:
-                    return false;
-            }
+                RedumpSystem.MarkerArcadeEnd
+                    or RedumpSystem.MarkerComputerEnd
+                    or RedumpSystem.MarkerDiscBasedConsoleEnd
+                    or RedumpSystem.MarkerOtherEnd => true,
+                _ => false,
+            };
+        }
+
+        /// <summary>
+        /// Determine if a system is considered XGD
+        /// </summary>
+        /// <param name="system">RedumpSystem value to check</param>
+        /// <returns>True if the system is XGD, false otherwise</returns>
+        public static bool IsXGD(this RedumpSystem? system)
+        {
+            return system switch
+            {
+                RedumpSystem.MicrosoftXbox
+                    or RedumpSystem.MicrosoftXbox360
+                    or RedumpSystem.MicrosoftXboxOne
+                    or RedumpSystem.MicrosoftXboxSeriesXS => true,
+                _ => false,
+            };
         }
 
         /// <summary>
@@ -2157,15 +2212,12 @@ namespace SabreTools.RedumpLib.Data
         /// <returns>YesNo represented by the nullable boolean, if possible</returns>
         public static YesNo? ToYesNo(this bool? yesno)
         {
-            switch (yesno)
+            return yesno switch
             {
-                case false:
-                    return YesNo.No;
-                case true:
-                    return YesNo.Yes;
-                default:
-                    return YesNo.NULL;
-            }
+                false => YesNo.No,
+                true => YesNo.Yes,
+                _ => YesNo.NULL,
+            };
         }
 
         /// <summary>
@@ -2175,15 +2227,12 @@ namespace SabreTools.RedumpLib.Data
         /// <returns>YesNo represented by the string, if possible</returns>
         public static YesNo? ToYesNo(string yesno)
         {
-            switch (yesno?.ToLowerInvariant())
+            return (yesno?.ToLowerInvariant()) switch
             {
-                case "no":
-                    return YesNo.No;
-                case "yes":
-                    return YesNo.Yes;
-                default:
-                    return YesNo.NULL;
-            }
+                "no" => YesNo.No,
+                "yes" => YesNo.Yes,
+                _ => YesNo.NULL,
+            };
         }
 
         #endregion

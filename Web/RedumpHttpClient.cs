@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -149,7 +150,7 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>List of IDs from the page, empty on error</returns>
         public async Task<List<int>> CheckSingleSitePage(string url)
         {
-            List<int> ids = new();
+            List<int> ids = [];
 
             // Try up to 3 times to retrieve the data
             string? dumpsPage = await DownloadString(url, retries: 3);
@@ -170,7 +171,7 @@ namespace SabreTools.RedumpLib.Web
 
             // Otherwise, traverse each dump on the page
             var matches = Constants.DiscRegex.Matches(dumpsPage);
-            foreach (Match? match in matches)
+            foreach (Match? match in matches.Cast<Match?>())
             {
                 if (match == null)
                     continue;
@@ -222,7 +223,7 @@ namespace SabreTools.RedumpLib.Web
 
             // Otherwise, traverse each dump on the page
             var matches = Constants.DiscRegex.Matches(dumpsPage);
-            foreach (Match? match in matches)
+            foreach (Match? match in matches.Cast<Match?>())
             {
                 if (match == null)
                     continue;
@@ -253,7 +254,7 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>List of IDs from the page, empty on error</returns>
         public async Task<List<int>> CheckSingleWIPPage(string url)
         {
-            List<int> ids = new();
+            List<int> ids = [];
 
             // Try up to 3 times to retrieve the data
             string? dumpsPage = await DownloadString(url, retries: 3);
@@ -264,7 +265,7 @@ namespace SabreTools.RedumpLib.Web
 
             // Otherwise, traverse each dump on the page
             var matches = Constants.NewDiscRegex.Matches(dumpsPage);
-            foreach (Match? match in matches)
+            foreach (Match? match in matches.Cast<Match?>())
             {
                 if (match == null)
                     continue;
@@ -302,7 +303,7 @@ namespace SabreTools.RedumpLib.Web
 
             // Otherwise, traverse each dump on the page
             var matches = Constants.NewDiscRegex.Matches(dumpsPage);
-            foreach (Match? match in matches)
+            foreach (Match? match in matches.Cast<Match?>())
             {
                 if (match == null)
                     continue;

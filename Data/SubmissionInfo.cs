@@ -69,7 +69,7 @@ namespace SabreTools.RedumpLib.Data
         public DumpingInfoSection? DumpingInfo { get; set; } = new DumpingInfoSection();
 
         [JsonProperty(PropertyName = "artifacts", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Dictionary<string, string>? Artifacts { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string>? Artifacts { get; set; } = [];
 
         public object Clone()
         {

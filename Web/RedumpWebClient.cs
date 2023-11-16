@@ -13,7 +13,7 @@ namespace SabreTools.RedumpLib.Web
     // https://stackoverflow.com/questions/1777221/using-cookiecontainer-with-webclient-class
     public class RedumpWebClient : WebClient
     {
-        private readonly CookieContainer m_container = new CookieContainer();
+        private readonly CookieContainer m_container = new();
 
         /// <summary>
         /// Determines if user is logged into Redump
@@ -64,16 +64,14 @@ namespace SabreTools.RedumpLib.Web
                 return (false, null);
 
             // Try logging in with the supplied credentials otherwise
-            using (RedumpWebClient wc = new RedumpWebClient())
-            {
-                bool? loggedIn = wc.Login(username, password);
-                if (loggedIn == true)
-                    return (true, "Redump username and password accepted!");
-                else if (loggedIn == false)
-                    return (false, "Redump username and password denied!");
-                else
-                    return (null, "An error occurred validating your credentials!");
-            }
+            using RedumpWebClient wc = new();
+            bool? loggedIn = wc.Login(username, password);
+            if (loggedIn == true)
+                return (true, "Redump username and password accepted!");
+            else if (loggedIn == false)
+                return (false, "Redump username and password denied!");
+            else
+                return (null, "An error occurred validating your credentials!");
         }
 
         /// <summary>
@@ -156,7 +154,7 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>List of IDs from the page, empty on error</returns>
         public List<int> CheckSingleSitePage(string url)
         {
-            List<int> ids = new List<int>();
+            List<int> ids = [];
             string dumpsPage = string.Empty;
 
             // Try up to 3 times to retrieve the data
@@ -273,7 +271,7 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>List of IDs from the page, empty on error</returns>
         public List<int> CheckSingleWIPPage(string url)
         {
-            List<int> ids = new List<int>();
+            List<int> ids = [];
             string dumpsPage = string.Empty;
 
             // Try up to 3 times to retrieve the data
