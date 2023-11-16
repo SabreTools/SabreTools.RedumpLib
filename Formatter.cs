@@ -6,7 +6,7 @@ using SabreTools.RedumpLib.Data;
 
 namespace SabreTools.RedumpLib
 {
-    public static class Writer
+    public static class Formatter
     {
         /// <summary>
         /// Format the output data in a human readable way, separating each printed line into a new item in the list
