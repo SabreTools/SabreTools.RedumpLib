@@ -90,7 +90,7 @@ namespace SabreTools.RedumpLib
 #endif
         {
             // If there is an invalid query
-            if (string.IsNullOrWhiteSpace(query))
+            if (string.IsNullOrEmpty(query))
                 return null;
 
             var ids = new List<int>();

@@ -23,7 +23,7 @@ namespace SabreTools.RedumpLib.Attributes
 
             // If the value returns a null on ToString, just return null
             string? valueStr = value?.ToString();
-            if (string.IsNullOrWhiteSpace(valueStr))
+            if (string.IsNullOrEmpty(valueStr))
                 return null;
             
             // Get the member info array

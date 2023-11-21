@@ -25,7 +25,7 @@ namespace SabreTools.RedumpLib
         public static SubmissionInfo? CreateFromFile(string? path)
         {
             // If the path is invalid
-            if (string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrEmpty(path))
                 return null;
 
             // If the file doesn't exist
@@ -61,7 +61,7 @@ namespace SabreTools.RedumpLib
             };
 
             // No disc data means we can't parse it
-            if (string.IsNullOrWhiteSpace(discData))
+            if (string.IsNullOrEmpty(discData))
                 return null;
 
             try
@@ -272,11 +272,11 @@ namespace SabreTools.RedumpLib
             var match = Constants.TitleRegex.Match(discData);
             if (match.Success)
             {
-                string title = WebUtility.HtmlDecode(match.Groups[1].Value);
+                string? title = WebUtility.HtmlDecode(match.Groups[1].Value);
 
                 // If we have parenthesis, title is everything before the first one
-                int firstParenLocation = title.IndexOf(" (");
-                if (firstParenLocation >= 0)
+                int firstParenLocation = title?.IndexOf(" (") ?? -1;
+                if (title != null && firstParenLocation >= 0)
                 {
                     info.CommonDiscInfo!.Title = title.Substring(0, firstParenLocation);
                     var subMatches = Constants.DiscNumberLetterRegex.Matches(title);
@@ -378,7 +378,9 @@ namespace SabreTools.RedumpLib
 
                 foreach (Match submatch in matches.Cast<Match>())
                 {
-                    tempDumpers.Add(WebUtility.HtmlDecode(submatch.Groups[1].Value));
+                    string? dumper = WebUtility.HtmlDecode(submatch.Groups[1].Value);
+                    if (dumper != null)
+                        tempDumpers.Add(dumper);
                 }
 
                 info.DumpersAndStatus.Dumpers = [.. tempDumpers];
@@ -395,7 +397,7 @@ namespace SabreTools.RedumpLib
                     // Process the old comments block
                     string oldComments = info.CommonDiscInfo.Comments
                         + (string.IsNullOrEmpty(info.CommonDiscInfo.Comments) ? string.Empty : "\n")
-                        + WebUtility.HtmlDecode(match.Groups[1].Value)
+                        + (WebUtility.HtmlDecode(match.Groups[1].Value) ?? string.Empty)
                             .Replace("\r\n", "\n")
                             .Replace("<br />\n", "\n")
                             .Replace("<br />", string.Empty)
@@ -416,7 +418,7 @@ namespace SabreTools.RedumpLib
                         string commentLine = commentsSeparated[i].Trim();
 
                         // If we have an empty line, we want to treat this as intentional
-                        if (string.IsNullOrWhiteSpace(commentLine))
+                        if (string.IsNullOrEmpty(commentLine))
                         {
                             addToLast = false;
                             lastSiteCode = null;
@@ -494,7 +496,7 @@ namespace SabreTools.RedumpLib
                         {
                             if (addToLast && lastSiteCode != null)
                             {
-                                if (!string.IsNullOrWhiteSpace(info.CommonDiscInfo.CommentsSpecialFields![lastSiteCode.Value]))
+                                if (!string.IsNullOrEmpty(info.CommonDiscInfo.CommentsSpecialFields![lastSiteCode.Value]))
                                     info.CommonDiscInfo.CommentsSpecialFields[lastSiteCode.Value] += "\n";
 
                                 info.CommonDiscInfo.CommentsSpecialFields[lastSiteCode.Value] += commentLine;
@@ -520,7 +522,7 @@ namespace SabreTools.RedumpLib
                     // Process the old contents block
                     string oldContents = info.CommonDiscInfo.Contents
                         + (string.IsNullOrEmpty(info.CommonDiscInfo.Contents) ? string.Empty : "\n")
-                        + WebUtility.HtmlDecode(match.Groups[1].Value)
+                        + (WebUtility.HtmlDecode(match.Groups[1].Value) ?? string.Empty)
                             .Replace("\r\n", "\n")
                             .Replace("<br />\n", "\n")
                             .Replace("<br />", string.Empty)
@@ -541,7 +543,7 @@ namespace SabreTools.RedumpLib
                         string contentLine = contentsSeparated[i].Trim();
 
                         // If we have an empty line, we want to treat this as intentional
-                        if (string.IsNullOrWhiteSpace(contentLine))
+                        if (string.IsNullOrEmpty(contentLine))
                         {
                             addToLast = false;
                             lastSiteCode = null;
@@ -582,7 +584,7 @@ namespace SabreTools.RedumpLib
                         {
                             if (addToLast && lastSiteCode != null)
                             {
-                                if (!string.IsNullOrWhiteSpace(info.CommonDiscInfo.ContentsSpecialFields![lastSiteCode.Value]))
+                                if (!string.IsNullOrEmpty(info.CommonDiscInfo.ContentsSpecialFields![lastSiteCode.Value]))
                                     info.CommonDiscInfo.ContentsSpecialFields[lastSiteCode.Value] += "\n";
 
                                 info.CommonDiscInfo.ContentsSpecialFields[lastSiteCode.Value] += contentLine;
@@ -668,19 +670,19 @@ namespace SabreTools.RedumpLib
             if (info.CommonDiscInfo != null && seed.CommonDiscInfo != null)
             {
                 // Info that only overwrites if supplied
-                if (!string.IsNullOrWhiteSpace(seed.CommonDiscInfo.Title)) info.CommonDiscInfo.Title = seed.CommonDiscInfo.Title;
-                if (!string.IsNullOrWhiteSpace(seed.CommonDiscInfo.ForeignTitleNonLatin)) info.CommonDiscInfo.ForeignTitleNonLatin = seed.CommonDiscInfo.ForeignTitleNonLatin;
-                if (!string.IsNullOrWhiteSpace(seed.CommonDiscInfo.DiscNumberLetter)) info.CommonDiscInfo.DiscNumberLetter = seed.CommonDiscInfo.DiscNumberLetter;
-                if (!string.IsNullOrWhiteSpace(seed.CommonDiscInfo.DiscTitle)) info.CommonDiscInfo.DiscTitle = seed.CommonDiscInfo.DiscTitle;
+                if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Title)) info.CommonDiscInfo.Title = seed.CommonDiscInfo.Title;
+                if (!string.IsNullOrEmpty(seed.CommonDiscInfo.ForeignTitleNonLatin)) info.CommonDiscInfo.ForeignTitleNonLatin = seed.CommonDiscInfo.ForeignTitleNonLatin;
+                if (!string.IsNullOrEmpty(seed.CommonDiscInfo.DiscNumberLetter)) info.CommonDiscInfo.DiscNumberLetter = seed.CommonDiscInfo.DiscNumberLetter;
+                if (!string.IsNullOrEmpty(seed.CommonDiscInfo.DiscTitle)) info.CommonDiscInfo.DiscTitle = seed.CommonDiscInfo.DiscTitle;
                 if (seed.CommonDiscInfo.Category != null) info.CommonDiscInfo.Category = seed.CommonDiscInfo.Category;
                 if (seed.CommonDiscInfo.Region != null) info.CommonDiscInfo.Region = seed.CommonDiscInfo.Region;
                 if (seed.CommonDiscInfo.Languages != null) info.CommonDiscInfo.Languages = seed.CommonDiscInfo.Languages;
                 if (seed.CommonDiscInfo.LanguageSelection != null) info.CommonDiscInfo.LanguageSelection = seed.CommonDiscInfo.LanguageSelection;
-                if (!string.IsNullOrWhiteSpace(seed.CommonDiscInfo.Serial)) info.CommonDiscInfo.Serial = seed.CommonDiscInfo.Serial;
-                if (!string.IsNullOrWhiteSpace(seed.CommonDiscInfo.Barcode)) info.CommonDiscInfo.Barcode = seed.CommonDiscInfo.Barcode;
-                if (!string.IsNullOrWhiteSpace(seed.CommonDiscInfo.Comments)) info.CommonDiscInfo.Comments = seed.CommonDiscInfo.Comments;
+                if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Serial)) info.CommonDiscInfo.Serial = seed.CommonDiscInfo.Serial;
+                if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Barcode)) info.CommonDiscInfo.Barcode = seed.CommonDiscInfo.Barcode;
+                if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Comments)) info.CommonDiscInfo.Comments = seed.CommonDiscInfo.Comments;
                 if (seed.CommonDiscInfo.CommentsSpecialFields != null) info.CommonDiscInfo.CommentsSpecialFields = seed.CommonDiscInfo.CommentsSpecialFields;
-                if (!string.IsNullOrWhiteSpace(seed.CommonDiscInfo.Contents)) info.CommonDiscInfo.Contents = seed.CommonDiscInfo.Contents;
+                if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Contents)) info.CommonDiscInfo.Contents = seed.CommonDiscInfo.Contents;
                 if (seed.CommonDiscInfo.ContentsSpecialFields != null) info.CommonDiscInfo.ContentsSpecialFields = seed.CommonDiscInfo.ContentsSpecialFields;
 
                 // Info that always overwrites
@@ -708,18 +710,18 @@ namespace SabreTools.RedumpLib
             if (info.VersionAndEditions != null && seed.VersionAndEditions != null)
             {
                 // Info that only overwrites if supplied
-                if (!string.IsNullOrWhiteSpace(seed.VersionAndEditions.Version)) info.VersionAndEditions.Version = seed.VersionAndEditions.Version;
-                if (!string.IsNullOrWhiteSpace(seed.VersionAndEditions.OtherEditions)) info.VersionAndEditions.OtherEditions = seed.VersionAndEditions.OtherEditions;
+                if (!string.IsNullOrEmpty(seed.VersionAndEditions.Version)) info.VersionAndEditions.Version = seed.VersionAndEditions.Version;
+                if (!string.IsNullOrEmpty(seed.VersionAndEditions.OtherEditions)) info.VersionAndEditions.OtherEditions = seed.VersionAndEditions.OtherEditions;
             }
 
             if (info.CopyProtection != null && seed.CopyProtection != null)
             {
                 // Info that only overwrites if supplied
-                if (!string.IsNullOrWhiteSpace(seed.CopyProtection.Protection)) info.CopyProtection.Protection = seed.CopyProtection.Protection;
+                if (!string.IsNullOrEmpty(seed.CopyProtection.Protection)) info.CopyProtection.Protection = seed.CopyProtection.Protection;
             }
         }
 
-        #endregion
+#endregion
 
         #region Helpers
 
@@ -730,7 +732,7 @@ namespace SabreTools.RedumpLib
         /// <returns>Processed text block, if possible</returns>
         private static string ReplaceHtmlWithSiteCodes(this string text)
         {
-            if (string.IsNullOrWhiteSpace(text))
+            if (string.IsNullOrEmpty(text))
                 return text;
 
             foreach (SiteCode? siteCode in Enum.GetValues(typeof(SiteCode)))

@@ -173,11 +173,11 @@ namespace SabreTools.RedumpLib
                 }
 
                 // Copy Protection section
-                if (!string.IsNullOrWhiteSpace(info.CopyProtection?.Protection)
+                if (!string.IsNullOrEmpty(info.CopyProtection?.Protection)
                     || (info.CopyProtection?.AntiModchip != null && info.CopyProtection.AntiModchip != YesNo.NULL)
                     || (info.CopyProtection?.LibCrypt != null && info.CopyProtection.LibCrypt != YesNo.NULL)
-                    || !string.IsNullOrWhiteSpace(info.CopyProtection?.LibCryptData)
-                    || !string.IsNullOrWhiteSpace(info.CopyProtection?.SecuROMData))
+                    || !string.IsNullOrEmpty(info.CopyProtection?.LibCryptData)
+                    || !string.IsNullOrEmpty(info.CopyProtection?.SecuROMData))
                 {
                     output.Add(""); output.Add("Copy Protection:");
                     if (info.CommonDiscInfo?.System == RedumpSystem.SonyPlayStation)
@@ -197,7 +197,7 @@ namespace SabreTools.RedumpLib
                 // AddIfExists(output, Template.OtherDumpersField, info.OtherDumpers);
 
                 // Tracks and Write Offsets section
-                if (!string.IsNullOrWhiteSpace(info.TracksAndWriteOffsets?.ClrMameProData))
+                if (!string.IsNullOrEmpty(info.TracksAndWriteOffsets?.ClrMameProData))
                 {
                     output.Add(""); output.Add("Tracks and Write Offsets:");
                     AddIfExists(output, Template.DATField, info.TracksAndWriteOffsets!.ClrMameProData + "\n", 1);
@@ -240,7 +240,7 @@ namespace SabreTools.RedumpLib
                 string? last = null;
                 for (int i = 0; i < output.Count;)
                 {
-                    if (output[i] == last && string.IsNullOrWhiteSpace(last))
+                    if (output[i] == last && string.IsNullOrEmpty(last))
                     {
                         output.RemoveAt(i);
                     }
@@ -279,9 +279,10 @@ namespace SabreTools.RedumpLib
                 // Add all special fields before any comments
                 info.CommonDiscInfo.Comments = string.Join(
                     "\n", OrderCommentTags(info.CommonDiscInfo.CommentsSpecialFields)
-                        .Where(kvp => !string.IsNullOrWhiteSpace(kvp.Value))
+                        .Where(kvp => !string.IsNullOrEmpty(kvp.Value))
                         .Select(FormatSiteTag)
                         .Where(s => !string.IsNullOrEmpty(s))
+                        .ToArray()
                 ) + "\n" + info.CommonDiscInfo.Comments;
 
                 // Normalize newlines
@@ -304,9 +305,10 @@ namespace SabreTools.RedumpLib
                 // Add all special fields before any contents
                 info.CommonDiscInfo.Contents = string.Join(
                     "\n", OrderContentTags(info.CommonDiscInfo.ContentsSpecialFields)
-                        .Where(kvp => !string.IsNullOrWhiteSpace(kvp.Value))
+                        .Where(kvp => !string.IsNullOrEmpty(kvp.Value))
                         .Select(FormatSiteTag)
                         .Where(s => !string.IsNullOrEmpty(s))
+                        .ToArray()
                 ) + "\n" + info.CommonDiscInfo.Contents;
 
                 // Normalize newlines
@@ -421,7 +423,7 @@ namespace SabreTools.RedumpLib
             if (value == null || value.Count == 0)
                 return;
 
-            AddIfExists(output, key, string.Join(", ", value.Select(o => o.ToString())), indent);
+            AddIfExists(output, key, string.Join(", ", value.Select(o => o.ToString()).ToArray()), indent);
         }
 
         /// <summary>

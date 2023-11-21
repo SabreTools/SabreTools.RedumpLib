@@ -37,7 +37,7 @@ namespace SabreTools.RedumpLib.Web
 
             // If we don't have the response header we care about
             string headerValue = ResponseHeaders.Get("Content-Disposition");
-            if (string.IsNullOrWhiteSpace(headerValue))
+            if (string.IsNullOrEmpty(headerValue))
                 return null;
 
             // Extract the filename from the value
@@ -60,7 +60,7 @@ namespace SabreTools.RedumpLib.Web
         public static (bool?, string?) ValidateCredentials(string username, string password)
         {
             // If options are invalid or we're missing something key, just return
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return (false, null);
 
             // Try logging in with the supplied credentials otherwise
@@ -83,23 +83,23 @@ namespace SabreTools.RedumpLib.Web
         public bool? Login(string username, string password)
         {
             // Credentials verification
-            if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
+            if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
                 Console.WriteLine("Credentials entered, will attempt Redump login...");
             }
-            else if (!string.IsNullOrWhiteSpace(username) && string.IsNullOrWhiteSpace(password))
+            else if (!string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password))
             {
                 Console.WriteLine("Only a username was specified, will not attempt Redump login...");
                 return false;
             }
-            else if (string.IsNullOrWhiteSpace(username))
+            else if (string.IsNullOrEmpty(username))
             {
                 Console.WriteLine("No credentials entered, will not attempt Redump login...");
                 return false;
             }
 
             // HTTP encode the password
-#if NET40
+#if NET35 || NET40
             password = Uri.EscapeUriString(password);
 #else
             password = WebUtility.UrlEncode(password);
@@ -392,7 +392,7 @@ namespace SabreTools.RedumpLib.Web
             try
             {
                 // If no output directory is defined, use the current directory instead
-                if (string.IsNullOrWhiteSpace(outDir))
+                if (string.IsNullOrEmpty(outDir))
                     outDir = Environment.CurrentDirectory;
 
                 string tempfile = Path.Combine(outDir, "tmp" + Guid.NewGuid().ToString());
@@ -455,7 +455,7 @@ namespace SabreTools.RedumpLib.Web
         public bool DownloadSingleSiteID(int id, string? outDir, bool rename)
         {
             // If no output directory is defined, use the current directory instead
-            if (string.IsNullOrWhiteSpace(outDir))
+            if (string.IsNullOrEmpty(outDir))
                 outDir = Environment.CurrentDirectory;
 
             string paddedId = id.ToString().PadLeft(6, '0');
@@ -635,7 +635,7 @@ namespace SabreTools.RedumpLib.Web
         public bool DownloadSingleWIPID(int id, string? outDir, bool rename)
         {
             // If no output directory is defined, use the current directory instead
-            if (string.IsNullOrWhiteSpace(outDir))
+            if (string.IsNullOrEmpty(outDir))
                 outDir = Environment.CurrentDirectory;
 
             string paddedId = id.ToString().PadLeft(6, '0');
@@ -745,7 +745,7 @@ namespace SabreTools.RedumpLib.Web
 
                 // If the system is unknown, we can't do anything
                 string? longName = system.LongName();
-                if (string.IsNullOrWhiteSpace(longName))
+                if (string.IsNullOrEmpty(longName))
                     continue;
 
                 Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
@@ -783,7 +783,7 @@ namespace SabreTools.RedumpLib.Web
 
                 // If the system is unknown, we can't do anything
                 string? longName = system.LongName();
-                if (string.IsNullOrWhiteSpace(longName))
+                if (string.IsNullOrEmpty(longName))
                     continue;
 
                 Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
@@ -803,9 +803,9 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="subfolder">Optional subfolder to append to the path</param>
         private static void MoveOrDelete(string tempfile, string? newfile, string outDir, string? subfolder)
         {
-            if (!string.IsNullOrWhiteSpace(newfile))
+            if (!string.IsNullOrEmpty(newfile))
             {
-                if (!string.IsNullOrWhiteSpace(subfolder))
+                if (!string.IsNullOrEmpty(subfolder))
                 {
                     if (!Directory.Exists(Path.Combine(outDir, subfolder)))
                         Directory.CreateDirectory(Path.Combine(outDir, subfolder));
