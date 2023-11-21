@@ -250,9 +250,7 @@ namespace SabreTools.RedumpLib
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <param name="includeAllData">True to include all pullable information, false to do bare minimum</param>
-#if NET40
-        public static bool FillFromId(RedumpWebClient wc, SubmissionInfo info, int id, bool includeAllData)
-#elif NETFRAMEWORK
+#if NETFRAMEWORK
         public async static Task<bool> FillFromId(RedumpWebClient wc, SubmissionInfo info, int id, bool includeAllData)
 #else
         public async static Task<bool> FillFromId(RedumpHttpClient wc, SubmissionInfo info, int id, bool includeAllData)
@@ -261,7 +259,7 @@ namespace SabreTools.RedumpLib
             // Ensure that required sections exist
             info = EnsureAllSections(info);
 #if NET40
-            var discData = wc.DownloadSingleSiteID(id);
+            var discData = await Task.Factory.StartNew(() => wc.DownloadSingleSiteID(id));
 #elif NETFRAMEWORK
             var discData = await Task.Run(() => wc.DownloadSingleSiteID(id));
 #else
