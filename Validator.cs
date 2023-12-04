@@ -190,10 +190,10 @@ namespace SabreTools.RedumpLib
                 return (false, null, "Universal hash was missing");
 
             // Format the universal hash for finding within the comments
-            universalHash = $"{universalHash.Substring(0, universalHash.Length - 1)}/comments/only";
+            string universalHashQuery = $"{universalHash.Substring(0, universalHash.Length - 1)}/comments/only";
 
             // Get all matching IDs for the hash
-            var newIds = await ListSearchResults(wc, universalHash, filterForwardSlashes: false);
+            var newIds = await ListSearchResults(wc, universalHashQuery, filterForwardSlashes: false);
 
             // If we got null back, there was an error
             if (newIds == null)
