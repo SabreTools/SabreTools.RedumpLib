@@ -142,9 +142,9 @@ namespace SabreTools.RedumpLib
         /// <param name="sha1">SHA-1 hash to check against</param>
         /// <returns>True if the track was found, false otherwise; List of found values, if possible</returns>
 #if NETFRAMEWORK
-        public async static Task<(bool, List<int>?, string?)> ValidateSingleTrack(RedumpWebClient wc, SubmissionInfo info, string sha1)
+        public async static Task<(bool, List<int>?, string?)> ValidateSingleTrack(RedumpWebClient wc, SubmissionInfo info, string? sha1)
 #else
-        public async static Task<(bool, List<int>?, string?)> ValidateSingleTrack(RedumpHttpClient wc, SubmissionInfo info, string sha1)
+        public async static Task<(bool, List<int>?, string?)> ValidateSingleTrack(RedumpHttpClient wc, SubmissionInfo info, string? sha1)
 #endif
         {
             // Get all matching IDs for the track
