@@ -239,7 +239,7 @@ namespace SabreTools.RedumpLib.Data
 
                 // https://en.wikipedia.org/wiki/Game_Wave_Family_Entertainment_System
                 case RedumpSystem.ZAPiTGamesGameWaveFamilyEntertainmentSystem:
-                    types.Add(MediaType.CD); // Firmware discs only(?)
+                    types.Add(MediaType.CDROM); // Firmware discs only(?)
                     types.Add(MediaType.DVD);
                     break;
 
