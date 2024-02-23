@@ -386,6 +386,30 @@ namespace SabreTools.RedumpLib
                 info.DumpersAndStatus.Dumpers = [.. tempDumpers];
             }
 
+            // PS3 DiscKey
+            match = Constants.PS3DiscKey.Match(discData);
+            if (match.Success && info.Extras != null && string.IsNullOrEmpty(info.Extras.DiscKey))
+            {
+                // Validate key
+                if (match.Groups[1].Value != null && match.Groups[1].Value.Length == 32)
+                {
+                    // Key must be a 32-long hex string
+                    bool isHex = true;
+                    for (int i = 0; i < 32; i += 2)
+                    {
+                        int a = Char.ToUpper(match.Groups[1].Value[i]) - '0';
+                        int b = Char.ToUpper(match.Groups[1].Value[i + 1]) - '0';
+                        if ((a < 0 || b < 0 || a > 22 || b > 22) || (a > 10 && a < 17) || (b > 10 && b < 17))
+                        {
+                            isHex = false;
+                            break;
+                        }
+                    }
+                    if (isHex)
+                        info.Extras.DiscKey = match.Groups[1].Value;
+                }
+            }
+
             // TODO: Unify handling of fields that can include site codes (Comments/Contents)
 
             // Comments
