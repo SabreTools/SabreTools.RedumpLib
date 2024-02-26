@@ -387,11 +387,11 @@ namespace SabreTools.RedumpLib
             }
 
             // PS3 DiscKey
-            match = Constants.PS3DiscKey.Match(discData);
-            if (match.Success && info.Extras != null && string.IsNullOrEmpty(info.Extras.DiscKey))
+            if (string.IsNullOrEmpty(info.Extras!.DiscKey))
             {
                 // Validate key is not NULL
-                if (match.Groups[1].Value != null && match.Groups[1].Value != "<span class=\"null\">NULL</span>")
+                match = Constants.PS3DiscKey.Match(discData);
+                if (match.Success && match.Groups[1].Value != "<span class=\"null\">NULL</span>")
                     info.Extras.DiscKey = match.Groups[1].Value;
             }
 
