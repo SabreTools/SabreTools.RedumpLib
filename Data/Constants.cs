@@ -103,6 +103,11 @@ namespace SabreTools.RedumpLib.Data
         public static Regex PartialMatchRegex = new(@"<td class=""static"">partial match ids: (.*?)</td>");
 
         /// <summary>
+        /// Regex matching the disc key on a PS3 disc page
+        /// </summary>
+        public static Regex PS3DiscKey = new(@"<th>Disc Key</th><th>Disc ID</th><th>Permanent Information & Control \(PIC\)</th></tr><tr><td>(.*?)</td><td>");
+
+        /// <summary>
         /// Regex matching the PVD field on a disc page
         /// </summary>
         public static Regex PvdRegex = new(@"<h3>Primary Volume Descriptor (PVD) <img .*?/></h3></td><td .*?></td></tr>"

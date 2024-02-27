@@ -386,6 +386,15 @@ namespace SabreTools.RedumpLib
                 info.DumpersAndStatus.Dumpers = [.. tempDumpers];
             }
 
+            // PS3 DiscKey
+            if (string.IsNullOrEmpty(info.Extras!.DiscKey))
+            {
+                // Validate key is not NULL
+                match = Constants.PS3DiscKey.Match(discData);
+                if (match.Success && match.Groups[1].Value != "<span class=\"null\">NULL</span>")
+                    info.Extras.DiscKey = match.Groups[1].Value;
+            }
+
             // TODO: Unify handling of fields that can include site codes (Comments/Contents)
 
             // Comments
