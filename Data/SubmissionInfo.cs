@@ -530,6 +530,10 @@ namespace SabreTools.RedumpLib.Data
     /// </summary>
     public class DumpingInfoSection : ICloneable
     {
+        // Name not defined by Redump -- Only used with MPF
+        [JsonProperty(PropertyName = "d_frontend_version", Required = Required.AllowNull)]
+        public string? FrontendVersion { get; set; }
+
         // Name not defined by Redump
         [JsonProperty(PropertyName = "d_dumping_program", Required = Required.AllowNull)]
         public string? DumpingProgram { get; set; }
@@ -554,16 +558,22 @@ namespace SabreTools.RedumpLib.Data
         [JsonProperty(PropertyName = "d_reported_disc_type", Required = Required.AllowNull)]
         public string? ReportedDiscType { get; set; }
 
+        // Name not defined by Redump -- Only used with Redumper
+        [JsonProperty(PropertyName = "d_errors_c2", NullValueHandling = NullValueHandling.Ignore)]
+        public string? C2ErrorsCount { get; set; }
+
         public object Clone()
         {
             return new DumpingInfoSection
             {
+                FrontendVersion = this.FrontendVersion,
                 DumpingProgram = this.DumpingProgram,
                 DumpingDate = this.DumpingDate,
                 Manufacturer = this.Manufacturer,
                 Model = this.Model,
                 Firmware = this.Firmware,
                 ReportedDiscType = this.ReportedDiscType,
+                C2ErrorsCount = this.C2ErrorsCount,
             };
         }
     }
