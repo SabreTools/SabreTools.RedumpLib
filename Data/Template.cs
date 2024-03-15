@@ -35,12 +35,14 @@
 
         // Automatic Information
 
+        public const string FrontendVersionField = "Frontend Version";
         public const string DumpingProgramField = "Dumping Program";
         public const string DumpingDateField = "Date";
         public const string DumpingDriveManufacturer = "Manufacturer";
         public const string DumpingDriveModel = "Model";
         public const string DumpingDriveFirmware = "Firmware";
         public const string ReportedDiscType = "Reported Disc Type";
+        public const string C2ErrorCountField = "C2 Error Count";
         public const string PVDField = "Primary Volume Descriptor (PVD)";
         public const string DATField = "DAT";
         public const string SizeField = "Size";
