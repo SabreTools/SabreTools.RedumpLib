@@ -3555,6 +3555,10 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:DNAS]", LongName = "<b>DNAS Disc ID</b>:")]
         DNASDiscID,
 
+        // TODO: This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Eidos ID</b>:", LongName = "<b>Eidos ID</b>:")]
+        EidosID,
+
         [HumanReadable(ShortName = "[T:EAID]", LongName = "<b>Electronic Arts ID</b>:")]
         ElectronicArtsID,
 
