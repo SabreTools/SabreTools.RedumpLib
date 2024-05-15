@@ -3526,6 +3526,10 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:ALTF]", LongName = "<b>Alternative Foreign Title</b>:")]
         AlternativeForeignTitle,
 
+        // TODO: This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Applications</b>:", LongName = "<b>Applications</b>:")]
+        Applications,
+
         [HumanReadable(ShortName = "[T:BID]", LongName = "<b>Bandai ID</b>:")]
         BandaiID,
 
