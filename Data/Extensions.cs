@@ -1074,7 +1074,10 @@ namespace SabreTools.RedumpLib.Data
             {
                 string? shortName = ((SiteCode?)val).ShortName()?.TrimEnd(':');
                 string? longName = ((SiteCode?)val).LongName()?.TrimEnd(':');
-                bool multiline = ((SiteCode?)val).IsMultiLine();
+                
+                bool isCommentCode = ((SiteCode?)val).IsCommentCode();
+                bool isContentCode = ((SiteCode?)val).IsContentCode();
+                bool isMultiline = ((SiteCode?)val).IsMultiLine();
 
                 // Invalid codes should be skipped
                 if (shortName == null || longName == null)
@@ -1090,9 +1093,16 @@ namespace SabreTools.RedumpLib.Data
                 // Handle expanded tags
                 siteCode += longName.PadRight(32, ' ');
 
-                // Include multiline indicator if necessary
-                if (multiline)
-                    siteCode += "[Multiline]";
+                // Include special indicators, if necessary
+                var additionalInfo = new List<string>();
+                if (isCommentCode)
+                    additionalInfo.Add("Comment Field");
+                if (isContentCode)
+                    additionalInfo.Add("Content Field");
+                if (isMultiline)
+                    additionalInfo.Add("Multiline");
+                if (additionalInfo.Count > 0)
+                    siteCode += $"[{string.Join(", ", [.. additionalInfo])}]";
 
                 // Add the formatted site code
                 siteCodes.Add(siteCode);
