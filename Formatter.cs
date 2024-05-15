@@ -579,6 +579,8 @@ namespace SabreTools.RedumpLib
             if (tags.ContainsKey(SiteCode.VFCCode))
                 sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.VFCCode, tags[SiteCode.VFCCode]));
 
+            if (tags.ContainsKey(SiteCode.CompatibleOS))
+                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.CompatibleOS, tags[SiteCode.CompatibleOS]));
             if (tags.ContainsKey(SiteCode.Genre))
                 sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.Genre, tags[SiteCode.Genre]));
             if (tags.ContainsKey(SiteCode.Series))
@@ -595,6 +597,10 @@ namespace SabreTools.RedumpLib
                 sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.ActivisionID, tags[SiteCode.ActivisionID]));
             if (tags.ContainsKey(SiteCode.BandaiID))
                 sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.BandaiID, tags[SiteCode.BandaiID]));
+            if (tags.ContainsKey(SiteCode.BethesdaID))
+                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.BethesdaID, tags[SiteCode.BethesdaID]));
+            if (tags.ContainsKey(SiteCode.EidosID))
+                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.EidosID, tags[SiteCode.EidosID]));
             if (tags.ContainsKey(SiteCode.ElectronicArtsID))
                 sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.ElectronicArtsID, tags[SiteCode.ElectronicArtsID]));
             if (tags.ContainsKey(SiteCode.FoxInteractiveID))
@@ -650,6 +656,10 @@ namespace SabreTools.RedumpLib
             // If the input is invalid, just return an empty set
             if (tags == null || tags.Count == 0)
                 return sorted;
+
+            // Applications
+            if (tags.ContainsKey(SiteCode.Applications))
+                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.Applications, tags[SiteCode.Applications]));
 
             // Games
             if (tags.ContainsKey(SiteCode.Games))
