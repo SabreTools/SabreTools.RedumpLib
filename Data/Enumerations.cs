@@ -3537,6 +3537,10 @@ namespace SabreTools.RedumpLib.Data
         CDProjektID,
 
         // TODO: This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Compatible OS</b>:", LongName = "<b>Compatible OS</b>:")]
+        CompatibleOS,
+
+        // TODO: This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Disc Hologram ID</b>:", LongName = "<b>Disc Hologram ID</b>:")]
         DiscHologramID,
 
