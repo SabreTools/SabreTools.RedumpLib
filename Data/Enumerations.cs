@@ -3533,6 +3533,10 @@ namespace SabreTools.RedumpLib.Data
         BBFCRegistrationNumber,
 
         // TODO: This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Bethesda ID</b>:", LongName = "<b>Bethesda ID</b>:")]
+        BethesdaID,
+
+        // TODO: This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>CD Projekt ID</b>:", LongName = "<b>CD Projekt ID</b>:")]
         CDProjektID,
 
