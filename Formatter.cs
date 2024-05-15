@@ -564,8 +564,6 @@ namespace SabreTools.RedumpLib
 
             if (tags.ContainsKey(SiteCode.BBFCRegistrationNumber))
                 sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.BBFCRegistrationNumber, tags[SiteCode.BBFCRegistrationNumber]));
-            if (tags.ContainsKey(SiteCode.CDProjektID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.CDProjektID, tags[SiteCode.CDProjektID]));
             if (tags.ContainsKey(SiteCode.DiscHologramID))
                 sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.DiscHologramID, tags[SiteCode.DiscHologramID]));
             if (tags.ContainsKey(SiteCode.DNASDiscID))
@@ -599,6 +597,8 @@ namespace SabreTools.RedumpLib
                 sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.BandaiID, tags[SiteCode.BandaiID]));
             if (tags.ContainsKey(SiteCode.BethesdaID))
                 sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.BethesdaID, tags[SiteCode.BethesdaID]));
+            if (tags.ContainsKey(SiteCode.CDProjektID))
+                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.CDProjektID, tags[SiteCode.CDProjektID]));
             if (tags.ContainsKey(SiteCode.EidosID))
                 sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.EidosID, tags[SiteCode.EidosID]));
             if (tags.ContainsKey(SiteCode.ElectronicArtsID))
