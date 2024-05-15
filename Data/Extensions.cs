@@ -1064,6 +1064,131 @@ namespace SabreTools.RedumpLib.Data
         #region Site Code
 
         /// <summary>
+        /// List all site codes with their short usable names
+        /// </summary>
+        public static List<string> ListSiteCodes()
+        {
+            var siteCodes = new List<string>();
+
+            foreach (var val in Enum.GetValues(typeof(SiteCode)))
+            {
+                string? shortName = ((SiteCode?)val).ShortName()?.TrimEnd(':');
+                string? longName = ((SiteCode?)val).LongName()?.TrimEnd(':');
+                bool multiline = ((SiteCode?)val).IsMultiLine();
+
+                // Invalid codes should be skipped
+                if (shortName == null || longName == null)
+                    continue;
+
+                // Handle site tags
+                string siteCode;
+                if (shortName == longName)
+                    siteCode = "***".PadRight(16, ' ');
+                else
+                    siteCode = shortName.PadRight(16, ' ');
+
+                // Handle expanded tags
+                siteCode += longName.PadRight(32, ' ');
+
+                // Include multiline indicator if necessary
+                if (multiline)
+                    siteCode += "[Multiline]";
+
+                // Add the formatted site code
+                siteCodes.Add(siteCode);
+            }
+
+            return siteCodes;
+        }
+
+        /// <summary>
+        /// Check if a site code should live in the comments section
+        /// </summary>
+        /// <param name="siteCode">SiteCode to check</param>
+        /// <returns>True if the code field is in comments by default, false otherwise</returns>
+        public static bool IsCommentCode(this SiteCode? siteCode)
+        {
+            return siteCode switch
+            {
+                // Identifying Info
+                SiteCode.AlternativeTitle => true,
+                SiteCode.AlternativeForeignTitle => true,
+                SiteCode.BBFCRegistrationNumber => true,
+                SiteCode.CompatibleOS => true,
+                SiteCode.DiscHologramID => true,
+                SiteCode.DMIHash => true,
+                SiteCode.DNASDiscID => true,
+                SiteCode.Genre => true,
+                SiteCode.InternalSerialName => true,
+                SiteCode.ISBN => true,
+                SiteCode.ISSN => true,
+                SiteCode.PFIHash => true,
+                SiteCode.PostgapType => true,
+                SiteCode.PPN => true,
+                SiteCode.Series => true,
+                SiteCode.SSHash => true,
+                SiteCode.SSVersion => true,
+                SiteCode.VCD => true,
+                SiteCode.VFCCode => true,
+                SiteCode.VolumeLabel => true,
+                SiteCode.XeMID => true,
+                SiteCode.XMID => true,
+
+                // Publisher / Company IDs
+                SiteCode.AcclaimID => true,
+                SiteCode.ActivisionID => true,
+                SiteCode.BandaiID => true,
+                SiteCode.BethesdaID => true,
+                SiteCode.EidosID => true,
+                SiteCode.ElectronicArtsID => true,
+                SiteCode.FoxInteractiveID => true,
+                SiteCode.GTInteractiveID => true,
+                SiteCode.JASRACID => true,
+                SiteCode.KingRecordsID => true,
+                SiteCode.KoeiID => true,
+                SiteCode.KonamiID => true,
+                SiteCode.LucasArtsID => true,
+                SiteCode.MicrosoftID => true,
+                SiteCode.NaganoID => true,
+                SiteCode.NipponIchiSoftwareID => true,
+                SiteCode.OriginID => true,
+                SiteCode.PonyCanyonID => true,
+                SiteCode.SegaID => true,
+                SiteCode.SelenID => true,
+                SiteCode.SierraID => true,
+                SiteCode.TaitoID => true,
+                SiteCode.UbisoftID => true,
+                SiteCode.ValveID => true,
+
+                _ => false,
+            };
+        }
+
+        /// <summary>
+        /// Check if a site code should live in the contents section
+        /// </summary>
+        /// <param name="siteCode">SiteCode to check</param>
+        /// <returns>True if the code field is in contents by default, false otherwise</returns>
+        public static bool IsContentCode(this SiteCode? siteCode)
+        {
+            return siteCode switch
+            {
+                SiteCode.Applications => true,
+                SiteCode.Extras => true,
+                SiteCode.GameFootage => true,
+                SiteCode.Games => true,
+                SiteCode.NetYarozeGames => true,
+                SiteCode.Patches => true,
+                SiteCode.PlayableDemos => true,
+                SiteCode.RollingDemos => true,
+                SiteCode.Savegames => true,
+                SiteCode.TechDemos => true,
+                SiteCode.Videos => true,
+                _ => false,
+            };
+        }
+
+        /// <summary>
         /// Check if a site code is multi-line or not
         /// </summary>
         /// <param name="siteCode">SiteCode to check</param>
