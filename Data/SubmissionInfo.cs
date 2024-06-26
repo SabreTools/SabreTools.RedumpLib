@@ -543,6 +543,10 @@ namespace SabreTools.RedumpLib.Data
         public string? DumpingDate { get; set; }
 
         // Name not defined by Redump
+        [JsonProperty(PropertyName = "d_dumping_params", Required = Required.AllowNull)]
+        public string? DumpingParameters { get; set; }
+
+        // Name not defined by Redump
         [JsonProperty(PropertyName = "d_drive_manufacturer", Required = Required.AllowNull)]
         public string? Manufacturer { get; set; }
 
@@ -569,6 +573,7 @@ namespace SabreTools.RedumpLib.Data
                 FrontendVersion = this.FrontendVersion,
                 DumpingProgram = this.DumpingProgram,
                 DumpingDate = this.DumpingDate,
+                DumpingParameters = this.DumpingParameters,
                 Manufacturer = this.Manufacturer,
                 Model = this.Model,
                 Firmware = this.Firmware,

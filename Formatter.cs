@@ -232,6 +232,7 @@ namespace SabreTools.RedumpLib
                 AddIfExists(output, Template.FrontendVersionField, info.DumpingInfo?.FrontendVersion, 1);
                 AddIfExists(output, Template.DumpingProgramField, info.DumpingInfo?.DumpingProgram, 1);
                 AddIfExists(output, Template.DumpingDateField, info.DumpingInfo?.DumpingDate, 1);
+                AddIfExists(output, Template.DumpingParametersField, info.DumpingInfo?.DumpingParameters, 1);
                 AddIfExists(output, Template.DumpingDriveManufacturer, info.DumpingInfo?.Manufacturer, 1);
                 AddIfExists(output, Template.DumpingDriveModel, info.DumpingInfo?.Model, 1);
                 AddIfExists(output, Template.DumpingDriveFirmware, info.DumpingInfo?.Firmware, 1);

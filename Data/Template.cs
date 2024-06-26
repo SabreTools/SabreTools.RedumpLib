@@ -38,6 +38,7 @@
         public const string FrontendVersionField = "Frontend Version";
         public const string DumpingProgramField = "Dumping Program";
         public const string DumpingDateField = "Date";
+        public const string DumpingParametersField = "Parameters";
         public const string DumpingDriveManufacturer = "Manufacturer";
         public const string DumpingDriveModel = "Model";
         public const string DumpingDriveFirmware = "Firmware";
