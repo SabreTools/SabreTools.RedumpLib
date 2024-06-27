@@ -26,6 +26,11 @@ namespace SabreTools.RedumpLib.Web
         public bool IsStaff { get; private set; } = false;
 
         /// <summary>
+        /// Maximum retry count for any operation
+        /// </summary>
+        public int RetryCount { get; private set; } = 3;
+
+        /// <summary>
         /// Get the last downloaded filename, if possible
         /// </summary>
         /// <returns></returns>
@@ -111,7 +116,7 @@ namespace SabreTools.RedumpLib.Web
                 try
                 {
                     // Get the current token from the login page
-                    var loginPage = DownloadString(Constants.LoginUrl);
+                    var loginPage = DownloadStringWithRetries(Constants.LoginUrl);
                     string token = Constants.TokenRegex.Match(loginPage).Groups[1].Value;
 
                     // Construct the login request
@@ -155,21 +160,12 @@ namespace SabreTools.RedumpLib.Web
         public List<int> CheckSingleSitePage(string url)
         {
             List<int> ids = [];
-            string dumpsPage = string.Empty;
 
-            // Try up to 3 times to retrieve the data
-            for (int i = 0; i < 3; i++)
-            {
-                try
-                {
-                    dumpsPage = DownloadString(url);
-                    break;
-                }
-                catch { }
-            }
+            // Try to retrieve the data
+            string? dumpsPage = DownloadStringWithRetries(url);
 
             // If we have no dumps left
-            if (dumpsPage.Contains("No discs found."))
+            if (dumpsPage == null || dumpsPage.Contains("No discs found."))
                 return ids;
 
             // If we have a single disc page already
@@ -210,21 +206,11 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>True if the page could be downloaded, false otherwise</returns>
         public bool CheckSingleSitePage(string url, string? outDir, bool failOnSingle)
         {
-            string dumpsPage = string.Empty;
-
-            // Try up to 3 times to retrieve the data
-            for (int i = 0; i < 3; i++)
-            {
-                try
-                {
-                    dumpsPage = DownloadString(url);
-                    break;
-                }
-                catch { }
-            }
+            // Try to retrieve the data
+            string? dumpsPage = DownloadStringWithRetries(url);
 
             // If we have no dumps left
-            if (dumpsPage.Contains("No discs found."))
+            if (dumpsPage == null || dumpsPage.Contains("No discs found."))
                 return false;
 
             // If we have a single disc page already
@@ -272,21 +258,12 @@ namespace SabreTools.RedumpLib.Web
         public List<int> CheckSingleWIPPage(string url)
         {
             List<int> ids = [];
-            string dumpsPage = string.Empty;
 
-            // Try up to 3 times to retrieve the data
-            for (int i = 0; i < 3; i++)
-            {
-                try
-                {
-                    dumpsPage = DownloadString(url);
-                    break;
-                }
-                catch { }
-            }
+            // Try to retrieve the data
+            string? dumpsPage = DownloadStringWithRetries(url);
 
             // If we have no dumps left
-            if (dumpsPage.Contains("No discs found."))
+            if (dumpsPage == null || dumpsPage.Contains("No discs found."))
                 return ids;
 
             // Otherwise, traverse each dump on the page
@@ -317,21 +294,11 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>True if the page could be downloaded, false otherwise</returns>
         public bool CheckSingleWIPPage(string url, string? outDir, bool failOnSingle)
         {
-            string dumpsPage = string.Empty;
-
-            // Try up to 3 times to retrieve the data
-            for (int i = 0; i < 3; i++)
-            {
-                try
-                {
-                    dumpsPage = DownloadString(url);
-                    break;
-                }
-                catch { }
-            }
+            // Try to retrieve the data
+            string? dumpsPage = DownloadStringWithRetries(url);
 
             // If we have no dumps left
-            if (dumpsPage.Contains("No discs found."))
+            if (dumpsPage == null || dumpsPage.Contains("No discs found."))
                 return false;
 
             // Otherwise, traverse each dump on the page
@@ -416,20 +383,11 @@ namespace SabreTools.RedumpLib.Web
             Console.WriteLine($"Processing ID: {paddedId}");
             try
             {
-                string discPage = string.Empty;
+                // Try to retrieve the data
+                string discPageUri = string.Format(Constants.DiscPageUrl, +id);
+                string? discPage = DownloadStringWithRetries(discPageUri);
 
-                // Try up to 3 times to retrieve the data
-                for (int i = 0; i < 3; i++)
-                {
-                    try
-                    {
-                        discPage = DownloadString(string.Format(Constants.DiscPageUrl, +id));
-                        break;
-                    }
-                    catch { }
-                }
-
-                if (discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
+                if (discPage == null || discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
                 {
                     Console.WriteLine($"ID {paddedId} could not be found!");
                     return null;
@@ -463,20 +421,11 @@ namespace SabreTools.RedumpLib.Web
             Console.WriteLine($"Processing ID: {paddedId}");
             try
             {
-                string discPage = string.Empty;
+                // Try to retrieve the data
+                string discPageUri = string.Format(Constants.DiscPageUrl, +id);
+                string? discPage = DownloadStringWithRetries(discPageUri);
 
-                // Try up to 3 times to retrieve the data
-                for (int i = 0; i < 3; i++)
-                {
-                    try
-                    {
-                        discPage = DownloadString(string.Format(Constants.DiscPageUrl, +id));
-                        break;
-                    }
-                    catch { }
-                }
-
-                if (discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
+                if (discPage == null || discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
                 {
                     try
                     {
@@ -596,20 +545,11 @@ namespace SabreTools.RedumpLib.Web
             Console.WriteLine($"Processing ID: {paddedId}");
             try
             {
-                string discPage = string.Empty;
+                // Try to retrieve the data
+                string discPageUri = string.Format(Constants.WipDiscPageUrl, +id);
+                string? discPage = DownloadStringWithRetries(discPageUri);
 
-                // Try up to 3 times to retrieve the data
-                for (int i = 0; i < 3; i++)
-                {
-                    try
-                    {
-                        discPage = DownloadString(string.Format(Constants.WipDiscPageUrl, +id));
-                        break;
-                    }
-                    catch { }
-                }
-
-                if (discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
+                if (discPage == null || discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
                 {
                     Console.WriteLine($"ID {paddedId} could not be found!");
                     return null;
@@ -643,20 +583,11 @@ namespace SabreTools.RedumpLib.Web
             Console.WriteLine($"Processing ID: {paddedId}");
             try
             {
-                string discPage = string.Empty;
+                // Try to retrieve the data
+                string discPageUri = string.Format(Constants.WipDiscPageUrl, +id);
+                string? discPage = DownloadStringWithRetries(discPageUri);
 
-                // Try up to 3 times to retrieve the data
-                for (int i = 0; i < 3; i++)
-                {
-                    try
-                    {
-                        discPage = DownloadString(string.Format(Constants.WipDiscPageUrl, +id));
-                        break;
-                    }
-                    catch { }
-                }
-
-                if (discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
+                if (discPage == null || discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
                 {
                     try
                     {
@@ -792,6 +723,29 @@ namespace SabreTools.RedumpLib.Web
 
             Console.Write($"\rComplete!{new string(' ', Console.BufferWidth - 10)}");
             Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Download from a URI to a string
+        /// </summary>
+        /// <param name="uri">Remote URI to retrieve</param>
+        /// <returns>String from the URI, null on error</returns>
+        private string? DownloadStringWithRetries(string uri)
+        {
+            // Only retry a positive number of times
+            if (RetryCount <= 0)
+                return null;
+
+            for (int i = 0; i < RetryCount; i++)
+            {
+                try
+                {
+                    return DownloadString(uri);
+                }
+                catch { }
+            }
+
+            return null;
         }
 
         /// <summary>
