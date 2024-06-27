@@ -10,9 +10,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-#if NETCOREAPP
 using System.Threading.Tasks;
-#endif
 using SabreTools.RedumpLib.Data;
 
 namespace SabreTools.RedumpLib.Web
@@ -64,11 +62,7 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Validate supplied credentials
         /// </summary>
-#if NETFRAMEWORK
-        public static (bool?, string?) ValidateCredentials(string username, string password)
-#else
         public async static Task<(bool?, string?)> ValidateCredentials(string username, string password)
-#endif
         {
             // If options are invalid or we're missing something key, just return
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
@@ -77,11 +71,7 @@ namespace SabreTools.RedumpLib.Web
             // Try logging in with the supplied credentials otherwise
             var redumpClient = new RedumpClient();
 
-#if NETFRAMEWORK
-            bool? loggedIn = redumpClient.Login(username, password);
-#else
             bool? loggedIn = await redumpClient.Login(username, password);
-#endif
             if (loggedIn == true)
                 return (true, "Redump username and password accepted!");
             else if (loggedIn == false)
@@ -96,11 +86,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="username">Redump username</param>
         /// <param name="password">Redump password</param>
         /// <returns>True if the user could be logged in, false otherwise, null on error</returns>
-#if NETFRAMEWORK
-        public bool? Login(string username, string password)
-#else
         public async Task<bool?> Login(string username, string password)
-#endif
         {
             // Credentials verification
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
@@ -131,11 +117,7 @@ namespace SabreTools.RedumpLib.Web
                 try
                 {
                     // Get the current token from the login page
-#if NETFRAMEWORK
-                    var loginPage = DownloadStringWithRetries(Constants.LoginUrl);
-#else
                     var loginPage = await DownloadStringWithRetries(Constants.LoginUrl);
-#endif
                     string token = Constants.TokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
 
 #if NETFRAMEWORK
@@ -200,20 +182,12 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="url">Base URL to download using</param>
         /// <returns>List of IDs from the page, empty on error</returns>
-#if NETFRAMEWORK
-        public List<int> CheckSingleSitePage(string url)
-#else
         public async Task<List<int>> CheckSingleSitePage(string url)
-#endif
         {
             List<int> ids = [];
 
             // Try to retrieve the data
-#if NETFRAMEWORK
-            string? dumpsPage = DownloadStringWithRetries(url);
-#else
             string? dumpsPage = await DownloadStringWithRetries(url);
-#endif
 
             // If we have no dumps left
             if (dumpsPage == null || dumpsPage.Contains("No discs found."))
@@ -258,18 +232,10 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="failOnSingle">True to return on first error, false otherwise</param>
         /// <returns>True if the page could be downloaded, false otherwise</returns>
-#if NETFRAMEWORK
-        public bool CheckSingleSitePage(string url, string? outDir, bool failOnSingle)
-#else
         public async Task<bool> CheckSingleSitePage(string url, string? outDir, bool failOnSingle)
-#endif
         {
             // Try to retrieve the data
-#if NETFRAMEWORK
-            string? dumpsPage = DownloadStringWithRetries(url);
-#else
             string? dumpsPage = await DownloadStringWithRetries(url);
-#endif
 
             // If we have no dumps left
             if (dumpsPage == null || dumpsPage.Contains("No discs found."))
@@ -281,11 +247,7 @@ namespace SabreTools.RedumpLib.Web
                 var value = Regex.Match(dumpsPage, @"/disc/(\d+)/sfv/").Groups[1].Value;
                 if (int.TryParse(value, out int id))
                 {
-#if NETFRAMEWORK
-                    bool downloaded = DownloadSingleSiteID(id, outDir, false);
-#else
                     bool downloaded = await DownloadSingleSiteID(id, outDir, false);
-#endif
                     if (!downloaded && failOnSingle)
                         return false;
                 }
@@ -304,11 +266,7 @@ namespace SabreTools.RedumpLib.Web
                 {
                     if (int.TryParse(match.Groups[1].Value, out int value))
                     {
-#if NETFRAMEWORK
-                        bool downloaded = DownloadSingleSiteID(value, outDir, false);
-#else
                         bool downloaded = await DownloadSingleSiteID(value, outDir, false);
-#endif
                         if (!downloaded && failOnSingle)
                             return false;
                     }
@@ -328,20 +286,12 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="wc">RedumpWebClient to access the packs</param>
         /// <returns>List of IDs from the page, empty on error</returns>
-#if NETFRAMEWORK
-        public List<int> CheckSingleWIPPage(string url)
-#else
         public async Task<List<int>> CheckSingleWIPPage(string url)
-#endif
         {
             List<int> ids = [];
 
             // Try to retrieve the data
-#if NETFRAMEWORK
-            string? dumpsPage = DownloadStringWithRetries(url);
-#else
             string? dumpsPage = await DownloadStringWithRetries(url);
-#endif
 
             // If we have no dumps left
             if (dumpsPage == null || dumpsPage.Contains("No discs found."))
@@ -376,18 +326,10 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="failOnSingle">True to return on first error, false otherwise</param>
         /// <returns>True if the page could be downloaded, false otherwise</returns>
-#if NETFRAMEWORK
-        public bool CheckSingleWIPPage(string url, string? outDir, bool failOnSingle)
-#else
         public async Task<bool> CheckSingleWIPPage(string url, string? outDir, bool failOnSingle)
-#endif
         {
             // Try to retrieve the data
-#if NETFRAMEWORK
-            string? dumpsPage = DownloadStringWithRetries(url);
-#else
             string? dumpsPage = await DownloadStringWithRetries(url);
-#endif
 
             // If we have no dumps left
             if (dumpsPage == null || dumpsPage.Contains("No discs found."))
@@ -404,11 +346,7 @@ namespace SabreTools.RedumpLib.Web
                 {
                     if (int.TryParse(match.Groups[2].Value, out int value))
                     {
-#if NETFRAMEWORK
-                        bool downloaded = DownloadSingleWIPID(value, outDir, false);
-#else
                         bool downloaded = await DownloadSingleWIPID(value, outDir, false);
-#endif
                         if (!downloaded && failOnSingle)
                             return false;
                     }
@@ -433,16 +371,14 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="url">Base URL to download using</param>
         /// <param name="system">System to download packs for</param>
         /// <returns>Byte array containing the downloaded pack, null on error</returns>
-#if NETFRAMEWORK
-        public byte[]? DownloadSinglePack(string url, RedumpSystem? system)
-#else
         public async Task<byte[]?> DownloadSinglePack(string url, RedumpSystem? system)
-#endif
         {
             try
             {
-#if NETFRAMEWORK
-                return _internalClient.DownloadData(string.Format(url, system.ShortName()));
+#if NET40
+                return await Task.Factory.StartNew(() => _internalClient.DownloadData(string.Format(url, system.ShortName())));
+#elif NETFRAMEWORK
+                return await Task.Run(() => _internalClient.DownloadData(string.Format(url, system.ShortName())));
 #else
                 return await _internalClient.GetByteArrayAsync(string.Format(url, system.ShortName()));
 #endif
@@ -461,11 +397,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="system">System to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
-#if NETFRAMEWORK
-        public bool DownloadSinglePack(string url, RedumpSystem? system, string? outDir, string? subfolder)
-#else
         public async Task<bool> DownloadSinglePack(string url, RedumpSystem? system, string? outDir, string? subfolder)
-#endif
         {
             try
             {
@@ -477,13 +409,8 @@ namespace SabreTools.RedumpLib.Web
                 string packUri = string.Format(url, system.ShortName());
 
                 // Make the call to get the pack
-#if NETFRAMEWORK
-                _internalClient.DownloadFile(packUri, tempfile);
-                MoveOrDelete(tempfile, _internalClient.GetLastFilename(), outDir!, subfolder);
-#else
                 string? remoteFileName = await DownloadFile(packUri, tempfile);
                 MoveOrDelete(tempfile, remoteFileName, outDir!, subfolder);
-#endif
                 return true;
             }
             catch (Exception ex)
@@ -498,11 +425,7 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
-#if NETFRAMEWORK
-        public string? DownloadSingleSiteID(int id)
-#else
         public async Task<string?> DownloadSingleSiteID(int id)
-#endif
         {
             string paddedId = id.ToString().PadLeft(6, '0');
             Console.WriteLine($"Processing ID: {paddedId}");
@@ -510,11 +433,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 // Try to retrieve the data
                 string discPageUri = string.Format(Constants.DiscPageUrl, +id);
-#if NETFRAMEWORK
-                string? discPage = DownloadStringWithRetries(discPageUri);
-#else
                 string? discPage = await DownloadStringWithRetries(discPageUri);
-#endif
 
                 if (discPage == null || discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
                 {
@@ -539,11 +458,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
-#if NETFRAMEWORK
-        public bool DownloadSingleSiteID(int id, string? outDir, bool rename)
-#else
         public async Task<bool> DownloadSingleSiteID(int id, string? outDir, bool rename)
-#endif
         {
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrEmpty(outDir))
@@ -556,11 +471,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 // Try to retrieve the data
                 string discPageUri = string.Format(Constants.DiscPageUrl, +id);
-#if NETFRAMEWORK
-                string? discPage = DownloadStringWithRetries(discPageUri);
-#else
                 string? discPage = await DownloadStringWithRetries(discPageUri);
-#endif
 
                 if (discPage == null || discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
                 {
@@ -608,54 +519,6 @@ namespace SabreTools.RedumpLib.Web
                 // Create ID subdirectory
                 Directory.CreateDirectory(paddedIdDir);
 
-#if NETFRAMEWORK
-                // View Edit History
-                if (discPage.Contains($"<a href=\"/disc/{id}/changes/\""))
-                    _internalClient.DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.ChangesExt, Path.Combine(paddedIdDir, "changes.html"));
-
-                // CUE
-                if (discPage.Contains($"<a href=\"/disc/{id}/cue/\""))
-                    _internalClient.DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.CueExt, Path.Combine(paddedIdDir, paddedId + ".cue"));
-
-                // Edit disc
-                if (discPage.Contains($"<a href=\"/disc/{id}/edit/\""))
-                    _internalClient.DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.EditExt, Path.Combine(paddedIdDir, "edit.html"));
-
-                // GDI
-                if (discPage.Contains($"<a href=\"/disc/{id}/gdi/\""))
-                    _internalClient.DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.GdiExt, Path.Combine(paddedIdDir, paddedId + ".gdi"));
-
-                // KEYS
-                if (discPage.Contains($"<a href=\"/disc/{id}/key/\""))
-                    _internalClient.DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.KeyExt, Path.Combine(paddedIdDir, paddedId + ".key"));
-
-                // LSD
-                if (discPage.Contains($"<a href=\"/disc/{id}/lsd/\""))
-                    _internalClient.DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.LsdExt, Path.Combine(paddedIdDir, paddedId + ".lsd"));
-
-                // MD5
-                if (discPage.Contains($"<a href=\"/disc/{id}/md5/\""))
-                    _internalClient.DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.Md5Ext, Path.Combine(paddedIdDir, paddedId + ".md5"));
-
-                // Review WIP entry
-                if (Constants.NewDiscRegex.IsMatch(discPage))
-                {
-                    var match = Constants.NewDiscRegex.Match(discPage);
-                    _internalClient.DownloadFile(string.Format(Constants.WipDiscPageUrl, match.Groups[2].Value), Path.Combine(paddedIdDir, "newdisc.html"));
-                }
-
-                // SBI
-                if (discPage.Contains($"<a href=\"/disc/{id}/sbi/\""))
-                    _internalClient.DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.SbiExt, Path.Combine(paddedIdDir, paddedId + ".sbi"));
-
-                // SFV
-                if (discPage.Contains($"<a href=\"/disc/{id}/sfv/\""))
-                    _internalClient.DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.SfvExt, Path.Combine(paddedIdDir, paddedId + ".sfv"));
-
-                // SHA1
-                if (discPage.Contains($"<a href=\"/disc/{id}/sha1/\""))
-                    _internalClient.DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.Sha1Ext, Path.Combine(paddedIdDir, paddedId + ".sha1"));
-#else
                 // View Edit History
                 if (discPage.Contains($"<a href=\"/disc/{id}/changes/\""))
                     _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.ChangesExt, Path.Combine(paddedIdDir, "changes.html"));
@@ -702,7 +565,6 @@ namespace SabreTools.RedumpLib.Web
                 // SHA1
                 if (discPage.Contains($"<a href=\"/disc/{id}/sha1/\""))
                     _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.Sha1Ext, Path.Combine(paddedIdDir, paddedId + ".sha1"));
-#endif
 
                 // HTML (Last in case of errors)
                 using (var discStreamWriter = File.CreateText(Path.Combine(paddedIdDir, "disc.html")))
@@ -725,11 +587,7 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="id">Redump WIP disc ID to retrieve</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
-#if NETFRAMEWORK
-        public string? DownloadSingleWIPID(int id)
-#else
         public async Task<string?> DownloadSingleWIPID(int id)
-#endif
         {
             string paddedId = id.ToString().PadLeft(6, '0');
             Console.WriteLine($"Processing ID: {paddedId}");
@@ -737,11 +595,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 // Try to retrieve the data
                 string discPageUri = string.Format(Constants.WipDiscPageUrl, +id);
-#if NETFRAMEWORK
-                string? discPage = DownloadStringWithRetries(discPageUri);
-#else
                 string? discPage = await DownloadStringWithRetries(discPageUri);
-#endif
 
                 if (discPage == null || discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
                 {
@@ -766,11 +620,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
-#if NETFRAMEWORK
-        public bool DownloadSingleWIPID(int id, string? outDir, bool rename)
-#else
         public async Task<bool> DownloadSingleWIPID(int id, string? outDir, bool rename)
-#endif
         {
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrEmpty(outDir))
@@ -783,11 +633,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 // Try to retrieve the data
                 string discPageUri = string.Format(Constants.WipDiscPageUrl, +id);
-#if NETFRAMEWORK
-                string? discPage = DownloadStringWithRetries(discPageUri);
-#else
                 string? discPage = await DownloadStringWithRetries(discPageUri);
-#endif
 
                 if (discPage == null || discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
                 {
@@ -861,11 +707,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="url">Base URL to download using</param>
         /// <param name="system">Systems to download packs for</param>
         /// <param name="title">Name of the pack that is downloading</param>
-#if NETFRAMEWORK
-        public Dictionary<RedumpSystem, byte[]> DownloadPacks(string url, RedumpSystem?[] systems, string title)
-#else
         public async Task<Dictionary<RedumpSystem, byte[]>> DownloadPacks(string url, RedumpSystem?[] systems, string title)
-#endif
         {
             var packsDictionary = new Dictionary<RedumpSystem, byte[]>();
 
@@ -886,11 +728,7 @@ namespace SabreTools.RedumpLib.Web
                     continue;
 
                 Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
-#if NETFRAMEWORK
-                byte[]? pack = DownloadSinglePack(url, system);
-#else
                 byte[]? pack = await DownloadSinglePack(url, system);
-#endif
                 if (pack != null)
                     packsDictionary.Add(system.Value, pack);
             }
@@ -909,11 +747,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="title">Name of the pack that is downloading</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
-#if NETFRAMEWORK
-        public bool DownloadPacks(string url, RedumpSystem?[] systems, string title, string? outDir, string? subfolder)
-#else
         public async Task<bool> DownloadPacks(string url, RedumpSystem?[] systems, string title, string? outDir, string? subfolder)
-#endif
         {
             Console.WriteLine($"Downloading {title}");
             foreach (var system in systems)
@@ -932,11 +766,7 @@ namespace SabreTools.RedumpLib.Web
                     continue;
 
                 Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
-#if NETFRAMEWORK
-                DownloadSinglePack(url, system, outDir, subfolder);
-#else
                 await DownloadSinglePack(url, system, outDir, subfolder);
-#endif
             }
 
             Console.Write($"\rComplete!{new string(' ', Console.BufferWidth - 10)}");
@@ -944,7 +774,6 @@ namespace SabreTools.RedumpLib.Web
             return true;
         }
 
-#if NETCOREAPP
         /// <summary>
         /// Download from a URI to a local file
         /// </summary>
@@ -953,6 +782,13 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>The remote filename from the URI, null on error</returns>
         private async Task<string?> DownloadFile(string uri, string fileName)
         {
+#if NET40
+            await Task.Factory.StartNew(() => { _internalClient.DownloadFile(uri, fileName); return true; });
+            return _internalClient.GetLastFilename();
+#elif NETFRAMEWORK
+            await Task.Run(() => _internalClient.DownloadFile(uri, fileName));
+            return _internalClient.GetLastFilename();
+#else
             // Make the call to get the file
             var response = await _internalClient.GetAsync(uri);
             if (response?.Content?.Headers == null || !response.IsSuccessStatusCode)
@@ -969,19 +805,15 @@ namespace SabreTools.RedumpLib.Web
             }
 
             return response.Content.Headers.ContentDisposition?.FileName?.Replace("\"", "");
-        }
 #endif
+        }
 
         /// <summary>
         /// Download from a URI to a string
         /// </summary>
         /// <param name="uri">Remote URI to retrieve</param>
         /// <returns>String from the URI, null on error</returns>
-#if NETFRAMEWORK
-        private string? DownloadStringWithRetries(string uri)
-#else
         private async Task<string?> DownloadStringWithRetries(string uri)
-#endif
         {
             // Only retry a positive number of times
             if (RetryCount <= 0)
@@ -991,8 +823,10 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
-#if NETFRAMEWORK
-                    return _internalClient.DownloadString(uri);
+#if NET40
+                    return await Task.Factory.StartNew(() => _internalClient.DownloadString(uri));
+#elif NETFRAMEWORK
+                    return await Task.Run(() => _internalClient.DownloadString(uri));
 #else
                     return await _internalClient.GetStringAsync(uri);
 #endif
