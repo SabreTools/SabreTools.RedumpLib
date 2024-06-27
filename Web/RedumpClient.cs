@@ -57,6 +57,18 @@ namespace SabreTools.RedumpLib.Web
 #endif
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public RedumpClient(int retryCount) : this()
+        {
+            // Ensure there are a positive number of retries
+            if (retryCount <= 0)
+                retryCount = 3;
+
+            RetryCount = retryCount;
+        }
+
         #region Credentials
 
         /// <summary>
