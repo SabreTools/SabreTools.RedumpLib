@@ -4,7 +4,7 @@ using System.Net;
 #pragma warning disable SYSLIB0014 // 'WebClient.WebClient()' is obsolete
 namespace SabreTools.RedumpLib.Web
 {
-    public class CookieWebClient : WebClient
+    internal class CookieWebClient : WebClient
     {
         // https://stackoverflow.com/questions/1777221/using-cookiecontainer-with-webclient-class
         private readonly CookieContainer _container = new();
