@@ -6,6 +6,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using SabreTools.RedumpLib.Data;
 
 namespace SabreTools.RedumpLib.Web
@@ -13,6 +14,8 @@ namespace SabreTools.RedumpLib.Web
     // https://stackoverflow.com/questions/1777221/using-cookiecontainer-with-webclient-class
     public class RedumpWebClient : WebClient
     {
+        #region Properties
+
         private readonly CookieContainer m_container = new();
 
         /// <summary>
@@ -29,6 +32,8 @@ namespace SabreTools.RedumpLib.Web
         /// Maximum retry count for any operation
         /// </summary>
         public int RetryCount { get; private set; } = 3;
+
+        #endregion
 
         /// <summary>
         /// Get the last downloaded filename, if possible
@@ -58,6 +63,8 @@ namespace SabreTools.RedumpLib.Web
 
             return request;
         }
+
+        #region Credentials
 
         /// <summary>
         /// Validate supplied credentials
@@ -117,7 +124,7 @@ namespace SabreTools.RedumpLib.Web
                 {
                     // Get the current token from the login page
                     var loginPage = DownloadStringWithRetries(Constants.LoginUrl);
-                    string token = Constants.TokenRegex.Match(loginPage).Groups[1].Value;
+                    string token = Constants.TokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
 
                     // Construct the login request
                     Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
@@ -149,6 +156,8 @@ namespace SabreTools.RedumpLib.Web
             Console.WriteLine("Could not login to Redump in 3 attempts, continuing without logging in...");
             return false;
         }
+
+        #endregion
 
         #region Single Page Helpers
 
@@ -743,6 +752,9 @@ namespace SabreTools.RedumpLib.Web
                     return DownloadString(uri);
                 }
                 catch { }
+
+                // Sleep for 100ms if the last attempt failed
+                Thread.Sleep(100);
             }
 
             return null;

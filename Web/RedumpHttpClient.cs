@@ -1,4 +1,4 @@
-﻿#if !NETFRAMEWORK
+﻿#if NETCOREAPP
 
 using System;
 using System.Collections.Generic;
@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
 
@@ -99,8 +100,8 @@ namespace SabreTools.RedumpLib.Web
                 try
                 {
                     // Get the current token from the login page
-                    var loginPage = await GetStringAsync(Constants.LoginUrl);
-                    string token = Constants.TokenRegex.Match(loginPage).Groups[1].Value;
+                    var loginPage = await DownloadStringWithRetries(Constants.LoginUrl);
+                    string token = Constants.TokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
 
                     // Construct the login request
                     var postContent = new StringContent($"form_sent=1&redirect_url=&csrf_token={token}&req_username={username}&req_password={password}&save_pass=0", Encoding.UTF8);
@@ -783,6 +784,9 @@ namespace SabreTools.RedumpLib.Web
                     return await GetStringAsync(uri);
                 }
                 catch { }
+
+                // Sleep for 100ms if the last attempt failed
+                Thread.Sleep(100);
             }
 
             return null;
