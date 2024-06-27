@@ -79,15 +79,11 @@ namespace SabreTools.RedumpLib
         /// <summary>
         /// List the disc IDs associated with a given quicksearch query
         /// </summary>
-        /// <param name="wc">RedumpWebClient for making the connection</param>
+        /// <param name="rc">RedumpClient for making the connection</param>
         /// <param name="query">Query string to attempt to search for</param>
         /// <param name="filterForwardSlashes">True to filter forward slashes, false otherwise</param>
         /// <returns>All disc IDs for the given query, null on error</returns>
-#if NETFRAMEWORK
-        public async static Task<List<int>?> ListSearchResults(RedumpWebClient wc, string? query, bool filterForwardSlashes = true)
-#else
-        public async static Task<List<int>?> ListSearchResults(RedumpHttpClient wc, string? query, bool filterForwardSlashes = true)
-#endif
+        public async static Task<List<int>?> ListSearchResults(RedumpClient rc, string? query, bool filterForwardSlashes = true)
         {
             // If there is an invalid query
             if (string.IsNullOrEmpty(query))
@@ -113,13 +109,7 @@ namespace SabreTools.RedumpLib
                 int pageNumber = 1;
                 while (true)
                 {
-#if NET40
-                    List<int> pageIds = await Task.Factory.StartNew(() => wc.CheckSingleSitePage(string.Format(Constants.QuickSearchUrl, query, pageNumber++)));
-#elif NETFRAMEWORK
-                    List<int> pageIds = await Task.Run(() => wc.CheckSingleSitePage(string.Format(Constants.QuickSearchUrl, query, pageNumber++)));
-#else
-                    List<int> pageIds = await wc.CheckSingleSitePage(string.Format(Constants.QuickSearchUrl, query, pageNumber++));
-#endif
+                    List<int> pageIds = await rc.CheckSingleSitePage(string.Format(Constants.QuickSearchUrl, query, pageNumber++));
                     ids.AddRange(pageIds);
                     if (pageIds.Count <= 1)
                         break;
@@ -137,18 +127,14 @@ namespace SabreTools.RedumpLib
         /// <summary>
         /// Validate a single track against Redump, if possible
         /// </summary>
-        /// <param name="wc">RedumpWebClient for making the connection</param>
+        /// <param name="rc">RedumpClient for making the connection</param>
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <param name="sha1">SHA-1 hash to check against</param>
         /// <returns>True if the track was found, false otherwise; List of found values, if possible</returns>
-#if NETFRAMEWORK
-        public async static Task<(bool, List<int>?, string?)> ValidateSingleTrack(RedumpWebClient wc, SubmissionInfo info, string? sha1)
-#else
-        public async static Task<(bool, List<int>?, string?)> ValidateSingleTrack(RedumpHttpClient wc, SubmissionInfo info, string? sha1)
-#endif
+        public async static Task<(bool, List<int>?, string?)> ValidateSingleTrack(RedumpClient rc, SubmissionInfo info, string? sha1)
         {
             // Get all matching IDs for the track
-            var newIds = await ListSearchResults(wc, sha1);
+            var newIds = await ListSearchResults(rc, sha1);
 
             // If we got null back, there was an error
             if (newIds == null)
@@ -170,15 +156,11 @@ namespace SabreTools.RedumpLib
         /// <summary>
         /// Validate a universal hash against Redump, if possible
         /// </summary>
-        /// <param name="wc">RedumpWebClient for making the connection</param>
+        /// <param name="rc">RedumpClient for making the connection</param>
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <param name="resultProgress">Optional result progress callback</param>
         /// <returns>True if the track was found, false otherwise; List of found values, if possible</returns>
-#if NETFRAMEWORK
-        public async static Task<(bool, List<int>?, string?)> ValidateUniversalHash(RedumpWebClient wc, SubmissionInfo info)
-#else
-        public async static Task<(bool, List<int>?, string?)> ValidateUniversalHash(RedumpHttpClient wc, SubmissionInfo info)
-#endif
+        public async static Task<(bool, List<int>?, string?)> ValidateUniversalHash(RedumpClient rc, SubmissionInfo info)
         {
             // If we don't have special fields
             if (info.CommonDiscInfo?.CommentsSpecialFields == null)
@@ -193,7 +175,7 @@ namespace SabreTools.RedumpLib
             string universalHashQuery = $"{universalHash.Substring(0, universalHash.Length - 1)}/comments/only";
 
             // Get all matching IDs for the hash
-            var newIds = await ListSearchResults(wc, universalHashQuery, filterForwardSlashes: false);
+            var newIds = await ListSearchResults(rc, universalHashQuery, filterForwardSlashes: false);
 
             // If we got null back, there was an error
             if (newIds == null)
@@ -215,24 +197,14 @@ namespace SabreTools.RedumpLib
         /// <summary>
         /// Validate that the current track count and remote track count match
         /// </summary>
-        /// <param name="wc">RedumpWebClient for making the connection</param>
+        /// <param name="rc">RedumpClient for making the connection</param>
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <param name="localCount">Local count of tracks for the current disc</param>
         /// <returns>True if the track count matches, false otherwise</returns>
-#if NETFRAMEWORK
-        public async static Task<bool> ValidateTrackCount(RedumpWebClient wc, int id, int localCount)
-#else
-        public async static Task<bool> ValidateTrackCount(RedumpHttpClient wc, int id, int localCount)
-#endif
+        public async static Task<bool> ValidateTrackCount(RedumpClient rc, int id, int localCount)
         {
             // If we can't pull the remote data, we can't match
-#if NET40
-            string? discData = await Task.Factory.StartNew(() => wc.DownloadSingleSiteID(id));
-#elif NETFRAMEWORK
-            string? discData = await Task.Run(() => wc.DownloadSingleSiteID(id));
-#else
-            string? discData = await wc.DownloadSingleSiteID(id);
-#endif
+            string? discData = await rc.DownloadSingleSiteID(id);
             if (string.IsNullOrEmpty(discData))
                 return false;
 

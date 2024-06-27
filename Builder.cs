@@ -246,25 +246,15 @@ namespace SabreTools.RedumpLib
         /// <summary>
         /// Fill out an existing SubmissionInfo object based on a disc page
         /// </summary>
-        /// <param name="wc">RedumpWebClient for making the connection</param>
+        /// <param name="rc">RedumpClient for making the connection</param>
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <param name="includeAllData">True to include all pullable information, false to do bare minimum</param>
-#if NETFRAMEWORK
-        public async static Task<bool> FillFromId(RedumpWebClient wc, SubmissionInfo info, int id, bool includeAllData)
-#else
-        public async static Task<bool> FillFromId(RedumpHttpClient wc, SubmissionInfo info, int id, bool includeAllData)
-#endif
+        public async static Task<bool> FillFromId(RedumpClient rc, SubmissionInfo info, int id, bool includeAllData)
         {
             // Ensure that required sections exist
             info = EnsureAllSections(info);
-#if NET40
-            var discData = await Task.Factory.StartNew(() => wc.DownloadSingleSiteID(id));
-#elif NETFRAMEWORK
-            var discData = await Task.Run(() => wc.DownloadSingleSiteID(id));
-#else
-            var discData = await wc.DownloadSingleSiteID(id);
-#endif
+            var discData = await rc.DownloadSingleSiteID(id);
             if (string.IsNullOrEmpty(discData))
                 return false;
 
