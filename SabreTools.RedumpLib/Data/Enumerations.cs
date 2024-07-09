@@ -2234,7 +2234,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Computer, LongName = "NEC PC-98 series", ShortName = "pc-98", HasCues = true, HasDat = true)]
         NECPC98series,
 
-        [System(Category = SystemCategory.Computer, LongName = "Sharp X68000", ShortName = "x86kcd", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Computer, LongName = "Sharp X68000", ShortName = "x68k", HasCues = true, HasDat = true)]
         SharpX68000,
 
         // End of computer section delimiter
