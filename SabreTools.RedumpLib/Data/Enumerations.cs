@@ -2331,7 +2331,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Merit Industries MegaTouch XL")]
         MeritIndustriesMegaTouchXL,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Namco · Sega · Nintendo Triforce", ShortName = "triforce", HasCues = true, HasDat = true, HasGdi = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Namco · Sega · Nintendo Triforce", ShortName = "trf", HasCues = true, HasDat = true, HasGdi = true)]
         NamcoSegaNintendoTriforce,
 
         [System(Category = SystemCategory.Arcade, LongName = "Namco System 12", ShortName = "ns12")]
