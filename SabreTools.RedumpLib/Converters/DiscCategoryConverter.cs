@@ -10,11 +10,21 @@ namespace SabreTools.RedumpLib.Converters
     /// </summary>
     public class DiscCategoryConverter : JsonConverter<DiscCategory?>
     {
-        public override bool CanRead { get { return false; } }
+        public override bool CanRead { get { return true; } }
 
         public override DiscCategory? ReadJson(JsonReader reader, Type objectType, DiscCategory? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            // If we have a value already, don't overwrite it
+            if (hasExistingValue)
+                return existingValue;
+
+            // Read the value
+            string? value = reader.Value as string;
+            if (value == null)
+                return null;
+
+            // Try to parse the value
+            return Data.Extensions.ToDiscCategory(value);
         }
 
         public override void WriteJson(JsonWriter writer, DiscCategory? value, JsonSerializer serializer)

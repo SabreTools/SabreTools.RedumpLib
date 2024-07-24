@@ -984,6 +984,29 @@ namespace SabreTools.RedumpLib.Data
         /// <returns>String representing the value, if possible</returns>
         public static string? LongName(this LanguageSelection? langSelect) => AttributeHelper<LanguageSelection?>.GetAttribute(langSelect)?.LongName;
 
+        /// <summary>
+        /// Get the LanguageSelection enum value for a given string
+        /// </summary>
+        /// <param name="langSelect">String value to convert</param>
+        /// <returns>LanguageSelection represented by the string, if possible</returns>
+        public static LanguageSelection? ToLanguageSelection(string langSelect)
+        {
+            return (langSelect?.ToLowerInvariant()) switch
+            {
+                "bios"
+                    or "biossettings"
+                    or "bios settings" => (LanguageSelection?)LanguageSelection.BiosSettings,
+                "selector"
+                    or "langselector"
+                    or "lang selector"
+                    or "langauge selector" => (LanguageSelection?)LanguageSelection.LanguageSelector,
+                "options"
+                    or "optionsmenu"
+                    or "options menu" => (LanguageSelection?)LanguageSelection.OptionsMenu,
+                _ => null,
+            };
+        }
+
         #endregion
 
         #region Media Type

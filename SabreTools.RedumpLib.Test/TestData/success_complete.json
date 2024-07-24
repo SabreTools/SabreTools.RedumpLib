@@ -1,0 +1,96 @@
+{
+    "schema_version": 3,
+    "common_disc_info":
+    {
+        "d_system": "ajcd",
+        "d_media": "cd",
+        "d_title": "Test Title",
+        "d_title_foreign": "Foreign Title",
+        "d_number": "1",
+        "d_label": "Install",
+        "d_category": "Games",
+        "d_region": "U",
+        "d_languages":
+        [
+            "en",
+            "fr",
+            "es"
+        ],
+        "d_languages_selection": [],
+        "d_serial": "Serial",
+        "d_ring_0_ma1": "Ringcode 0 Layer 0",
+        "d_ring_0_ma1_sid": "SID 0 Layer 0",
+        "d_ring_0_ts1": "Toolstamp 0 Layer 0",
+        "d_ring_0_mo1_sid": "Mould SID 0 Layer 0",
+        "d_ring_0_mo1": "Additional Mould 0 Layer 0",
+        "d_ring_0_ma2": "Ringcode 0 Layer 1",
+        "d_ring_0_ma2_sid": "SID 0 Layer 1",
+        "d_ring_0_ts2": "Toolstamp 0 Layer 1",
+        "d_ring_0_mo2_sid": "Mould SID 0 Layer 1",
+        "d_ring_0_mo2": "Additional Mould 0 Layer 1",
+        "d_ring_0_ma3": "Ringcode 0 Layer 2",
+        "d_ring_0_ma3_sid": "SID 0 Layer 2",
+        "d_ring_0_ts3": "Toolstamp 0 Layer 2",
+        "d_ring_0_ma4": "Ringcode 0 Layer 3",
+        "d_ring_0_ma4_sid": "SID 0 Layer 2",
+        "d_ring_0_ts4": "Toolstamp 0 Layer 2",
+        "d_ring_0_offsets": "-22",
+        "d_ring_0_0_value": "-21",
+        "d_barcode": "0 12345 67890 1",
+        "d_date": "1980-01-01",
+        "d_errors": "0",
+        "d_comments": "This is a comment\nwith a newline",
+        "d_contents": "These are contents, sorry"
+    },
+    "versions_and_editions":
+    {
+        "d_version": "1.0.0.0",
+        "d_version_datfile": "1.00",
+        "d_editions_text": "Demo"
+
+    },
+    "edc":
+    {
+        "d_edc": false
+    },
+    "parent_clone_relationship":
+    {
+        "d_parent_id": "12345",
+        "d_is_regional_parent": false
+    },
+    "extras":
+    {
+        "d_pvd": "Pretend\nthis\nis\na\nPVD",
+        "d_d1_key": "Disc key",
+        "d_d2_key": "Disc ID",
+        "d_pic_data": "Pretend\nthis\nis\na\nPIC",
+        "d_header": "Pretend\nthis\nis\na\nHeader",
+        "d_bca": "Pretend\nthis\nis\na\nBCA",
+        "d_ssranges": "Pretend\nthis\nis\na\nsecurity_range"
+    },
+    "copy_protection":
+    {
+        "d_protection_a": false,
+        "d_protection_1": false,
+        "d_libcrypt": "Definitely\nLibCrypt\nData",
+        "d_protection": "Super easy to find protection",
+        "d_securom": "Definitely\nSecuROM\nData"
+    },
+    "tracks_and_write_offsets":
+    {
+        "d_tracks": "Hash data",
+        "d_cue": "Real cuesheet",
+        "d_offset_text": "-22"
+    },
+    "size_and_checksums":
+    {
+        "d_layerbreak": 1,
+        "d_layerbreak_2": 2,
+        "d_layerbreak_3": 3,
+        "d_pic_identifier": "Pretend\nthis\nis\na\nPIC",
+        "d_size": 123456,
+        "d_crc32": "cbf43926",
+        "d_md5": "d41d8cd98f00b204e9800998ecf8427e",
+        "d_sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+    }
+}

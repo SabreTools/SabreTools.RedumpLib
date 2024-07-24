@@ -12,6 +12,16 @@
     <ItemGroup>
       <ProjectReference Include="..\SabreTools.RedumpLib\SabreTools.RedumpLib.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="TestData\*" />
+    </ItemGroup>
+  
+    <ItemGroup>
+      <Content Include="TestData\*">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
   
     <ItemGroup>
       <PackageReference Include="Microsoft.CodeCoverage" Version="17.10.0-release-24177-07" />

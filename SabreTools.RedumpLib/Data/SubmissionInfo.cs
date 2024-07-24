@@ -101,16 +101,16 @@ namespace SabreTools.RedumpLib.Data
     public class CommonDiscInfoSection : ICloneable
     {
         // Name not defined by Redump
-        [JsonProperty(PropertyName = "d_system", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_system", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonConverter(typeof(SystemConverter))]
         public RedumpSystem? System { get; set; }
 
         // Name not defined by Redump
-        [JsonProperty(PropertyName = "d_media", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_media", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonConverter(typeof(DiscTypeConverter))]
         public DiscType? Media { get; set; }
 
-        [JsonProperty(PropertyName = "d_title", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_title", DefaultValueHandling = DefaultValueHandling.Include)]
         public string? Title { get; set; }
 
         [JsonProperty(PropertyName = "d_title_foreign", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -122,15 +122,15 @@ namespace SabreTools.RedumpLib.Data
         [JsonProperty(PropertyName = "d_label", NullValueHandling = NullValueHandling.Ignore)]
         public string? DiscTitle { get; set; }
 
-        [JsonProperty(PropertyName = "d_category", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_category", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonConverter(typeof(DiscCategoryConverter))]
         public DiscCategory? Category { get; set; }
 
-        [JsonProperty(PropertyName = "d_region", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_region", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonConverter(typeof(RegionConverter))]
         public Region? Region { get; set; }
 
-        [JsonProperty(PropertyName = "d_languages", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_languages", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonConverter(typeof(LanguageConverter))]
         public Language?[]? Languages { get; set; }
 
@@ -147,7 +147,7 @@ namespace SabreTools.RedumpLib.Data
         [JsonProperty(PropertyName = "d_ring_0_id", NullValueHandling = NullValueHandling.Ignore)]
         public string? RingId { get; private set; }
 
-        [JsonProperty(PropertyName = "d_ring_0_ma1", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_ring_0_ma1", DefaultValueHandling = DefaultValueHandling.Include)]
         public string? Layer0MasteringRing { get; set; }
 
         [JsonProperty(PropertyName = "d_ring_0_ma1_sid", NullValueHandling = NullValueHandling.Ignore)]
@@ -162,7 +162,7 @@ namespace SabreTools.RedumpLib.Data
         [JsonProperty(PropertyName = "d_ring_0_mo1", NullValueHandling = NullValueHandling.Ignore)]
         public string? Layer0AdditionalMould { get; set; }
 
-        [JsonProperty(PropertyName = "d_ring_0_ma2", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_ring_0_ma2", DefaultValueHandling = DefaultValueHandling.Include)]
         public string? Layer1MasteringRing { get; set; }
 
         [JsonProperty(PropertyName = "d_ring_0_ma2_sid", NullValueHandling = NullValueHandling.Ignore)]
@@ -177,7 +177,7 @@ namespace SabreTools.RedumpLib.Data
         [JsonProperty(PropertyName = "d_ring_0_mo2", NullValueHandling = NullValueHandling.Ignore)]
         public string? Layer1AdditionalMould { get; set; }
 
-        [JsonProperty(PropertyName = "d_ring_0_ma3", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_ring_0_ma3", DefaultValueHandling = DefaultValueHandling.Include)]
         public string? Layer2MasteringRing { get; set; }
 
         [JsonProperty(PropertyName = "d_ring_0_ma3_sid", NullValueHandling = NullValueHandling.Ignore)]
@@ -186,7 +186,7 @@ namespace SabreTools.RedumpLib.Data
         [JsonProperty(PropertyName = "d_ring_0_ts3", NullValueHandling = NullValueHandling.Ignore)]
         public string? Layer2ToolstampMasteringCode { get; set; }
 
-        [JsonProperty(PropertyName = "d_ring_0_ma4", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_ring_0_ma4", DefaultValueHandling = DefaultValueHandling.Include)]
         public string? Layer3MasteringRing { get; set; }
 
         [JsonProperty(PropertyName = "d_ring_0_ma4_sid", NullValueHandling = NullValueHandling.Ignore)]
@@ -531,35 +531,35 @@ namespace SabreTools.RedumpLib.Data
     public class DumpingInfoSection : ICloneable
     {
         // Name not defined by Redump -- Only used with MPF
-        [JsonProperty(PropertyName = "d_frontend_version", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_frontend_version", DefaultValueHandling = DefaultValueHandling.Include)]
         public string? FrontendVersion { get; set; }
 
         // Name not defined by Redump
-        [JsonProperty(PropertyName = "d_dumping_program", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_dumping_program", DefaultValueHandling = DefaultValueHandling.Include)]
         public string? DumpingProgram { get; set; }
 
         // Name not defined by Redump
-        [JsonProperty(PropertyName = "d_dumping_date", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_dumping_date", DefaultValueHandling = DefaultValueHandling.Include)]
         public string? DumpingDate { get; set; }
 
         // Name not defined by Redump
-        [JsonProperty(PropertyName = "d_dumping_params", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_dumping_params", DefaultValueHandling = DefaultValueHandling.Include)]
         public string? DumpingParameters { get; set; }
 
         // Name not defined by Redump
-        [JsonProperty(PropertyName = "d_drive_manufacturer", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_drive_manufacturer", DefaultValueHandling = DefaultValueHandling.Include)]
         public string? Manufacturer { get; set; }
 
         // Name not defined by Redump
-        [JsonProperty(PropertyName = "d_drive_model", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_drive_model", DefaultValueHandling = DefaultValueHandling.Include)]
         public string? Model { get; set; }
 
         // Name not defined by Redump
-        [JsonProperty(PropertyName = "d_drive_firmware", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_drive_firmware", DefaultValueHandling = DefaultValueHandling.Include)]
         public string? Firmware { get; set; }
 
         // Name not defined by Redump
-        [JsonProperty(PropertyName = "d_reported_disc_type", Required = Required.AllowNull)]
+        [JsonProperty(PropertyName = "d_reported_disc_type", DefaultValueHandling = DefaultValueHandling.Include)]
         public string? ReportedDiscType { get; set; }
 
         // Name not defined by Redump -- Only used with Redumper
