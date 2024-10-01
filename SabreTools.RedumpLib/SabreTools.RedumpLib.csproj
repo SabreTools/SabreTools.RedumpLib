@@ -26,10 +26,11 @@
   </ItemGroup>
 
   <!-- Support for old .NET versions -->
+  <ItemGroup Condition="$(TargetFramework.StartsWith(`net2`))">
+    <PackageReference Include="Net30.LinqBridge" Version="1.3.0" />
+  </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith(`net2`)) OR $(TargetFramework.StartsWith(`net3`)) OR $(TargetFramework.StartsWith(`net40`))">
     <PackageReference Include="MinAsyncBridge" Version="0.12.4" />
-    <PackageReference Include="MinThreadingBridge" Version="0.11.4" />
-    <PackageReference Include="Net30.LinqBridge" Version="1.3.0" />
   </ItemGroup>
 
   <ItemGroup>
