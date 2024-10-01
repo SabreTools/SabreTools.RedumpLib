@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 
 namespace SabreTools.RedumpLib
@@ -40,8 +39,13 @@ namespace SabreTools.RedumpLib
                 new StringBuilder(256) :
                 new StringBuilder(value.Length);
 
-            sb.Append(valueSpan.Take(index).ToArray());
-            HtmlDecode(valueSpan.Skip(index).ToArray(), ref sb);
+            char[] take = new char[index];
+            Array.Copy(valueSpan, take, index);
+            sb.Append(take);
+
+            char[] skip = new char[valueSpan.Length - index];
+            Array.Copy(valueSpan, index, skip, 0, skip.Length);
+            HtmlDecode(skip, ref sb);
 
             return sb.ToString();
         }
@@ -57,7 +61,8 @@ namespace SabreTools.RedumpLib
                     // We found a '&'. Now look for the next ';' or '&'. The idea is that
                     // if we find another '&' before finding a ';', then this is not an entity,
                     // and the next '&' might start a real entity (VSWhidbey 275184)
-                    char[] inputSlice = input.Skip(i + 1).ToArray();
+                    char[] inputSlice = new char[input.Length - (i + 1)];
+                    Array.Copy(input, i + 1, inputSlice, 0, inputSlice.Length);
 
                     int semicolonPos = Array.IndexOf(inputSlice, ';');
                     int ampersandPos = Array.IndexOf(inputSlice, '&');
@@ -81,9 +86,13 @@ namespace SabreTools.RedumpLib
                             //      &#xE5;  --> same char in hex
                             // See http://www.w3.org/TR/REC-html40/charset.html#entities
 
+                            int offset = inputSlice[1] == 'x' || inputSlice[1] == 'X' ? 2 : 1;
+                            char[] inputSliceNoPrefix = new char[entityLength - offset];
+                            Array.Copy(inputSlice, offset, inputSliceNoPrefix, 0, inputSliceNoPrefix.Length);
+
                             bool parsedSuccessfully = inputSlice[1] == 'x' || inputSlice[1] == 'X'
-                                ? uint.TryParse(new string(inputSlice.Skip(2).Take(entityLength - 2).ToArray()), NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out uint parsedValue)
-                                : uint.TryParse(new string(inputSlice.Skip(1).Take(entityLength - 1).ToArray()), NumberStyles.Integer, CultureInfo.InvariantCulture, out parsedValue);
+                                ? uint.TryParse(new string(inputSliceNoPrefix), NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out uint parsedValue)
+                                : uint.TryParse(new string(inputSliceNoPrefix), NumberStyles.Integer, CultureInfo.InvariantCulture, out parsedValue);
 
                             if (parsedSuccessfully)
                             {
@@ -112,7 +121,8 @@ namespace SabreTools.RedumpLib
                         }
                         else
                         {
-                            char[] entity = inputSlice.Take(entityLength).ToArray();
+                            char[] entity = new char[entityLength];
+                            Array.Copy(inputSlice, entity, entityLength);
                             i = entityEndPosition; // already looked at everything until semicolon
                             char entityChar = HtmlEntities.Lookup(entity);
 
@@ -414,7 +424,10 @@ namespace SabreTools.RedumpLib
                     ulong key = BitConverter.ToUInt64(tableData, 0);
                     char value = (char)BitConverter.ToUInt16(tableData, sizeof(ulong));
                     dictionary[key] = value;
-                    tableData = tableData.Skip((sizeof(ulong) + sizeof(char))).ToArray();
+
+                    byte[] tempTableData = new byte[tableData.Length - (sizeof(ulong) + sizeof(char))];
+                    Array.Copy(tableData, (sizeof(ulong) + sizeof(char)), tempTableData, 0, tempTableData.Length);
+                    tableData = tempTableData;
                 }
                 return dictionary;
             }

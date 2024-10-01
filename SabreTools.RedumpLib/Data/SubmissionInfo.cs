@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+#if NET40_OR_GREATER || NETCOREAPP
 using System.Linq;
+#endif
 using Newtonsoft.Json;
 using SabreTools.RedumpLib.Converters;
 
@@ -73,6 +75,20 @@ namespace SabreTools.RedumpLib.Data
 
         public object Clone()
         {
+#if NET20 || NET35
+            Dictionary<string, string>? artifacts = null;
+            if (this.Artifacts != null)
+            {
+                artifacts = new Dictionary<string, string>();
+                foreach (var kvp in this.Artifacts)
+                {
+                    artifacts[kvp.Key] = kvp.Value;
+                }
+            }
+#else
+            var artifacts = this.Artifacts?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+#endif
+
             return new SubmissionInfo
             {
                 SchemaVersion = this.SchemaVersion,
@@ -90,7 +106,7 @@ namespace SabreTools.RedumpLib.Data
                 TracksAndWriteOffsets = this.TracksAndWriteOffsets?.Clone() as TracksAndWriteOffsetsSection,
                 SizeAndChecksums = this.SizeAndChecksums?.Clone() as SizeAndChecksumsSection,
                 DumpingInfo = this.DumpingInfo?.Clone() as DumpingInfoSection,
-                Artifacts = this.Artifacts?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
+                Artifacts = artifacts,
             };
         }
     }
@@ -233,6 +249,31 @@ namespace SabreTools.RedumpLib.Data
 
         public object Clone()
         {
+#if NET20 || NET35
+            Dictionary<SiteCode, string>? commentsSpecialFields = null;
+            if (this.CommentsSpecialFields != null)
+            {
+                commentsSpecialFields = new Dictionary<SiteCode, string>();
+                foreach (var kvp in this.CommentsSpecialFields)
+                {
+                    commentsSpecialFields[kvp.Key] = kvp.Value;
+                }
+            }
+
+            Dictionary<SiteCode, string>? contentsSpecialFields = null;
+            if (this.ContentsSpecialFields != null)
+            {
+                contentsSpecialFields = new Dictionary<SiteCode, string>();
+                foreach (var kvp in this.ContentsSpecialFields)
+                {
+                    contentsSpecialFields[kvp.Key] = kvp.Value;
+                }
+            }
+#else
+            var commentsSpecialFields = this.CommentsSpecialFields?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            var contentsSpecialFields = this.ContentsSpecialFields?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+#endif
+
             return new CommonDiscInfoSection
             {
                 System = this.System,
@@ -271,9 +312,9 @@ namespace SabreTools.RedumpLib.Data
                 EXEDateBuildDate = this.EXEDateBuildDate,
                 ErrorsCount = this.ErrorsCount,
                 Comments = this.Comments,
-                CommentsSpecialFields = this.CommentsSpecialFields?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
+                CommentsSpecialFields = commentsSpecialFields,
                 Contents = this.Contents,
-                ContentsSpecialFields = this.ContentsSpecialFields?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
+                ContentsSpecialFields = contentsSpecialFields,
             };
         }
     }
@@ -414,13 +455,27 @@ namespace SabreTools.RedumpLib.Data
 
         public object Clone()
         {
+#if NET20 || NET35
+            Dictionary<string, List<string>?>? fullProtections = null;
+            if (this.FullProtections != null)
+            {
+                fullProtections = new Dictionary<string, List<string>?>();
+                foreach (var kvp in this.FullProtections)
+                {
+                    fullProtections[kvp.Key] = kvp.Value;
+                }
+            }
+#else
+            var fullProtections = this.FullProtections?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+#endif
+
             return new CopyProtectionSection
             {
                 AntiModchip = this.AntiModchip,
                 LibCrypt = this.LibCrypt,
                 LibCryptData = this.LibCryptData,
                 Protection = this.Protection,
-                FullProtections = this.FullProtections?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
+                FullProtections = fullProtections,
                 SecuROMData = this.SecuROMData,
             };
         }

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+#if NET40_OR_GREATER || NETCOREAPP
 using System.Linq;
+#endif
 using System.Net;
 #if NETCOREAPP
 using System.Net.Http;
@@ -217,7 +219,11 @@ namespace SabreTools.RedumpLib.Web
 
             // Otherwise, traverse each dump on the page
             var matches = Constants.DiscRegex.Matches(dumpsPage);
+#if NET20 || NET35
+            foreach (Match? match in matches)
+#else
             foreach (Match? match in matches.Cast<Match?>())
+#endif
             {
                 if (match == null)
                     continue;
@@ -269,7 +275,11 @@ namespace SabreTools.RedumpLib.Web
 
             // Otherwise, traverse each dump on the page
             var matches = Constants.DiscRegex.Matches(dumpsPage);
+#if NET20 || NET35
+            foreach (Match? match in matches)
+#else
             foreach (Match? match in matches.Cast<Match?>())
+#endif
             {
                 if (match == null)
                     continue;
@@ -311,7 +321,11 @@ namespace SabreTools.RedumpLib.Web
 
             // Otherwise, traverse each dump on the page
             var matches = Constants.NewDiscRegex.Matches(dumpsPage);
+#if NET20 || NET35
+            foreach (Match? match in matches)
+#else
             foreach (Match? match in matches.Cast<Match?>())
+#endif
             {
                 if (match == null)
                     continue;
@@ -349,7 +363,11 @@ namespace SabreTools.RedumpLib.Web
 
             // Otherwise, traverse each dump on the page
             var matches = Constants.NewDiscRegex.Matches(dumpsPage);
+#if NET20 || NET35
+            foreach (Match? match in matches)
+#else
             foreach (Match? match in matches.Cast<Match?>())
+#endif
             {
                 if (match == null)
                     continue;

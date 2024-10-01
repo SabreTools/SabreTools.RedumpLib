@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+#if NET40_OR_GREATER || NETCOREAPP
 using System.Linq;
+#endif
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -269,22 +271,30 @@ namespace SabreTools.RedumpLib
                 if (title != null && firstParenLocation >= 0)
                 {
                     info.CommonDiscInfo!.Title = title.Substring(0, firstParenLocation);
-                    var subMatches = Constants.DiscNumberLetterRegex.Matches(title);
-                    foreach (Match subMatch in subMatches.Cast<Match>())
+                    var submatches = Constants.DiscNumberLetterRegex.Matches(title);
+#if NET20 || NET35
+                    foreach (Match submatch in submatches)
+#else
+                    foreach (Match submatch in submatches.Cast<Match>())
+#endif
                     {
-                        var subMatchValue = subMatch.Groups[1].Value;
+                        var submatchValue = submatch.Groups[1].Value;
 
                         // Disc number or letter
-                        if (subMatchValue.StartsWith("Disc"))
-                            info.CommonDiscInfo.DiscNumberLetter = subMatchValue.Remove(0, "Disc ".Length);
+                        if (submatchValue.StartsWith("Disc"))
+                            info.CommonDiscInfo.DiscNumberLetter = submatchValue.Remove(0, "Disc ".Length);
 
                         // Issue number
-                        else if (subMatchValue.All(c => char.IsNumber(c)))
-                            info.CommonDiscInfo.Title += $" ({subMatchValue})";
+#if NET20 || NET35
+                        else if (long.TryParse(submatchValue, out _))
+#else
+                        else if (submatchValue.All(c => char.IsNumber(c)))
+#endif
+                            info.CommonDiscInfo.Title += $" ({submatchValue})";
 
                         // Disc title
                         else
-                            info.CommonDiscInfo.DiscTitle = subMatchValue;
+                            info.CommonDiscInfo.DiscTitle = submatchValue;
                     }
                 }
                 // Otherwise, leave the title as-is
@@ -321,12 +331,18 @@ namespace SabreTools.RedumpLib
             if (matches.Count > 0)
             {
                 var tempLanguages = new List<Language?>();
+#if NET20 || NET35
+                foreach (Match submatch in matches)
+#else
                 foreach (Match submatch in matches.Cast<Match>())
+#endif
                 {
-                    tempLanguages.Add(Extensions.ToLanguage(submatch.Groups[1].Value));
+                    var language = Extensions.ToLanguage(submatch.Groups[1].Value);
+                    if (language != null)
+                        tempLanguages.Add(language);
                 }
 
-                info.CommonDiscInfo.Languages = tempLanguages.Where(l => l != null).ToArray();
+                info.CommonDiscInfo.Languages = [.. tempLanguages];
             }
 
             // Serial
@@ -366,7 +382,11 @@ namespace SabreTools.RedumpLib
                         tempDumpers.Add(dumper);
                 }
 
+#if NET20 || NET35
+                foreach (Match submatch in matches)
+#else
                 foreach (Match submatch in matches.Cast<Match>())
+#endif
                 {
                     string? dumper = WebUtility.HtmlDecode(submatch.Groups[1].Value);
                     if (dumper != null)

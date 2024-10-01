@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+#if NET40_OR_GREATER || NETCOREAPP
 using System.Linq;
+#endif
 using SabreTools.RedumpLib.Attributes;
 
 namespace SabreTools.RedumpLib.Data
@@ -923,28 +925,71 @@ namespace SabreTools.RedumpLib.Data
         /// <returns>Language represented by the string, if possible</returns>
         public static Language? ToLanguage(string lang)
         {
-            var languages = Enum.GetValues(typeof(Language)).Cast<Language?>().ToList();
+#if NET20 || NET35
+            var languages = new List<Language?>();
+            foreach (Language l in Enum.GetValues(typeof(Language)))
+            {
+                languages.Add(new Nullable<Language>(l));
+            }
+#else
+            var languages = Enum.GetValues(typeof(Language))
+                .Cast<Language?>()
+                .ToList();
+#endif
 
             // Check ISO 639-1 codes
+#if NET20 || NET35
+            var languageMapping = new Dictionary<string, Language?>();
+            foreach (var l in languages)
+            {
+                if (l.TwoLetterCode() == null)
+                    continue;
+
+                languageMapping[l.TwoLetterCode() ?? string.Empty] = l;
+            }
+#else
             Dictionary<string, Language?> languageMapping = languages
                 .Where(l => l.TwoLetterCode() != null)
                 .ToDictionary(l => l.TwoLetterCode() ?? string.Empty, l => l);
+#endif
 
             if (languageMapping.ContainsKey(lang))
                 return languageMapping[lang];
 
             // Check standard ISO 639-2 codes
+#if NET20 || NET35
+            languageMapping = new Dictionary<string, Language?>();
+            foreach (var l in languages)
+            {
+                if (l.ThreeLetterCode() == null)
+                    continue;
+
+                languageMapping[l.ThreeLetterCode() ?? string.Empty] = l;
+            }
+#else
             languageMapping = languages
                 .Where(l => l.ThreeLetterCode() != null)
                 .ToDictionary(l => l.ThreeLetterCode() ?? string.Empty, l => l);
+#endif
 
             if (languageMapping.ContainsKey(lang))
                 return languageMapping[lang];
 
             // Check alternate ISO 639-2 codes
+#if NET20 || NET35
+            languageMapping = new Dictionary<string, Language?>();
+            foreach (var l in languages)
+            {
+                if (l.ThreeLetterCodeAlt() == null)
+                    continue;
+
+                languageMapping[l.ThreeLetterCodeAlt() ?? string.Empty] = l;
+            }
+#else
             languageMapping = languages
                 .Where(l => l.ThreeLetterCodeAlt() != null)
                 .ToDictionary(l => l.ThreeLetterCodeAlt() ?? string.Empty, l => l);
+#endif
 
             if (languageMapping.ContainsKey(lang))
                 return languageMapping[lang];
@@ -1069,12 +1114,33 @@ namespace SabreTools.RedumpLib.Data
         public static Region? ToRegion(string region)
         {
             region = region.ToLowerInvariant();
-            var regions = Enum.GetValues(typeof(Region)).Cast<Region?>().ToList();
+#if NET20 || NET35
+            var regions = new List<Region?>();
+            foreach (Region r in Enum.GetValues(typeof(Region)))
+            {
+                regions.Add(new Nullable<Region>(r));
+            }
+#else
+            var regions = Enum.GetValues(typeof(Region))
+                .Cast<Region?>()
+                .ToList();
+#endif
 
             // Check ISO 3166-1 alpha-2 codes
+#if NET20 || NET35
+            var regionMapping = new Dictionary<string, Region?>();
+            foreach (var r in regions)
+            {
+                if (r.ShortName() == null)
+                    continue;
+
+                regionMapping[r.ShortName()?.ToLowerInvariant() ?? string.Empty] = r;
+            }
+#else
             Dictionary<string, Region?> regionMapping = regions
                 .Where(r => r.ShortName() != null)
                 .ToDictionary(r => r.ShortName()?.ToLowerInvariant() ?? string.Empty, r => r);
+#endif
 
             if (regionMapping.ContainsKey(region))
                 return regionMapping[region];
@@ -1097,7 +1163,7 @@ namespace SabreTools.RedumpLib.Data
             {
                 string? shortName = ((SiteCode?)val).ShortName()?.TrimEnd(':');
                 string? longName = ((SiteCode?)val).LongName()?.TrimEnd(':');
-                
+
                 bool isCommentCode = ((SiteCode?)val).IsCommentCode();
                 bool isContentCode = ((SiteCode?)val).IsContentCode();
                 bool isMultiline = ((SiteCode?)val).IsMultiLine();
@@ -1385,10 +1451,22 @@ namespace SabreTools.RedumpLib.Data
         {
             var systems = new List<string>();
 
+#if NET20 || NET35
+            var knownSystems = new List<RedumpSystem?>();
+            foreach (RedumpSystem s in Enum.GetValues(typeof(RedumpSystem)))
+            {
+                var ns = new Nullable<RedumpSystem>(s);
+                if (ns != null && !ns.IsMarker() && ns.GetCategory() != SystemCategory.NONE)
+                    knownSystems.Add(ns);
+            }
+
+            knownSystems.Sort((x, y) => (x.LongName() ?? string.Empty).CompareTo(y.LongName() ?? string.Empty));
+#else
             var knownSystems = Enum.GetValues(typeof(RedumpSystem))
                 .OfType<RedumpSystem?>()
                 .Where(s => s != null && !s.IsMarker() && s.GetCategory() != SystemCategory.NONE)
                 .OrderBy(s => s.LongName() ?? string.Empty);
+#endif
 
             foreach (var val in knownSystems)
             {

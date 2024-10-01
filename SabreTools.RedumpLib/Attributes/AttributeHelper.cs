@@ -1,5 +1,7 @@
 using System;
+#if NET40_OR_GREATER || NETCOREAPP
 using System.Linq;
+#endif
 
 namespace SabreTools.RedumpLib.Attributes
 {
@@ -25,24 +27,36 @@ namespace SabreTools.RedumpLib.Attributes
             string? valueStr = value?.ToString();
             if (string.IsNullOrEmpty(valueStr))
                 return null;
-            
+
             // Get the member info array
             var memberInfos = enumType?.GetMember(valueStr);
             if (memberInfos == null)
                 return null;
 
             // Get the enum value info from the array, if possible
+#if NET20 || NET35
+            System.Reflection.MemberInfo? enumValueMemberInfo = null;
+            foreach (var m in memberInfos)
+            {
+                if (m.DeclaringType != enumType)
+                    continue;
+
+                enumValueMemberInfo = m;
+                break;
+            }
+#else
             var enumValueMemberInfo = memberInfos.FirstOrDefault(m => m.DeclaringType == enumType);
+#endif
             if (enumValueMemberInfo == null)
                 return null;
-            
+
             // Try to get the relevant attribute
             var attributes = enumValueMemberInfo.GetCustomAttributes(typeof(HumanReadableAttribute), true);
-            if (attributes == null)
+            if (attributes == null || attributes.Length == 0)
                 return null;
-            
+
             // Return the first attribute, if possible
-            return attributes.FirstOrDefault() as HumanReadableAttribute;
+            return attributes[0] as HumanReadableAttribute;
         }
     }
 }

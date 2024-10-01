@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+#if NET40_OR_GREATER || NETCOREAPP
 using System.Linq;
+#endif
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Web;
@@ -141,11 +143,11 @@ namespace SabreTools.RedumpLib
                 return (false, null, "There was an unknown error retrieving information from Redump");
 
             // If no IDs match, just return
-            if (!newIds.Any())
+            if (newIds.Count == 0)
                 return (false, null, $"There were no matching IDs for track with SHA-1 of '{sha1}'");
 
             // Join the list of found IDs to the existing list, if possible
-            if (info.PartiallyMatchedIDs != null && info.PartiallyMatchedIDs.Any())
+            if (info.PartiallyMatchedIDs != null && info.PartiallyMatchedIDs.Count > 0)
                 info.PartiallyMatchedIDs.AddRange(newIds);
             else
                 info.PartiallyMatchedIDs = newIds;
@@ -182,11 +184,11 @@ namespace SabreTools.RedumpLib
                 return (false, null, "There was an unknown error retrieving information from Redump");
 
             // If no IDs match, just return
-            if (!newIds.Any())
+            if (newIds.Count == 0)
                 return (false, null, $"There were no matching IDs for universal hash of '{universalHash}'");
 
             // Join the list of found IDs to the existing list, if possible
-            if (info.PartiallyMatchedIDs != null && info.PartiallyMatchedIDs.Any())
+            if (info.PartiallyMatchedIDs != null && info.PartiallyMatchedIDs.Count > 0)
                 info.PartiallyMatchedIDs.AddRange(newIds);
             else
                 info.PartiallyMatchedIDs = newIds;
