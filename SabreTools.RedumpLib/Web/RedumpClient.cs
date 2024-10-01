@@ -76,22 +76,22 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Validate supplied credentials
         /// </summary>
-        public async static Task<(bool?, string?)> ValidateCredentials(string username, string password)
+        public async static Task<bool?> ValidateCredentials(string username, string password)
         {
             // If options are invalid or we're missing something key, just return
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-                return (false, null);
+                return false;
 
             // Try logging in with the supplied credentials otherwise
             var redumpClient = new RedumpClient();
 
             bool? loggedIn = await redumpClient.Login(username, password);
             if (loggedIn == true)
-                return (true, "Redump username and password accepted!");
+                return true;
             else if (loggedIn == false)
-                return (false, "Redump username and password denied!");
+                return false;
             else
-                return (null, "An error occurred validating your credentials!");
+                return null;
         }
 
         /// <summary>

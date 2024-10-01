@@ -132,19 +132,19 @@ namespace SabreTools.RedumpLib
         /// <param name="rc">RedumpClient for making the connection</param>
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <param name="sha1">SHA-1 hash to check against</param>
-        /// <returns>True if the track was found, false otherwise; List of found values, if possible</returns>
-        public async static Task<(bool, List<int>?, string?)> ValidateSingleTrack(RedumpClient rc, SubmissionInfo info, string? sha1)
+        /// <returns>List of found values, if possible</returns>
+        public async static Task<List<int>?> ValidateSingleTrack(RedumpClient rc, SubmissionInfo info, string? sha1)
         {
             // Get all matching IDs for the track
             var newIds = await ListSearchResults(rc, sha1);
 
             // If we got null back, there was an error
             if (newIds == null)
-                return (false, null, "There was an unknown error retrieving information from Redump");
+                return null;
 
             // If no IDs match, just return
             if (newIds.Count == 0)
-                return (false, null, $"There were no matching IDs for track with SHA-1 of '{sha1}'");
+                return null;
 
             // Join the list of found IDs to the existing list, if possible
             if (info.PartiallyMatchedIDs != null && info.PartiallyMatchedIDs.Count > 0)
@@ -152,7 +152,7 @@ namespace SabreTools.RedumpLib
             else
                 info.PartiallyMatchedIDs = newIds;
 
-            return (true, newIds, $"There were matching ID(s) found for track with SHA-1 of '{sha1}'");
+            return newIds;
         }
 
         /// <summary>
@@ -161,17 +161,17 @@ namespace SabreTools.RedumpLib
         /// <param name="rc">RedumpClient for making the connection</param>
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <param name="resultProgress">Optional result progress callback</param>
-        /// <returns>True if the track was found, false otherwise; List of found values, if possible</returns>
-        public async static Task<(bool, List<int>?, string?)> ValidateUniversalHash(RedumpClient rc, SubmissionInfo info)
+        /// <returns>List of found values, if possible</returns>
+        public async static Task<List<int>?> ValidateUniversalHash(RedumpClient rc, SubmissionInfo info)
         {
             // If we don't have special fields
             if (info.CommonDiscInfo?.CommentsSpecialFields == null)
-                return (false, null, "Universal hash was missing");
+                return null;
 
             // If we don't have a universal hash
             string? universalHash = info.CommonDiscInfo.CommentsSpecialFields[SiteCode.UniversalHash];
             if (string.IsNullOrEmpty(universalHash))
-                return (false, null, "Universal hash was missing");
+                return null;
 
             // Format the universal hash for finding within the comments
             string universalHashQuery = $"{universalHash.Substring(0, universalHash.Length - 1)}/comments/only";
@@ -181,11 +181,11 @@ namespace SabreTools.RedumpLib
 
             // If we got null back, there was an error
             if (newIds == null)
-                return (false, null, "There was an unknown error retrieving information from Redump");
+                return null;
 
             // If no IDs match, just return
             if (newIds.Count == 0)
-                return (false, null, $"There were no matching IDs for universal hash of '{universalHash}'");
+                return null;
 
             // Join the list of found IDs to the existing list, if possible
             if (info.PartiallyMatchedIDs != null && info.PartiallyMatchedIDs.Count > 0)
@@ -193,7 +193,7 @@ namespace SabreTools.RedumpLib
             else
                 info.PartiallyMatchedIDs = newIds;
 
-            return (true, newIds, $"There were matching ID(s) found for universal hash of '{universalHash}'");
+            return newIds;
         }
 
         /// <summary>

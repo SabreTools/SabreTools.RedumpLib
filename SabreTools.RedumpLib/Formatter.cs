@@ -16,11 +16,14 @@ namespace SabreTools.RedumpLib
         /// <param name="info">Information object that should contain normalized values</param>
         /// <param name="enableRedumpCompatibility">True to enable Redump compatiblity, false otherwise</param>
         /// <returns>List of strings representing each line of an output file, null on error</returns>
-        public static (List<string>?, string?) FormatOutputData(SubmissionInfo? info, bool enableRedumpCompatibility)
+        public static List<string>? FormatOutputData(SubmissionInfo? info, bool enableRedumpCompatibility, out string? status)
         {
             // Check to see if the inputs are valid
             if (info == null)
-                return (null, "Submission information was missing");
+            {
+                status = "Submission information was missing";
+                return null;
+            }
 
             try
             {
@@ -276,11 +279,13 @@ namespace SabreTools.RedumpLib
                     }
                 }
 
-                return (output, "Formatting complete!");
+                status = "Formatting complete!";
+                return output;
             }
             catch (Exception ex)
             {
-                return (null, $"Error formatting submission info: {ex}");
+                status = $"Error formatting submission info: {ex}";
+                return null;
             }
         }
 
