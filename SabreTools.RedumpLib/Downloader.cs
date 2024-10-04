@@ -52,6 +52,11 @@ namespace SabreTools.RedumpLib
         public bool OnlyList { get; set; }
 
         /// <summary>
+        /// Don't replace forward slashes with `-` in queries
+        /// </summary>
+        public bool NoSlash { get; set; }
+
+        /// <summary>
         /// Force continuing downloads until user cancels or pages run out
         /// </summary>
         public bool Force { get; set; }
@@ -131,9 +136,9 @@ namespace SabreTools.RedumpLib
                     break;
                 case Feature.Quicksearch:
                     if (OnlyList)
-                        await Search.ListSearchResults(_client, QueryString);
+                        await Search.ListSearchResults(_client, QueryString, NoSlash);
                     else
-                        await Search.DownloadSearchResults(_client, QueryString, OutDir);
+                        await Search.DownloadSearchResults(_client, QueryString, OutDir, NoSlash);
                     break;
                 default:
                     return false;

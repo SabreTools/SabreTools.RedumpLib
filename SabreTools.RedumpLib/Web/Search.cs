@@ -15,8 +15,9 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="rc">RedumpClient for connectivity</param>
         /// <param name="query">Query string to attempt to search for</param>
+        /// <param name="noSlash">Don't replace slashes with `-` in queries</param>
         /// <returns>All disc IDs for the given query, null on error</returns>
-        public static async Task<List<int>?> ListSearchResults(RedumpClient rc, string? query)
+        public static async Task<List<int>?> ListSearchResults(RedumpClient rc, string? query, bool noSlash)
         {
             // If the query is invalid
             if (string.IsNullOrEmpty(query))
@@ -29,8 +30,9 @@ namespace SabreTools.RedumpLib.Web
 
             // Special characters become dashes
             query = query.Replace(' ', '-');
-            query = query.Replace('/', '-');
-            query = query.Replace('\\', '/');
+            query = query.Replace('\\', '-');
+            if (!noSlash)
+                query = query.Replace('/', '-');
 
             // Lowercase is defined per language
             query = query.ToLowerInvariant();
@@ -62,7 +64,8 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="rc">RedumpClient for connectivity</param>
         /// <param name="query">Query string to attempt to search for</param>
         /// <param name="outDir">Output directory to save data to</param>
-        public static async Task<bool> DownloadSearchResults(RedumpClient rc, string? query, string? outDir)
+        /// <param name="noSlash">Don't replace slashes with `-` in queries</param>
+        public static async Task<bool> DownloadSearchResults(RedumpClient rc, string? query, string? outDir, bool noSlash)
         {
             // If the query is invalid
             if (string.IsNullOrEmpty(query))
@@ -73,8 +76,9 @@ namespace SabreTools.RedumpLib.Web
 
             // Special characters become dashes
             query = query.Replace(' ', '-');
-            query = query.Replace('/', '-');
-            query = query.Replace('\\', '/');
+            query = query.Replace('\\', '-');
+            if (!noSlash)
+                query = query.Replace('/', '-');
 
             // Lowercase is defined per language
             query = query.ToLowerInvariant();
