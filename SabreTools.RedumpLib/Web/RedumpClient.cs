@@ -249,15 +249,17 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="url">Base URL to download using</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="failOnSingle">True to return on first error, false otherwise</param>
-        /// <returns>True if the page could be downloaded, false otherwise</returns>
-        public async Task<bool> CheckSingleSitePage(string url, string? outDir, bool failOnSingle)
+        /// <returns>List of IDs that were found on success, empty on error</returns>
+        public async Task<List<int>> CheckSingleSitePage(string url, string? outDir, bool failOnSingle)
         {
+            List<int> ids = [];
+
             // Try to retrieve the data
             string? dumpsPage = await DownloadStringWithRetries(url);
 
             // If we have no dumps left
             if (dumpsPage == null || dumpsPage.Contains("No discs found."))
-                return false;
+                return ids;
 
             // If we have a single disc page already
             if (dumpsPage.Contains("<b>Download:</b>"))
@@ -265,12 +267,13 @@ namespace SabreTools.RedumpLib.Web
                 var value = Regex.Match(dumpsPage, @"/disc/(\d+)/sfv/").Groups[1].Value;
                 if (int.TryParse(value, out int id))
                 {
+                    ids.Add(id);
                     bool downloaded = await DownloadSingleSiteID(id, outDir, false);
                     if (!downloaded && failOnSingle)
-                        return false;
+                        return ids;
                 }
 
-                return false;
+                return ids;
             }
 
             // Otherwise, traverse each dump on the page
@@ -288,9 +291,10 @@ namespace SabreTools.RedumpLib.Web
                 {
                     if (int.TryParse(match.Groups[1].Value, out int value))
                     {
+                        ids.Add(value);
                         bool downloaded = await DownloadSingleSiteID(value, outDir, false);
                         if (!downloaded && failOnSingle)
-                            return false;
+                            return ids;
                     }
                 }
                 catch (Exception ex)
@@ -300,7 +304,7 @@ namespace SabreTools.RedumpLib.Web
                 }
             }
 
-            return true;
+            return ids;
         }
 
         /// <summary>
@@ -351,15 +355,17 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="wc">RedumpWebClient to access the packs</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="failOnSingle">True to return on first error, false otherwise</param>
-        /// <returns>True if the page could be downloaded, false otherwise</returns>
-        public async Task<bool> CheckSingleWIPPage(string url, string? outDir, bool failOnSingle)
+        /// <returns>List of IDs that were found on success, empty on error</returns>
+        public async Task<List<int>> CheckSingleWIPPage(string url, string? outDir, bool failOnSingle)
         {
+            List<int> ids = [];
+
             // Try to retrieve the data
             string? dumpsPage = await DownloadStringWithRetries(url);
 
             // If we have no dumps left
             if (dumpsPage == null || dumpsPage.Contains("No discs found."))
-                return false;
+                return ids;
 
             // Otherwise, traverse each dump on the page
             var matches = Constants.NewDiscRegex.Matches(dumpsPage);
@@ -376,9 +382,10 @@ namespace SabreTools.RedumpLib.Web
                 {
                     if (int.TryParse(match.Groups[2].Value, out int value))
                     {
+                        ids.Add(value);
                         bool downloaded = await DownloadSingleWIPID(value, outDir, false);
                         if (!downloaded && failOnSingle)
-                            return false;
+                            return ids;
                     }
                 }
                 catch (Exception ex)
@@ -388,7 +395,7 @@ namespace SabreTools.RedumpLib.Web
                 }
             }
 
-            return true;
+            return ids;
         }
 
         #endregion

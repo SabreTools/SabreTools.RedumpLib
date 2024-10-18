@@ -16,12 +16,12 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="rc">RedumpClient for connectivity</param>
         /// <param name="query">Query string to attempt to search for</param>
         /// <param name="noSlash">Don't replace slashes with `-` in queries</param>
-        /// <returns>All disc IDs for the given query, null on error</returns>
-        public static async Task<List<int>?> ListSearchResults(RedumpClient rc, string? query, bool noSlash)
+        /// <returns>All disc IDs for the given query, empty on error</returns>
+        public static async Task<List<int>> ListSearchResults(RedumpClient rc, string? query, bool noSlash)
         {
             // If the query is invalid
             if (string.IsNullOrEmpty(query))
-                return null;
+                return [];
 
             List<int> ids = [];
 
@@ -52,7 +52,7 @@ namespace SabreTools.RedumpLib.Web
             catch (Exception ex)
             {
                 Console.WriteLine($"An exception occurred while trying to log in: {ex}");
-                return null;
+                return [];
             }
 
             return ids;
@@ -65,11 +65,14 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="query">Query string to attempt to search for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="noSlash">Don't replace slashes with `-` in queries</param>
-        public static async Task<bool> DownloadSearchResults(RedumpClient rc, string? query, string? outDir, bool noSlash)
+        /// <returns>All disc IDs for the given query, empty on error</returns>
+        public static async Task<List<int>> DownloadSearchResults(RedumpClient rc, string? query, string? outDir, bool noSlash)
         {
+            List<int> ids = [];
+
             // If the query is invalid
             if (string.IsNullOrEmpty(query))
-                return false;
+                return ids;
 
             // Strip quotes
             query = query!.Trim('"', '\'');
@@ -87,11 +90,13 @@ namespace SabreTools.RedumpLib.Web
             int pageNumber = 1;
             while (true)
             {
-                if (!await rc.CheckSingleSitePage(string.Format(Constants.QuickSearchUrl, query, pageNumber++), outDir, false))
+                var pageIds = await rc.CheckSingleSitePage(string.Format(Constants.QuickSearchUrl, query, pageNumber++), outDir, false);
+                ids.AddRange(pageIds);
+                if (pageIds.Count == 0)
                     break;
             }
 
-            return true;
+            return ids;
         }
     }
 }

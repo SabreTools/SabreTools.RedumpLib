@@ -16,23 +16,28 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="rc">RedumpClient for connectivity</param>
         /// <param name="username">Username to check discs for</param>
         /// <param name="outDir">Output directory to save data to</param>
-        public static async Task<bool> DownloadUser(RedumpClient rc, string? username, string? outDir)
+        /// <returns>All disc IDs for the given user, empty on error</returns>
+        public static async Task<List<int>> DownloadUser(RedumpClient rc, string? username, string? outDir)
         {
+            List<int> ids = [];
+
             if (!rc.LoggedIn || string.IsNullOrEmpty(username))
             {
                 Console.WriteLine("User download functionality is only available to Redump members");
-                return false;
+                return ids;
             }
 
             // Keep getting user pages until there are none left
             int pageNumber = 1;
             while (true)
             {
-                if (!await rc.CheckSingleSitePage(string.Format(Constants.UserDumpsUrl, username, pageNumber++), outDir, false))
+                var pageIds = await rc.CheckSingleSitePage(string.Format(Constants.UserDumpsUrl, username, pageNumber++), outDir, false);
+                ids.AddRange(pageIds);
+                if (pageIds.Count == 0)
                     break;
             }
 
-            return true;
+            return ids;
         }
 
         /// <summary>
@@ -41,23 +46,28 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="rc">RedumpClient for connectivity</param>
         /// <param name="username">Username to check discs for</param>
         /// <param name="outDir">Output directory to save data to</param>
-        public static async Task<bool> DownloadUserLastModified(RedumpClient rc, string? username, string? outDir)
+        /// <returns>All disc IDs for the given user, empty on error</returns>
+        public static async Task<List<int>> DownloadUserLastModified(RedumpClient rc, string? username, string? outDir)
         {
+            List<int> ids = [];
+
             if (!rc.LoggedIn || string.IsNullOrEmpty(username))
             {
                 Console.WriteLine("User download functionality is only available to Redump members");
-                return false;
+                return ids;
             }
 
             // Keep getting last modified user pages until there are none left
             int pageNumber = 1;
             while (true)
             {
-                if (!await rc.CheckSingleSitePage(string.Format(Constants.UserDumpsLastModifiedUrl, username, pageNumber++), outDir, true))
+                var pageIds = await rc.CheckSingleSitePage(string.Format(Constants.UserDumpsLastModifiedUrl, username, pageNumber++), outDir, true);
+                ids.AddRange(pageIds);
+                if (pageIds.Count == 0)
                     break;
             }
 
-            return true;
+            return ids;
         }
     
         /// <summary>
@@ -65,8 +75,8 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="rc">RedumpClient for connectivity</param>
         /// <param name="username">Username to check discs for</param>
-        /// <returns>All disc IDs for the given user, null on error</returns>
-        public static async Task<List<int>?> ListUser(RedumpClient rc, string? username)
+        /// <returns>All disc IDs for the given user, empty on error</returns>
+        public static async Task<List<int>> ListUser(RedumpClient rc, string? username)
         {
             List<int> ids = [];
 
@@ -82,7 +92,7 @@ namespace SabreTools.RedumpLib.Web
                 int pageNumber = 1;
                 while (true)
                 {
-                    List<int> pageIds = await rc.CheckSingleSitePage(string.Format(Constants.UserDumpsUrl, username, pageNumber++));
+                    var pageIds = await rc.CheckSingleSitePage(string.Format(Constants.UserDumpsUrl, username, pageNumber++));
                     ids.AddRange(pageIds);
                     if (pageIds.Count <= 1)
                         break;
@@ -91,7 +101,7 @@ namespace SabreTools.RedumpLib.Web
             catch (Exception ex)
             {
                 Console.WriteLine($"An exception occurred while trying to log in: {ex}");
-                return null;
+                return [];
             }
 
             return ids;

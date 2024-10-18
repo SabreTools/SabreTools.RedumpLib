@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Web;
 
@@ -102,49 +103,85 @@ namespace SabreTools.RedumpLib
         /// <summary>
         /// Run the downloads that should go
         /// </summary>
-        /// <returns>True if there was a valid download type, false otherwise</returns>
-        public async Task<bool> Download()
+        /// <returns>List of IDs that were processed on success, empty on error</returns>
+        /// <remarks>Packs will never return anything other than empty</remarks>
+        public async Task<List<int>> Download()
         {
             // Login to Redump, if possible
             if (!_client.LoggedIn)
                 await _client.Login(Username ?? string.Empty, Password ?? string.Empty);
 
+            // Create output list
+            List<int> processedIds = [];
+
             switch (Feature)
             {
-                case Feature.Site:
-                    if (OnlyNew)
-                        await Discs.DownloadLastModified(_client, OutDir, Force);
-                    else
-                        await Discs.DownloadSiteRange(_client, OutDir, MinimumId, MaximumId);
-                    break;
-                case Feature.WIP:
-                    if (OnlyNew)
-                        await WIP.DownloadLastSubmitted(_client, OutDir);
-                    else
-                        await WIP.DownloadWIPRange(_client, OutDir, MinimumId, MaximumId);
-                    break;
                 case Feature.Packs:
                     await Packs.DownloadPacks(_client, OutDir, UseSubfolders);
                     break;
-                case Feature.User:
-                    if (OnlyList)
-                        await User.ListUser(_client, Username);
-                    else if (OnlyNew)
-                        await User.DownloadUserLastModified(_client, Username, OutDir);
-                    else
-                        await User.DownloadUser(_client, Username, OutDir);
-                    break;
                 case Feature.Quicksearch:
-                    if (OnlyList)
-                        await Search.ListSearchResults(_client, QueryString, NoSlash);
-                    else
-                        await Search.DownloadSearchResults(_client, QueryString, OutDir, NoSlash);
+                    processedIds = await ProcessQuicksearch();
+                    break;
+                case Feature.Site:
+                    processedIds = await ProcessSite();
+                    break;
+                case Feature.User:
+                    processedIds = await ProcessUser();
+                    break;
+                case Feature.WIP:
+                    processedIds = await ProcessWIP();
                     break;
                 default:
-                    return false;
+                    return [];
             }
 
-            return true;
+            return processedIds;
+        }
+
+        /// <summary>
+        /// Process the Quicksearch feature
+        /// </summary>
+        private async Task<List<int>> ProcessQuicksearch()
+        {
+            if (OnlyList)
+                return await Search.ListSearchResults(_client, QueryString, NoSlash);
+            else
+                return await Search.DownloadSearchResults(_client, QueryString, OutDir, NoSlash);
+        }
+
+        /// <summary>
+        /// Process the Site feature
+        /// </summary>
+        private async Task<List<int>> ProcessSite()
+        {
+            if (OnlyNew)
+                return await Discs.DownloadLastModified(_client, OutDir, Force);
+            else
+                return await Discs.DownloadSiteRange(_client, OutDir, MinimumId, MaximumId);
+        }
+
+        /// <summary>
+        /// Process the User feature
+        /// </summary>
+        private async Task<List<int>> ProcessUser()
+        {
+            if (OnlyList)
+                return await User.ListUser(_client, Username);
+            else if (OnlyNew)
+                return await User.DownloadUserLastModified(_client, Username, OutDir);
+            else
+                return await User.DownloadUser(_client, Username, OutDir);
+        }
+
+        /// <summary>
+        /// Process the WIP feature
+        /// </summary>
+        private async Task<List<int>> ProcessWIP()
+        {
+            if (OnlyNew)
+                return await WIP.DownloadLastSubmitted(_client, OutDir);
+            else
+                return await WIP.DownloadWIPRange(_client, OutDir, MinimumId, MaximumId);
         }
     }
 }
