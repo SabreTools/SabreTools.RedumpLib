@@ -308,15 +308,13 @@ namespace SabreTools.RedumpLib
             match = Constants.ForeignTitleRegex.Match(discData);
             if (match.Success)
                 info.CommonDiscInfo!.ForeignTitleNonLatin = WebUtility.HtmlDecode(match.Groups[1].Value);
-            else
-                info.CommonDiscInfo!.ForeignTitleNonLatin = null;
 
             // Category
             match = Constants.CategoryRegex.Match(discData);
             if (match.Success)
-                info.CommonDiscInfo.Category = Extensions.ToDiscCategory(match.Groups[1].Value);
+                info.CommonDiscInfo!.Category = Extensions.ToDiscCategory(match.Groups[1].Value);
             else
-                info.CommonDiscInfo.Category = DiscCategory.Games;
+                info.CommonDiscInfo!.Category = DiscCategory.Games;
 
             // Region
             if (info.CommonDiscInfo.Region == null)
