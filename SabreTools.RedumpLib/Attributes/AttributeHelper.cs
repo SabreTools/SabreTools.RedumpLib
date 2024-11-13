@@ -1,7 +1,4 @@
 using System;
-#if NET40_OR_GREATER || NETCOREAPP
-using System.Linq;
-#endif
 
 namespace SabreTools.RedumpLib.Attributes
 {
@@ -34,19 +31,7 @@ namespace SabreTools.RedumpLib.Attributes
                 return null;
 
             // Get the enum value info from the array, if possible
-#if NET20 || NET35
-            System.Reflection.MemberInfo? enumValueMemberInfo = null;
-            foreach (var m in memberInfos)
-            {
-                if (m.DeclaringType != enumType)
-                    continue;
-
-                enumValueMemberInfo = m;
-                break;
-            }
-#else
-            var enumValueMemberInfo = memberInfos.FirstOrDefault(m => m.DeclaringType == enumType);
-#endif
+            var enumValueMemberInfo = Array.Find(memberInfos, m => m.DeclaringType == enumType);
             if (enumValueMemberInfo == null)
                 return null;
 

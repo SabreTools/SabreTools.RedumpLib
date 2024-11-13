@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-#if NET40_OR_GREATER || NETCOREAPP
-using System.Linq;
-#endif
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Web;

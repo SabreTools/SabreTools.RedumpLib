@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-#if NET40_OR_GREATER || NETCOREAPP
-using System.Linq;
-#endif
 using System.Text.RegularExpressions;
 using SabreTools.RedumpLib.Data;
 
@@ -60,28 +57,10 @@ namespace SabreTools.RedumpLib
                 AddIfExists(output, Template.FullyMatchingIDField, info.FullyMatchedID?.ToString(), 1);
                 AddIfExists(output, Template.PartiallyMatchingIDsField, info.PartiallyMatchedIDs, 1);
                 AddIfExists(output, Template.RegionField, info.CommonDiscInfo?.Region.LongName() ?? "SPACE! (CHANGE THIS)", 1);
-#if NET20 || NET35
-                var languages = info.CommonDiscInfo?.Languages ?? [null];
-                var languageStrings = new List<string>();
-                foreach (var l in languages)
-                {
-                    languageStrings.Add(l.LongName() ?? "SILENCE! (CHANGE THIS)");
-                }
-
-                AddIfExists(output, Template.LanguagesField, languageStrings.ToArray(), 1);
-
-                var langaugeSelections = info.CommonDiscInfo?.LanguageSelection ?? [];
-                var languageSelectionStrings = new List<string?>();
-                foreach (var l in langaugeSelections)
-                {
-                    languageSelectionStrings.Add(l.LongName());
-                }
-
-                AddIfExists(output, Template.PlaystationLanguageSelectionViaField, languageSelectionStrings.ToArray(), 1);
-#else
-                AddIfExists(output, Template.LanguagesField, (info.CommonDiscInfo?.Languages ?? [null]).Select(l => l.LongName() ?? "SILENCE! (CHANGE THIS)").ToArray(), 1);
-                AddIfExists(output, Template.PlaystationLanguageSelectionViaField, (info.CommonDiscInfo?.LanguageSelection ?? []).Select(l => l.LongName()).ToArray(), 1);
-#endif
+                AddIfExists(output, Template.LanguagesField,
+                    Array.ConvertAll(info.CommonDiscInfo?.Languages ?? [null], l => l.LongName() ?? "SILENCE! (CHANGE THIS)"), 1);
+                AddIfExists(output, Template.PlaystationLanguageSelectionViaField,
+                    Array.ConvertAll(info.CommonDiscInfo?.LanguageSelection ?? [], l => l.LongName()), 1);
                 AddIfExists(output, Template.DiscSerialField, info.CommonDiscInfo?.Serial, 1);
 
                 // All ringcode information goes in an indented area
@@ -307,32 +286,13 @@ namespace SabreTools.RedumpLib
                     info.CommonDiscInfo.Comments = string.Empty;
 
                 // Add all special fields before any comments
-#if NET20 || NET35
-                var orderedCommentTags = OrderCommentTags(info.CommonDiscInfo.CommentsSpecialFields);
-                var commentTagStrings = new List<string>();
-                foreach (var kvp in orderedCommentTags)
-                {
-                    if (string.IsNullOrEmpty(kvp.Value))
-                        continue;
-
-                    string? formatted = FormatSiteTag(kvp);
-                    if (formatted == null)
-                        continue;
-
-                    commentTagStrings.Add(formatted);
-                }
-
-                info.CommonDiscInfo.Comments = string.Join("\n", commentTagStrings.ToArray())
-                    + "\n" + info.CommonDiscInfo.Comments;
-#else
                 info.CommonDiscInfo.Comments = string.Join(
                     "\n", OrderCommentTags(info.CommonDiscInfo.CommentsSpecialFields)
-                        .Where(kvp => !string.IsNullOrEmpty(kvp.Value))
-                        .Select(FormatSiteTag)
-                        .Where(s => !string.IsNullOrEmpty(s))
+                        .FindAll(kvp => !string.IsNullOrEmpty(kvp.Value))
+                        .ConvertAll(FormatSiteTag)
+                        .FindAll(s => !string.IsNullOrEmpty(s))
                         .ToArray()
                 ) + "\n" + info.CommonDiscInfo.Comments;
-#endif
 
                 // Normalize newlines
                 info.CommonDiscInfo.Comments = info.CommonDiscInfo.Comments.Replace("\r\n", "\n");
@@ -352,32 +312,13 @@ namespace SabreTools.RedumpLib
                     info.CommonDiscInfo.Contents = string.Empty;
 
                 // Add all special fields before any contents
-#if NET20 || NET35
-                var orderedContentTags = OrderContentTags(info.CommonDiscInfo.ContentsSpecialFields);
-                var contentTagStrings = new List<string>();
-                foreach (var kvp in orderedContentTags)
-                {
-                    if (string.IsNullOrEmpty(kvp.Value))
-                        continue;
-
-                    string? formatted = FormatSiteTag(kvp);
-                    if (formatted == null)
-                        continue;
-
-                    contentTagStrings.Add(formatted);
-                }
-
-                info.CommonDiscInfo.Contents = string.Join("\n", contentTagStrings.ToArray())
-                    + "\n" + info.CommonDiscInfo.Contents;
-#else
                 info.CommonDiscInfo.Contents = string.Join(
                     "\n", OrderContentTags(info.CommonDiscInfo.ContentsSpecialFields)
-                        .Where(kvp => !string.IsNullOrEmpty(kvp.Value))
-                        .Select(FormatSiteTag)
-                        .Where(s => !string.IsNullOrEmpty(s))
+                        .FindAll(kvp => !string.IsNullOrEmpty(kvp.Value))
+                        .ConvertAll(FormatSiteTag)
+                        .FindAll(s => !string.IsNullOrEmpty(s))
                         .ToArray()
                 ) + "\n" + info.CommonDiscInfo.Contents;
-#endif
 
                 // Normalize newlines
                 info.CommonDiscInfo.Contents = info.CommonDiscInfo.Contents.Replace("\r\n", "\n");
@@ -425,11 +366,7 @@ namespace SabreTools.RedumpLib
 
             // If the value contains a newline
             value = value.Replace("\r\n", "\n");
-#if NET20 || NET35
             if (value.Contains("\n"))
-#else
-            if (value.Contains('\n'))
-#endif
             {
                 output.Add(prefix + key + ":"); output.Add("");
                 string[] values = value.Split('\n');
@@ -495,17 +432,7 @@ namespace SabreTools.RedumpLib
             if (value == null || value.Count == 0)
                 return;
 
-#if NET20 || NET35
-            var valueStrings = new List<string>();
-            foreach (int o in value)
-            {
-                valueStrings.Add(o.ToString());
-            }
-
-            AddIfExists(output, key, string.Join(", ", valueStrings.ToArray()), indent);
-#else
-            AddIfExists(output, key, string.Join(", ", value.Select(o => o.ToString()).ToArray()), indent);
-#endif
+            AddIfExists(output, key, string.Join(", ", [.. value.ConvertAll(o => o.ToString())]), indent);
         }
 
         /// <summary>

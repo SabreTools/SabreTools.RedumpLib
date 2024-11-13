@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 #if NET40_OR_GREATER || NETCOREAPP
-using System.Linq;
 using System.Net;
 #endif
 using System.Text;
@@ -272,12 +271,11 @@ namespace SabreTools.RedumpLib
                 {
                     info.CommonDiscInfo!.Title = title.Substring(0, firstParenLocation);
                     var submatches = Constants.DiscNumberLetterRegex.Matches(title);
-#if NET20 || NET35
-                    foreach (Match submatch in submatches)
-#else
-                    foreach (Match submatch in submatches.Cast<Match>())
-#endif
+                    foreach (Match? submatch in submatches)
                     {
+                        if (submatch == null)
+                            continue;
+
                         var submatchValue = submatch.Groups[1].Value;
 
                         // Disc number or letter
@@ -285,11 +283,7 @@ namespace SabreTools.RedumpLib
                             info.CommonDiscInfo.DiscNumberLetter = submatchValue.Remove(0, "Disc ".Length);
 
                         // Issue number
-#if NET20 || NET35
-                        else if (long.TryParse(submatchValue, out _))
-#else
-                        else if (submatchValue.All(c => char.IsNumber(c)))
-#endif
+                        else if (ulong.TryParse(submatchValue, out _))
                             info.CommonDiscInfo.Title += $" ({submatchValue})";
 
                         // Disc title
@@ -329,12 +323,11 @@ namespace SabreTools.RedumpLib
             if (matches.Count > 0)
             {
                 var tempLanguages = new List<Language?>();
-#if NET20 || NET35
-                foreach (Match submatch in matches)
-#else
-                foreach (Match submatch in matches.Cast<Match>())
-#endif
+                foreach (Match? submatch in matches)
                 {
+                    if (submatch == null)
+                        continue;
+
                     var language = Extensions.ToLanguage(submatch.Groups[1].Value);
                     if (language != null)
                         tempLanguages.Add(language);
@@ -380,12 +373,11 @@ namespace SabreTools.RedumpLib
                         tempDumpers.Add(dumper);
                 }
 
-#if NET20 || NET35
-                foreach (Match submatch in matches)
-#else
-                foreach (Match submatch in matches.Cast<Match>())
-#endif
+                foreach (Match? submatch in matches)
                 {
+                    if (submatch == null)
+                        continue;
+
                     string? dumper = WebUtility.HtmlDecode(submatch.Groups[1].Value);
                     if (dumper != null)
                         tempDumpers.Add(dumper);

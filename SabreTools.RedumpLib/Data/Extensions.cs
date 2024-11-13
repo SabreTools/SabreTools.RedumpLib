@@ -793,7 +793,8 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-        public static string? LongName(this DiscCategory? category) => AttributeHelper<DiscCategory?>.GetAttribute(category)?.LongName;
+        public static string? LongName(this DiscCategory? category)
+            => AttributeHelper<DiscCategory?>.GetAttribute(category)?.LongName;
 
         /// <summary>
         /// Get the Category enum value for a given string
@@ -830,7 +831,8 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="discType"></param>
         /// <returns></returns>
-        public static string? LongName(this DiscType? discType) => AttributeHelper<DiscType?>.GetAttribute(discType)?.LongName;
+        public static string? LongName(this DiscType? discType)
+            => AttributeHelper<DiscType?>.GetAttribute(discType)?.LongName;
 
         /// <summary>
         /// Get the DiscType enum value for a given string
@@ -896,7 +898,8 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="language"></param>
         /// <returns></returns>
-        public static string? LongName(this Language? language) => AttributeHelper<Language?>.GetAttribute(language)?.LongName;
+        public static string? LongName(this Language? language)
+            => AttributeHelper<Language?>.GetAttribute(language)?.LongName;
 
         /// <summary>
         /// Get the Redump shortnames for each known language
@@ -925,17 +928,7 @@ namespace SabreTools.RedumpLib.Data
         /// <returns>Language represented by the string, if possible</returns>
         public static Language? ToLanguage(string lang)
         {
-#if NET20 || NET35
-            var languages = new List<Language?>();
-            foreach (Language l in Enum.GetValues(typeof(Language)))
-            {
-                languages.Add(new Nullable<Language>(l));
-            }
-#else
-            var languages = Enum.GetValues(typeof(Language))
-                .Cast<Language?>()
-                .ToList();
-#endif
+            var languages = (Language?[])Enum.GetValues(typeof(Language));
 
             // Check ISO 639-1 codes
 #if NET20 || NET35
@@ -948,8 +941,7 @@ namespace SabreTools.RedumpLib.Data
                 languageMapping[l.TwoLetterCode() ?? string.Empty] = l;
             }
 #else
-            Dictionary<string, Language?> languageMapping = languages
-                .Where(l => l.TwoLetterCode() != null)
+            Dictionary<string, Language?> languageMapping = Array.FindAll(languages, l => l.TwoLetterCode() != null)
                 .ToDictionary(l => l.TwoLetterCode() ?? string.Empty, l => l);
 #endif
 
@@ -967,8 +959,7 @@ namespace SabreTools.RedumpLib.Data
                 languageMapping[l.ThreeLetterCode() ?? string.Empty] = l;
             }
 #else
-            languageMapping = languages
-                .Where(l => l.ThreeLetterCode() != null)
+            languageMapping = Array.FindAll(languages, l => l.ThreeLetterCode() != null)
                 .ToDictionary(l => l.ThreeLetterCode() ?? string.Empty, l => l);
 #endif
 
@@ -986,8 +977,7 @@ namespace SabreTools.RedumpLib.Data
                 languageMapping[l.ThreeLetterCodeAlt() ?? string.Empty] = l;
             }
 #else
-            languageMapping = languages
-                .Where(l => l.ThreeLetterCodeAlt() != null)
+            languageMapping = Array.FindAll(languages, l => l.ThreeLetterCodeAlt() != null)
                 .ToDictionary(l => l.ThreeLetterCodeAlt() ?? string.Empty, l => l);
 #endif
 
@@ -1002,21 +992,24 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="language"></param>
         /// <returns></returns>
-        public static string? ThreeLetterCode(this Language? language) => (AttributeHelper<Language?>.GetAttribute(language) as LanguageAttribute)?.ThreeLetterCode;
+        public static string? ThreeLetterCode(this Language? language)
+            => (AttributeHelper<Language?>.GetAttribute(language) as LanguageAttribute)?.ThreeLetterCode;
 
         /// <summary>
         /// Get the ISO 639-2 alternate code for each known language
         /// </summary>
         /// <param name="language"></param>
         /// <returns></returns>
-        public static string? ThreeLetterCodeAlt(this Language? language) => (AttributeHelper<Language?>.GetAttribute(language) as LanguageAttribute)?.ThreeLetterCodeAlt;
+        public static string? ThreeLetterCodeAlt(this Language? language)
+            => (AttributeHelper<Language?>.GetAttribute(language) as LanguageAttribute)?.ThreeLetterCodeAlt;
 
         /// <summary>
         /// Get the ISO 639-1 code for each known language
         /// </summary>
         /// <param name="language"></param>
         /// <returns></returns>
-        public static string? TwoLetterCode(this Language? language) => (AttributeHelper<Language?>.GetAttribute(language) as LanguageAttribute)?.TwoLetterCode;
+        public static string? TwoLetterCode(this Language? language)
+            => (AttributeHelper<Language?>.GetAttribute(language) as LanguageAttribute)?.TwoLetterCode;
 
         #endregion
 
@@ -1114,17 +1107,7 @@ namespace SabreTools.RedumpLib.Data
         public static Region? ToRegion(string region)
         {
             region = region.ToLowerInvariant();
-#if NET20 || NET35
-            var regions = new List<Region?>();
-            foreach (Region r in Enum.GetValues(typeof(Region)))
-            {
-                regions.Add(new Nullable<Region>(r));
-            }
-#else
-            var regions = Enum.GetValues(typeof(Region))
-                .Cast<Region?>()
-                .ToList();
-#endif
+            var regions = (Region?[])Enum.GetValues(typeof(Region));
 
             // Check ISO 3166-1 alpha-2 codes
 #if NET20 || NET35
@@ -1137,8 +1120,7 @@ namespace SabreTools.RedumpLib.Data
                 regionMapping[r.ShortName()?.ToLowerInvariant() ?? string.Empty] = r;
             }
 #else
-            Dictionary<string, Region?> regionMapping = regions
-                .Where(r => r.ShortName() != null)
+            Dictionary<string, Region?> regionMapping = Array.FindAll(regions, r => r.ShortName() != null)
                 .ToDictionary(r => r.ShortName()?.ToLowerInvariant() ?? string.Empty, r => r);
 #endif
 
@@ -1449,31 +1431,10 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         public static List<string> ListSystems()
         {
-            var systems = new List<string>();
-
-#if NET20 || NET35
-            var knownSystems = new List<RedumpSystem?>();
-            foreach (RedumpSystem s in Enum.GetValues(typeof(RedumpSystem)))
-            {
-                var ns = new Nullable<RedumpSystem>(s);
-                if (ns != null && !ns.IsMarker() && ns.GetCategory() != SystemCategory.NONE)
-                    knownSystems.Add(ns);
-            }
-
-            knownSystems.Sort((x, y) => (x.LongName() ?? string.Empty).CompareTo(y.LongName() ?? string.Empty));
-#else
-            var knownSystems = Enum.GetValues(typeof(RedumpSystem))
-                .OfType<RedumpSystem?>()
-                .Where(s => s != null && !s.IsMarker() && s.GetCategory() != SystemCategory.NONE)
-                .OrderBy(s => s.LongName() ?? string.Empty);
-#endif
-
-            foreach (var val in knownSystems)
-            {
-                systems.Add($"{val.ShortName()} - {val.LongName()}");
-            }
-
-            return systems;
+            var systems = (RedumpSystem?[])Enum.GetValues(typeof(RedumpSystem));
+            var knownSystems = Array.FindAll(systems, s => s != null && !s.IsMarker() && s.GetCategory() != SystemCategory.NONE);
+            Array.Sort(knownSystems, (x, y) => (x.LongName() ?? string.Empty).CompareTo(y.LongName() ?? string.Empty));
+            return [.. Array.ConvertAll(knownSystems, val => $"{val.ShortName()} - {val.LongName()}")];
         }
 
         /// <summary>
