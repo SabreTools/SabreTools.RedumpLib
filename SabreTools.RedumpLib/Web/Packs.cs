@@ -17,7 +17,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="useSubfolders">True to use named subfolders to store downloads, false to store directly in the output directory</param>
         public static async Task<bool> DownloadPacks(RedumpClient rc, string? outDir, bool useSubfolders)
         {
-            var systems = (RedumpSystem?[])Enum.GetValues(typeof(RedumpSystem));
+            var systems = (RedumpSystem[])Enum.GetValues(typeof(RedumpSystem));
 
             await rc.DownloadPacks(Constants.PackCuesUrl, Array.FindAll(systems, s => s.HasCues()), "CUEs", outDir, useSubfolders ? "cue" : null);
             await rc.DownloadPacks(Constants.PackDatfileUrl, Array.FindAll(systems, s => s.HasDat()), "DATs", outDir, useSubfolders ? "dat" : null);
@@ -39,7 +39,10 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="useSubfolders">True to use named subfolders to store downloads, false to store directly in the output directory</param>
         public static async Task<bool> DownloadPacksForSystem(RedumpClient rc, RedumpSystem? system, string? outDir, bool useSubfolders)
         {
-            var systemAsArray = new RedumpSystem?[] { system };
+            if (system == null)
+                return false;
+
+            var systemAsArray = new RedumpSystem[] { system.Value };
 
             if (system.HasCues())
                 await rc.DownloadPacks(Constants.PackCuesUrl, systemAsArray, "CUEs", outDir, useSubfolders ? "cue" : null);

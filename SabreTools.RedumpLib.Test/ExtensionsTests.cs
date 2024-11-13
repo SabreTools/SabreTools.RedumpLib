@@ -15,8 +15,8 @@ namespace SabreTools.RedumpLib.Test
         /// <summary>
         /// DiscType values that map to MediaType
         /// </summary>
-        private static readonly DiscType?[] _mappableDiscTypes = new DiscType?[]
-        {
+        private static readonly DiscType?[] _mappableDiscTypes =
+        [
             DiscType.BD25,
             DiscType.BD33,
             DiscType.BD50,
@@ -35,13 +35,13 @@ namespace SabreTools.RedumpLib.Test
             DiscType.NintendoWiiUOpticalDiscSL,
             DiscType.UMDSL,
             DiscType.UMDDL,
-        };
+        ];
 
         /// <summary>
         /// MediaType values that map to DiscType
         /// </summary>
-        private static readonly MediaType?[] _mappableMediaTypes = new MediaType?[]
-        {
+        private static readonly MediaType?[] _mappableMediaTypes =
+        [
             MediaType.BluRay,
             MediaType.CDROM,
             MediaType.DVD,
@@ -51,7 +51,7 @@ namespace SabreTools.RedumpLib.Test
             MediaType.NintendoWiiOpticalDisc,
             MediaType.NintendoWiiUOpticalDisc,
             MediaType.UMD,
-        };
+        ];
 
         /// <summary>
         /// Check that every supported system has some set of MediaTypes supported
@@ -101,9 +101,9 @@ namespace SabreTools.RedumpLib.Test
             foreach (DiscType? discType in Enum.GetValues(typeof(DiscType)))
             {
                 if (_mappableDiscTypes.Contains(discType))
-                    testData.Add(new object?[] { discType, false });
+                    testData.Add([discType, false]);
                 else
-                    testData.Add(new object?[] { discType, true });
+                    testData.Add([discType, true]);
             }
 
             return testData;
@@ -118,7 +118,7 @@ namespace SabreTools.RedumpLib.Test
             var testData = new List<object?[]>() { new object?[] { null } };
             foreach (RedumpSystem? redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
             {
-                testData.Add(new object?[] { redumpSystem });
+                testData.Add([redumpSystem]);
             }
 
             return testData;
@@ -135,9 +135,9 @@ namespace SabreTools.RedumpLib.Test
             foreach (MediaType? mediaType in Enum.GetValues(typeof(MediaType)))
             {
                 if (_mappableMediaTypes.Contains(mediaType))
-                    testData.Add(new object?[] { mediaType, false });
+                    testData.Add([mediaType, false]);
                 else
-                    testData.Add(new object?[] { mediaType, true });
+                    testData.Add([mediaType, true]);
             }
 
             return testData;
@@ -173,7 +173,7 @@ namespace SabreTools.RedumpLib.Test
             var testData = new List<object?[]>() { new object?[] { null, true } };
             foreach (DiscCategory? discCategory in Enum.GetValues(typeof(DiscCategory)))
             {
-                testData.Add(new object?[] { discCategory, false });
+                testData.Add([discCategory, false]);
             }
 
             return testData;
@@ -210,9 +210,9 @@ namespace SabreTools.RedumpLib.Test
             foreach (DiscType? discType in Enum.GetValues(typeof(DiscType)))
             {
                 if (discType == DiscType.NONE)
-                    testData.Add(new object?[] { discType, true });
+                    testData.Add([discType, true]);
                 else
-                    testData.Add(new object?[] { discType, false });
+                    testData.Add([discType, false]);
             }
 
             return testData;
@@ -346,7 +346,7 @@ namespace SabreTools.RedumpLib.Test
             var testData = new List<object?[]>() { new object?[] { null, true } };
             foreach (Language? language in Enum.GetValues(typeof(Language)))
             {
-                testData.Add(new object?[] { language, false });
+                testData.Add([language, false]);
             }
 
             return testData;
@@ -382,7 +382,7 @@ namespace SabreTools.RedumpLib.Test
             var testData = new List<object?[]>() { new object?[] { null, true } };
             foreach (LanguageSelection? languageSelection in Enum.GetValues(typeof(LanguageSelection)))
             {
-                testData.Add(new object?[] { languageSelection, false });
+                testData.Add([languageSelection, false]);
             }
 
             return testData;
@@ -435,7 +435,7 @@ namespace SabreTools.RedumpLib.Test
             var testData = new List<object?[]>() { new object?[] { null, true } };
             foreach (MediaType? mediaType in Enum.GetValues(typeof(MediaType)))
             {
-                testData.Add(new object?[] { mediaType, false });
+                testData.Add([mediaType, false]);
             }
 
             return testData;
@@ -515,7 +515,7 @@ namespace SabreTools.RedumpLib.Test
             var testData = new List<object?[]>() { new object?[] { null, true } };
             foreach (Region? region in Enum.GetValues(typeof(Region)))
             {
-                testData.Add(new object?[] { region, false });
+                testData.Add([region, false]);
             }
 
             return testData;
@@ -568,7 +568,7 @@ namespace SabreTools.RedumpLib.Test
             var testData = new List<object?[]>() { new object?[] { null, true } };
             foreach (SiteCode? siteCode in Enum.GetValues(typeof(SiteCode)))
             {
-                testData.Add(new object?[] { siteCode, false });
+                testData.Add([siteCode, false]);
             }
 
             return testData;
@@ -631,7 +631,7 @@ namespace SabreTools.RedumpLib.Test
                 if (redumpSystem.IsMarker())
                     continue;
 
-                testData.Add(new object?[] { redumpSystem, false });
+                testData.Add([redumpSystem, false]);
             }
 
             return testData;
@@ -668,9 +668,9 @@ namespace SabreTools.RedumpLib.Test
             foreach (SystemCategory? systemCategory in Enum.GetValues(typeof(SystemCategory)))
             {
                 if (systemCategory == SystemCategory.NONE)
-                    testData.Add(new object?[] { systemCategory, true });
+                    testData.Add([systemCategory, true]);
                 else
-                    testData.Add(new object?[] { systemCategory, false });
+                    testData.Add([systemCategory, false]);
             }
 
             return testData;
@@ -706,7 +706,7 @@ namespace SabreTools.RedumpLib.Test
             var testData = new List<object?[]>() { new object?[] { null, false } };
             foreach (YesNo? yesNo in Enum.GetValues(typeof(YesNo)))
             {
-                testData.Add(new object?[] { yesNo, false });
+                testData.Add([yesNo, false]);
             }
 
             return testData;

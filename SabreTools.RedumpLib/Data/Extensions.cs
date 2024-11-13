@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-#if NET40_OR_GREATER || NETCOREAPP
-using System.Linq;
-#endif
 using SabreTools.RedumpLib.Attributes;
 
 namespace SabreTools.RedumpLib.Data
@@ -928,64 +925,34 @@ namespace SabreTools.RedumpLib.Data
         /// <returns>Language represented by the string, if possible</returns>
         public static Language? ToLanguage(string lang)
         {
-            var languages = (Language?[])Enum.GetValues(typeof(Language));
+            lang = lang.ToLowerInvariant();
+            var languages = (Language[])Enum.GetValues(typeof(Language));
 
             // Check ISO 639-1 codes
-#if NET20 || NET35
-            var languageMapping = new Dictionary<string, Language?>();
-            foreach (var l in languages)
-            {
-                if (l.TwoLetterCode() == null)
-                    continue;
-
-                languageMapping[l.TwoLetterCode() ?? string.Empty] = l;
-            }
-#else
-            Dictionary<string, Language?> languageMapping = Array.FindAll(languages, l => l.TwoLetterCode() != null)
-                .ToDictionary(l => l.TwoLetterCode() ?? string.Empty, l => l);
-#endif
-
-            if (languageMapping.ContainsKey(lang))
-                return languageMapping[lang];
+            int index = Array.FindIndex(languages, l => lang == l.TwoLetterCode());
+            if (index > -1)
+                return languages[index];
 
             // Check standard ISO 639-2 codes
-#if NET20 || NET35
-            languageMapping = new Dictionary<string, Language?>();
-            foreach (var l in languages)
-            {
-                if (l.ThreeLetterCode() == null)
-                    continue;
-
-                languageMapping[l.ThreeLetterCode() ?? string.Empty] = l;
-            }
-#else
-            languageMapping = Array.FindAll(languages, l => l.ThreeLetterCode() != null)
-                .ToDictionary(l => l.ThreeLetterCode() ?? string.Empty, l => l);
-#endif
-
-            if (languageMapping.ContainsKey(lang))
-                return languageMapping[lang];
+            index = Array.FindIndex(languages, r => lang == r.ThreeLetterCode());
+            if (index > -1)
+                return languages[index];
 
             // Check alternate ISO 639-2 codes
-#if NET20 || NET35
-            languageMapping = new Dictionary<string, Language?>();
-            foreach (var l in languages)
-            {
-                if (l.ThreeLetterCodeAlt() == null)
-                    continue;
-
-                languageMapping[l.ThreeLetterCodeAlt() ?? string.Empty] = l;
-            }
-#else
-            languageMapping = Array.FindAll(languages, l => l.ThreeLetterCodeAlt() != null)
-                .ToDictionary(l => l.ThreeLetterCodeAlt() ?? string.Empty, l => l);
-#endif
-
-            if (languageMapping.ContainsKey(lang))
-                return languageMapping[lang];
+            index = Array.FindIndex(languages, r => lang == r.ThreeLetterCodeAlt());
+            if (index > -1)
+                return languages[index];
 
             return null;
         }
+
+        /// <summary>
+        /// Get the ISO 639-2 code for each known language
+        /// </summary>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        public static string? ThreeLetterCode(this Language language)
+            => (AttributeHelper<Language>.GetAttribute(language) as LanguageAttribute)?.ThreeLetterCode;
 
         /// <summary>
         /// Get the ISO 639-2 code for each known language
@@ -1000,8 +967,24 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="language"></param>
         /// <returns></returns>
+        public static string? ThreeLetterCodeAlt(this Language language)
+            => (AttributeHelper<Language>.GetAttribute(language) as LanguageAttribute)?.ThreeLetterCodeAlt;
+
+        /// <summary>
+        /// Get the ISO 639-2 alternate code for each known language
+        /// </summary>
+        /// <param name="language"></param>
+        /// <returns></returns>
         public static string? ThreeLetterCodeAlt(this Language? language)
             => (AttributeHelper<Language?>.GetAttribute(language) as LanguageAttribute)?.ThreeLetterCodeAlt;
+
+        /// <summary>
+        /// Get the ISO 639-1 code for each known language
+        /// </summary>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        public static string? TwoLetterCode(this Language language)
+            => (AttributeHelper<Language>.GetAttribute(language) as LanguageAttribute)?.TwoLetterCode;
 
         /// <summary>
         /// Get the ISO 639-1 code for each known language
@@ -1090,14 +1073,32 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="region"></param>
         /// <returns></returns>
-        public static string? LongName(this Region? region) => AttributeHelper<Region?>.GetAttribute(region)?.LongName;
+        public static string? LongName(this Region region)
+            => AttributeHelper<Region>.GetAttribute(region)?.LongName;
+
+        /// <summary>
+        /// Get the Redump longnames for each known region
+        /// </summary>
+        /// <param name="region"></param>
+        /// <returns></returns>
+        public static string? LongName(this Region? region)
+            => AttributeHelper<Region?>.GetAttribute(region)?.LongName;
 
         /// <summary>
         /// Get the Redump shortnames for each known region
         /// </summary>
         /// <param name="region"></param>
         /// <returns></returns>
-        public static string? ShortName(this Region? region) => AttributeHelper<Region?>.GetAttribute(region)?.ShortName;
+        public static string? ShortName(this Region region)
+            => AttributeHelper<Region>.GetAttribute(region)?.ShortName;
+
+        /// <summary>
+        /// Get the Redump shortnames for each known region
+        /// </summary>
+        /// <param name="region"></param>
+        /// <returns></returns>
+        public static string? ShortName(this Region? region)
+            => AttributeHelper<Region?>.GetAttribute(region)?.ShortName;
 
         /// <summary>
         /// Get the Region enum value for a given string
@@ -1107,25 +1108,15 @@ namespace SabreTools.RedumpLib.Data
         public static Region? ToRegion(string region)
         {
             region = region.ToLowerInvariant();
-            var regions = (Region?[])Enum.GetValues(typeof(Region));
+            var regions = (Region[])Enum.GetValues(typeof(Region));
 
-            // Check ISO 3166-1 alpha-2 codes
-#if NET20 || NET35
-            var regionMapping = new Dictionary<string, Region?>();
-            foreach (var r in regions)
-            {
-                if (r.ShortName() == null)
-                    continue;
+            int index = Array.FindIndex(regions, r => region == r.ShortName());
+            if (index > -1)
+                return regions[index];
 
-                regionMapping[r.ShortName()?.ToLowerInvariant() ?? string.Empty] = r;
-            }
-#else
-            Dictionary<string, Region?> regionMapping = Array.FindAll(regions, r => r.ShortName() != null)
-                .ToDictionary(r => r.ShortName()?.ToLowerInvariant() ?? string.Empty, r => r);
-#endif
-
-            if (regionMapping.ContainsKey(region))
-                return regionMapping[region];
+            index = Array.FindIndex(regions, r => region == r.LongName());
+            if (index > -1)
+                return regions[index];
 
             return null;
         }
@@ -1442,64 +1433,146 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="system"></param>
         /// <returns></returns>
-        public static string? LongName(this RedumpSystem? system) => AttributeHelper<RedumpSystem?>.GetAttribute(system)?.LongName;
+        public static string? LongName(this RedumpSystem system)
+            => AttributeHelper<RedumpSystem>.GetAttribute(system)?.LongName;
+
+        /// <summary>
+        /// Get the Redump longnames for each known system
+        /// </summary>
+        /// <param name="system"></param>
+        /// <returns></returns>
+        public static string? LongName(this RedumpSystem? system)
+            => AttributeHelper<RedumpSystem?>.GetAttribute(system)?.LongName;
 
         /// <summary>
         /// Get the Redump shortnames for each known system
         /// </summary>
         /// <param name="system"></param>
         /// <returns></returns>
-        public static string? ShortName(this RedumpSystem? system) => AttributeHelper<RedumpSystem?>.GetAttribute(system)?.ShortName;
+        public static string? ShortName(this RedumpSystem system)
+            => AttributeHelper<RedumpSystem>.GetAttribute(system)?.ShortName;
+
+        /// <summary>
+        /// Get the Redump shortnames for each known system
+        /// </summary>
+        /// <param name="system"></param>
+        /// <returns></returns>
+        public static string? ShortName(this RedumpSystem? system)
+            => AttributeHelper<RedumpSystem?>.GetAttribute(system)?.ShortName;
 
         /// <summary>
         /// Determine the category of a system
         /// </summary>
-        public static SystemCategory GetCategory(this RedumpSystem? system) => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.Category ?? SystemCategory.NONE;
+        public static SystemCategory GetCategory(this RedumpSystem? system)
+            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.Category ?? SystemCategory.NONE;
 
         /// <summary>
         /// Determine if a system is available in Redump yet
         /// </summary>
-        public static bool IsAvailable(this RedumpSystem? system) => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.Available ?? false;
+        public static bool IsAvailable(this RedumpSystem system)
+            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.Available ?? false;
+
+        /// <summary>
+        /// Determine if a system is available in Redump yet
+        /// </summary>
+        public static bool IsAvailable(this RedumpSystem? system)
+            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.Available ?? false;
 
         /// <summary>
         /// Determine if a system is restricted to dumpers
         /// </summary>
-        public static bool IsBanned(this RedumpSystem? system) => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.IsBanned ?? false;
+        public static bool IsBanned(this RedumpSystem system)
+            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.IsBanned ?? false;
+
+        /// <summary>
+        /// Determine if a system is restricted to dumpers
+        /// </summary>
+        public static bool IsBanned(this RedumpSystem? system)
+            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.IsBanned ?? false;
 
         /// <summary>
         /// Determine if a system has a CUE pack
         /// </summary>
-        public static bool HasCues(this RedumpSystem? system) => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasCues ?? false;
+        public static bool HasCues(this RedumpSystem system)
+            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.HasCues ?? false;
+
+        /// <summary>
+        /// Determine if a system has a CUE pack
+        /// </summary>
+        public static bool HasCues(this RedumpSystem? system)
+            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasCues ?? false;
 
         /// <summary>
         /// Determine if a system has a DAT
         /// </summary>
-        public static bool HasDat(this RedumpSystem? system) => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasDat ?? false;
+        public static bool HasDat(this RedumpSystem system)
+            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.HasDat ?? false;
+
+        /// <summary>
+        /// Determine if a system has a DAT
+        /// </summary>
+        public static bool HasDat(this RedumpSystem? system)
+            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasDat ?? false;
 
         /// <summary>
         /// Determine if a system has a decrypted keys pack
         /// </summary>
-        public static bool HasDkeys(this RedumpSystem? system) => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasDkeys ?? false;
+        public static bool HasDkeys(this RedumpSystem system)
+            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.HasDkeys ?? false;
+
+        /// <summary>
+        /// Determine if a system has a decrypted keys pack
+        /// </summary>
+        public static bool HasDkeys(this RedumpSystem? system)
+            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasDkeys ?? false;
 
         /// <summary>
         /// Determine if a system has a GDI pack
         /// </summary>
-        public static bool HasGdi(this RedumpSystem? system) => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasGdi ?? false;
+        public static bool HasGdi(this RedumpSystem system)
+            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.HasGdi ?? false;
+
+        /// <summary>
+        /// Determine if a system has a GDI pack
+        /// </summary>
+        public static bool HasGdi(this RedumpSystem? system)
+            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasGdi ?? false;
 
         /// <summary>
         /// Determine if a system has a keys pack
         /// </summary>
-        public static bool HasKeys(this RedumpSystem? system) => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasKeys ?? false;
+        public static bool HasKeys(this RedumpSystem system)
+            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.HasKeys ?? false;
+
+        /// <summary>
+        /// Determine if a system has a keys pack
+        /// </summary>
+        public static bool HasKeys(this RedumpSystem? system)
+            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasKeys ?? false;
 
         /// <summary>
         /// Determine if a system has an LSD pack
         /// </summary>
-        public static bool HasLsd(this RedumpSystem? system) => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasLsd ?? false;
+        public static bool HasLsd(this RedumpSystem system)
+            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.HasLsd ?? false;
+
+        /// <summary>
+        /// Determine if a system has an LSD pack
+        /// </summary>
+        public static bool HasLsd(this RedumpSystem? system)
+            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasLsd ?? false;
 
         /// <summary>
         /// Determine if a system has an SBI pack
         /// </summary>
-        public static bool HasSbi(this RedumpSystem? system) => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasSbi ?? false;
+        public static bool HasSbi(this RedumpSystem system)
+            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.HasSbi ?? false;
+
+        /// <summary>
+        /// Determine if a system has an SBI pack
+        /// </summary>
+        public static bool HasSbi(this RedumpSystem? system)
+            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasSbi ?? false;
 
         /// <summary>
         /// Get the RedumpSystem enum value for a given string

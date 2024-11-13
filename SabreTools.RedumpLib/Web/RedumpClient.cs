@@ -725,7 +725,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="url">Base URL to download using</param>
         /// <param name="system">Systems to download packs for</param>
         /// <param name="title">Name of the pack that is downloading</param>
-        public async Task<Dictionary<RedumpSystem, byte[]>> DownloadPacks(string url, RedumpSystem?[] systems, string title)
+        public async Task<Dictionary<RedumpSystem, byte[]>> DownloadPacks(string url, RedumpSystem[] systems, string title)
         {
             var packsDictionary = new Dictionary<RedumpSystem, byte[]>();
 
@@ -733,7 +733,7 @@ namespace SabreTools.RedumpLib.Web
             foreach (var system in systems)
             {
                 // If the system is invalid, we can't do anything
-                if (system == null || !system.IsAvailable())
+                if (!system.IsAvailable())
                     continue;
 
                 // If we didn't have credentials
@@ -748,7 +748,7 @@ namespace SabreTools.RedumpLib.Web
                 Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
                 byte[]? pack = await DownloadSinglePack(url, system);
                 if (pack != null)
-                    packsDictionary.Add(system.Value, pack);
+                    packsDictionary.Add(system, pack);
             }
 
             Console.Write($"\rComplete!{new string(' ', Console.BufferWidth - 10)}");
@@ -765,13 +765,13 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="title">Name of the pack that is downloading</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
-        public async Task<bool> DownloadPacks(string url, RedumpSystem?[] systems, string title, string? outDir, string? subfolder)
+        public async Task<bool> DownloadPacks(string url, RedumpSystem[] systems, string title, string? outDir, string? subfolder)
         {
             Console.WriteLine($"Downloading {title}");
             foreach (var system in systems)
             {
                 // If the system is invalid, we can't do anything
-                if (system == null || !system.IsAvailable())
+                if (!system.IsAvailable())
                     continue;
 
                 // If we didn't have credentials
