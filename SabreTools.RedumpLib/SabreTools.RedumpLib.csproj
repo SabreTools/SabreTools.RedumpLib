@@ -1,41 +1,54 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <!-- Assembly Properties -->
-    <TargetFrameworks>net20;net35;net40;net452;net462;net472;net48;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
-    <RuntimeIdentifiers>win-x86;win-x64;win-arm64;linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <Version>1.4.4</Version>
+    <PropertyGroup>
+        <!-- Assembly Properties -->
+        <TargetFrameworks>net20;net35;net40;net452;net462;net472;net48;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <Version>1.4.4</Version>
 
-    <!-- Package Properties -->
-    <Authors>Matt Nadareski</Authors>
-    <Description>Code to interact with redump.org</Description>
-    <Copyright>Copyright (c) Matt Nadareski 2020-2024</Copyright>
-    <PackageProjectUrl>https://github.com/SabreTools/</PackageProjectUrl>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/SabreTools/SabreTools.RedumpLib</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>web client redump</PackageTags>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-  </PropertyGroup>
+        <!-- Package Properties -->
+        <Authors>Matt Nadareski</Authors>
+        <Description>Code to interact with redump.org</Description>
+        <Copyright>Copyright (c) Matt Nadareski 2020-2024</Copyright>
+        <PackageProjectUrl>https://github.com/SabreTools/</PackageProjectUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RepositoryUrl>https://github.com/SabreTools/SabreTools.RedumpLib</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>web client redump</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Include="../README.md" Pack="true" PackagePath="" />
-  </ItemGroup>
+    <!-- Support All Frameworks -->
+    <PropertyGroup Condition="$(TargetFramework.StartsWith(`net2`)) OR $(TargetFramework.StartsWith(`net3`)) OR $(TargetFramework.StartsWith(`net4`))">
+        <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(TargetFramework.StartsWith(`netcoreapp`)) OR $(TargetFramework.StartsWith(`net5`))">
+        <RuntimeIdentifiers>win-x86;win-x64;win-arm64;linux-x64;linux-arm64;osx-x64</RuntimeIdentifiers>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(TargetFramework.StartsWith(`net6`)) OR $(TargetFramework.StartsWith(`net7`)) OR $(TargetFramework.StartsWith(`net8`)) OR $(TargetFramework.StartsWith(`net9`))">
+        <RuntimeIdentifiers>win-x86;win-x64;win-arm64;linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(RuntimeIdentifier.StartsWith(`osx-arm`))">
+        <TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+    </PropertyGroup>
 
-  <!-- Support for old .NET versions -->
-  <ItemGroup Condition="$(TargetFramework.StartsWith(`net2`))">
-    <PackageReference Include="Net30.LinqBridge" Version="1.3.0" />
-  </ItemGroup>
-  <ItemGroup Condition="$(TargetFramework.StartsWith(`net2`)) OR $(TargetFramework.StartsWith(`net3`)) OR $(TargetFramework.StartsWith(`net40`))">
-    <PackageReference Include="MinAsyncBridge" Version="0.12.4" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Include="../README.md" Pack="true" PackagePath="" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="SabreTools.Models" Version="1.4.10" />
-  </ItemGroup>
+    <!-- Support for old .NET versions -->
+    <ItemGroup Condition="$(TargetFramework.StartsWith(`net2`))">
+        <PackageReference Include="Net30.LinqBridge" Version="1.3.0" />
+    </ItemGroup>
+    <ItemGroup Condition="$(TargetFramework.StartsWith(`net2`)) OR $(TargetFramework.StartsWith(`net3`)) OR $(TargetFramework.StartsWith(`net40`))">
+        <PackageReference Include="MinAsyncBridge" Version="0.12.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="SabreTools.Models" Version="1.5.0" />
+    </ItemGroup>
 
 </Project>

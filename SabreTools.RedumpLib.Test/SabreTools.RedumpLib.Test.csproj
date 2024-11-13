@@ -1,47 +1,47 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-      <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
-      <CheckEolTargetFramework>false</CheckEolTargetFramework>
-      <LangVersion>latest</LangVersion>
-      <Nullable>enable</Nullable>
-      <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
-      <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <TargetFrameworks>net6.0;net8.0;net9.0</TargetFrameworks>
+        <CheckEolTargetFramework>false</CheckEolTargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
-  
+
     <ItemGroup>
-      <ProjectReference Include="..\SabreTools.RedumpLib\SabreTools.RedumpLib.csproj" />
+        <ProjectReference Include="..\SabreTools.RedumpLib\SabreTools.RedumpLib.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="TestData\*" />
+        <None Remove="TestData\*" />
     </ItemGroup>
-  
+
     <ItemGroup>
-      <Content Include="TestData\*">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
+        <Content Include="TestData\*">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
-  
+
     <ItemGroup>
-      <PackageReference Include="Microsoft.CodeCoverage" Version="17.11.1" />
-      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
-      <PackageReference Include="xunit" Version="2.9.2" />
-      <PackageReference Include="xunit.abstractions" Version="2.0.3" />
-      <PackageReference Include="xunit.analyzers" Version="1.16.0" />
-      <PackageReference Include="xunit.assert" Version="2.9.2" />
-      <PackageReference Include="xunit.core" Version="2.9.2" />
-      <PackageReference Include="xunit.extensibility.core" Version="2.9.2" />
-      <PackageReference Include="xunit.extensibility.execution" Version="2.9.2" />
-      <PackageReference Include="xunit.runner.console" Version="2.9.2">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
+        <PackageReference Include="Microsoft.CodeCoverage" Version="17.11.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+        <PackageReference Include="xunit" Version="2.9.2" />
+        <PackageReference Include="xunit.abstractions" Version="2.0.3" />
+        <PackageReference Include="xunit.analyzers" Version="1.17.0" />
+        <PackageReference Include="xunit.assert" Version="2.9.2" />
+        <PackageReference Include="xunit.core" Version="2.9.2" />
+        <PackageReference Include="xunit.extensibility.core" Version="2.9.2" />
+        <PackageReference Include="xunit.extensibility.execution" Version="2.9.2" />
+        <PackageReference Include="xunit.runner.console" Version="2.9.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
-  
-  </Project>
+
+</Project>
   
