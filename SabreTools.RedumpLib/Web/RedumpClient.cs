@@ -128,7 +128,7 @@ namespace SabreTools.RedumpLib.Web
                 try
                 {
                     // Get the current token from the login page
-                    var loginPage = await DownloadStringWithRetries(Constants.LoginUrl);
+                    var loginPage = await DownloadString(Constants.LoginUrl);
                     string token = Constants.TokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
 
 #if NETFRAMEWORK
@@ -186,6 +186,108 @@ namespace SabreTools.RedumpLib.Web
 
         #endregion
 
+        #region Generic Helpers
+
+        /// <summary>
+        /// Download from a URI to a byte array
+        /// </summary>
+        /// <param name="uri">Remote URI to retrieve</param>
+        /// <returns>Byte array from the URI, null on error</returns>
+        public async Task<byte[]?> DownloadData(string uri)
+        {
+            // Only retry a positive number of times
+            if (RetryCount <= 0)
+                return null;
+
+            for (int i = 0; i < RetryCount; i++)
+            {
+                try
+                {
+#if NET40
+                    return await Task.Factory.StartNew(() => _internalClient.DownloadData(uri));
+#elif NETFRAMEWORK
+                    return await Task.Run(() => _internalClient.DownloadData(uri));
+#else
+                    return await _internalClient.GetByteArrayAsync(uri);
+#endif
+                }
+                catch { }
+
+                // Sleep for 100ms if the last attempt failed
+                Thread.Sleep(100);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Download from a URI to a local file
+        /// </summary>
+        /// <param name="uri">Remote URI to retrieve</param>
+        /// <param name="fileName">Filename to write to</param>
+        /// <returns>The remote filename from the URI, null on error</returns>
+        public async Task<string?> DownloadFile(string uri, string fileName)
+        {
+#if NET40
+            await Task.Factory.StartNew(() => { _internalClient.DownloadFile(uri, fileName); return true; });
+            return _internalClient.GetLastFilename();
+#elif NETFRAMEWORK
+            await Task.Run(() => _internalClient.DownloadFile(uri, fileName));
+            return _internalClient.GetLastFilename();
+#else
+            // Make the call to get the file
+            var response = await _internalClient.GetAsync(uri);
+            if (response?.Content?.Headers == null || !response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"Could not download {uri}");
+                return null;
+            }
+
+            // Copy the data to a local temp file
+            using (var responseStream = await response.Content.ReadAsStreamAsync())
+            using (var tempFileStream = File.OpenWrite(fileName))
+            {
+                responseStream.CopyTo(tempFileStream);
+            }
+
+            return response.Content.Headers.ContentDisposition?.FileName?.Replace("\"", "");
+#endif
+        }
+
+        /// <summary>
+        /// Download from a URI to a string
+        /// </summary>
+        /// <param name="uri">Remote URI to retrieve</param>
+        /// <returns>String from the URI, null on error</returns>
+        public async Task<string?> DownloadString(string uri)
+        {
+            // Only retry a positive number of times
+            if (RetryCount <= 0)
+                return null;
+
+            for (int i = 0; i < RetryCount; i++)
+            {
+                try
+                {
+#if NET40
+                    return await Task.Factory.StartNew(() => _internalClient.DownloadString(uri));
+#elif NETFRAMEWORK
+                    return await Task.Run(() => _internalClient.DownloadString(uri));
+#else
+                    return await _internalClient.GetStringAsync(uri);
+#endif
+                }
+                catch { }
+
+                // Sleep for 100ms if the last attempt failed
+                Thread.Sleep(100);
+            }
+
+            return null;
+        }
+
+        #endregion
+
         #region Single Page Helpers
 
         /// <summary>
@@ -198,7 +300,7 @@ namespace SabreTools.RedumpLib.Web
             List<int> ids = [];
 
             // Try to retrieve the data
-            string? dumpsPage = await DownloadStringWithRetries(url);
+            string? dumpsPage = await DownloadString(url);
 
             // If we have no dumps left
             if (dumpsPage == null || dumpsPage.Contains("No discs found."))
@@ -248,7 +350,7 @@ namespace SabreTools.RedumpLib.Web
             List<int> ids = [];
 
             // Try to retrieve the data
-            string? dumpsPage = await DownloadStringWithRetries(url);
+            string? dumpsPage = await DownloadString(url);
 
             // If we have no dumps left
             if (dumpsPage == null || dumpsPage.Contains("No discs found."))
@@ -306,7 +408,7 @@ namespace SabreTools.RedumpLib.Web
             List<int> ids = [];
 
             // Try to retrieve the data
-            string? dumpsPage = await DownloadStringWithRetries(url);
+            string? dumpsPage = await DownloadString(url);
 
             // If we have no dumps left
             if (dumpsPage == null || dumpsPage.Contains("No discs found."))
@@ -346,7 +448,7 @@ namespace SabreTools.RedumpLib.Web
             List<int> ids = [];
 
             // Try to retrieve the data
-            string? dumpsPage = await DownloadStringWithRetries(url);
+            string? dumpsPage = await DownloadString(url);
 
             // If we have no dumps left
             if (dumpsPage == null || dumpsPage.Contains("No discs found."))
@@ -451,7 +553,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 // Try to retrieve the data
                 string discPageUri = string.Format(Constants.DiscPageUrl, +id);
-                string? discPage = await DownloadStringWithRetries(discPageUri);
+                string? discPage = await DownloadString(discPageUri);
 
                 if (discPage == null || discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
                 {
@@ -489,7 +591,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 // Try to retrieve the data
                 string discPageUri = string.Format(Constants.DiscPageUrl, +id);
-                string? discPage = await DownloadStringWithRetries(discPageUri);
+                string? discPage = await DownloadString(discPageUri);
 
                 if (discPage == null || discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
                 {
@@ -613,7 +715,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 // Try to retrieve the data
                 string discPageUri = string.Format(Constants.WipDiscPageUrl, +id);
-                string? discPage = await DownloadStringWithRetries(discPageUri);
+                string? discPage = await DownloadString(discPageUri);
 
                 if (discPage == null || discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
                 {
@@ -651,7 +753,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 // Try to retrieve the data
                 string discPageUri = string.Format(Constants.WipDiscPageUrl, +id);
-                string? discPage = await DownloadStringWithRetries(discPageUri);
+                string? discPage = await DownloadString(discPageUri);
 
                 if (discPage == null || discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
                 {
@@ -790,72 +892,6 @@ namespace SabreTools.RedumpLib.Web
             Console.Write($"\rComplete!{new string(' ', Console.BufferWidth - 10)}");
             Console.WriteLine();
             return true;
-        }
-
-        /// <summary>
-        /// Download from a URI to a local file
-        /// </summary>
-        /// <param name="uri">Remote URI to retrieve</param>
-        /// <param name="fileName">Filename to write to</param>
-        /// <returns>The remote filename from the URI, null on error</returns>
-        private async Task<string?> DownloadFile(string uri, string fileName)
-        {
-#if NET40
-            await Task.Factory.StartNew(() => { _internalClient.DownloadFile(uri, fileName); return true; });
-            return _internalClient.GetLastFilename();
-#elif NETFRAMEWORK
-            await Task.Run(() => _internalClient.DownloadFile(uri, fileName));
-            return _internalClient.GetLastFilename();
-#else
-            // Make the call to get the file
-            var response = await _internalClient.GetAsync(uri);
-            if (response?.Content?.Headers == null || !response.IsSuccessStatusCode)
-            {
-                Console.WriteLine($"Could not download {uri}");
-                return null;
-            }
-
-            // Copy the data to a local temp file
-            using (var responseStream = await response.Content.ReadAsStreamAsync())
-            using (var tempFileStream = File.OpenWrite(fileName))
-            {
-                responseStream.CopyTo(tempFileStream);
-            }
-
-            return response.Content.Headers.ContentDisposition?.FileName?.Replace("\"", "");
-#endif
-        }
-
-        /// <summary>
-        /// Download from a URI to a string
-        /// </summary>
-        /// <param name="uri">Remote URI to retrieve</param>
-        /// <returns>String from the URI, null on error</returns>
-        private async Task<string?> DownloadStringWithRetries(string uri)
-        {
-            // Only retry a positive number of times
-            if (RetryCount <= 0)
-                return null;
-
-            for (int i = 0; i < RetryCount; i++)
-            {
-                try
-                {
-#if NET40
-                    return await Task.Factory.StartNew(() => _internalClient.DownloadString(uri));
-#elif NETFRAMEWORK
-                    return await Task.Run(() => _internalClient.DownloadString(uri));
-#else
-                    return await _internalClient.GetStringAsync(uri);
-#endif
-                }
-                catch { }
-
-                // Sleep for 100ms if the last attempt failed
-                Thread.Sleep(100);
-            }
-
-            return null;
         }
 
         /// <summary>
