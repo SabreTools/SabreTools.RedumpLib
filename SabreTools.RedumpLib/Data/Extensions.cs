@@ -1174,9 +1174,38 @@ namespace SabreTools.RedumpLib.Data
         }
 
         /// <summary>
-        /// Check if a site code should live in the comments section
+        /// Check if a site code is boolean or not
         /// </summary>
         /// <param name="siteCode">SiteCode to check</param>
+        /// <returns>True if the code field is a flag with no value, false otherwise</returns>
+        public static bool IsBoolean(this SiteCode siteCode)
+            => ((SiteCode?)siteCode).IsBoolean();
+
+        /// <summary>
+        /// Check if a site code is boolean or not
+        /// </summary>
+        /// <param name="siteCode">SiteCode to check</param>
+        /// <returns>True if the code field is a flag with no value, false otherwise</returns>
+        public static bool IsBoolean(this SiteCode? siteCode)
+        {
+            return siteCode switch
+            {
+                SiteCode.PostgapType => true,
+                SiteCode.VCD => true,
+                _ => false,
+            };
+        }
+
+        /// <summary>
+        /// Check if a site code should live in the comments section
+        /// </summary>
+        /// <returns>True if the code field is in comments by default, false otherwise</returns>
+        public static bool IsCommentCode(this SiteCode siteCode)
+            => ((SiteCode?)siteCode).IsCommentCode();
+
+        /// <summary>
+        /// Check if a site code should live in the comments section
+        /// </summary>
         /// <returns>True if the code field is in comments by default, false otherwise</returns>
         public static bool IsCommentCode(this SiteCode? siteCode)
         {
@@ -1246,7 +1275,13 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// Check if a site code should live in the contents section
         /// </summary>
-        /// <param name="siteCode">SiteCode to check</param>
+        /// <returns>True if the code field is in contents by default, false otherwise</returns>
+        public static bool IsContentCode(this SiteCode siteCode)
+            => ((SiteCode?)siteCode).IsContentCode();
+
+        /// <summary>
+        /// Check if a site code should live in the contents section
+        /// </summary>
         /// <returns>True if the code field is in contents by default, false otherwise</returns>
         public static bool IsContentCode(this SiteCode? siteCode)
         {
@@ -1270,7 +1305,13 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// Check if a site code is multi-line or not
         /// </summary>
-        /// <param name="siteCode">SiteCode to check</param>
+        /// <returns>True if the code field is multiline by default, false otherwise</returns>
+        public static bool IsMultiLine(this SiteCode siteCode)
+            => ((SiteCode?)siteCode).IsMultiLine();
+
+        /// <summary>
+        /// Check if a site code is multi-line or not
+        /// </summary>
         /// <returns>True if the code field is multiline by default, false otherwise</returns>
         public static bool IsMultiLine(this SiteCode? siteCode)
         {
@@ -1295,16 +1336,26 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// Get the HTML version for each known site code
         /// </summary>
-        /// <param name="siteCode"></param>
-        /// <returns></returns>
-        public static string? LongName(this SiteCode? siteCode) => AttributeHelper<SiteCode?>.GetAttribute(siteCode)?.LongName;
+        public static string? LongName(this SiteCode siteCode)
+            => AttributeHelper<SiteCode>.GetAttribute(siteCode)?.LongName;
+
+        /// <summary>
+        /// Get the HTML version for each known site code
+        /// </summary>
+        public static string? LongName(this SiteCode? siteCode)
+            => AttributeHelper<SiteCode?>.GetAttribute(siteCode)?.LongName;
 
         /// <summary>
         /// Get the short tag for each known site code
         /// </summary>
-        /// <param name="siteCode"></param>
-        /// <returns></returns>
-        public static string? ShortName(this SiteCode? siteCode) => AttributeHelper<SiteCode?>.GetAttribute(siteCode)?.ShortName;
+        public static string? ShortName(this SiteCode siteCode)
+            => AttributeHelper<SiteCode>.GetAttribute(siteCode)?.ShortName;
+
+        /// <summary>
+        /// Get the short tag for each known site code
+        /// </summary>
+        public static string? ShortName(this SiteCode? siteCode)
+            => AttributeHelper<SiteCode?>.GetAttribute(siteCode)?.ShortName;
 
         #endregion
 
@@ -1319,20 +1370,46 @@ namespace SabreTools.RedumpLib.Data
         {
             return system switch
             {
-                RedumpSystem.AmericanLaserGames3DO
-                    or RedumpSystem.AppleMacintosh
-                    or RedumpSystem.Atari3DO
-                    or RedumpSystem.AtariJaguarCDInteractiveMultimediaSystem
-                    or RedumpSystem.NewJatreCDi
+                // BIOS Sets
+                RedumpSystem.MicrosoftXboxBIOS
+                    or RedumpSystem.NintendoGameCubeBIOS
+                    or RedumpSystem.SonyPlayStationBIOS
+                    or RedumpSystem.SonyPlayStation2BIOS => false,
+
+                // Disc-Based Consoles
+                RedumpSystem.AtariJaguarCDInteractiveMultimediaSystem
+                    or RedumpSystem.BandaiPlaydiaQuickInteractiveSystem
+                    or RedumpSystem.BandaiPippin
+                    or RedumpSystem.HasbroVideoNow
+                    or RedumpSystem.HasbroVideoNowColor
+                    or RedumpSystem.HasbroVideoNowJr
+                    or RedumpSystem.HasbroVideoNowXP
                     or RedumpSystem.NintendoGameCube
                     or RedumpSystem.NintendoWii
                     or RedumpSystem.NintendoWiiU
+                    or RedumpSystem.Panasonic3DOInteractiveMultiplayer
                     or RedumpSystem.PhilipsCDi
                     or RedumpSystem.PhilipsCDiDigitalVideo
-                    or RedumpSystem.Panasonic3DOInteractiveMultiplayer
-                    or RedumpSystem.PanasonicM2
                     or RedumpSystem.PioneerLaserActive
-                    or RedumpSystem.SuperAudioCD => false,
+                    or RedumpSystem.MarkerDiscBasedConsoleEnd => false,
+
+                // Computers
+                RedumpSystem.AppleMacintosh
+                    or RedumpSystem.MarkerComputerEnd => false,
+
+                // Arcade
+                RedumpSystem.AmericanLaserGames3DO
+                    or RedumpSystem.Atari3DO
+                    or RedumpSystem.NewJatreCDi
+                    or RedumpSystem.PanasonicM2
+                    or RedumpSystem.MarkerArcadeEnd => false,
+
+                // Other
+                RedumpSystem.PlayStationGameSharkUpdates
+                    or RedumpSystem.SuperAudioCD
+                    or RedumpSystem.MarkerOtherEnd => false,
+
+                null => false,
                 _ => true,
             };
         }
@@ -1388,6 +1465,14 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="system">RedumpSystem value to check</param>
         /// <returns>True if the system is a marker value, false otherwise</returns>
+        public static bool IsMarker(this RedumpSystem system)
+            => ((RedumpSystem?)system).IsMarker();
+
+        /// <summary>
+        /// Determine if a system is a marker value
+        /// </summary>
+        /// <param name="system">RedumpSystem value to check</param>
+        /// <returns>True if the system is a marker value, false otherwise</returns>
         public static bool IsMarker(this RedumpSystem? system)
         {
             return system switch
@@ -1422,8 +1507,8 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         public static List<string> ListSystems()
         {
-            var systems = (RedumpSystem?[])Enum.GetValues(typeof(RedumpSystem));
-            var knownSystems = Array.FindAll(systems, s => s != null && !s.IsMarker() && s.GetCategory() != SystemCategory.NONE);
+            var systems = (RedumpSystem[])Enum.GetValues(typeof(RedumpSystem));
+            var knownSystems = Array.FindAll(systems, s => !s.IsMarker() && s.GetCategory() != SystemCategory.NONE);
             Array.Sort(knownSystems, (x, y) => (x.LongName() ?? string.Empty).CompareTo(y.LongName() ?? string.Empty));
             return [.. Array.ConvertAll(knownSystems, val => $"{val.ShortName()} - {val.LongName()}")];
         }
@@ -1459,6 +1544,12 @@ namespace SabreTools.RedumpLib.Data
         /// <returns></returns>
         public static string? ShortName(this RedumpSystem? system)
             => AttributeHelper<RedumpSystem?>.GetAttribute(system)?.ShortName;
+
+        /// <summary>
+        /// Determine the category of a system
+        /// </summary>
+        public static SystemCategory GetCategory(this RedumpSystem system)
+            => ((RedumpSystem?)system).GetCategory();
 
         /// <summary>
         /// Determine the category of a system
@@ -2470,7 +2561,8 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-        public static string? LongName(this SystemCategory? category) => AttributeHelper<SystemCategory?>.GetAttribute(category)?.LongName;
+        public static string? LongName(this SystemCategory? category)
+            => AttributeHelper<SystemCategory?>.GetAttribute(category)?.LongName;
 
         #endregion
 
@@ -2481,7 +2573,8 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="yesno"></param>
         /// <returns></returns>
-        public static string LongName(this YesNo? yesno) => AttributeHelper<YesNo?>.GetAttribute(yesno)?.LongName ?? "Yes/No";
+        public static string LongName(this YesNo? yesno)
+            => AttributeHelper<YesNo?>.GetAttribute(yesno)?.LongName ?? "Yes/No";
 
         /// <summary>
         /// Get the YesNo enum value for a given nullable boolean

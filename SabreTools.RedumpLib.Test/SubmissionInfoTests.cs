@@ -161,6 +161,7 @@ namespace SabreTools.RedumpLib.Test
                 {
                     DumpingProgram = "DiscImageCreator 20500101",
                     DumpingDate = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"),
+                    DumpingParameters = "cd dvd bd sacd fd hdd",
                     Manufacturer = "ATAPI",
                     Model = "Optical Drive",
                     Firmware = "1.23",

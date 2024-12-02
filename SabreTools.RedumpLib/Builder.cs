@@ -653,6 +653,7 @@ namespace SabreTools.RedumpLib
             info.TracksAndWriteOffsets ??= new TracksAndWriteOffsetsSection();
             info.SizeAndChecksums ??= new SizeAndChecksumsSection();
             info.DumpingInfo ??= new DumpingInfoSection();
+            info.Artifacts ??= [];
 
             // Ensure special dictionaries
             info.CommonDiscInfo.CommentsSpecialFields ??= [];
@@ -666,11 +667,11 @@ namespace SabreTools.RedumpLib
         /// </summary>
         /// <param name="info">Existing submission information</param>
         /// <param name="seed">User-supplied submission information</param>
-        public static void InjectSubmissionInformation(SubmissionInfo? info, SubmissionInfo? seed)
+        public static SubmissionInfo? InjectSubmissionInformation(SubmissionInfo? info, SubmissionInfo? seed)
         {
             // If we have any invalid info
             if (seed == null)
-                return;
+                return info;
 
             // Ensure that required sections exist
             info = EnsureAllSections(info);
@@ -728,6 +729,8 @@ namespace SabreTools.RedumpLib
                 // Info that only overwrites if supplied
                 if (!string.IsNullOrEmpty(seed.CopyProtection.Protection)) info.CopyProtection.Protection = seed.CopyProtection.Protection;
             }
+
+            return info;
         }
 
         #endregion
@@ -739,9 +742,10 @@ namespace SabreTools.RedumpLib
         /// </summary>
         /// <param name="text">Text block to process</param>
         /// <returns>Processed text block, if possible</returns>
-        private static string ReplaceHtmlWithSiteCodes(this string text)
+        internal static string ReplaceHtmlWithSiteCodes(this string text)
         {
-            if (string.IsNullOrEmpty(text))
+            // Empty strings are ignored
+            if (text.Length == 0)
                 return text;
 
             foreach (SiteCode? siteCode in Enum.GetValues(typeof(SiteCode)))

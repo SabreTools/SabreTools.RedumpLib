@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 using SabreTools.RedumpLib.Data;
 
@@ -8,12 +9,106 @@ namespace SabreTools.RedumpLib
     public static class Formatter
     {
         /// <summary>
-        /// Format the output data in a human readable way, separating each printed line into a new item in the list
+        /// Ordered set of comment codes for output
+        /// </summary>
+        internal static readonly SiteCode[] OrderedCommentCodes =
+        [
+            // Identifying Info
+            SiteCode.AlternativeTitle,
+            SiteCode.AlternativeForeignTitle,
+            SiteCode.InternalName,
+            SiteCode.InternalSerialName,
+            SiteCode.VolumeLabel,
+            SiteCode.Multisession,
+            SiteCode.UniversalHash,
+            SiteCode.RingNonZeroDataStart,
+
+            SiteCode.XMID,
+            SiteCode.XeMID,
+            SiteCode.DMIHash,
+            SiteCode.PFIHash,
+            SiteCode.SSHash,
+            SiteCode.SSVersion,
+
+            SiteCode.Filename,
+
+            SiteCode.BBFCRegistrationNumber,
+            SiteCode.DiscHologramID,
+            SiteCode.DNASDiscID,
+            SiteCode.ISBN,
+            SiteCode.ISSN,
+            SiteCode.PPN,
+            SiteCode.VFCCode,
+
+            SiteCode.CompatibleOS,
+            SiteCode.Genre,
+            SiteCode.Series,
+            SiteCode.PostgapType,
+            SiteCode.VCD,
+
+            // Publisher / Company IDs
+            SiteCode.AcclaimID,
+            SiteCode.ActivisionID,
+            SiteCode.BandaiID,
+            SiteCode.BethesdaID,
+            SiteCode.CDProjektID,
+            SiteCode.EidosID,
+            SiteCode.ElectronicArtsID,
+            SiteCode.FoxInteractiveID,
+            SiteCode.GTInteractiveID,
+            SiteCode.JASRACID,
+            SiteCode.KingRecordsID,
+            SiteCode.KoeiID,
+            SiteCode.KonamiID,
+            SiteCode.LucasArtsID,
+            SiteCode.MicrosoftID,
+            SiteCode.NaganoID,
+            SiteCode.NamcoID,
+            SiteCode.NipponIchiSoftwareID,
+            SiteCode.OriginID,
+            SiteCode.PonyCanyonID,
+            SiteCode.SegaID,
+            SiteCode.SelenID,
+            SiteCode.SierraID,
+            SiteCode.TaitoID,
+            SiteCode.UbisoftID,
+            SiteCode.ValveID,
+        ];
+
+        /// <summary>
+        /// Ordered set of content codes for output
+        /// </summary>
+        internal static readonly SiteCode[] OrderedContentCodes =
+        [
+            // Applications
+            SiteCode.Applications,
+
+            // Games
+            SiteCode.Games,
+            SiteCode.NetYarozeGames,
+
+            // Demos
+            SiteCode.PlayableDemos,
+            SiteCode.RollingDemos,
+            SiteCode.TechDemos,
+
+            // Video
+            SiteCode.GameFootage,
+            SiteCode.Videos,
+
+            // Miscellaneous
+            SiteCode.Patches,
+            SiteCode.Savegames,
+            SiteCode.Extras,
+        ];
+
+        /// <summary>
+        /// Format the output data in a human readable way
         /// </summary>
         /// <param name="info">Information object that should contain normalized values</param>
         /// <param name="enableRedumpCompatibility">True to enable Redump compatiblity, false otherwise</param>
-        /// <returns>List of strings representing each line of an output file, null on error</returns>
-        public static List<string>? FormatOutputData(SubmissionInfo? info, bool enableRedumpCompatibility, out string? status)
+        /// <returns>String representing each line of an output file, null on error</returns>
+        public static string? FormatOutputData(SubmissionInfo? info, bool enableRedumpCompatibility, out string? status)
         {
             // Check to see if the inputs are valid
             if (info == null)
@@ -24,242 +119,66 @@ namespace SabreTools.RedumpLib
 
             try
             {
-                // Sony-printed discs have layers in the opposite order
-                var system = info.CommonDiscInfo?.System;
-                bool reverseOrder = system.HasReversedRingcodes();
+                // Create the string builder for output
+                var output = new StringBuilder();
 
                 // Preamble for submission
-#pragma warning disable IDE0028
-                var output = new List<string>
-                {
-                    "Users who wish to submit this information to Redump must ensure that all of the fields below are accurate for the exact media they have.",
-                    "Please double-check to ensure that there are no fields that need verification, such as the version or copy protection.",
-                    "If there are no fields in need of verification or all fields are accurate, this preamble can be removed before submission.",
-                    "",
-                };
+                output.AppendLine("Users who wish to submit this information to Redump must ensure that all of the fields below are accurate for the exact media they have.");
+                output.AppendLine("Please double-check to ensure that there are no fields that need verification, such as the version or copy protection.");
+                output.AppendLine("If there are no fields in need of verification or all fields are accurate, this preamble can be removed before submission.");
+                output.AppendLine();
 
                 // Common Disc Info section
-                output.Add("Common Disc Info:");
-                AddIfExists(output, Template.TitleField, info.CommonDiscInfo?.Title, 1);
-                AddIfExists(output, Template.ForeignTitleField, info.CommonDiscInfo?.ForeignTitleNonLatin, 1);
-                AddIfExists(output, Template.DiscNumberField, info.CommonDiscInfo?.DiscNumberLetter, 1);
-                AddIfExists(output, Template.DiscTitleField, info.CommonDiscInfo?.DiscTitle, 1);
-                AddIfExists(output, Template.SystemField, info.CommonDiscInfo?.System.LongName(), 1);
-                AddIfExists(output, Template.MediaTypeField, GetFixedMediaType(
-                        info.CommonDiscInfo?.Media.ToMediaType(),
-                        info.SizeAndChecksums?.PICIdentifier,
-                        info.SizeAndChecksums?.Size,
-                        info.SizeAndChecksums?.Layerbreak,
-                        info.SizeAndChecksums?.Layerbreak2,
-                        info.SizeAndChecksums?.Layerbreak3),
-                    1);
-                AddIfExists(output, Template.CategoryField, info.CommonDiscInfo?.Category.LongName(), 1);
-                AddIfExists(output, Template.FullyMatchingIDField, info.FullyMatchedID?.ToString(), 1);
-                AddIfExists(output, Template.PartiallyMatchingIDsField, info.PartiallyMatchedIDs, 1);
-                AddIfExists(output, Template.RegionField, info.CommonDiscInfo?.Region.LongName() ?? "SPACE! (CHANGE THIS)", 1);
-                AddIfExists(output, Template.LanguagesField,
-                    Array.ConvertAll(info.CommonDiscInfo?.Languages ?? [null], l => l.LongName() ?? "SILENCE! (CHANGE THIS)"), 1);
-                AddIfExists(output, Template.PlaystationLanguageSelectionViaField,
-                    Array.ConvertAll(info.CommonDiscInfo?.LanguageSelection ?? [], l => l.LongName()), 1);
-                AddIfExists(output, Template.DiscSerialField, info.CommonDiscInfo?.Serial, 1);
-
-                // All ringcode information goes in an indented area
-                output.Add(""); output.Add("\tRingcode Information:"); output.Add("");
-
-                // If we have a triple-layer disc
-                if (info.SizeAndChecksums?.Layerbreak3 != default && info.SizeAndChecksums?.Layerbreak3 != default(long))
-                {
-                    AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringRingField, info.CommonDiscInfo?.Layer0MasteringRing, 0);
-                    AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringSIDField, info.CommonDiscInfo?.Layer0MasteringSID, 0);
-                    AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.ToolstampField, info.CommonDiscInfo?.Layer0ToolstampMasteringCode, 0);
-                    AddIfExists(output, "Data Side " + Template.MouldSIDField, info.CommonDiscInfo?.Layer0MouldSID, 0);
-                    AddIfExists(output, "Data Side " + Template.AdditionalMouldField, info.CommonDiscInfo?.Layer0AdditionalMould, 0);
-
-                    AddIfExists(output, "Layer 1 " + Template.MasteringRingField, info.CommonDiscInfo?.Layer1MasteringRing, 0);
-                    AddIfExists(output, "Layer 1 " + Template.MasteringSIDField, info.CommonDiscInfo?.Layer1MasteringSID, 0);
-                    AddIfExists(output, "Layer 1 " + Template.ToolstampField, info.CommonDiscInfo?.Layer1ToolstampMasteringCode, 0);
-                    AddIfExists(output, "Label Side " + Template.MouldSIDField, info.CommonDiscInfo?.Layer1MouldSID, 0);
-                    AddIfExists(output, "Label Side " + Template.AdditionalMouldField, info.CommonDiscInfo?.Layer1AdditionalMould, 0);
-
-                    AddIfExists(output, "Layer 2 " + Template.MasteringRingField, info.CommonDiscInfo?.Layer2MasteringRing, 0);
-                    AddIfExists(output, "Layer 2 " + Template.MasteringSIDField, info.CommonDiscInfo?.Layer2MasteringSID, 0);
-                    AddIfExists(output, "Layer 2 " + Template.ToolstampField, info.CommonDiscInfo?.Layer2ToolstampMasteringCode, 0);
-
-                    AddIfExists(output, (reverseOrder ? "Layer 3 (Inner) " : "Layer 3 (Outer) ") + Template.MasteringRingField, info.CommonDiscInfo?.Layer3MasteringRing, 0);
-                    AddIfExists(output, (reverseOrder ? "Layer 3 (Inner) " : "Layer 3 (Outer) ") + Template.MasteringSIDField, info.CommonDiscInfo?.Layer3MasteringSID, 0);
-                    AddIfExists(output, (reverseOrder ? "Layer 3 (Inner) " : "Layer 3 (Outer) ") + Template.ToolstampField, info.CommonDiscInfo?.Layer3ToolstampMasteringCode, 0);
-                }
-                // If we have a triple-layer disc
-                else if (info.SizeAndChecksums?.Layerbreak2 != default && info.SizeAndChecksums?.Layerbreak2 != default(long))
-                {
-                    AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringRingField, info.CommonDiscInfo?.Layer0MasteringRing, 0);
-                    AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringSIDField, info.CommonDiscInfo?.Layer0MasteringSID, 0);
-                    AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.ToolstampField, info.CommonDiscInfo?.Layer0ToolstampMasteringCode, 0);
-                    AddIfExists(output, "Data Side " + Template.MouldSIDField, info.CommonDiscInfo?.Layer0MouldSID, 0);
-                    AddIfExists(output, "Data Side " + Template.AdditionalMouldField, info.CommonDiscInfo?.Layer0AdditionalMould, 0);
-
-                    AddIfExists(output, "Layer 1 " + Template.MasteringRingField, info.CommonDiscInfo?.Layer1MasteringRing, 0);
-                    AddIfExists(output, "Layer 1 " + Template.MasteringSIDField, info.CommonDiscInfo?.Layer1MasteringSID, 0);
-                    AddIfExists(output, "Layer 1 " + Template.ToolstampField, info.CommonDiscInfo?.Layer1ToolstampMasteringCode, 0);
-                    AddIfExists(output, "Label Side " + Template.MouldSIDField, info.CommonDiscInfo?.Layer1MouldSID, 0);
-                    AddIfExists(output, "Label Side " + Template.AdditionalMouldField, info.CommonDiscInfo?.Layer1AdditionalMould, 0);
-
-                    AddIfExists(output, (reverseOrder ? "Layer 2 (Inner) " : "Layer 2 (Outer) ") + Template.MasteringRingField, info.CommonDiscInfo?.Layer2MasteringRing, 0);
-                    AddIfExists(output, (reverseOrder ? "Layer 2 (Inner) " : "Layer 2 (Outer) ") + Template.MasteringSIDField, info.CommonDiscInfo?.Layer2MasteringSID, 0);
-                    AddIfExists(output, (reverseOrder ? "Layer 2 (Inner) " : "Layer 2 (Outer) ") + Template.ToolstampField, info.CommonDiscInfo?.Layer2ToolstampMasteringCode, 0);
-                }
-                // If we have a dual-layer disc
-                else if (info.SizeAndChecksums?.Layerbreak != default && info.SizeAndChecksums?.Layerbreak != default(long))
-                {
-                    AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringRingField, info.CommonDiscInfo?.Layer0MasteringRing, 0);
-                    AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringSIDField, info.CommonDiscInfo?.Layer0MasteringSID, 0);
-                    AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.ToolstampField, info.CommonDiscInfo?.Layer0ToolstampMasteringCode, 0);
-                    AddIfExists(output, "Data Side " + Template.MouldSIDField, info.CommonDiscInfo?.Layer0MouldSID, 0);
-                    AddIfExists(output, "Data Side " + Template.AdditionalMouldField, info.CommonDiscInfo?.Layer0AdditionalMould, 0);
-
-                    AddIfExists(output, (reverseOrder ? "Layer 1 (Inner) " : "Layer 1 (Outer) ") + Template.MasteringRingField, info.CommonDiscInfo?.Layer1MasteringRing, 0);
-                    AddIfExists(output, (reverseOrder ? "Layer 1 (Inner) " : "Layer 1 (Outer) ") + Template.MasteringSIDField, info.CommonDiscInfo?.Layer1MasteringSID, 0);
-                    AddIfExists(output, (reverseOrder ? "Layer 1 (Inner) " : "Layer 1 (Outer) ") + Template.ToolstampField, info.CommonDiscInfo?.Layer1ToolstampMasteringCode, 0);
-                    AddIfExists(output, "Label Side " + Template.MouldSIDField, info.CommonDiscInfo?.Layer1MouldSID, 0);
-                    AddIfExists(output, "Label Side " + Template.AdditionalMouldField, info.CommonDiscInfo?.Layer1AdditionalMould, 0);
-                }
-                // If we have a single-layer disc
-                else
-                {
-                    AddIfExists(output, "Data Side " + Template.MasteringRingField, info.CommonDiscInfo?.Layer0MasteringRing, 0);
-                    AddIfExists(output, "Data Side " + Template.MasteringSIDField, info.CommonDiscInfo?.Layer0MasteringSID, 0);
-                    AddIfExists(output, "Data Side " + Template.ToolstampField, info.CommonDiscInfo?.Layer0ToolstampMasteringCode, 0);
-                    AddIfExists(output, "Data Side " + Template.MouldSIDField, info.CommonDiscInfo?.Layer0MouldSID, 0);
-                    AddIfExists(output, "Data Side " + Template.AdditionalMouldField, info.CommonDiscInfo?.Layer0AdditionalMould, 0);
-
-                    AddIfExists(output, "Label Side " + Template.MasteringRingField, info.CommonDiscInfo?.Layer1MasteringRing, 0);
-                    AddIfExists(output, "Label Side " + Template.MasteringSIDField, info.CommonDiscInfo?.Layer1MasteringSID, 0);
-                    AddIfExists(output, "Label Side " + Template.ToolstampField, info.CommonDiscInfo?.Layer1ToolstampMasteringCode, 0);
-                    AddIfExists(output, "Label Side " + Template.MouldSIDField, info.CommonDiscInfo?.Layer1MouldSID, 0);
-                    AddIfExists(output, "Label Side " + Template.AdditionalMouldField, info.CommonDiscInfo?.Layer1AdditionalMould, 0);
-                }
-
-                output.Add("");
-                AddIfExists(output, Template.BarcodeField, info.CommonDiscInfo?.Barcode, 1);
-                AddIfExists(output, Template.EXEDateBuildDate, info.CommonDiscInfo?.EXEDateBuildDate, 1);
-                AddIfExists(output, Template.ErrorCountField, info.CommonDiscInfo?.ErrorsCount, 1);
-                AddIfExists(output, Template.CommentsField, info.CommonDiscInfo?.Comments?.Trim(), 1);
-                AddIfExists(output, Template.ContentsField, info.CommonDiscInfo?.Contents?.Trim(), 1);
+                FormatOutputData(output,
+                    info.CommonDiscInfo,
+                    info.SizeAndChecksums,
+                    info.FullyMatchedID,
+                    info.PartiallyMatchedIDs);
+                output.AppendLine();
 
                 // Version and Editions section
-                output.Add(""); output.Add("Version and Editions:");
-                AddIfExists(output, Template.VersionField, info.VersionAndEditions?.Version, 1);
-                AddIfExists(output, Template.EditionField, info.VersionAndEditions?.OtherEditions, 1);
+                FormatOutputData(output, info.VersionAndEditions);
+                output.AppendLine();
 
                 // EDC section
-                if (info.CommonDiscInfo?.System == RedumpSystem.SonyPlayStation)
-                {
-                    output.Add(""); output.Add("EDC:");
-                    AddIfExists(output, Template.PlayStationEDCField, info.EDC?.EDC.LongName(), 1);
-                }
-
-                // Parent/Clone Relationship section
-                // output.Add(""); output.Add("Parent/Clone Relationship:");
-                // AddIfExists(output, Template.ParentIDField, info.ParentID);
-                // AddIfExists(output, Template.RegionalParentField, info.RegionalParent.ToString());
+                FormatOutputData(output, info.EDC, info.CommonDiscInfo?.System);
+                output.AppendLine();
 
                 // Extras section
-                if (info.Extras?.PVD != null || info.Extras?.PIC != null || info.Extras?.BCA != null || info.Extras?.SecuritySectorRanges != null)
-                {
-                    output.Add(""); output.Add("Extras:");
-                    AddIfExists(output, Template.PVDField, info.Extras.PVD?.Trim(), 1);
-                    AddIfExists(output, Template.PlayStation3WiiDiscKeyField, info.Extras.DiscKey, 1);
-                    AddIfExists(output, Template.PlayStation3DiscIDField, info.Extras.DiscID, 1);
-                    AddIfExists(output, Template.PICField, info.Extras.PIC, 1);
-                    AddIfExists(output, Template.HeaderField, info.Extras.Header, 1);
-                    AddIfExists(output, Template.GameCubeWiiBCAField, info.Extras.BCA, 1);
-                    AddIfExists(output, Template.XBOXSSRanges, info.Extras.SecuritySectorRanges, 1);
-                }
+                FormatOutputData(output, info.Extras);
+                output.AppendLine();
 
                 // Copy Protection section
-                if (!string.IsNullOrEmpty(info.CopyProtection?.Protection)
-                    || (info.CopyProtection?.AntiModchip != null && info.CopyProtection.AntiModchip != YesNo.NULL)
-                    || (info.CopyProtection?.LibCrypt != null && info.CopyProtection.LibCrypt != YesNo.NULL)
-                    || !string.IsNullOrEmpty(info.CopyProtection?.LibCryptData)
-                    || !string.IsNullOrEmpty(info.CopyProtection?.SecuROMData))
-                {
-                    output.Add(""); output.Add("Copy Protection:");
-                    if (info.CommonDiscInfo?.System == RedumpSystem.SonyPlayStation)
-                    {
-                        AddIfExists(output, Template.PlayStationAntiModchipField, info.CopyProtection!.AntiModchip.LongName(), 1);
-                        AddIfExists(output, Template.PlayStationLibCryptField, info.CopyProtection.LibCrypt.LongName(), 1);
-                        AddIfExists(output, Template.SubIntentionField, info.CopyProtection.LibCryptData, 1);
-                    }
-
-                    AddIfExists(output, Template.CopyProtectionField, info.CopyProtection!.Protection, 1);
-                    AddIfExists(output, Template.SubIntentionField, info.CopyProtection.SecuROMData, 1);
-                }
-
-                // Dumpers and Status section
-                // output.Add(""); output.Add("Dumpers and Status");
-                // AddIfExists(output, Template.StatusField, info.Status.Name());
-                // AddIfExists(output, Template.OtherDumpersField, info.OtherDumpers);
+                FormatOutputData(output, info.CopyProtection, info.CommonDiscInfo?.System);
+                output.AppendLine();
 
                 // Tracks and Write Offsets section
                 if (!string.IsNullOrEmpty(info.TracksAndWriteOffsets?.ClrMameProData))
                 {
-                    output.Add(""); output.Add("Tracks and Write Offsets:");
-                    AddIfExists(output, Template.DATField, info.TracksAndWriteOffsets!.ClrMameProData + "\n", 1);
-                    AddIfExists(output, Template.CuesheetField, info.TracksAndWriteOffsets.Cuesheet, 1);
-                    var offset = info.TracksAndWriteOffsets.OtherWriteOffsets;
-                    if (Int32.TryParse(offset, out int i))
-                        offset = i.ToString("+#;-#;0");
-
-                    AddIfExists(output, Template.WriteOffsetField, offset, 1);
+                    FormatOutputData(output, info.TracksAndWriteOffsets!);
+                    output.AppendLine();
                 }
                 // Size & Checksum section
                 else
                 {
-                    output.Add(""); output.Add("Size & Checksum:");
-
-                    // Gross hack because of automatic layerbreaks in Redump
-                    if (!enableRedumpCompatibility
-                        || (info.CommonDiscInfo?.Media.ToMediaType() != MediaType.BluRay
-                            && info.CommonDiscInfo?.System.IsXGD() == false))
-                    {
-                        AddIfExists(output, Template.LayerbreakField, info.SizeAndChecksums?.Layerbreak, 1);
-                    }
-
-                    AddIfExists(output, Template.SizeField, info.SizeAndChecksums?.Size.ToString(), 1);
-                    AddIfExists(output, Template.CRC32Field, info.SizeAndChecksums?.CRC32, 1);
-                    AddIfExists(output, Template.MD5Field, info.SizeAndChecksums?.MD5, 1);
-                    AddIfExists(output, Template.SHA1Field, info.SizeAndChecksums?.SHA1, 1);
+                    FormatOutputData(output,
+                        info.SizeAndChecksums,
+                        info.CommonDiscInfo?.Media.ToMediaType(),
+                        info.CommonDiscInfo?.System,
+                        enableRedumpCompatibility);
+                    output.AppendLine();
                 }
 
                 // Dumping Info section
-                output.Add(""); output.Add("Dumping Info:");
-                AddIfExists(output, Template.FrontendVersionField, info.DumpingInfo?.FrontendVersion, 1);
-                AddIfExists(output, Template.DumpingProgramField, info.DumpingInfo?.DumpingProgram, 1);
-                AddIfExists(output, Template.DumpingDateField, info.DumpingInfo?.DumpingDate, 1);
-                AddIfExists(output, Template.DumpingParametersField, info.DumpingInfo?.DumpingParameters, 1);
-                AddIfExists(output, Template.DumpingDriveManufacturer, info.DumpingInfo?.Manufacturer, 1);
-                AddIfExists(output, Template.DumpingDriveModel, info.DumpingInfo?.Model, 1);
-                AddIfExists(output, Template.DumpingDriveFirmware, info.DumpingInfo?.Firmware, 1);
-                AddIfExists(output, Template.ReportedDiscType, info.DumpingInfo?.ReportedDiscType, 1);
-                AddIfExists(output, Template.C2ErrorCountField, info.DumpingInfo?.C2ErrorsCount, 1);
+                FormatOutputData(output, info.DumpingInfo);
 
                 // Make sure there aren't any instances of two blank lines in a row
-                string? last = null;
-                for (int i = 0; i < output.Count;)
-                {
-                    if (output[i] == last && string.IsNullOrEmpty(last))
-                    {
-                        output.RemoveAt(i);
-                    }
-                    else
-                    {
-                        last = output[i];
-                        i++;
-                    }
-                }
+                string outputStr = output.ToString();
+                outputStr = outputStr.Replace("\r\n\r\n", "\r\n");
+                outputStr = outputStr.Replace("\n\n", "\n");
 
                 status = "Formatting complete!";
-                return output;
+                return output.ToString();
             }
             catch (Exception ex)
             {
@@ -272,32 +191,26 @@ namespace SabreTools.RedumpLib
         /// Process any fields that have to be combined
         /// </summary>
         /// <param name="info">Information object to normalize</param>
-        public static void ProcessSpecialFields(SubmissionInfo? info)
+        public static void ProcessSpecialFields(SubmissionInfo info)
         {
             // If there is no submission info
-            if (info == null)
+            if (info?.CommonDiscInfo == null)
                 return;
 
             // Process the comments field
-            if (info.CommonDiscInfo?.CommentsSpecialFields != null && info.CommonDiscInfo.CommentsSpecialFields.Count > 0)
+            if (info.CommonDiscInfo.CommentsSpecialFields != null && info.CommonDiscInfo.CommentsSpecialFields.Count > 0)
             {
                 // If the field is missing, add an empty one to fill in
-                if (info.CommonDiscInfo.Comments == null)
-                    info.CommonDiscInfo.Comments = string.Empty;
+                info.CommonDiscInfo.Comments ??= string.Empty;
 
                 // Add all special fields before any comments
-                info.CommonDiscInfo.Comments = string.Join(
-                    "\n", OrderCommentTags(info.CommonDiscInfo.CommentsSpecialFields)
-                        .FindAll(kvp => !string.IsNullOrEmpty(kvp.Value))
-                        .ConvertAll(FormatSiteTag)
-                        .FindAll(s => !string.IsNullOrEmpty(s))
-                        .ToArray()
-                ) + "\n" + info.CommonDiscInfo.Comments;
+                var orderedTags = OrderCommentTags(info.CommonDiscInfo.CommentsSpecialFields);
+                var formattedTags = Array.ConvertAll(orderedTags, kvp => FormatSiteTag(kvp.Key, kvp.Value));
+                info.CommonDiscInfo.Comments = string.Join("\n", formattedTags) + "\n" + info.CommonDiscInfo.Comments;
 
-                // Normalize newlines
+                // Normalize the assembled string
                 info.CommonDiscInfo.Comments = info.CommonDiscInfo.Comments.Replace("\r\n", "\n");
-
-                // Trim the comments field
+                info.CommonDiscInfo.Comments = info.CommonDiscInfo.Comments.Replace("\n\n", "\n");
                 info.CommonDiscInfo.Comments = info.CommonDiscInfo.Comments.Trim();
 
                 // Wipe out the special fields dictionary
@@ -305,25 +218,19 @@ namespace SabreTools.RedumpLib
             }
 
             // Process the contents field
-            if (info.CommonDiscInfo?.ContentsSpecialFields != null && info.CommonDiscInfo.ContentsSpecialFields.Count > 0)
+            if (info.CommonDiscInfo.ContentsSpecialFields != null && info.CommonDiscInfo.ContentsSpecialFields.Count > 0)
             {
                 // If the field is missing, add an empty one to fill in
-                if (info.CommonDiscInfo.Contents == null)
-                    info.CommonDiscInfo.Contents = string.Empty;
+                info.CommonDiscInfo.Contents ??= string.Empty;
 
                 // Add all special fields before any contents
-                info.CommonDiscInfo.Contents = string.Join(
-                    "\n", OrderContentTags(info.CommonDiscInfo.ContentsSpecialFields)
-                        .FindAll(kvp => !string.IsNullOrEmpty(kvp.Value))
-                        .ConvertAll(FormatSiteTag)
-                        .FindAll(s => !string.IsNullOrEmpty(s))
-                        .ToArray()
-                ) + "\n" + info.CommonDiscInfo.Contents;
+                var orderedTags = OrderContentTags(info.CommonDiscInfo.ContentsSpecialFields);
+                var formattedTags = Array.ConvertAll(orderedTags, kvp => FormatSiteTag(kvp.Key, kvp.Value));
+                info.CommonDiscInfo.Contents = string.Join("\n", formattedTags) + "\n" + info.CommonDiscInfo.Contents;
 
-                // Normalize newlines
+                // Normalize the assembled string
                 info.CommonDiscInfo.Contents = info.CommonDiscInfo.Contents.Replace("\r\n", "\n");
-
-                // Trim the contents field
+                info.CommonDiscInfo.Contents = info.CommonDiscInfo.Contents.Replace("\n\n", "\n");
                 info.CommonDiscInfo.Contents = info.CommonDiscInfo.Contents.Trim();
 
                 // Wipe out the special fields dictionary
@@ -331,16 +238,286 @@ namespace SabreTools.RedumpLib
             }
         }
 
+        /// <summary>
+        /// Format a CommonDiscInfoSection
+        /// </summary>
+        internal static void FormatOutputData(StringBuilder output,
+            CommonDiscInfoSection? section,
+            SizeAndChecksumsSection? sac,
+            int? fullyMatchedID,
+            List<int>? partiallyMatchedIDs)
+        {
+            // Sony-printed discs have layers in the opposite order
+            var system = section?.System;
+            bool reverseOrder = system.HasReversedRingcodes();
+
+            output.AppendLine("Common Disc Info:");
+
+            AddIfExists(output, Template.TitleField, section?.Title, 1);
+            AddIfExists(output, Template.ForeignTitleField, section?.ForeignTitleNonLatin, 1);
+            AddIfExists(output, Template.DiscNumberField, section?.DiscNumberLetter, 1);
+            AddIfExists(output, Template.DiscTitleField, section?.DiscTitle, 1);
+            AddIfExists(output, Template.SystemField, section?.System.LongName(), 1);
+            AddIfExists(output, Template.MediaTypeField, GetFixedMediaType(
+                    section?.Media.ToMediaType(),
+                    sac?.PICIdentifier,
+                    sac?.Size,
+                    sac?.Layerbreak,
+                    sac?.Layerbreak2,
+                    sac?.Layerbreak3),
+                1);
+            AddIfExists(output, Template.CategoryField, section?.Category.LongName(), 1);
+            AddIfExists(output, Template.FullyMatchingIDField, fullyMatchedID?.ToString(), 1);
+            AddIfExists(output, Template.PartiallyMatchingIDsField, partiallyMatchedIDs, 1);
+            AddIfExists(output, Template.RegionField, section?.Region.LongName() ?? "SPACE! (CHANGE THIS)", 1);
+            AddIfExists(output, Template.LanguagesField,
+                Array.ConvertAll(section?.Languages ?? [null], l => l.LongName() ?? "SILENCE! (CHANGE THIS)"), 1);
+            AddIfExists(output, Template.PlaystationLanguageSelectionViaField,
+                Array.ConvertAll(section?.LanguageSelection ?? [], l => l.LongName()), 1);
+            AddIfExists(output, Template.DiscSerialField, section?.Serial, 1);
+            output.AppendLine();
+
+            // All ringcode information goes in an indented area
+            output.AppendLine("\tRingcode Information:");
+            output.AppendLine();
+
+            // If we have a triple-layer disc
+            if (sac?.Layerbreak3 != default && sac?.Layerbreak3 != default(long))
+            {
+                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringRingField, section?.Layer0MasteringRing, 0);
+                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringSIDField, section?.Layer0MasteringSID, 0);
+                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.ToolstampField, section?.Layer0ToolstampMasteringCode, 0);
+                AddIfExists(output, "Data Side " + Template.MouldSIDField, section?.Layer0MouldSID, 0);
+                AddIfExists(output, "Data Side " + Template.AdditionalMouldField, section?.Layer0AdditionalMould, 0);
+
+                AddIfExists(output, "Layer 1 " + Template.MasteringRingField, section?.Layer1MasteringRing, 0);
+                AddIfExists(output, "Layer 1 " + Template.MasteringSIDField, section?.Layer1MasteringSID, 0);
+                AddIfExists(output, "Layer 1 " + Template.ToolstampField, section?.Layer1ToolstampMasteringCode, 0);
+                AddIfExists(output, "Label Side " + Template.MouldSIDField, section?.Layer1MouldSID, 0);
+                AddIfExists(output, "Label Side " + Template.AdditionalMouldField, section?.Layer1AdditionalMould, 0);
+
+                AddIfExists(output, "Layer 2 " + Template.MasteringRingField, section?.Layer2MasteringRing, 0);
+                AddIfExists(output, "Layer 2 " + Template.MasteringSIDField, section?.Layer2MasteringSID, 0);
+                AddIfExists(output, "Layer 2 " + Template.ToolstampField, section?.Layer2ToolstampMasteringCode, 0);
+
+                AddIfExists(output, (reverseOrder ? "Layer 3 (Inner) " : "Layer 3 (Outer) ") + Template.MasteringRingField, section?.Layer3MasteringRing, 0);
+                AddIfExists(output, (reverseOrder ? "Layer 3 (Inner) " : "Layer 3 (Outer) ") + Template.MasteringSIDField, section?.Layer3MasteringSID, 0);
+                AddIfExists(output, (reverseOrder ? "Layer 3 (Inner) " : "Layer 3 (Outer) ") + Template.ToolstampField, section?.Layer3ToolstampMasteringCode, 0);
+            }
+            // If we have a triple-layer disc
+            else if (sac?.Layerbreak2 != default && sac?.Layerbreak2 != default(long))
+            {
+                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringRingField, section?.Layer0MasteringRing, 0);
+                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringSIDField, section?.Layer0MasteringSID, 0);
+                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.ToolstampField, section?.Layer0ToolstampMasteringCode, 0);
+                AddIfExists(output, "Data Side " + Template.MouldSIDField, section?.Layer0MouldSID, 0);
+                AddIfExists(output, "Data Side " + Template.AdditionalMouldField, section?.Layer0AdditionalMould, 0);
+
+                AddIfExists(output, "Layer 1 " + Template.MasteringRingField, section?.Layer1MasteringRing, 0);
+                AddIfExists(output, "Layer 1 " + Template.MasteringSIDField, section?.Layer1MasteringSID, 0);
+                AddIfExists(output, "Layer 1 " + Template.ToolstampField, section?.Layer1ToolstampMasteringCode, 0);
+                AddIfExists(output, "Label Side " + Template.MouldSIDField, section?.Layer1MouldSID, 0);
+                AddIfExists(output, "Label Side " + Template.AdditionalMouldField, section?.Layer1AdditionalMould, 0);
+
+                AddIfExists(output, (reverseOrder ? "Layer 2 (Inner) " : "Layer 2 (Outer) ") + Template.MasteringRingField, section?.Layer2MasteringRing, 0);
+                AddIfExists(output, (reverseOrder ? "Layer 2 (Inner) " : "Layer 2 (Outer) ") + Template.MasteringSIDField, section?.Layer2MasteringSID, 0);
+                AddIfExists(output, (reverseOrder ? "Layer 2 (Inner) " : "Layer 2 (Outer) ") + Template.ToolstampField, section?.Layer2ToolstampMasteringCode, 0);
+            }
+            // If we have a dual-layer disc
+            else if (sac?.Layerbreak != default && sac?.Layerbreak != default(long))
+            {
+                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringRingField, section?.Layer0MasteringRing, 0);
+                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringSIDField, section?.Layer0MasteringSID, 0);
+                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.ToolstampField, section?.Layer0ToolstampMasteringCode, 0);
+                AddIfExists(output, "Data Side " + Template.MouldSIDField, section?.Layer0MouldSID, 0);
+                AddIfExists(output, "Data Side " + Template.AdditionalMouldField, section?.Layer0AdditionalMould, 0);
+
+                AddIfExists(output, (reverseOrder ? "Layer 1 (Inner) " : "Layer 1 (Outer) ") + Template.MasteringRingField, section?.Layer1MasteringRing, 0);
+                AddIfExists(output, (reverseOrder ? "Layer 1 (Inner) " : "Layer 1 (Outer) ") + Template.MasteringSIDField, section?.Layer1MasteringSID, 0);
+                AddIfExists(output, (reverseOrder ? "Layer 1 (Inner) " : "Layer 1 (Outer) ") + Template.ToolstampField, section?.Layer1ToolstampMasteringCode, 0);
+                AddIfExists(output, "Label Side " + Template.MouldSIDField, section?.Layer1MouldSID, 0);
+                AddIfExists(output, "Label Side " + Template.AdditionalMouldField, section?.Layer1AdditionalMould, 0);
+            }
+            // If we have a single-layer disc
+            else
+            {
+                AddIfExists(output, "Data Side " + Template.MasteringRingField, section?.Layer0MasteringRing, 0);
+                AddIfExists(output, "Data Side " + Template.MasteringSIDField, section?.Layer0MasteringSID, 0);
+                AddIfExists(output, "Data Side " + Template.ToolstampField, section?.Layer0ToolstampMasteringCode, 0);
+                AddIfExists(output, "Data Side " + Template.MouldSIDField, section?.Layer0MouldSID, 0);
+                AddIfExists(output, "Data Side " + Template.AdditionalMouldField, section?.Layer0AdditionalMould, 0);
+
+                AddIfExists(output, "Label Side " + Template.MasteringRingField, section?.Layer1MasteringRing, 0);
+                AddIfExists(output, "Label Side " + Template.MasteringSIDField, section?.Layer1MasteringSID, 0);
+                AddIfExists(output, "Label Side " + Template.ToolstampField, section?.Layer1ToolstampMasteringCode, 0);
+                AddIfExists(output, "Label Side " + Template.MouldSIDField, section?.Layer1MouldSID, 0);
+                AddIfExists(output, "Label Side " + Template.AdditionalMouldField, section?.Layer1AdditionalMould, 0);
+            }
+
+            output.AppendLine();
+            AddIfExists(output, Template.BarcodeField, section?.Barcode, 1);
+            AddIfExists(output, Template.EXEDateBuildDate, section?.EXEDateBuildDate, 1);
+            AddIfExists(output, Template.ErrorCountField, section?.ErrorsCount, 1);
+            AddIfExists(output, Template.CommentsField, section?.Comments?.Trim(), 1);
+            AddIfExists(output, Template.ContentsField, section?.Contents?.Trim(), 1);
+        }
+
+        /// <summary>
+        /// Format a VersionAndEditionsSection
+        /// </summary>
+        internal static void FormatOutputData(StringBuilder output, VersionAndEditionsSection? section)
+        {
+            output.AppendLine("Version and Editions:");
+
+            AddIfExists(output, Template.VersionField, section?.Version, 1);
+            AddIfExists(output, Template.EditionField, section?.OtherEditions, 1);
+        }
+
+        /// <summary>
+        /// Format a EDCSection
+        /// </summary>
+        internal static void FormatOutputData(StringBuilder output, EDCSection? section, RedumpSystem? system)
+        {
+            // Check the section can be added
+            if (system != RedumpSystem.SonyPlayStation)
+                return;
+
+            output.AppendLine("EDC:");
+
+            AddIfExists(output, Template.PlayStationEDCField, section?.EDC.LongName(), 1);
+        }
+
+        /// <summary>
+        /// Format a ExtrasSection
+        /// </summary>
+        internal static void FormatOutputData(StringBuilder output, ExtrasSection? section)
+        {
+            // Optional sections have to exist to format
+            if (section == null)
+                return;
+
+            // Check the section can be added
+            if (section.PVD == null
+                && section.PIC == null
+                && section.BCA == null
+                && section.SecuritySectorRanges == null)
+            {
+                return;
+            }
+
+            output.AppendLine("Extras:");
+
+            AddIfExists(output, Template.PVDField, section.PVD?.Trim(), 1);
+            AddIfExists(output, Template.PlayStation3WiiDiscKeyField, section.DiscKey, 1);
+            AddIfExists(output, Template.PlayStation3DiscIDField, section.DiscID, 1);
+            AddIfExists(output, Template.PICField, section.PIC, 1);
+            AddIfExists(output, Template.HeaderField, section.Header, 1);
+            AddIfExists(output, Template.GameCubeWiiBCAField, section.BCA, 1);
+            AddIfExists(output, Template.XBOXSSRanges, section.SecuritySectorRanges, 1);
+        }
+
+        /// <summary>
+        /// Format a ExtrasSection
+        /// </summary>
+        internal static void FormatOutputData(StringBuilder output,
+            CopyProtectionSection? section,
+            RedumpSystem? system)
+        {
+            // Optional sections have to exist to format
+            if (section == null)
+                return;
+
+            // Check the section can be added
+            if (string.IsNullOrEmpty(section.Protection)
+                && (section.AntiModchip == null || section.AntiModchip == YesNo.NULL)
+                && (section.LibCrypt == null || section.LibCrypt == YesNo.NULL)
+                && string.IsNullOrEmpty(section.LibCryptData)
+                && string.IsNullOrEmpty(section.SecuROMData))
+            {
+                return;
+            }
+
+            output.AppendLine("Copy Protection:");
+
+            if (system == RedumpSystem.SonyPlayStation)
+            {
+                AddIfExists(output, Template.PlayStationAntiModchipField, section.AntiModchip.LongName(), 1);
+                AddIfExists(output, Template.PlayStationLibCryptField, section.LibCrypt.LongName(), 1);
+                AddIfExists(output, Template.SubIntentionField, section.LibCryptData, 1);
+            }
+
+            AddIfExists(output, Template.CopyProtectionField, section.Protection, 1);
+            AddIfExists(output, Template.SubIntentionField, section.SecuROMData, 1);
+        }
+
+        /// <summary>
+        /// Format a TracksAndWriteOffsetsSection
+        /// </summary>
+        internal static void FormatOutputData(StringBuilder output, TracksAndWriteOffsetsSection section)
+        {
+            output.AppendLine("Tracks and Write Offsets:");
+
+            AddIfExists(output, Template.DATField, section.ClrMameProData + "\n", 1);
+            AddIfExists(output, Template.CuesheetField, section.Cuesheet, 1);
+            var offset = section.OtherWriteOffsets;
+            if (int.TryParse(offset, out int i))
+                offset = i.ToString("+#;-#;0");
+
+            AddIfExists(output, Template.WriteOffsetField, offset, 1);
+        }
+
+        /// <summary>
+        /// Format a SizeAndChecksumsSection
+        /// </summary>
+        internal static void FormatOutputData(StringBuilder output,
+            SizeAndChecksumsSection? section,
+            MediaType? mediaType,
+            RedumpSystem? system,
+            bool enableRedumpCompatibility)
+        {
+            output.AppendLine("Size & Checksum:");
+
+            // Gross hack because of automatic layerbreaks in Redump
+            if (!enableRedumpCompatibility
+                || (mediaType != MediaType.BluRay && system.IsXGD() == false))
+            {
+                AddIfExists(output, Template.LayerbreakField, section?.Layerbreak, 1);
+            }
+
+            AddIfExists(output, Template.SizeField, section?.Size.ToString(), 1);
+            AddIfExists(output, Template.CRC32Field, section?.CRC32, 1);
+            AddIfExists(output, Template.MD5Field, section?.MD5, 1);
+            AddIfExists(output, Template.SHA1Field, section?.SHA1, 1);
+        }
+
+        /// <summary>
+        /// Format a DumpingInfoSection
+        /// </summary>
+        internal static void FormatOutputData(StringBuilder output, DumpingInfoSection? section)
+        {
+            output.AppendLine("Dumping Info:");
+
+            AddIfExists(output, Template.FrontendVersionField, section?.FrontendVersion, 1);
+            AddIfExists(output, Template.DumpingProgramField, section?.DumpingProgram, 1);
+            AddIfExists(output, Template.DumpingDateField, section?.DumpingDate, 1);
+            AddIfExists(output, Template.DumpingParametersField, section?.DumpingParameters, 1);
+            AddIfExists(output, Template.DumpingDriveManufacturer, section?.Manufacturer, 1);
+            AddIfExists(output, Template.DumpingDriveModel, section?.Model, 1);
+            AddIfExists(output, Template.DumpingDriveFirmware, section?.Firmware, 1);
+            AddIfExists(output, Template.ReportedDiscType, section?.ReportedDiscType, 1);
+            AddIfExists(output, Template.C2ErrorCountField, section?.C2ErrorsCount, 1);
+        }
+
         #region Helpers
 
         /// <summary>
         /// Add the properly formatted key and value, if possible
         /// </summary>
-        /// <param name="output">Output list</param>
+        /// <param name="output">String builder representing the output</param>
         /// <param name="key">Name of the output key to write</param>
         /// <param name="value">Name of the output value to write</param>
         /// <param name="indent">Number of tabs to indent the line</param>
-        private static void AddIfExists(List<string> output, string key, string? value, int indent)
+        private static void AddIfExists(StringBuilder output, string key, string? value, int indent)
         {
             // If there's no valid value to write
             if (value == null)
@@ -368,29 +545,29 @@ namespace SabreTools.RedumpLib
             value = value.Replace("\r\n", "\n");
             if (value.Contains("\n"))
             {
-                output.Add(prefix + key + ":"); output.Add("");
+                output.AppendLine(prefix + key + ":"); output.AppendLine();
                 string[] values = value.Split('\n');
                 foreach (string val in values)
-                    output.Add(val);
+                    output.AppendLine(val);
 
-                output.Add("");
+                output.AppendLine();
             }
 
             // For all regular values
             else
             {
-                output.Add(prefix + key + ": " + value);
+                output.AppendLine(prefix + key + ": " + value);
             }
         }
 
         /// <summary>
         /// Add the properly formatted key and value, if possible
         /// </summary>
-        /// <param name="output">Output list</param>
+        /// <param name="output">String builder representing the output</param>
         /// <param name="key">Name of the output key to write</param>
         /// <param name="value">Name of the output value to write</param>
         /// <param name="indent">Number of tabs to indent the line</param>
-        private static void AddIfExists(List<string> output, string key, string?[]? value, int indent)
+        private static void AddIfExists(StringBuilder output, string key, string?[]? value, int indent)
         {
             // If there's no valid value to write
             if (value == null || value.Length == 0)
@@ -402,11 +579,11 @@ namespace SabreTools.RedumpLib
         /// <summary>
         /// Add the properly formatted key and value, if possible
         /// </summary>
-        /// <param name="output">Output list</param>
+        /// <param name="output">String builder representing the output</param>
         /// <param name="key">Name of the output key to write</param>
         /// <param name="value">Name of the output value to write</param>
         /// <param name="indent">Number of tabs to indent the line</param>
-        private static void AddIfExists(List<string> output, string key, long? value, int indent)
+        private static void AddIfExists(StringBuilder output, string key, long? value, int indent)
         {
             // If there's no valid value to write
             if (value == null || value == default(long))
@@ -416,17 +593,17 @@ namespace SabreTools.RedumpLib
             for (int i = 0; i < indent; i++)
                 prefix += "\t";
 
-            output.Add(prefix + key + ": " + value);
+            output.AppendLine(prefix + key + ": " + value);
         }
 
         /// <summary>
         /// Add the properly formatted key and value, if possible
         /// </summary>
-        /// <param name="output">Output list</param>
+        /// <param name="output">String builder representing the output</param>
         /// <param name="key">Name of the output key to write</param>
         /// <param name="value">Name of the output value to write</param>
         /// <param name="indent">Number of tabs to indent the line</param>
-        private static void AddIfExists(List<string> output, string key, List<int>? value, int indent)
+        private static void AddIfExists(StringBuilder output, string key, List<int>? value, int indent)
         {
             // If there's no valid value to write
             if (value == null || value.Count == 0)
@@ -438,23 +615,28 @@ namespace SabreTools.RedumpLib
         /// <summary>
         /// Format a single site tag to string
         /// </summary>
-        /// <param name="kvp">KeyValuePair representing the site tag and value</param>
+        /// <param name="code">Site tag to format</param>
+        /// <param name="value">String value to use</param>
         /// <returns>String-formatted tag and value</returns>
-        private static string FormatSiteTag(KeyValuePair<SiteCode?, string> kvp)
+        internal static string FormatSiteTag(SiteCode code, string value)
         {
-            bool isMultiLine = kvp.Key.IsMultiLine();
-            string line = $"{kvp.Key.ShortName()}{(isMultiLine ? "\n" : " ")}";
+            // Do not format empty tags
+            if (value.Length == 0)
+                return string.Empty;
+
+            bool isMultiLine = code.IsMultiLine();
+            string line = $"{code.ShortName()}{(isMultiLine ? "\n" : " ")}";
 
             // Special case for boolean fields
-            if (IsBoolean(kvp.Key))
+            if (code.IsBoolean())
             {
-                if (kvp.Value != true.ToString())
+                if (value != true.ToString())
                     return string.Empty;
 
                 return line.Trim();
             }
 
-            return $"{line}{kvp.Value}{(isMultiLine ? "\n" : string.Empty)}";
+            return $"{line}{value}{(isMultiLine ? "\n" : string.Empty)}";
         }
 
         /// <summary>
@@ -467,8 +649,7 @@ namespace SabreTools.RedumpLib
         /// <param name="layerbreak2">Second layerbreak value, as applicable</param>
         /// <param name="layerbreak3">Third layerbreak value, as applicable</param>
         /// <returns>String representation of the media, including layer specification</returns>
-        /// TODO: Figure out why we have this and NormalizeDiscType as well
-        private static string? GetFixedMediaType(MediaType? mediaType, string? picIdentifier, long? size, long? layerbreak, long? layerbreak2, long? layerbreak3)
+        internal static string? GetFixedMediaType(MediaType? mediaType, string? picIdentifier, long? size, long? layerbreak, long? layerbreak2, long? layerbreak3)
         {
             switch (mediaType)
             {
@@ -483,18 +664,24 @@ namespace SabreTools.RedumpLib
                         return $"{mediaType.LongName()}-128";
                     else if (layerbreak2 != default && layerbreak2 != default(long))
                         return $"{mediaType.LongName()}-100";
-                    else if (layerbreak != default && layerbreak != default(long) && picIdentifier == SabreTools.Models.PIC.Constants.DiscTypeIdentifierROMUltra)
+                    else if (layerbreak != default && layerbreak != default(long) && picIdentifier == Models.PIC.Constants.DiscTypeIdentifierROMUltra)
                         return $"{mediaType.LongName()}-66";
                     else if (layerbreak != default && layerbreak != default(long) && size > 53_687_063_712)
                         return $"{mediaType.LongName()}-66";
                     else if (layerbreak != default && layerbreak != default(long))
                         return $"{mediaType.LongName()}-50";
-                    else if (picIdentifier == SabreTools.Models.PIC.Constants.DiscTypeIdentifierROMUltra)
+                    else if (picIdentifier == Models.PIC.Constants.DiscTypeIdentifierROMUltra)
                         return $"{mediaType.LongName()}-33";
                     else if (size > 26_843_531_856)
                         return $"{mediaType.LongName()}-33";
                     else
                         return $"{mediaType.LongName()}-25";
+
+                case MediaType.HDDVD:
+                    if (layerbreak != default && layerbreak != default(long))
+                        return $"{mediaType.LongName()}-DL";
+                    else
+                        return $"{mediaType.LongName()}-SL";
 
                 case MediaType.UMD:
                     if (layerbreak != default && layerbreak != default(long))
@@ -508,195 +695,63 @@ namespace SabreTools.RedumpLib
         }
 
         /// <summary>
-        /// Check if a site code is boolean or not
-        /// </summary>
-        /// <param name="siteCode">SiteCode to check</param>
-        /// <returns>True if the code field is a flag with no value, false otherwise</returns>
-        /// <remarks>TODO: This should move to Extensions at some point</remarks>
-        private static bool IsBoolean(SiteCode? siteCode)
-        {
-            return siteCode switch
-            {
-                SiteCode.PostgapType => true,
-                SiteCode.VCD => true,
-                _ => false,
-            };
-        }
-
-        /// <summary>
         /// Order comment code tags according to Redump requirements
         /// </summary>
         /// <returns>Ordered list of KeyValuePairs representing the tags and values</returns>
-        private static List<KeyValuePair<SiteCode?, string>> OrderCommentTags(Dictionary<SiteCode, string> tags)
+        internal static KeyValuePair<SiteCode, string>[] OrderCommentTags(Dictionary<SiteCode, string> tags)
         {
-            var sorted = new List<KeyValuePair<SiteCode?, string>>();
-
             // If the input is invalid, just return an empty set
             if (tags == null || tags.Count == 0)
-                return sorted;
+                return [];
 
-            // Identifying Info
-            if (tags.ContainsKey(SiteCode.AlternativeTitle))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.AlternativeTitle, tags[SiteCode.AlternativeTitle]));
-            if (tags.ContainsKey(SiteCode.AlternativeForeignTitle))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.AlternativeForeignTitle, tags[SiteCode.AlternativeForeignTitle]));
-            if (tags.ContainsKey(SiteCode.InternalName))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.InternalName, tags[SiteCode.InternalName]));
-            if (tags.ContainsKey(SiteCode.InternalSerialName))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.InternalSerialName, tags[SiteCode.InternalSerialName]));
-            if (tags.ContainsKey(SiteCode.VolumeLabel))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.VolumeLabel, tags[SiteCode.VolumeLabel]));
-            if (tags.ContainsKey(SiteCode.Multisession))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.Multisession, tags[SiteCode.Multisession]));
-            if (tags.ContainsKey(SiteCode.UniversalHash))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.UniversalHash, tags[SiteCode.UniversalHash]));
-            if (tags.ContainsKey(SiteCode.RingNonZeroDataStart))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.RingNonZeroDataStart, tags[SiteCode.RingNonZeroDataStart]));
+            // Loop through the ordered set of codes and add if needed
+            var sorted = new List<KeyValuePair<SiteCode, string>>();
+            foreach (var code in OrderedCommentCodes)
+            {
+                // Only add if it exists
+                if (!tags.ContainsKey(code))
+                    continue;
 
-            if (tags.ContainsKey(SiteCode.XMID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.XMID, tags[SiteCode.XMID]));
-            if (tags.ContainsKey(SiteCode.XeMID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.XeMID, tags[SiteCode.XeMID]));
-            if (tags.ContainsKey(SiteCode.DMIHash))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.DMIHash, tags[SiteCode.DMIHash]));
-            if (tags.ContainsKey(SiteCode.PFIHash))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.PFIHash, tags[SiteCode.PFIHash]));
-            if (tags.ContainsKey(SiteCode.SSHash))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.SSHash, tags[SiteCode.SSHash]));
-            if (tags.ContainsKey(SiteCode.SSVersion))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.SSVersion, tags[SiteCode.SSVersion]));
+                // Get the tag value
+                string value = tags[code];
+                if (value.Length == 0)
+                    continue;
 
-            if (tags.ContainsKey(SiteCode.Filename))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.Filename, tags[SiteCode.Filename]));
+                // Add to the set
+                sorted.Add(new KeyValuePair<SiteCode, string>(code, value));
+            }
 
-            if (tags.ContainsKey(SiteCode.BBFCRegistrationNumber))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.BBFCRegistrationNumber, tags[SiteCode.BBFCRegistrationNumber]));
-            if (tags.ContainsKey(SiteCode.DiscHologramID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.DiscHologramID, tags[SiteCode.DiscHologramID]));
-            if (tags.ContainsKey(SiteCode.DNASDiscID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.DNASDiscID, tags[SiteCode.DNASDiscID]));
-            if (tags.ContainsKey(SiteCode.ISBN))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.ISBN, tags[SiteCode.ISBN]));
-            if (tags.ContainsKey(SiteCode.ISSN))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.ISSN, tags[SiteCode.ISSN]));
-            if (tags.ContainsKey(SiteCode.PPN))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.PPN, tags[SiteCode.PPN]));
-            if (tags.ContainsKey(SiteCode.VFCCode))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.VFCCode, tags[SiteCode.VFCCode]));
-
-            if (tags.ContainsKey(SiteCode.CompatibleOS))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.CompatibleOS, tags[SiteCode.CompatibleOS]));
-            if (tags.ContainsKey(SiteCode.Genre))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.Genre, tags[SiteCode.Genre]));
-            if (tags.ContainsKey(SiteCode.Series))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.Series, tags[SiteCode.Series]));
-            if (tags.ContainsKey(SiteCode.PostgapType))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.PostgapType, tags[SiteCode.PostgapType]));
-            if (tags.ContainsKey(SiteCode.VCD))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.VCD, tags[SiteCode.VCD]));
-
-            // Publisher / Company IDs
-            if (tags.ContainsKey(SiteCode.AcclaimID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.AcclaimID, tags[SiteCode.AcclaimID]));
-            if (tags.ContainsKey(SiteCode.ActivisionID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.ActivisionID, tags[SiteCode.ActivisionID]));
-            if (tags.ContainsKey(SiteCode.BandaiID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.BandaiID, tags[SiteCode.BandaiID]));
-            if (tags.ContainsKey(SiteCode.BethesdaID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.BethesdaID, tags[SiteCode.BethesdaID]));
-            if (tags.ContainsKey(SiteCode.CDProjektID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.CDProjektID, tags[SiteCode.CDProjektID]));
-            if (tags.ContainsKey(SiteCode.EidosID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.EidosID, tags[SiteCode.EidosID]));
-            if (tags.ContainsKey(SiteCode.ElectronicArtsID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.ElectronicArtsID, tags[SiteCode.ElectronicArtsID]));
-            if (tags.ContainsKey(SiteCode.FoxInteractiveID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.FoxInteractiveID, tags[SiteCode.FoxInteractiveID]));
-            if (tags.ContainsKey(SiteCode.GTInteractiveID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.GTInteractiveID, tags[SiteCode.GTInteractiveID]));
-            if (tags.ContainsKey(SiteCode.JASRACID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.JASRACID, tags[SiteCode.JASRACID]));
-            if (tags.ContainsKey(SiteCode.KingRecordsID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.KingRecordsID, tags[SiteCode.KingRecordsID]));
-            if (tags.ContainsKey(SiteCode.KoeiID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.KoeiID, tags[SiteCode.KoeiID]));
-            if (tags.ContainsKey(SiteCode.KonamiID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.KonamiID, tags[SiteCode.KonamiID]));
-            if (tags.ContainsKey(SiteCode.LucasArtsID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.LucasArtsID, tags[SiteCode.LucasArtsID]));
-            if (tags.ContainsKey(SiteCode.MicrosoftID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.MicrosoftID, tags[SiteCode.MicrosoftID]));
-            if (tags.ContainsKey(SiteCode.NaganoID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.NaganoID, tags[SiteCode.NaganoID]));
-            if (tags.ContainsKey(SiteCode.NamcoID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.NamcoID, tags[SiteCode.NamcoID]));
-            if (tags.ContainsKey(SiteCode.NipponIchiSoftwareID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.NipponIchiSoftwareID, tags[SiteCode.NipponIchiSoftwareID]));
-            if (tags.ContainsKey(SiteCode.OriginID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.OriginID, tags[SiteCode.OriginID]));
-            if (tags.ContainsKey(SiteCode.PonyCanyonID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.PonyCanyonID, tags[SiteCode.PonyCanyonID]));
-            if (tags.ContainsKey(SiteCode.SegaID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.SegaID, tags[SiteCode.SegaID]));
-            if (tags.ContainsKey(SiteCode.SelenID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.SelenID, tags[SiteCode.SelenID]));
-            if (tags.ContainsKey(SiteCode.SierraID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.SierraID, tags[SiteCode.SierraID]));
-            if (tags.ContainsKey(SiteCode.TaitoID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.TaitoID, tags[SiteCode.TaitoID]));
-            if (tags.ContainsKey(SiteCode.UbisoftID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.UbisoftID, tags[SiteCode.UbisoftID]));
-            if (tags.ContainsKey(SiteCode.ValveID))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.ValveID, tags[SiteCode.ValveID]));
-
-            return sorted;
+            return [.. sorted];
         }
 
         /// <summary>
         /// Order content code tags according to Redump requirements
         /// </summary>
         /// <returns>Ordered list of KeyValuePairs representing the tags and values</returns>
-        private static List<KeyValuePair<SiteCode?, string>> OrderContentTags(Dictionary<SiteCode, string> tags)
+        internal static KeyValuePair<SiteCode, string>[] OrderContentTags(Dictionary<SiteCode, string> tags)
         {
-            var sorted = new List<KeyValuePair<SiteCode?, string>>();
-
             // If the input is invalid, just return an empty set
             if (tags == null || tags.Count == 0)
-                return sorted;
+                return [];
 
-            // Applications
-            if (tags.ContainsKey(SiteCode.Applications))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.Applications, tags[SiteCode.Applications]));
+            // Loop through the ordered set of codes and add if needed
+            var sorted = new List<KeyValuePair<SiteCode, string>>();
+            foreach (var code in OrderedContentCodes)
+            {
+                // Only add if it exists
+                if (!tags.ContainsKey(code))
+                    continue;
 
-            // Games
-            if (tags.ContainsKey(SiteCode.Games))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.Games, tags[SiteCode.Games]));
-            if (tags.ContainsKey(SiteCode.NetYarozeGames))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.NetYarozeGames, tags[SiteCode.NetYarozeGames]));
+                // Get the tag value
+                string value = tags[code];
+                if (value.Length == 0)
+                    continue;
 
-            // Demos
-            if (tags.ContainsKey(SiteCode.PlayableDemos))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.PlayableDemos, tags[SiteCode.PlayableDemos]));
-            if (tags.ContainsKey(SiteCode.RollingDemos))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.RollingDemos, tags[SiteCode.RollingDemos]));
-            if (tags.ContainsKey(SiteCode.TechDemos))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.TechDemos, tags[SiteCode.TechDemos]));
+                // Add to the set
+                sorted.Add(new KeyValuePair<SiteCode, string>(code, value));
+            }
 
-            // Video
-            if (tags.ContainsKey(SiteCode.GameFootage))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.GameFootage, tags[SiteCode.GameFootage]));
-            if (tags.ContainsKey(SiteCode.Videos))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.Videos, tags[SiteCode.Videos]));
-
-            // Miscellaneous
-            if (tags.ContainsKey(SiteCode.Patches))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.Patches, tags[SiteCode.Patches]));
-            if (tags.ContainsKey(SiteCode.Savegames))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.Savegames, tags[SiteCode.Savegames]));
-            if (tags.ContainsKey(SiteCode.Extras))
-                sorted.Add(new KeyValuePair<SiteCode?, string>(SiteCode.Extras, tags[SiteCode.Extras]));
-
-            return sorted;
+            return [.. sorted];
         }
 
         #endregion

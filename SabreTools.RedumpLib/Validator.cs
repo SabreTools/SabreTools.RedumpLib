@@ -21,6 +21,14 @@ namespace SabreTools.RedumpLib
 
             switch (info.CommonDiscInfo.Media)
             {
+                case DiscType.DVD5:
+                case DiscType.DVD9:
+                    if (info.SizeAndChecksums.Layerbreak != default)
+                        info.CommonDiscInfo.Media = DiscType.DVD9;
+                    else
+                        info.CommonDiscInfo.Media = DiscType.DVD5;
+                    break;
+
                 case DiscType.BD25:
                 case DiscType.BD33:
                 case DiscType.BD50:
@@ -31,26 +39,18 @@ namespace SabreTools.RedumpLib
                         info.CommonDiscInfo.Media = DiscType.BD128;
                     else if (info.SizeAndChecksums.Layerbreak2 != default)
                         info.CommonDiscInfo.Media = DiscType.BD100;
-                    else if (info.SizeAndChecksums.Layerbreak != default && info.SizeAndChecksums.PICIdentifier == SabreTools.Models.PIC.Constants.DiscTypeIdentifierROMUltra)
+                    else if (info.SizeAndChecksums.Layerbreak != default && info.SizeAndChecksums.PICIdentifier == Models.PIC.Constants.DiscTypeIdentifierROMUltra)
                         info.CommonDiscInfo.Media = DiscType.BD66;
                     else if (info.SizeAndChecksums.Layerbreak != default && info.SizeAndChecksums.Size > 50_050_629_632)
                         info.CommonDiscInfo.Media = DiscType.BD66;
                     else if (info.SizeAndChecksums.Layerbreak != default)
                         info.CommonDiscInfo.Media = DiscType.BD50;
-                    else if (info.SizeAndChecksums.PICIdentifier == SabreTools.Models.PIC.Constants.DiscTypeIdentifierROMUltra)
+                    else if (info.SizeAndChecksums.PICIdentifier == Models.PIC.Constants.DiscTypeIdentifierROMUltra)
                         info.CommonDiscInfo.Media = DiscType.BD33;
                     else if (info.SizeAndChecksums.Size > 25_025_314_816)
                         info.CommonDiscInfo.Media = DiscType.BD33;
                     else
                         info.CommonDiscInfo.Media = DiscType.BD25;
-                    break;
-
-                case DiscType.DVD5:
-                case DiscType.DVD9:
-                    if (info.SizeAndChecksums.Layerbreak != default)
-                        info.CommonDiscInfo.Media = DiscType.DVD9;
-                    else
-                        info.CommonDiscInfo.Media = DiscType.DVD5;
                     break;
 
                 case DiscType.HDDVDSL:
