@@ -2082,8 +2082,32 @@ namespace SabreTools.RedumpLib.Test.Data
                 Assert.NotNull(actual);
         }
 
-        // TODO: Add ToYesNo(bool) test
-        // TODO: Add ToYesNo(string) test
+        [Theory]
+        [InlineData(true, YesNo.Yes)]
+        [InlineData(false, YesNo.No)]
+        [InlineData(null, YesNo.NULL)]
+        public void YesNo_ToYesNo_Boolean(bool? value, YesNo? expected)
+        {
+            YesNo? actual = value.ToYesNo();
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("True", YesNo.Yes)]
+        [InlineData("true", YesNo.Yes)]
+        [InlineData("Yes", YesNo.Yes)]
+        [InlineData("yes", YesNo.Yes)]
+        [InlineData("False", YesNo.No)]
+        [InlineData("false", YesNo.No)]
+        [InlineData("No", YesNo.No)]
+        [InlineData("no", YesNo.No)]
+        [InlineData("INVALID", YesNo.NULL)]
+        [InlineData(null, YesNo.NULL)]
+        public void YesNo_ToYesNo_String(string? value, YesNo? expected)
+        {
+            YesNo? actual = value.ToYesNo();
+            Assert.Equal(expected, actual);
+        }
 
         /// <summary>
         /// Generate a test set of YesNo values

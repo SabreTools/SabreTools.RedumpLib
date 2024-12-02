@@ -1738,12 +1738,12 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="yesno">String value to convert</param>
         /// <returns>YesNo represented by the string, if possible</returns>
-        public static YesNo? ToYesNo(string yesno)
+        public static YesNo? ToYesNo(this string? yesno)
         {
             return (yesno?.ToLowerInvariant()) switch
             {
-                "no" => YesNo.No,
-                "yes" => YesNo.Yes,
+                "no" or "false" => YesNo.No,
+                "yes" or "true" => YesNo.Yes,
                 _ => YesNo.NULL,
             };
         }
