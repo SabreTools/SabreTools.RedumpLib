@@ -2488,8 +2488,105 @@ namespace SabreTools.RedumpLib.Data
     /// </remarks>
     public enum Region
     {
-        // TODO: Should "regions" and multi-country sets be phased out?
-        // TODO: Should "regions" be moved to the end?
+        #region Aggregates - Redump Only
+
+        [HumanReadable(LongName = "Asia", ShortName = "A")]
+        Asia,
+
+        [HumanReadable(LongName = "Asia, Europe", ShortName = "A,E")]
+        AsiaEurope,
+
+        [HumanReadable(LongName = "Asia, USA", ShortName = "A,U")]
+        AsiaUSA,
+
+        [HumanReadable(LongName = "Australia, Germany", ShortName = "Au,G")]
+        AustraliaGermany,
+
+        [HumanReadable(LongName = "Australia, New Zealand", ShortName = "Au,Nz")]
+        AustraliaNewZealand,
+
+        [HumanReadable(LongName = "Austria, Switzerland", ShortName = "At,Ch")]
+        AustriaSwitzerland,
+
+        [HumanReadable(LongName = "Belgium, Netherlands", ShortName = "Be,N")]
+        BelgiumNetherlands,
+
+        [HumanReadable(LongName = "Europe", ShortName = "E")]
+        Europe,
+
+        [HumanReadable(LongName = "Europe, Asia", ShortName = "E,A")]
+        EuropeAsia,
+
+        [HumanReadable(LongName = "Europe, Australia", ShortName = "E,Au")]
+        EuropeAustralia,
+
+        [HumanReadable(LongName = "Europe, Canada", ShortName = "E,Ca")]
+        EuropeCanada,
+
+        [HumanReadable(LongName = "Europe, Germany", ShortName = "E,G")]
+        EuropeGermany,
+
+        [HumanReadable(LongName = "Export", ShortName = "Ex")]
+        Export,
+
+        [HumanReadable(LongName = "France, Spain", ShortName = "F,S")]
+        FranceSpain,
+
+        [HumanReadable(LongName = "Greater China", ShortName = "GC")]
+        GreaterChina,
+
+        [HumanReadable(LongName = "Japan, Asia", ShortName = "J,A")]
+        JapanAsia,
+
+        [HumanReadable(LongName = "Japan, Europe", ShortName = "J,E")]
+        JapanEurope,
+
+        [HumanReadable(LongName = "Japan, Korea", ShortName = "J,K")]
+        JapanKorea,
+
+        [HumanReadable(LongName = "Japan, USA", ShortName = "J,U")]
+        JapanUSA,
+
+        [HumanReadable(LongName = "Latin America", ShortName = "LAm")]
+        LatinAmerica,
+
+        [HumanReadable(LongName = "Scandinavia", ShortName = "Sca")]
+        Scandinavia,
+
+        [HumanReadable(LongName = "Spain, Portugal", ShortName = "S,Pt")]
+        SpainPortugal,
+
+        [HumanReadable(LongName = "UK, Australia", ShortName = "Uk,Au")]
+        UKAustralia,
+
+        [HumanReadable(LongName = "USA, Asia", ShortName = "U,A")]
+        USAAsia,
+
+        [HumanReadable(LongName = "USA, Australia", ShortName = "U,Au")]
+        USAAustralia,
+
+        [HumanReadable(LongName = "USA, Brazil", ShortName = "U,B")]
+        USABrazil,
+
+        [HumanReadable(LongName = "USA, Canada", ShortName = "U,Ca")]
+        USACanada,
+
+        [HumanReadable(LongName = "USA, Europe", ShortName = "U,E")]
+        USAEurope,
+
+        [HumanReadable(LongName = "USA, Germany", ShortName = "U,G")]
+        USAGermany,
+
+        [HumanReadable(LongName = "USA, Japan", ShortName = "U,J")]
+        USAJapan,
+
+        [HumanReadable(LongName = "USA, Korea", ShortName = "U,K")]
+        USAKorea,
+
+        [HumanReadable(LongName = "World", ShortName = "W")]
+        World,
+
+        #endregion
 
         #region A
 
@@ -2535,29 +2632,11 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(LongName = "Ascension Island", ShortName = "Ac")]
         AscensionIsland,
 
-        [HumanReadable(LongName = "Asia", ShortName = "A")]
-        Asia,
-
-        [HumanReadable(LongName = "Asia, Europe", ShortName = "A,E")]
-        AsiaEurope,
-
-        [HumanReadable(LongName = "Asia, USA", ShortName = "A,U")]
-        AsiaUSA,
-
         [HumanReadable(LongName = "Australia", ShortName = "Au")]
         Australia,
 
-        [HumanReadable(LongName = "Australia, Germany", ShortName = "Au,G")]
-        AustraliaGermany,
-
-        [HumanReadable(LongName = "Australia, New Zealand", ShortName = "Au,Nz")]
-        AustraliaNewZealand,
-
         [HumanReadable(LongName = "Austria", ShortName = "At")]
         Austria,
-
-        [HumanReadable(LongName = "Austria, Switzerland", ShortName = "At,Ch")]
-        AustriaSwitzerland,
 
         [HumanReadable(LongName = "Azerbaijan", ShortName = "Az")]
         Azerbaijan,
@@ -2583,9 +2662,6 @@ namespace SabreTools.RedumpLib.Data
 
         [HumanReadable(LongName = "Belgium", ShortName = "Be")]
         Belgium,
-
-        [HumanReadable(LongName = "Belgium, Netherlands", ShortName = "Be,N")]
-        BelgiumNetherlands,
 
         [HumanReadable(LongName = "Belize", ShortName = "Bz")]
         Belize,
@@ -2767,21 +2843,6 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(LongName = "Ethiopia", ShortName = "Et")]
         Ethiopia,
 
-        [HumanReadable(LongName = "Europe", ShortName = "E")]
-        Europe,
-
-        [HumanReadable(LongName = "Europe, Asia", ShortName = "E,A")]
-        EuropeAsia,
-
-        [HumanReadable(LongName = "Europe, Australia", ShortName = "E,Au")]
-        EuropeAustralia,
-
-        [HumanReadable(LongName = "Europe, Canada", ShortName = "E,Ca")]
-        EuropeCanada,
-
-        [HumanReadable(LongName = "Europe, Germany", ShortName = "E,G")]
-        EuropeGermany,
-
         // Commented out to avoid confusion
         //[HumanReadable(LongName = "European Union", ShortName = "Eu")]
         //EuropeanUnion,
@@ -2789,9 +2850,6 @@ namespace SabreTools.RedumpLib.Data
         // Commented out to avoid confusion
         //[HumanReadable(LongName = "Eurozone", ShortName = "Ez")]
         //Eurozone,
-
-        [HumanReadable(LongName = "Export", ShortName = "Ex")]
-        Export,
 
         #endregion
 
@@ -2820,9 +2878,6 @@ namespace SabreTools.RedumpLib.Data
         // Commented out to avoid confusion
         //[HumanReadable(LongName = "France, Metropolitan", ShortName = "Fx")]
         //FranceMetropolitan,
-
-        [HumanReadable(LongName = "France, Spain", ShortName = "F,S")]
-        FranceSpain,
 
         [HumanReadable(LongName = "French Guiana", ShortName = "Gf")]
         FrenchGuiana,
@@ -2855,9 +2910,6 @@ namespace SabreTools.RedumpLib.Data
 
         [HumanReadable(LongName = "Gibraltar", ShortName = "Gi")]
         Gibraltar,
-
-        [HumanReadable(LongName = "Greater China", ShortName = "GC")]
-        GreaterChina,
 
         [HumanReadable(LongName = "Greece", ShortName = "Gr")]
         Greece,
@@ -2958,18 +3010,6 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(LongName = "Japan", ShortName = "J")]
         Japan,
 
-        [HumanReadable(LongName = "Japan, Asia", ShortName = "J,A")]
-        JapanAsia,
-
-        [HumanReadable(LongName = "Japan, Europe", ShortName = "J,E")]
-        JapanEurope,
-
-        [HumanReadable(LongName = "Japan, Korea", ShortName = "J,K")]
-        JapanKorea,
-
-        [HumanReadable(LongName = "Japan, USA", ShortName = "J,U")]
-        JapanUSA,
-
         [HumanReadable(LongName = "Jersey", ShortName = "Je")]
         Jersey,
 
@@ -3008,9 +3048,6 @@ namespace SabreTools.RedumpLib.Data
 
         [HumanReadable(LongName = "(Laos) Lao People's Democratic Republic", ShortName = "La")]
         Laos,
-
-        [HumanReadable(LongName = "Latin America", ShortName = "LAm")]
-        LatinAmerica,
 
         [HumanReadable(LongName = "Latvia", ShortName = "Lv")]
         Latvia,
@@ -3264,9 +3301,6 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(LongName = "Saudi Arabia", ShortName = "Sa")]
         SaudiArabia,
 
-        [HumanReadable(LongName = "Scandinavia", ShortName = "Sca")]
-        Scandinavia,
-
         [HumanReadable(LongName = "Senegal", ShortName = "Sn")]
         Senegal,
 
@@ -3309,9 +3343,6 @@ namespace SabreTools.RedumpLib.Data
         // Should be "Es"
         [HumanReadable(LongName = "Spain", ShortName = "S")]
         Spain,
-
-        [HumanReadable(LongName = "Spain, Portugal", ShortName = "S,Pt")]
-        SpainPortugal,
 
         [HumanReadable(LongName = "Sri Lanka", ShortName = "Lk")]
         SriLanka,
@@ -3397,9 +3428,6 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(LongName = "UK", ShortName = "Uk")]
         UnitedKingdom,
 
-        [HumanReadable(LongName = "UK, Australia", ShortName = "Uk,Au")]
-        UKAustralia,
-
         [HumanReadable(LongName = "Ukraine", ShortName = "Ue")]
         Ukraine,
 
@@ -3423,30 +3451,6 @@ namespace SabreTools.RedumpLib.Data
         // United States of America
         [HumanReadable(LongName = "USA", ShortName = "U")]
         UnitedStatesOfAmerica,
-
-        [HumanReadable(LongName = "USA, Asia", ShortName = "U,A")]
-        USAAsia,
-
-        [HumanReadable(LongName = "USA, Australia", ShortName = "U,Au")]
-        USAAustralia,
-
-        [HumanReadable(LongName = "USA, Brazil", ShortName = "U,B")]
-        USABrazil,
-
-        [HumanReadable(LongName = "USA, Canada", ShortName = "U,Ca")]
-        USACanada,
-
-        [HumanReadable(LongName = "USA, Europe", ShortName = "U,E")]
-        USAEurope,
-
-        [HumanReadable(LongName = "USA, Germany", ShortName = "U,G")]
-        USAGermany,
-
-        [HumanReadable(LongName = "USA, Japan", ShortName = "U,J")]
-        USAJapan,
-
-        [HumanReadable(LongName = "USA, Korea", ShortName = "U,K")]
-        USAKorea,
 
         [HumanReadable(LongName = "USSR", ShortName = "Su")]
         USSR,
@@ -3482,9 +3486,6 @@ namespace SabreTools.RedumpLib.Data
 
         [HumanReadable(LongName = "Western Sahara", ShortName = "Eh")]
         WesternSahara,
-
-        [HumanReadable(LongName = "World", ShortName = "W")]
-        World,
 
         #endregion
 
