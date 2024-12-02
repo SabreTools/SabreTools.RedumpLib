@@ -172,13 +172,10 @@ namespace SabreTools.RedumpLib
                 // Dumping Info section
                 FormatOutputData(output, info.DumpingInfo);
 
-                // Make sure there aren't any instances of two blank lines in a row
-                string outputStr = output.ToString();
-                outputStr = outputStr.Replace("\r\n\r\n", "\r\n");
-                outputStr = outputStr.Replace("\n\n", "\n");
-
                 status = "Formatting complete!";
-                return output.ToString();
+
+                // Make sure there aren't any instances of two blank lines in a row
+                return RemoveConsecutiveNewlines(output.ToString());
             }
             catch (Exception ex)
             {
@@ -752,6 +749,15 @@ namespace SabreTools.RedumpLib
             }
 
             return [.. sorted];
+        }
+
+        /// <summary>
+        /// Make sure there aren't any instances of two blank lines in a row
+        /// </summary>
+        internal static string RemoveConsecutiveNewlines(string str)
+        {
+            str = Regex.Replace(str, @"(\r\n)+", "\r\n");
+            return Regex.Replace(str, @"(\n)+", "\n");
         }
 
         #endregion

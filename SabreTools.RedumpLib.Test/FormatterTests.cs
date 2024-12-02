@@ -801,7 +801,7 @@ namespace SabreTools.RedumpLib.Test
             }
 
             var actual = Formatter.OrderCommentTags(tags);
-            
+
             Assert.NotEmpty(actual);
             var actualCodes = actual.Select(kvp => kvp.Key);
             Assert.True(Formatter.OrderedCommentCodes.SequenceEqual(actualCodes));
@@ -840,10 +840,34 @@ namespace SabreTools.RedumpLib.Test
             }
 
             var actual = Formatter.OrderContentTags(tags);
-            
+
             Assert.NotEmpty(actual);
             var actualCodes = actual.Select(kvp => kvp.Key);
             Assert.True(Formatter.OrderedContentCodes.SequenceEqual(actualCodes));
+        }
+
+        #endregion
+
+        #region RemoveConsecutiveNewlines
+
+        [Fact]
+        public void RemoveConsecutiveNewlines_Linux_Removed()
+        {
+            string expected = "data\nbase";
+            string newlines = "data\n\n\n\n\n\n\n\n\n\nbase";
+
+            string actual = Formatter.RemoveConsecutiveNewlines(newlines);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void RemoveConsecutiveNewlines_Windows_Removed()
+        {
+            string expected = "data\r\nbase";
+            string newlines = "data\r\n\r\n\r\n\r\n\r\nbase";
+
+            string actual = Formatter.RemoveConsecutiveNewlines(newlines);
+            Assert.Equal(expected, actual);
         }
 
         #endregion
