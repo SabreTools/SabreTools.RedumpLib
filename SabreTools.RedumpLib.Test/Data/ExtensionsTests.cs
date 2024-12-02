@@ -163,7 +163,32 @@ namespace SabreTools.RedumpLib.Test.Data
                 Assert.NotNull(actual);
         }
 
-        // TODO: Add ToDiscCategory test
+        /// <summary>
+        /// Check that every DiscCategory can be mapped from a string
+        /// </summary>
+        /// <param name="discCategory">DiscCategory value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateDiscCategoryTestData))]
+        public void DiscCategory_ToDiscCategory(DiscCategory? discCategory, bool expectNull)
+        {
+            string? longName = discCategory.LongName();
+            string? longNameSpaceless = longName?.Replace(" ", string.Empty);
+
+            var actualNormal = longName.ToDiscCategory();
+            var actualSpaceless = longNameSpaceless.ToDiscCategory();
+
+            if (expectNull)
+            {
+                Assert.Null(actualNormal);
+                Assert.Null(actualSpaceless);
+            }
+            else
+            {
+                Assert.Equal(discCategory, actualNormal);
+                Assert.Equal(discCategory, actualSpaceless);
+            }
+        }
 
         /// <summary>
         /// Generate a test set of DiscCategory values
@@ -259,7 +284,40 @@ namespace SabreTools.RedumpLib.Test.Data
                 Assert.NotNull(actual);
         }
 
-        // TODO: Add ToLanguage test
+        /// <summary>
+        /// Check that every Language can be mapped from a string
+        /// </summary>
+        /// <param name="lang">Language value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateLanguageTestData))]
+        public void Language_ToLanguage(Language? lang, bool expectNull)
+        {
+            string? twoLetterCode = lang.TwoLetterCode();
+            string? threeLetterCode = lang.ThreeLetterCode();
+            string? threeLetterCodeAlt = lang.ThreeLetterCodeAlt();
+
+            var actualTwoLetterCode = twoLetterCode.ToLanguage();
+            var actualThreeLetterCode = threeLetterCode.ToLanguage();
+            var actualThreeLetterCodeAlt = threeLetterCodeAlt.ToLanguage();
+
+            if (expectNull)
+            {
+                Assert.Null(actualTwoLetterCode);
+                Assert.Null(actualThreeLetterCode);
+                Assert.Null(actualThreeLetterCodeAlt);
+            }
+            else
+            {
+                Assert.Equal(lang, actualThreeLetterCode);
+
+                // Not guaranteed to exist
+                if (twoLetterCode != null)
+                    Assert.Equal(lang, actualTwoLetterCode);
+                if (threeLetterCodeAlt != null)
+                    Assert.Equal(lang, actualThreeLetterCodeAlt);
+            }
+        }
 
         /// <summary>
         /// Ensure that every Language that has a standard/bibliographic ISO 639-2 code is unique
@@ -378,7 +436,32 @@ namespace SabreTools.RedumpLib.Test.Data
                 Assert.NotNull(actual);
         }
 
-        // TODO: Add ToLanguageSelection test
+        /// <summary>
+        /// Check that every LanguageSelection can be mapped from a string
+        /// </summary>
+        /// <param name="languageSelection">LanguageSelection value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateLanguageSelectionTestData))]
+        public void Region_ToLanguageSelection(LanguageSelection? languageSelection, bool expectNull)
+        {
+            string? longName = languageSelection.LongName();
+            string? longNameSpaceless = longName?.Replace(" ", string.Empty);
+
+            var actualNormal = longName.ToLanguageSelection();
+            var actualSpaceless = longNameSpaceless.ToLanguageSelection();
+
+            if (expectNull)
+            {
+                Assert.Null(actualNormal);
+                Assert.Null(actualSpaceless);
+            }
+            else
+            {
+                Assert.Equal(languageSelection, actualNormal);
+                Assert.Equal(languageSelection, actualSpaceless);
+            }
+        }
 
         /// <summary>
         /// Generate a test set of LanguageSelection values
@@ -399,7 +482,12 @@ namespace SabreTools.RedumpLib.Test.Data
 
         #region Media Type
 
-        // TODO: Add ListMediaTypes test
+        [Fact]
+        public void MediaType_ListMediaTypes()
+        {
+            var actual = Extensions.ListMediaTypes();
+            Assert.NotEmpty(actual);
+        }
 
         /// <summary>
         /// Check that every MediaType has a long name provided
@@ -489,7 +577,7 @@ namespace SabreTools.RedumpLib.Test.Data
         }
 
         /// <summary>
-        /// Ensure that every Language that has an ISO 639-1 code is unique
+        /// Ensure that every Region that has a short name that is unique
         /// </summary>
         [Fact]
         public void Region_ShortName_NoDuplicates()
@@ -515,7 +603,32 @@ namespace SabreTools.RedumpLib.Test.Data
             Assert.Equal(totalCount, filteredRegions.Count);
         }
 
-        // TODO: Add ToRegion test
+        /// <summary>
+        /// Check that every Region can be mapped from a string
+        /// </summary>
+        /// <param name="region">Region value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateRegionTestData))]
+        public void Region_ToRegion(Region? region, bool expectNull)
+        {
+            string? longName = region.LongName();
+            string? longNameSpaceless = longName?.Replace(" ", string.Empty);
+
+            var actualNormal = longName.ToRegion();
+            var actualSpaceless = longNameSpaceless.ToRegion();
+
+            if (expectNull)
+            {
+                Assert.Null(actualNormal);
+                Assert.Null(actualSpaceless);
+            }
+            else
+            {
+                Assert.Equal(region, actualNormal);
+                Assert.Equal(region, actualSpaceless);
+            }
+        }
 
         /// <summary>
         /// Generate a test set of Region values
@@ -1734,7 +1847,32 @@ namespace SabreTools.RedumpLib.Test.Data
             Assert.Equal(expected, actual);
         }
 
-        // TODO: Add ToRedumpSystem test
+        /// <summary>
+        /// Check that every RedumpSystem can be mapped from a string
+        /// </summary>
+        /// <param name="redumpSystem">RedumpSystem value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateRedumpSystemTestData))]
+        public void RedumpSystem_ToRedumpSystem(RedumpSystem? redumpSystem, bool expectNull)
+        {
+            string? longName = redumpSystem.LongName();
+            string? longNameSpaceless = longName?.Replace(" ", string.Empty);
+
+            var actualNormal = longName.ToRedumpSystem();
+            var actualSpaceless = longNameSpaceless.ToRedumpSystem();
+
+            if (expectNull)
+            {
+                Assert.Null(actualNormal);
+                Assert.Null(actualSpaceless);
+            }
+            else
+            {
+                Assert.Equal(redumpSystem, actualNormal);
+                Assert.Equal(redumpSystem, actualSpaceless);
+            }
+        }
 
         /// <summary>
         /// Generate a test set of RedumpSystem values

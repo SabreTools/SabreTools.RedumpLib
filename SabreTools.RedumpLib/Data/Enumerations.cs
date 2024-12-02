@@ -281,7 +281,7 @@ namespace SabreTools.RedumpLib.Data
         [Language(LongName = "Bini; Edo", ThreeLetterCode = "bin")]
         Bini,
 
-        [Language(LongName = "Bislama", TwoLetterCode = "bla", ThreeLetterCode = "bis")]
+        [Language(LongName = "Bislama", TwoLetterCode = "bi", ThreeLetterCode = "bis")]
         Bislama,
 
         // Blin; Bilin

@@ -788,8 +788,12 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// Get the Redump longnames for each known category
         /// </summary>
-        /// <param name="category"></param>
-        /// <returns></returns>
+        public static string? LongName(this DiscCategory category)
+            => ((DiscCategory?)category).LongName();
+
+        /// <summary>
+        /// Get the Redump longnames for each known category
+        /// </summary>
         public static string? LongName(this DiscCategory? category)
             => AttributeHelper<DiscCategory?>.GetAttribute(category)?.LongName;
 
@@ -798,25 +802,22 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="category">String value to convert</param>
         /// <returns>Category represented by the string, if possible</returns>
-        public static DiscCategory? ToDiscCategory(string category)
+        public static DiscCategory? ToDiscCategory(this string? category)
         {
-            return (category?.ToLowerInvariant()) switch
-            {
-                "games" => (DiscCategory?)DiscCategory.Games,
-                "demos" => (DiscCategory?)DiscCategory.Demos,
-                "video" => (DiscCategory?)DiscCategory.Video,
-                "audio" => (DiscCategory?)DiscCategory.Audio,
-                "multimedia" => (DiscCategory?)DiscCategory.Multimedia,
-                "applications" => (DiscCategory?)DiscCategory.Applications,
-                "coverdiscs" => (DiscCategory?)DiscCategory.Coverdiscs,
-                "educational" => (DiscCategory?)DiscCategory.Educational,
-                "bonusdiscs"
-                    or "bonus discs" => (DiscCategory?)DiscCategory.BonusDiscs,
-                "preproduction" => (DiscCategory?)DiscCategory.Preproduction,
-                "addons"
-                    or "add-ons" => (DiscCategory?)DiscCategory.AddOns,
-                _ => (DiscCategory?)DiscCategory.Games,
-            };
+            // No value means no match
+            if (category == null || category.Length == 0)
+                return null;
+
+            category = category?.ToLowerInvariant();
+            var categories = (DiscCategory[])Enum.GetValues(typeof(DiscCategory));
+
+            // Check long names
+            int index = Array.FindIndex(categories, c => category == c.LongName()?.ToLowerInvariant()
+                || category == c.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return categories[index];
+
+            return null;
         }
 
         #endregion
@@ -841,47 +842,47 @@ namespace SabreTools.RedumpLib.Data
             return (discType?.ToLowerInvariant()) switch
             {
                 "bd25"
-                    or "bd-25" => (DiscType?)DiscType.BD25,
+                    or "bd-25" => DiscType.BD25,
                 "bd33"
-                    or "bd-33" => (DiscType?)DiscType.BD33,
+                    or "bd-33" => DiscType.BD33,
                 "bd50"
-                    or "bd-50" => (DiscType?)DiscType.BD50,
+                    or "bd-50" => DiscType.BD50,
                 "bd66"
-                    or "bd-66" => (DiscType?)DiscType.BD66,
+                    or "bd-66" => DiscType.BD66,
                 "bd100"
-                    or "bd-100" => (DiscType?)DiscType.BD100,
+                    or "bd-100" => DiscType.BD100,
                 "bd128"
-                    or "bd-128" => (DiscType?)DiscType.BD128,
+                    or "bd-128" => DiscType.BD128,
                 "cd"
                     or "cdrom"
-                    or "cd-rom" => (DiscType?)DiscType.CD,
+                    or "cd-rom" => DiscType.CD,
                 "dvd5"
-                    or "dvd-5" => (DiscType?)DiscType.DVD5,
+                    or "dvd-5" => DiscType.DVD5,
                 "dvd9"
-                    or "dvd-9" => (DiscType?)DiscType.DVD9,
+                    or "dvd-9" => DiscType.DVD9,
                 "gd"
                     or "gdrom"
-                    or "gd-rom" => (DiscType?)DiscType.GDROM,
+                    or "gd-rom" => DiscType.GDROM,
                 "hddvd"
                     or "hddvdsl"
-                    or "hd-dvd sl" => (DiscType?)DiscType.HDDVDSL,
+                    or "hd-dvd sl" => DiscType.HDDVDSL,
                 "hddvddl"
-                    or "hd-dvd dl" => (DiscType?)DiscType.HDDVDDL,
+                    or "hd-dvd dl" => DiscType.HDDVDDL,
                 "milcd"
-                    or "mil-cd" => (DiscType?)DiscType.MILCD,
+                    or "mil-cd" => DiscType.MILCD,
                 "nintendogamecubegamedisc"
-                    or "nintendo game cube game disc" => (DiscType?)DiscType.NintendoGameCubeGameDisc,
+                    or "nintendo game cube game disc" => DiscType.NintendoGameCubeGameDisc,
                 "nintendowiiopticaldiscsl"
-                    or "nintendo wii optical disc sl" => (DiscType?)DiscType.NintendoWiiOpticalDiscSL,
+                    or "nintendo wii optical disc sl" => DiscType.NintendoWiiOpticalDiscSL,
                 "nintendowiiopticaldiscdl"
-                    or "nintendo wii optical disc dl" => (DiscType?)DiscType.NintendoWiiOpticalDiscDL,
+                    or "nintendo wii optical disc dl" => DiscType.NintendoWiiOpticalDiscDL,
                 "nintendowiiuopticaldiscsl"
-                    or "nintendo wii u optical disc sl" => (DiscType?)DiscType.NintendoWiiUOpticalDiscSL,
+                    or "nintendo wii u optical disc sl" => DiscType.NintendoWiiUOpticalDiscSL,
                 "umd"
                     or "umdsl"
-                    or "umd sl" => (DiscType?)DiscType.UMDSL,
+                    or "umd sl" => DiscType.UMDSL,
                 "umddl"
-                    or "umd dl" => (DiscType?)DiscType.UMDDL,
+                    or "umd dl" => DiscType.UMDDL,
                 _ => null,
             };
         }
@@ -893,16 +894,24 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// Get the Redump longnames for each known language
         /// </summary>
-        /// <param name="language"></param>
-        /// <returns></returns>
+        public static string? LongName(this Language language)
+            => ((Language?)language).LongName();
+
+        /// <summary>
+        /// Get the Redump longnames for each known language
+        /// </summary>
         public static string? LongName(this Language? language)
             => AttributeHelper<Language?>.GetAttribute(language)?.LongName;
 
         /// <summary>
         /// Get the Redump shortnames for each known language
         /// </summary>
-        /// <param name="language"></param>
-        /// <returns></returns>
+        public static string? ShortName(this Language language)
+            => ((Language?)language).ShortName();
+
+        /// <summary>
+        /// Get the Redump shortnames for each known language
+        /// </summary>
         public static string? ShortName(this Language? language)
         {
             // Some languages need to use the alternate code instead
@@ -923,8 +932,12 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="lang">String value to convert</param>
         /// <returns>Language represented by the string, if possible</returns>
-        public static Language? ToLanguage(string lang)
+        public static Language? ToLanguage(this string? lang)
         {
+            // No value means no match
+            if (lang == null || lang.Length == 0)
+                return null;
+
             lang = lang.ToLowerInvariant();
             var languages = (Language[])Enum.GetValues(typeof(Language));
 
@@ -934,12 +947,12 @@ namespace SabreTools.RedumpLib.Data
                 return languages[index];
 
             // Check standard ISO 639-2 codes
-            index = Array.FindIndex(languages, r => lang == r.ThreeLetterCode());
+            index = Array.FindIndex(languages, l => lang == l.ThreeLetterCode());
             if (index > -1)
                 return languages[index];
 
             // Check alternate ISO 639-2 codes
-            index = Array.FindIndex(languages, r => lang == r.ThreeLetterCodeAlt());
+            index = Array.FindIndex(languages, l => lang == l.ThreeLetterCodeAlt());
             if (index > -1)
                 return languages[index];
 
@@ -1003,29 +1016,38 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="langSelect">LanguageSelection value to convert</param>
         /// <returns>String representing the value, if possible</returns>
-        public static string? LongName(this LanguageSelection? langSelect) => AttributeHelper<LanguageSelection?>.GetAttribute(langSelect)?.LongName;
+        public static string? LongName(this LanguageSelection langSelect)
+            => ((LanguageSelection?)langSelect).LongName();
+
+        /// <summary>
+        /// Get the string representation of the LanguageSelection enum values
+        /// </summary>
+        /// <param name="langSelect">LanguageSelection value to convert</param>
+        /// <returns>String representing the value, if possible</returns>
+        public static string? LongName(this LanguageSelection? langSelect)
+            => AttributeHelper<LanguageSelection?>.GetAttribute(langSelect)?.LongName;
 
         /// <summary>
         /// Get the LanguageSelection enum value for a given string
         /// </summary>
         /// <param name="langSelect">String value to convert</param>
         /// <returns>LanguageSelection represented by the string, if possible</returns>
-        public static LanguageSelection? ToLanguageSelection(string langSelect)
+        public static LanguageSelection? ToLanguageSelection(this string? langSelect)
         {
-            return (langSelect?.ToLowerInvariant()) switch
-            {
-                "bios"
-                    or "biossettings"
-                    or "bios settings" => (LanguageSelection?)LanguageSelection.BiosSettings,
-                "selector"
-                    or "langselector"
-                    or "lang selector"
-                    or "langauge selector" => (LanguageSelection?)LanguageSelection.LanguageSelector,
-                "options"
-                    or "optionsmenu"
-                    or "options menu" => (LanguageSelection?)LanguageSelection.OptionsMenu,
-                _ => null,
-            };
+            // No value means no match
+            if (langSelect == null || langSelect.Length == 0)
+                return null;
+
+            langSelect = langSelect?.ToLowerInvariant();
+            var selects = (LanguageSelection[])Enum.GetValues(typeof(LanguageSelection));
+
+            // Check long names
+            int index = Array.FindIndex(selects, l => langSelect == l.LongName()?.ToLowerInvariant()
+                || langSelect == l.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return selects[index];
+
+            return null;
         }
 
         #endregion
@@ -1107,18 +1129,25 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="region">String value to convert</param>
         /// <returns>Region represented by the string, if possible</returns>
-        public static Region? ToRegion(string region)
+        public static Region? ToRegion(this string? region)
         {
+            // No value means no match
+            if (region == null || region.Length == 0)
+                return null;
+
             region = region.ToLowerInvariant();
-            var regions = (Region[])Enum.GetValues(typeof(Region));
+            var redumpSystems = (Region[])Enum.GetValues(typeof(Region));
 
-            int index = Array.FindIndex(regions, r => region == r.ShortName());
+            // Check short names
+            int index = Array.FindIndex(redumpSystems, s => region == s.ShortName()?.ToLowerInvariant());
             if (index > -1)
-                return regions[index];
+                return redumpSystems[index];
 
-            index = Array.FindIndex(regions, r => region == r.LongName());
+            // Check long names
+            index = Array.FindIndex(redumpSystems, s => region == s.LongName()?.ToLowerInvariant()
+                || region == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
             if (index > -1)
-                return regions[index];
+                return redumpSystems[index];
 
             return null;
         }
@@ -1672,10 +1701,10 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="system">String value to convert</param>
         /// <returns>RedumpSystem represented by the string, if possible</returns>
-        public static RedumpSystem? ToRedumpSystem(string system)
+        public static RedumpSystem? ToRedumpSystem(this string? system)
         {
             // No value means no match
-            if (system.Length == 0)
+            if (system == null || system.Length == 0)
                 return null;
 
             system = system.ToLowerInvariant();
@@ -1687,7 +1716,8 @@ namespace SabreTools.RedumpLib.Data
                 return redumpSystems[index];
 
             // Check long names
-            index = Array.FindIndex(redumpSystems, s => system == s.LongName()?.ToLowerInvariant());
+            index = Array.FindIndex(redumpSystems, s => system == s.LongName()?.ToLowerInvariant()
+                || system == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
             if (index > -1)
                 return redumpSystems[index];
 
