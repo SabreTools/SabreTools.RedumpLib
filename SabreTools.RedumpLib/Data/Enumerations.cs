@@ -3527,7 +3527,7 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:ALTF]", LongName = "<b>Alternative Foreign Title</b>:")]
         AlternativeForeignTitle,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Applications</b>:", LongName = "<b>Applications</b>:")]
         Applications,
 
@@ -3537,30 +3537,30 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:BBFC]", LongName = "<b>BBFC Reg. No.</b>:")]
         BBFCRegistrationNumber,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Bethesda ID</b>:", LongName = "<b>Bethesda ID</b>:")]
         BethesdaID,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>CD Projekt ID</b>:", LongName = "<b>CD Projekt ID</b>:")]
         CDProjektID,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Compatible OS</b>:", LongName = "<b>Compatible OS</b>:")]
         CompatibleOS,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Disc Hologram ID</b>:", LongName = "<b>Disc Hologram ID</b>:")]
         DiscHologramID,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>DMI</b>:", LongName = "<b>DMI</b>:")]
         DMIHash,
 
         [HumanReadable(ShortName = "[T:DNAS]", LongName = "<b>DNAS Disc ID</b>:")]
         DNASDiscID,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Eidos ID</b>:", LongName = "<b>Eidos ID</b>:")]
         EidosID,
 
@@ -3570,7 +3570,7 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:X]", LongName = "<b>Extras</b>:")]
         Extras,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Filename</b>:", LongName = "<b>Filename</b>:")]
         Filename,
 
@@ -3580,7 +3580,7 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:GF]", LongName = "<b>Game Footage</b>:")]
         GameFootage,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Games</b>:", LongName = "<b>Games</b>:")]
         Games,
 
@@ -3590,7 +3590,7 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:GTID]", LongName = "<b>GT Interactive ID</b>:")]
         GTInteractiveID,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Internal Name</b>:", LongName = "<b>Internal Name</b>:")]
         InternalName,
 
@@ -3618,11 +3618,11 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:LAID]", LongName = "<b>Lucas Arts ID</b>:")]
         LucasArtsID,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Microsoft ID</b>:", LongName = "<b>Microsoft ID</b>:")]
         MicrosoftID,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Multisession</b>:", LongName = "<b>Multisession</b>:")]
         Multisession,
 
@@ -3644,7 +3644,7 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:P]", LongName = "<b>Patches</b>:")]
         Patches,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>PFI</b>:", LongName = "<b>PFI</b>:")]
         PFIHash,
 
@@ -3660,7 +3660,7 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:PPN]", LongName = "<b>PPN</b>:")]
         PPN,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Ring non-zero data start</b>:", LongName = "<b>Ring non-zero data start</b>:")]
         RingNonZeroDataStart,
 
@@ -3679,15 +3679,15 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:S]", LongName = "<b>Series</b>:")]
         Series,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Sierra ID</b>:", LongName = "<b>Sierra ID</b>:")]
         SierraID,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>SS</b>:", LongName = "<b>SS</b>:")]
         SSHash,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>SS version</b>:", LongName = "<b>SS version</b>:")]
         SSVersion,
 
@@ -3700,7 +3700,7 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:UID]", LongName = "<b>Ubisoft ID</b>:")]
         UbisoftID,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Universal Hash (SHA-1)</b>:", LongName = "<b>Universal Hash (SHA-1)</b>:")]
         UniversalHash,
 
@@ -3719,11 +3719,11 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:VCD]", LongName = "<b>V-CD</b>")]
         VCD,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>XeMID</b>:", LongName = "<b>XeMID</b>:")]
         XeMID,
 
-        // TODO: This doesn't have a site tag yet
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>XMID</b>:", LongName = "<b>XMID</b>:")]
         XMID,
     }
