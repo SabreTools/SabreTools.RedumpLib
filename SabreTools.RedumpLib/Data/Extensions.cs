@@ -829,6 +829,14 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="discType"></param>
         /// <returns></returns>
+        public static string? LongName(this DiscType discType)
+            => ((DiscType?)discType).LongName();
+
+        /// <summary>
+        /// Get the Redump longnames for each known disc type
+        /// </summary>
+        /// <param name="discType"></param>
+        /// <returns></returns>
         public static string? LongName(this DiscType? discType)
             => AttributeHelper<DiscType?>.GetAttribute(discType)?.LongName;
 
@@ -837,52 +845,43 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="discType">String value to convert</param>
         /// <returns>DiscType represented by the string, if possible</returns>
-        public static DiscType? ToDiscType(string discType)
+        public static DiscType? ToDiscType(this string? discType)
         {
+            // No value means no match
+            if (discType == null || discType.Length == 0)
+                return null;
+
+            discType = discType.ToLowerInvariant();
+            var discTypes = (DiscType[])Enum.GetValues(typeof(DiscType));
+
+            // Check long names
+            int index = Array.FindIndex(discTypes, s => discType == s.LongName()?.ToLowerInvariant()
+                || discType == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant()
+                || discType == s.LongName()?.Replace("-", string.Empty)?.ToLowerInvariant()
+                || discType == s.LongName()?
+                    .Replace(" ", string.Empty)?
+                    .Replace("-", string.Empty)?
+                    .ToLowerInvariant());
+            if (index > -1)
+                return discTypes[index];
+
+            // Special cases
             return (discType?.ToLowerInvariant()) switch
             {
-                "bd25"
-                    or "bd-25" => DiscType.BD25,
-                "bd33"
-                    or "bd-33" => DiscType.BD33,
-                "bd50"
-                    or "bd-50" => DiscType.BD50,
-                "bd66"
-                    or "bd-66" => DiscType.BD66,
-                "bd100"
-                    or "bd-100" => DiscType.BD100,
-                "bd128"
-                    or "bd-128" => DiscType.BD128,
-                "cd"
-                    or "cdrom"
+                "bd"
+                    or "bdrom"
+                    or "bd-rom"
+                    or "bluray"
+                    or "blu-ray" => DiscType.BD25,
+                "cdrom"
                     or "cd-rom" => DiscType.CD,
-                "dvd5"
-                    or "dvd-5" => DiscType.DVD5,
-                "dvd9"
-                    or "dvd-9" => DiscType.DVD9,
-                "gd"
-                    or "gdrom"
-                    or "gd-rom" => DiscType.GDROM,
+                "dvd"
+                    or "dvd-rom" => DiscType.DVD5,
+                "gd" => DiscType.GDROM,
                 "hddvd"
-                    or "hddvdsl"
-                    or "hd-dvd sl" => DiscType.HDDVDSL,
-                "hddvddl"
-                    or "hd-dvd dl" => DiscType.HDDVDDL,
-                "milcd"
-                    or "mil-cd" => DiscType.MILCD,
-                "nintendogamecubegamedisc"
-                    or "nintendo game cube game disc" => DiscType.NintendoGameCubeGameDisc,
-                "nintendowiiopticaldiscsl"
-                    or "nintendo wii optical disc sl" => DiscType.NintendoWiiOpticalDiscSL,
-                "nintendowiiopticaldiscdl"
-                    or "nintendo wii optical disc dl" => DiscType.NintendoWiiOpticalDiscDL,
-                "nintendowiiuopticaldiscsl"
-                    or "nintendo wii u optical disc sl" => DiscType.NintendoWiiUOpticalDiscSL,
-                "umd"
-                    or "umdsl"
-                    or "umd sl" => DiscType.UMDSL,
-                "umddl"
-                    or "umd dl" => DiscType.UMDDL,
+                    or "hd-dvd" => DiscType.HDDVDSL,
+                "umd" => DiscType.UMDSL,
+
                 _ => null,
             };
         }

@@ -226,7 +226,34 @@ namespace SabreTools.RedumpLib.Test.Data
                 Assert.NotNull(actual);
         }
 
-        // TODO: Add ToDiscType test
+        /// <summary>
+        /// Check that every DiscType can be mapped from a string
+        /// </summary>
+        /// <param name="discType">DiscType value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateDiscTypeTestData))]
+        public void DiscType_ToDiscType(DiscType? discType, bool expectNull)
+        {
+            string? longName = discType.LongName();
+            string? longNameSpaceless = longName?
+                .Replace(" ", string.Empty)
+                .Replace("-", string.Empty);
+
+            var actualNormal = longName.ToDiscType();
+            var actualSpaceless = longNameSpaceless.ToDiscType();
+
+            if (expectNull)
+            {
+                Assert.Null(actualNormal);
+                Assert.Null(actualSpaceless);
+            }
+            else
+            {
+                Assert.Equal(discType, actualNormal);
+                Assert.Equal(discType, actualSpaceless);
+            }
+        }
 
         /// <summary>
         /// Generate a test set of DiscType values
