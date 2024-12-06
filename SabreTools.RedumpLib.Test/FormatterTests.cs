@@ -848,25 +848,25 @@ namespace SabreTools.RedumpLib.Test
 
         #endregion
 
-        #region RemoveConsecutiveNewlines
+        #region RemoveConsecutiveEmptyLines
 
         [Fact]
-        public void RemoveConsecutiveNewlines_Linux_Removed()
+        public void RemoveConsecutiveEmptyLines_Linux_Removed()
         {
-            string expected = "data\nbase";
+            string expected = "data\n\nbase";
             string newlines = "data\n\n\n\n\n\n\n\n\n\nbase";
 
-            string actual = Formatter.RemoveConsecutiveNewlines(newlines);
+            string actual = Formatter.RemoveConsecutiveEmptyLines(newlines);
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void RemoveConsecutiveNewlines_Windows_Removed()
+        public void RemoveConsecutiveEmptyLines_Windows_Removed()
         {
-            string expected = "data\r\nbase";
+            string expected = "data\r\n\r\nbase";
             string newlines = "data\r\n\r\n\r\n\r\n\r\nbase";
 
-            string actual = Formatter.RemoveConsecutiveNewlines(newlines);
+            string actual = Formatter.RemoveConsecutiveEmptyLines(newlines);
             Assert.Equal(expected, actual);
         }
 
