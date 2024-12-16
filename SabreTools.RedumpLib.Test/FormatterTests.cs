@@ -22,7 +22,7 @@ namespace SabreTools.RedumpLib.Test
         [Fact]
         public void FormatOutputData_CDINullSACNull_Minimal()
         {
-            string expected = "Common Disc Info:\n\tRegion: SPACE! (CHANGE THIS)\n\tLanguages: SILENCE! (CHANGE THIS)\n\n\tRingcode Information:\n\n\n";
+            string expected = "Common Disc Info:\n\tRegion: SPACE! (CHANGE THIS)\n\tLanguages: ADD LANGUAGES HERE (ONLY IF YOU TESTED)\n\n\tRingcode Information:\n\n\n";
 
             var builder = new StringBuilder();
             CommonDiscInfoSection? section = null;

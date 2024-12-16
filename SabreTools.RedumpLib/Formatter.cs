@@ -268,7 +268,7 @@ namespace SabreTools.RedumpLib
             AddIfExists(output, Template.PartiallyMatchingIDsField, partiallyMatchedIDs, 1);
             AddIfExists(output, Template.RegionField, section?.Region.LongName() ?? "SPACE! (CHANGE THIS)", 1);
             AddIfExists(output, Template.LanguagesField,
-                Array.ConvertAll(section?.Languages ?? [null], l => l.LongName() ?? "SILENCE! (CHANGE THIS)"), 1);
+                Array.ConvertAll(section?.Languages ?? [null], l => l.LongName() ?? "ADD LANGUAGES HERE (ONLY IF YOU TESTED)"), 1);
             AddIfExists(output, Template.PlaystationLanguageSelectionViaField,
                 Array.ConvertAll(section?.LanguageSelection ?? [], l => l.LongName()), 1);
             AddIfExists(output, Template.DiscSerialField, section?.Serial, 1);
