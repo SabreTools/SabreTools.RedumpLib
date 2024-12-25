@@ -532,6 +532,7 @@ namespace SabreTools.RedumpLib
                 // Convert to tabs
                 value = value.Replace("<tab>", "\t");
                 value = value.Replace("<TAB>", "\t");
+                value = value.Replace("<Tab>", "\t");
                 value = value.Replace("   ", "\t");
 
                 // Sanitize whitespace around tabs
