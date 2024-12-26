@@ -538,9 +538,13 @@ namespace SabreTools.RedumpLib
                 && key != "Cuesheet")
             {
                 // Convert to tabs
+#if NETCOREAPP
+                value = value.Replace("<tab>", "\t", StringComparison.OrdinalIgnoreCase);
+#else
                 value = value.Replace("<tab>", "\t");
                 value = value.Replace("<TAB>", "\t");
                 value = value.Replace("<Tab>", "\t");
+#endif
                 value = value.Replace("   ", "\t");
 
                 // Sanitize whitespace around tabs
