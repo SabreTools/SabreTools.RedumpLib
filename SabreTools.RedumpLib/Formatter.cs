@@ -132,6 +132,7 @@ namespace SabreTools.RedumpLib
                 FormatOutputData(output,
                     info.CommonDiscInfo,
                     info.SizeAndChecksums,
+                    info.TracksAndWriteOffsets,
                     info.FullyMatchedID,
                     info.PartiallyMatchedIDs);
                 output.AppendLine();
@@ -241,6 +242,7 @@ namespace SabreTools.RedumpLib
         internal static void FormatOutputData(StringBuilder output,
             CommonDiscInfoSection? section,
             SizeAndChecksumsSection? sac,
+            TracksAndWriteOffsetsSection? tawo,
             int? fullyMatchedID,
             List<int>? partiallyMatchedIDs)
         {
@@ -351,7 +353,13 @@ namespace SabreTools.RedumpLib
                 AddIfExists(output, "Label Side " + Template.AdditionalMouldField, section?.Layer1AdditionalMould, 0);
             }
 
+            var offset = tawo?.OtherWriteOffsets;
+            if (int.TryParse(offset, out int i))
+                offset = i.ToString("+#;-#;0");
+
+            AddIfExists(output, Template.WriteOffsetField, offset, 0);
             output.AppendLine();
+
             AddIfExists(output, Template.BarcodeField, section?.Barcode, 1);
             AddIfExists(output, Template.EXEDateBuildDate, section?.EXEDateBuildDate, 1);
             AddIfExists(output, Template.ErrorCountField, section?.ErrorsCount, 1);

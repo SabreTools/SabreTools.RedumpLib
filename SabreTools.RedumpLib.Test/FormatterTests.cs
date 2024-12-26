@@ -20,19 +20,21 @@ namespace SabreTools.RedumpLib.Test
         // TODO: Write tests for FormatOutputData(CommonDiscInfoSection)
 
         [Fact]
-        public void FormatOutputData_CDINullSACNull_Minimal()
+        public void FormatOutputData_CDINullSACNullTAWONull_Minimal()
         {
             string expected = "Common Disc Info:\n\tRegion: SPACE! (CHANGE THIS)\n\tLanguages: ADD LANGUAGES HERE (ONLY IF YOU TESTED)\n\n\tRingcode Information:\n\n\n";
 
             var builder = new StringBuilder();
             CommonDiscInfoSection? section = null;
             SizeAndChecksumsSection? sac = null;
+            TracksAndWriteOffsetsSection? tawo = null;
             int? fullyMatchedID = null;
             List<int>? partiallyMatchedIDs = null;
 
             Formatter.FormatOutputData(builder,
                 section,
                 sac,
+                tawo,
                 fullyMatchedID,
                 partiallyMatchedIDs);
 
