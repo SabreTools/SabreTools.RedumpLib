@@ -708,6 +708,7 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.PFIHash,
             SiteCode.PostgapType,
             SiteCode.PPN,
+            SiteCode.Protection,
             SiteCode.RingNonZeroDataStart,
             SiteCode.Series,
             SiteCode.SSHash,

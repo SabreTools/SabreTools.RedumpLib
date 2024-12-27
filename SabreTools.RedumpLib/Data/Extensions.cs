@@ -1259,6 +1259,7 @@ namespace SabreTools.RedumpLib.Data
                 SiteCode.PFIHash => true,
                 SiteCode.PostgapType => true,
                 SiteCode.PPN => true,
+                SiteCode.Protection => true,
                 SiteCode.RingNonZeroDataStart => true,
                 SiteCode.Series => true,
                 SiteCode.SSHash => true,

@@ -3660,6 +3660,10 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:PPN]", LongName = "<b>PPN</b>:")]
         PPN,
 
+        // This doesn't have a site tag for some systems yet
+        [HumanReadable(ShortName = "<b>Protection</b>:", LongName = "<b>Protection</b>:")]
+        Protection,
+
         // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Ring non-zero data start</b>:", LongName = "<b>Ring non-zero data start</b>:")]
         RingNonZeroDataStart,

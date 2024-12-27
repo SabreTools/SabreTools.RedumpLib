@@ -32,6 +32,8 @@ namespace SabreTools.RedumpLib
 
             SiteCode.Filename,
 
+            SiteCode.Protection,
+
             SiteCode.BBFCRegistrationNumber,
             SiteCode.DiscHologramID,
             SiteCode.DNASDiscID,
