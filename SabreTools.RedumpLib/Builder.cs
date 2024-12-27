@@ -487,6 +487,10 @@ namespace SabreTools.RedumpLib
                                 // Nintendo Gamecube
                                 case SiteCode.InternalName:
                                     continue;
+
+                                // Protection
+                                case SiteCode.Protection:
+                                    continue;
                             }
 
                             // If we don't already have this site code, add it to the dictionary
