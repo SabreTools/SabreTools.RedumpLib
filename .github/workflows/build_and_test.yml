@@ -25,13 +25,7 @@ jobs:
       run: dotnet test
       
     - name: Run publish script
-      run: ./publish-nix.sh
-
-    - name: Upload build
-      uses: actions/upload-artifact@v4
-      with:
-        name: 'Nuget Package'
-        path: "*.nupkg,*.snupkg"
+      run: ./publish-nix.sh -d
 
     - name: Upload to rolling
       uses: ncipollo/release-action@v1.14.0
