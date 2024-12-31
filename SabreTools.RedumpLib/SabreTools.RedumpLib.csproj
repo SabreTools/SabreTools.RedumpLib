@@ -13,7 +13,7 @@
         <!-- Package Properties -->
         <Authors>Matt Nadareski</Authors>
         <Description>Code to interact with redump.org</Description>
-        <Copyright>Copyright (c) Matt Nadareski 2020-2024</Copyright>
+        <Copyright>Copyright (c) Matt Nadareski 2020-2025</Copyright>
         <PackageProjectUrl>https://github.com/SabreTools/</PackageProjectUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/SabreTools/SabreTools.RedumpLib</RepositoryUrl>
