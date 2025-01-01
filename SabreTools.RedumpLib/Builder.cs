@@ -468,6 +468,7 @@ namespace SabreTools.RedumpLib
 
                                 // Audio CD
                                 case SiteCode.RingNonZeroDataStart:
+                                case SiteCode.RingPerfectAudioOffset:
                                 case SiteCode.UniversalHash:
                                     continue;
 

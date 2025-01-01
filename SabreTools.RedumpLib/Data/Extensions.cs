@@ -1261,6 +1261,7 @@ namespace SabreTools.RedumpLib.Data
                 SiteCode.PPN => true,
                 SiteCode.Protection => true,
                 SiteCode.RingNonZeroDataStart => true,
+                SiteCode.RingPerfectAudioOffset => true,
                 SiteCode.Series => true,
                 SiteCode.SSHash => true,
                 SiteCode.SSVersion => true,

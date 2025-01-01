@@ -710,6 +710,7 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.PPN,
             SiteCode.Protection,
             SiteCode.RingNonZeroDataStart,
+            SiteCode.RingPerfectAudioOffset,
             SiteCode.Series,
             SiteCode.SSHash,
             SiteCode.SSVersion,

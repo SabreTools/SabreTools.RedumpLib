@@ -3668,6 +3668,10 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "<b>Ring non-zero data start</b>:", LongName = "<b>Ring non-zero data start</b>:")]
         RingNonZeroDataStart,
 
+        // This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Ring Perfect Audio Offset</b>:", LongName = "<b>Ring Perfect Audio Offset</b>:")]
+        RingPerfectAudioOffset,
+
         [HumanReadable(ShortName = "[T:RD]", LongName = "<b>Rolling Demos</b>:")]
         RollingDemos,
 

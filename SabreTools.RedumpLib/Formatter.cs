@@ -22,6 +22,7 @@ namespace SabreTools.RedumpLib
             SiteCode.Multisession,
             SiteCode.UniversalHash,
             SiteCode.RingNonZeroDataStart,
+            SiteCode.RingPerfectAudioOffset,
 
             SiteCode.XMID,
             SiteCode.XeMID,
