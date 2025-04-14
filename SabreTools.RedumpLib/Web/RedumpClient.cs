@@ -52,7 +52,7 @@ namespace SabreTools.RedumpLib.Web
 #if NETFRAMEWORK
             _internalClient = new CookieWebClient();
 #else
-            _internalClient = new HttpClient(new HttpClientHandler { UseCookies = true });
+            _internalClient = new HttpClient(new HttpClientHandler { UseCookies = true }) { Timeout = TimeSpan.FromSeconds(30) };
 #endif
         }
 

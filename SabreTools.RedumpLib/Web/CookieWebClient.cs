@@ -32,7 +32,10 @@ namespace SabreTools.RedumpLib.Web
         {
             WebRequest request = base.GetWebRequest(address);
             if (request is HttpWebRequest webRequest)
+            {
+                webRequest.Timeout = 30 * 1000; // 30 seconds
                 webRequest.CookieContainer = _container;
+            }
 
             return request;
         }
