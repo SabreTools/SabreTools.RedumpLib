@@ -1421,7 +1421,6 @@ namespace SabreTools.RedumpLib.Data
                     or RedumpSystem.NintendoWiiU
                     or RedumpSystem.Panasonic3DOInteractiveMultiplayer
                     or RedumpSystem.PhilipsCDi
-                    or RedumpSystem.PhilipsCDiDigitalVideo
                     or RedumpSystem.PioneerLaserActive
                     or RedumpSystem.MarkerDiscBasedConsoleEnd => false,
 

@@ -1024,7 +1024,6 @@ namespace SabreTools.RedumpLib.Test.Data
             RedumpSystem.NintendoWiiU,
             RedumpSystem.Panasonic3DOInteractiveMultiplayer,
             RedumpSystem.PhilipsCDi,
-            RedumpSystem.PhilipsCDiDigitalVideo,
             RedumpSystem.SegaDreamcast,
             RedumpSystem.SegaMegaCDSegaCD,
             RedumpSystem.SegaSaturn,
@@ -1101,7 +1100,6 @@ namespace SabreTools.RedumpLib.Test.Data
             RedumpSystem.MicrosoftXboxOne,
             RedumpSystem.MicrosoftXboxSeriesXS,
             RedumpSystem.NintendoWiiU,
-            RedumpSystem.PhilipsCDiDigitalVideo,
             RedumpSystem.SonyPlayStation4,
             RedumpSystem.SonyPlayStation5,
 
@@ -1181,7 +1179,6 @@ namespace SabreTools.RedumpLib.Test.Data
             [RedumpSystem.NintendoWiiU] = SystemCategory.DiscBasedConsole,
             [RedumpSystem.Panasonic3DOInteractiveMultiplayer] = SystemCategory.DiscBasedConsole,
             [RedumpSystem.PhilipsCDi] = SystemCategory.DiscBasedConsole,
-            [RedumpSystem.PhilipsCDiDigitalVideo] = SystemCategory.DiscBasedConsole,
             [RedumpSystem.PioneerLaserActive] = SystemCategory.DiscBasedConsole,
             [RedumpSystem.SegaDreamcast] = SystemCategory.DiscBasedConsole,
             [RedumpSystem.SegaMegaCDSegaCD] = SystemCategory.DiscBasedConsole,

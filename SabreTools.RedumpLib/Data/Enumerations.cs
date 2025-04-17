@@ -2008,8 +2008,9 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.DiscBasedConsole, LongName = "Philips CD-i", ShortName = "cdi", HasCues = true, HasDat = true)]
         PhilipsCDi,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Philips CD-i Digital Video", ShortName = "cdi-video", IsBanned = true)]
-        PhilipsCDiDigitalVideo,
+        // Obsolete: Subsumed by Philips CD-i 
+        //[System(Category = SystemCategory.DiscBasedConsole, LongName = "Philips CD-i Digital Video", ShortName = "cdi-video", IsBanned = true)]
+        //PhilipsCDiDigitalVideo,
 
         [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Pioneer LaserActive")]
         PioneerLaserActive,
