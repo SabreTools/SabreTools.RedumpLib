@@ -458,41 +458,8 @@ namespace SabreTools.RedumpLib
                             addToLast = siteCode.IsMultiLine();
 
                             // Skip certain site codes because of data issues
-                            switch (siteCode)
-                            {
-                                // Multiple
-                                case SiteCode.InternalSerialName:
-                                case SiteCode.Multisession:
-                                case SiteCode.VolumeLabel:
-                                    continue;
-
-                                // Audio CD
-                                case SiteCode.RingNonZeroDataStart:
-                                case SiteCode.RingPerfectAudioOffset:
-                                case SiteCode.UniversalHash:
-                                    continue;
-
-                                // Microsoft Xbox and Xbox 360
-                                case SiteCode.DMIHash:
-                                case SiteCode.PFIHash:
-                                case SiteCode.SSHash:
-                                case SiteCode.SSVersion:
-                                case SiteCode.XMID:
-                                case SiteCode.XeMID:
-                                    continue;
-
-                                // Microsoft Xbox One and Series X/S
-                                case SiteCode.Filename:
-                                    continue;
-
-                                // Nintendo Gamecube
-                                case SiteCode.InternalName:
-                                    continue;
-
-                                // Protection
-                                case SiteCode.Protection:
-                                    continue;
-                            }
+                            if (ShouldSkipSiteCode(siteCode))
+                                continue;
 
                             // If we don't already have this site code, add it to the dictionary
                             if (!info.CommonDiscInfo.CommentsSpecialFields!.ContainsKey(siteCode.Value))
@@ -508,14 +475,14 @@ namespace SabreTools.RedumpLib
                         // If we didn't find a known tag, just add the line, just in case
                         if (!foundTag)
                         {
-                            if (addToLast && lastSiteCode != null)
+                            if (addToLast && lastSiteCode != null && !ShouldSkipSiteCode(lastSiteCode))
                             {
                                 if (!string.IsNullOrEmpty(info.CommonDiscInfo.CommentsSpecialFields![lastSiteCode.Value]))
                                     info.CommonDiscInfo.CommentsSpecialFields[lastSiteCode.Value] += "\n";
 
                                 info.CommonDiscInfo.CommentsSpecialFields[lastSiteCode.Value] += commentLine;
                             }
-                            else
+                            else if (!addToLast || lastSiteCode == null)
                             {
                                 newComments += $"{commentLine}\n";
                             }
@@ -596,14 +563,14 @@ namespace SabreTools.RedumpLib
                         // If we didn't find a known tag, just add the line, just in case
                         if (!foundTag)
                         {
-                            if (addToLast && lastSiteCode != null)
+                            if (addToLast && lastSiteCode != null && !ShouldSkipSiteCode(lastSiteCode))
                             {
                                 if (!string.IsNullOrEmpty(info.CommonDiscInfo.ContentsSpecialFields![lastSiteCode.Value]))
                                     info.CommonDiscInfo.ContentsSpecialFields[lastSiteCode.Value] += "\n";
 
                                 info.CommonDiscInfo.ContentsSpecialFields[lastSiteCode.Value] += contentLine;
                             }
-                            else
+                            else if (!addToLast || lastSiteCode == null)
                             {
                                 newContents += $"{contentLine}\n";
                             }
@@ -736,6 +703,44 @@ namespace SabreTools.RedumpLib
             }
 
             return info;
+        }
+
+        /// <summary>
+        /// Determine if a site code should be skipped on pulling
+        /// </summary>
+        private static bool ShouldSkipSiteCode(SiteCode? siteCode)
+        {
+            return siteCode switch
+            {
+                // Multiple
+                SiteCode.InternalSerialName
+                    or SiteCode.Multisession
+                    or SiteCode.VolumeLabel => true,
+
+                // Audio CD
+                SiteCode.RingNonZeroDataStart
+                    or SiteCode.RingPerfectAudioOffset
+                    or SiteCode.UniversalHash => true,
+
+                // Microsoft Xbox and Xbox 360
+                SiteCode.DMIHash
+                    or SiteCode.PFIHash
+                    or SiteCode.SSHash
+                    or SiteCode.SSVersion
+                    or SiteCode.XMID
+                    or SiteCode.XeMID => true,
+
+                // Microsoft Xbox One and Series X/S
+                SiteCode.Filename => true,
+
+                // Nintendo Gamecube
+                SiteCode.InternalName => true,
+
+                // Protection
+                SiteCode.Protection => true,
+
+                _ => false,
+            };
         }
 
         #endregion
