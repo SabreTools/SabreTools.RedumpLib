@@ -13,9 +13,14 @@ namespace SabreTools.RedumpLib
         /// </summary>
         internal static readonly SiteCode[] OrderedCommentCodes =
         [
+            // Submission Info
+            SiteCode.LogsLink,
+
             // Identifying Info
             SiteCode.AlternativeTitle,
             SiteCode.AlternativeForeignTitle,
+            SiteCode.DiscTitleNonLatin,
+            SiteCode.EditionNonLatin,
             SiteCode.InternalName,
             SiteCode.InternalSerialName,
             SiteCode.VolumeLabel,

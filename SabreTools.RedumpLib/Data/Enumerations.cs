@@ -3551,11 +3551,19 @@ namespace SabreTools.RedumpLib.Data
         DiscHologramID,
 
         // This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Disc Title (non-Latin)</b>:", LongName = "<b>Disc Title (non-Latin)</b>:")]
+        DiscTitleNonLatin,
+
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>DMI</b>:", LongName = "<b>DMI</b>:")]
         DMIHash,
 
         [HumanReadable(ShortName = "[T:DNAS]", LongName = "<b>DNAS Disc ID</b>:")]
         DNASDiscID,
+
+        // This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Edition (non-Latin)</b>:", LongName = "<b>Edition (non-Latin)</b>:")]
+        EditionNonLatin,
 
         // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Eidos ID</b>:", LongName = "<b>Eidos ID</b>:")]
@@ -3611,6 +3619,10 @@ namespace SabreTools.RedumpLib.Data
 
         [HumanReadable(ShortName = "[T:KID]", LongName = "<b>Konami ID</b>:")]
         KonamiID,
+
+        // This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Logs Link</b>:", LongName = "<b>Logs Link</b>:")]
+        LogsLink,
 
         [HumanReadable(ShortName = "[T:LAID]", LongName = "<b>Lucas Arts ID</b>:")]
         LucasArtsID,
