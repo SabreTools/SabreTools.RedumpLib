@@ -681,6 +681,7 @@ namespace SabreTools.RedumpLib.Test.Data
         /// </summary>
         private static readonly SiteCode?[] _booleanSiteCodes =
         [
+            SiteCode.PCMacHybrid,
             SiteCode.PostgapType,
             SiteCode.VCD,
         ];
@@ -708,6 +709,7 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.ISSN,
             SiteCode.LogsLink,
             SiteCode.Multisession,
+            SiteCode.PCMacHybrid,
             SiteCode.PFIHash,
             SiteCode.PostgapType,
             SiteCode.PPN,

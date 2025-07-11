@@ -1220,6 +1220,7 @@ namespace SabreTools.RedumpLib.Data
         {
             return siteCode switch
             {
+                SiteCode.PCMacHybrid => true,
                 SiteCode.PostgapType => true,
                 SiteCode.VCD => true,
                 _ => false,
@@ -1259,6 +1260,7 @@ namespace SabreTools.RedumpLib.Data
                 SiteCode.ISSN => true,
                 SiteCode.LogsLink => true,
                 SiteCode.Multisession => true,
+                SiteCode.PCMacHybrid => true,
                 SiteCode.PFIHash => true,
                 SiteCode.PostgapType => true,
                 SiteCode.PPN => true,

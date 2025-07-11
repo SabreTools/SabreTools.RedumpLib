@@ -3654,6 +3654,11 @@ namespace SabreTools.RedumpLib.Data
         Patches,
 
         // This doesn't have a site tag yet
+        /// <remarks>No text value after</remarks>
+        [HumanReadable(ShortName = "PC/Mac Hybrid", LongName = "PC/Mac Hybrid")]
+        PCMacHybrid,
+
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>PFI</b>:", LongName = "<b>PFI</b>:")]
         PFIHash,
 
@@ -3663,6 +3668,7 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:PCID]", LongName = "<b>Pony Canyon ID</b>:")]
         PonyCanyonID,
 
+        /// <remarks>No text value after</remarks>
         [HumanReadable(ShortName = "[T:PT2]", LongName = "<b>Postgap type</b>: Form 2")]
         PostgapType,
 
@@ -3733,6 +3739,7 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:VOL]", LongName = "<b>Volume Label</b>:")]
         VolumeLabel,
 
+        /// <remarks>No text value after</remarks>
         [HumanReadable(ShortName = "[T:VCD]", LongName = "<b>V-CD</b>")]
         VCD,
 

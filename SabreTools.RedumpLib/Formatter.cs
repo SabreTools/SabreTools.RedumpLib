@@ -81,6 +81,9 @@ namespace SabreTools.RedumpLib
             SiteCode.TaitoID,
             SiteCode.UbisoftID,
             SiteCode.ValveID,
+
+            // Standardized Comments
+            SiteCode.PCMacHybrid,
         ];
 
         /// <summary>
