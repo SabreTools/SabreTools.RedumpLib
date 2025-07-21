@@ -1287,6 +1287,7 @@ namespace SabreTools.RedumpLib.Data
                 SiteCode.ElectronicArtsID => true,
                 SiteCode.FoxInteractiveID => true,
                 SiteCode.GTInteractiveID => true,
+                SiteCode.InterplayID => true,
                 SiteCode.JASRACID => true,
                 SiteCode.KingRecordsID => true,
                 SiteCode.KoeiID => true,

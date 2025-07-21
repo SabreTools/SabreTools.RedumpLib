@@ -3602,6 +3602,10 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:ISN]", LongName = "<b>Internal Serial</b>:")]
         InternalSerialName,
 
+        // This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Interplay ID</b>:", LongName = "<b>Interplay ID</b>:")]
+        InterplayID,
+
         [HumanReadable(ShortName = "[T:ISBN]", LongName = "<b>ISBN</b>:")]
         ISBN,
 

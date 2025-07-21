@@ -736,6 +736,7 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.ElectronicArtsID,
             SiteCode.FoxInteractiveID,
             SiteCode.GTInteractiveID,
+            SiteCode.InterplayID,
             SiteCode.JASRACID,
             SiteCode.KingRecordsID,
             SiteCode.KoeiID,

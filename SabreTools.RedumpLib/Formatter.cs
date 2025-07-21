@@ -64,6 +64,7 @@ namespace SabreTools.RedumpLib
             SiteCode.ElectronicArtsID,
             SiteCode.FoxInteractiveID,
             SiteCode.GTInteractiveID,
+            SiteCode.InterplayID,
             SiteCode.JASRACID,
             SiteCode.KingRecordsID,
             SiteCode.KoeiID,
