@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-#if NET40_OR_GREATER || NETCOREAPP
-using System.Linq;
-#endif
 using Newtonsoft.Json;
 using SabreTools.RedumpLib.Converters;
 
@@ -75,7 +72,6 @@ namespace SabreTools.RedumpLib.Data
 
         public object Clone()
         {
-#if NET20 || NET35
             Dictionary<string, string>? artifacts = null;
             if (this.Artifacts != null)
             {
@@ -85,9 +81,6 @@ namespace SabreTools.RedumpLib.Data
                     artifacts[kvp.Key] = kvp.Value;
                 }
             }
-#else
-            var artifacts = this.Artifacts?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-#endif
 
             return new SubmissionInfo
             {
@@ -249,7 +242,6 @@ namespace SabreTools.RedumpLib.Data
 
         public object Clone()
         {
-#if NET20 || NET35
             Dictionary<SiteCode, string>? commentsSpecialFields = null;
             if (this.CommentsSpecialFields != null)
             {
@@ -269,10 +261,6 @@ namespace SabreTools.RedumpLib.Data
                     contentsSpecialFields[kvp.Key] = kvp.Value;
                 }
             }
-#else
-            var commentsSpecialFields = this.CommentsSpecialFields?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            var contentsSpecialFields = this.ContentsSpecialFields?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-#endif
 
             return new CommonDiscInfoSection
             {
@@ -455,7 +443,6 @@ namespace SabreTools.RedumpLib.Data
 
         public object Clone()
         {
-#if NET20 || NET35
             Dictionary<string, List<string>?>? fullProtections = null;
             if (this.FullProtections != null)
             {
@@ -465,9 +452,6 @@ namespace SabreTools.RedumpLib.Data
                     fullProtections[kvp.Key] = kvp.Value;
                 }
             }
-#else
-            var fullProtections = this.FullProtections?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-#endif
 
             return new CopyProtectionSection
             {
