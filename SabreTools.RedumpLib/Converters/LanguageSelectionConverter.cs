@@ -18,7 +18,7 @@ namespace SabreTools.RedumpLib.Converters
             // If we have a value already, don't overwrite it
             if (hasExistingValue)
                 return existingValue ?? [];
-                
+
             // Get the current depth for checking
             int currentDepth = reader.Depth;
 
