@@ -34,7 +34,7 @@
         <PackageReference Include="MinAsyncBridge" Version="0.12.4" Condition="$(TargetFramework.StartsWith(`net2`)) OR $(TargetFramework.StartsWith(`net3`)) OR $(TargetFramework.StartsWith(`net40`))" />
         <PackageReference Include="Net35.Actions" Version="1.4.0" Condition="$(TargetFramework.StartsWith(`net2`))" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="SabreTools.Models" Version="1.5.8" />
+        <PackageReference Include="SabreTools.Models" Version="1.6.0" />
     </ItemGroup>
 
 </Project>
