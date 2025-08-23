@@ -784,6 +784,7 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.Filename,
             SiteCode.Games,
             SiteCode.GameFootage,
+            SiteCode.HighSierraVolumeDescriptor,
             SiteCode.Multisession,
             SiteCode.NetYarozeGames,
             SiteCode.Patches,
