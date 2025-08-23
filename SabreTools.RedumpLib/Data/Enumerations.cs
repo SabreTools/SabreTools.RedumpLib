@@ -3596,6 +3596,10 @@ namespace SabreTools.RedumpLib.Data
         GTInteractiveID,
 
         // This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>High Sierra Volume Descriptor</b>:", LongName = "<b>High Sierra Volume Descriptor</b>:")]
+        HighSierraVolumeDescriptor,
+
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Internal Name</b>:", LongName = "<b>Internal Name</b>:")]
         InternalName,
 

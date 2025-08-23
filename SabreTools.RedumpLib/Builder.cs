@@ -713,7 +713,8 @@ namespace SabreTools.RedumpLib
             return siteCode switch
             {
                 // Multiple
-                SiteCode.InternalSerialName
+                SiteCode.HighSierraVolumeDescriptor
+                    or SiteCode.InternalSerialName
                     or SiteCode.Multisession
                     or SiteCode.VolumeLabel => true,
 

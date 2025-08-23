@@ -703,6 +703,7 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.EditionNonLatin,
             SiteCode.Filename,
             SiteCode.Genre,
+            SiteCode.HighSierraVolumeDescriptor,
             SiteCode.InternalName,
             SiteCode.InternalSerialName,
             SiteCode.ISBN,

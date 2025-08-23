@@ -24,6 +24,7 @@ namespace SabreTools.RedumpLib
             SiteCode.InternalName,
             SiteCode.InternalSerialName,
             SiteCode.VolumeLabel,
+            SiteCode.HighSierraVolumeDescriptor,
             SiteCode.Multisession,
             SiteCode.UniversalHash,
             SiteCode.RingNonZeroDataStart,
