@@ -159,6 +159,12 @@ namespace SabreTools.RedumpLib.Data
                     types.Add(MediaType.CDROM);
                     break;
 
+                // https://en.wikipedia.org/wiki/Polymega
+                case RedumpSystem.PlaymajiPolymega:
+                    types.Add(MediaType.CDROM);
+                    types.Add(MediaType.DVD);
+                    break;
+
                 // https://en.wikipedia.org/wiki/LaserActive
                 case RedumpSystem.PioneerLaserActive:
                     types.Add(MediaType.CDROM);
