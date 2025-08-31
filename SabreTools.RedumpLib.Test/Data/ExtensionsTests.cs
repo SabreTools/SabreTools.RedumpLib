@@ -1187,6 +1187,7 @@ namespace SabreTools.RedumpLib.Test.Data
             [RedumpSystem.NintendoWiiU] = SystemCategory.DiscBasedConsole,
             [RedumpSystem.Panasonic3DOInteractiveMultiplayer] = SystemCategory.DiscBasedConsole,
             [RedumpSystem.PhilipsCDi] = SystemCategory.DiscBasedConsole,
+            [RedumpSystem.PlaymajiPolymega] = SystemCategory.DiscBasedConsole,
             [RedumpSystem.PioneerLaserActive] = SystemCategory.DiscBasedConsole,
             [RedumpSystem.SegaDreamcast] = SystemCategory.DiscBasedConsole,
             [RedumpSystem.SegaMegaCDSegaCD] = SystemCategory.DiscBasedConsole,
