@@ -1538,6 +1538,7 @@ namespace SabreTools.RedumpLib.Test.Data
             RedumpSystem.NECPCEngineCDTurboGrafxCD,
             RedumpSystem.NECPCFXPCFXGA,
             RedumpSystem.NintendoSonySuperNESCDROMSystem,
+            RedumpSystem.PlaymajiPolymega,
             RedumpSystem.SegaDreamcast,
             RedumpSystem.SegaMegaCDSegaCD,
             RedumpSystem.SegaSaturn,
