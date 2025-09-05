@@ -8,7 +8,7 @@
         <Nullable>enable</Nullable>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <Version>1.7.1</Version>
+        <Version>1.7.2</Version>
 
         <!-- Package Properties -->
         <Authors>Matt Nadareski</Authors>
