@@ -39,13 +39,13 @@ namespace SabreTools.RedumpLib
                         info.CommonDiscInfo.Media = DiscType.BD128;
                     else if (info.SizeAndChecksums.Layerbreak2 != default)
                         info.CommonDiscInfo.Media = DiscType.BD100;
-                    else if (info.SizeAndChecksums.Layerbreak != default && info.SizeAndChecksums.PICIdentifier == Models.PIC.Constants.DiscTypeIdentifierROMUltra)
+                    else if (info.SizeAndChecksums.Layerbreak != default && info.SizeAndChecksums.PICIdentifier == "BDU")
                         info.CommonDiscInfo.Media = DiscType.BD66;
                     else if (info.SizeAndChecksums.Layerbreak != default && info.SizeAndChecksums.Size > 50_050_629_632)
                         info.CommonDiscInfo.Media = DiscType.BD66;
                     else if (info.SizeAndChecksums.Layerbreak != default)
                         info.CommonDiscInfo.Media = DiscType.BD50;
-                    else if (info.SizeAndChecksums.PICIdentifier == Models.PIC.Constants.DiscTypeIdentifierROMUltra)
+                    else if (info.SizeAndChecksums.PICIdentifier == "BDU")
                         info.CommonDiscInfo.Media = DiscType.BD33;
                     else if (info.SizeAndChecksums.Size > 25_025_314_816)
                         info.CommonDiscInfo.Media = DiscType.BD33;
@@ -157,7 +157,6 @@ namespace SabreTools.RedumpLib
         /// </summary>
         /// <param name="rc">RedumpClient for making the connection</param>
         /// <param name="info">Existing SubmissionInfo object to fill</param>
-        /// <param name="resultProgress">Optional result progress callback</param>
         /// <returns>List of found values, if possible</returns>
         public async static Task<List<int>?> ValidateUniversalHash(RedumpClient rc, SubmissionInfo info)
         {

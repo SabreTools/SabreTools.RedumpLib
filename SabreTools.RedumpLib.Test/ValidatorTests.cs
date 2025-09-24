@@ -143,7 +143,7 @@ namespace SabreTools.RedumpLib.Test
                 SizeAndChecksums = new SizeAndChecksumsSection
                 {
                     Layerbreak = 12345,
-                    PICIdentifier = Models.PIC.Constants.DiscTypeIdentifierROMUltra,
+                    PICIdentifier = "BDU",
                 },
             };
 
@@ -213,7 +213,7 @@ namespace SabreTools.RedumpLib.Test
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
                 SizeAndChecksums = new SizeAndChecksumsSection
                 {
-                    PICIdentifier = Models.PIC.Constants.DiscTypeIdentifierROMUltra,
+                    PICIdentifier = "BDU",
                 },
             };
 

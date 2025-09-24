@@ -687,13 +687,13 @@ namespace SabreTools.RedumpLib
                         return $"{mediaType.LongName()}-128";
                     else if (layerbreak2 != default && layerbreak2 != default(long))
                         return $"{mediaType.LongName()}-100";
-                    else if (layerbreak != default && layerbreak != default(long) && picIdentifier == Models.PIC.Constants.DiscTypeIdentifierROMUltra)
+                    else if (layerbreak != default && layerbreak != default(long) && picIdentifier == "BDU")
                         return $"{mediaType.LongName()}-66";
                     else if (layerbreak != default && layerbreak != default(long) && size > 53_687_063_712)
                         return $"{mediaType.LongName()}-66";
                     else if (layerbreak != default && layerbreak != default(long))
                         return $"{mediaType.LongName()}-50";
-                    else if (picIdentifier == Models.PIC.Constants.DiscTypeIdentifierROMUltra)
+                    else if (picIdentifier == "BDU")
                         return $"{mediaType.LongName()}-33";
                     else if (size > 26_843_531_856)
                         return $"{mediaType.LongName()}-33";

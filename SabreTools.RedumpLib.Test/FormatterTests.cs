@@ -556,7 +556,7 @@ namespace SabreTools.RedumpLib.Test
             string? expected = "BD-ROM-66";
 
             MediaType? mediaType = MediaType.BluRay;
-            string? picIdentifier = Models.PIC.Constants.DiscTypeIdentifierROMUltra;
+            string? picIdentifier = "BDU";
             long? size = null;
             long? layerbreak = 12345;
             long? layerbreak2 = null;
@@ -622,7 +622,7 @@ namespace SabreTools.RedumpLib.Test
             string? expected = "BD-ROM-33";
 
             MediaType? mediaType = MediaType.BluRay;
-            string? picIdentifier = Models.PIC.Constants.DiscTypeIdentifierROMUltra;
+            string? picIdentifier = "BDU";
             long? size = null;
             long? layerbreak = null;
             long? layerbreak2 = null;
