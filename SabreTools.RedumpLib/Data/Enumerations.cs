@@ -3731,6 +3731,10 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:TD]", LongName = "<b>Tech Demos</b>:")]
         TechDemos,
 
+        // This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Title ID</b>:", LongName = "<b>Title ID</b>:")]
+        TitleID,
+
         [HumanReadable(ShortName = "[T:UID]", LongName = "<b>Ubisoft ID</b>:")]
         UbisoftID,
 

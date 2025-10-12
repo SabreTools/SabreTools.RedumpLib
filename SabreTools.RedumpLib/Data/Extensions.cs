@@ -1277,6 +1277,7 @@ namespace SabreTools.RedumpLib.Data
                 SiteCode.Series => true,
                 SiteCode.SSHash => true,
                 SiteCode.SSVersion => true,
+                SiteCode.TitleID => true,
                 SiteCode.UniversalHash => true,
                 SiteCode.VCD => true,
                 SiteCode.VFCCode => true,

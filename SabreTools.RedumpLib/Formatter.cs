@@ -38,6 +38,7 @@ namespace SabreTools.RedumpLib
             SiteCode.SSVersion,
 
             SiteCode.Filename,
+            SiteCode.TitleID,
 
             SiteCode.Protection,
 

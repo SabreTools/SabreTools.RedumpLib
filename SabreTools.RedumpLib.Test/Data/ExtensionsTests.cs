@@ -720,6 +720,7 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.Series,
             SiteCode.SSHash,
             SiteCode.SSVersion,
+            SiteCode.TitleID,
             SiteCode.UniversalHash,
             SiteCode.VCD,
             SiteCode.VFCCode,
