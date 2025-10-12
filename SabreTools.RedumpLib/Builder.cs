@@ -733,6 +733,7 @@ namespace SabreTools.RedumpLib
 
                 // Microsoft Xbox One and Series X/S
                 SiteCode.Filename => true,
+                SiteCode.TitleID => true,
 
                 // Nintendo Gamecube
                 SiteCode.InternalName => true,
