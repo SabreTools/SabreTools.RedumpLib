@@ -559,7 +559,7 @@ namespace SabreTools.RedumpLib
                 value = value.Replace("<TAB>", "\t");
                 value = value.Replace("<Tab>", "\t");
 #endif
-                value = value.Replace("   ", "\t");
+                value = value.Replace("  ", "\t");
 
                 // Sanitize whitespace around tabs
                 value = Regex.Replace(value, @"\s*\t\s*", "\t", RegexOptions.Compiled);
