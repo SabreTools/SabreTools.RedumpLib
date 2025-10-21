@@ -31,15 +31,20 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Maximum retry count for any operation
         /// </summary>
-        public int RetryCount { get; private set; } = 3;
+        public int RetryCount { get; }
+
+        /// <summary>
+        /// Maximum number of seconds for a retry
+        /// </summary>
+        public int TimeoutSeconds { get; }
 
         /// <summary>
         /// Internal client for interaction
         /// </summary>
 #if NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
-        private CookieWebClient _internalClient;
+        private readonly CookieWebClient _internalClient;
 #else
-        private HttpClient _internalClient;
+        private readonly HttpClient _internalClient;
 #endif
 
         #endregion
@@ -47,25 +52,24 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Constructor
         /// </summary>
-        public RedumpClient()
-        {
-#if NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
-            _internalClient = new CookieWebClient();
-#else
-            _internalClient = new HttpClient(new HttpClientHandler { UseCookies = true }) { Timeout = TimeSpan.FromSeconds(30) };
-#endif
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public RedumpClient(int retryCount) : this()
+        public RedumpClient(int retryCount = 3, int timeoutSeconds = 30)
         {
             // Ensure there are a positive number of retries
             if (retryCount <= 0)
                 retryCount = 3;
 
+            // Ensure a positive timespan
+            if (timeoutSeconds <= 0)
+                timeoutSeconds = 30;
+
             RetryCount = retryCount;
+            TimeoutSeconds = timeoutSeconds;
+
+#if NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
+            _internalClient = new CookieWebClient() { Timeout = TimeSpan.FromSeconds(TimeoutSeconds) };
+#else
+            _internalClient = new HttpClient(new HttpClientHandler { UseCookies = true }) { Timeout = TimeSpan.FromSeconds(TimeoutSeconds) };
+#endif
         }
 
         #region Credentials
@@ -861,7 +865,7 @@ namespace SabreTools.RedumpLib.Web
 
         /// <summary>
         /// Download a set of packs
-        /// </summary> 
+        /// </summary>
         /// <param name="url">Base URL to download using</param>
         /// <param name="systems">Systems to download packs for</param>
         /// <param name="title">Name of the pack that is downloading</param>
