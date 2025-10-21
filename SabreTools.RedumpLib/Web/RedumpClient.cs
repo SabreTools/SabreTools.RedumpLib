@@ -366,10 +366,11 @@ namespace SabreTools.RedumpLib.Web
                 var value = Regex.Match(dumpsPage, @"/disc/(\d+)/sfv/").Groups[1].Value;
                 if (int.TryParse(value, out int id))
                 {
-                    ids.Add(id);
                     bool downloaded = await DownloadSingleSiteID(id, outDir, false);
                     if (!downloaded && failOnSingle)
                         return ids;
+
+                    ids.Add(id);
                 }
 
                 return ids;
@@ -386,10 +387,11 @@ namespace SabreTools.RedumpLib.Web
                 {
                     if (int.TryParse(match.Groups[1].Value, out int value))
                     {
-                        ids.Add(value);
                         bool downloaded = await DownloadSingleSiteID(value, outDir, false);
                         if (!downloaded && failOnSingle)
                             return ids;
+
+                        ids.Add(value);
                     }
                 }
                 catch (Exception ex)
