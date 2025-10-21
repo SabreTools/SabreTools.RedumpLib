@@ -2481,7 +2481,7 @@ namespace SabreTools.RedumpLib.Data
     /// </summary>
     /// <remarks>
     /// https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-    /// 
+    ///
     /// Because of how Redump stores region IDs, the second letter of each
     /// code is lower-cased. In any other system, both letters would be
     /// capitalized properly.
@@ -3382,7 +3382,7 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(LongName = "Thailand", ShortName = "Th")]
         Thailand,
 
-        // East Timor was "Tp" 
+        // East Timor was "Tp"
         [HumanReadable(LongName = "Timor-Leste (East Timor)", ShortName = "Tl")]
         TimorLeste,
 
