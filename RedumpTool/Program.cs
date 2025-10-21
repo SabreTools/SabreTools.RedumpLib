@@ -81,7 +81,7 @@ namespace RedumpTool
         private static Downloader? CreateDownloader(Feature feature, string[] args)
         {
             // Loop through all of the arguments
-            var downloader = new Downloader();
+            var downloader = new Downloader() { Feature = feature };
             try
             {
                 for (int i = 1; i < args.Length; i++)
