@@ -253,8 +253,6 @@ namespace SabreTools.RedumpLib
         /// <param name="includeAllData">True to include all pullable information, false to do bare minimum</param>
         public async static Task<bool> FillFromId(RedumpClient rc, SubmissionInfo info, int id, bool includeAllData)
         {
-            // Ensure that required sections exist
-            info = EnsureAllSections(info);
             var discData = await rc.DownloadSingleSiteID(id);
             if (string.IsNullOrEmpty(discData))
                 return false;
@@ -606,35 +604,6 @@ namespace SabreTools.RedumpLib
         }
 
         /// <summary>
-        /// Ensure all required sections in a submission info exist
-        /// </summary>
-        /// <param name="info">SubmissionInfo object to verify</param>
-        public static SubmissionInfo EnsureAllSections(SubmissionInfo? info)
-        {
-            // If there's no info, create one
-            info ??= new SubmissionInfo();
-
-            // Ensure all sections
-            info.CommonDiscInfo ??= new CommonDiscInfoSection();
-            info.VersionAndEditions ??= new VersionAndEditionsSection();
-            info.EDC ??= new EDCSection();
-            info.ParentCloneRelationship ??= new ParentCloneRelationshipSection();
-            info.Extras ??= new ExtrasSection();
-            info.CopyProtection ??= new CopyProtectionSection();
-            info.DumpersAndStatus ??= new DumpersAndStatusSection();
-            info.TracksAndWriteOffsets ??= new TracksAndWriteOffsetsSection();
-            info.SizeAndChecksums ??= new SizeAndChecksumsSection();
-            info.DumpingInfo ??= new DumpingInfoSection();
-            info.Artifacts ??= [];
-
-            // Ensure special dictionaries
-            info.CommonDiscInfo.CommentsSpecialFields ??= [];
-            info.CommonDiscInfo.ContentsSpecialFields ??= [];
-
-            return info;
-        }
-
-        /// <summary>
         /// Inject information from a seed SubmissionInfo into the existing one
         /// </summary>
         /// <param name="info">Existing submission information</param>
@@ -645,62 +614,52 @@ namespace SabreTools.RedumpLib
             if (seed == null)
                 return info;
 
-            // Ensure that required sections exist
-            info = EnsureAllSections(info);
-
             // Otherwise, inject information as necessary
-            if (info.CommonDiscInfo != null && seed.CommonDiscInfo != null)
-            {
-                // Info that only overwrites if supplied
-                if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Title)) info.CommonDiscInfo.Title = seed.CommonDiscInfo.Title;
-                if (!string.IsNullOrEmpty(seed.CommonDiscInfo.ForeignTitleNonLatin)) info.CommonDiscInfo.ForeignTitleNonLatin = seed.CommonDiscInfo.ForeignTitleNonLatin;
-                if (!string.IsNullOrEmpty(seed.CommonDiscInfo.DiscNumberLetter)) info.CommonDiscInfo.DiscNumberLetter = seed.CommonDiscInfo.DiscNumberLetter;
-                if (!string.IsNullOrEmpty(seed.CommonDiscInfo.DiscTitle)) info.CommonDiscInfo.DiscTitle = seed.CommonDiscInfo.DiscTitle;
-                if (seed.CommonDiscInfo.Category != null) info.CommonDiscInfo.Category = seed.CommonDiscInfo.Category;
-                if (seed.CommonDiscInfo.Region != null) info.CommonDiscInfo.Region = seed.CommonDiscInfo.Region;
-                if (seed.CommonDiscInfo.Languages != null) info.CommonDiscInfo.Languages = seed.CommonDiscInfo.Languages;
-                if (seed.CommonDiscInfo.LanguageSelection != null) info.CommonDiscInfo.LanguageSelection = seed.CommonDiscInfo.LanguageSelection;
-                if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Serial)) info.CommonDiscInfo.Serial = seed.CommonDiscInfo.Serial;
-                if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Barcode)) info.CommonDiscInfo.Barcode = seed.CommonDiscInfo.Barcode;
-                if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Comments)) info.CommonDiscInfo.Comments = seed.CommonDiscInfo.Comments;
-                if (seed.CommonDiscInfo.CommentsSpecialFields != null) info.CommonDiscInfo.CommentsSpecialFields = seed.CommonDiscInfo.CommentsSpecialFields;
-                if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Contents)) info.CommonDiscInfo.Contents = seed.CommonDiscInfo.Contents;
-                if (seed.CommonDiscInfo.ContentsSpecialFields != null) info.CommonDiscInfo.ContentsSpecialFields = seed.CommonDiscInfo.ContentsSpecialFields;
+            info ??= new SubmissionInfo();
 
-                // Info that always overwrites
-                info.CommonDiscInfo.Layer0MasteringRing = seed.CommonDiscInfo.Layer0MasteringRing;
-                info.CommonDiscInfo.Layer0MasteringSID = seed.CommonDiscInfo.Layer0MasteringSID;
-                info.CommonDiscInfo.Layer0ToolstampMasteringCode = seed.CommonDiscInfo.Layer0ToolstampMasteringCode;
-                info.CommonDiscInfo.Layer0MouldSID = seed.CommonDiscInfo.Layer0MouldSID;
-                info.CommonDiscInfo.Layer0AdditionalMould = seed.CommonDiscInfo.Layer0AdditionalMould;
+            // Info that only overwrites if supplied
+            if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Title)) info.CommonDiscInfo.Title = seed.CommonDiscInfo.Title;
+            if (!string.IsNullOrEmpty(seed.CommonDiscInfo.ForeignTitleNonLatin)) info.CommonDiscInfo.ForeignTitleNonLatin = seed.CommonDiscInfo.ForeignTitleNonLatin;
+            if (!string.IsNullOrEmpty(seed.CommonDiscInfo.DiscNumberLetter)) info.CommonDiscInfo.DiscNumberLetter = seed.CommonDiscInfo.DiscNumberLetter;
+            if (!string.IsNullOrEmpty(seed.CommonDiscInfo.DiscTitle)) info.CommonDiscInfo.DiscTitle = seed.CommonDiscInfo.DiscTitle;
+            if (seed.CommonDiscInfo.Category != null) info.CommonDiscInfo.Category = seed.CommonDiscInfo.Category;
+            if (seed.CommonDiscInfo.Region != null) info.CommonDiscInfo.Region = seed.CommonDiscInfo.Region;
+            if (seed.CommonDiscInfo.Languages != null) info.CommonDiscInfo.Languages = seed.CommonDiscInfo.Languages;
+            if (seed.CommonDiscInfo.LanguageSelection != null) info.CommonDiscInfo.LanguageSelection = seed.CommonDiscInfo.LanguageSelection;
+            if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Serial)) info.CommonDiscInfo.Serial = seed.CommonDiscInfo.Serial;
+            if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Barcode)) info.CommonDiscInfo.Barcode = seed.CommonDiscInfo.Barcode;
+            if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Comments)) info.CommonDiscInfo.Comments = seed.CommonDiscInfo.Comments;
+            if (seed.CommonDiscInfo.CommentsSpecialFields != null) info.CommonDiscInfo.CommentsSpecialFields = seed.CommonDiscInfo.CommentsSpecialFields;
+            if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Contents)) info.CommonDiscInfo.Contents = seed.CommonDiscInfo.Contents;
+            if (seed.CommonDiscInfo.ContentsSpecialFields != null) info.CommonDiscInfo.ContentsSpecialFields = seed.CommonDiscInfo.ContentsSpecialFields;
 
-                info.CommonDiscInfo.Layer1MasteringRing = seed.CommonDiscInfo.Layer1MasteringRing;
-                info.CommonDiscInfo.Layer1MasteringSID = seed.CommonDiscInfo.Layer1MasteringSID;
-                info.CommonDiscInfo.Layer1ToolstampMasteringCode = seed.CommonDiscInfo.Layer1ToolstampMasteringCode;
-                info.CommonDiscInfo.Layer1MouldSID = seed.CommonDiscInfo.Layer1MouldSID;
-                info.CommonDiscInfo.Layer1AdditionalMould = seed.CommonDiscInfo.Layer1AdditionalMould;
+            // Info that always overwrites
+            info.CommonDiscInfo.Layer0MasteringRing = seed.CommonDiscInfo.Layer0MasteringRing;
+            info.CommonDiscInfo.Layer0MasteringSID = seed.CommonDiscInfo.Layer0MasteringSID;
+            info.CommonDiscInfo.Layer0ToolstampMasteringCode = seed.CommonDiscInfo.Layer0ToolstampMasteringCode;
+            info.CommonDiscInfo.Layer0MouldSID = seed.CommonDiscInfo.Layer0MouldSID;
+            info.CommonDiscInfo.Layer0AdditionalMould = seed.CommonDiscInfo.Layer0AdditionalMould;
 
-                info.CommonDiscInfo.Layer2MasteringRing = seed.CommonDiscInfo.Layer2MasteringRing;
-                info.CommonDiscInfo.Layer2MasteringSID = seed.CommonDiscInfo.Layer2MasteringSID;
-                info.CommonDiscInfo.Layer2ToolstampMasteringCode = seed.CommonDiscInfo.Layer2ToolstampMasteringCode;
+            info.CommonDiscInfo.Layer1MasteringRing = seed.CommonDiscInfo.Layer1MasteringRing;
+            info.CommonDiscInfo.Layer1MasteringSID = seed.CommonDiscInfo.Layer1MasteringSID;
+            info.CommonDiscInfo.Layer1ToolstampMasteringCode = seed.CommonDiscInfo.Layer1ToolstampMasteringCode;
+            info.CommonDiscInfo.Layer1MouldSID = seed.CommonDiscInfo.Layer1MouldSID;
+            info.CommonDiscInfo.Layer1AdditionalMould = seed.CommonDiscInfo.Layer1AdditionalMould;
 
-                info.CommonDiscInfo.Layer3MasteringRing = seed.CommonDiscInfo.Layer3MasteringRing;
-                info.CommonDiscInfo.Layer3MasteringSID = seed.CommonDiscInfo.Layer3MasteringSID;
-                info.CommonDiscInfo.Layer3ToolstampMasteringCode = seed.CommonDiscInfo.Layer3ToolstampMasteringCode;
-            }
+            info.CommonDiscInfo.Layer2MasteringRing = seed.CommonDiscInfo.Layer2MasteringRing;
+            info.CommonDiscInfo.Layer2MasteringSID = seed.CommonDiscInfo.Layer2MasteringSID;
+            info.CommonDiscInfo.Layer2ToolstampMasteringCode = seed.CommonDiscInfo.Layer2ToolstampMasteringCode;
 
-            if (info.VersionAndEditions != null && seed.VersionAndEditions != null)
-            {
-                // Info that only overwrites if supplied
-                if (!string.IsNullOrEmpty(seed.VersionAndEditions.Version)) info.VersionAndEditions.Version = seed.VersionAndEditions.Version;
-                if (!string.IsNullOrEmpty(seed.VersionAndEditions.OtherEditions)) info.VersionAndEditions.OtherEditions = seed.VersionAndEditions.OtherEditions;
-            }
+            info.CommonDiscInfo.Layer3MasteringRing = seed.CommonDiscInfo.Layer3MasteringRing;
+            info.CommonDiscInfo.Layer3MasteringSID = seed.CommonDiscInfo.Layer3MasteringSID;
+            info.CommonDiscInfo.Layer3ToolstampMasteringCode = seed.CommonDiscInfo.Layer3ToolstampMasteringCode;
 
-            if (info.CopyProtection != null && seed.CopyProtection != null)
-            {
-                // Info that only overwrites if supplied
-                if (!string.IsNullOrEmpty(seed.CopyProtection.Protection)) info.CopyProtection.Protection = seed.CopyProtection.Protection;
-            }
+            // Info that only overwrites if supplied
+            if (!string.IsNullOrEmpty(seed.VersionAndEditions.Version)) info.VersionAndEditions.Version = seed.VersionAndEditions.Version;
+            if (!string.IsNullOrEmpty(seed.VersionAndEditions.OtherEditions)) info.VersionAndEditions.OtherEditions = seed.VersionAndEditions.OtherEditions;
+
+            // Info that only overwrites if supplied
+            if (!string.IsNullOrEmpty(seed.CopyProtection.Protection)) info.CopyProtection.Protection = seed.CopyProtection.Protection;
 
             return info;
         }

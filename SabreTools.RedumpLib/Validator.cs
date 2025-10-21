@@ -16,7 +16,7 @@ namespace SabreTools.RedumpLib
         public static void NormalizeDiscType(SubmissionInfo info)
         {
             // If we have nothing valid, do nothing
-            if (info?.CommonDiscInfo?.Media == null || info?.SizeAndChecksums == null)
+            if (info.CommonDiscInfo.Media == null || info.SizeAndChecksums == default)
                 return;
 
             switch (info.CommonDiscInfo.Media)
@@ -161,7 +161,7 @@ namespace SabreTools.RedumpLib
         public async static Task<List<int>?> ValidateUniversalHash(RedumpClient rc, SubmissionInfo info)
         {
             // If we don't have special fields
-            if (info.CommonDiscInfo?.CommentsSpecialFields == null)
+            if (info.CommonDiscInfo.CommentsSpecialFields == null)
                 return null;
 
             // If we don't have a universal hash

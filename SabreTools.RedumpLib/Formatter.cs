@@ -156,7 +156,7 @@ namespace SabreTools.RedumpLib
                 output.AppendLine();
 
                 // EDC section
-                FormatOutputData(output, info.EDC, info.CommonDiscInfo?.System);
+                FormatOutputData(output, info.EDC, info.CommonDiscInfo.System);
                 output.AppendLine();
 
                 // Extras section
@@ -164,11 +164,11 @@ namespace SabreTools.RedumpLib
                 output.AppendLine();
 
                 // Copy Protection section
-                FormatOutputData(output, info.CopyProtection, info.CommonDiscInfo?.System);
+                FormatOutputData(output, info.CopyProtection, info.CommonDiscInfo.System);
                 output.AppendLine();
 
                 // Tracks and Write Offsets section
-                if (!string.IsNullOrEmpty(info.TracksAndWriteOffsets?.ClrMameProData))
+                if (!string.IsNullOrEmpty(info.TracksAndWriteOffsets.ClrMameProData))
                 {
                     FormatOutputData(output, info.TracksAndWriteOffsets!);
                     output.AppendLine();
@@ -178,8 +178,8 @@ namespace SabreTools.RedumpLib
                 {
                     FormatOutputData(output,
                         info.SizeAndChecksums,
-                        info.CommonDiscInfo?.Media.ToMediaType(),
-                        info.CommonDiscInfo?.System,
+                        info.CommonDiscInfo.Media.ToMediaType(),
+                        info.CommonDiscInfo.System,
                         enableRedumpCompatibility);
                     output.AppendLine();
                 }
@@ -226,7 +226,7 @@ namespace SabreTools.RedumpLib
                 info.CommonDiscInfo.Comments = info.CommonDiscInfo.Comments.Trim();
 
                 // Wipe out the special fields dictionary
-                info.CommonDiscInfo.CommentsSpecialFields = null;
+                info.CommonDiscInfo.CommentsSpecialFields.Clear();
             }
 
             // Process the contents field
@@ -246,7 +246,7 @@ namespace SabreTools.RedumpLib
                 info.CommonDiscInfo.Contents = info.CommonDiscInfo.Contents.Trim();
 
                 // Wipe out the special fields dictionary
-                info.CommonDiscInfo.ContentsSpecialFields = null;
+                info.CommonDiscInfo.ContentsSpecialFields.Clear();
             }
         }
 

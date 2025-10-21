@@ -28,7 +28,7 @@ namespace SabreTools.RedumpLib.Test
             SubmissionInfo si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = DiscType.CD },
-                SizeAndChecksums = null,
+                SizeAndChecksums = new(),
             };
 
             Validator.NormalizeDiscType(si);

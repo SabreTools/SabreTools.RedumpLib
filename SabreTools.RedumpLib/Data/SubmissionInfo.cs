@@ -38,48 +38,44 @@ namespace SabreTools.RedumpLib.Data
         public DateTime? LastModified { get; set; }
 
         [JsonProperty(PropertyName = "common_disc_info", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public CommonDiscInfoSection? CommonDiscInfo { get; set; } = new CommonDiscInfoSection();
+        public CommonDiscInfoSection CommonDiscInfo { get; set; } = new CommonDiscInfoSection();
 
         [JsonProperty(PropertyName = "versions_and_editions", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public VersionAndEditionsSection? VersionAndEditions { get; set; } = new VersionAndEditionsSection();
+        public VersionAndEditionsSection VersionAndEditions { get; set; } = new VersionAndEditionsSection();
 
         [JsonProperty(PropertyName = "edc", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public EDCSection? EDC { get; set; } = new EDCSection();
+        public EDCSection EDC { get; set; } = new EDCSection();
 
         [JsonProperty(PropertyName = "parent_clone_relationship", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ParentCloneRelationshipSection? ParentCloneRelationship { get; set; } = new ParentCloneRelationshipSection();
+        public ParentCloneRelationshipSection ParentCloneRelationship { get; set; } = new ParentCloneRelationshipSection();
 
         [JsonProperty(PropertyName = "extras", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ExtrasSection? Extras { get; set; } = new ExtrasSection();
+        public ExtrasSection Extras { get; set; } = new ExtrasSection();
 
         [JsonProperty(PropertyName = "copy_protection", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public CopyProtectionSection? CopyProtection { get; set; } = new CopyProtectionSection();
+        public CopyProtectionSection CopyProtection { get; set; } = new CopyProtectionSection();
 
         [JsonProperty(PropertyName = "dumpers_and_status", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public DumpersAndStatusSection? DumpersAndStatus { get; set; } = new DumpersAndStatusSection();
+        public DumpersAndStatusSection DumpersAndStatus { get; set; } = new DumpersAndStatusSection();
 
         [JsonProperty(PropertyName = "tracks_and_write_offsets", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public TracksAndWriteOffsetsSection? TracksAndWriteOffsets { get; set; } = new TracksAndWriteOffsetsSection();
+        public TracksAndWriteOffsetsSection TracksAndWriteOffsets { get; set; } = new TracksAndWriteOffsetsSection();
 
         [JsonProperty(PropertyName = "size_and_checksums", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public SizeAndChecksumsSection? SizeAndChecksums { get; set; } = new SizeAndChecksumsSection();
+        public SizeAndChecksumsSection SizeAndChecksums { get; set; } = new SizeAndChecksumsSection();
 
         [JsonProperty(PropertyName = "dumping_info", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public DumpingInfoSection? DumpingInfo { get; set; } = new DumpingInfoSection();
+        public DumpingInfoSection DumpingInfo { get; set; } = new DumpingInfoSection();
 
         [JsonProperty(PropertyName = "artifacts", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Dictionary<string, string>? Artifacts { get; set; } = [];
+        public Dictionary<string, string> Artifacts { get; set; } = [];
 
         public object Clone()
         {
-            Dictionary<string, string>? artifacts = null;
-            if (this.Artifacts != null)
+            Dictionary<string, string> artifacts = [];
+            foreach (var kvp in this.Artifacts)
             {
-                artifacts = new Dictionary<string, string>();
-                foreach (var kvp in this.Artifacts)
-                {
-                    artifacts[kvp.Key] = kvp.Value;
-                }
+                artifacts[kvp.Key] = kvp.Value;
             }
 
             return new SubmissionInfo
@@ -89,16 +85,16 @@ namespace SabreTools.RedumpLib.Data
                 PartiallyMatchedIDs = this.PartiallyMatchedIDs,
                 Added = this.Added,
                 LastModified = this.LastModified,
-                CommonDiscInfo = this.CommonDiscInfo?.Clone() as CommonDiscInfoSection,
-                VersionAndEditions = this.VersionAndEditions?.Clone() as VersionAndEditionsSection,
-                EDC = this.EDC?.Clone() as EDCSection,
-                ParentCloneRelationship = this.ParentCloneRelationship?.Clone() as ParentCloneRelationshipSection,
-                Extras = this.Extras?.Clone() as ExtrasSection,
-                CopyProtection = this.CopyProtection?.Clone() as CopyProtectionSection,
-                DumpersAndStatus = this.DumpersAndStatus?.Clone() as DumpersAndStatusSection,
-                TracksAndWriteOffsets = this.TracksAndWriteOffsets?.Clone() as TracksAndWriteOffsetsSection,
-                SizeAndChecksums = this.SizeAndChecksums?.Clone() as SizeAndChecksumsSection,
-                DumpingInfo = this.DumpingInfo?.Clone() as DumpingInfoSection,
+                CommonDiscInfo = this.CommonDiscInfo?.Clone() as CommonDiscInfoSection ?? new CommonDiscInfoSection(),
+                VersionAndEditions = this.VersionAndEditions?.Clone() as VersionAndEditionsSection ?? new VersionAndEditionsSection(),
+                EDC = this.EDC?.Clone() as EDCSection ?? new EDCSection(),
+                ParentCloneRelationship = this.ParentCloneRelationship?.Clone() as ParentCloneRelationshipSection ?? new ParentCloneRelationshipSection(),
+                Extras = this.Extras?.Clone() as ExtrasSection ?? new ExtrasSection(),
+                CopyProtection = this.CopyProtection?.Clone() as CopyProtectionSection ?? new CopyProtectionSection(),
+                DumpersAndStatus = this.DumpersAndStatus?.Clone() as DumpersAndStatusSection ?? new DumpersAndStatusSection(),
+                TracksAndWriteOffsets = this.TracksAndWriteOffsets?.Clone() as TracksAndWriteOffsetsSection ?? new TracksAndWriteOffsetsSection(),
+                SizeAndChecksums = this.SizeAndChecksums?.Clone() as SizeAndChecksumsSection ?? new SizeAndChecksumsSection(),
+                DumpingInfo = this.DumpingInfo?.Clone() as DumpingInfoSection ?? new DumpingInfoSection(),
                 Artifacts = artifacts,
             };
         }
@@ -232,34 +228,26 @@ namespace SabreTools.RedumpLib.Data
         public string? Comments { get; set; }
 
         [JsonIgnore]
-        public Dictionary<SiteCode, string>? CommentsSpecialFields { get; set; }
+        public Dictionary<SiteCode, string> CommentsSpecialFields { get; set; } = [];
 
         [JsonProperty(PropertyName = "d_contents", NullValueHandling = NullValueHandling.Ignore)]
         public string? Contents { get; set; }
 
         [JsonIgnore]
-        public Dictionary<SiteCode, string>? ContentsSpecialFields { get; set; }
+        public Dictionary<SiteCode, string> ContentsSpecialFields { get; set; } = [];
 
         public object Clone()
         {
-            Dictionary<SiteCode, string>? commentsSpecialFields = null;
-            if (this.CommentsSpecialFields != null)
+            Dictionary<SiteCode, string> commentsSpecialFields = [];
+            foreach (var kvp in this.CommentsSpecialFields)
             {
-                commentsSpecialFields = new Dictionary<SiteCode, string>();
-                foreach (var kvp in this.CommentsSpecialFields)
-                {
-                    commentsSpecialFields[kvp.Key] = kvp.Value;
-                }
+                commentsSpecialFields[kvp.Key] = kvp.Value;
             }
 
-            Dictionary<SiteCode, string>? contentsSpecialFields = null;
-            if (this.ContentsSpecialFields != null)
+            Dictionary<SiteCode, string> contentsSpecialFields = [];
+            foreach (var kvp in this.ContentsSpecialFields)
             {
-                contentsSpecialFields = new Dictionary<SiteCode, string>();
-                foreach (var kvp in this.ContentsSpecialFields)
-                {
-                    contentsSpecialFields[kvp.Key] = kvp.Value;
-                }
+                contentsSpecialFields[kvp.Key] = kvp.Value;
             }
 
             return new CommonDiscInfoSection
