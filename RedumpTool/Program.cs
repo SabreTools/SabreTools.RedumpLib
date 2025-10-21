@@ -12,6 +12,7 @@ namespace RedumpTool
             // Show help if nothing is input
             if (args == null || args.Length == 0)
             {
+                Console.WriteLine("At least one argument is required");
                 ShowHelp();
                 return;
             }
@@ -20,6 +21,7 @@ namespace RedumpTool
             Feature feature = DeriveFeature(args[0]);
             if (feature == Feature.NONE)
             {
+                Console.WriteLine("The feature could not be derived");
                 ShowHelp();
                 return;
             }
@@ -28,6 +30,7 @@ namespace RedumpTool
             var downloader = CreateDownloader(feature, args);
             if (downloader == null)
             {
+                Console.WriteLine("A downloader could not be created from the inputs");
                 ShowHelp();
                 return;
             }
@@ -45,6 +48,7 @@ namespace RedumpTool
             }
             else if (downloaderResult.Count == 0 && downloader.Feature != Feature.Packs)
             {
+                Console.WriteLine("No results were found");
                 ShowHelp();
             }
         }
