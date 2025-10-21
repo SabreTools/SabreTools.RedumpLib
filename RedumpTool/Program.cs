@@ -80,20 +80,8 @@ namespace RedumpTool
         /// <returns>Initialized Downloader on success, null otherwise</returns>
         private static Downloader? CreateDownloader(Feature feature, string[] args)
         {
-            // Set temporary internal variables
-            string? outDir = null;
-            string? username = null;
-            string? password = null;
-            int minimumId = -1;
-            int maximumId = -1;
-            string? queryString = null;
-            bool useSubfolders = false;
-            bool onlyNew = false;
-            bool onlyList = false;
-            bool noSlash = false;
-            bool force = false;
-
-            // Now loop through all of the arguments
+            // Loop through all of the arguments
+            var downloader = new Downloader();
             try
             {
                 for (int i = 1; i < args.Length; i++)
@@ -103,69 +91,73 @@ namespace RedumpTool
                         // Output directory
                         case "-o":
                         case "--output":
-                            outDir = args[++i].Trim('"');
+                            downloader.OutDir = args[++i].Trim('"');
                             break;
 
                         // Username
                         case "-u":
                         case "--username":
-                            username = args[++i];
+                            downloader.Username = args[++i];
                             break;
 
                         // Password
                         case "-p":
                         case "--password":
-                            password = args[++i];
+                            downloader.Password = args[++i];
                             break;
 
                         // Minimum Redump ID
                         case "-min":
                         case "--minimum":
-                            if (!int.TryParse(args[++i], out minimumId))
+                            if (!int.TryParse(args[++i], out int minimumId))
                                 minimumId = -1;
+
+                            downloader.MinimumId = minimumId;
                             break;
 
                         // Maximum Redump ID
                         case "-max":
                         case "--maximum":
-                            if (!int.TryParse(args[++i], out maximumId))
+                            if (!int.TryParse(args[++i], out int maximumId))
                                 maximumId = -1;
+
+                            downloader.MaximumId = maximumId;
                             break;
 
                         // Quicksearch text
                         case "-q":
                         case "--query":
-                            queryString = args[++i];
+                            downloader.QueryString = args[++i];
                             break;
 
                         // Packs subfolders
                         case "-s":
                         case "--subfolders":
-                            useSubfolders = true;
+                            downloader.UseSubfolders = true;
                             break;
 
                         // Use last modified
                         case "-n":
                         case "--onlynew":
-                            onlyNew = true;
+                            downloader.OnlyNew = true;
                             break;
 
                         // List instead of download
                         case "-l":
                         case "--list":
-                            onlyList = true;
+                            downloader.OnlyList = true;
                             break;
 
                         // Don't filter forward slashes from queries
                         case "-ns":
                         case "--noslash":
-                            noSlash = true;
+                            downloader.NoSlash = true;
                             break;
 
                         // Force continuation
                         case "-f":
                         case "--force":
-                            force = true;
+                            downloader.Force = true;
                             break;
 
                         // Everything else
@@ -182,18 +174,18 @@ namespace RedumpTool
             }
 
             // Output directory validation
-            if (!onlyList && string.IsNullOrEmpty(outDir))
+            if (!downloader.OnlyList && string.IsNullOrEmpty(downloader.OutDir))
             {
                 Console.WriteLine("No output directory set!");
                 return null;
             }
-            else if (!onlyList && !string.IsNullOrEmpty(outDir))
+            else if (!downloader.OnlyList && !string.IsNullOrEmpty(downloader.OutDir))
             {
                 // Create the output directory, if it doesn't exist
                 try
                 {
-                    if (!Directory.Exists(outDir))
-                        Directory.CreateDirectory(outDir);
+                    if (!Directory.Exists(downloader.OutDir))
+                        Directory.CreateDirectory(downloader.OutDir!);
                 }
                 catch (Exception ex)
                 {
@@ -203,40 +195,25 @@ namespace RedumpTool
             }
 
             // Range verification
-            if (feature == Feature.Site && !onlyNew && (minimumId < 0 || maximumId < 0))
+            if (feature == Feature.Site && !downloader.OnlyNew && (downloader.MinimumId < 0 || downloader.MaximumId < 0))
             {
                 Console.WriteLine("Please enter a valid range of Redump IDs");
                 return null;
             }
-            else if (feature == Feature.WIP && !onlyNew && (minimumId < 0 || maximumId < 0))
+            else if (feature == Feature.WIP && !downloader.OnlyNew && (downloader.MinimumId < 0 || downloader.MaximumId < 0))
             {
                 Console.WriteLine("Please enter a valid range of WIP IDs");
                 return null;
             }
 
             // Query verification (and cleanup)
-            if (feature == Feature.Quicksearch && string.IsNullOrEmpty(queryString))
+            if (feature == Feature.Quicksearch && string.IsNullOrEmpty(downloader.QueryString))
             {
                 Console.WriteLine("Please enter a query for searching");
                 return null;
             }
 
-            // Create and return the downloader
-            var downloader = new Downloader()
-            {
-                Feature = feature,
-                MinimumId = minimumId,
-                MaximumId = maximumId,
-                QueryString = queryString,
-                OutDir = outDir,
-                UseSubfolders = useSubfolders,
-                OnlyNew = onlyNew,
-                OnlyList = onlyList,
-                Force = force,
-                NoSlash = noSlash,
-                Username = username,
-                Password = password,
-            };
+            // Return the downloader
             return downloader;
         }
 
