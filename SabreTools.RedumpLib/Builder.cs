@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using Newtonsoft.Json;
 using SabreTools.RedumpLib.Data;
+using SabreTools.RedumpLib.Data.Sections;
 using SabreTools.RedumpLib.Web;
 
 namespace SabreTools.RedumpLib

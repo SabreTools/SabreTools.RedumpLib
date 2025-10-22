@@ -1,4 +1,5 @@
 using SabreTools.RedumpLib.Data;
+using SabreTools.RedumpLib.Data.Sections;
 using Xunit;
 
 namespace SabreTools.RedumpLib.Test
