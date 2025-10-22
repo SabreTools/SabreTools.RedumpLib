@@ -58,8 +58,8 @@ namespace SabreTools.RedumpLib.Test
                     DiscTitle = "Install Disc",
                     Category = DiscCategory.Games,
                     Region = Region.World,
-                    Languages = new Language?[] { Language.English, Language.Spanish, Language.French },
-                    LanguageSelection = new LanguageSelection?[] { LanguageSelection.BiosSettings },
+                    Languages = [Language.English, Language.Spanish, Language.French],
+                    LanguageSelection = [LanguageSelection.BiosSettings],
                     Serial = "Disc Serial",
                     Layer0MasteringRing = "L0 Mastering Ring",
                     Layer0MasteringSID = "L0 Mastering SID",
@@ -97,7 +97,7 @@ namespace SabreTools.RedumpLib.Test
                 {
                     Version = "Original",
                     VersionDatfile = "Alt",
-                    CommonEditions = new string[] { "Taikenban" },
+                    CommonEditions = ["Taikenban"],
                     OtherEditions = "Rerelease",
                 },
 
@@ -135,7 +135,7 @@ namespace SabreTools.RedumpLib.Test
                 DumpersAndStatus = new DumpersAndStatusSection()
                 {
                     Status = DumpStatus.TwoOrMoreGreen,
-                    Dumpers = new string[] { "Dumper1", "Dumper2" },
+                    Dumpers = ["Dumper1", "Dumper2"],
                     OtherDumpers = "Dumper3",
                 },
 
@@ -143,7 +143,7 @@ namespace SabreTools.RedumpLib.Test
                 {
                     ClrMameProData = "Datfile",
                     Cuesheet = "Cuesheet",
-                    CommonWriteOffsets = new int[] { 0, 12, -12 },
+                    CommonWriteOffsets = [0, 12, -12],
                     OtherWriteOffsets = "-2",
                 },
 
