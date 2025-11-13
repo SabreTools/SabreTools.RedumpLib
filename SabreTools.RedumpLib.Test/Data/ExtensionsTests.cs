@@ -97,7 +97,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateDiscTypeMappingTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, true } };
-            foreach (DiscType? discType in Enum.GetValues(typeof(DiscType)))
+            foreach (DiscType? discType in Enum.GetValues<DiscType>().Cast<DiscType?>())
             {
                 if (_mappableDiscTypes.Contains(discType))
                     testData.Add([discType, false]);
@@ -115,7 +115,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateRedumpSystemMappingTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null } };
-            foreach (RedumpSystem? redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
+            foreach (RedumpSystem? redumpSystem in Enum.GetValues<RedumpSystem>().Cast<RedumpSystem?>())
             {
                 testData.Add([redumpSystem]);
             }
@@ -131,7 +131,7 @@ namespace SabreTools.RedumpLib.Test.Data
         {
             var testData = new List<object?[]>() { new object?[] { null, true } };
 
-            foreach (MediaType? mediaType in Enum.GetValues(typeof(MediaType)))
+            foreach (MediaType? mediaType in Enum.GetValues<MediaType>().Cast<MediaType?>())
             {
                 if (_mappableMediaTypes.Contains(mediaType))
                     testData.Add([mediaType, false]);
@@ -197,7 +197,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateDiscCategoryTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, true } };
-            foreach (DiscCategory? discCategory in Enum.GetValues(typeof(DiscCategory)))
+            foreach (DiscCategory? discCategory in Enum.GetValues<DiscCategory>().Cast<DiscCategory?>())
             {
                 testData.Add([discCategory, false]);
             }
@@ -262,7 +262,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateDiscTypeTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, true } };
-            foreach (DiscType? discType in Enum.GetValues(typeof(DiscType)))
+            foreach (DiscType? discType in Enum.GetValues<DiscType>().Cast<DiscType?>())
             {
                 if (discType == DiscType.NONE)
                     testData.Add([discType, true]);
@@ -352,7 +352,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [Fact]
         public void Language_ThreeLetterCode_NoDuplicates()
         {
-            var fullLanguages = Enum.GetValues(typeof(Language)).Cast<Language?>().ToList();
+            var fullLanguages = Enum.GetValues<Language>().Cast<Language?>().ToList();
             var filteredLanguages = new Dictionary<string, Language?>();
 
             int totalCount = 0;
@@ -379,7 +379,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [Fact]
         public void Language_ThreeLetterCodeAlt_NoDuplicates()
         {
-            var fullLanguages = Enum.GetValues(typeof(Language)).Cast<Language?>().ToList();
+            var fullLanguages = Enum.GetValues<Language>().Cast<Language?>().ToList();
             var filteredLanguages = new Dictionary<string, Language?>();
 
             int totalCount = 0;
@@ -406,7 +406,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [Fact]
         public void Language_TwoLetterCode_NoDuplicates()
         {
-            var fullLanguages = Enum.GetValues(typeof(Language)).Cast<Language?>().ToList();
+            var fullLanguages = Enum.GetValues<Language>().Cast<Language?>().ToList();
             var filteredLanguages = new Dictionary<string, Language?>();
 
             int totalCount = 0;
@@ -434,7 +434,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateLanguageTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, true } };
-            foreach (Language? language in Enum.GetValues(typeof(Language)))
+            foreach (Language? language in Enum.GetValues<Language>().Cast<Language?>())
             {
                 testData.Add([language, false]);
             }
@@ -497,7 +497,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateLanguageSelectionTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, true } };
-            foreach (LanguageSelection? languageSelection in Enum.GetValues(typeof(LanguageSelection)))
+            foreach (LanguageSelection? languageSelection in Enum.GetValues<LanguageSelection>().Cast<LanguageSelection?>())
             {
                 testData.Add([languageSelection, false]);
             }
@@ -557,7 +557,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateMediaTypeTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, true } };
-            foreach (MediaType? mediaType in Enum.GetValues(typeof(MediaType)))
+            foreach (MediaType? mediaType in Enum.GetValues<MediaType>().Cast<MediaType?>())
             {
                 testData.Add([mediaType, false]);
             }
@@ -609,7 +609,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [Fact]
         public void Region_ShortName_NoDuplicates()
         {
-            var fullRegions = Enum.GetValues(typeof(Region)).Cast<Region?>().ToList();
+            var fullRegions = Enum.GetValues<Region>().Cast<Region?>().ToList();
             var filteredRegions = new Dictionary<string, Region?>();
 
             int totalCount = 0;
@@ -664,7 +664,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateRegionTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, true } };
-            foreach (Region? region in Enum.GetValues(typeof(Region)))
+            foreach (Region? region in Enum.GetValues<Region>().Cast<Region?>())
             {
                 testData.Add([region, false]);
             }
@@ -896,7 +896,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateSiteCodeTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, true } };
-            foreach (SiteCode? siteCode in Enum.GetValues(typeof(SiteCode)))
+            foreach (SiteCode? siteCode in Enum.GetValues<SiteCode>().Cast<SiteCode?>())
             {
                 testData.Add([siteCode, false]);
             }
@@ -911,7 +911,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateBooleanSiteCodesTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (SiteCode siteCode in Enum.GetValues(typeof(SiteCode)))
+            foreach (SiteCode siteCode in Enum.GetValues<SiteCode>())
             {
                 if (_booleanSiteCodes.Contains(siteCode))
                     testData.Add([siteCode, true]);
@@ -929,7 +929,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateCommentSiteCodesTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (SiteCode siteCode in Enum.GetValues(typeof(SiteCode)))
+            foreach (SiteCode siteCode in Enum.GetValues<SiteCode>())
             {
                 if (_commentSiteCodes.Contains(siteCode))
                     testData.Add([siteCode, true]);
@@ -947,7 +947,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateContentSiteCodesTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (SiteCode siteCode in Enum.GetValues(typeof(SiteCode)))
+            foreach (SiteCode siteCode in Enum.GetValues<SiteCode>())
             {
                 if (_contentSiteCodes.Contains(siteCode))
                     testData.Add([siteCode, true]);
@@ -965,7 +965,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateMultilineSiteCodesTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (SiteCode siteCode in Enum.GetValues(typeof(SiteCode)))
+            foreach (SiteCode siteCode in Enum.GetValues<SiteCode>())
             {
                 if (_multilineSiteCodes.Contains(siteCode))
                     testData.Add([siteCode, true]);
@@ -1918,7 +1918,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateRedumpSystemTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, true } };
-            foreach (RedumpSystem? redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
+            foreach (RedumpSystem? redumpSystem in Enum.GetValues<RedumpSystem>().Cast<RedumpSystem?>())
             {
                 // We want to skip all markers for this
                 if (redumpSystem.IsMarker())
@@ -1937,7 +1937,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateAudioSystemsTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (RedumpSystem redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
+            foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_audioSystems.Contains(redumpSystem))
                     testData.Add([redumpSystem, true]);
@@ -1955,7 +1955,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateAvailableSystemsTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (RedumpSystem redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
+            foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_availableSystems.Contains(redumpSystem))
                     testData.Add([redumpSystem, true]);
@@ -1973,7 +1973,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateBannedSystemsTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (RedumpSystem redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
+            foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_bannedSystems.Contains(redumpSystem))
                     testData.Add([redumpSystem, true]);
@@ -1991,7 +1991,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateCategoriesSystemTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, SystemCategory.NONE } };
-            foreach (RedumpSystem redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
+            foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 testData.Add([redumpSystem, _systemCategoryMap[redumpSystem]]);
             }
@@ -2006,7 +2006,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateCuesheetSystemsTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (RedumpSystem redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
+            foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_systemsWithCues.Contains(redumpSystem))
                     testData.Add([redumpSystem, true]);
@@ -2024,7 +2024,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateDatSystemsTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (RedumpSystem redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
+            foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_systemsWithDats.Contains(redumpSystem))
                     testData.Add([redumpSystem, true]);
@@ -2042,7 +2042,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateDKeySystemsTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (RedumpSystem redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
+            foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_systemsWithDKeys.Contains(redumpSystem))
                     testData.Add([redumpSystem, true]);
@@ -2060,7 +2060,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateGdiSystemsTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (RedumpSystem redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
+            foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_systemsWithGdis.Contains(redumpSystem))
                     testData.Add([redumpSystem, true]);
@@ -2078,7 +2078,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateKeySystemsTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (RedumpSystem redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
+            foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_systemsWithKeys.Contains(redumpSystem))
                     testData.Add([redumpSystem, true]);
@@ -2096,7 +2096,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateLsdSystemsTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (RedumpSystem redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
+            foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_systemsWithLsds.Contains(redumpSystem))
                     testData.Add([redumpSystem, true]);
@@ -2114,7 +2114,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateMarkerSystemsTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (RedumpSystem redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
+            foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_markerSystems.Contains(redumpSystem))
                     testData.Add([redumpSystem, true]);
@@ -2132,7 +2132,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateReversedRingcodeSystemsTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (RedumpSystem redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
+            foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_reverseRingcodeSystems.Contains(redumpSystem))
                     testData.Add([redumpSystem, true]);
@@ -2150,7 +2150,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateSbiSystemsTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (RedumpSystem redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
+            foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_systemsWithSbis.Contains(redumpSystem))
                     testData.Add([redumpSystem, true]);
@@ -2168,7 +2168,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateWindowsDetectedSystemsTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (RedumpSystem redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
+            foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_windowsDetectedSystems.Contains(redumpSystem))
                     testData.Add([redumpSystem, true]);
@@ -2186,7 +2186,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateXGDSystemsTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (RedumpSystem redumpSystem in Enum.GetValues(typeof(RedumpSystem)))
+            foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_xgdSystems.Contains(redumpSystem))
                     testData.Add([redumpSystem, true]);
@@ -2225,7 +2225,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateSystemCategoryTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, true } };
-            foreach (SystemCategory? systemCategory in Enum.GetValues(typeof(SystemCategory)))
+            foreach (SystemCategory? systemCategory in Enum.GetValues<SystemCategory>().Cast<SystemCategory?>())
             {
                 if (systemCategory == SystemCategory.NONE)
                     testData.Add([systemCategory, true]);
@@ -2291,7 +2291,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static List<object?[]> GenerateYesNoTestData()
         {
             var testData = new List<object?[]>() { new object?[] { null, false } };
-            foreach (YesNo? yesNo in Enum.GetValues(typeof(YesNo)))
+            foreach (YesNo? yesNo in Enum.GetValues<YesNo>().Cast<YesNo?>())
             {
                 testData.Add([yesNo, false]);
             }

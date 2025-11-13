@@ -35,7 +35,7 @@ namespace SabreTools.RedumpLib.Data.Sections
             Dictionary<string, List<string>?>? fullProtections = null;
             if (this.FullProtections != null)
             {
-                fullProtections = new Dictionary<string, List<string>?>();
+                fullProtections = [];
                 foreach (var kvp in this.FullProtections)
                 {
                     fullProtections[kvp.Key] = kvp.Value;

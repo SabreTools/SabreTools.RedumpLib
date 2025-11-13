@@ -19,8 +19,7 @@ namespace SabreTools.RedumpLib.Converters
                 return existingValue;
 
             // Read the value
-            string? value = reader.Value as string;
-            if (value == null)
+            if (reader.Value is not string value)
                 return null;
 
             // Try to parse the value

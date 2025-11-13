@@ -545,7 +545,9 @@ namespace SabreTools.RedumpLib
 
             string prefix = string.Empty;
             for (int i = 0; i < indent; i++)
+            {
                 prefix += "\t";
+            }
 
             // Skip fields that need to keep internal whitespace intact
             if (key != "Primary Volume Descriptor (PVD)"
@@ -568,12 +570,18 @@ namespace SabreTools.RedumpLib
 
             // If the value contains a newline
             value = value.Replace("\r\n", "\n");
+#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
+            if (value.Contains('\n'))
+#else
             if (value.Contains("\n"))
+#endif
             {
                 output.AppendLine(prefix + key + ":"); output.AppendLine();
                 string[] values = value.Split('\n');
                 foreach (string val in values)
+                {
                     output.AppendLine(val);
+                }
 
                 output.AppendLine();
             }
@@ -616,7 +624,9 @@ namespace SabreTools.RedumpLib
 
             string prefix = string.Empty;
             for (int i = 0; i < indent; i++)
+            {
                 prefix += "\t";
+            }
 
             output.AppendLine(prefix + key + ": " + value);
         }

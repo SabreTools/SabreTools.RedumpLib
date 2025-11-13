@@ -39,7 +39,7 @@ namespace SabreTools.RedumpLib.Test
         [Fact]
         public void InjectSubmissionInformation_ValidInputNullSeed_Valid()
         {
-            SubmissionInfo? si = new SubmissionInfo();
+            SubmissionInfo? si = new();
             SubmissionInfo? seed = null;
 
             var actual = Builder.InjectSubmissionInformation(si, seed);
@@ -49,8 +49,8 @@ namespace SabreTools.RedumpLib.Test
         [Fact]
         public void InjectSubmissionInformation_BothValid_Valid()
         {
-            SubmissionInfo? si = new SubmissionInfo();
-            SubmissionInfo? seed = new SubmissionInfo();
+            SubmissionInfo? si = new();
+            SubmissionInfo? seed = new();
 
             var actual = Builder.InjectSubmissionInformation(si, seed);
             Assert.NotNull(actual);

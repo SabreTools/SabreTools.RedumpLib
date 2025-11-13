@@ -29,7 +29,11 @@ namespace SabreTools.RedumpLib.Web
                 return null;
 
             // Extract the filename from the value
+#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
+            return headerValue[(headerValue.IndexOf("filename=") + 9)..].Replace("\"", "");
+#else
             return headerValue.Substring(headerValue.IndexOf("filename=") + 9).Replace("\"", "");
+#endif
         }
 
         /// <inheritdoc/>

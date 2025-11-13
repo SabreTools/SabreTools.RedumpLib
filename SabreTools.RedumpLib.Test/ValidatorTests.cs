@@ -12,7 +12,7 @@ namespace SabreTools.RedumpLib.Test
         [Fact]
         public void NormalizeDiscType_InvalidMedia_Untouched()
         {
-            SubmissionInfo si = new SubmissionInfo
+            var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = null }
             };
@@ -26,7 +26,7 @@ namespace SabreTools.RedumpLib.Test
         public void NormalizeDiscType_InvalidSizeChecksums_Untouched()
         {
             DiscType expected = DiscType.CD;
-            SubmissionInfo si = new SubmissionInfo
+            var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = DiscType.CD },
                 SizeAndChecksums = new(),
@@ -41,7 +41,7 @@ namespace SabreTools.RedumpLib.Test
         public void NormalizeDiscType_UnformattedType_Fixed()
         {
             DiscType expected = DiscType.CD;
-            SubmissionInfo si = new SubmissionInfo
+            var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = DiscType.CD },
                 SizeAndChecksums = new SizeAndChecksumsSection(),
@@ -58,7 +58,7 @@ namespace SabreTools.RedumpLib.Test
         public void NormalizeDiscType_DVD9_Fixed(DiscType type)
         {
             DiscType expected = DiscType.DVD9;
-            SubmissionInfo si = new SubmissionInfo
+            var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
                 SizeAndChecksums = new SizeAndChecksumsSection { Layerbreak = 12345 },
@@ -75,7 +75,7 @@ namespace SabreTools.RedumpLib.Test
         public void NormalizeDiscType_DVD5_Fixed(DiscType type)
         {
             DiscType expected = DiscType.DVD5;
-            SubmissionInfo si = new SubmissionInfo
+            var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
                 SizeAndChecksums = new SizeAndChecksumsSection(),
@@ -96,7 +96,7 @@ namespace SabreTools.RedumpLib.Test
         public void NormalizeDiscType_BD128_Fixed(DiscType type)
         {
             DiscType expected = DiscType.BD128;
-            SubmissionInfo si = new SubmissionInfo
+            var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
                 SizeAndChecksums = new SizeAndChecksumsSection { Layerbreak3 = 12345 },
@@ -117,7 +117,7 @@ namespace SabreTools.RedumpLib.Test
         public void NormalizeDiscType_BD100_Fixed(DiscType type)
         {
             DiscType expected = DiscType.BD100;
-            SubmissionInfo si = new SubmissionInfo
+            var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
                 SizeAndChecksums = new SizeAndChecksumsSection { Layerbreak2 = 12345 },
@@ -138,7 +138,7 @@ namespace SabreTools.RedumpLib.Test
         public void NormalizeDiscType_BD66PIC_Fixed(DiscType type)
         {
             DiscType expected = DiscType.BD66;
-            SubmissionInfo si = new SubmissionInfo
+            var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
                 SizeAndChecksums = new SizeAndChecksumsSection
@@ -163,7 +163,7 @@ namespace SabreTools.RedumpLib.Test
         public void NormalizeDiscType_BD66Size_Fixed(DiscType type)
         {
             DiscType expected = DiscType.BD66;
-            SubmissionInfo si = new SubmissionInfo
+            var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
                 SizeAndChecksums = new SizeAndChecksumsSection
@@ -188,7 +188,7 @@ namespace SabreTools.RedumpLib.Test
         public void NormalizeDiscType_BD50_Fixed(DiscType type)
         {
             DiscType expected = DiscType.BD50;
-            SubmissionInfo si = new SubmissionInfo
+            var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
                 SizeAndChecksums = new SizeAndChecksumsSection { Layerbreak = 12345 },
@@ -209,7 +209,7 @@ namespace SabreTools.RedumpLib.Test
         public void NormalizeDiscType_BD33PIC_Fixed(DiscType type)
         {
             DiscType expected = DiscType.BD33;
-            SubmissionInfo si = new SubmissionInfo
+            var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
                 SizeAndChecksums = new SizeAndChecksumsSection
@@ -233,7 +233,7 @@ namespace SabreTools.RedumpLib.Test
         public void NormalizeDiscType_BD33Size_Fixed(DiscType type)
         {
             DiscType expected = DiscType.BD33;
-            SubmissionInfo si = new SubmissionInfo
+            var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
                 SizeAndChecksums = new SizeAndChecksumsSection
@@ -257,7 +257,7 @@ namespace SabreTools.RedumpLib.Test
         public void NormalizeDiscType_BD25_Fixed(DiscType type)
         {
             DiscType expected = DiscType.BD25;
-            SubmissionInfo si = new SubmissionInfo
+            var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
                 SizeAndChecksums = new SizeAndChecksumsSection(),
@@ -274,7 +274,7 @@ namespace SabreTools.RedumpLib.Test
         public void NormalizeDiscType_UMDDL_Fixed(DiscType type)
         {
             DiscType expected = DiscType.UMDDL;
-            SubmissionInfo si = new SubmissionInfo
+            var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
                 SizeAndChecksums = new SizeAndChecksumsSection { Layerbreak = 12345 },
@@ -291,7 +291,7 @@ namespace SabreTools.RedumpLib.Test
         public void NormalizeDiscType_UMDSL_Fixed(DiscType type)
         {
             DiscType expected = DiscType.UMDSL;
-            SubmissionInfo si = new SubmissionInfo
+            var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
                 SizeAndChecksums = new SizeAndChecksumsSection(),

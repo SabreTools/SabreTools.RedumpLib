@@ -44,7 +44,7 @@ namespace SabreTools.RedumpLib.Test
             {
                 SchemaVersion = 1,
                 FullyMatchedID = 3,
-                PartiallyMatchedIDs = new List<int> { 0, 1, 2, 3 },
+                PartiallyMatchedIDs = [0, 1, 2, 3],
                 Added = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow,
 

@@ -26,8 +26,7 @@ namespace SabreTools.RedumpLib.Converters
             List<LanguageSelection> selections = [];
             while (reader.Read() && reader.Depth > currentDepth)
             {
-                string? value = reader.Value as string;
-                if (value == null)
+                if (reader.Value is not string value)
                     continue;
 
                 LanguageSelection? sel = Data.Extensions.ToLanguageSelection(value);
@@ -43,7 +42,7 @@ namespace SabreTools.RedumpLib.Converters
             if (value == null)
                 return;
 
-            JArray array = new JArray();
+            JArray array = [];
             foreach (var val in value)
             {
                 JToken t = JToken.FromObject(val.LongName() ?? string.Empty);

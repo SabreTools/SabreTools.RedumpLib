@@ -268,7 +268,11 @@ namespace SabreTools.RedumpLib
                 int firstParenLocation = title?.IndexOf(" (") ?? -1;
                 if (title != null && firstParenLocation >= 0)
                 {
+#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
+                    info.CommonDiscInfo!.Title = title[..firstParenLocation];
+#else
                     info.CommonDiscInfo!.Title = title.Substring(0, firstParenLocation);
+#endif
                     var submatches = Constants.DiscNumberLetterRegex.Matches(title);
                     foreach (Match? submatch in submatches)
                     {
@@ -279,7 +283,11 @@ namespace SabreTools.RedumpLib
 
                         // Disc number or letter
                         if (submatchValue.StartsWith("Disc"))
+#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
+                            info.CommonDiscInfo.DiscNumberLetter = submatchValue["Disc ".Length..];
+#else
                             info.CommonDiscInfo.DiscNumberLetter = submatchValue.Remove(0, "Disc ".Length);
+#endif
 
                         // Issue number
                         else if (ulong.TryParse(submatchValue, out _))

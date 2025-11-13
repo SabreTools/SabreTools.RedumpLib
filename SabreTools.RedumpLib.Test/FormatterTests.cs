@@ -67,7 +67,7 @@ namespace SabreTools.RedumpLib.Test
             string expected = "Version and Editions:\n\tVersion: XXXXXX\n\tEdition/Release: XXXXXX\n";
 
             var builder = new StringBuilder();
-            VersionAndEditionsSection? section = new VersionAndEditionsSection
+            VersionAndEditionsSection? section = new()
             {
                 Version = "XXXXXX",
                 OtherEditions = "XXXXXX",
@@ -119,7 +119,7 @@ namespace SabreTools.RedumpLib.Test
             string expected = "EDC:\n\tEDC: Yes\n";
 
             var builder = new StringBuilder();
-            EDCSection? section = new EDCSection { EDC = YesNo.Yes };
+            EDCSection? section = new() { EDC = YesNo.Yes };
             RedumpSystem? system = RedumpSystem.SonyPlayStation;
 
             Formatter.FormatOutputData(builder, section, system);
@@ -152,7 +152,7 @@ namespace SabreTools.RedumpLib.Test
             string expected = string.Empty;
 
             var builder = new StringBuilder();
-            ExtrasSection? section = new ExtrasSection
+            ExtrasSection? section = new()
             {
                 PVD = null,
                 PIC = null,
@@ -172,7 +172,7 @@ namespace SabreTools.RedumpLib.Test
             string expected = "Extras:\n\tPrimary Volume Descriptor (PVD): XXXXXX\n\tDisc Key: XXXXXX\n\tDisc ID: XXXXXX\n\tPermanent Information & Control (PIC): XXXXXX\n\tHeader: XXXXXX\n\tBCA: XXXXXX\n\tSecurity Sector Ranges: XXXXXX\n";
 
             var builder = new StringBuilder();
-            ExtrasSection? section = new ExtrasSection
+            ExtrasSection? section = new()
             {
                 PVD = "XXXXXX",
                 DiscKey = "XXXXXX",
@@ -214,7 +214,7 @@ namespace SabreTools.RedumpLib.Test
             string expected = string.Empty;
 
             var builder = new StringBuilder();
-            CopyProtectionSection? section = new CopyProtectionSection
+            CopyProtectionSection? section = new()
             {
                 Protection = null,
                 AntiModchip = null,
@@ -236,7 +236,7 @@ namespace SabreTools.RedumpLib.Test
             string expected = "Copy Protection:\n\tCopy Protection: XXXXXX\n\tSubIntention Data (SecuROM/LibCrypt): XXXXXX\n";
 
             var builder = new StringBuilder();
-            CopyProtectionSection? section = new CopyProtectionSection
+            CopyProtectionSection? section = new()
             {
                 AntiModchip = YesNo.Yes,
                 LibCrypt = YesNo.Yes,
@@ -258,7 +258,7 @@ namespace SabreTools.RedumpLib.Test
             string expected = "Copy Protection:\n\tAnti-modchip: Yes\n\tLibCrypt: Yes\n\tSubIntention Data (SecuROM/LibCrypt): XXXXXX\n\tCopy Protection: XXXXXX\n\tSubIntention Data (SecuROM/LibCrypt): XXXXXX\n";
 
             var builder = new StringBuilder();
-            CopyProtectionSection? section = new CopyProtectionSection
+            CopyProtectionSection? section = new()
             {
                 AntiModchip = YesNo.Yes,
                 LibCrypt = YesNo.Yes,
@@ -284,7 +284,7 @@ namespace SabreTools.RedumpLib.Test
             string expected = "Tracks and Write Offsets:\n\tDAT:\n\n\n\n\n";
 
             var builder = new StringBuilder();
-            TracksAndWriteOffsetsSection? section = new TracksAndWriteOffsetsSection();
+            TracksAndWriteOffsetsSection? section = new();
 
             Formatter.FormatOutputData(builder, section);
 
@@ -298,7 +298,7 @@ namespace SabreTools.RedumpLib.Test
             string expected = "Tracks and Write Offsets:\n\tDAT:\n\nXXXXXX\n\n\n\tCuesheet: XXXXXX\n\tWrite Offset: XXXXXX\n";
 
             var builder = new StringBuilder();
-            TracksAndWriteOffsetsSection? section = new TracksAndWriteOffsetsSection
+            TracksAndWriteOffsetsSection? section = new()
             {
                 ClrMameProData = "XXXXXX",
                 Cuesheet = "XXXXXX",
@@ -341,7 +341,7 @@ namespace SabreTools.RedumpLib.Test
             string expected = "Dumping Info:\n\tFrontend Version: XXXXXX\n\tDumping Program: XXXXXX\n\tDate: XXXXXX\n\tParameters: XXXXXX\n\tManufacturer: XXXXXX\n\tModel: XXXXXX\n\tFirmware: XXXXXX\n\tReported Disc Type: XXXXXX\n\tC2 Error Count: XXXXXX\n";
 
             var builder = new StringBuilder();
-            DumpingInfoSection? section = new DumpingInfoSection
+            DumpingInfoSection? section = new()
             {
                 FrontendVersion = "XXXXXX",
                 DumpingProgram = "XXXXXX",
