@@ -479,6 +479,7 @@ namespace SabreTools.RedumpLib
 
             AddIfExists(output, Template.DATField, section.ClrMameProData + "\n", 1);
             AddIfExists(output, Template.CuesheetField, section.Cuesheet, 1);
+            // TODO: Figure out how to emit raw cuesheet field instead of normal cuesheet
             var offset = section.OtherWriteOffsets;
             if (int.TryParse(offset, out int i))
                 offset = i.ToString("+#;-#;0");

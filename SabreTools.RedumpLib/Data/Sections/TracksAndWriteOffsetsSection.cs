@@ -14,6 +14,9 @@ namespace SabreTools.RedumpLib.Data.Sections
         [JsonProperty(PropertyName = "d_cue", NullValueHandling = NullValueHandling.Ignore)]
         public string? Cuesheet { get; set; }
 
+        [JsonProperty(PropertyName = "d_cue_raw", NullValueHandling = NullValueHandling.Ignore)]
+        public byte[]? CuesheetRaw { get; set; }
+
         [JsonProperty(PropertyName = "d_offset", NullValueHandling = NullValueHandling.Ignore)]
         public int[]? CommonWriteOffsets { get; set; }
 
@@ -26,6 +29,7 @@ namespace SabreTools.RedumpLib.Data.Sections
             {
                 ClrMameProData = this.ClrMameProData,
                 Cuesheet = this.Cuesheet,
+                CuesheetRaw = this.CuesheetRaw?.Clone() as byte[],
                 CommonWriteOffsets = this.CommonWriteOffsets?.Clone() as int[],
                 OtherWriteOffsets = this.OtherWriteOffsets,
             };

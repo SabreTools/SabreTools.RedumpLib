@@ -143,6 +143,7 @@ namespace SabreTools.RedumpLib.Test
                 {
                     ClrMameProData = "Datfile",
                     Cuesheet = "Cuesheet",
+                    CuesheetRaw = [0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39],
                     CommonWriteOffsets = [0, 12, -12],
                     OtherWriteOffsets = "-2",
                 },
