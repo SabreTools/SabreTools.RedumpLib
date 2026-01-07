@@ -773,9 +773,8 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.PlayableDemos,
             SiteCode.RollingDemos,
             SiteCode.Savegames,
-            SiteCode.Steam2,
-            SiteCode.Steam3,
-            SiteCode.SteamDepotID,
+            SiteCode.Steam2DepotID,
+            SiteCode.Steam3DepotID,
             SiteCode.TechDemos,
             SiteCode.Videos,
         ];
@@ -796,7 +795,8 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.PlayableDemos,
             SiteCode.RollingDemos,
             SiteCode.Savegames,
-            SiteCode.SteamDepotID,
+            SiteCode.Steam2DepotID,
+            SiteCode.Steam3DepotID,
             SiteCode.TechDemos,
             SiteCode.Videos,
         ];

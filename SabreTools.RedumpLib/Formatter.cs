@@ -103,9 +103,8 @@ namespace SabreTools.RedumpLib
             // Games
             SiteCode.Games,
             SiteCode.NetYarozeGames,
-            SiteCode.Steam2,
-            SiteCode.Steam3,
-            SiteCode.SteamDepotID,
+            SiteCode.Steam2DepotID,
+            SiteCode.Steam3DepotID,
 
             // Demos
             SiteCode.PlayableDemos,
