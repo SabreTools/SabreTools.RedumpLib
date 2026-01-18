@@ -577,6 +577,16 @@ namespace SabreTools.RedumpLib.Data
                     types.Add(MediaType.DVD);
                     break;
 
+                // https://en.wikipedia.org/wiki/List_of_Sega_arcade_system_boards#Sega_Nu
+                case RedumpSystem.SegaNu11:
+                    types.Add(MediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/List_of_Sega_arcade_system_boards#Sega_Nu
+                case RedumpSystem.SegaNu2:
+                    types.Add(MediaType.DVD);
+                    break;
+
                 // http://system16.com/hardware.php?id=910
                 // https://en.wikipedia.org/wiki/List_of_Sega_arcade_system_boards#Sega_Ring_series
                 case RedumpSystem.SegaRingEdge:

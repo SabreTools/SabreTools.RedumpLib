@@ -2382,6 +2382,12 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Nu")]
         SegaNu,
 
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Nu 1.1")]
+        SegaNu11,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Nu 2")]
+        SegaNu2,
+
         [System(Category = SystemCategory.Arcade, LongName = "Sega RingEdge", ShortName = "sre", HasDat = true)]
         SegaRingEdge,
 
