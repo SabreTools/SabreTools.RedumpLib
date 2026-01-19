@@ -352,6 +352,12 @@ namespace SabreTools.RedumpLib.Data
                     types.Add(MediaType.CDROM);
                     break;
 
+                // https://en.wikipedia.org/wiki/FuRyu
+                case RedumpSystem.FuRyuOmronPurikura:
+                    types.Add(MediaType.CDROM);
+                    types.Add(MediaType.DVD);
+                    break;
+
                 // UNKNOWN
                 case RedumpSystem.GlobalVRVarious:
                     types.Add(MediaType.CDROM);
@@ -476,6 +482,12 @@ namespace SabreTools.RedumpLib.Data
                     types.Add(MediaType.CDROM);
                     break;
 
+                // UNKNOWN
+                case RedumpSystem.NamcoPurikura:
+                    types.Add(MediaType.CDROM);
+                    types.Add(MediaType.DVD);
+                    break;
+
                 // http://system16.com/hardware.php?id=543
                 // http://system16.com/hardware.php?id=546
                 // http://system16.com/hardware.php?id=872
@@ -572,6 +584,12 @@ namespace SabreTools.RedumpLib.Data
                     types.Add(MediaType.GDROM); // High density partition
                     break;
 
+                // https://segaretro.org/Sega_NAOMI#NAOMI_Satellite_Terminal
+                case RedumpSystem.SegaNaomiSatelliteTerminalPC:
+                    types.Add(MediaType.CDROM);
+                    types.Add(MediaType.DVD);
+                    break;
+
                 // https://en.wikipedia.org/wiki/List_of_Sega_arcade_system_boards#Sega_Nu
                 case RedumpSystem.SegaNu:
                     types.Add(MediaType.DVD);
@@ -584,6 +602,11 @@ namespace SabreTools.RedumpLib.Data
 
                 // https://en.wikipedia.org/wiki/List_of_Sega_arcade_system_boards#Sega_Nu
                 case RedumpSystem.SegaNu2:
+                    types.Add(MediaType.DVD);
+                    break;
+
+                // https://segaretro.org/Nu_SX
+                case RedumpSystem.SegaNuSX:
                     types.Add(MediaType.DVD);
                     break;
 
@@ -704,6 +727,11 @@ namespace SabreTools.RedumpLib.Data
 
                 // https://segaretro.org/Prologue_21
                 case RedumpSystem.SegaPrologue21MultimediaKaraokeSystem:
+                    types.Add(MediaType.CDROM);
+                    break;
+
+                // UNKNOWN
+                case RedumpSystem.SharpZaurus:
                     types.Add(MediaType.CDROM);
                     break;
 

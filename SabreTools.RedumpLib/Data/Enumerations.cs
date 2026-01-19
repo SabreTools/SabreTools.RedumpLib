@@ -2268,6 +2268,9 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "funworld Photo Play", ShortName = "fpp", HasCues = true, HasDat = true)]
         funworldPhotoPlay,
 
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "FuRyu & Omron Purikura")]
+        FuRyuOmronPurikura,
+
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Global VR PC-based Systems")]
         GlobalVRVarious,
 
@@ -2331,6 +2334,9 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Merit Industries MegaTouch XL")]
         MeritIndustriesMegaTouchXL,
 
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Namco Purikura")]
+        NamcoPurikura,
+
         [System(Category = SystemCategory.Arcade, LongName = "Namco · Sega · Nintendo Triforce", ShortName = "trf", HasCues = true, HasDat = true, HasGdi = true)]
         NamcoSegaNintendoTriforce,
 
@@ -2379,6 +2385,9 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "Sega Naomi 2", ShortName = "naomi2", HasCues = true, HasDat = true, HasGdi = true)]
         SegaNaomi2,
 
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega NAOMI Satellite Terminal PC")]
+        SegaNaomiSatelliteTerminalPC,
+
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Nu")]
         SegaNu,
 
@@ -2387,6 +2396,9 @@ namespace SabreTools.RedumpLib.Data
 
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Nu 2")]
         SegaNu2,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Nu SX")]
+        SegaNuSX,
 
         [System(Category = SystemCategory.Arcade, LongName = "Sega RingEdge", ShortName = "sre", HasDat = true)]
         SegaRingEdge,
@@ -2460,6 +2472,9 @@ namespace SabreTools.RedumpLib.Data
 
         [System(Category = SystemCategory.Other, LongName = "Sega Prologue 21 Multimedia Karaoke System", ShortName = "sp21", HasCues = true, HasDat = true)]
         SegaPrologue21MultimediaKaraokeSystem,
+
+        [System(Category = SystemCategory.Other, Available = false, LongName = "Sharp Zaurus")]
+        SharpZaurus,
 
         [System(Category = SystemCategory.Other, Available = false, LongName = "Sony Electronic Book")]
         SonyElectronicBook,
