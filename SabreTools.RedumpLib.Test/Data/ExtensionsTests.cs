@@ -1059,7 +1059,6 @@ namespace SabreTools.RedumpLib.Test.Data
 
             // Arcade
             RedumpSystem.funworldPhotoPlay,
-            RedumpSystem.FuRyuOmronPurikura,
             RedumpSystem.IncredibleTechnologiesEagle,
             RedumpSystem.KonamieAmusement,
             RedumpSystem.KonamiFireBeat,
