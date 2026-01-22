@@ -1324,6 +1324,7 @@ namespace SabreTools.RedumpLib.Data
                 SiteCode.XMID => true,
 
                 // Publisher / Company IDs
+                SiteCode.TwoKGamesID => true,
                 SiteCode.AcclaimID => true,
                 SiteCode.ActivisionID => true,
                 SiteCode.BandaiID => true,

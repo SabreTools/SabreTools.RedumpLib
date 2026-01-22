@@ -3756,6 +3756,10 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "<b>Title ID</b>:", LongName = "<b>Title ID</b>:")]
         TitleID,
 
+        // This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>2K Games ID</b>:", LongName = "<b>2K Games ID</b>:")]
+        TwoKGamesID,
+
         [HumanReadable(ShortName = "[T:UID]", LongName = "<b>Ubisoft ID</b>:")]
         UbisoftID,
 

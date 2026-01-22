@@ -58,6 +58,7 @@ namespace SabreTools.RedumpLib
             SiteCode.VCD,
 
             // Publisher / Company IDs
+            SiteCode.TwoKGamesID,
             SiteCode.AcclaimID,
             SiteCode.ActivisionID,
             SiteCode.BandaiID,
