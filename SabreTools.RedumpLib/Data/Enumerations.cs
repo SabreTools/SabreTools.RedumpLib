@@ -3731,11 +3731,11 @@ namespace SabreTools.RedumpLib.Data
         
         // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Steam Depot ID (.sis/.sim/.sid)</b>:", LongName = "<b>Steam Depot ID (.sis/.sim/.sid)</b>:")]
-        Steam2DepotID,
+        SteamSimSidDepotID,
         
         // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Steam Depot ID (.sis/.csm/.csd)</b>:", LongName = "<b>Steam Depot ID (.sis/.csm/.csd)</b>:")]
-        Steam3DepotID,
+        SteamCsmCsdDepotID,
 
         [HumanReadable(ShortName = "[T:TID]", LongName = "<b>Taito ID</b>:")]
         TaitoID,
