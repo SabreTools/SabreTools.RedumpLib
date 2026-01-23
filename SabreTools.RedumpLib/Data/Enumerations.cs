@@ -3726,7 +3726,7 @@ namespace SabreTools.RedumpLib.Data
         SSVersion,
 
         // This doesn't have a site tag yet
-        [HumanReadable(ShortName = "<b>Steam AppID</b>:", LongName = "<b>Steam AppID</b>:")]
+        [HumanReadable(ShortName = "<b>Steam App ID</b>:", LongName = "<b>Steam AppID</b>:")]
         SteamAppID,
         
         // This doesn't have a site tag yet

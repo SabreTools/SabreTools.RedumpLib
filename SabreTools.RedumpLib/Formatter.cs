@@ -57,8 +57,6 @@ namespace SabreTools.RedumpLib
             SiteCode.PostgapType,
             SiteCode.VCD,
             
-            SiteCode.SteamAppID,
-
             // Publisher / Company IDs
             SiteCode.AcclaimID,
             SiteCode.ActivisionID,
@@ -84,6 +82,7 @@ namespace SabreTools.RedumpLib
             SiteCode.SegaID,
             SiteCode.SelenID,
             SiteCode.SierraID,
+            SiteCode.SteamAppID,
             SiteCode.TaitoID,
             SiteCode.UbisoftID,
             SiteCode.ValveID,
