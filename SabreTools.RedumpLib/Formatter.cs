@@ -56,7 +56,7 @@ namespace SabreTools.RedumpLib
             SiteCode.Series,
             SiteCode.PostgapType,
             SiteCode.VCD,
-
+            
             // Publisher / Company IDs
             SiteCode.TwoKGamesID,
             SiteCode.AcclaimID,
@@ -83,6 +83,7 @@ namespace SabreTools.RedumpLib
             SiteCode.SegaID,
             SiteCode.SelenID,
             SiteCode.SierraID,
+            SiteCode.SteamAppID,
             SiteCode.TaitoID,
             SiteCode.UbisoftID,
             SiteCode.ValveID,
@@ -102,6 +103,8 @@ namespace SabreTools.RedumpLib
             // Games
             SiteCode.Games,
             SiteCode.NetYarozeGames,
+            SiteCode.SteamSimSidDepotID,
+            SiteCode.SteamCsmCsdDepotID,
 
             // Demos
             SiteCode.PlayableDemos,
