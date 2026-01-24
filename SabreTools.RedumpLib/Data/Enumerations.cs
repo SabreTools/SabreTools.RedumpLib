@@ -3749,14 +3749,14 @@ namespace SabreTools.RedumpLib.Data
         // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Steam App ID</b>:", LongName = "<b>Steam AppID</b>:")]
         SteamAppID,
-        
-        // This doesn't have a site tag yet
-        [HumanReadable(ShortName = "<b>Steam Depot ID (.sis/.sim/.sid)</b>:", LongName = "<b>Steam Depot ID (.sis/.sim/.sid)</b>:")]
-        SteamSimSidDepotID,
-        
+
         // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Steam Depot ID (.sis/.csm/.csd)</b>:", LongName = "<b>Steam Depot ID (.sis/.csm/.csd)</b>:")]
         SteamCsmCsdDepotID,
+
+        // This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Steam Depot ID (.sis/.sim/.sid)</b>:", LongName = "<b>Steam Depot ID (.sis/.sim/.sid)</b>:")]
+        SteamSimSidDepotID,
 
         [HumanReadable(ShortName = "[T:TID]", LongName = "<b>Taito ID</b>:")]
         TaitoID,
