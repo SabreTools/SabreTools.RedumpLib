@@ -56,7 +56,7 @@ namespace SabreTools.RedumpLib
             SiteCode.Series,
             SiteCode.PostgapType,
             SiteCode.VCD,
-            
+
             // Publisher / Company IDs
             SiteCode.TwoKGamesID,
             SiteCode.AcclaimID,
