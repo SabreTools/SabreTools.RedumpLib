@@ -3,6 +3,9 @@ using System.Net;
 
 namespace SabreTools.RedumpLib.Web
 {
+#if NET6_0_OR_GREATER
+#pragma warning disable SYSLIB0014
+#endif
     internal class CookieWebClient : WebClient
     {
         /// <summary>
@@ -48,4 +51,7 @@ namespace SabreTools.RedumpLib.Web
             return request;
         }
     }
+#if NET6_0_OR_GREATER
+#pragma warning restore SYSLIB0014
+#endif
 }
