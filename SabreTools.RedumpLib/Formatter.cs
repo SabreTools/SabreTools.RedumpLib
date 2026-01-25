@@ -504,7 +504,7 @@ namespace SabreTools.RedumpLib
 
             // Gross hack because of automatic layerbreaks in Redump
             if (!enableRedumpCompatibility
-                || (mediaType != MediaType.BluRay && system.IsXGD() == false))
+                || (mediaType != MediaType.BluRay && !system.IsXGD()))
             {
                 AddIfExists(output, Template.LayerbreakField, section?.Layerbreak, 1);
             }
@@ -691,6 +691,7 @@ namespace SabreTools.RedumpLib
         /// <returns>String representation of the media, including layer specification</returns>
         internal static string? GetFixedMediaType(MediaType? mediaType, string? picIdentifier, long? size, long? layerbreak, long? layerbreak2, long? layerbreak3)
         {
+#pragma warning disable IDE0010
             switch (mediaType)
             {
                 case MediaType.DVD:
@@ -732,6 +733,7 @@ namespace SabreTools.RedumpLib
                 default:
                     return mediaType.LongName();
             }
+#pragma warning restore IDE0010
         }
 
         /// <summary>

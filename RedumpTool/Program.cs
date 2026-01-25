@@ -7,7 +7,7 @@ namespace RedumpTool
 {
     public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             // Show help if nothing is input
             if (args == null || args.Length == 0)

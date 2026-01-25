@@ -54,6 +54,7 @@ namespace SabreTools.RedumpLib
         /// <param name="discData">String containing the HTML disc data</param>
         /// <returns>Filled SubmissionInfo object on success, null on error</returns>
         /// <remarks>Not currently working</remarks>
+#pragma warning disable IDE0051
         private static SubmissionInfo? CreateFromID(string discData)
         {
             var info = new SubmissionInfo()
@@ -244,6 +245,7 @@ namespace SabreTools.RedumpLib
 
             return info;
         }
+#pragma warning restore IDE0051
 
         /// <summary>
         /// Fill out an existing SubmissionInfo object based on a disc page
@@ -252,7 +254,7 @@ namespace SabreTools.RedumpLib
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <param name="includeAllData">True to include all pullable information, false to do bare minimum</param>
-        public async static Task<bool> FillFromId(RedumpClient rc, SubmissionInfo info, int id, bool includeAllData)
+        public static async Task<bool> FillFromId(RedumpClient rc, SubmissionInfo info, int id, bool includeAllData)
         {
             var discData = await rc.DownloadSingleSiteID(id);
             if (string.IsNullOrEmpty(discData))
@@ -678,6 +680,7 @@ namespace SabreTools.RedumpLib
         /// </summary>
         private static bool ShouldSkipSiteCode(SiteCode? siteCode)
         {
+#pragma warning disable IDE0072
             return siteCode switch
             {
                 // Multiple
@@ -711,6 +714,7 @@ namespace SabreTools.RedumpLib
 
                 _ => false,
             };
+#pragma warning restore IDE0072
         }
 
         #endregion

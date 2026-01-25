@@ -131,6 +131,7 @@ namespace SabreTools.RedumpLib
                 case Feature.WIP:
                     processedIds = await ProcessWIP();
                     break;
+                case Feature.NONE:
                 default:
                     return [];
             }

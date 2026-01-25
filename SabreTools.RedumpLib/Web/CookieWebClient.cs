@@ -1,7 +1,6 @@
 using System;
 using System.Net;
 
-#pragma warning disable SYSLIB0014 // 'WebClient.WebClient()' is obsolete
 namespace SabreTools.RedumpLib.Web
 {
     internal class CookieWebClient : WebClient

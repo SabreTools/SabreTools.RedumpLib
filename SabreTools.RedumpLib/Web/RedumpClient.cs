@@ -77,7 +77,7 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Validate supplied credentials
         /// </summary>
-        public async static Task<bool?> ValidateCredentials(string username, string password)
+        public static async Task<bool?> ValidateCredentials(string username, string password)
         {
             // If options are invalid or we're missing something key, just return
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))

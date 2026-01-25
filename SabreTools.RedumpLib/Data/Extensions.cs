@@ -7,6 +7,8 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// Information pertaining to Redump systems
     /// </summary>
+#pragma warning disable IDE0010
+#pragma warning disable IDE0072
     public static class Extensions
     {
         #region Cross-Enumeration
@@ -1839,4 +1841,6 @@ namespace SabreTools.RedumpLib.Data
 
         #endregion
     }
+#pragma warning restore IDE0010
+#pragma warning restore IDE0072
 }
