@@ -16,7 +16,7 @@ namespace SabreTools.RedumpLib
         public static void NormalizeDiscType(SubmissionInfo info)
         {
             // If we have nothing valid, do nothing
-            if (info.CommonDiscInfo.Media == null || info.SizeAndChecksums == default)
+            if (info.CommonDiscInfo.Media is null || info.SizeAndChecksums == default)
                 return;
 
 #pragma warning disable IDE0010
@@ -138,7 +138,7 @@ namespace SabreTools.RedumpLib
             var newIds = await ListSearchResults(rc, sha1);
 
             // If we got null back, there was an error
-            if (newIds == null)
+            if (newIds is null)
                 return null;
 
             // If no IDs match, just return
@@ -146,7 +146,7 @@ namespace SabreTools.RedumpLib
                 return null;
 
             // Join the list of found IDs to the existing list, if possible
-            if (info.PartiallyMatchedIDs != null && info.PartiallyMatchedIDs.Count > 0)
+            if (info.PartiallyMatchedIDs is not null && info.PartiallyMatchedIDs.Count > 0)
                 info.PartiallyMatchedIDs.AddRange(newIds);
             else
                 info.PartiallyMatchedIDs = newIds;
@@ -163,7 +163,7 @@ namespace SabreTools.RedumpLib
         public static async Task<List<int>?> ValidateUniversalHash(RedumpClient rc, SubmissionInfo info)
         {
             // If we don't have special fields
-            if (info.CommonDiscInfo.CommentsSpecialFields == null)
+            if (info.CommonDiscInfo.CommentsSpecialFields is null)
                 return null;
 
             // If we don't have a universal hash
@@ -182,7 +182,7 @@ namespace SabreTools.RedumpLib
             var newIds = await ListSearchResults(rc, universalHashQuery, filterForwardSlashes: false);
 
             // If we got null back, there was an error
-            if (newIds == null)
+            if (newIds is null)
                 return null;
 
             // If no IDs match, just return
@@ -190,7 +190,7 @@ namespace SabreTools.RedumpLib
                 return null;
 
             // Join the list of found IDs to the existing list, if possible
-            if (info.PartiallyMatchedIDs != null && info.PartiallyMatchedIDs.Count > 0)
+            if (info.PartiallyMatchedIDs is not null && info.PartiallyMatchedIDs.Count > 0)
                 info.PartiallyMatchedIDs.AddRange(newIds);
             else
                 info.PartiallyMatchedIDs = newIds;

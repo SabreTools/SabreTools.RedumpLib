@@ -79,7 +79,7 @@ namespace SabreTools.RedumpLib
 
                 // Get the body node, if possible
                 var bodyNode = redumpPage["html"]?["body"];
-                if (bodyNode == null || !bodyNode.HasChildNodes)
+                if (bodyNode is null || !bodyNode.HasChildNodes)
                     return null;
 
                 // Loop through and get the main node, if possible
@@ -87,7 +87,7 @@ namespace SabreTools.RedumpLib
                 foreach (XmlNode? tempNode in bodyNode.ChildNodes)
                 {
                     // Invalid nodes are skipped
-                    if (tempNode == null)
+                    if (tempNode is null)
                         continue;
 
                     // We only care about div elements
@@ -95,7 +95,7 @@ namespace SabreTools.RedumpLib
                         continue;
 
                     // We only care if it has attributes
-                    if (tempNode.Attributes == null)
+                    if (tempNode.Attributes is null)
                         continue;
 
                     // The main node has a class of "main"
@@ -107,14 +107,14 @@ namespace SabreTools.RedumpLib
                 }
 
                 // If the main node is invalid, we can't do anything
-                if (mainNode == null || !mainNode.HasChildNodes)
+                if (mainNode is null || !mainNode.HasChildNodes)
                     return null;
 
                 // Try to find elements as we're going
                 foreach (XmlNode? childNode in mainNode.ChildNodes)
                 {
                     // Invalid nodes are skipped
-                    if (childNode == null)
+                    if (childNode is null)
                         continue;
 
                     // The title is the only thing in h1 tags
@@ -126,7 +126,7 @@ namespace SabreTools.RedumpLib
                         continue;
 
                     // Only 2 of the internal divs have classes attached and one is not used here
-                    if (childNode.Attributes != null && string.Equals(childNode.Attributes["class"]?.Value, "game",
+                    if (childNode.Attributes is not null && string.Equals(childNode.Attributes["class"]?.Value, "game",
                             StringComparison.OrdinalIgnoreCase))
                     {
                         // If we don't have children nodes, skip this one over
@@ -137,14 +137,14 @@ namespace SabreTools.RedumpLib
                         foreach (XmlNode? gameNode in childNode.ChildNodes)
                         {
                             // Invalid nodes are skipped
-                            if (gameNode == null)
+                            if (gameNode is null)
                                 continue;
 
                             // Table elements contain multiple other parts of information
                             if (string.Equals(gameNode.Name, "table", StringComparison.OrdinalIgnoreCase))
                             {
                                 // All tables have some attribute we can use
-                                if (gameNode.Attributes == null)
+                                if (gameNode.Attributes is null)
                                     continue;
 
                                 // The gameinfo node contains most of the major information
@@ -159,7 +159,7 @@ namespace SabreTools.RedumpLib
                                     foreach (XmlNode? gameInfoNode in gameNode.ChildNodes)
                                     {
                                         // Invalid nodes are skipped
-                                        if (gameInfoNode == null)
+                                        if (gameInfoNode is null)
                                             continue;
 
                                         // If we run into anything not a row, ignore it
@@ -167,13 +167,13 @@ namespace SabreTools.RedumpLib
                                             continue;
 
                                         // If we don't have the required nodes, ignore it
-                                        if (gameInfoNode["th"] == null || gameInfoNode["td"] == null)
+                                        if (gameInfoNode["th"] is null || gameInfoNode["td"] is null)
                                             continue;
 
                                         var gameInfoNodeHeader = gameInfoNode["th"];
                                         var gameInfoNodeData = gameInfoNode["td"];
 
-                                        if (gameInfoNodeHeader == null || gameInfoNodeData == null)
+                                        if (gameInfoNodeHeader is null || gameInfoNodeData is null)
                                         {
                                             // No-op for invalid data
                                         }
@@ -268,7 +268,7 @@ namespace SabreTools.RedumpLib
 
                 // If we have parenthesis, title is everything before the first one
                 int firstParenLocation = title?.IndexOf(" (") ?? -1;
-                if (title != null && firstParenLocation >= 0)
+                if (title is not null && firstParenLocation >= 0)
                 {
 #if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
                     info.CommonDiscInfo!.Title = title[..firstParenLocation];
@@ -278,7 +278,7 @@ namespace SabreTools.RedumpLib
                     var submatches = Constants.DiscNumberLetterRegex.Matches(title);
                     foreach (Match? submatch in submatches)
                     {
-                        if (submatch == null)
+                        if (submatch is null)
                             continue;
 
                         var submatchValue = submatch.Groups[1].Value;
@@ -320,7 +320,7 @@ namespace SabreTools.RedumpLib
                 info.CommonDiscInfo!.Category = DiscCategory.Games;
 
             // Region
-            if (info.CommonDiscInfo.Region == null)
+            if (info.CommonDiscInfo.Region is null)
             {
                 match = Constants.RegionRegex.Match(discData);
                 if (match.Success)
@@ -334,11 +334,11 @@ namespace SabreTools.RedumpLib
                 var tempLanguages = new List<Language?>();
                 foreach (Match? submatch in matches)
                 {
-                    if (submatch == null)
+                    if (submatch is null)
                         continue;
 
                     var language = Extensions.ToLanguage(submatch.Groups[1].Value);
-                    if (language != null)
+                    if (language is not null)
                         tempLanguages.Add(language);
                 }
 
@@ -363,7 +363,7 @@ namespace SabreTools.RedumpLib
             }
 
             // Version
-            if (info.VersionAndEditions!.Version == null)
+            if (info.VersionAndEditions!.Version is null)
             {
                 match = Constants.VersionRegex.Match(discData);
                 if (match.Success)
@@ -376,7 +376,7 @@ namespace SabreTools.RedumpLib
             {
                 // Start with any currently listed dumpers
                 var tempDumpers = new List<string>();
-                if (info.DumpersAndStatus!.Dumpers != null && info.DumpersAndStatus.Dumpers.Length > 0)
+                if (info.DumpersAndStatus!.Dumpers is not null && info.DumpersAndStatus.Dumpers.Length > 0)
                 {
                     foreach (string dumper in info.DumpersAndStatus.Dumpers)
                         tempDumpers.Add(dumper);
@@ -384,11 +384,11 @@ namespace SabreTools.RedumpLib
 
                 foreach (Match? submatch in matches)
                 {
-                    if (submatch == null)
+                    if (submatch is null)
                         continue;
 
                     string? dumper = WebUtility.HtmlDecode(submatch.Groups[1].Value);
-                    if (dumper != null)
+                    if (dumper is not null)
                         tempDumpers.Add(dumper);
                 }
 
@@ -449,12 +449,12 @@ namespace SabreTools.RedumpLib
                         foreach (SiteCode? siteCode in Enum.GetValues(typeof(SiteCode)))
                         {
                             // If we have a null site code, just skip
-                            if (siteCode == null)
+                            if (siteCode is null)
                                 continue;
 
                             // If the line doesn't contain this tag, just skip
                             var shortName = siteCode.ShortName();
-                            if (shortName == null || !commentLine.Contains(shortName))
+                            if (shortName is null || !commentLine.Contains(shortName))
                                 continue;
 
                             // Mark as having found a tag
@@ -484,14 +484,14 @@ namespace SabreTools.RedumpLib
                         // If we didn't find a known tag, just add the line, just in case
                         if (!foundTag)
                         {
-                            if (addToLast && lastSiteCode != null && !ShouldSkipSiteCode(lastSiteCode))
+                            if (addToLast && lastSiteCode is not null && !ShouldSkipSiteCode(lastSiteCode))
                             {
                                 if (!string.IsNullOrEmpty(info.CommonDiscInfo.CommentsSpecialFields![lastSiteCode.Value]))
                                     info.CommonDiscInfo.CommentsSpecialFields[lastSiteCode.Value] += "\n";
 
                                 info.CommonDiscInfo.CommentsSpecialFields[lastSiteCode.Value] += commentLine;
                             }
-                            else if (!addToLast || lastSiteCode == null)
+                            else if (!addToLast || lastSiteCode is null)
                             {
                                 newComments += $"{commentLine}\n";
                             }
@@ -546,12 +546,12 @@ namespace SabreTools.RedumpLib
                         foreach (SiteCode? siteCode in Enum.GetValues(typeof(SiteCode)))
                         {
                             // If we have a null site code, just skip
-                            if (siteCode == null)
+                            if (siteCode is null)
                                 continue;
 
                             // If the line doesn't contain this tag, just skip
                             var shortName = siteCode.ShortName();
-                            if (shortName == null || !contentLine.Contains(shortName))
+                            if (shortName is null || !contentLine.Contains(shortName))
                                 continue;
 
                             // Cache the current site code
@@ -572,14 +572,14 @@ namespace SabreTools.RedumpLib
                         // If we didn't find a known tag, just add the line, just in case
                         if (!foundTag)
                         {
-                            if (addToLast && lastSiteCode != null && !ShouldSkipSiteCode(lastSiteCode))
+                            if (addToLast && lastSiteCode is not null && !ShouldSkipSiteCode(lastSiteCode))
                             {
                                 if (!string.IsNullOrEmpty(info.CommonDiscInfo.ContentsSpecialFields![lastSiteCode.Value]))
                                     info.CommonDiscInfo.ContentsSpecialFields[lastSiteCode.Value] += "\n";
 
                                 info.CommonDiscInfo.ContentsSpecialFields[lastSiteCode.Value] += contentLine;
                             }
-                            else if (!addToLast || lastSiteCode == null)
+                            else if (!addToLast || lastSiteCode is null)
                             {
                                 newContents += $"{contentLine}\n";
                             }
@@ -622,7 +622,7 @@ namespace SabreTools.RedumpLib
         public static SubmissionInfo? InjectSubmissionInformation(SubmissionInfo? info, SubmissionInfo? seed)
         {
             // If we have any invalid info
-            if (seed == null)
+            if (seed is null)
                 return info;
 
             // Otherwise, inject information as necessary
@@ -633,16 +633,16 @@ namespace SabreTools.RedumpLib
             if (!string.IsNullOrEmpty(seed.CommonDiscInfo.ForeignTitleNonLatin)) info.CommonDiscInfo.ForeignTitleNonLatin = seed.CommonDiscInfo.ForeignTitleNonLatin;
             if (!string.IsNullOrEmpty(seed.CommonDiscInfo.DiscNumberLetter)) info.CommonDiscInfo.DiscNumberLetter = seed.CommonDiscInfo.DiscNumberLetter;
             if (!string.IsNullOrEmpty(seed.CommonDiscInfo.DiscTitle)) info.CommonDiscInfo.DiscTitle = seed.CommonDiscInfo.DiscTitle;
-            if (seed.CommonDiscInfo.Category != null) info.CommonDiscInfo.Category = seed.CommonDiscInfo.Category;
-            if (seed.CommonDiscInfo.Region != null) info.CommonDiscInfo.Region = seed.CommonDiscInfo.Region;
-            if (seed.CommonDiscInfo.Languages != null) info.CommonDiscInfo.Languages = seed.CommonDiscInfo.Languages;
-            if (seed.CommonDiscInfo.LanguageSelection != null) info.CommonDiscInfo.LanguageSelection = seed.CommonDiscInfo.LanguageSelection;
+            if (seed.CommonDiscInfo.Category is not null) info.CommonDiscInfo.Category = seed.CommonDiscInfo.Category;
+            if (seed.CommonDiscInfo.Region is not null) info.CommonDiscInfo.Region = seed.CommonDiscInfo.Region;
+            if (seed.CommonDiscInfo.Languages is not null) info.CommonDiscInfo.Languages = seed.CommonDiscInfo.Languages;
+            if (seed.CommonDiscInfo.LanguageSelection is not null) info.CommonDiscInfo.LanguageSelection = seed.CommonDiscInfo.LanguageSelection;
             if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Serial)) info.CommonDiscInfo.Serial = seed.CommonDiscInfo.Serial;
             if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Barcode)) info.CommonDiscInfo.Barcode = seed.CommonDiscInfo.Barcode;
             if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Comments)) info.CommonDiscInfo.Comments = seed.CommonDiscInfo.Comments;
-            if (seed.CommonDiscInfo.CommentsSpecialFields != null) info.CommonDiscInfo.CommentsSpecialFields = seed.CommonDiscInfo.CommentsSpecialFields;
+            if (seed.CommonDiscInfo.CommentsSpecialFields is not null) info.CommonDiscInfo.CommentsSpecialFields = seed.CommonDiscInfo.CommentsSpecialFields;
             if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Contents)) info.CommonDiscInfo.Contents = seed.CommonDiscInfo.Contents;
-            if (seed.CommonDiscInfo.ContentsSpecialFields != null) info.CommonDiscInfo.ContentsSpecialFields = seed.CommonDiscInfo.ContentsSpecialFields;
+            if (seed.CommonDiscInfo.ContentsSpecialFields is not null) info.CommonDiscInfo.ContentsSpecialFields = seed.CommonDiscInfo.ContentsSpecialFields;
 
             // Info that always overwrites
             info.CommonDiscInfo.Layer0MasteringRing = seed.CommonDiscInfo.Layer0MasteringRing;

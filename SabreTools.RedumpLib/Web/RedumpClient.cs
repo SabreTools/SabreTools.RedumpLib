@@ -150,7 +150,7 @@ namespace SabreTools.RedumpLib.Web
                     // Send the login request and get the result
                     var response = await _internalClient.PostAsync(Constants.LoginUrl, postContent);
                     string? responseContent = null;
-                    if (response?.Content != null)
+                    if (response?.Content is not null)
                         responseContent = await response.Content.ReadAsStringAsync();
 #endif
 
@@ -241,7 +241,7 @@ namespace SabreTools.RedumpLib.Web
 #else
             // Make the call to get the file
             var response = await _internalClient.GetAsync(uri);
-            if (response?.Content?.Headers == null || !response.IsSuccessStatusCode)
+            if (response?.Content?.Headers is null || !response.IsSuccessStatusCode)
             {
                 Console.WriteLine($"Could not download {uri}");
                 return null;
@@ -307,7 +307,7 @@ namespace SabreTools.RedumpLib.Web
             string? dumpsPage = await DownloadString(url);
 
             // If we have no dumps left
-            if (dumpsPage == null || dumpsPage.Contains("No discs found."))
+            if (dumpsPage is null || dumpsPage.Contains("No discs found."))
                 return ids;
 
             // If we have a single disc page already
@@ -324,7 +324,7 @@ namespace SabreTools.RedumpLib.Web
             var matches = Constants.DiscRegex.Matches(dumpsPage);
             foreach (Match? match in matches)
             {
-                if (match == null)
+                if (match is null)
                     continue;
 
                 try
@@ -357,7 +357,7 @@ namespace SabreTools.RedumpLib.Web
             string? dumpsPage = await DownloadString(url);
 
             // If we have no dumps left
-            if (dumpsPage == null || dumpsPage.Contains("No discs found."))
+            if (dumpsPage is null || dumpsPage.Contains("No discs found."))
                 return ids;
 
             // If we have a single disc page already
@@ -380,7 +380,7 @@ namespace SabreTools.RedumpLib.Web
             var matches = Constants.DiscRegex.Matches(dumpsPage);
             foreach (Match? match in matches)
             {
-                if (match == null)
+                if (match is null)
                     continue;
 
                 try
@@ -417,14 +417,14 @@ namespace SabreTools.RedumpLib.Web
             string? dumpsPage = await DownloadString(url);
 
             // If we have no dumps left
-            if (dumpsPage == null || dumpsPage.Contains("No discs found."))
+            if (dumpsPage is null || dumpsPage.Contains("No discs found."))
                 return ids;
 
             // Otherwise, traverse each dump on the page
             var matches = Constants.NewDiscRegex.Matches(dumpsPage);
             foreach (Match? match in matches)
             {
-                if (match == null)
+                if (match is null)
                     continue;
 
                 try
@@ -457,14 +457,14 @@ namespace SabreTools.RedumpLib.Web
             string? dumpsPage = await DownloadString(url);
 
             // If we have no dumps left
-            if (dumpsPage == null || dumpsPage.Contains("No discs found."))
+            if (dumpsPage is null || dumpsPage.Contains("No discs found."))
                 return ids;
 
             // Otherwise, traverse each dump on the page
             var matches = Constants.NewDiscRegex.Matches(dumpsPage);
             foreach (Match? match in matches)
             {
-                if (match == null)
+                if (match is null)
                     continue;
 
                 try
@@ -561,7 +561,7 @@ namespace SabreTools.RedumpLib.Web
                 string discPageUri = string.Format(Constants.DiscPageUrl, +id);
                 string? discPage = await DownloadString(discPageUri);
 
-                if (discPage == null || discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
+                if (discPage is null || discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
                 {
                     Console.WriteLine($"ID {paddedId} could not be found!");
                     return null;
@@ -599,7 +599,7 @@ namespace SabreTools.RedumpLib.Web
                 string discPageUri = string.Format(Constants.DiscPageUrl, +id);
                 string? discPage = await DownloadString(discPageUri);
 
-                if (discPage == null || discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
+                if (discPage is null || discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
                 {
                     try
                     {
@@ -723,7 +723,7 @@ namespace SabreTools.RedumpLib.Web
                 string discPageUri = string.Format(Constants.WipDiscPageUrl, +id);
                 string? discPage = await DownloadString(discPageUri);
 
-                if (discPage == null || discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
+                if (discPage is null || discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
                 {
                     Console.WriteLine($"ID {paddedId} could not be found!");
                     return null;
@@ -761,7 +761,7 @@ namespace SabreTools.RedumpLib.Web
                 string discPageUri = string.Format(Constants.WipDiscPageUrl, +id);
                 string? discPage = await DownloadString(discPageUri);
 
-                if (discPage == null || discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
+                if (discPage is null || discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
                 {
                     try
                     {
@@ -855,7 +855,7 @@ namespace SabreTools.RedumpLib.Web
 
                 Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
                 byte[]? pack = await DownloadSinglePack(url, system);
-                if (pack != null)
+                if (pack is not null)
                     packsDictionary.Add(system, pack);
             }
 

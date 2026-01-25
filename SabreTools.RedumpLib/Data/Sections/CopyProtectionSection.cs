@@ -33,7 +33,7 @@ namespace SabreTools.RedumpLib.Data.Sections
         public object Clone()
         {
             Dictionary<string, List<string>?>? fullProtections = null;
-            if (this.FullProtections != null)
+            if (this.FullProtections is not null)
             {
                 fullProtections = [];
                 foreach (var kvp in this.FullProtections)

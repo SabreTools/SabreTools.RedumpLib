@@ -39,7 +39,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="useSubfolders">True to use named subfolders to store downloads, false to store directly in the output directory</param>
         public static async Task<bool> DownloadPacksForSystem(RedumpClient rc, RedumpSystem? system, string? outDir, bool useSubfolders)
         {
-            if (system == null)
+            if (system is null)
                 return false;
 
             var systemAsArray = new RedumpSystem[] { system.Value };

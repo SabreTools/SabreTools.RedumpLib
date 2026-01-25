@@ -851,7 +851,7 @@ namespace SabreTools.RedumpLib.Data
         public static DiscCategory? ToDiscCategory(this string? category)
         {
             // No value means no match
-            if (category == null || category.Length == 0)
+            if (category is null || category.Length == 0)
                 return null;
 
             category = category?.ToLowerInvariant();
@@ -894,7 +894,7 @@ namespace SabreTools.RedumpLib.Data
         public static DiscType? ToDiscType(this string? discType)
         {
             // No value means no match
-            if (discType == null || discType.Length == 0)
+            if (discType is null || discType.Length == 0)
                 return null;
 
             discType = discType.ToLowerInvariant();
@@ -980,7 +980,7 @@ namespace SabreTools.RedumpLib.Data
         public static Language? ToLanguage(this string? lang)
         {
             // No value means no match
-            if (lang == null || lang.Length == 0)
+            if (lang is null || lang.Length == 0)
                 return null;
 
             lang = lang.ToLowerInvariant();
@@ -1080,7 +1080,7 @@ namespace SabreTools.RedumpLib.Data
         public static LanguageSelection? ToLanguageSelection(this string? langSelect)
         {
             // No value means no match
-            if (langSelect == null || langSelect.Length == 0)
+            if (langSelect is null || langSelect.Length == 0)
                 return null;
 
             langSelect = langSelect?.ToLowerInvariant();
@@ -1108,7 +1108,7 @@ namespace SabreTools.RedumpLib.Data
 
             foreach (var val in Enum.GetValues(typeof(MediaType)))
             {
-                if (val == null || ((MediaType)val) == MediaType.NONE)
+                if (val is null || ((MediaType)val) == MediaType.NONE)
                     continue;
 
                 mediaTypes.Add($"{((MediaType?)val).ShortName()} - {((MediaType?)val).LongName()}");
@@ -1177,7 +1177,7 @@ namespace SabreTools.RedumpLib.Data
         public static Region? ToRegion(this string? region)
         {
             // No value means no match
-            if (region == null || region.Length == 0)
+            if (region is null || region.Length == 0)
                 return null;
 
             region = region.ToLowerInvariant();
@@ -1218,7 +1218,7 @@ namespace SabreTools.RedumpLib.Data
                 bool isMultiline = ((SiteCode?)val).IsMultiLine();
 
                 // Invalid codes should be skipped
-                if (shortName == null || longName == null)
+                if (shortName is null || longName is null)
                     continue;
 
                 // Handle site tags
@@ -1765,7 +1765,7 @@ namespace SabreTools.RedumpLib.Data
         public static RedumpSystem? ToRedumpSystem(this string? system)
         {
             // No value means no match
-            if (system == null || system.Length == 0)
+            if (system is null || system.Length == 0)
                 return null;
 
             system = system.ToLowerInvariant();

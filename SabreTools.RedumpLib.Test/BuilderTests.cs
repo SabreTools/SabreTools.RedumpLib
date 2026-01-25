@@ -23,7 +23,7 @@ namespace SabreTools.RedumpLib.Test
             var si = Builder.CreateFromFile(path);
 
             // Check for an expected result
-            Assert.Equal(expectNull, si == null);
+            Assert.Equal(expectNull, si is null);
         }
 
         [Fact]

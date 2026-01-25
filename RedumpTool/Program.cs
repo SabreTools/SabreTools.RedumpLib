@@ -10,7 +10,7 @@ namespace RedumpTool
         public static void Main(string[] args)
         {
             // Show help if nothing is input
-            if (args == null || args.Length == 0)
+            if (args is null || args.Length == 0)
             {
                 Console.WriteLine("At least one argument is required");
                 ShowHelp();
@@ -28,7 +28,7 @@ namespace RedumpTool
 
             // Create a new Downloader
             var downloader = CreateDownloader(feature, args);
-            if (downloader == null)
+            if (downloader is null)
             {
                 Console.WriteLine("A downloader could not be created from the inputs");
                 ShowHelp();

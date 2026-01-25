@@ -22,7 +22,7 @@ namespace SabreTools.RedumpLib.Web
         public string? GetLastFilename()
         {
             // If the response headers are null or empty
-            if (ResponseHeaders == null || ResponseHeaders.Count == 0)
+            if (ResponseHeaders is null || ResponseHeaders.Count == 0)
                 return null;
 
             // If we don't have the response header we care about

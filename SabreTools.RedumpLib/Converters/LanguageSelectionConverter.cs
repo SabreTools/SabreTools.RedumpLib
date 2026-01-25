@@ -30,7 +30,7 @@ namespace SabreTools.RedumpLib.Converters
                     continue;
 
                 LanguageSelection? sel = Data.Extensions.ToLanguageSelection(value);
-                if (sel != null)
+                if (sel is not null)
                     selections.Add(sel.Value);
             }
 
@@ -39,7 +39,7 @@ namespace SabreTools.RedumpLib.Converters
 
         public override void WriteJson(JsonWriter writer, LanguageSelection?[]? value, JsonSerializer serializer)
         {
-            if (value == null)
+            if (value is null)
                 return;
 
             JArray array = [];

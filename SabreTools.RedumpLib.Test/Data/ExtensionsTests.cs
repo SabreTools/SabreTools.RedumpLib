@@ -74,7 +74,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public void ToDiscTypeTest(MediaType? mediaType, bool expectNull)
         {
             DiscType? actual = mediaType.ToDiscType();
-            Assert.Equal(expectNull, actual == null);
+            Assert.Equal(expectNull, actual is null);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public void ToMediaTypeTest(DiscType? discType, bool expectNull)
         {
             MediaType? actual = discType.ToMediaType();
-            Assert.Equal(expectNull, actual == null);
+            Assert.Equal(expectNull, actual is null);
         }
 
         /// <summary>
@@ -339,9 +339,9 @@ namespace SabreTools.RedumpLib.Test.Data
                 Assert.Equal(lang, actualThreeLetterCode);
 
                 // Not guaranteed to exist
-                if (twoLetterCode != null)
+                if (twoLetterCode is not null)
                     Assert.Equal(lang, actualTwoLetterCode);
-                if (threeLetterCodeAlt != null)
+                if (threeLetterCodeAlt is not null)
                     Assert.Equal(lang, actualThreeLetterCodeAlt);
             }
         }

@@ -130,7 +130,7 @@ namespace SabreTools.RedumpLib
         public static string? FormatOutputData(SubmissionInfo? info, bool enableRedumpCompatibility, out string? status)
         {
             // Check to see if the inputs are valid
-            if (info == null)
+            if (info is null)
             {
                 status = "Submission information was missing";
                 return null;
@@ -211,11 +211,11 @@ namespace SabreTools.RedumpLib
         public static void ProcessSpecialFields(SubmissionInfo info)
         {
             // If there is no submission info
-            if (info?.CommonDiscInfo == null)
+            if (info?.CommonDiscInfo is null)
                 return;
 
             // Process the comments field
-            if (info.CommonDiscInfo.CommentsSpecialFields != null && info.CommonDiscInfo.CommentsSpecialFields.Count > 0)
+            if (info.CommonDiscInfo.CommentsSpecialFields is not null && info.CommonDiscInfo.CommentsSpecialFields.Count > 0)
             {
                 // If the field is missing, add an empty one to fill in
                 info.CommonDiscInfo.Comments ??= string.Empty;
@@ -235,7 +235,7 @@ namespace SabreTools.RedumpLib
             }
 
             // Process the contents field
-            if (info.CommonDiscInfo.ContentsSpecialFields != null && info.CommonDiscInfo.ContentsSpecialFields.Count > 0)
+            if (info.CommonDiscInfo.ContentsSpecialFields is not null && info.CommonDiscInfo.ContentsSpecialFields.Count > 0)
             {
                 // If the field is missing, add an empty one to fill in
                 info.CommonDiscInfo.Contents ??= string.Empty;
@@ -417,14 +417,14 @@ namespace SabreTools.RedumpLib
         internal static void FormatOutputData(StringBuilder output, ExtrasSection? section)
         {
             // Optional sections have to exist to format
-            if (section == null)
+            if (section is null)
                 return;
 
             // Check the section can be added
-            if (section.PVD == null
-                && section.PIC == null
-                && section.BCA == null
-                && section.SecuritySectorRanges == null)
+            if (section.PVD is null
+                && section.PIC is null
+                && section.BCA is null
+                && section.SecuritySectorRanges is null)
             {
                 return;
             }
@@ -448,13 +448,13 @@ namespace SabreTools.RedumpLib
             RedumpSystem? system)
         {
             // Optional sections have to exist to format
-            if (section == null)
+            if (section is null)
                 return;
 
             // Check the section can be added
             if (string.IsNullOrEmpty(section.Protection)
-                && (section.AntiModchip == null || section.AntiModchip == YesNo.NULL)
-                && (section.LibCrypt == null || section.LibCrypt == YesNo.NULL)
+                && (section.AntiModchip is null || section.AntiModchip == YesNo.NULL)
+                && (section.LibCrypt is null || section.LibCrypt == YesNo.NULL)
                 && string.IsNullOrEmpty(section.LibCryptData)
                 && string.IsNullOrEmpty(section.SecuROMData))
             {
@@ -545,7 +545,7 @@ namespace SabreTools.RedumpLib
         private static void AddIfExists(StringBuilder output, string key, string? value, int indent)
         {
             // If there's no valid value to write
-            if (value == null)
+            if (value is null)
                 return;
 
             string prefix = string.Empty;
@@ -608,7 +608,7 @@ namespace SabreTools.RedumpLib
         private static void AddIfExists(StringBuilder output, string key, string?[]? value, int indent)
         {
             // If there's no valid value to write
-            if (value == null || value.Length == 0)
+            if (value is null || value.Length == 0)
                 return;
 
             AddIfExists(output, key, string.Join(", ", value), indent);
@@ -624,7 +624,7 @@ namespace SabreTools.RedumpLib
         private static void AddIfExists(StringBuilder output, string key, long? value, int indent)
         {
             // If there's no valid value to write
-            if (value == null || value == default(long))
+            if (value is null || value == default(long))
                 return;
 
             string prefix = string.Empty;
@@ -646,7 +646,7 @@ namespace SabreTools.RedumpLib
         private static void AddIfExists(StringBuilder output, string key, List<int>? value, int indent)
         {
             // If there's no valid value to write
-            if (value == null || value.Count == 0)
+            if (value is null || value.Count == 0)
                 return;
 
             AddIfExists(output, key, string.Join(", ", [.. value.ConvertAll(o => o.ToString())]), indent);
@@ -743,7 +743,7 @@ namespace SabreTools.RedumpLib
         internal static KeyValuePair<SiteCode, string>[] OrderCommentTags(Dictionary<SiteCode, string> tags)
         {
             // If the input is invalid, just return an empty set
-            if (tags == null || tags.Count == 0)
+            if (tags is null || tags.Count == 0)
                 return [];
 
             // Loop through the ordered set of codes and add if needed
@@ -773,7 +773,7 @@ namespace SabreTools.RedumpLib
         internal static KeyValuePair<SiteCode, string>[] OrderContentTags(Dictionary<SiteCode, string> tags)
         {
             // If the input is invalid, just return an empty set
-            if (tags == null || tags.Count == 0)
+            if (tags is null || tags.Count == 0)
                 return [];
 
             // Loop through the ordered set of codes and add if needed
