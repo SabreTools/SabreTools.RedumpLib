@@ -94,15 +94,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of DiscType values
         /// </summary>
         /// <returns>MemberData-compatible list of DiscType values</returns>
-        public static List<object?[]> GenerateDiscTypeMappingTestData()
+        public static TheoryData<DiscType?, bool> GenerateDiscTypeMappingTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, true } };
+            var testData = new TheoryData<DiscType?, bool>() { { null, true } };
             foreach (DiscType? discType in Enum.GetValues<DiscType>().Cast<DiscType?>())
             {
                 if (_mappableDiscTypes.Contains(discType))
-                    testData.Add([discType, false]);
+                    testData.Add(discType, false);
                 else
-                    testData.Add([discType, true]);
+                    testData.Add(discType, true);
             }
 
             return testData;
@@ -112,12 +112,12 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of RedumpSystem values
         /// </summary>
         /// <returns>MemberData-compatible list of RedumpSystem values</returns>
-        public static List<object?[]> GenerateRedumpSystemMappingTestData()
+        public static TheoryData<RedumpSystem?> GenerateRedumpSystemMappingTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null } };
+            var testData = new TheoryData<RedumpSystem?>() { null };
             foreach (RedumpSystem? redumpSystem in Enum.GetValues<RedumpSystem>().Cast<RedumpSystem?>())
             {
-                testData.Add([redumpSystem]);
+                testData.Add(redumpSystem);
             }
 
             return testData;
@@ -127,16 +127,16 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of mappable media types
         /// </summary>
         /// <returns>MemberData-compatible list of MediaTypes</returns>
-        public static List<object?[]> GenerateMediaTypeMappingTestData()
+        public static TheoryData<MediaType?, bool> GenerateMediaTypeMappingTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, true } };
+            var testData = new TheoryData<MediaType?, bool>() { { null, true } };
 
             foreach (MediaType? mediaType in Enum.GetValues<MediaType>().Cast<MediaType?>())
             {
                 if (_mappableMediaTypes.Contains(mediaType))
-                    testData.Add([mediaType, false]);
+                    testData.Add(mediaType, false);
                 else
-                    testData.Add([mediaType, true]);
+                    testData.Add(mediaType, true);
             }
 
             return testData;
@@ -194,12 +194,12 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of DiscCategory values
         /// </summary>
         /// <returns>MemberData-compatible list of DiscCategory values</returns>
-        public static List<object?[]> GenerateDiscCategoryTestData()
+        public static TheoryData<DiscCategory?, bool> GenerateDiscCategoryTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, true } };
+            var testData = new TheoryData<DiscCategory?, bool>() { { null, true } };
             foreach (DiscCategory? discCategory in Enum.GetValues<DiscCategory>().Cast<DiscCategory?>())
             {
-                testData.Add([discCategory, false]);
+                testData.Add(discCategory, false);
             }
 
             return testData;
@@ -259,15 +259,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of DiscType values
         /// </summary>
         /// <returns>MemberData-compatible list of DiscType values</returns>
-        public static List<object?[]> GenerateDiscTypeTestData()
+        public static TheoryData<DiscType?, bool> GenerateDiscTypeTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, true } };
+            var testData = new TheoryData<DiscType?, bool>() { { null, true } };
             foreach (DiscType? discType in Enum.GetValues<DiscType>().Cast<DiscType?>())
             {
                 if (discType == DiscType.NONE)
-                    testData.Add([discType, true]);
+                    testData.Add(discType, true);
                 else
-                    testData.Add([discType, false]);
+                    testData.Add(discType, false);
             }
 
             return testData;
@@ -431,12 +431,12 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of Language values
         /// </summary>
         /// <returns>MemberData-compatible list of Language values</returns>
-        public static List<object?[]> GenerateLanguageTestData()
+        public static TheoryData<Language?, bool> GenerateLanguageTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, true } };
+            var testData = new TheoryData<Language?, bool>() { { null, true } };
             foreach (Language? language in Enum.GetValues<Language>().Cast<Language?>())
             {
-                testData.Add([language, false]);
+                testData.Add(language, false);
             }
 
             return testData;
@@ -494,12 +494,12 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of LanguageSelection values
         /// </summary>
         /// <returns>MemberData-compatible list of LanguageSelection values</returns>
-        public static List<object?[]> GenerateLanguageSelectionTestData()
+        public static TheoryData<LanguageSelection?, bool> GenerateLanguageSelectionTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, true } };
+            var testData = new TheoryData<LanguageSelection?, bool>() { { null, true } };
             foreach (LanguageSelection? languageSelection in Enum.GetValues<LanguageSelection>().Cast<LanguageSelection?>())
             {
-                testData.Add([languageSelection, false]);
+                testData.Add(languageSelection, false);
             }
 
             return testData;
@@ -554,12 +554,12 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of MediaType values
         /// </summary>
         /// <returns>MemberData-compatible list of MediaType values</returns>
-        public static List<object?[]> GenerateMediaTypeTestData()
+        public static TheoryData<MediaType?, bool> GenerateMediaTypeTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, true } };
+            var testData = new TheoryData<MediaType?, bool>() { { null, true } };
             foreach (MediaType? mediaType in Enum.GetValues<MediaType>().Cast<MediaType?>())
             {
-                testData.Add([mediaType, false]);
+                testData.Add(mediaType, false);
             }
 
             return testData;
@@ -661,12 +661,12 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of Region values
         /// </summary>
         /// <returns>MemberData-compatible list of Region values</returns>
-        public static List<object?[]> GenerateRegionTestData()
+        public static TheoryData<Region?, bool> GenerateRegionTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, true } };
+            var testData = new TheoryData<Region?, bool>() { { null, true } };
             foreach (Region? region in Enum.GetValues<Region>().Cast<Region?>())
             {
-                testData.Add([region, false]);
+                testData.Add(region, false);
             }
 
             return testData;
@@ -899,12 +899,12 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of SiteCode values
         /// </summary>
         /// <returns>MemberData-compatible list of SiteCode values</returns>
-        public static List<object?[]> GenerateSiteCodeTestData()
+        public static TheoryData<SiteCode?, bool> GenerateSiteCodeTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, true } };
+            var testData = new TheoryData<SiteCode?, bool>() { { null, true } };
             foreach (SiteCode? siteCode in Enum.GetValues<SiteCode>().Cast<SiteCode?>())
             {
-                testData.Add([siteCode, false]);
+                testData.Add(siteCode, false);
             }
 
             return testData;
@@ -914,15 +914,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of SiteCode values that are considered Boolean
         /// </summary>
         /// <returns>MemberData-compatible list of SiteCode values</returns>
-        public static List<object?[]> GenerateBooleanSiteCodesTestData()
+        public static TheoryData<SiteCode?, bool> GenerateBooleanSiteCodesTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<SiteCode?, bool>() { { null, false } };
             foreach (SiteCode siteCode in Enum.GetValues<SiteCode>())
             {
                 if (_booleanSiteCodes.Contains(siteCode))
-                    testData.Add([siteCode, true]);
+                    testData.Add(siteCode, true);
                 else
-                    testData.Add([siteCode, false]);
+                    testData.Add(siteCode, false);
             }
 
             return testData;
@@ -932,15 +932,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of SiteCode values that are considered Comment
         /// </summary>
         /// <returns>MemberData-compatible list of SiteCode values</returns>
-        public static List<object?[]> GenerateCommentSiteCodesTestData()
+        public static TheoryData<SiteCode?, bool> GenerateCommentSiteCodesTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<SiteCode?, bool>() { { null, false } };
             foreach (SiteCode siteCode in Enum.GetValues<SiteCode>())
             {
                 if (_commentSiteCodes.Contains(siteCode))
-                    testData.Add([siteCode, true]);
+                    testData.Add(siteCode, true);
                 else
-                    testData.Add([siteCode, false]);
+                    testData.Add(siteCode, false);
             }
 
             return testData;
@@ -950,15 +950,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of SiteCode values that are considered Content
         /// </summary>
         /// <returns>MemberData-compatible list of SiteCode values</returns>
-        public static List<object?[]> GenerateContentSiteCodesTestData()
+        public static TheoryData<SiteCode?, bool> GenerateContentSiteCodesTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<SiteCode?, bool>() { { null, false } };
             foreach (SiteCode siteCode in Enum.GetValues<SiteCode>())
             {
                 if (_contentSiteCodes.Contains(siteCode))
-                    testData.Add([siteCode, true]);
+                    testData.Add(siteCode, true);
                 else
-                    testData.Add([siteCode, false]);
+                    testData.Add(siteCode, false);
             }
 
             return testData;
@@ -968,15 +968,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of SiteCode values that are considered Multiline
         /// </summary>
         /// <returns>MemberData-compatible list of SiteCode values</returns>
-        public static List<object?[]> GenerateMultilineSiteCodesTestData()
+        public static TheoryData<SiteCode?, bool> GenerateMultilineSiteCodesTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<SiteCode?, bool>() { { null, false } };
             foreach (SiteCode siteCode in Enum.GetValues<SiteCode>())
             {
                 if (_multilineSiteCodes.Contains(siteCode))
-                    testData.Add([siteCode, true]);
+                    testData.Add(siteCode, true);
                 else
-                    testData.Add([siteCode, false]);
+                    testData.Add(siteCode, false);
             }
 
             return testData;
@@ -1935,16 +1935,16 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of RedumpSystem values
         /// </summary>
         /// <returns>MemberData-compatible list of RedumpSystem values</returns>
-        public static List<object?[]> GenerateRedumpSystemTestData()
+        public static TheoryData<RedumpSystem?, bool> GenerateRedumpSystemTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, true } };
+            var testData = new TheoryData<RedumpSystem?, bool>() { { null, true } };
             foreach (RedumpSystem? redumpSystem in Enum.GetValues<RedumpSystem>().Cast<RedumpSystem?>())
             {
                 // We want to skip all markers for this
                 if (redumpSystem.IsMarker())
                     continue;
 
-                testData.Add([redumpSystem, false]);
+                testData.Add(redumpSystem, false);
             }
 
             return testData;
@@ -1954,15 +1954,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of RedumpSystem values that are considered Audio
         /// </summary>
         /// <returns>MemberData-compatible list of RedumpSystem values</returns>
-        public static List<object?[]> GenerateAudioSystemsTestData()
+        public static TheoryData<RedumpSystem?, bool> GenerateAudioSystemsTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<RedumpSystem?, bool>() { { null, false } };
             foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_audioSystems.Contains(redumpSystem))
-                    testData.Add([redumpSystem, true]);
+                    testData.Add(redumpSystem, true);
                 else
-                    testData.Add([redumpSystem, false]);
+                    testData.Add(redumpSystem, false);
             }
 
             return testData;
@@ -1972,15 +1972,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of RedumpSystem values that are available
         /// </summary>
         /// <returns>MemberData-compatible list of RedumpSystem values</returns>
-        public static List<object?[]> GenerateAvailableSystemsTestData()
+        public static TheoryData<RedumpSystem?, bool> GenerateAvailableSystemsTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<RedumpSystem?, bool>() { { null, false } };
             foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_availableSystems.Contains(redumpSystem))
-                    testData.Add([redumpSystem, true]);
+                    testData.Add(redumpSystem, true);
                 else
-                    testData.Add([redumpSystem, false]);
+                    testData.Add(redumpSystem, false);
             }
 
             return testData;
@@ -1990,15 +1990,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of RedumpSystem values that are banned
         /// </summary>
         /// <returns>MemberData-compatible list of RedumpSystem values</returns>
-        public static List<object?[]> GenerateBannedSystemsTestData()
+        public static TheoryData<RedumpSystem?, bool> GenerateBannedSystemsTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<RedumpSystem?, bool>() { { null, false } };
             foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_bannedSystems.Contains(redumpSystem))
-                    testData.Add([redumpSystem, true]);
+                    testData.Add(redumpSystem, true);
                 else
-                    testData.Add([redumpSystem, false]);
+                    testData.Add(redumpSystem, false);
             }
 
             return testData;
@@ -2008,12 +2008,12 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of RedumpSystem values mapped to their categories
         /// </summary>
         /// <returns>MemberData-compatible list of RedumpSystem values</returns>
-        public static List<object?[]> GenerateCategoriesSystemTestData()
+        public static TheoryData<RedumpSystem?, SystemCategory> GenerateCategoriesSystemTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, SystemCategory.NONE } };
+            var testData = new TheoryData<RedumpSystem?, SystemCategory>() { { null, SystemCategory.NONE } };
             foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
-                testData.Add([redumpSystem, _systemCategoryMap[redumpSystem]]);
+                testData.Add(redumpSystem, _systemCategoryMap[redumpSystem]);
             }
 
             return testData;
@@ -2023,15 +2023,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of RedumpSystem values that have cuesheets
         /// </summary>
         /// <returns>MemberData-compatible list of RedumpSystem values</returns>
-        public static List<object?[]> GenerateCuesheetSystemsTestData()
+        public static TheoryData<RedumpSystem?, bool> GenerateCuesheetSystemsTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<RedumpSystem?, bool>() { { null, false } };
             foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_systemsWithCues.Contains(redumpSystem))
-                    testData.Add([redumpSystem, true]);
+                    testData.Add(redumpSystem, true);
                 else
-                    testData.Add([redumpSystem, false]);
+                    testData.Add(redumpSystem, false);
             }
 
             return testData;
@@ -2041,15 +2041,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of RedumpSystem values that have DATs
         /// </summary>
         /// <returns>MemberData-compatible list of RedumpSystem values</returns>
-        public static List<object?[]> GenerateDatSystemsTestData()
+        public static TheoryData<RedumpSystem?, bool> GenerateDatSystemsTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<RedumpSystem?, bool>() { { null, false } };
             foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_systemsWithDats.Contains(redumpSystem))
-                    testData.Add([redumpSystem, true]);
+                    testData.Add(redumpSystem, true);
                 else
-                    testData.Add([redumpSystem, false]);
+                    testData.Add(redumpSystem, false);
             }
 
             return testData;
@@ -2059,15 +2059,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of RedumpSystem values that have decrypted keys
         /// </summary>
         /// <returns>MemberData-compatible list of RedumpSystem values</returns>
-        public static List<object?[]> GenerateDKeySystemsTestData()
+        public static TheoryData<RedumpSystem?, bool> GenerateDKeySystemsTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<RedumpSystem?, bool>() { { null, false } };
             foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_systemsWithDKeys.Contains(redumpSystem))
-                    testData.Add([redumpSystem, true]);
+                    testData.Add(redumpSystem, true);
                 else
-                    testData.Add([redumpSystem, false]);
+                    testData.Add(redumpSystem, false);
             }
 
             return testData;
@@ -2077,15 +2077,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of RedumpSystem values that have GDIs
         /// </summary>
         /// <returns>MemberData-compatible list of RedumpSystem values</returns>
-        public static List<object?[]> GenerateGdiSystemsTestData()
+        public static TheoryData<RedumpSystem?, bool> GenerateGdiSystemsTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<RedumpSystem?, bool>() { { null, false } };
             foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_systemsWithGdis.Contains(redumpSystem))
-                    testData.Add([redumpSystem, true]);
+                    testData.Add(redumpSystem, true);
                 else
-                    testData.Add([redumpSystem, false]);
+                    testData.Add(redumpSystem, false);
             }
 
             return testData;
@@ -2095,15 +2095,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of RedumpSystem values that have keys
         /// </summary>
         /// <returns>MemberData-compatible list of RedumpSystem values</returns>
-        public static List<object?[]> GenerateKeySystemsTestData()
+        public static TheoryData<RedumpSystem?, bool> GenerateKeySystemsTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<RedumpSystem?, bool>() { { null, false } };
             foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_systemsWithKeys.Contains(redumpSystem))
-                    testData.Add([redumpSystem, true]);
+                    testData.Add(redumpSystem, true);
                 else
-                    testData.Add([redumpSystem, false]);
+                    testData.Add(redumpSystem, false);
             }
 
             return testData;
@@ -2113,15 +2113,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of RedumpSystem values that have LSDs
         /// </summary>
         /// <returns>MemberData-compatible list of RedumpSystem values</returns>
-        public static List<object?[]> GenerateLsdSystemsTestData()
+        public static TheoryData<RedumpSystem?, bool> GenerateLsdSystemsTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<RedumpSystem?, bool>() { { null, false } };
             foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_systemsWithLsds.Contains(redumpSystem))
-                    testData.Add([redumpSystem, true]);
+                    testData.Add(redumpSystem, true);
                 else
-                    testData.Add([redumpSystem, false]);
+                    testData.Add(redumpSystem, false);
             }
 
             return testData;
@@ -2131,15 +2131,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of RedumpSystem values that are considered markers
         /// </summary>
         /// <returns>MemberData-compatible list of RedumpSystem values</returns>
-        public static List<object?[]> GenerateMarkerSystemsTestData()
+        public static TheoryData<RedumpSystem?, bool> GenerateMarkerSystemsTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<RedumpSystem?, bool>() { { null, false } };
             foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_markerSystems.Contains(redumpSystem))
-                    testData.Add([redumpSystem, true]);
+                    testData.Add(redumpSystem, true);
                 else
-                    testData.Add([redumpSystem, false]);
+                    testData.Add(redumpSystem, false);
             }
 
             return testData;
@@ -2149,15 +2149,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of RedumpSystem values that are considered markers
         /// </summary>
         /// <returns>MemberData-compatible list of RedumpSystem values</returns>
-        public static List<object?[]> GenerateReversedRingcodeSystemsTestData()
+        public static TheoryData<RedumpSystem?, bool> GenerateReversedRingcodeSystemsTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<RedumpSystem?, bool>() { { null, false } };
             foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_reverseRingcodeSystems.Contains(redumpSystem))
-                    testData.Add([redumpSystem, true]);
+                    testData.Add(redumpSystem, true);
                 else
-                    testData.Add([redumpSystem, false]);
+                    testData.Add(redumpSystem, false);
             }
 
             return testData;
@@ -2167,15 +2167,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of RedumpSystem values that have SBIs
         /// </summary>
         /// <returns>MemberData-compatible list of RedumpSystem values</returns>
-        public static List<object?[]> GenerateSbiSystemsTestData()
+        public static TheoryData<RedumpSystem?, bool> GenerateSbiSystemsTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<RedumpSystem?, bool>() { { null, false } };
             foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_systemsWithSbis.Contains(redumpSystem))
-                    testData.Add([redumpSystem, true]);
+                    testData.Add(redumpSystem, true);
                 else
-                    testData.Add([redumpSystem, false]);
+                    testData.Add(redumpSystem, false);
             }
 
             return testData;
@@ -2185,15 +2185,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of RedumpSystem values that are detected by Windows
         /// </summary>
         /// <returns>MemberData-compatible list of RedumpSystem values</returns>
-        public static List<object?[]> GenerateWindowsDetectedSystemsTestData()
+        public static TheoryData<RedumpSystem?, bool> GenerateWindowsDetectedSystemsTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<RedumpSystem?, bool>() { { null, false } };
             foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_windowsDetectedSystems.Contains(redumpSystem))
-                    testData.Add([redumpSystem, true]);
+                    testData.Add(redumpSystem, true);
                 else
-                    testData.Add([redumpSystem, false]);
+                    testData.Add(redumpSystem, false);
             }
 
             return testData;
@@ -2203,15 +2203,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of RedumpSystem values that are considered XGD
         /// </summary>
         /// <returns>MemberData-compatible list of RedumpSystem values</returns>
-        public static List<object?[]> GenerateXGDSystemsTestData()
+        public static TheoryData<RedumpSystem?, bool> GenerateXGDSystemsTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<RedumpSystem?, bool>() { { null, false } };
             foreach (RedumpSystem redumpSystem in Enum.GetValues<RedumpSystem>())
             {
                 if (_xgdSystems.Contains(redumpSystem))
-                    testData.Add([redumpSystem, true]);
+                    testData.Add(redumpSystem, true);
                 else
-                    testData.Add([redumpSystem, false]);
+                    testData.Add(redumpSystem, false);
             }
 
             return testData;
@@ -2242,15 +2242,15 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of SystemCategory values
         /// </summary>
         /// <returns>MemberData-compatible list of SystemCategory values</returns>
-        public static List<object?[]> GenerateSystemCategoryTestData()
+        public static TheoryData<SystemCategory?, bool> GenerateSystemCategoryTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, true } };
+            var testData = new TheoryData<SystemCategory?, bool>() { { null, true } };
             foreach (SystemCategory? systemCategory in Enum.GetValues<SystemCategory>().Cast<SystemCategory?>())
             {
                 if (systemCategory == SystemCategory.NONE)
-                    testData.Add([systemCategory, true]);
+                    testData.Add(systemCategory, true);
                 else
-                    testData.Add([systemCategory, false]);
+                    testData.Add(systemCategory, false);
             }
 
             return testData;
@@ -2308,12 +2308,12 @@ namespace SabreTools.RedumpLib.Test.Data
         /// Generate a test set of YesNo values
         /// </summary>
         /// <returns>MemberData-compatible list of YesNo values</returns>
-        public static List<object?[]> GenerateYesNoTestData()
+        public static TheoryData<YesNo?, bool> GenerateYesNoTestData()
         {
-            var testData = new List<object?[]>() { new object?[] { null, false } };
+            var testData = new TheoryData<YesNo?, bool>() { { null, false } };
             foreach (YesNo? yesNo in Enum.GetValues<YesNo>().Cast<YesNo?>())
             {
-                testData.Add([yesNo, false]);
+                testData.Add(yesNo, false);
             }
 
             return testData;

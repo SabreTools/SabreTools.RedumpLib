@@ -285,7 +285,7 @@ namespace SabreTools.RedumpLib.Test
             Assert.Equal(expected, si.CommonDiscInfo.Media);
         }
 
-         [Theory]
+        [Theory]
         [InlineData(DiscType.UMDSL)]
         [InlineData(DiscType.UMDDL)]
         public void NormalizeDiscType_UMDSL_Fixed(DiscType type)
