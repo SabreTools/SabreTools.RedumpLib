@@ -2467,6 +2467,9 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Other, LongName = "Pocket PC", ShortName = "ppc", HasCues = true, HasDat = true)]
         PocketPC,
 
+        [System(Category = SystemCategory.Other, Available = false, LongName = "Psion")]
+        Psion,
+
         [System(Category = SystemCategory.Other, Available = false, LongName = "Rainbow Disc")]
         RainbowDisc,
 

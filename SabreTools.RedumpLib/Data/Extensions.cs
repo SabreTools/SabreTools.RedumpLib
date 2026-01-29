@@ -722,6 +722,11 @@ namespace SabreTools.RedumpLib.Data
                     types.Add(MediaType.CDROM);
                     break;
 
+                // UNKNOWN
+                case RedumpSystem.Psion:
+                    types.Add(MediaType.CDROM);
+                    break;
+
                 // https://en.wikipedia.org/wiki/Doors_and_Windows_(EP)
                 case RedumpSystem.RainbowDisc:
                     types.Add(MediaType.CDROM);
