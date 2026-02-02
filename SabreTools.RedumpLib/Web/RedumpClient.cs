@@ -299,15 +299,19 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="url">Base URL to download using</param>
         /// <returns>List of IDs from the page, empty on error</returns>
-        public async Task<List<int>> CheckSingleSitePage(string url)
+        public async Task<List<int>?> CheckSingleSitePage(string url)
         {
             List<int> ids = [];
 
             // Try to retrieve the data
             string? dumpsPage = await DownloadString(url);
 
+            // If the web client failed, return null
+            if (dumpsPage is null)
+                return null;
+
             // If we have no dumps left
-            if (dumpsPage is null || dumpsPage.Contains("No discs found."))
+            if (dumpsPage.Contains("No discs found."))
                 return ids;
 
             // If we have a single disc page already
