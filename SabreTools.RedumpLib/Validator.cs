@@ -141,9 +141,9 @@ namespace SabreTools.RedumpLib
             if (newIds is null)
                 return null;
 
-            // If no IDs match, just return
+            // If no IDs match, return an empty list
             if (newIds.Count == 0)
-                return null;
+                return [];
 
             // Join the list of found IDs to the existing list, if possible
             if (info.PartiallyMatchedIDs is not null && info.PartiallyMatchedIDs.Count > 0)
@@ -185,9 +185,9 @@ namespace SabreTools.RedumpLib
             if (newIds is null)
                 return null;
 
-            // If no IDs match, just return
+            // If no IDs match, just an empty list
             if (newIds.Count == 0)
-                return null;
+                return [];
 
             // Join the list of found IDs to the existing list, if possible
             if (info.PartiallyMatchedIDs is not null && info.PartiallyMatchedIDs.Count > 0)

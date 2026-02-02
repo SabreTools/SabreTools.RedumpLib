@@ -306,8 +306,12 @@ namespace SabreTools.RedumpLib.Web
             // Try to retrieve the data
             string? dumpsPage = await DownloadString(url);
 
+            // If the web client failed, return null
+            if (dumpsPage is null)
+                return null;
+
             // If we have no dumps left
-            if (dumpsPage is null || dumpsPage.Contains("No discs found."))
+            if (dumpsPage.Contains("No discs found."))
                 return ids;
 
             // If we have a single disc page already
