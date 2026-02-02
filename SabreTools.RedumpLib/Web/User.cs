@@ -95,6 +95,7 @@ namespace SabreTools.RedumpLib.Web
                     var pageIds = await rc.CheckSingleSitePage(string.Format(Constants.UserDumpsUrl, username, pageNumber++));
                     if (pageIds is null)
                         return [];
+
                     ids.AddRange(pageIds);
                     if (pageIds.Count <= 1)
                         break;

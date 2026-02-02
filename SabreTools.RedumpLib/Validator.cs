@@ -113,6 +113,7 @@ namespace SabreTools.RedumpLib
                     List<int>? pageIds = await rc.CheckSingleSitePage(string.Format(Constants.QuickSearchUrl, query, pageNumber++));
                     if (pageIds is null)
                         return null;
+
                     ids.AddRange(pageIds);
                     if (pageIds.Count <= 1)
                         break;

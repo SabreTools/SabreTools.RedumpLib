@@ -46,6 +46,7 @@ namespace SabreTools.RedumpLib.Web
                     var pageIds = await rc.CheckSingleSitePage(string.Format(Constants.QuickSearchUrl, query, pageNumber++));
                     if (pageIds is null)
                         return [];
+
                     ids.AddRange(pageIds);
                     if (pageIds.Count <= 1)
                         break;
