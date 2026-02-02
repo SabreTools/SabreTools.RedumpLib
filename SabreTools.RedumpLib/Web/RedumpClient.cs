@@ -299,7 +299,7 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="url">Base URL to download using</param>
         /// <returns>List of IDs from the page, empty on error</returns>
-        public async Task<List<int>> CheckSingleSitePage(string url)
+        public async Task<List<int>?> CheckSingleSitePage(string url)
         {
             List<int> ids = [];
 
