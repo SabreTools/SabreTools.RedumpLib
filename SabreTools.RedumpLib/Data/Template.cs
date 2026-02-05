@@ -45,7 +45,7 @@
         public const string ReportedDiscType = "Reported Disc Type";
         public const string C2ErrorCountField = "C2 Error Count";
         public const string PVDField = "Primary Volume Descriptor (PVD)";
-        public const string DATField = "DAT";
+        public const string DATField = "ClrMamePro Data (DAT)";
         public const string SizeField = "Size";
         public const string CRC32Field = "CRC32";
         public const string MD5Field = "MD5";

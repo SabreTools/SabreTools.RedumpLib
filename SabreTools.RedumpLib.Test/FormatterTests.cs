@@ -281,7 +281,7 @@ namespace SabreTools.RedumpLib.Test
         [Fact]
         public void FormatOutputData_TAWOInvalid_Minimal()
         {
-            string expected = "Tracks and Write Offsets:\n\tDAT:\n\n\n\n\n";
+            string expected = "Tracks and Write Offsets:\n\tClrMamePro Data (DAT):\n\n\n\n\n";
 
             var builder = new StringBuilder();
             TracksAndWriteOffsetsSection? section = new();
@@ -295,7 +295,7 @@ namespace SabreTools.RedumpLib.Test
         [Fact]
         public void FormatOutputData_TAWO_Formatted()
         {
-            string expected = "Tracks and Write Offsets:\n\tDAT:\n\nXXXXXX\n\n\n\tCuesheet: XXXXXX\n\tWrite Offset: XXXXXX\n";
+            string expected = "Tracks and Write Offsets:\n\tClrMamePro Data (DAT):\n\nXXXXXX\n\n\n\tCuesheet: XXXXXX\n\tWrite Offset: XXXXXX\n";
 
             var builder = new StringBuilder();
             TracksAndWriteOffsetsSection? section = new()
