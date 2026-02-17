@@ -80,8 +80,14 @@ namespace RedumpTool
         /// <returns>Initialized Downloader on success, null otherwise</returns>
         private static Downloader? CreateDownloader(Feature feature, string[] args)
         {
+            var downloader = new Downloader()
+            {
+                Feature = feature,
+                MinimumId = -1,
+                MaximumId = -1,
+            };
+
             // Loop through all of the arguments
-            var downloader = new Downloader() { Feature = feature };
             try
             {
                 for (int i = 1; i < args.Length; i++)
@@ -253,6 +259,8 @@ namespace RedumpTool
             Console.WriteLine("    -q, --query - Redump-compatible query to run");
             Console.WriteLine("    -l, --list - Only list the page IDs for that query");
             Console.WriteLine("    -ns, --noslash - Don't replace forward slashes with '-'");
+            Console.WriteLine();
+            Console.WriteLine("If using an ID range, both minimum and maximum are required");
             Console.WriteLine();
         }
     }
