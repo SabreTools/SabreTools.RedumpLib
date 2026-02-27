@@ -183,7 +183,7 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// Redump discs path URL template
         /// </summary>
-        public const string DiscsUrl = @"http://redump.org/discs/{0}";
+        public const string DiscsUrl = @"http://redump.org/discs/{0}/?page={1}";
 
         /// <summary>
         /// Redump last modified search URL template
