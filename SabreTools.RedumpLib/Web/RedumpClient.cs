@@ -36,7 +36,12 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Maximum retry count for any operation
         /// </summary>
-        public int RetryCount { get; }
+        /// <remarks>Value has to be greater than 0</remarks>
+        public int RetryCount
+        {
+            get;
+            set { field = value < 0 ? 3 : value; }
+        } = 3;
 
         /// <summary>
         /// Internal client for interaction
@@ -52,17 +57,11 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Constructor
         /// </summary>
-        public RedumpClient(int timeoutSeconds = 30, int retryCount = 3)
+        public RedumpClient(int timeoutSeconds = 30)
         {
-            // Ensure there are a positive number of retries
-            if (retryCount <= 0)
-                retryCount = 3;
-
             // Ensure a positive timespan
             if (timeoutSeconds <= 0)
                 timeoutSeconds = 30;
-
-            RetryCount = retryCount;
 
 #if NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
             _internalClient = new CookieWebClient() { Timeout = TimeSpan.FromSeconds(timeoutSeconds) };
@@ -74,17 +73,11 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Constructor
         /// </summary>
-        public RedumpClient(TimeSpan timeout, int retryCount = 3)
+        public RedumpClient(TimeSpan timeout)
         {
-            // Ensure there are a positive number of retries
-            if (retryCount <= 0)
-                retryCount = 3;
-
             // Ensure a positive timespan
             if (timeout <= TimeSpan.Zero)
                 timeout = TimeSpan.FromSeconds(30);
-
-            RetryCount = retryCount;
 
 #if NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
             _internalClient = new CookieWebClient() { Timeout = timeout };
