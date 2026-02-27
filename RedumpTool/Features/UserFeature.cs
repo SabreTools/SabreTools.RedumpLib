@@ -49,19 +49,24 @@ namespace RedumpTool.Features
         /// <inheritdoc/>
         public override bool Execute()
         {
-            // Get values needed more than once
-            bool onlyList = ListInput.Value;
-            string? outputDirectory = OutputInput.Value;
+            // Get common values
+            string? outDir = OutputInput.Value;
+            string username = UsernameInput.Value ?? string.Empty;
+            string password = PasswordInput.Value ?? string.Empty;
             int? attemptCount = AttemptCountInput.Value;
             int? timeout = TimeoutInput.Value;
 
+            // Get specific values
+            bool onlyNew = OnlyNewInput.Value;
+            bool onlyList = ListInput.Value;
+
             // Output directory validation
-            if (!onlyList && !ValidateAndCreateOutputDirectory(outputDirectory))
+            if (!onlyList && !ValidateAndCreateOutputDirectory(outDir))
                 return false;
 
             // Login to Redump, if necessary
             if (!_client.LoggedIn)
-                _client.Login(UsernameInput.Value ?? string.Empty, PasswordInput.Value ?? string.Empty).Wait();
+                _client.Login(username, password).Wait();
 
             // Update client properties
             _client.Debug = DebugInput.Value;
@@ -73,11 +78,11 @@ namespace RedumpTool.Features
             // Start the processing
             Task<List<int>> processingTask;
             if (onlyList)
-                processingTask = _client.ListUser(UsernameInput.Value);
-            else if (OnlyNewInput.Value)
-                processingTask = _client.DownloadUserLastModified(UsernameInput.Value, outputDirectory);
+                processingTask = _client.ListUser(username);
+            else if (onlyNew)
+                processingTask = _client.DownloadUserLastModified(username, outDir);
             else
-                processingTask = _client.DownloadUser(UsernameInput.Value, outputDirectory);
+                processingTask = _client.DownloadUser(username, outDir);
 
             // Retrieve the result
             processingTask.Wait();

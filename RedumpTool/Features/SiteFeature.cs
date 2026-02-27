@@ -57,16 +57,21 @@ namespace RedumpTool.Features
         /// <inheritdoc/>
         public override bool Execute()
         {
-            // Get values needed more than once
-            string? outputDirectory = OutputInput.Value;
-            int minId = MinimumInput.Value ?? -1;
-            int maxId = MaximumInput.Value ?? -1;
-            bool onlyNew = OnlyNewInput.Value;
+            // Get common values
+            string? outDir = OutputInput.Value;
+            string username = UsernameInput.Value ?? string.Empty;
+            string password = PasswordInput.Value ?? string.Empty;
             int? attemptCount = AttemptCountInput.Value;
             int? timeout = TimeoutInput.Value;
 
+            // Get specific values
+            int minId = MinimumInput.Value ?? -1;
+            int maxId = MaximumInput.Value ?? -1;
+            bool onlyNew = OnlyNewInput.Value;
+            bool force = ForceInput.Value;
+
             // Output directory validation
-            if (!ValidateAndCreateOutputDirectory(outputDirectory))
+            if (!ValidateAndCreateOutputDirectory(outDir))
                 return false;
 
             // Range verification
@@ -78,7 +83,7 @@ namespace RedumpTool.Features
 
             // Login to Redump, if necessary
             if (!_client.LoggedIn)
-                _client.Login(UsernameInput.Value ?? string.Empty, PasswordInput.Value ?? string.Empty).Wait();
+                _client.Login(username, password).Wait();
 
             // Update client properties
             _client.Debug = DebugInput.Value;
@@ -90,9 +95,9 @@ namespace RedumpTool.Features
             // Start the processing
             Task<List<int>> processingTask;
             if (onlyNew)
-                processingTask = _client.DownloadLastModified(outputDirectory, ForceInput.Value);
+                processingTask = _client.DownloadLastModified(outDir, force);
             else
-                processingTask = _client.DownloadSiteRange(outputDirectory, minId, maxId);
+                processingTask = _client.DownloadSiteRange(outDir, minId, maxId);
 
             // Retrieve the result
             processingTask.Wait();

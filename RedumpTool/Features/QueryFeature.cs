@@ -57,17 +57,21 @@ namespace RedumpTool.Features
         /// <inheritdoc/>
         public override bool Execute()
         {
-            // Get values needed more than once
-            bool onlyList = ListInput.Value;
-            string? outputDirectory = OutputInput.Value;
-            string? queryString = QueryInput.Value;
+            // Get common values
+            string? outDir = OutputInput.Value;
+            string username = UsernameInput.Value ?? string.Empty;
+            string password = PasswordInput.Value ?? string.Empty;
             int? attemptCount = AttemptCountInput.Value;
             int? timeout = TimeoutInput.Value;
+
+            // Get specific values
+            bool onlyList = ListInput.Value;
+            string? queryString = QueryInput.Value;
             bool quick = QuickSearchInput.Value;
             bool convertForwardSlashes = !NoSlashInput.Value;
 
             // Output directory validation
-            if (!onlyList && !ValidateAndCreateOutputDirectory(outputDirectory))
+            if (!onlyList && !ValidateAndCreateOutputDirectory(outDir))
                 return false;
 
             // Query verification (and cleanup)
@@ -79,7 +83,7 @@ namespace RedumpTool.Features
 
             // Login to Redump, if necessary
             if (!_client.LoggedIn)
-                _client.Login(UsernameInput.Value ?? string.Empty, PasswordInput.Value ?? string.Empty).Wait();
+                _client.Login(username, password).Wait();
 
             // Update client properties
             _client.Debug = DebugInput.Value;
@@ -95,14 +99,14 @@ namespace RedumpTool.Features
                 if (onlyList)
                     processingTask = _client.ListSearchResults(queryString, convertForwardSlashes);
                 else
-                    processingTask = _client.DownloadSearchResults(queryString, outputDirectory, convertForwardSlashes);
+                    processingTask = _client.DownloadSearchResults(queryString, outDir, convertForwardSlashes);
             }
             else
             {
                 if (onlyList)
                     processingTask = _client.ListDiscsResults(queryString, convertForwardSlashes);
                 else
-                    processingTask = _client.DownloadDiscsResults(queryString, outputDirectory, convertForwardSlashes);
+                    processingTask = _client.DownloadDiscsResults(queryString, outDir, convertForwardSlashes);
             }
 
             // Retrieve the result

@@ -43,18 +43,23 @@ namespace RedumpTool.Features
         /// <inheritdoc/>
         public override bool Execute()
         {
-            // Get values needed more than once
-            string? outputDirectory = OutputInput.Value;
+            // Get common values
+            string? outDir = OutputInput.Value;
+            string username = UsernameInput.Value ?? string.Empty;
+            string password = PasswordInput.Value ?? string.Empty;
             int? attemptCount = AttemptCountInput.Value;
             int? timeout = TimeoutInput.Value;
 
+            // Get specific values
+            bool useSubfolders = SubfoldersInput.Value;
+
             // Output directory validation
-            if (!ValidateAndCreateOutputDirectory(outputDirectory))
+            if (!ValidateAndCreateOutputDirectory(outDir))
                 return false;
 
             // Login to Redump, if necessary
             if (!_client.LoggedIn)
-                _client.Login(UsernameInput.Value ?? string.Empty, PasswordInput.Value ?? string.Empty).Wait();
+                _client.Login(username, password).Wait();
 
             // Update client properties
             _client.Debug = DebugInput.Value;
@@ -64,7 +69,7 @@ namespace RedumpTool.Features
                 _client.Timeout = TimeSpan.FromSeconds(timeout.Value);
 
             // Start the processing
-            var processingTask = _client.DownloadPacks(outputDirectory, SubfoldersInput.Value);
+            var processingTask = _client.DownloadPacks(outDir, useSubfolders);
 
             // Retrieve the result
             processingTask.Wait();
