@@ -44,6 +44,22 @@ namespace SabreTools.RedumpLib.Web
         } = 3;
 
         /// <summary>
+        /// The timespan to wait before the request times out.
+        /// </summary>
+        public TimeSpan Timeout
+        {
+            get => _internalClient.Timeout;
+            set
+            {
+                // Ensure a positive timespan
+                if (value <= TimeSpan.Zero)
+                    value = TimeSpan.FromSeconds(30);
+
+                _internalClient.Timeout = value;
+            }
+        }
+
+        /// <summary>
         /// Internal client for interaction
         /// </summary>
 #if NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
@@ -57,33 +73,14 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Constructor
         /// </summary>
-        public RedumpClient(int timeoutSeconds = 30)
+        public RedumpClient()
         {
-            // Ensure a positive timespan
-            if (timeoutSeconds <= 0)
-                timeoutSeconds = 30;
-
 #if NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
-            _internalClient = new CookieWebClient() { Timeout = TimeSpan.FromSeconds(timeoutSeconds) };
+            _internalClient = new CookieWebClient();
 #else
-            _internalClient = new HttpClient(new HttpClientHandler { UseCookies = true }) { Timeout = TimeSpan.FromSeconds(timeoutSeconds) };
+            _internalClient = new HttpClient(new HttpClientHandler { UseCookies = true });
 #endif
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public RedumpClient(TimeSpan timeout)
-        {
-            // Ensure a positive timespan
-            if (timeout <= TimeSpan.Zero)
-                timeout = TimeSpan.FromSeconds(30);
-
-#if NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
-            _internalClient = new CookieWebClient() { Timeout = timeout };
-#else
-            _internalClient = new HttpClient(new HttpClientHandler { UseCookies = true }) { Timeout = timeout };
-#endif
+            Timeout = TimeSpan.FromSeconds(30);
         }
 
         #region Credentials
