@@ -246,31 +246,47 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>The remote filename from the URI, null on error</returns>
         public async Task<string?> DownloadFile(string uri, string fileName)
         {
-            if (Debug) Console.WriteLine($"DEBUG: DownloadFile(\"{uri}\", \"{fileName}\")");
-#if NET40
-            await Task.Factory.StartNew(() => { _internalClient.DownloadFile(uri, fileName); return true; });
-            return _internalClient.GetLastFilename();
-#elif NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
-            await Task.Run(() => _internalClient.DownloadFile(uri, fileName));
-            return _internalClient.GetLastFilename();
-#else
-            // Make the call to get the file
-            var response = await _internalClient.GetAsync(uri);
-            if (response?.Content?.Headers is null || !response.IsSuccessStatusCode)
-            {
-                Console.Error.WriteLine($"Could not download {uri}");
+            // Only retry a positive number of times
+            if (AttemptCount <= 0)
                 return null;
-            }
 
-            // Copy the data to a local temp file
-            using (var responseStream = await response.Content.ReadAsStreamAsync())
-            using (var tempFileStream = File.OpenWrite(fileName))
+            for (int i = 0; i < AttemptCount; i++)
             {
-                responseStream.CopyTo(tempFileStream);
+                try
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: DownloadFile(\"{uri}\", \"{fileName}\"), Attempt {i + 1} of {AttemptCount}");
+#if NET40
+                    await Task.Factory.StartNew(() => { _internalClient.DownloadFile(uri, fileName); return true; });
+                    return _internalClient.GetLastFilename();
+#elif NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
+                    await Task.Run(() => _internalClient.DownloadFile(uri, fileName));
+                    return _internalClient.GetLastFilename();
+#else
+                    // Make the call to get the file
+                    var response = await _internalClient.GetAsync(uri);
+                    if (response?.Content?.Headers is null || !response.IsSuccessStatusCode)
+                    {
+                        Console.Error.WriteLine($"Could not download {uri}");
+                        return null;
+                    }
+
+                    // Copy the data to a local temp file
+                    using (var responseStream = await response.Content.ReadAsStreamAsync())
+                    using (var tempFileStream = File.OpenWrite(fileName))
+                    {
+                        responseStream.CopyTo(tempFileStream);
+                    }
+
+                    return response.Content.Headers.ContentDisposition?.FileName?.Replace("\"", "");
+#endif
+                }
+                catch { }
+
+                // Sleep for 100ms if the last attempt failed
+                Thread.Sleep(100);
             }
 
-            return response.Content.Headers.ContentDisposition?.FileName?.Replace("\"", "");
-#endif
+            return null;
         }
 
         /// <summary>
