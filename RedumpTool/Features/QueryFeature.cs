@@ -45,6 +45,7 @@ namespace RedumpTool.Features
             Add(UsernameInput);
             Add(PasswordInput);
             Add(AttemptCountInput);
+            Add(TimeoutInput);
 
             // Specific
             Add(QueryInput);
@@ -61,6 +62,7 @@ namespace RedumpTool.Features
             string? outputDirectory = OutputInput.Value;
             string? queryString = QueryInput.Value;
             int? attemptCount = AttemptCountInput.Value;
+            int? timeout = TimeoutInput.Value;
             bool quick = QuickSearchInput.Value;
 
             // Output directory validation
@@ -82,6 +84,8 @@ namespace RedumpTool.Features
             _client.Debug = DebugInput.Value;
             if (attemptCount != null && attemptCount > 0)
                 _client.AttemptCount = attemptCount.Value;
+            if (timeout != null && timeout > 0)
+                _client.Timeout = TimeSpan.FromSeconds(timeout.Value);
 
             // Start the processing
             Task<List<int>> processingTask;

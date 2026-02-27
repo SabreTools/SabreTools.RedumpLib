@@ -11,6 +11,9 @@ namespace RedumpTool.Features
     {
         #region Inputs
 
+        private const string _attemptCountName = "attemptcount";
+        internal readonly Int32Input AttemptCountInput = new(_attemptCountName, ["-a", "--attempts"], "Number of attempts for web requests (default 3");
+
         private const string _debugName = "debug";
         internal readonly FlagInput DebugInput = new(_debugName, ["-d", "--debug"], "Enable debug mode");
 
@@ -20,8 +23,8 @@ namespace RedumpTool.Features
         private const string _passwordName = "password";
         internal readonly StringInput PasswordInput = new(_passwordName, ["-p", "--password"], "Redump password");
 
-        private const string _attemptCountName = "attemptcount";
-        internal readonly Int32Input AttemptCountInput = new(_attemptCountName, ["-a", "--attempts"], "Number of attempts for web requests");
+        private const string _timeoutName = "timeout";
+        internal readonly Int32Input TimeoutInput = new(_timeoutName, ["-t", "--timeout"], "Request timeout in whole seconds (default 30)");
 
         private const string _usernameName = "username";
         internal readonly StringInput UsernameInput = new(_usernameName, ["-u", "--username"], "Redump username");

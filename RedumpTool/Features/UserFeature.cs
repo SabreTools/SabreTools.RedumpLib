@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.CommandLine.Inputs;
@@ -38,6 +39,7 @@ namespace RedumpTool.Features
             Add(UsernameInput);
             Add(PasswordInput);
             Add(AttemptCountInput);
+            Add(TimeoutInput);
 
             // Specific
             Add(OnlyNewInput);
@@ -51,6 +53,7 @@ namespace RedumpTool.Features
             bool onlyList = ListInput.Value;
             string? outputDirectory = OutputInput.Value;
             int? attemptCount = AttemptCountInput.Value;
+            int? timeout = TimeoutInput.Value;
 
             // Output directory validation
             if (!onlyList && !ValidateAndCreateOutputDirectory(outputDirectory))
@@ -64,6 +67,8 @@ namespace RedumpTool.Features
             _client.Debug = DebugInput.Value;
             if (attemptCount != null && attemptCount > 0)
                 _client.AttemptCount = attemptCount.Value;
+            if (timeout != null && timeout > 0)
+                _client.Timeout = TimeSpan.FromSeconds(timeout.Value);
 
             // Start the processing
             Task<List<int>> processingTask;

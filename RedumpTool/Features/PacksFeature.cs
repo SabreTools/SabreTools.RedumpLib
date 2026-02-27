@@ -1,3 +1,4 @@
+using System;
 using SabreTools.CommandLine.Inputs;
 using SabreTools.RedumpLib.Web;
 
@@ -33,6 +34,7 @@ namespace RedumpTool.Features
             Add(UsernameInput);
             Add(PasswordInput);
             Add(AttemptCountInput);
+            Add(TimeoutInput);
 
             // Specific
             Add(SubfoldersInput);
@@ -44,6 +46,7 @@ namespace RedumpTool.Features
             // Get values needed more than once
             string? outputDirectory = OutputInput.Value;
             int? attemptCount = AttemptCountInput.Value;
+            int? timeout = TimeoutInput.Value;
 
             // Output directory validation
             if (!ValidateAndCreateOutputDirectory(outputDirectory))
@@ -57,6 +60,8 @@ namespace RedumpTool.Features
             _client.Debug = DebugInput.Value;
             if (attemptCount != null && attemptCount > 0)
                 _client.AttemptCount = attemptCount.Value;
+            if (timeout != null && timeout > 0)
+                _client.Timeout = TimeSpan.FromSeconds(timeout.Value);
 
             // Start the processing
             var processingTask = _client.DownloadPacks(outputDirectory, SubfoldersInput.Value);
