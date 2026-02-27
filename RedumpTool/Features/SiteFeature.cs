@@ -44,7 +44,7 @@ namespace RedumpTool.Features
             Add(OutputInput);
             Add(UsernameInput);
             Add(PasswordInput);
-            Add(RetryCountInput);
+            Add(AttemptCountInput);
 
             // Specific
             Add(MinimumInput);
@@ -61,7 +61,7 @@ namespace RedumpTool.Features
             int minId = MinimumInput.Value ?? -1;
             int maxId = MaximumInput.Value ?? -1;
             bool onlyNew = OnlyNewInput.Value;
-            int? retryCount = RetryCountInput.Value;
+            int? attemptCount = AttemptCountInput.Value;
 
             // Output directory validation
             if (!ValidateAndCreateOutputDirectory(outputDirectory))
@@ -80,8 +80,8 @@ namespace RedumpTool.Features
 
             // Update client properties
             _client.Debug = DebugInput.Value;
-            if (retryCount != null && retryCount > 0)
-                _client.RetryCount = retryCount.Value;
+            if (attemptCount != null && attemptCount > 0)
+                _client.AttemptCount = attemptCount.Value;
 
             // Start the processing
             Task<List<int>> processingTask;

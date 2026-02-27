@@ -34,10 +34,10 @@ namespace SabreTools.RedumpLib.Web
         public bool Debug { get; set; } = false;
 
         /// <summary>
-        /// Maximum retry count for any operation
+        /// Maximum attempt count for any operation
         /// </summary>
         /// <remarks>Value has to be greater than 0</remarks>
-        public int RetryCount
+        public int AttemptCount
         {
             get;
             set { field = value < 0 ? 3 : value; }
@@ -141,11 +141,11 @@ namespace SabreTools.RedumpLib.Web
 #endif
 
             // Attempt to login up as many times as the retry count allows
-            for (int i = 0; i < RetryCount; i++)
+            for (int i = 0; i < AttemptCount; i++)
             {
                 try
                 {
-                    Console.WriteLine($"Login attempt {i + 1} of {RetryCount}");
+                    Console.WriteLine($"Login attempt {i + 1} of {AttemptCount}");
 
                     // Get the current token from the login page
                     var loginPage = await DownloadString(Constants.LoginUrl);
@@ -200,7 +200,7 @@ namespace SabreTools.RedumpLib.Web
                 }
             }
 
-            Console.Error.WriteLine($"Could not login to Redump in {RetryCount} attempts, continuing without logging in...");
+            Console.Error.WriteLine($"Could not login to Redump in {AttemptCount} attempts, continuing without logging in...");
             return false;
         }
 
@@ -216,14 +216,14 @@ namespace SabreTools.RedumpLib.Web
         public async Task<byte[]?> DownloadData(string uri)
         {
             // Only retry a positive number of times
-            if (RetryCount <= 0)
+            if (AttemptCount <= 0)
                 return null;
 
-            for (int i = 0; i < RetryCount; i++)
+            for (int i = 0; i < AttemptCount; i++)
             {
                 try
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: DownloadData(\"{uri}\"), Attempt {i + 1} of {RetryCount}");
+                    if (Debug) Console.WriteLine($"DEBUG: DownloadData(\"{uri}\"), Attempt {i + 1} of {AttemptCount}");
 #if NET40
                     return await Task.Factory.StartNew(() => _internalClient.DownloadData(uri));
 #elif NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
@@ -284,14 +284,14 @@ namespace SabreTools.RedumpLib.Web
         public async Task<string?> DownloadString(string uri)
         {
             // Only retry a positive number of times
-            if (RetryCount <= 0)
+            if (AttemptCount <= 0)
                 return null;
 
-            for (int i = 0; i < RetryCount; i++)
+            for (int i = 0; i < AttemptCount; i++)
             {
                 try
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: DownloadString(\"{uri}\"), Attempt {i + 1} of {RetryCount}");
+                    if (Debug) Console.WriteLine($"DEBUG: DownloadString(\"{uri}\"), Attempt {i + 1} of {AttemptCount}");
 #if NET40
                     return await Task.Factory.StartNew(() => _internalClient.DownloadString(uri));
 #elif NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER

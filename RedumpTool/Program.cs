@@ -72,7 +72,7 @@ namespace RedumpTool
             Console.WriteLine("    -o <folder>, --output <folder> - Set the base output directory");
             Console.WriteLine("    -u <username>, --username <username> - Redump username");
             Console.WriteLine("    -p <pass>, --password <pass> - Redump password");
-            Console.WriteLine("    -r <retries>, --retries <retries> - Number of attempts for web requests");
+            Console.WriteLine("    -a <attempts>, --attempts <attempts> - Number of attempts for web requests");
             Console.WriteLine();
             Console.WriteLine("site - Download pages and related files from the main site");
             Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (cannot be used with only new)");

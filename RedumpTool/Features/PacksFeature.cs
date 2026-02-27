@@ -32,7 +32,7 @@ namespace RedumpTool.Features
             Add(OutputInput);
             Add(UsernameInput);
             Add(PasswordInput);
-            Add(RetryCountInput);
+            Add(AttemptCountInput);
 
             // Specific
             Add(SubfoldersInput);
@@ -43,7 +43,7 @@ namespace RedumpTool.Features
         {
             // Get values needed more than once
             string? outputDirectory = OutputInput.Value;
-            int? retryCount = RetryCountInput.Value;
+            int? attemptCount = AttemptCountInput.Value;
 
             // Output directory validation
             if (!ValidateAndCreateOutputDirectory(outputDirectory))
@@ -55,8 +55,8 @@ namespace RedumpTool.Features
 
             // Update client properties
             _client.Debug = DebugInput.Value;
-            if (retryCount != null && retryCount > 0)
-                _client.RetryCount = retryCount.Value;
+            if (attemptCount != null && attemptCount > 0)
+                _client.AttemptCount = attemptCount.Value;
 
             // Start the processing
             var processingTask = _client.DownloadPacks(outputDirectory, SubfoldersInput.Value);

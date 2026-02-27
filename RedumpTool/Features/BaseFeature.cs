@@ -20,8 +20,8 @@ namespace RedumpTool.Features
         private const string _passwordName = "password";
         internal readonly StringInput PasswordInput = new(_passwordName, ["-p", "--password"], "Redump password");
 
-        private const string _retryCountName = "retrycount";
-        internal readonly Int32Input RetryCountInput = new(_retryCountName, ["-r", "--retries"], "Number of attempts for web requests");
+        private const string _attemptCountName = "attemptcount";
+        internal readonly Int32Input AttemptCountInput = new(_attemptCountName, ["-a", "--attempts"], "Number of attempts for web requests");
 
         private const string _usernameName = "username";
         internal readonly StringInput UsernameInput = new(_usernameName, ["-u", "--username"], "Redump username");
