@@ -64,6 +64,7 @@ namespace RedumpTool.Features
             int? attemptCount = AttemptCountInput.Value;
             int? timeout = TimeoutInput.Value;
             bool quick = QuickSearchInput.Value;
+            bool noSlash = NoSlashInput.Value;
 
             // Output directory validation
             if (!onlyList && !ValidateAndCreateOutputDirectory(outputDirectory))
@@ -92,16 +93,16 @@ namespace RedumpTool.Features
             if (quick)
             {
                 if (onlyList)
-                    processingTask = _client.ListSearchResults(queryString, NoSlashInput.Value);
+                    processingTask = _client.ListSearchResults(queryString, !noSlash);
                 else
-                    processingTask = _client.DownloadSearchResults(queryString, outputDirectory, NoSlashInput.Value);
+                    processingTask = _client.DownloadSearchResults(queryString, outputDirectory, !noSlash);
             }
             else
             {
                 if (onlyList)
-                    processingTask = _client.ListDiscsResults(queryString, NoSlashInput.Value);
+                    processingTask = _client.ListDiscsResults(queryString, !noSlash);
                 else
-                    processingTask = _client.DownloadDiscsResults(queryString, outputDirectory, NoSlashInput.Value);
+                    processingTask = _client.DownloadDiscsResults(queryString, outputDirectory, !noSlash);
             }
 
             // Retrieve the result
