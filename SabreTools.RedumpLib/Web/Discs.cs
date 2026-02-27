@@ -33,6 +33,8 @@ namespace SabreTools.RedumpLib.Web
             query = query.Replace('\\', '-');
             if (!noSlash)
                 query = query.Replace('/', '-');
+            else
+                query = query.TrimStart('/');
 
             // Lowercase is defined per language
             query = query.ToLowerInvariant();
@@ -85,6 +87,8 @@ namespace SabreTools.RedumpLib.Web
             query = query.Replace('\\', '-');
             if (!noSlash)
                 query = query.Replace('/', '-');
+            else
+                query = query.TrimStart('/');
 
             // Lowercase is defined per language
             query = query.ToLowerInvariant();
