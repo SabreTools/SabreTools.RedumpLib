@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using SabreTools.RedumpLib;
-using SabreTools.RedumpLib.Data;
 
 namespace RedumpTool
 {

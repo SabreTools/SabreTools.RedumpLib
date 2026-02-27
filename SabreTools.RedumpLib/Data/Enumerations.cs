@@ -123,19 +123,6 @@ namespace SabreTools.RedumpLib.Data
     }
 
     /// <summary>
-    /// Determines what download type to initate
-    /// </summary>
-    public enum Feature
-    {
-        NONE,
-        Site,
-        WIP,
-        Packs,
-        User,
-        Quicksearch,
-    }
-
-    /// <summary>
     /// List of all disc langauges
     /// </summary>
     /// <remarks>https://www.loc.gov/standards/iso639-2/php/code_list.php</remarks>

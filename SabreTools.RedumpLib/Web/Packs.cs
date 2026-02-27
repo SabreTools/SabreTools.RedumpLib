@@ -7,7 +7,7 @@ namespace SabreTools.RedumpLib.Web
     /// <summary>
     /// Contains logic for dealing with packs
     /// </summary>
-    internal static class Packs
+    public static class Packs
     {
         /// <summary>
         /// Download premade packs

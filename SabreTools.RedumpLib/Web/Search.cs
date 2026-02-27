@@ -8,7 +8,7 @@ namespace SabreTools.RedumpLib.Web
     /// <summary>
     /// Contains logic for dealing with searches
     /// </summary>
-    internal static class Search
+    public static class Search
     {
         /// <summary>
         /// List the disc IDs associated with a given quicksearch query
