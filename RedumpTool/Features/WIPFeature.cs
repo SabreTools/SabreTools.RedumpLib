@@ -72,6 +72,9 @@ namespace RedumpTool.Features
             if (!_client.LoggedIn)
                 _client.Login(UsernameInput.Value ?? string.Empty, PasswordInput.Value ?? string.Empty).Wait();
 
+            // Update debug flag
+            _client.Debug = DebugInput.Value;
+
             // Start the processing
             Task<List<int>> processingTask;
             if (onlyNew)

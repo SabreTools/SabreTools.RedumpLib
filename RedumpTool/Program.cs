@@ -68,6 +68,7 @@ namespace RedumpTool
             Console.WriteLine("Usage: RedumpTool <feature> [options]");
             Console.WriteLine();
             Console.WriteLine("Common Options");
+            Console.WriteLine("    -d, --debug - Enable debug mode");
             Console.WriteLine("    -o <folder>, --output <folder> - Set the base output directory");
             Console.WriteLine("    -u <username>, --username <username> - Redump username");
             Console.WriteLine("    -p <pass>, --password <pass> - Redump password");

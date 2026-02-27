@@ -40,7 +40,7 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Determines if debug outputs are printed
         /// </summary>
-        public bool Debug { get; private set; } = false;
+        public bool Debug { get; set; } = false;
 
         /// <summary>
         /// Maximum retry count for any operation
