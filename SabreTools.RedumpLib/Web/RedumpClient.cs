@@ -917,13 +917,13 @@ namespace SabreTools.RedumpLib.Web
                 if (string.IsNullOrEmpty(longName))
                     continue;
 
-                Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
+                Console.Write($"{(Debug ? "" : "\r")}{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
                 byte[]? pack = await DownloadSinglePack(url, system);
                 if (pack is not null)
                     packsDictionary.Add(system, pack);
             }
 
-            Console.Write($"\rComplete!{new string(' ', Console.BufferWidth - 10)}");
+            Console.Write($"{(Debug ? "" : "\r")}Complete!{new string(' ', Console.BufferWidth - 10)}");
             Console.WriteLine();
 
             return packsDictionary;
@@ -955,11 +955,11 @@ namespace SabreTools.RedumpLib.Web
                 if (string.IsNullOrEmpty(longName))
                     continue;
 
-                Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
+                Console.Write($"{(Debug ? "" : "\r")}{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
                 await DownloadSinglePack(url, system, outDir, subfolder);
             }
 
-            Console.Write($"\rComplete!{new string(' ', Console.BufferWidth - 10)}");
+            Console.Write($"{(Debug ? "" : "\r")}Complete!{new string(' ', Console.BufferWidth - 10)}");
             Console.WriteLine();
             return true;
         }
