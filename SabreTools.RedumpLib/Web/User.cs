@@ -32,6 +32,9 @@ namespace SabreTools.RedumpLib.Web
             while (true)
             {
                 var pageIds = await rc.CheckSingleSitePage(string.Format(Constants.UserDumpsUrl, username, pageNumber++), outDir, false);
+                if (pageIds is null)
+                    return [];
+
                 ids.AddRange(pageIds);
                 if (pageIds.Count == 0)
                     break;
@@ -62,6 +65,9 @@ namespace SabreTools.RedumpLib.Web
             while (true)
             {
                 var pageIds = await rc.CheckSingleSitePage(string.Format(Constants.UserDumpsLastModifiedUrl, username, pageNumber++), outDir, true);
+                if (pageIds is null)
+                    return [];
+
                 ids.AddRange(pageIds);
                 if (pageIds.Count == 0)
                     break;

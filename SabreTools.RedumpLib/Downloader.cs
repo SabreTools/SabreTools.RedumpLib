@@ -180,7 +180,7 @@ namespace SabreTools.RedumpLib
         private async Task<List<int>> ProcessWIP()
         {
             if (OnlyNew)
-                return await WIP.DownloadLastSubmitted(_client, OutDir);
+                return await WIP.DownloadLastSubmitted(_client, OutDir) ?? [];
             else
                 return await WIP.DownloadWIPRange(_client, OutDir, MinimumId, MaximumId);
         }

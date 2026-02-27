@@ -10,7 +10,7 @@ namespace RedumpTool
         public static void Main(string[] args)
         {
             // Show help if nothing is input
-            if (args is null || args.Length == 0)
+            if (args.Length == 0)
             {
                 Console.WriteLine("At least one argument is required");
                 ShowHelp();

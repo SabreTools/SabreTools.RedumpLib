@@ -16,6 +16,15 @@ namespace SabreTools.RedumpLib.Web
 {
     public class RedumpClient
     {
+        #region Constants
+
+        /// <summary>
+        /// Maximum number of login attempts
+        /// </summary>
+        private const int MaxLoginAttempts = 3;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -27,6 +36,11 @@ namespace SabreTools.RedumpLib.Web
         /// Determines if the user is a staff member
         /// </summary>
         public bool IsStaff { get; private set; } = false;
+
+        /// <summary>
+        /// Determines if debug outputs are printed
+        /// </summary>
+        public bool Debug { get; private set; } = false;
 
         /// <summary>
         /// Maximum retry count for any operation
@@ -110,7 +124,7 @@ namespace SabreTools.RedumpLib.Web
             }
             else if (!string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password))
             {
-                Console.WriteLine("Only a username was specified, will not attempt Redump login...");
+                Console.Error.WriteLine("Only a username was specified, will not attempt Redump login...");
                 return false;
             }
             else if (string.IsNullOrEmpty(username))
@@ -131,6 +145,8 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
+                    Console.WriteLine($"Login attempt {i} of {MaxLoginAttempts}");
+
                     // Get the current token from the login page
                     var loginPage = await DownloadString(Constants.LoginUrl);
                     string token = Constants.TokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
@@ -157,14 +173,14 @@ namespace SabreTools.RedumpLib.Web
                     // An empty response indicates an error
                     if (string.IsNullOrEmpty(responseContent))
                     {
-                        Console.WriteLine($"An error occurred while trying to log in on attempt {i}: No response");
+                        Console.Error.WriteLine($"An error occurred while trying to log in on attempt {i}: No response");
                         continue;
                     }
 
                     // Explcit confirmation the login was wrong
                     if (responseContent.Contains("Incorrect username and/or password."))
                     {
-                        Console.WriteLine("Invalid credentials entered, continuing without logging in...");
+                        Console.Error.WriteLine("Invalid credentials entered, continuing without logging in...");
                         return false;
                     }
 
@@ -180,11 +196,11 @@ namespace SabreTools.RedumpLib.Web
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"An exception occurred while trying to log in on attempt {i}: {ex}");
+                    Console.Error.WriteLine($"An exception occurred while trying to log in on attempt {i}: {ex}");
                 }
             }
 
-            Console.WriteLine("Could not login to Redump in 3 attempts, continuing without logging in...");
+            Console.Error.WriteLine($"Could not login to Redump in {MaxLoginAttempts} attempts, continuing without logging in...");
             return false;
         }
 
@@ -207,6 +223,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
+                    if (Debug) Console.WriteLine($"DEBUG: DownloadData(\"{uri}\")");
 #if NET40
                     return await Task.Factory.StartNew(() => _internalClient.DownloadData(uri));
 #elif NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
@@ -232,6 +249,7 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>The remote filename from the URI, null on error</returns>
         public async Task<string?> DownloadFile(string uri, string fileName)
         {
+            if (Debug) Console.WriteLine($"DEBUG: DownloadFile(\"{uri}\", \"{fileName}\")");
 #if NET40
             await Task.Factory.StartNew(() => { _internalClient.DownloadFile(uri, fileName); return true; });
             return _internalClient.GetLastFilename();
@@ -243,7 +261,7 @@ namespace SabreTools.RedumpLib.Web
             var response = await _internalClient.GetAsync(uri);
             if (response?.Content?.Headers is null || !response.IsSuccessStatusCode)
             {
-                Console.WriteLine($"Could not download {uri}");
+                Console.Error.WriteLine($"Could not download {uri}");
                 return null;
             }
 
@@ -273,6 +291,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
+                    if (Debug) Console.WriteLine($"DEBUG: DownloadString(\"{uri}\")");
 #if NET40
                     return await Task.Factory.StartNew(() => _internalClient.DownloadString(uri));
 #elif NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
@@ -298,7 +317,7 @@ namespace SabreTools.RedumpLib.Web
         /// Process a Redump site page as a list of possible IDs or disc page
         /// </summary>
         /// <param name="url">Base URL to download using</param>
-        /// <returns>List of IDs from the page, empty on error</returns>
+        /// <returns>List of IDs from the page, empty on none, null on error</returns>
         public async Task<List<int>?> CheckSingleSitePage(string url)
         {
             List<int> ids = [];
@@ -308,15 +327,22 @@ namespace SabreTools.RedumpLib.Web
 
             // If the web client failed, return null
             if (dumpsPage is null)
+            {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Client failure");
                 return null;
+            }
 
             // If we have no dumps left
             if (dumpsPage.Contains("No discs found."))
+            {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - No discs found");
                 return ids;
+            }
 
             // If we have a single disc page already
             if (dumpsPage.Contains("<b>Download:</b>"))
             {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Single disc page");
                 var value = Regex.Match(dumpsPage, @"/disc/(\d+)/sfv/").Groups[1].Value;
                 if (int.TryParse(value, out int id))
                     ids.Add(id);
@@ -338,7 +364,7 @@ namespace SabreTools.RedumpLib.Web
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"An exception has occurred: {ex}");
+                    Console.Error.WriteLine($"An exception has occurred: {ex}");
                     continue;
                 }
             }
@@ -352,21 +378,32 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="url">Base URL to download using</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="failOnSingle">True to return on first error, false otherwise</param>
-        /// <returns>List of IDs that were found on success, empty on error</returns>
-        public async Task<List<int>> CheckSingleSitePage(string url, string? outDir, bool failOnSingle)
+        /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        public async Task<List<int>?> CheckSingleSitePage(string url, string? outDir, bool failOnSingle)
         {
             List<int> ids = [];
 
             // Try to retrieve the data
             string? dumpsPage = await DownloadString(url);
 
+            // If the web client failed, return null
+            if (dumpsPage is null)
+            {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\", {failOnSingle}) - Client failure");
+                return null;
+            }
+
             // If we have no dumps left
-            if (dumpsPage is null || dumpsPage.Contains("No discs found."))
+            if (dumpsPage.Contains("No discs found."))
+            {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\", {failOnSingle}) - No discs found");
                 return ids;
+            }
 
             // If we have a single disc page already
             if (dumpsPage.Contains("<b>Download:</b>"))
             {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\", {failOnSingle}) - Single disc page");
                 var value = Regex.Match(dumpsPage, @"/disc/(\d+)/sfv/").Groups[1].Value;
                 if (int.TryParse(value, out int id))
                 {
@@ -400,7 +437,7 @@ namespace SabreTools.RedumpLib.Web
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"An exception has occurred: {ex}");
+                    Console.Error.WriteLine($"An exception has occurred: {ex}");
                     continue;
                 }
             }
@@ -412,17 +449,27 @@ namespace SabreTools.RedumpLib.Web
         /// Process a Redump WIP page as a list of possible IDs or disc page
         /// </summary>
         /// <param name="wc">RedumpWebClient to access the packs</param>
-        /// <returns>List of IDs from the page, empty on error</returns>
-        public async Task<List<int>> CheckSingleWIPPage(string url)
+        /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        public async Task<List<int>?> CheckSingleWIPPage(string url)
         {
             List<int> ids = [];
 
             // Try to retrieve the data
             string? dumpsPage = await DownloadString(url);
 
+            // If the web client failed, return null
+            if (dumpsPage is null)
+            {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{url}\") - Client failure");
+                return null;
+            }
+
             // If we have no dumps left
-            if (dumpsPage is null || dumpsPage.Contains("No discs found."))
+            if (dumpsPage.Contains("No discs found."))
+            {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{url}\") - No discs found");
                 return ids;
+            }
 
             // Otherwise, traverse each dump on the page
             var matches = Constants.NewDiscRegex.Matches(dumpsPage);
@@ -453,16 +500,26 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="failOnSingle">True to return on first error, false otherwise</param>
         /// <returns>List of IDs that were found on success, empty on error</returns>
-        public async Task<List<int>> CheckSingleWIPPage(string url, string? outDir, bool failOnSingle)
+        public async Task<List<int>?> CheckSingleWIPPage(string url, string? outDir, bool failOnSingle)
         {
             List<int> ids = [];
 
             // Try to retrieve the data
             string? dumpsPage = await DownloadString(url);
 
+            // If the web client failed, return null
+            if (dumpsPage is null)
+            {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{url}\", \"{outDir}\", {failOnSingle}) - Client failure");
+                return null;
+            }
+
             // If we have no dumps left
-            if (dumpsPage is null || dumpsPage.Contains("No discs found."))
+            if (dumpsPage.Contains("No discs found."))
+            {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{url}\", \"{outDir}\", {failOnSingle}) - No discs found");
                 return ids;
+            }
 
             // Otherwise, traverse each dump on the page
             var matches = Constants.NewDiscRegex.Matches(dumpsPage);
@@ -505,6 +562,7 @@ namespace SabreTools.RedumpLib.Web
         {
             try
             {
+                if (Debug) Console.WriteLine($"DEBUG: DownloadSinglePack(\"{url}\", {system})");
 #if NET40
                 return await Task.Factory.StartNew(() => _internalClient.DownloadData(string.Format(url, system.ShortName())));
 #elif NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
@@ -515,7 +573,7 @@ namespace SabreTools.RedumpLib.Web
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An exception has occurred: {ex}");
+                Console.Error.WriteLine($"An exception has occurred: {ex}");
                 return null;
             }
         }
@@ -531,6 +589,8 @@ namespace SabreTools.RedumpLib.Web
         {
             try
             {
+                if (Debug) Console.WriteLine($"DEBUG: DownloadSinglePack(\"{url}\", {system}, \"{outDir}\", \"{subfolder}\")");
+
                 // If no output directory is defined, use the current directory instead
                 if (string.IsNullOrEmpty(outDir))
                     outDir = Environment.CurrentDirectory;
@@ -545,7 +605,7 @@ namespace SabreTools.RedumpLib.Web
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An exception has occurred: {ex}");
+                Console.Error.WriteLine($"An exception has occurred: {ex}");
                 return false;
             }
         }
@@ -567,7 +627,7 @@ namespace SabreTools.RedumpLib.Web
 
                 if (discPage is null || discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
                 {
-                    Console.WriteLine($"ID {paddedId} could not be found!");
+                    Console.Error.WriteLine($"ID {paddedId} could not be found!");
                     return null;
                 }
 
@@ -576,7 +636,7 @@ namespace SabreTools.RedumpLib.Web
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An exception has occurred: {ex}");
+                Console.Error.WriteLine($"An exception has occurred: {ex}");
                 return null;
             }
         }
@@ -617,7 +677,7 @@ namespace SabreTools.RedumpLib.Web
                     }
                     catch { }
 
-                    Console.WriteLine($"ID {paddedId} could not be found!");
+                    Console.Error.WriteLine($"ID {paddedId} could not be found!");
                     return false;
                 }
 
@@ -707,7 +767,7 @@ namespace SabreTools.RedumpLib.Web
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An exception has occurred: {ex}");
+                Console.Error.WriteLine($"An exception has occurred: {ex}");
                 return false;
             }
         }
@@ -720,7 +780,7 @@ namespace SabreTools.RedumpLib.Web
         public async Task<string?> DownloadSingleWIPID(int id)
         {
             string paddedId = id.ToString().PadLeft(6, '0');
-            Console.WriteLine($"Processing ID: {paddedId}");
+            Console.WriteLine($"Processing WIP ID: {paddedId}");
             try
             {
                 // Try to retrieve the data
@@ -729,7 +789,7 @@ namespace SabreTools.RedumpLib.Web
 
                 if (discPage is null || discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
                 {
-                    Console.WriteLine($"ID {paddedId} could not be found!");
+                    Console.Error.WriteLine($"ID {paddedId} could not be found!");
                     return null;
                 }
 
@@ -738,7 +798,7 @@ namespace SabreTools.RedumpLib.Web
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An exception has occurred: {ex}");
+                Console.Error.WriteLine($"An exception has occurred: {ex}");
                 return null;
             }
         }
@@ -758,7 +818,7 @@ namespace SabreTools.RedumpLib.Web
 
             string paddedId = id.ToString().PadLeft(6, '0');
             string paddedIdDir = Path.Combine(outDir, paddedId);
-            Console.WriteLine($"Processing ID: {paddedId}");
+            Console.WriteLine($"Processing WIP ID: {paddedId}");
             try
             {
                 // Try to retrieve the data
@@ -779,7 +839,7 @@ namespace SabreTools.RedumpLib.Web
                     }
                     catch { }
 
-                    Console.WriteLine($"ID {paddedId} could not be found!");
+                    Console.Error.WriteLine($"ID {paddedId} could not be found!");
                     return false;
                 }
 
@@ -822,7 +882,7 @@ namespace SabreTools.RedumpLib.Web
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An exception has occurred: {ex}");
+                Console.Error.WriteLine($"An exception has occurred: {ex}");
                 return false;
             }
         }
