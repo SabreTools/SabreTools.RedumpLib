@@ -74,9 +74,9 @@ namespace RedumpTool.Features
             // Start the processing
             Task<List<int>> processingTask;
             if (onlyList)
-                processingTask = Search.ListSearchResults(_client, queryString, NoSlashInput.Value);
+                processingTask = _client.ListSearchResults(queryString, NoSlashInput.Value);
             else
-                processingTask = Search.DownloadSearchResults(_client, queryString, outputDirectory, NoSlashInput.Value);
+                processingTask = _client.DownloadSearchResults(queryString, outputDirectory, NoSlashInput.Value);
 
             // Retrieve the result
             processingTask.Wait();

@@ -17,7 +17,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="force">Force continuation of download</param>
         /// <returns>All disc IDs in last modified range, empty on error</returns>
-        public static async Task<List<int>> DownloadLastModified(RedumpClient rc, string? outDir, bool force)
+        public static async Task<List<int>> DownloadLastModified(this RedumpClient rc, string? outDir, bool force)
         {
             List<int> ids = [];
 
@@ -45,7 +45,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="minId">Starting ID for the range</param>
         /// <param name="maxId">Ending ID for the range (inclusive)</param>
         /// <returns>All disc IDs in last modified range, empty on error</returns>
-        public static async Task<List<int>> DownloadSiteRange(RedumpClient rc, string? outDir, int minId = 0, int maxId = 0)
+        public static async Task<List<int>> DownloadSiteRange(this RedumpClient rc, string? outDir, int minId = 0, int maxId = 0)
         {
             List<int> ids = [];
 

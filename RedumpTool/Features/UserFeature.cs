@@ -61,11 +61,11 @@ namespace RedumpTool.Features
             // Start the processing
             Task<List<int>> processingTask;
             if (onlyList)
-                processingTask = User.ListUser(_client, UsernameInput.Value);
+                processingTask = _client.ListUser(UsernameInput.Value);
             else if (OnlyNewInput.Value)
-                processingTask = User.DownloadUserLastModified(_client, UsernameInput.Value, outputDirectory);
+                processingTask = _client.DownloadUserLastModified(UsernameInput.Value, outputDirectory);
             else
-                processingTask = User.DownloadUser(_client, UsernameInput.Value, outputDirectory);
+                processingTask = _client.DownloadUser(UsernameInput.Value, outputDirectory);
 
             // Retrieve the result
             processingTask.Wait();

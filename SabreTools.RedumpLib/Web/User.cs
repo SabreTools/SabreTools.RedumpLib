@@ -17,7 +17,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="username">Username to check discs for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <returns>All disc IDs for the given user, empty on error</returns>
-        public static async Task<List<int>> DownloadUser(RedumpClient rc, string? username, string? outDir)
+        public static async Task<List<int>> DownloadUser(this RedumpClient rc, string? username, string? outDir)
         {
             List<int> ids = [];
 
@@ -50,7 +50,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="username">Username to check discs for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <returns>All disc IDs for the given user, empty on error</returns>
-        public static async Task<List<int>> DownloadUserLastModified(RedumpClient rc, string? username, string? outDir)
+        public static async Task<List<int>> DownloadUserLastModified(this RedumpClient rc, string? username, string? outDir)
         {
             List<int> ids = [];
 
@@ -82,7 +82,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="rc">RedumpClient for connectivity</param>
         /// <param name="username">Username to check discs for</param>
         /// <returns>All disc IDs for the given user, empty on error</returns>
-        public static async Task<List<int>> ListUser(RedumpClient rc, string? username)
+        public static async Task<List<int>> ListUser(this RedumpClient rc, string? username)
         {
             List<int> ids = [];
 

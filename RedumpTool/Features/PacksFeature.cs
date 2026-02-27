@@ -52,7 +52,7 @@ namespace RedumpTool.Features
                 _client.Login(UsernameInput.Value ?? string.Empty, PasswordInput.Value ?? string.Empty).Wait();
 
             // Start the processing
-            var processingTask = Packs.DownloadPacks(_client, outputDirectory, SubfoldersInput.Value);
+            var processingTask = _client.DownloadPacks(outputDirectory, SubfoldersInput.Value);
 
             // Retrieve the result
             processingTask.Wait();

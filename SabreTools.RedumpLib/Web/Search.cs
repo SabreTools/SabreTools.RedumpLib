@@ -17,7 +17,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="query">Query string to attempt to search for</param>
         /// <param name="noSlash">Don't replace slashes with `-` in queries</param>
         /// <returns>All disc IDs for the given query, empty on error</returns>
-        public static async Task<List<int>> ListSearchResults(RedumpClient rc, string? query, bool noSlash)
+        public static async Task<List<int>> ListSearchResults(this RedumpClient rc, string? query, bool noSlash)
         {
             // If the query is invalid
             if (string.IsNullOrEmpty(query))
@@ -69,7 +69,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="noSlash">Don't replace slashes with `-` in queries</param>
         /// <returns>All disc IDs for the given query, empty on error</returns>
-        public static async Task<List<int>> DownloadSearchResults(RedumpClient rc, string? query, string? outDir, bool noSlash)
+        public static async Task<List<int>> DownloadSearchResults(this RedumpClient rc, string? query, string? outDir, bool noSlash)
         {
             List<int> ids = [];
 

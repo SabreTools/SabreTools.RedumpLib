@@ -75,9 +75,9 @@ namespace RedumpTool.Features
             // Start the processing
             Task<List<int>> processingTask;
             if (onlyNew)
-                processingTask = WIP.DownloadLastSubmitted(_client, outputDirectory);
+                processingTask = _client.DownloadLastSubmitted(outputDirectory);
             else
-                processingTask = WIP.DownloadWIPRange(_client, outputDirectory, minId, maxId);
+                processingTask = _client.DownloadWIPRange(outputDirectory, minId, maxId);
 
             // Retrieve the result
             processingTask.Wait();

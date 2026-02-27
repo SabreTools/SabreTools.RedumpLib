@@ -79,9 +79,9 @@ namespace RedumpTool.Features
             // Start the processing
             Task<List<int>> processingTask;
             if (onlyNew)
-                processingTask = Discs.DownloadLastModified(_client, outputDirectory, ForceInput.Value);
+                processingTask = _client.DownloadLastModified(outputDirectory, ForceInput.Value);
             else
-                processingTask = Discs.DownloadSiteRange(_client, outputDirectory, minId, maxId);
+                processingTask = _client.DownloadSiteRange(outputDirectory, minId, maxId);
 
             // Retrieve the result
             processingTask.Wait();

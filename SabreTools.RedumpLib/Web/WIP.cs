@@ -16,7 +16,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="rc">RedumpClient for connectivity</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <returns>All disc IDs in last submitted range, empty on error</returns>
-        public static async Task<List<int>> DownloadLastSubmitted(RedumpClient rc, string? outDir)
+        public static async Task<List<int>> DownloadLastSubmitted(this RedumpClient rc, string? outDir)
         {
             return await rc.CheckSingleWIPPage(Constants.WipDumpsUrl, outDir, false) ?? [];
         }
@@ -29,7 +29,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="minId">Starting ID for the range</param>
         /// <param name="maxId">Ending ID for the range (inclusive)</param>
         /// <returns>All disc IDs in last submitted range, empty on error</returns>
-        public static async Task<List<int>> DownloadWIPRange(RedumpClient rc, string? outDir, int minId = 0, int maxId = 0)
+        public static async Task<List<int>> DownloadWIPRange(this RedumpClient rc, string? outDir, int minId = 0, int maxId = 0)
         {
             List<int> ids = [];
 
