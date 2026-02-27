@@ -29,6 +29,9 @@ namespace RedumpTool.Features
         private const string _queryName = "query";
         internal readonly StringInput QueryInput = new(_queryName, ["-q", "--query"], "Redump-compatible query to run");
 
+        private const string _quickSearchName = "quicksearch";
+        internal readonly FlagInput QuickSearchInput = new(_quickSearchName, ["-s", "--quick"], "Indicate a query is for the 'quicksearch' path, not 'discs'");
+
         #endregion
 
         public QueryFeature()
@@ -45,6 +48,7 @@ namespace RedumpTool.Features
 
             // Specific
             Add(QueryInput);
+            Add(QuickSearchInput);
             Add(ListInput);
             Add(NoSlashInput);
         }
@@ -57,6 +61,7 @@ namespace RedumpTool.Features
             string? outputDirectory = OutputInput.Value;
             string? queryString = QueryInput.Value;
             int? attemptCount = AttemptCountInput.Value;
+            bool quick = QuickSearchInput.Value;
 
             // Output directory validation
             if (!onlyList && !ValidateAndCreateOutputDirectory(outputDirectory))
@@ -80,10 +85,20 @@ namespace RedumpTool.Features
 
             // Start the processing
             Task<List<int>> processingTask;
-            if (onlyList)
-                processingTask = _client.ListSearchResults(queryString, NoSlashInput.Value);
+            if (quick)
+            {
+                if (onlyList)
+                    processingTask = _client.ListSearchResults(queryString, NoSlashInput.Value);
+                else
+                    processingTask = _client.DownloadSearchResults(queryString, outputDirectory, NoSlashInput.Value);
+            }
             else
-                processingTask = _client.DownloadSearchResults(queryString, outputDirectory, NoSlashInput.Value);
+            {
+                if (onlyList)
+                    processingTask = _client.ListDiscsResults(queryString, NoSlashInput.Value);
+                else
+                    processingTask = _client.DownloadDiscsResults(queryString, outputDirectory, NoSlashInput.Value);
+            }
 
             // Retrieve the result
             processingTask.Wait();
