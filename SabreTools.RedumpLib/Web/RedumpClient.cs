@@ -145,7 +145,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
-                    Console.WriteLine($"Login attempt {i} of {MaxLoginAttempts}");
+                    Console.WriteLine($"Login attempt {i + 1} of {MaxLoginAttempts}");
 
                     // Get the current token from the login page
                     var loginPage = await DownloadString(Constants.LoginUrl);

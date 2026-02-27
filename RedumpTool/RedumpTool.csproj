@@ -29,5 +29,8 @@
     <ItemGroup>
         <ProjectReference Include="..\SabreTools.RedumpLib\SabreTools.RedumpLib.csproj" />
     </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="SabreTools.CommandLine" Version="[1.4.0]" />
+    </ItemGroup>
 
 </Project>
