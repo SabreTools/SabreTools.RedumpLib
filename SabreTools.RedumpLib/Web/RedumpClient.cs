@@ -39,11 +39,6 @@ namespace SabreTools.RedumpLib.Web
         public int RetryCount { get; }
 
         /// <summary>
-        /// Maximum number of seconds for a retry
-        /// </summary>
-        public int TimeoutSeconds { get; }
-
-        /// <summary>
         /// Internal client for interaction
         /// </summary>
 #if NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
@@ -57,7 +52,7 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Constructor
         /// </summary>
-        public RedumpClient(int retryCount = 3, int timeoutSeconds = 30)
+        public RedumpClient(int timeoutSeconds = 30, int retryCount = 3)
         {
             // Ensure there are a positive number of retries
             if (retryCount <= 0)
@@ -68,12 +63,33 @@ namespace SabreTools.RedumpLib.Web
                 timeoutSeconds = 30;
 
             RetryCount = retryCount;
-            TimeoutSeconds = timeoutSeconds;
 
 #if NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
-            _internalClient = new CookieWebClient() { Timeout = TimeSpan.FromSeconds(TimeoutSeconds) };
+            _internalClient = new CookieWebClient() { Timeout = TimeSpan.FromSeconds(timeoutSeconds) };
 #else
-            _internalClient = new HttpClient(new HttpClientHandler { UseCookies = true }) { Timeout = TimeSpan.FromSeconds(TimeoutSeconds) };
+            _internalClient = new HttpClient(new HttpClientHandler { UseCookies = true }) { Timeout = TimeSpan.FromSeconds(timeoutSeconds) };
+#endif
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public RedumpClient(TimeSpan timeout, int retryCount = 3)
+        {
+            // Ensure there are a positive number of retries
+            if (retryCount <= 0)
+                retryCount = 3;
+
+            // Ensure a positive timespan
+            if (timeout <= TimeSpan.Zero)
+                timeout = TimeSpan.FromSeconds(30);
+
+            RetryCount = retryCount;
+
+#if NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
+            _internalClient = new CookieWebClient() { Timeout = timeout };
+#else
+            _internalClient = new HttpClient(new HttpClientHandler { UseCookies = true }) { Timeout = timeout };
 #endif
         }
 
