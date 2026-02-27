@@ -16,15 +16,6 @@ namespace SabreTools.RedumpLib.Web
 {
     public class RedumpClient
     {
-        #region Constants
-
-        /// <summary>
-        /// Maximum number of login attempts
-        /// </summary>
-        private const int MaxLoginAttempts = 3;
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -140,12 +131,12 @@ namespace SabreTools.RedumpLib.Web
             password = WebUtility.UrlEncode(password);
 #endif
 
-            // Attempt to login up to 3 times
-            for (int i = 0; i < 3; i++)
+            // Attempt to login up as many times as the retry count allows
+            for (int i = 0; i < RetryCount; i++)
             {
                 try
                 {
-                    Console.WriteLine($"Login attempt {i + 1} of {MaxLoginAttempts}");
+                    Console.WriteLine($"Login attempt {i + 1} of {RetryCount}");
 
                     // Get the current token from the login page
                     var loginPage = await DownloadString(Constants.LoginUrl);
@@ -200,7 +191,7 @@ namespace SabreTools.RedumpLib.Web
                 }
             }
 
-            Console.Error.WriteLine($"Could not login to Redump in {MaxLoginAttempts} attempts, continuing without logging in...");
+            Console.Error.WriteLine($"Could not login to Redump in {RetryCount} attempts, continuing without logging in...");
             return false;
         }
 
