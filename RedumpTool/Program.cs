@@ -31,6 +31,7 @@ namespace RedumpTool
                 case SiteFeature sf: sf.ProcessArgs(args, 1); sf.Execute(); return;
                 case WIPFeature wf: wf.ProcessArgs(args, 1); wf.Execute(); return;
                 case PacksFeature pf: pf.ProcessArgs(args, 1); pf.Execute(); return;
+                case UserFeature uf: uf.ProcessArgs(args, 1); uf.Execute(); return;
                 case QueryFeature qf: qf.ProcessArgs(args, 1); qf.Execute(); return;
 
                 default:
