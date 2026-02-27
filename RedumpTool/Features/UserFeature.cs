@@ -64,16 +64,16 @@ namespace RedumpTool.Features
             if (!onlyList && !ValidateAndCreateOutputDirectory(outDir))
                 return false;
 
-            // Login to Redump, if necessary
-            if (!_client.LoggedIn)
-                _client.Login(username, password).Wait();
-
             // Update client properties
             _client.Debug = DebugInput.Value;
             if (attemptCount != null && attemptCount > 0)
                 _client.AttemptCount = attemptCount.Value;
             if (timeout != null && timeout > 0)
                 _client.Timeout = TimeSpan.FromSeconds(timeout.Value);
+
+            // Login to Redump, if necessary
+            if (!_client.LoggedIn)
+                _client.Login(username, password).Wait();
 
             // Start the processing
             Task<List<int>> processingTask;
