@@ -223,7 +223,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: DownloadData(\"{uri}\")");
+                    if (Debug) Console.WriteLine($"DEBUG: DownloadData(\"{uri}\"), Attempt {i + 1} of {RetryCount}");
 #if NET40
                     return await Task.Factory.StartNew(() => _internalClient.DownloadData(uri));
 #elif NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
@@ -291,7 +291,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: DownloadString(\"{uri}\")");
+                    if (Debug) Console.WriteLine($"DEBUG: DownloadString(\"{uri}\"), Attempt {i + 1} of {RetryCount}");
 #if NET40
                     return await Task.Factory.StartNew(() => _internalClient.DownloadString(uri));
 #elif NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
