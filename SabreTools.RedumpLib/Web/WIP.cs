@@ -13,27 +13,27 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Download the last submitted WIP disc pages
         /// </summary>
-        /// <param name="rc">RedumpClient for connectivity</param>
+        /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <returns>All disc IDs in last submitted range, empty on error</returns>
-        public static async Task<List<int>> DownloadLastSubmitted(this RedumpClient rc, string? outDir)
+        public static async Task<List<int>> DownloadLastSubmitted(this RedumpClient client, string? outDir)
         {
-            return await rc.CheckSingleWIPPage(Constants.WipDumpsUrl, outDir, false) ?? [];
+            return await client.CheckSingleWIPPage(Constants.WipDumpsUrl, outDir, false) ?? [];
         }
 
         /// <summary>
         /// Download the specified range of WIP disc pages
         /// </summary>
-        /// <param name="rc">RedumpClient for connectivity</param>
+        /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="minId">Starting ID for the range</param>
         /// <param name="maxId">Ending ID for the range (inclusive)</param>
         /// <returns>All disc IDs in last submitted range, empty on error</returns>
-        public static async Task<List<int>> DownloadWIPRange(this RedumpClient rc, string? outDir, int minId = 0, int maxId = 0)
+        public static async Task<List<int>> DownloadWIPRange(this RedumpClient client, string? outDir, int minId = 0, int maxId = 0)
         {
             List<int> ids = [];
 
-            if (!rc.LoggedIn || !rc.IsStaff)
+            if (!client.LoggedIn || !client.IsStaff)
             {
                 Console.WriteLine("WIP download functionality is only available to Redump moderators");
                 return ids;
@@ -42,7 +42,7 @@ namespace SabreTools.RedumpLib.Web
             for (int id = minId; id <= maxId; id++)
             {
                 ids.Add(id);
-                if (await rc.DownloadSingleWIPID(id, outDir, true))
+                if (await client.DownloadSingleWIPID(id, outDir, true))
                 {
                     // Intentional delay here so we don't flood the server
                     DelayHelper.DelayRandom();

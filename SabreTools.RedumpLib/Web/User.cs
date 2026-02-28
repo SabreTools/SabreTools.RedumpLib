@@ -13,15 +13,15 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Download the disc pages associated with the given user
         /// </summary>
-        /// <param name="rc">RedumpClient for connectivity</param>
+        /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="username">Username to check discs for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <returns>All disc IDs for the given user, empty on error</returns>
-        public static async Task<List<int>> DownloadUser(this RedumpClient rc, string? username, string? outDir)
+        public static async Task<List<int>> DownloadUser(this RedumpClient client, string? username, string? outDir)
         {
             List<int> ids = [];
 
-            if (!rc.LoggedIn || string.IsNullOrEmpty(username))
+            if (!client.LoggedIn || string.IsNullOrEmpty(username))
             {
                 Console.WriteLine("User download functionality is only available to Redump members");
                 return ids;
@@ -31,7 +31,7 @@ namespace SabreTools.RedumpLib.Web
             int pageNumber = 1;
             while (true)
             {
-                var pageIds = await rc.CheckSingleSitePage(string.Format(Constants.UserDumpsUrl, username, pageNumber++), outDir, false);
+                var pageIds = await client.CheckSingleSitePage(string.Format(Constants.UserDumpsUrl, username, pageNumber++), outDir, false);
                 if (pageIds is null)
                     return [];
 
@@ -46,15 +46,15 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Download the last modified disc pages associated with the given user, until first failure
         /// </summary>
-        /// <param name="rc">RedumpClient for connectivity</param>
+        /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="username">Username to check discs for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <returns>All disc IDs for the given user, empty on error</returns>
-        public static async Task<List<int>> DownloadUserLastModified(this RedumpClient rc, string? username, string? outDir)
+        public static async Task<List<int>> DownloadUserLastModified(this RedumpClient client, string? username, string? outDir)
         {
             List<int> ids = [];
 
-            if (!rc.LoggedIn || string.IsNullOrEmpty(username))
+            if (!client.LoggedIn || string.IsNullOrEmpty(username))
             {
                 Console.WriteLine("User download functionality is only available to Redump members");
                 return ids;
@@ -64,7 +64,7 @@ namespace SabreTools.RedumpLib.Web
             int pageNumber = 1;
             while (true)
             {
-                var pageIds = await rc.CheckSingleSitePage(string.Format(Constants.UserDumpsLastModifiedUrl, username, pageNumber++), outDir, true);
+                var pageIds = await client.CheckSingleSitePage(string.Format(Constants.UserDumpsLastModifiedUrl, username, pageNumber++), outDir, true);
                 if (pageIds is null)
                     return [];
 
@@ -79,14 +79,14 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// List the disc IDs associated with the given user
         /// </summary>
-        /// <param name="rc">RedumpClient for connectivity</param>
+        /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="username">Username to check discs for</param>
         /// <returns>All disc IDs for the given user, empty on error</returns>
-        public static async Task<List<int>> ListUser(this RedumpClient rc, string? username)
+        public static async Task<List<int>> ListUser(this RedumpClient client, string? username)
         {
             List<int> ids = [];
 
-            if (!rc.LoggedIn || string.IsNullOrEmpty(username))
+            if (!client.LoggedIn || string.IsNullOrEmpty(username))
             {
                 Console.WriteLine("User download functionality is only available to Redump members");
                 return ids;
@@ -98,7 +98,7 @@ namespace SabreTools.RedumpLib.Web
                 int pageNumber = 1;
                 while (true)
                 {
-                    var pageIds = await rc.CheckSingleSitePage(string.Format(Constants.UserDumpsUrl, username, pageNumber++));
+                    var pageIds = await client.CheckSingleSitePage(string.Format(Constants.UserDumpsUrl, username, pageNumber++));
                     if (pageIds is null)
                         return [];
 

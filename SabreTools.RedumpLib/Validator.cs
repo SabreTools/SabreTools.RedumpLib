@@ -80,11 +80,11 @@ namespace SabreTools.RedumpLib
         /// <summary>
         /// List the disc IDs associated with a given quicksearch query
         /// </summary>
-        /// <param name="rc">RedumpClient for making the connection</param>
+        /// <param name="client">RedumpClient for making the connection</param>
         /// <param name="query">Query string to attempt to search for</param>
         /// <param name="filterForwardSlashes">True to filter forward slashes, false otherwise</param>
         /// <returns>All disc IDs for the given query, null on error</returns>
-        public static async Task<List<int>?> ListSearchResults(RedumpClient rc, string? query, bool filterForwardSlashes = true)
+        public static async Task<List<int>?> ListSearchResults(RedumpClient client, string? query, bool filterForwardSlashes = true)
         {
             // If there is an invalid query
             if (string.IsNullOrEmpty(query))
@@ -110,7 +110,7 @@ namespace SabreTools.RedumpLib
                 int pageNumber = 1;
                 while (true)
                 {
-                    List<int>? pageIds = await rc.CheckSingleSitePage(string.Format(Constants.QuickSearchUrl, query, pageNumber++));
+                    List<int>? pageIds = await client.CheckSingleSitePage(string.Format(Constants.QuickSearchUrl, query, pageNumber++));
                     if (pageIds is null)
                         return null;
 
@@ -131,14 +131,14 @@ namespace SabreTools.RedumpLib
         /// <summary>
         /// Validate a single track against Redump, if possible
         /// </summary>
-        /// <param name="rc">RedumpClient for making the connection</param>
+        /// <param name="client">RedumpClient for making the connection</param>
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <param name="sha1">SHA-1 hash to check against</param>
         /// <returns>List of found values, if possible</returns>
-        public static async Task<List<int>?> ValidateSingleTrack(RedumpClient rc, SubmissionInfo info, string? sha1)
+        public static async Task<List<int>?> ValidateSingleTrack(RedumpClient client, SubmissionInfo info, string? sha1)
         {
             // Get all matching IDs for the track
-            var newIds = await ListSearchResults(rc, sha1);
+            var newIds = await ListSearchResults(client, sha1);
 
             // If we got null back, there was an error
             if (newIds is null)
@@ -160,10 +160,10 @@ namespace SabreTools.RedumpLib
         /// <summary>
         /// Validate a universal hash against Redump, if possible
         /// </summary>
-        /// <param name="rc">RedumpClient for making the connection</param>
+        /// <param name="client">RedumpClient for making the connection</param>
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <returns>List of found values, if possible</returns>
-        public static async Task<List<int>?> ValidateUniversalHash(RedumpClient rc, SubmissionInfo info)
+        public static async Task<List<int>?> ValidateUniversalHash(RedumpClient client, SubmissionInfo info)
         {
             // If we don't have special fields
             if (info.CommonDiscInfo.CommentsSpecialFields is null)
@@ -182,7 +182,7 @@ namespace SabreTools.RedumpLib
 #endif
 
             // Get all matching IDs for the hash
-            var newIds = await ListSearchResults(rc, universalHashQuery, filterForwardSlashes: false);
+            var newIds = await ListSearchResults(client, universalHashQuery, filterForwardSlashes: false);
 
             // If we got null back, there was an error
             if (newIds is null)
@@ -204,14 +204,14 @@ namespace SabreTools.RedumpLib
         /// <summary>
         /// Validate that the current track count and remote track count match
         /// </summary>
-        /// <param name="rc">RedumpClient for making the connection</param>
+        /// <param name="client">RedumpClient for making the connection</param>
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <param name="localCount">Local count of tracks for the current disc</param>
         /// <returns>True if the track count matches, false otherwise</returns>
-        public static async Task<bool> ValidateTrackCount(RedumpClient rc, int id, int localCount)
+        public static async Task<bool> ValidateTrackCount(RedumpClient client, int id, int localCount)
         {
             // If we can't pull the remote data, we can't match
-            string? discData = await rc.DownloadSingleSiteID(id);
+            string? discData = await client.DownloadSingleSiteID(id);
             if (string.IsNullOrEmpty(discData))
                 return false;
 

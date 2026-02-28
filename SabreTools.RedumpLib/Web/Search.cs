@@ -13,11 +13,11 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// List the disc IDs associated with a given quicksearch query
         /// </summary>
-        /// <param name="rc">RedumpClient for connectivity</param>
+        /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="query">Query string to attempt to search for</param>
         /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
         /// <returns>All disc IDs for the given query, empty on error</returns>
-        public static async Task<List<int>> ListSearchResults(this RedumpClient rc, string? query, bool convertForwardSlashes)
+        public static async Task<List<int>> ListSearchResults(this RedumpClient client, string? query, bool convertForwardSlashes)
         {
             // If the query is invalid
             if (string.IsNullOrEmpty(query))
@@ -45,7 +45,7 @@ namespace SabreTools.RedumpLib.Web
                 int pageNumber = 1;
                 while (true)
                 {
-                    var pageIds = await rc.CheckSingleSitePage(string.Format(Constants.QuickSearchUrl, query, pageNumber++));
+                    var pageIds = await client.CheckSingleSitePage(string.Format(Constants.QuickSearchUrl, query, pageNumber++));
                     if (pageIds is null)
                         return [];
 
@@ -66,12 +66,12 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Download the disc pages associated with a given quicksearch query
         /// </summary>
-        /// <param name="rc">RedumpClient for connectivity</param>
+        /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="query">Query string to attempt to search for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
         /// <returns>All disc IDs for the given query, empty on error</returns>
-        public static async Task<List<int>> DownloadSearchResults(this RedumpClient rc, string? query, string? outDir, bool convertForwardSlashes)
+        public static async Task<List<int>> DownloadSearchResults(this RedumpClient client, string? query, string? outDir, bool convertForwardSlashes)
         {
             List<int> ids = [];
 
@@ -97,7 +97,7 @@ namespace SabreTools.RedumpLib.Web
             int pageNumber = 1;
             while (true)
             {
-                var pageIds = await rc.CheckSingleSitePage(string.Format(Constants.QuickSearchUrl, query, pageNumber++), outDir, false);
+                var pageIds = await client.CheckSingleSitePage(string.Format(Constants.QuickSearchUrl, query, pageNumber++), outDir, false);
                 if (pageIds is null)
                     return [];
 
