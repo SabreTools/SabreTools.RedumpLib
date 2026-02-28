@@ -8,7 +8,6 @@ using System.Net.Http.Headers;
 #endif
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
 
@@ -240,8 +239,8 @@ namespace SabreTools.RedumpLib.Web
                 }
                 catch { }
 
-                // Sleep for 100ms if the last attempt failed
-                Thread.Sleep(100);
+                // Intentional delay here so we don't flood the server
+                DelayHelper.DelayRandom();
             }
 
             Console.Error.WriteLine($"Could not download \"{uri}\" after {AttemptCount} attempts");
@@ -297,8 +296,8 @@ namespace SabreTools.RedumpLib.Web
                 }
                 catch { }
 
-                // Sleep for 100ms if the last attempt failed
-                Thread.Sleep(100);
+                // Intentional delay here so we don't flood the server
+                DelayHelper.DelayRandom();
             }
 
             Console.Error.WriteLine($"Could not download \"{uri}\" after {AttemptCount} attempts");
@@ -331,8 +330,8 @@ namespace SabreTools.RedumpLib.Web
                 }
                 catch { }
 
-                // Sleep for 100ms if the last attempt failed
-                Thread.Sleep(100);
+                // Intentional delay here so we don't flood the server
+                DelayHelper.DelayRandom();
             }
 
             Console.Error.WriteLine($"Could not download \"{uri}\" after {AttemptCount} attempts");

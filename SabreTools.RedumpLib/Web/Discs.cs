@@ -158,7 +158,10 @@ namespace SabreTools.RedumpLib.Web
             {
                 ids.Add(id);
                 if (await rc.DownloadSingleSiteID(id, outDir, true))
-                    DelayHelper.DelayRandom(); // Intentional sleep here so we don't flood the server
+                {
+                    // Intentional delay here so we don't flood the server
+                    DelayHelper.DelayRandom();
+                }
             }
 
             return ids;
