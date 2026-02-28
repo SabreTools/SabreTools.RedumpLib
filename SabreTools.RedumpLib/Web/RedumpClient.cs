@@ -731,8 +731,12 @@ namespace SabreTools.RedumpLib.Web
                         return false;
                     }
 
+                    // Check the added date as a backup
+                    oldResult = Constants.AddedRegex.Match(oldDiscPage);
+                    newResult = Constants.AddedRegex.Match(discPage);
+
                     // If the downloaded data is invalid or otherwise empty, skip it
-                    else if (oldResult.Success && !newResult.Success)
+                    if (oldResult.Success && !newResult.Success)
                     {
                         Console.WriteLine($"ID {paddedId} retieved an empty page, skipping...");
                         return false;
@@ -910,8 +914,12 @@ namespace SabreTools.RedumpLib.Web
                         return false;
                     }
 
+                    // Check the added date as a backup
+                    oldResult = Constants.AddedRegex.Match(oldDiscPage);
+                    newResult = Constants.AddedRegex.Match(discPage);
+
                     // If the downloaded data is invalid or otherwise empty, skip it
-                    else if (oldResult.Success && !newResult.Success)
+                    if (oldResult.Success && !newResult.Success)
                     {
                         Console.WriteLine($"ID {paddedId} retieved an empty page, skipping...");
                         return false;
