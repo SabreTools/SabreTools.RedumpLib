@@ -278,7 +278,10 @@ namespace SabreTools.RedumpLib.Web
                     // Make the call to get the file
                     var response = await _internalClient.GetAsync(uri);
                     if (response?.Content?.Headers is null || !response.IsSuccessStatusCode)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: DownloadFile failed, continuing...");
                         continue;
+                    }
 
                     // Copy the data to a local temp file
                     using (var responseStream = await response.Content.ReadAsStreamAsync())
@@ -292,14 +295,20 @@ namespace SabreTools.RedumpLib.Web
                     await Task.Factory.StartNew(() => { _internalClient.DownloadFile(uri, fileName); return true; });
                     string? lastFilename = _internalClient.GetLastFilename();
                     if (lastFilename is null)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: DownloadFile failed, continuing...");
                         continue;
+                    }
 
                     return lastFilename;
 #else
                     await Task.Run(() => _internalClient.DownloadFile(uri, fileName));
                     string? lastFilename = _internalClient.GetLastFilename();
                     if (lastFilename is null)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: DownloadFile failed, continuing...");
                         continue;
+                    }
 
                     return lastFilename;
 #endif
@@ -862,7 +871,7 @@ namespace SabreTools.RedumpLib.Web
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrEmpty(outDir))
             {
-                if (Debug) Console.WriteLine("Output directory was not provided, setting to current directory");
+                if (Debug) Console.WriteLine("DEBUG: Output directory was not provided, setting to current directory");
                 outDir = Environment.CurrentDirectory;
             }
 
@@ -974,14 +983,14 @@ namespace SabreTools.RedumpLib.Web
                 // If the system is invalid, we can't do anything
                 if (!system.IsAvailable())
                 {
-                    if (Debug) Console.WriteLine($"{system} is not marked as available on Redump, skipping...");
+                    if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
                     continue;
                 }
 
                 // If we didn't have credentials
                 if (!_loggedIn && system.IsBanned())
                 {
-                    if (Debug) Console.WriteLine($"{system} requires a user login to access, skipping...");
+                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access, skipping...");
                     continue;
                 }
 
@@ -989,7 +998,7 @@ namespace SabreTools.RedumpLib.Web
                 string? longName = system.LongName();
                 if (string.IsNullOrEmpty(longName))
                 {
-                    if (Debug) Console.WriteLine($"{system} is not a recognized system, skipping...");
+                    if (Debug) Console.WriteLine($"DEBUG: {system} is not a recognized system, skipping...");
                     continue;
                 }
 
@@ -1029,14 +1038,14 @@ namespace SabreTools.RedumpLib.Web
                 // If the system is invalid, we can't do anything
                 if (!system.IsAvailable())
                 {
-                    if (Debug) Console.WriteLine($"{system} is not marked as available on Redump, skipping...");
+                    if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
                     continue;
                 }
 
                 // If we didn't have credentials
                 if (!_loggedIn && system.IsBanned())
                 {
-                    if (Debug) Console.WriteLine($"{system} requires a user login to access, skipping...");
+                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access, skipping...");
                     continue;
                 }
 
@@ -1044,7 +1053,7 @@ namespace SabreTools.RedumpLib.Web
                 string? longName = system.LongName();
                 if (string.IsNullOrEmpty(longName))
                 {
-                    if (Debug) Console.WriteLine($"{system} is not a recognized system, skipping...");
+                    if (Debug) Console.WriteLine($"DEBUG: {system} is not a recognized system, skipping...");
                     continue;
                 }
 
