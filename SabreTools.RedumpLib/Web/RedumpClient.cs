@@ -258,18 +258,23 @@ namespace SabreTools.RedumpLib.Web
                     if (Debug) Console.WriteLine($"DEBUG: DownloadFile(\"{uri}\", \"{fileName}\"), Attempt {i + 1} of {AttemptCount}");
 #if NET40
                     await Task.Factory.StartNew(() => { _internalClient.DownloadFile(uri, fileName); return true; });
-                    return _internalClient.GetLastFilename();
+                    string? lastFilename = _internalClient.GetLastFilename();
+                    if (lastFilename == null)
+                        continue;
+
+                    return lastFilename;
 #elif NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
                     await Task.Run(() => _internalClient.DownloadFile(uri, fileName));
-                    return _internalClient.GetLastFilename();
+                    string? lastFilename = _internalClient.GetLastFilename();
+                    if (lastFilename == null)
+                        continue;
+
+                    return lastFilename;
 #else
                     // Make the call to get the file
                     var response = await _internalClient.GetAsync(uri);
                     if (response?.Content?.Headers is null || !response.IsSuccessStatusCode)
-                    {
-                        Console.Error.WriteLine($"Could not download {uri}");
-                        return null;
-                    }
+                        continue;
 
                     // Copy the data to a local temp file
                     using (var responseStream = await response.Content.ReadAsStreamAsync())
