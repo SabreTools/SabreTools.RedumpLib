@@ -235,6 +235,7 @@ namespace SabreTools.RedumpLib.Web
                 Thread.Sleep(100);
             }
 
+            Console.Error.WriteLine($"Could not download \"{uri}\" after {AttemptCount} attempts");
             return null;
         }
 
@@ -286,6 +287,7 @@ namespace SabreTools.RedumpLib.Web
                 Thread.Sleep(100);
             }
 
+            Console.Error.WriteLine($"Could not download \"{uri}\" after {AttemptCount} attempts");
             return null;
         }
 
@@ -319,6 +321,7 @@ namespace SabreTools.RedumpLib.Web
                 Thread.Sleep(100);
             }
 
+            Console.Error.WriteLine($"Could not download \"{uri}\" after {AttemptCount} attempts");
             return null;
         }
 
@@ -638,7 +641,12 @@ namespace SabreTools.RedumpLib.Web
                 string discPageUri = string.Format(Constants.DiscPageUrl, +id);
                 string? discPage = await DownloadString(discPageUri);
 
-                if (discPage is null || discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
+                if (discPage is null)
+                {
+                    Console.Error.WriteLine($"An error occurred retrieving ID {paddedId}!");
+                    return null;
+                }
+                else if (discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
                 {
                     Console.Error.WriteLine($"ID {paddedId} could not be found!");
                     return null;
@@ -676,7 +684,12 @@ namespace SabreTools.RedumpLib.Web
                 string discPageUri = string.Format(Constants.DiscPageUrl, +id);
                 string? discPage = await DownloadString(discPageUri);
 
-                if (discPage is null || discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
+                if (discPage is null)
+                {
+                    Console.Error.WriteLine($"An error occurred retrieving ID {paddedId}!");
+                    return false;
+                }
+                else if (discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
                 {
                     try
                     {
@@ -800,7 +813,12 @@ namespace SabreTools.RedumpLib.Web
                 string discPageUri = string.Format(Constants.WipDiscPageUrl, +id);
                 string? discPage = await DownloadString(discPageUri);
 
-                if (discPage is null || discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
+                if (discPage is null)
+                {
+                    Console.Error.WriteLine($"An error occurred retrieving ID {paddedId}!");
+                    return null;
+                }
+                else if (discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
                 {
                     Console.Error.WriteLine($"ID {paddedId} could not be found!");
                     return null;
@@ -838,7 +856,12 @@ namespace SabreTools.RedumpLib.Web
                 string discPageUri = string.Format(Constants.WipDiscPageUrl, +id);
                 string? discPage = await DownloadString(discPageUri);
 
-                if (discPage is null || discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
+                if (discPage is null)
+                {
+                    Console.Error.WriteLine($"An error occurred retrieving ID {paddedId}!");
+                    return false;
+                }
+                else if (discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
                 {
                     try
                     {
