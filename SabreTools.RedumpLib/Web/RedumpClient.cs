@@ -62,13 +62,13 @@ namespace SabreTools.RedumpLib.Web
         #region Fields
 
         /// <summary>
-        /// Determines if user is logged into Redump
+        /// Indicates if user is logged into Redump
         /// </summary>
         /// <remarks>Modifying to set as true does not change actual logged-in status</remarks>
         private bool _loggedIn = false;
 
         /// <summary>
-        /// Determines if the user is a staff member
+        /// Indicates if the user is a staff member
         /// </summary>
         /// <remarks>Modifying to set as true does not change actual staff status</remarks>
         private bool _staffMember = false;
