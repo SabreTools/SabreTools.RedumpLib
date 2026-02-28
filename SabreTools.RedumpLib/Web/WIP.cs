@@ -33,10 +33,10 @@ namespace SabreTools.RedumpLib.Web
             List<int> ids = [];
             for (int id = minId; id <= maxId; id++)
             {
-                ids.Add(id);
-                if (await client.DownloadSingleWIPID(id, outDir, true))
+                bool downloaded = await client.DownloadSingleWIPID(id, outDir, true);
+                if (downloaded)
                 {
-                    // Intentional delay here so we don't flood the server
+                    ids.Add(id);
                     DelayHelper.DelayRandom();
                 }
             }
