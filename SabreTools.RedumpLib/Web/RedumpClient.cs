@@ -51,10 +51,10 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Internal client for interaction
         /// </summary>
-#if NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
-        private readonly CookieWebClient _internalClient;
-#else
+#if NETCOREAPP
         private readonly HttpClient _internalClient;
+#else
+        private readonly CookieWebClient _internalClient;
 #endif
 
         #endregion
@@ -80,10 +80,10 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         public RedumpClient()
         {
-#if NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
-            _internalClient = new CookieWebClient();
-#else
+#if NETCOREAPP
             _internalClient = new HttpClient(new HttpClientHandler { UseCookies = true });
+#else
+            _internalClient = new CookieWebClient();
 #endif
             Timeout = TimeSpan.FromSeconds(30);
         }
@@ -160,14 +160,7 @@ namespace SabreTools.RedumpLib.Web
                     var loginPage = await DownloadString(Constants.LoginUrl);
                     string token = Constants.TokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
 
-#if NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
-                    // Construct the login request
-                    _internalClient.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                    _internalClient.Encoding = Encoding.UTF8;
-
-                    // Send the login request and get the result
-                    string? responseContent = _internalClient.UploadString(Constants.LoginUrl, $"form_sent=1&redirect_url=&csrf_token={token}&req_username={username}&req_password={password}&save_pass=0");
-#else
+#if NETCOREAPP
                     // Construct the login request
                     var postContent = new StringContent($"form_sent=1&redirect_url=&csrf_token={token}&req_username={username}&req_password={password}&save_pass=0", Encoding.UTF8);
                     postContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
@@ -177,6 +170,13 @@ namespace SabreTools.RedumpLib.Web
                     string? responseContent = null;
                     if (response?.Content is not null)
                         responseContent = await response.Content.ReadAsStringAsync();
+#else
+                    // Construct the login request
+                    _internalClient.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+                    _internalClient.Encoding = Encoding.UTF8;
+
+                    // Send the login request and get the result
+                    string? responseContent = _internalClient.UploadString(Constants.LoginUrl, $"form_sent=1&redirect_url=&csrf_token={token}&req_username={username}&req_password={password}&save_pass=0");
 #endif
 
                     // An empty response indicates an error
@@ -236,12 +236,12 @@ namespace SabreTools.RedumpLib.Web
                 try
                 {
                     if (Debug) Console.WriteLine($"DEBUG: DownloadData(\"{uri}\"), Attempt {i + 1} of {AttemptCount}");
-#if NET40
-                    return await Task.Factory.StartNew(() => _internalClient.DownloadData(uri));
-#elif NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
-                    return await Task.Run(() => _internalClient.DownloadData(uri));
-#else
+#if NETCOREAPP
                     return await _internalClient.GetByteArrayAsync(uri);
+#elif NET40
+                    return await Task.Factory.StartNew(() => _internalClient.DownloadData(uri));
+#else
+                    return await Task.Run(() => _internalClient.DownloadData(uri));
 #endif
                 }
                 catch { }
@@ -274,21 +274,7 @@ namespace SabreTools.RedumpLib.Web
                 try
                 {
                     if (Debug) Console.WriteLine($"DEBUG: DownloadFile(\"{uri}\", \"{fileName}\"), Attempt {i + 1} of {AttemptCount}");
-#if NET40
-                    await Task.Factory.StartNew(() => { _internalClient.DownloadFile(uri, fileName); return true; });
-                    string? lastFilename = _internalClient.GetLastFilename();
-                    if (lastFilename is null)
-                        continue;
-
-                    return lastFilename;
-#elif NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
-                    await Task.Run(() => _internalClient.DownloadFile(uri, fileName));
-                    string? lastFilename = _internalClient.GetLastFilename();
-                    if (lastFilename is null)
-                        continue;
-
-                    return lastFilename;
-#else
+#if NETCOREAPP
                     // Make the call to get the file
                     var response = await _internalClient.GetAsync(uri);
                     if (response?.Content?.Headers is null || !response.IsSuccessStatusCode)
@@ -302,6 +288,20 @@ namespace SabreTools.RedumpLib.Web
                     }
 
                     return response.Content.Headers.ContentDisposition?.FileName?.Replace("\"", "");
+#elif NET40
+                    await Task.Factory.StartNew(() => { _internalClient.DownloadFile(uri, fileName); return true; });
+                    string? lastFilename = _internalClient.GetLastFilename();
+                    if (lastFilename is null)
+                        continue;
+
+                    return lastFilename;
+#else
+                    await Task.Run(() => _internalClient.DownloadFile(uri, fileName));
+                    string? lastFilename = _internalClient.GetLastFilename();
+                    if (lastFilename is null)
+                        continue;
+
+                    return lastFilename;
 #endif
                 }
                 catch { }
@@ -333,12 +333,12 @@ namespace SabreTools.RedumpLib.Web
                 try
                 {
                     if (Debug) Console.WriteLine($"DEBUG: DownloadString(\"{uri}\"), Attempt {i + 1} of {AttemptCount}");
-#if NET40
-                    return await Task.Factory.StartNew(() => _internalClient.DownloadString(uri));
-#elif NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
-                    return await Task.Run(() => _internalClient.DownloadString(uri));
-#else
+#if NETCOREAPP
                     return await _internalClient.GetStringAsync(uri);
+#elif NET40
+                    return await Task.Factory.StartNew(() => _internalClient.DownloadString(uri));
+#else
+                    return await Task.Run(() => _internalClient.DownloadString(uri));
 #endif
                 }
                 catch { }
@@ -564,12 +564,12 @@ namespace SabreTools.RedumpLib.Web
             try
             {
                 if (Debug) Console.WriteLine($"DEBUG: DownloadSinglePack(\"{url}\", {system})");
-#if NET40
-                return await Task.Factory.StartNew(() => _internalClient.DownloadData(string.Format(url, system.ShortName())));
-#elif NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
-                return await Task.Run(() => _internalClient.DownloadData(string.Format(url, system.ShortName())));
-#else
+#if NETCOREAPP
                 return await _internalClient.GetByteArrayAsync(string.Format(url, system.ShortName()));
+#elif NET40
+                return await Task.Factory.StartNew(() => _internalClient.DownloadData(string.Format(url, system.ShortName())));
+#else
+                return await Task.Run(() => _internalClient.DownloadData(string.Format(url, system.ShortName())));
 #endif
             }
             catch (Exception ex)
