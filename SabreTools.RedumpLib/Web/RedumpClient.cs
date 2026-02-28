@@ -277,14 +277,14 @@ namespace SabreTools.RedumpLib.Web
 #if NET40
                     await Task.Factory.StartNew(() => { _internalClient.DownloadFile(uri, fileName); return true; });
                     string? lastFilename = _internalClient.GetLastFilename();
-                    if (lastFilename == null)
+                    if (lastFilename is null)
                         continue;
 
                     return lastFilename;
 #elif NETFRAMEWORK || NETSTANDARD2_0_OR_GREATER
                     await Task.Run(() => _internalClient.DownloadFile(uri, fileName));
                     string? lastFilename = _internalClient.GetLastFilename();
-                    if (lastFilename == null)
+                    if (lastFilename is null)
                         continue;
 
                     return lastFilename;
@@ -423,59 +423,25 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
         public async Task<List<int>?> CheckSingleSitePage(string url, string? outDir, bool force)
         {
-            List<int> ids = [];
-
-            // Try to retrieve the data
-            string? dumpsPage = await DownloadString(url);
-
-            // If the web client failed, return null
-            if (dumpsPage is null)
+            // Get all IDs from the page
+            List<int>? ids = await CheckSingleSitePage(url);
+            if (ids is null)
             {
                 if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\", {force}) - Client failure");
                 return null;
             }
 
-            // If we have no dumps left
-            if (dumpsPage.Contains("No discs found."))
+            // Try to download all IDs
+            List<int> processed = [];
+            foreach (int id in ids)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\", {force}) - No discs found");
-                return ids;
-            }
-
-            // If we have a single disc page already
-            if (dumpsPage.Contains("<b>Download:</b>"))
-            {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\", {force}) - Single disc page");
-                var value = Constants.SfvRegex.Match(dumpsPage).Groups[1].Value;
-                if (int.TryParse(value, out int id))
+                try
                 {
                     bool downloaded = await DownloadSingleSiteID(id, outDir, false);
                     if (!downloaded && !force)
-                        return ids;
+                        return processed;
 
-                    ids.Add(id);
-                }
-
-                return ids;
-            }
-
-            // Otherwise, traverse each dump on the page
-            var matches = Constants.DiscRegex.Matches(dumpsPage);
-            foreach (Match? match in matches)
-            {
-                if (match is null)
-                    continue;
-
-                try
-                {
-                    if (int.TryParse(match.Groups[1].Value, out int value))
-                    {
-                        bool downloaded = await DownloadSingleSiteID(value, outDir, false);
-                        if (!downloaded && !force)
-                            return ids;
-
-                        ids.Add(value);
-                    }
+                    processed.Add(id);
                 }
                 catch (Exception ex)
                 {
@@ -484,7 +450,7 @@ namespace SabreTools.RedumpLib.Web
                 }
             }
 
-            return ids;
+            return processed;
         }
 
         /// <summary>
@@ -501,7 +467,7 @@ namespace SabreTools.RedumpLib.Web
             if (!_loggedIn || !_staffMember)
             {
                 Console.Error.WriteLine("WIP download functionality is only available to Redump moderators");
-                return ids;
+                return null;
             }
 
             // Try to retrieve the data
@@ -553,57 +519,34 @@ namespace SabreTools.RedumpLib.Web
         /// <remarks>Limited to moderators and staff</remarks>
         public async Task<List<int>?> CheckSingleWIPPage(string url, string? outDir, bool force)
         {
-            List<int> ids = [];
-
-            // If the user is not a moderator
-            if (!_loggedIn || !_staffMember)
-            {
-                Console.Error.WriteLine("WIP download functionality is only available to Redump moderators");
-                return ids;
-            }
-
-            // Try to retrieve the data
-            string? dumpsPage = await DownloadString(url);
-
-            // If the web client failed, return null
-            if (dumpsPage is null)
+            // Get all IDs from the page
+            List<int>? ids = await CheckSingleWIPPage(url);
+            if (ids is null)
             {
                 if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{url}\", \"{outDir}\", {force}) - Client failure");
                 return null;
             }
 
-            // If we have no dumps left
-            if (dumpsPage.Contains("No discs found."))
+            // Try to download all IDs
+            List<int> processed = [];
+            foreach (int id in ids)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{url}\", \"{outDir}\", {force}) - No discs found");
-                return ids;
-            }
-
-            // Otherwise, traverse each dump on the page
-            var matches = Constants.NewDiscRegex.Matches(dumpsPage);
-            foreach (Match? match in matches)
-            {
-                if (match is null)
-                    continue;
-
                 try
                 {
-                    if (int.TryParse(match.Groups[2].Value, out int value))
-                    {
-                        ids.Add(value);
-                        bool downloaded = await DownloadSingleWIPID(value, outDir, false);
-                        if (!downloaded && !force)
-                            return ids;
-                    }
+                    bool downloaded = await DownloadSingleWIPID(id, outDir, false);
+                    if (!downloaded && !force)
+                        return processed;
+
+                    processed.Add(id);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"An exception has occurred: {ex}");
+                    Console.Error.WriteLine($"An exception has occurred: {ex}");
                     continue;
                 }
             }
 
-            return ids;
+            return processed;
         }
 
         #endregion
@@ -658,7 +601,7 @@ namespace SabreTools.RedumpLib.Web
 
                 // Make the call to get the pack
                 string? remoteFileName = await DownloadFile(packUri, tempfile);
-                if (remoteFileName == null)
+                if (remoteFileName is null)
                     return false;
 
                 MoveOrDelete(tempfile, remoteFileName, outDir!, subfolder);
