@@ -861,7 +861,10 @@ namespace SabreTools.RedumpLib.Web
 
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrEmpty(outDir))
+            {
+                if (Debug) Console.WriteLine("Output directory was not provided, setting to current directory");
                 outDir = Environment.CurrentDirectory;
+            }
 
             string paddedId = id.ToString().PadLeft(6, '0');
             string paddedIdDir = Path.Combine(outDir, paddedId);
@@ -970,16 +973,25 @@ namespace SabreTools.RedumpLib.Web
             {
                 // If the system is invalid, we can't do anything
                 if (!system.IsAvailable())
+                {
+                    if (Debug) Console.WriteLine($"{system} is not marked as available on Redump, skipping...");
                     continue;
+                }
 
                 // If we didn't have credentials
                 if (!_loggedIn && system.IsBanned())
+                {
+                    if (Debug) Console.WriteLine($"{system} requires a user login to access, skipping...");
                     continue;
+                }
 
                 // If the system is unknown, we can't do anything
                 string? longName = system.LongName();
                 if (string.IsNullOrEmpty(longName))
+                {
+                    if (Debug) Console.WriteLine($"{system} is not a recognized system, skipping...");
                     continue;
+                }
 
                 if (Debug)
                     Console.WriteLine(longName);
@@ -1016,16 +1028,25 @@ namespace SabreTools.RedumpLib.Web
             {
                 // If the system is invalid, we can't do anything
                 if (!system.IsAvailable())
+                {
+                    if (Debug) Console.WriteLine($"{system} is not marked as available on Redump, skipping...");
                     continue;
+                }
 
                 // If we didn't have credentials
                 if (!_loggedIn && system.IsBanned())
+                {
+                    if (Debug) Console.WriteLine($"{system} requires a user login to access, skipping...");
                     continue;
+                }
 
                 // If the system is unknown, we can't do anything
                 string? longName = system.LongName();
                 if (string.IsNullOrEmpty(longName))
+                {
+                    if (Debug) Console.WriteLine($"{system} is not a recognized system, skipping...");
                     continue;
+                }
 
                 if (Debug)
                     Console.WriteLine(longName);
