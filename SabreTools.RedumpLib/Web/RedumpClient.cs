@@ -226,7 +226,10 @@ namespace SabreTools.RedumpLib.Web
         {
             // Only retry a positive number of times
             if (AttemptCount <= 0)
+            {
+                Console.Error.WriteLine("Invalid number of attempts provided, must be at least 1");
                 return null;
+            }
 
             for (int i = 0; i < AttemptCount; i++)
             {
@@ -261,7 +264,10 @@ namespace SabreTools.RedumpLib.Web
         {
             // Only retry a positive number of times
             if (AttemptCount <= 0)
+            {
+                Console.Error.WriteLine("Invalid number of attempts provided, must be at least 1");
                 return null;
+            }
 
             for (int i = 0; i < AttemptCount; i++)
             {
@@ -317,7 +323,10 @@ namespace SabreTools.RedumpLib.Web
         {
             // Only retry a positive number of times
             if (AttemptCount <= 0)
+            {
+                Console.Error.WriteLine("Invalid number of attempts provided, must be at least 1");
                 return null;
+            }
 
             for (int i = 0; i < AttemptCount; i++)
             {
