@@ -732,9 +732,9 @@ namespace SabreTools.RedumpLib.Web
                         try
                         {
                             if (Directory.Exists(paddedIdDir) && rename)
-                                Directory.Move(paddedIdDir, paddedIdDir + "-deleted");
+                                Directory.Move(paddedIdDir, $"{paddedIdDir}-deleted");
                             else
-                                Directory.CreateDirectory(paddedIdDir + "-deleted");
+                                Directory.CreateDirectory($"{paddedIdDir}-deleted");
                         }
                         catch { }
                     }
@@ -932,9 +932,9 @@ namespace SabreTools.RedumpLib.Web
                         try
                         {
                             if (Directory.Exists(paddedIdDir) && rename)
-                                Directory.Move(paddedIdDir, paddedIdDir + "-deleted");
+                                Directory.Move(paddedIdDir, $"{paddedIdDir}-deleted");
                             else
-                                Directory.CreateDirectory(paddedIdDir + "-deleted");
+                                Directory.CreateDirectory($"{paddedIdDir}-deleted");
                         }
                         catch { }
                     }
