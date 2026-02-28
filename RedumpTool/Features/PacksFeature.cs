@@ -65,8 +65,7 @@ namespace RedumpTool.Features
                 _client.Timeout = TimeSpan.FromSeconds(timeout.Value);
 
             // Login to Redump, if necessary
-            if (!_client.LoggedIn)
-                _client.Login(username, password).Wait();
+            _client.Login(username, password).Wait();
 
             // Start the processing
             var processingTask = _client.DownloadPacks(outDir, useSubfolders);

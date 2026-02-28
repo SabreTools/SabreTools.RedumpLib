@@ -116,6 +116,13 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>True if the user could be logged in, false otherwise, null on error</returns>
         public async Task<bool?> Login(string username, string password)
         {
+            // Check for already logged in
+            if (LoggedIn)
+            {
+                Console.WriteLine("Already logged in!");
+                return true;
+            }
+
             // Credentials verification
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
