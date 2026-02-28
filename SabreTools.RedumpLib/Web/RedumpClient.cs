@@ -483,6 +483,7 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="wc">RedumpWebClient to access the packs</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        /// <remarks>Limited to moderators and staff</remarks>
         public async Task<List<int>?> CheckSingleWIPPage(string url)
         {
             List<int> ids = [];
@@ -540,6 +541,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="failOnSingle">True to return on first error, false otherwise</param>
         /// <returns>List of IDs that were found on success, empty on error</returns>
+        /// <remarks>Limited to moderators and staff</remarks>
         public async Task<List<int>?> CheckSingleWIPPage(string url, string? outDir, bool failOnSingle)
         {
             List<int> ids = [];
@@ -845,6 +847,7 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="id">Redump WIP disc ID to retrieve</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
+        /// <remarks>Limited to moderators and staff</remarks>
         public async Task<string?> DownloadSingleWIPID(int id)
         {
             // If the user is not a moderator
@@ -890,6 +893,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
+        /// <remarks>Limited to moderators and staff</remarks>
         public async Task<bool> DownloadSingleWIPID(int id, string? outDir, bool rename)
         {
             // If the user is not a moderator
