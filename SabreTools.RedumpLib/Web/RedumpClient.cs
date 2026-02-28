@@ -833,6 +833,7 @@ namespace SabreTools.RedumpLib.Web
                 using (var discStreamWriter = File.CreateText(Path.Combine(paddedIdDir, "disc.html")))
                 {
                     discStreamWriter.Write(discPage);
+                    discStreamWriter.Flush();
                 }
 
                 Console.WriteLine($"ID {paddedId} has been successfully downloaded");
@@ -985,6 +986,7 @@ namespace SabreTools.RedumpLib.Web
                 using (var discStreamWriter = File.CreateText(Path.Combine(paddedIdDir, "disc.html")))
                 {
                     discStreamWriter.Write(discPage);
+                    discStreamWriter.Flush();
                 }
 
                 Console.WriteLine($"ID {paddedId} has been successfully downloaded");
