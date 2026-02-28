@@ -410,9 +410,9 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="url">Base URL to download using</param>
         /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="failOnSingle">True to return on first error, false otherwise</param>
+        /// <param name="force">True to continue even if a page fails to process, false otherwise</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleSitePage(string url, string? outDir, bool failOnSingle)
+        public async Task<List<int>?> CheckSingleSitePage(string url, string? outDir, bool force)
         {
             List<int> ids = [];
 
@@ -422,26 +422,26 @@ namespace SabreTools.RedumpLib.Web
             // If the web client failed, return null
             if (dumpsPage is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\", {failOnSingle}) - Client failure");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\", {force}) - Client failure");
                 return null;
             }
 
             // If we have no dumps left
             if (dumpsPage.Contains("No discs found."))
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\", {failOnSingle}) - No discs found");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\", {force}) - No discs found");
                 return ids;
             }
 
             // If we have a single disc page already
             if (dumpsPage.Contains("<b>Download:</b>"))
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\", {failOnSingle}) - Single disc page");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\", {force}) - Single disc page");
                 var value = Constants.SfvRegex.Match(dumpsPage).Groups[1].Value;
                 if (int.TryParse(value, out int id))
                 {
                     bool downloaded = await DownloadSingleSiteID(id, outDir, false);
-                    if (!downloaded && failOnSingle)
+                    if (!downloaded && !force)
                         return ids;
 
                     ids.Add(id);
@@ -462,7 +462,7 @@ namespace SabreTools.RedumpLib.Web
                     if (int.TryParse(match.Groups[1].Value, out int value))
                     {
                         bool downloaded = await DownloadSingleSiteID(value, outDir, false);
-                        if (!downloaded && failOnSingle)
+                        if (!downloaded && !force)
                             return ids;
 
                         ids.Add(value);
@@ -539,10 +539,10 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="wc">RedumpWebClient to access the packs</param>
         /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="failOnSingle">True to return on first error, false otherwise</param>
+        /// <param name="force">True to continue even if a page fails to process, false otherwise</param>
         /// <returns>List of IDs that were found on success, empty on error</returns>
         /// <remarks>Limited to moderators and staff</remarks>
-        public async Task<List<int>?> CheckSingleWIPPage(string url, string? outDir, bool failOnSingle)
+        public async Task<List<int>?> CheckSingleWIPPage(string url, string? outDir, bool force)
         {
             List<int> ids = [];
 
@@ -559,14 +559,14 @@ namespace SabreTools.RedumpLib.Web
             // If the web client failed, return null
             if (dumpsPage is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{url}\", \"{outDir}\", {failOnSingle}) - Client failure");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{url}\", \"{outDir}\", {force}) - Client failure");
                 return null;
             }
 
             // If we have no dumps left
             if (dumpsPage.Contains("No discs found."))
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{url}\", \"{outDir}\", {failOnSingle}) - No discs found");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{url}\", \"{outDir}\", {force}) - No discs found");
                 return ids;
             }
 
@@ -583,7 +583,7 @@ namespace SabreTools.RedumpLib.Web
                     {
                         ids.Add(value);
                         bool downloaded = await DownloadSingleWIPID(value, outDir, false);
-                        if (!downloaded && failOnSingle)
+                        if (!downloaded && !force)
                             return ids;
                     }
                 }
