@@ -649,6 +649,9 @@ namespace SabreTools.RedumpLib.Web
 
                 // Make the call to get the pack
                 string? remoteFileName = await DownloadFile(packUri, tempfile);
+                if (remoteFileName == null)
+                    return false;
+
                 MoveOrDelete(tempfile, remoteFileName, outDir!, subfolder);
                 return true;
             }
@@ -785,7 +788,7 @@ namespace SabreTools.RedumpLib.Web
 
                 // CUE
                 if (discPage.Contains($"<a href=\"/disc/{id}/cue/\""))
-                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.CueExt, Path.Combine(paddedIdDir, paddedId + ".cue"));
+                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.CueExt, Path.Combine(paddedIdDir, $"{paddedId}.cue"));
 
                 // Edit disc
                 if (discPage.Contains($"<a href=\"/disc/{id}/edit/\""))
@@ -793,19 +796,19 @@ namespace SabreTools.RedumpLib.Web
 
                 // GDI
                 if (discPage.Contains($"<a href=\"/disc/{id}/gdi/\""))
-                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.GdiExt, Path.Combine(paddedIdDir, paddedId + ".gdi"));
+                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.GdiExt, Path.Combine(paddedIdDir, $"{paddedId}.gdi"));
 
                 // KEYS
                 if (discPage.Contains($"<a href=\"/disc/{id}/key/\""))
-                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.KeyExt, Path.Combine(paddedIdDir, paddedId + ".key"));
+                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.KeyExt, Path.Combine(paddedIdDir, $"{paddedId}.key"));
 
                 // LSD
                 if (discPage.Contains($"<a href=\"/disc/{id}/lsd/\""))
-                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.LsdExt, Path.Combine(paddedIdDir, paddedId + ".lsd"));
+                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.LsdExt, Path.Combine(paddedIdDir, $"{paddedId}.lsd"));
 
                 // MD5
                 if (discPage.Contains($"<a href=\"/disc/{id}/md5/\""))
-                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.Md5Ext, Path.Combine(paddedIdDir, paddedId + ".md5"));
+                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.Md5Ext, Path.Combine(paddedIdDir, $"{paddedId}.md5"));
 
                 // Review WIP entry
                 if (Constants.NewDiscRegex.IsMatch(discPage))
@@ -816,15 +819,15 @@ namespace SabreTools.RedumpLib.Web
 
                 // SBI
                 if (discPage.Contains($"<a href=\"/disc/{id}/sbi/\""))
-                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.SbiExt, Path.Combine(paddedIdDir, paddedId + ".sbi"));
+                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.SbiExt, Path.Combine(paddedIdDir, $"{paddedId}.sbi"));
 
                 // SFV
                 if (discPage.Contains($"<a href=\"/disc/{id}/sfv/\""))
-                    await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.SfvExt, Path.Combine(paddedIdDir, paddedId + ".sfv"));
+                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.SfvExt, Path.Combine(paddedIdDir, $"{paddedId}.sfv"));
 
                 // SHA1
                 if (discPage.Contains($"<a href=\"/disc/{id}/sha1/\""))
-                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.Sha1Ext, Path.Combine(paddedIdDir, paddedId + ".sha1"));
+                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.Sha1Ext, Path.Combine(paddedIdDir, $"{paddedId}.sha1"));
 
                 // HTML (Last in case of errors)
                 using (var discStreamWriter = File.CreateText(Path.Combine(paddedIdDir, "disc.html")))
