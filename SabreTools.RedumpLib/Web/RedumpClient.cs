@@ -21,11 +21,13 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Determines if user is logged into Redump
         /// </summary>
+        /// <remarks>Modifying to set as true does not change actual logged-in status</remarks>
         public bool LoggedIn { get; private set; } = false;
 
         /// <summary>
         /// Determines if the user is a staff member
         /// </summary>
+        /// <remarks>Modifying to set as true does not change actual staff status</remarks>
         public bool IsStaff { get; private set; } = false;
 
         /// <summary>
