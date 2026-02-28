@@ -691,17 +691,17 @@ namespace SabreTools.RedumpLib.Web
                 }
                 else if (discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
                 {
-                    try
+                    if (rename)
                     {
-                        if (rename)
+                        try
                         {
                             if (Directory.Exists(paddedIdDir) && rename)
                                 Directory.Move(paddedIdDir, paddedIdDir + "-deleted");
                             else
                                 Directory.CreateDirectory(paddedIdDir + "-deleted");
                         }
+                        catch { }
                     }
-                    catch { }
 
                     Console.Error.WriteLine($"ID {paddedId} could not be found!");
                     return false;
@@ -863,17 +863,17 @@ namespace SabreTools.RedumpLib.Web
                 }
                 else if (discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
                 {
-                    try
+                    if (rename)
                     {
-                        if (rename)
+                        try
                         {
                             if (Directory.Exists(paddedIdDir) && rename)
                                 Directory.Move(paddedIdDir, paddedIdDir + "-deleted");
                             else
                                 Directory.CreateDirectory(paddedIdDir + "-deleted");
                         }
+                        catch { }
                     }
-                    catch { }
 
                     Console.Error.WriteLine($"ID {paddedId} could not be found!");
                     return false;
