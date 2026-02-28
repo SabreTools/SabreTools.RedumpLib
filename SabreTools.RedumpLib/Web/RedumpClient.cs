@@ -18,12 +18,6 @@ namespace SabreTools.RedumpLib.Web
         #region Properties
 
         /// <summary>
-        /// Determines if user is logged into Redump
-        /// </summary>
-        /// <remarks>Modifying to set as true does not change actual logged-in status</remarks>
-        public bool LoggedIn { get; private set; } = false;
-
-        /// <summary>
         /// Determines if the user is a staff member
         /// </summary>
         /// <remarks>Modifying to set as true does not change actual staff status</remarks>
@@ -68,6 +62,16 @@ namespace SabreTools.RedumpLib.Web
 #else
         private readonly HttpClient _internalClient;
 #endif
+
+        #endregion
+
+        #region Fields
+
+        /// <summary>
+        /// Determines if user is logged into Redump
+        /// </summary>
+        /// <remarks>Modifying to set as true does not change actual logged-in status</remarks>
+        private bool _loggedIn = false;
 
         #endregion
 
@@ -116,7 +120,7 @@ namespace SabreTools.RedumpLib.Web
         public async Task<bool?> Login(string username, string password)
         {
             // Check for already logged in
-            if (LoggedIn)
+            if (_loggedIn)
             {
                 Console.WriteLine("Already logged in!");
                 return true;
@@ -191,7 +195,7 @@ namespace SabreTools.RedumpLib.Web
 
                     // The user was able to be logged in
                     Console.WriteLine("Credentials accepted! Logged into Redump...");
-                    LoggedIn = true;
+                    _loggedIn = true;
 
                     // If the user is a moderator or staff, set accordingly
                     if (responseContent.Contains("http://forum.redump.org/forum/9/staff/"))
@@ -980,7 +984,7 @@ namespace SabreTools.RedumpLib.Web
                     continue;
 
                 // If we didn't have credentials
-                if (!LoggedIn && system.IsBanned())
+                if (!_loggedIn && system.IsBanned())
                     continue;
 
                 // If the system is unknown, we can't do anything
@@ -1018,7 +1022,7 @@ namespace SabreTools.RedumpLib.Web
                     continue;
 
                 // If we didn't have credentials
-                if (!LoggedIn && system.IsBanned())
+                if (!_loggedIn && system.IsBanned())
                     continue;
 
                 // If the system is unknown, we can't do anything

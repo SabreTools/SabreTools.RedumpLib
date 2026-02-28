@@ -20,10 +20,9 @@ namespace SabreTools.RedumpLib.Web
         public static async Task<List<int>> DownloadUser(this RedumpClient client, string? username, string? outDir)
         {
             List<int> ids = [];
-
-            if (!client.LoggedIn || string.IsNullOrEmpty(username))
+            if (string.IsNullOrEmpty(username))
             {
-                Console.WriteLine("User download functionality is only available to Redump members");
+                Console.WriteLine("A username must be specified!");
                 return ids;
             }
 
@@ -53,10 +52,9 @@ namespace SabreTools.RedumpLib.Web
         public static async Task<List<int>> DownloadUserLastModified(this RedumpClient client, string? username, string? outDir)
         {
             List<int> ids = [];
-
-            if (!client.LoggedIn || string.IsNullOrEmpty(username))
+            if (string.IsNullOrEmpty(username))
             {
-                Console.WriteLine("User download functionality is only available to Redump members");
+                Console.WriteLine("A username must be specified!");
                 return ids;
             }
 
@@ -85,10 +83,9 @@ namespace SabreTools.RedumpLib.Web
         public static async Task<List<int>> ListUser(this RedumpClient client, string? username)
         {
             List<int> ids = [];
-
-            if (!client.LoggedIn || string.IsNullOrEmpty(username))
+            if (string.IsNullOrEmpty(username))
             {
-                Console.WriteLine("User download functionality is only available to Redump members");
+                Console.WriteLine("A username must be specified!");
                 return ids;
             }
 

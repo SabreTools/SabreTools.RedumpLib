@@ -32,8 +32,7 @@ namespace SabreTools.RedumpLib.Web
         public static async Task<List<int>> DownloadWIPRange(this RedumpClient client, string? outDir, int minId = 0, int maxId = 0)
         {
             List<int> ids = [];
-
-            if (!client.LoggedIn || !client.IsStaff)
+            if (!client.IsStaff)
             {
                 Console.WriteLine("WIP download functionality is only available to Redump moderators");
                 return ids;

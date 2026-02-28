@@ -147,13 +147,6 @@ namespace SabreTools.RedumpLib.Web
         public static async Task<List<int>> DownloadSiteRange(this RedumpClient client, string? outDir, int minId = 0, int maxId = 0)
         {
             List<int> ids = [];
-
-            if (!client.LoggedIn)
-            {
-                Console.WriteLine("Site download functionality is only available to Redump members");
-                return ids;
-            }
-
             for (int id = minId; id <= maxId; id++)
             {
                 ids.Add(id);
