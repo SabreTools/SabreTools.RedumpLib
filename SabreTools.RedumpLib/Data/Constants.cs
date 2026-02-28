@@ -137,6 +137,11 @@ namespace SabreTools.RedumpLib.Data
         public static readonly Regex SerialRegex = new(@"<tr><th>Serial</th><td>(.*?)</td></tr>", RegexOptions.Compiled);
 
         /// <summary>
+        /// Regex matching the SFV link on a disc page
+        /// </summary>
+        public static readonly Regex SfvRegex = new(@"/disc/(\d+)/sfv/", RegexOptions.Compiled);
+
+        /// <summary>
         /// Regex matching the system field on a disc page
         /// </summary>
         public static readonly Regex SystemRegex = new(@"<tr><th>System</th><td><a href=""/discs/system/(.*?)/"">", RegexOptions.Compiled);

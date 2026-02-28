@@ -376,7 +376,7 @@ namespace SabreTools.RedumpLib.Web
             if (dumpsPage.Contains("<b>Download:</b>"))
             {
                 if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Single disc page");
-                var value = Regex.Match(dumpsPage, @"/disc/(\d+)/sfv/").Groups[1].Value;
+                var value = Constants.SfvRegex.Match(dumpsPage).Groups[1].Value;
                 if (int.TryParse(value, out int id))
                     ids.Add(id);
 
@@ -437,7 +437,7 @@ namespace SabreTools.RedumpLib.Web
             if (dumpsPage.Contains("<b>Download:</b>"))
             {
                 if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\", {failOnSingle}) - Single disc page");
-                var value = Regex.Match(dumpsPage, @"/disc/(\d+)/sfv/").Groups[1].Value;
+                var value = Constants.SfvRegex.Match(dumpsPage).Groups[1].Value;
                 if (int.TryParse(value, out int id))
                 {
                     bool downloaded = await DownloadSingleSiteID(id, outDir, false);
