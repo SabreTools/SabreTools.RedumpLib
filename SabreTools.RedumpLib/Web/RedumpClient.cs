@@ -18,12 +18,6 @@ namespace SabreTools.RedumpLib.Web
         #region Properties
 
         /// <summary>
-        /// Determines if the user is a staff member
-        /// </summary>
-        /// <remarks>Modifying to set as true does not change actual staff status</remarks>
-        public bool IsStaff { get; private set; } = false;
-
-        /// <summary>
         /// Determines if debug outputs are printed
         /// </summary>
         public bool Debug { get; set; } = false;
@@ -72,6 +66,12 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <remarks>Modifying to set as true does not change actual logged-in status</remarks>
         private bool _loggedIn = false;
+
+        /// <summary>
+        /// Determines if the user is a staff member
+        /// </summary>
+        /// <remarks>Modifying to set as true does not change actual staff status</remarks>
+        private bool _staffMember = false;
 
         #endregion
 
@@ -199,7 +199,7 @@ namespace SabreTools.RedumpLib.Web
 
                     // If the user is a moderator or staff, set accordingly
                     if (responseContent.Contains("http://forum.redump.org/forum/9/staff/"))
-                        IsStaff = true;
+                        _staffMember = true;
 
                     return true;
                 }
@@ -487,6 +487,13 @@ namespace SabreTools.RedumpLib.Web
         {
             List<int> ids = [];
 
+            // If the user is not a moderator
+            if (!_loggedIn || !_staffMember)
+            {
+                Console.Error.WriteLine("WIP download functionality is only available to Redump moderators");
+                return ids;
+            }
+
             // Try to retrieve the data
             string? dumpsPage = await DownloadString(url);
 
@@ -536,6 +543,13 @@ namespace SabreTools.RedumpLib.Web
         public async Task<List<int>?> CheckSingleWIPPage(string url, string? outDir, bool failOnSingle)
         {
             List<int> ids = [];
+
+            // If the user is not a moderator
+            if (!_loggedIn || !_staffMember)
+            {
+                Console.Error.WriteLine("WIP download functionality is only available to Redump moderators");
+                return ids;
+            }
 
             // Try to retrieve the data
             string? dumpsPage = await DownloadString(url);
@@ -833,6 +847,13 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>String containing the page contents if successful, null on error</returns>
         public async Task<string?> DownloadSingleWIPID(int id)
         {
+            // If the user is not a moderator
+            if (!_loggedIn || !_staffMember)
+            {
+                Console.Error.WriteLine("WIP download functionality is only available to Redump moderators");
+                return null;
+            }
+
             string paddedId = id.ToString().PadLeft(6, '0');
             Console.WriteLine($"Processing WIP ID: {paddedId}");
             try
@@ -871,6 +892,13 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>True if all data was downloaded, false otherwise</returns>
         public async Task<bool> DownloadSingleWIPID(int id, string? outDir, bool rename)
         {
+            // If the user is not a moderator
+            if (!_loggedIn || !_staffMember)
+            {
+                Console.Error.WriteLine("WIP download functionality is only available to Redump moderators");
+                return false;
+            }
+
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrEmpty(outDir))
                 outDir = Environment.CurrentDirectory;
