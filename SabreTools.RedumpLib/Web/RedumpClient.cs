@@ -720,14 +720,21 @@ namespace SabreTools.RedumpLib.Web
                     // If both pages contain the same modified date, skip it
                     if (oldResult.Success && newResult.Success && oldResult.Groups[1].Value == newResult.Groups[1].Value)
                     {
-                        Console.WriteLine($"ID {paddedId} has not been changed since last download");
+                        Console.WriteLine($"ID {paddedId} has not been changed since last download, skipping...");
                         return false;
                     }
 
                     // If neither page contains a modified date, skip it
                     else if (!oldResult.Success && !newResult.Success)
                     {
-                        Console.WriteLine($"ID {paddedId} has not been changed since last download");
+                        Console.WriteLine($"ID {paddedId} has not been changed since last download, skipping...");
+                        return false;
+                    }
+
+                    // If the downloaded data is invalid or otherwise empty, skip it
+                    else if (oldResult.Success && !newResult.Success)
+                    {
+                        Console.WriteLine($"ID {paddedId} retieved an empty page, skipping...");
                         return false;
                     }
                 }
@@ -892,14 +899,21 @@ namespace SabreTools.RedumpLib.Web
                     // If both pages contain the same ID, skip it
                     if (oldResult.Success && newResult.Success && oldResult.Groups[1].Value == newResult.Groups[1].Value)
                     {
-                        Console.WriteLine($"ID {paddedId} has not been changed since last download");
+                        Console.WriteLine($"ID {paddedId} has not been changed since last download, skipping...");
                         return false;
                     }
 
                     // If neither page contains an ID, skip it
                     else if (!oldResult.Success && !newResult.Success)
                     {
-                        Console.WriteLine($"ID {paddedId} has not been changed since last download");
+                        Console.WriteLine($"ID {paddedId} has not been changed since last download, skipping...");
+                        return false;
+                    }
+
+                    // If the downloaded data is invalid or otherwise empty, skip it
+                    else if (oldResult.Success && !newResult.Success)
+                    {
+                        Console.WriteLine($"ID {paddedId} retieved an empty page, skipping...");
                         return false;
                     }
                 }
