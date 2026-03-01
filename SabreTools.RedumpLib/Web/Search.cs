@@ -16,35 +16,22 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="query">Query string to attempt to search for</param>
         /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
         /// <returns>All disc IDs for the given query, empty on error</returns>
-        public static async Task<List<int>> ListSearchResults(this RedumpClient client, string? query, bool convertForwardSlashes)
+        public static async Task<List<int>> ListSearchResults(this RedumpClient client,
+            string? query,
+            bool convertForwardSlashes)
         {
             // If the query is invalid
             if (string.IsNullOrEmpty(query))
                 return [];
 
-            List<int> ids = [];
-
-            // Strip quotes
-            query = query!.Trim('"', '\'');
-
-            // Special characters become dashes
-            query = query.Replace(' ', '-');
-            query = query.Replace('\\', '-');
-            if (convertForwardSlashes)
-                query = query.Replace('/', '-');
-            else
-                query = query.TrimStart('/');
-
-            // Lowercase is defined per language
-            query = query.ToLowerInvariant();
-
             // Keep getting quicksearch pages until there are none left
+            List<int> ids = [];
             try
             {
                 int pageNumber = 1;
                 while (true)
                 {
-                    var pageIds = await client.CheckSingleQuicksearchPage(query, pageNumber++);
+                    var pageIds = await client.CheckSingleQuicksearchPage(query, pageNumber++, convertForwardSlashes);
                     if (pageIds is null)
                         return [];
 
@@ -75,37 +62,30 @@ namespace SabreTools.RedumpLib.Web
             string? outDir,
             bool convertForwardSlashes)
         {
-            List<int> ids = [];
-
             // If the query is invalid
             if (string.IsNullOrEmpty(query))
-                return ids;
-
-            // Strip quotes
-            query = query!.Trim('"', '\'');
-
-            // Special characters become dashes
-            query = query.Replace(' ', '-');
-            query = query.Replace('\\', '-');
-            if (convertForwardSlashes)
-                query = query.Replace('/', '-');
-            else
-                query = query.TrimStart('/');
-
-            // Lowercase is defined per language
-            query = query.ToLowerInvariant();
+                return [];
 
             // Keep getting quicksearch pages until there are none left
-            int pageNumber = 1;
-            while (true)
+            List<int> ids = [];
+            try
             {
-                var pageIds = await client.CheckSingleQuicksearchPage(query, pageNumber++, outDir);
-                if (pageIds is null)
-                    return [];
+                int pageNumber = 1;
+                while (true)
+                {
+                    var pageIds = await client.CheckSingleQuicksearchPage(query, pageNumber++, outDir, convertForwardSlashes);
+                    if (pageIds is null)
+                        return [];
 
-                ids.AddRange(pageIds);
-                if (pageIds.Count == 0)
-                    break;
+                    ids.AddRange(pageIds);
+                    if (pageIds.Count == 0)
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An exception occurred while trying to log in: {ex}");
+                return [];
             }
 
             return ids;

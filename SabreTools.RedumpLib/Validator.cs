@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Web;
@@ -78,57 +77,6 @@ namespace SabreTools.RedumpLib
         }
 
         /// <summary>
-        /// List the disc IDs associated with a given quicksearch query
-        /// </summary>
-        /// <param name="client">RedumpClient for making the connection</param>
-        /// <param name="query">Query string to attempt to search for</param>
-        /// <param name="filterForwardSlashes">True to filter forward slashes, false otherwise</param>
-        /// <returns>All disc IDs for the given query, null on error</returns>
-        public static async Task<List<int>?> ListSearchResults(RedumpClient client, string? query, bool filterForwardSlashes = true)
-        {
-            // If there is an invalid query
-            if (string.IsNullOrEmpty(query))
-                return null;
-
-            var ids = new List<int>();
-
-            // Strip quotes
-            query = query!.Trim('"', '\'');
-
-            // Special characters become dashes
-            query = query.Replace(' ', '-');
-            if (filterForwardSlashes)
-                query = query.Replace('/', '-');
-            query = query.Replace('\\', '/');
-
-            // Lowercase is defined per language
-            query = query.ToLowerInvariant();
-
-            // Keep getting quicksearch pages until there are none left
-            try
-            {
-                int pageNumber = 1;
-                while (true)
-                {
-                    List<int>? pageIds = await client.CheckSingleQuicksearchPage(query, pageNumber++);
-                    if (pageIds is null)
-                        return null;
-
-                    ids.AddRange(pageIds);
-                    if (pageIds.Count <= 1)
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An exception occurred while trying to log in: {ex}");
-                return null;
-            }
-
-            return ids;
-        }
-
-        /// <summary>
         /// Validate a single track against Redump, if possible
         /// </summary>
         /// <param name="client">RedumpClient for making the connection</param>
@@ -138,7 +86,7 @@ namespace SabreTools.RedumpLib
         public static async Task<List<int>?> ValidateSingleTrack(RedumpClient client, SubmissionInfo info, string? sha1)
         {
             // Get all matching IDs for the track
-            var newIds = await ListSearchResults(client, sha1);
+            var newIds = await client.ListSearchResults(sha1, convertForwardSlashes: true);
 
             // If we got null back, there was an error
             if (newIds is null)
@@ -182,7 +130,7 @@ namespace SabreTools.RedumpLib
 #endif
 
             // Get all matching IDs for the hash
-            var newIds = await ListSearchResults(client, universalHashQuery, filterForwardSlashes: false);
+            var newIds = await client.ListSearchResults(universalHashQuery, convertForwardSlashes: false);
 
             // If we got null back, there was an error
             if (newIds is null)

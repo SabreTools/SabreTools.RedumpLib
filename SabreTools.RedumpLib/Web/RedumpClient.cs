@@ -375,9 +375,11 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="query">Discs query string to use</param>
         /// <param name="pageNumber">Page number to use</param>
+        /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleDiscsPage(string query, int pageNumber)
+        public async Task<List<int>?> CheckSingleDiscsPage(string query, int pageNumber, bool convertForwardSlashes)
         {
+            query = NormalizeQuery(query, convertForwardSlashes);
             string url = string.Format(Constants.DiscsUrl, query, pageNumber);
             return await CheckSingleSitePage(url);
         }
@@ -388,9 +390,11 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="query">Discs query string to use</param>
         /// <param name="pageNumber">Page number to use</param>
         /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleDiscsPage(string query, int pageNumber, string? outDir)
+        public async Task<List<int>?> CheckSingleDiscsPage(string query, int pageNumber, string? outDir, bool convertForwardSlashes)
         {
+            query = NormalizeQuery(query, convertForwardSlashes);
             string url = string.Format(Constants.DiscsUrl, query, pageNumber);
             return await CheckSingleSitePage(url, outDir);
         }
@@ -423,9 +427,11 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="query">Quicksearch query string to use</param>
         /// <param name="pageNumber">Page number to use</param>
+        /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleQuicksearchPage(string query, int pageNumber)
+        public async Task<List<int>?> CheckSingleQuicksearchPage(string query, int pageNumber, bool convertForwardSlashes)
         {
+            query = NormalizeQuery(query, convertForwardSlashes);
             string url = string.Format(Constants.QuickSearchUrl, query, pageNumber);
             return await CheckSingleSitePage(url);
         }
@@ -436,9 +442,11 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="query">Quicksearch query string to use</param>
         /// <param name="pageNumber">Page number to use</param>
         /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleQuicksearchPage(string query, int pageNumber, string? outDir)
+        public async Task<List<int>?> CheckSingleQuicksearchPage(string query, int pageNumber, string? outDir, bool convertForwardSlashes)
         {
+            query = NormalizeQuery(query, convertForwardSlashes);
             string url = string.Format(Constants.QuickSearchUrl, query, pageNumber);
             return await CheckSingleSitePage(url, outDir);
         }
@@ -682,6 +690,30 @@ namespace SabreTools.RedumpLib.Web
             }
 
             return processed;
+        }
+
+        /// <summary>
+        /// Normalize a URL query string
+        /// </summary>
+        /// <param name="query">Query string to normalize</param>
+        /// <param name="convertForwardSlashes">Replace forward slashes with `-`</param>
+        /// <returns>Normalized query</returns>
+        private static string NormalizeQuery(string query, bool convertForwardSlashes)
+        {
+            // Strip quotes
+            query = query!.Trim('"', '\'');
+
+            // Special characters become dashes
+            query = query.Replace(' ', '-');
+            query = query.Replace('\\', '-');
+            if (convertForwardSlashes)
+                query = query.Replace('/', '-');
+            else
+                query = query.TrimStart('/');
+
+            // Lowercase is defined per language
+            query = query.ToLowerInvariant();
+            return query;
         }
 
         #endregion
