@@ -1891,6 +1891,33 @@ namespace SabreTools.RedumpLib.Data
     }
 
     /// <summary>
+    /// All possible packs
+    /// </summary>
+    public enum PackType
+    {
+        [HumanReadable(LongName = "CUES", ShortName = "cues")]
+        Cuesheets,
+
+        [HumanReadable(LongName = "DAT", ShortName = "datfile")]
+        Datfile,
+
+        [HumanReadable(LongName = "Decrypted KEYS", ShortName = "dkeys")]
+        DecryptedKeys,
+
+        [HumanReadable(LongName = "GDIs", ShortName = "gdi")]
+        Gdis,
+
+        [HumanReadable(LongName = "KEYS", ShortName = "keys")]
+        Keys,
+
+        [HumanReadable(LongName = "LSD", ShortName = "lsd")]
+        Lsds,
+
+        [HumanReadable(LongName = "SBI", ShortName = "sbi")]
+        Sbis,
+    }
+
+    /// <summary>
     /// List of all known systems
     /// </summary>
     /// TODO: Remove marker items
