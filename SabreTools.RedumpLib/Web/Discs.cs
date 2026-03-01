@@ -29,7 +29,7 @@ namespace SabreTools.RedumpLib.Web
                 int pageNumber = 1;
                 while (true)
                 {
-                    var pageIds = await client.CheckSingleDiscsPage(query, pageNumber++, convertForwardSlashes);
+                    var pageIds = await client.CheckSingleDiscsPage(query!, pageNumber++, convertForwardSlashes);
                     if (pageIds is null)
                         return [];
 
@@ -71,7 +71,7 @@ namespace SabreTools.RedumpLib.Web
                 int pageNumber = 1;
                 while (true)
                 {
-                    var pageIds = await client.CheckSingleDiscsPage(query, pageNumber++, outDir, convertForwardSlashes);
+                    var pageIds = await client.CheckSingleDiscsPage(query!, pageNumber++, outDir, convertForwardSlashes);
                     if (pageIds is null)
                         return [];
 
