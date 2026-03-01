@@ -496,10 +496,9 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Process a Redump WIP page as a list of possible IDs or disc page
         /// </summary>
-        /// <param name="wc">RedumpWebClient to access the packs</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
         /// <remarks>Limited to moderators and staff</remarks>
-        public async Task<List<int>?> CheckSingleWIPPage(string url)
+        public async Task<List<int>?> CheckSingleWIPPage()
         {
             List<int> ids = [];
 
@@ -511,19 +510,20 @@ namespace SabreTools.RedumpLib.Web
             }
 
             // Try to retrieve the data
+            string url = Constants.WipDumpsUrl;
             string? dumpsPage = await DownloadString(url);
 
             // If the web client failed, return null
             if (dumpsPage is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{url}\") - Client failure");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage() - Client failure");
                 return null;
             }
 
             // If we have no dumps left
             if (dumpsPage.Contains("No discs found."))
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{url}\") - No discs found");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage() - No discs found");
                 return ids;
             }
 
@@ -552,17 +552,16 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Process a Redump WIP page as a list of possible IDs or disc page
         /// </summary>
-        /// <param name="wc">RedumpWebClient to access the packs</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <returns>List of IDs that were found on success, empty on error</returns>
         /// <remarks>Limited to moderators and staff</remarks>
-        public async Task<List<int>?> CheckSingleWIPPage(string url, string? outDir)
+        public async Task<List<int>?> CheckSingleWIPPage(string? outDir)
         {
             // Get all IDs from the page
-            List<int>? ids = await CheckSingleWIPPage(url);
+            List<int>? ids = await CheckSingleWIPPage();
             if (ids is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{url}\", \"{outDir}\") - Client failure");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{outDir}\") - Client failure");
                 return null;
             }
 
