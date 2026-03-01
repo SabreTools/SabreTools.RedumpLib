@@ -74,7 +74,7 @@ namespace RedumpTool.Features
             _client.Login(username, password).Wait();
 
             // Start the processing
-            var processingTask = _client.DownloadPacks(outDir, useSubfolders);
+            var processingTask = _client.DownloadAllPacks(outDir, useSubfolders);
 
             // Retrieve the result
             processingTask.Wait();
