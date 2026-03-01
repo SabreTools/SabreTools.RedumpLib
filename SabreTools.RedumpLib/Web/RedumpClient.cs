@@ -58,6 +58,10 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         public bool IgnoreErrors { get; set; } = false;
 
+        #endregion
+
+        #region Fields
+
         /// <summary>
         /// Internal client for interaction
         /// </summary>
@@ -66,10 +70,6 @@ namespace SabreTools.RedumpLib.Web
 #else
         private readonly CookieWebClient _internalClient;
 #endif
-
-        #endregion
-
-        #region Fields
 
         /// <summary>
         /// Indicates if user is logged into Redump
