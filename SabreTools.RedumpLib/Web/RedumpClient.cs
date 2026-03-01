@@ -1080,16 +1080,10 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="url">Base URL to download using</param>
         /// <param name="systems">Systems to download packs for</param>
-        /// <param name="title">Name of the pack that is downloading</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
-        public async Task<bool> DownloadPacks(string url,
-            RedumpSystem[] systems,
-            string title,
-            string? outDir,
-            string? subfolder)
+        public async Task<bool> DownloadPacks(string url, RedumpSystem[] systems, string? outDir, string? subfolder)
         {
-            Console.WriteLine($"Downloading {title}");
             foreach (var system in systems)
             {
                 // If the system is invalid, we can't do anything

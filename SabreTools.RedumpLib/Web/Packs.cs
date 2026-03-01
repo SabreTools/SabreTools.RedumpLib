@@ -19,13 +19,26 @@ namespace SabreTools.RedumpLib.Web
         {
             var systems = (RedumpSystem[])Enum.GetValues(typeof(RedumpSystem));
 
-            await client.DownloadPacks(Constants.PackCuesUrl, Array.FindAll(systems, s => s.HasCues()), "CUEs", outDir, useSubfolders ? "cue" : null);
-            await client.DownloadPacks(Constants.PackDatfileUrl, Array.FindAll(systems, s => s.HasDat()), "DATs", outDir, useSubfolders ? "dat" : null);
-            await client.DownloadPacks(Constants.PackDkeysUrl, Array.FindAll(systems, s => s.HasDkeys()), "Decrypted KEYS", outDir, useSubfolders ? "dkey" : null);
-            await client.DownloadPacks(Constants.PackGdiUrl, Array.FindAll(systems, s => s.HasGdi()), "GDIs", outDir, useSubfolders ? "gdi" : null);
-            await client.DownloadPacks(Constants.PackKeysUrl, Array.FindAll(systems, s => s.HasKeys()), "KEYS", outDir, useSubfolders ? "keys" : null);
-            await client.DownloadPacks(Constants.PackLsdUrl, Array.FindAll(systems, s => s.HasLsd()), "LSD", outDir, useSubfolders ? "lsd" : null);
-            await client.DownloadPacks(Constants.PackSbiUrl, Array.FindAll(systems, s => s.HasSbi()), "SBIs", outDir, useSubfolders ? "sbi" : null);
+            Console.WriteLine("Downloading CUEs");
+            await client.DownloadPacks(Constants.PackCuesUrl, Array.FindAll(systems, s => s.HasCues()), outDir, useSubfolders ? "cue" : null);
+
+            Console.WriteLine("Downloading DATs");
+            await client.DownloadPacks(Constants.PackDatfileUrl, Array.FindAll(systems, s => s.HasDat()), outDir, useSubfolders ? "dat" : null);
+
+            Console.WriteLine("Downloading Decrypted KEYS");
+            await client.DownloadPacks(Constants.PackDkeysUrl, Array.FindAll(systems, s => s.HasDkeys()), outDir, useSubfolders ? "dkey" : null);
+
+            Console.WriteLine("Downloading GDIs");
+            await client.DownloadPacks(Constants.PackGdiUrl, Array.FindAll(systems, s => s.HasGdi()), outDir, useSubfolders ? "gdi" : null);
+
+            Console.WriteLine("Downloading KEYS");
+            await client.DownloadPacks(Constants.PackKeysUrl, Array.FindAll(systems, s => s.HasKeys()), outDir, useSubfolders ? "keys" : null);
+
+            Console.WriteLine("Downloading LSD");
+            await client.DownloadPacks(Constants.PackLsdUrl, Array.FindAll(systems, s => s.HasLsd()), outDir, useSubfolders ? "lsd" : null);
+
+            Console.WriteLine("Downloading SBIs");
+            await client.DownloadPacks(Constants.PackSbiUrl, Array.FindAll(systems, s => s.HasSbi()), outDir, useSubfolders ? "sbi" : null);
 
             return true;
         }
@@ -48,25 +61,46 @@ namespace SabreTools.RedumpLib.Web
             var systemAsArray = new RedumpSystem[] { system.Value };
 
             if (system.HasCues())
-                await client.DownloadPacks(Constants.PackCuesUrl, systemAsArray, "CUEs", outDir, useSubfolders ? "cue" : null);
+            {
+                Console.WriteLine("Downloading CUEs");
+                await client.DownloadPacks(Constants.PackCuesUrl, systemAsArray, outDir, useSubfolders ? "cue" : null);
+            }
 
             if (system.HasDat())
-                await client.DownloadPacks(Constants.PackDatfileUrl, systemAsArray, "DATs", outDir, useSubfolders ? "dat" : null);
+            {
+                Console.WriteLine("Downloading DATs");
+                await client.DownloadPacks(Constants.PackDatfileUrl, systemAsArray, outDir, useSubfolders ? "dat" : null);
+            }
 
             if (system.HasDkeys())
-                await client.DownloadPacks(Constants.PackDkeysUrl, systemAsArray, "Decrypted KEYS", outDir, useSubfolders ? "dkey" : null);
+            {
+                Console.WriteLine("Downloading Decrypted KEYS");
+                await client.DownloadPacks(Constants.PackDkeysUrl, systemAsArray, outDir, useSubfolders ? "dkey" : null);
+            }
 
             if (system.HasGdi())
-                await client.DownloadPacks(Constants.PackGdiUrl, systemAsArray, "GDIs", outDir, useSubfolders ? "gdi" : null);
+            {
+                Console.WriteLine("Downloading GDIs");
+                await client.DownloadPacks(Constants.PackGdiUrl, systemAsArray, outDir, useSubfolders ? "gdi" : null);
+            }
 
             if (system.HasKeys())
-                await client.DownloadPacks(Constants.PackKeysUrl, systemAsArray, "KEYS", outDir, useSubfolders ? "keys" : null);
+            {
+                Console.WriteLine("Downloading KEYS");
+                await client.DownloadPacks(Constants.PackKeysUrl, systemAsArray, outDir, useSubfolders ? "keys" : null);
+            }
 
             if (system.HasLsd())
-                await client.DownloadPacks(Constants.PackLsdUrl, systemAsArray, "LSD", outDir, useSubfolders ? "lsd" : null);
+            {
+                Console.WriteLine("Downloading LSD");
+                await client.DownloadPacks(Constants.PackLsdUrl, systemAsArray, outDir, useSubfolders ? "lsd" : null);
+            }
 
             if (system.HasSbi())
-                await client.DownloadPacks(Constants.PackSbiUrl, systemAsArray, "SBIs", outDir, useSubfolders ? "sbi" : null);
+            {
+                Console.WriteLine("Downloading SBIs");
+                await client.DownloadPacks(Constants.PackSbiUrl, systemAsArray, outDir, useSubfolders ? "sbi" : null);
+            }
 
             return true;
         }
