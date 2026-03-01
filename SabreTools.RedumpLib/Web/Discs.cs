@@ -45,7 +45,8 @@ namespace SabreTools.RedumpLib.Web
                 int pageNumber = 1;
                 while (true)
                 {
-                    var pageIds = await client.CheckSingleSitePage(string.Format(Constants.DiscsUrl, query, pageNumber++));
+                    string url = string.Format(Constants.DiscsUrl, query, pageNumber++);
+                    var pageIds = await client.CheckSingleSitePage(url);
                     if (pageIds is null)
                         return [];
 
@@ -97,7 +98,8 @@ namespace SabreTools.RedumpLib.Web
             int pageNumber = 1;
             while (true)
             {
-                var pageIds = await client.CheckSingleSitePage(string.Format(Constants.DiscsUrl, query, pageNumber++), outDir, true);
+                string url = string.Format(Constants.DiscsUrl, query, pageNumber++);
+                var pageIds = await client.CheckSingleSitePage(url, outDir, forceDownload: true, forceContinue: true);
                 if (pageIds is null)
                     return [];
 
@@ -114,9 +116,10 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="force">Force continuation of download</param>
+        /// <param name="forceDownload">True to force all downloads, false otherwise</param>
+        /// <param name="forceContinue">Force continuation of download</param>
         /// <returns>All disc IDs in last modified range, empty on error</returns>
-        public static async Task<List<int>> DownloadLastModified(this RedumpClient client, string? outDir, bool force)
+        public static async Task<List<int>> DownloadLastModified(this RedumpClient client, string? outDir, bool forceDownload, bool forceContinue)
         {
             List<int> ids = [];
 
@@ -124,7 +127,8 @@ namespace SabreTools.RedumpLib.Web
             int pageNumber = 1;
             while (true)
             {
-                var pageIds = await client.CheckSingleSitePage(string.Format(Constants.LastModifiedUrl, pageNumber++), outDir, force);
+                string url = string.Format(Constants.LastModifiedUrl, pageNumber++);
+                var pageIds = await client.CheckSingleSitePage(url, outDir, forceDownload, forceContinue);
                 if (pageIds is null)
                     return [];
 
@@ -141,15 +145,16 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="forceDownload">True to force all downloads, false otherwise</param>
         /// <param name="minId">Starting ID for the range</param>
         /// <param name="maxId">Ending ID for the range (inclusive)</param>
         /// <returns>All disc IDs in last modified range, empty on error</returns>
-        public static async Task<List<int>> DownloadSiteRange(this RedumpClient client, string? outDir, int minId = 0, int maxId = 0)
+        public static async Task<List<int>> DownloadSiteRange(this RedumpClient client, string? outDir, bool forceDownload, int minId = 0, int maxId = 0)
         {
             List<int> ids = [];
             for (int id = minId; id <= maxId; id++)
             {
-                bool downloaded = await client.DownloadSingleSiteID(id, outDir, true);
+                bool downloaded = await client.DownloadSingleSiteID(id, outDir, rename: true, forceDownload);
                 if (downloaded)
                 {
                     ids.Add(id);

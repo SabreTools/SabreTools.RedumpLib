@@ -79,12 +79,15 @@ namespace RedumpTool
             Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (cannot be used with only new)");
             Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (cannot be used with only new)");
             Console.WriteLine("    -n, --onlynew - Use the last modified view (cannot be used with min and max)");
-            Console.WriteLine("    -f, --force - Force continuing downloads until user cancels (requires only new)");
+            Console.WriteLine("    -f, --force - Force downloading contents even if they already exist");
+            Console.WriteLine("    -c, --continue - Force continuing downloads until user cancels (requires only new)");
             Console.WriteLine();
             Console.WriteLine("wip - Download pages and related files from the WIP list");
             Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (cannot be used with only new)");
             Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (cannot be used with only new)");
             Console.WriteLine("    -n, --onlynew - Use the last modified view (cannot be used with min and max)");
+            Console.WriteLine("    -f, --force - Force downloading contents even if they already exist");
+            Console.WriteLine("    -c, --continue - Force continuing downloads until user cancels (requires only new)");
             Console.WriteLine();
             Console.WriteLine("packs - Download available packs");
             Console.WriteLine("    -s, --subfolders - Download packs to named subfolders");

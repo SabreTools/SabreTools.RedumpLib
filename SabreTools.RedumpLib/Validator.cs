@@ -110,7 +110,8 @@ namespace SabreTools.RedumpLib
                 int pageNumber = 1;
                 while (true)
                 {
-                    List<int>? pageIds = await client.CheckSingleSitePage(string.Format(Constants.QuickSearchUrl, query, pageNumber++));
+                    string url = string.Format(Constants.QuickSearchUrl, query, pageNumber++);
+                    List<int>? pageIds = await client.CheckSingleSitePage(url);
                     if (pageIds is null)
                         return null;
 

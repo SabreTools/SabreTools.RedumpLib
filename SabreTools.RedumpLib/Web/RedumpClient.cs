@@ -428,15 +428,16 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="url">Base URL to download using</param>
         /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="force">True to continue even if a page fails to process, false otherwise</param>
+        /// <param name="forceDownload">True to force all downloads, false otherwise</param>
+        /// <param name="forceContinue">True to continue even if a page fails to process, false otherwise</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleSitePage(string url, string? outDir, bool force)
+        public async Task<List<int>?> CheckSingleSitePage(string url, string? outDir, bool forceDownload, bool forceContinue)
         {
             // Get all IDs from the page
             List<int>? ids = await CheckSingleSitePage(url);
             if (ids is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\", {force}) - Client failure");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\", {forceContinue}) - Client failure");
                 return null;
             }
 
@@ -446,8 +447,8 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
-                    bool downloaded = await DownloadSingleSiteID(id, outDir, false);
-                    if (!downloaded && !force)
+                    bool downloaded = await DownloadSingleSiteID(id, outDir, rename: false, forceDownload);
+                    if (!downloaded && !forceContinue)
                         return processed;
 
                     processed.Add(id);
@@ -523,16 +524,17 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="wc">RedumpWebClient to access the packs</param>
         /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="force">True to continue even if a page fails to process, false otherwise</param>
+        /// <param name="forceDownload">True to force all downloads, false otherwise</param>
+        /// <param name="forceContinue">True to continue even if a page fails to process, false otherwise</param>
         /// <returns>List of IDs that were found on success, empty on error</returns>
         /// <remarks>Limited to moderators and staff</remarks>
-        public async Task<List<int>?> CheckSingleWIPPage(string url, string? outDir, bool force)
+        public async Task<List<int>?> CheckSingleWIPPage(string url, string? outDir, bool forceDownload, bool forceContinue)
         {
             // Get all IDs from the page
             List<int>? ids = await CheckSingleWIPPage(url);
             if (ids is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{url}\", \"{outDir}\", {force}) - Client failure");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{url}\", \"{outDir}\", {forceContinue}) - Client failure");
                 return null;
             }
 
@@ -542,8 +544,8 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
-                    bool downloaded = await DownloadSingleWIPID(id, outDir, false);
-                    if (!downloaded && !force)
+                    bool downloaded = await DownloadSingleWIPID(id, outDir, rename: false, forceDownload);
+                    if (!downloaded && !forceContinue)
                         return processed;
 
                     processed.Add(id);
@@ -573,13 +575,8 @@ namespace SabreTools.RedumpLib.Web
             try
             {
                 if (Debug) Console.WriteLine($"DEBUG: DownloadSinglePack(\"{url}\", {system})");
-#if NETCOREAPP
-                return await _internalClient.GetByteArrayAsync(string.Format(url, system.ShortName()));
-#elif NET40
-                return await Task.Factory.StartNew(() => _internalClient.DownloadData(string.Format(url, system.ShortName())));
-#else
-                return await Task.Run(() => _internalClient.DownloadData(string.Format(url, system.ShortName())));
-#endif
+                string packUri = string.Format(url, system.ShortName());
+                return await DownloadData(packUri);
             }
             catch (Exception ex)
             {
@@ -665,8 +662,9 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
+        /// <param name="forceDownload">True to force all downloads, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
-        public async Task<bool> DownloadSingleSiteID(int id, string? outDir, bool rename)
+        public async Task<bool> DownloadSingleSiteID(int id, string? outDir, bool rename, bool forceDownload)
         {
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrEmpty(outDir))
@@ -705,7 +703,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // Check if the page has been updated since the last time it was downloaded, if possible
-                if (File.Exists(Path.Combine(paddedIdDir, "disc.html")))
+                if (!forceDownload && File.Exists(Path.Combine(paddedIdDir, "disc.html")))
                 {
                     // Read in the cached file
                     var oldDiscPage = File.ReadAllText(Path.Combine(paddedIdDir, "disc.html"));
@@ -745,50 +743,81 @@ namespace SabreTools.RedumpLib.Web
 
                 // View Edit History
                 if (discPage.Contains($"<a href=\"/disc/{id}/changes/\""))
-                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.ChangesExt, Path.Combine(paddedIdDir, "changes.html"));
+                {
+                    string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.ChangesExt;
+                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, "changes.html"));
+                }
 
                 // CUE
                 if (discPage.Contains($"<a href=\"/disc/{id}/cue/\""))
-                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.CueExt, Path.Combine(paddedIdDir, $"{paddedId}.cue"));
+                {
+                    string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.CueExt;
+                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.cue"));
+                }
 
                 // Edit disc
                 if (discPage.Contains($"<a href=\"/disc/{id}/edit/\""))
-                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.EditExt, Path.Combine(paddedIdDir, "edit.html"));
+                {
+                    string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.EditExt;
+                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, "edit.html"));
+                }
 
                 // GDI
                 if (discPage.Contains($"<a href=\"/disc/{id}/gdi/\""))
-                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.GdiExt, Path.Combine(paddedIdDir, $"{paddedId}.gdi"));
+                {
+                    string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.GdiExt;
+                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.gdi"));
+                }
 
                 // KEYS
                 if (discPage.Contains($"<a href=\"/disc/{id}/key/\""))
-                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.KeyExt, Path.Combine(paddedIdDir, $"{paddedId}.key"));
+                {
+                    string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.KeyExt;
+                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.key"));
+                }
 
                 // LSD
                 if (discPage.Contains($"<a href=\"/disc/{id}/lsd/\""))
-                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.LsdExt, Path.Combine(paddedIdDir, $"{paddedId}.lsd"));
+                {
+                    string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.LsdExt;
+                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.lsd"));
+                }
 
                 // MD5
                 if (discPage.Contains($"<a href=\"/disc/{id}/md5/\""))
-                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.Md5Ext, Path.Combine(paddedIdDir, $"{paddedId}.md5"));
+                {
+                    string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.Md5Ext;
+                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.md5"));
+                }
 
                 // Review WIP entry
                 if (Constants.NewDiscRegex.IsMatch(discPage))
                 {
                     var match = Constants.NewDiscRegex.Match(discPage);
-                    _ = await DownloadFile(string.Format(Constants.WipDiscPageUrl, match.Groups[2].Value), Path.Combine(paddedIdDir, "newdisc.html"));
+                    string uri = string.Format(Constants.WipDiscPageUrl, match.Groups[2].Value);
+                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, "newdisc.html"));
                 }
 
                 // SBI
                 if (discPage.Contains($"<a href=\"/disc/{id}/sbi/\""))
-                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.SbiExt, Path.Combine(paddedIdDir, $"{paddedId}.sbi"));
+                {
+                    string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.SbiExt;
+                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sbi"));
+                }
 
                 // SFV
                 if (discPage.Contains($"<a href=\"/disc/{id}/sfv/\""))
-                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.SfvExt, Path.Combine(paddedIdDir, $"{paddedId}.sfv"));
+                {
+                    string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.SfvExt;
+                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sfv"));
+                }
 
                 // SHA1
                 if (discPage.Contains($"<a href=\"/disc/{id}/sha1/\""))
-                    _ = await DownloadFile(string.Format(Constants.DiscPageUrl, +id) + Constants.Sha1Ext, Path.Combine(paddedIdDir, $"{paddedId}.sha1"));
+                {
+                    string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.Sha1Ext;
+                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sha1"));
+                }
 
                 // HTML (Last in case of errors)
                 using (var discStreamWriter = File.CreateText(Path.Combine(paddedIdDir, "disc.html")))
@@ -857,9 +886,10 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="id">Redump WIP disc ID to retrieve</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
+        /// <param name="forceDownload">True to force all downloads, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
         /// <remarks>Limited to moderators and staff</remarks>
-        public async Task<bool> DownloadSingleWIPID(int id, string? outDir, bool rename)
+        public async Task<bool> DownloadSingleWIPID(int id, string? outDir, bool rename, bool forceDownload)
         {
             // If the user is not a moderator
             if (!_loggedIn || !_staffMember)
@@ -908,7 +938,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // Check if the page has been updated since the last time it was downloaded, if possible
-                if (File.Exists(Path.Combine(paddedIdDir, "disc.html")))
+                if (!forceDownload && File.Exists(Path.Combine(paddedIdDir, "disc.html")))
                 {
                     // Read in the cached file
                     var oldDiscPage = File.ReadAllText(Path.Combine(paddedIdDir, "disc.html"));

@@ -45,7 +45,8 @@ namespace SabreTools.RedumpLib.Web
                 int pageNumber = 1;
                 while (true)
                 {
-                    var pageIds = await client.CheckSingleSitePage(string.Format(Constants.QuickSearchUrl, query, pageNumber++));
+                    string url = string.Format(Constants.QuickSearchUrl, query, pageNumber++);
+                    var pageIds = await client.CheckSingleSitePage(url);
                     if (pageIds is null)
                         return [];
 
@@ -97,7 +98,8 @@ namespace SabreTools.RedumpLib.Web
             int pageNumber = 1;
             while (true)
             {
-                var pageIds = await client.CheckSingleSitePage(string.Format(Constants.QuickSearchUrl, query, pageNumber++), outDir, true);
+                string url = string.Format(Constants.QuickSearchUrl, query, pageNumber++);
+                var pageIds = await client.CheckSingleSitePage(url, outDir, forceDownload: true, forceContinue: true);
                 if (pageIds is null)
                     return [];
 
