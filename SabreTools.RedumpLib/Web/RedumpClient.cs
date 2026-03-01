@@ -569,27 +569,6 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Download a single pack
         /// </summary>
-        /// <param name="url">Base URL to download using</param>
-        /// <param name="system">System to download packs for</param>
-        /// <returns>Byte array containing the downloaded pack, null on error</returns>
-        public async Task<byte[]?> DownloadSinglePack(string url, RedumpSystem? system)
-        {
-            try
-            {
-                if (Debug) Console.WriteLine($"DEBUG: DownloadSinglePack(\"{url}\", {system})");
-                string packUri = string.Format(url, system.ShortName());
-                return await DownloadData(packUri);
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine($"An exception has occurred: {ex}");
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Download a single pack
-        /// </summary>
         /// <param name="packType">Pack type to use to determine the download URL</param>
         /// <param name="system">System to download packs for</param>
         /// <returns>Byte array containing the downloaded pack, null on error</returns>
@@ -614,41 +593,6 @@ namespace SabreTools.RedumpLib.Web
             {
                 Console.Error.WriteLine($"An exception has occurred: {ex}");
                 return null;
-            }
-        }
-
-        /// <summary>
-        /// Download a single pack
-        /// </summary>
-        /// <param name="url">Base URL to download using</param>
-        /// <param name="system">System to download packs for</param>
-        /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
-        public async Task<bool> DownloadSinglePack(string url, RedumpSystem? system, string? outDir, string? subfolder)
-        {
-            try
-            {
-                if (Debug) Console.WriteLine($"DEBUG: DownloadSinglePack(\"{url}\", {system}, \"{outDir}\", \"{subfolder}\")");
-
-                // If no output directory is defined, use the current directory instead
-                if (string.IsNullOrEmpty(outDir))
-                    outDir = Environment.CurrentDirectory;
-
-                string tempfile = Path.Combine(outDir, "tmp" + Guid.NewGuid().ToString());
-                string packUri = string.Format(url, system.ShortName());
-
-                // Make the call to get the pack
-                string? remoteFileName = await DownloadFile(packUri, tempfile);
-                if (remoteFileName is null)
-                    return false;
-
-                MoveOrDelete(tempfile, remoteFileName, outDir!, subfolder);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine($"An exception has occurred: {ex}");
-                return false;
             }
         }
 
@@ -1145,7 +1089,7 @@ namespace SabreTools.RedumpLib.Web
                 else
                     Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
 
-                byte[]? pack = await DownloadSinglePack(baseUrl, system);
+                byte[]? pack = await DownloadSinglePack(packType, system);
                 if (pack is not null)
                     packsDictionary.Add(system, pack);
             }
@@ -1213,7 +1157,7 @@ namespace SabreTools.RedumpLib.Web
                 else
                     Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
 
-                await DownloadSinglePack(baseUrl, system, outDir, subfolder);
+                await DownloadSinglePack(packType, system, outDir, subfolder);
             }
 
             if (Debug)
