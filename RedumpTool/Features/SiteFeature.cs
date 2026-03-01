@@ -20,12 +20,6 @@ namespace RedumpTool.Features
 
         #region Inputs
 
-        private const string _forceContinueName = "forcecontinue";
-        internal readonly FlagInput ForceContinueInput = new(_forceContinueName, ["-c", "--continue"], "Force continuing downloads through errors");
-
-        private const string _forceDownloadName = "forcedownload";
-        internal readonly FlagInput ForceDownloadInput = new(_forceDownloadName, ["-f", "--force"], "Force downloading contents even if they already exist");
-
         private const string _maximumName = "maximum";
         internal readonly Int32Input MaximumInput = new(_maximumName, ["-max", "--maximum"], "Upper bound for page numbers (cannot be used with only new)");
 
@@ -49,13 +43,13 @@ namespace RedumpTool.Features
             Add(PasswordInput);
             Add(AttemptCountInput);
             Add(TimeoutInput);
+            Add(ForceDownloadInput);
+            Add(ForceContinueInput);
 
             // Specific
             Add(MinimumInput);
             Add(MaximumInput);
             Add(OnlyNewInput);
-            Add(ForceDownloadInput);
-            Add(ForceContinueInput);
         }
 
         /// <inheritdoc/>
@@ -67,13 +61,13 @@ namespace RedumpTool.Features
             string? password = PasswordInput.Value;
             int? attemptCount = AttemptCountInput.Value;
             int? timeout = TimeoutInput.Value;
+            bool forceDownload = ForceDownloadInput.Value;
+            bool forceContinue = ForceContinueInput.Value;
 
             // Get specific values
             int minId = MinimumInput.Value ?? -1;
             int maxId = MaximumInput.Value ?? -1;
             bool onlyNew = OnlyNewInput.Value;
-            bool forceDownload = ForceDownloadInput.Value;
-            bool forceContinue = ForceContinueInput.Value;
 
             // Output directory validation
             if (!ValidateAndCreateOutputDirectory(outDir))
@@ -101,9 +95,9 @@ namespace RedumpTool.Features
             // Start the processing
             Task<List<int>> processingTask;
             if (onlyNew)
-                processingTask = _client.DownloadLastModified(outDir, forceDownload, forceContinue);
+                processingTask = _client.DownloadLastModified(outDir);
             else
-                processingTask = _client.DownloadSiteRange(outDir, forceDownload, forceContinue, minId, maxId);
+                processingTask = _client.DownloadSiteRange(outDir, minId, maxId);
 
             // Retrieve the result
             processingTask.Wait();

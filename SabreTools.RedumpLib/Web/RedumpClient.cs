@@ -51,12 +51,12 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Indicates if existing files will be overwritten
         /// </summary>
-        public bool ForceDownload { get; set; }
+        public bool ForceDownload { get; set; } = false;
 
         /// <summary>
         /// Indicates if download errors are ignored
         /// </summary>
-        public bool ForceContinue { get; set; }
+        public bool ForceContinue { get; set; } = false;
 
         /// <summary>
         /// Internal client for interaction
@@ -434,19 +434,14 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="url">Base URL to download using</param>
         /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="forceDownload">True to force all downloads, false otherwise</param>
-        /// <param name="forceContinue">True to continue even if a page fails to process, false otherwise</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleSitePage(string url,
-            string? outDir,
-            bool forceDownload,
-            bool forceContinue)
+        public async Task<List<int>?> CheckSingleSitePage(string url, string? outDir)
         {
             // Get all IDs from the page
             List<int>? ids = await CheckSingleSitePage(url);
             if (ids is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\", {forceContinue}) - Client failure");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\") - Client failure");
                 return null;
             }
 
@@ -456,8 +451,8 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
-                    bool downloaded = await DownloadSingleSiteID(id, outDir, rename: false, forceDownload, forceContinue);
-                    if (!downloaded && !forceContinue)
+                    bool downloaded = await DownloadSingleSiteID(id, outDir, rename: false);
+                    if (!downloaded && !ForceContinue)
                         return processed;
 
                     processed.Add(id);
@@ -533,20 +528,15 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="wc">RedumpWebClient to access the packs</param>
         /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="forceDownload">True to force all downloads, false otherwise</param>
-        /// <param name="forceContinue">True to continue even if a page fails to process, false otherwise</param>
         /// <returns>List of IDs that were found on success, empty on error</returns>
         /// <remarks>Limited to moderators and staff</remarks>
-        public async Task<List<int>?> CheckSingleWIPPage(string url,
-            string? outDir,
-            bool forceDownload,
-            bool forceContinue)
+        public async Task<List<int>?> CheckSingleWIPPage(string url, string? outDir)
         {
             // Get all IDs from the page
             List<int>? ids = await CheckSingleWIPPage(url);
             if (ids is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{url}\", \"{outDir}\", {forceContinue}) - Client failure");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{url}\", \"{outDir}\") - Client failure");
                 return null;
             }
 
@@ -556,8 +546,8 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
-                    bool downloaded = await DownloadSingleWIPID(id, outDir, rename: false, forceDownload);
-                    if (!downloaded && !forceContinue)
+                    bool downloaded = await DownloadSingleWIPID(id, outDir, rename: false);
+                    if (!downloaded && !ForceContinue)
                         return processed;
 
                     processed.Add(id);
@@ -674,14 +664,8 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
-        /// <param name="forceDownload">True to force all downloads, false otherwise</param>
-        /// <param name="forceContinue">True to continue even if a page item fails to process, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
-        public async Task<bool> DownloadSingleSiteID(int id,
-            string? outDir,
-            bool rename,
-            bool forceDownload,
-            bool forceContinue)
+        public async Task<bool> DownloadSingleSiteID(int id, string? outDir, bool rename)
         {
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrEmpty(outDir))
@@ -720,7 +704,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // Check if the page has been updated since the last time it was downloaded, if possible
-                if (!forceDownload && File.Exists(Path.Combine(paddedIdDir, "disc.html")))
+                if (!ForceDownload && File.Exists(Path.Combine(paddedIdDir, "disc.html")))
                 {
                     // Read in the cached file
                     var oldDiscPage = File.ReadAllText(Path.Combine(paddedIdDir, "disc.html"));
@@ -763,7 +747,7 @@ namespace SabreTools.RedumpLib.Web
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.ChangesExt;
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, "changes.html"));
-                    if (!forceContinue && remoteName is null)
+                    if (!ForceContinue && remoteName is null)
                         return false;
 
                 }
@@ -773,7 +757,7 @@ namespace SabreTools.RedumpLib.Web
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.CueExt;
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.cue"));
-                    if (!forceContinue && remoteName is null)
+                    if (!ForceContinue && remoteName is null)
                         return false;
                 }
 
@@ -782,7 +766,7 @@ namespace SabreTools.RedumpLib.Web
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.EditExt;
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, "edit.html"));
-                    if (!forceContinue && remoteName is null)
+                    if (!ForceContinue && remoteName is null)
                         return false;
                 }
 
@@ -791,7 +775,7 @@ namespace SabreTools.RedumpLib.Web
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.GdiExt;
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.gdi"));
-                    if (!forceContinue && remoteName is null)
+                    if (!ForceContinue && remoteName is null)
                         return false;
                 }
 
@@ -800,7 +784,7 @@ namespace SabreTools.RedumpLib.Web
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.KeyExt;
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.key"));
-                    if (!forceContinue && remoteName is null)
+                    if (!ForceContinue && remoteName is null)
                         return false;
                 }
 
@@ -809,7 +793,7 @@ namespace SabreTools.RedumpLib.Web
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.LsdExt;
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.lsd"));
-                    if (!forceContinue && remoteName is null)
+                    if (!ForceContinue && remoteName is null)
                         return false;
                 }
 
@@ -818,7 +802,7 @@ namespace SabreTools.RedumpLib.Web
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.Md5Ext;
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.md5"));
-                    if (!forceContinue && remoteName is null)
+                    if (!ForceContinue && remoteName is null)
                         return false;
                 }
 
@@ -828,7 +812,7 @@ namespace SabreTools.RedumpLib.Web
                     var match = Constants.NewDiscRegex.Match(discPage);
                     string uri = string.Format(Constants.WipDiscPageUrl, match.Groups[2].Value);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, "newdisc.html"));
-                    if (!forceContinue && remoteName is null)
+                    if (!ForceContinue && remoteName is null)
                         return false;
                 }
 
@@ -837,7 +821,7 @@ namespace SabreTools.RedumpLib.Web
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.SbiExt;
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sbi"));
-                    if (!forceContinue && remoteName is null)
+                    if (!ForceContinue && remoteName is null)
                         return false;
                 }
 
@@ -846,7 +830,7 @@ namespace SabreTools.RedumpLib.Web
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.SfvExt;
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sfv"));
-                    if (!forceContinue && remoteName is null)
+                    if (!ForceContinue && remoteName is null)
                         return false;
                 }
 
@@ -855,7 +839,7 @@ namespace SabreTools.RedumpLib.Web
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.Sha1Ext;
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sha1"));
-                    if (!forceContinue && remoteName is null)
+                    if (!ForceContinue && remoteName is null)
                         return false;
                 }
 
@@ -926,10 +910,9 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="id">Redump WIP disc ID to retrieve</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
-        /// <param name="forceDownload">True to force all downloads, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
         /// <remarks>Limited to moderators and staff</remarks>
-        public async Task<bool> DownloadSingleWIPID(int id, string? outDir, bool rename, bool forceDownload)
+        public async Task<bool> DownloadSingleWIPID(int id, string? outDir, bool rename)
         {
             // If the user is not a moderator
             if (!_loggedIn || !_staffMember)
@@ -978,7 +961,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // Check if the page has been updated since the last time it was downloaded, if possible
-                if (!forceDownload && File.Exists(Path.Combine(paddedIdDir, "disc.html")))
+                if (!ForceDownload && File.Exists(Path.Combine(paddedIdDir, "disc.html")))
                 {
                     // Read in the cached file
                     var oldDiscPage = File.ReadAllText(Path.Combine(paddedIdDir, "disc.html"));

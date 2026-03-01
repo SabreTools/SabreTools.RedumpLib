@@ -20,12 +20,6 @@ namespace RedumpTool.Features
 
         #region Inputs
 
-        private const string _forceContinueName = "forcecontinue";
-        internal readonly FlagInput ForceContinueInput = new(_forceContinueName, ["-c", "--continue"], "Force continuing downloads through errors");
-
-        private const string _forceDownloadName = "forcedownload";
-        internal readonly FlagInput ForceDownloadInput = new(_forceDownloadName, ["-f", "--force"], "Force downloading contents even if they already exist");
-
         private const string _listName = "list";
         internal readonly FlagInput ListInput = new(_listName, ["-l", "--list"], "Only list the page IDs for that user");
 
@@ -46,12 +40,12 @@ namespace RedumpTool.Features
             Add(PasswordInput);
             Add(AttemptCountInput);
             Add(TimeoutInput);
+            Add(ForceDownloadInput);
+            Add(ForceContinueInput);
 
             // Specific
             Add(OnlyNewInput);
             Add(ListInput);
-            Add(ForceDownloadInput);
-            Add(ForceContinueInput);
         }
 
         /// <inheritdoc/>
@@ -63,12 +57,12 @@ namespace RedumpTool.Features
             string? password = PasswordInput.Value;
             int? attemptCount = AttemptCountInput.Value;
             int? timeout = TimeoutInput.Value;
+            bool forceDownload = ForceDownloadInput.Value;
+            bool forceContinue = ForceContinueInput.Value;
 
             // Get specific values
             bool onlyNew = OnlyNewInput.Value;
             bool onlyList = ListInput.Value;
-            bool forceDownload = ForceDownloadInput.Value;
-            bool forceContinue = ForceContinueInput.Value;
 
             // Output directory validation
             if (!onlyList && !ValidateAndCreateOutputDirectory(outDir))
@@ -91,9 +85,9 @@ namespace RedumpTool.Features
             if (onlyList)
                 processingTask = _client.ListUser(username);
             else if (onlyNew)
-                processingTask = _client.DownloadUserLastModified(username, outDir, forceDownload, forceContinue);
+                processingTask = _client.DownloadUserLastModified(username, outDir);
             else
-                processingTask = _client.DownloadUser(username, outDir, forceDownload, forceContinue);
+                processingTask = _client.DownloadUser(username, outDir);
 
             // Retrieve the result
             processingTask.Wait();

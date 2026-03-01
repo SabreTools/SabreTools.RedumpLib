@@ -17,6 +17,12 @@ namespace RedumpTool.Features
         private const string _debugName = "debug";
         internal readonly FlagInput DebugInput = new(_debugName, ["-d", "--debug"], "Enable debug mode");
 
+        private const string _forceContinueName = "forcecontinue";
+        internal readonly FlagInput ForceContinueInput = new(_forceContinueName, ["-c", "--continue"], "Force continuing downloads through errors");
+
+        private const string _forceDownloadName = "forcedownload";
+        internal readonly FlagInput ForceDownloadInput = new(_forceDownloadName, ["-f", "--force"], "Force downloading contents even if they already exist");
+
         private const string _outputName = "output";
         internal readonly StringInput OutputInput = new(_outputName, ["-o", "--output"], "Set the base output directory");
 

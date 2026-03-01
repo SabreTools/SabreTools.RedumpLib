@@ -35,6 +35,8 @@ namespace RedumpTool.Features
             Add(PasswordInput);
             Add(AttemptCountInput);
             Add(TimeoutInput);
+            Add(ForceDownloadInput);
+            Add(ForceContinueInput);
 
             // Specific
             Add(SubfoldersInput);
@@ -49,6 +51,8 @@ namespace RedumpTool.Features
             string? password = PasswordInput.Value;
             int? attemptCount = AttemptCountInput.Value;
             int? timeout = TimeoutInput.Value;
+            bool forceDownload = ForceDownloadInput.Value;
+            bool forceContinue = ForceContinueInput.Value;
 
             // Get specific values
             bool useSubfolders = SubfoldersInput.Value;
@@ -63,6 +67,8 @@ namespace RedumpTool.Features
                 _client.AttemptCount = attemptCount.Value;
             if (timeout != null && timeout > 0)
                 _client.Timeout = TimeSpan.FromSeconds(timeout.Value);
+            _client.ForceDownload = forceDownload;
+            _client.ForceContinue = forceContinue;
 
             // Login to Redump, if necessary
             _client.Login(username, password).Wait();

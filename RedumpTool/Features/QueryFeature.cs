@@ -20,12 +20,6 @@ namespace RedumpTool.Features
 
         #region Inputs
 
-        private const string _forceContinueName = "forcecontinue";
-        internal readonly FlagInput ForceContinueInput = new(_forceContinueName, ["-c", "--continue"], "Force continuing downloads through errors");
-
-        private const string _forceDownloadName = "forcedownload";
-        internal readonly FlagInput ForceDownloadInput = new(_forceDownloadName, ["-f", "--force"], "Force downloading contents even if they already exist");
-
         private const string _listName = "list";
         internal readonly FlagInput ListInput = new(_listName, ["-l", "--list"], "Only list the page IDs for that query");
 
@@ -52,13 +46,13 @@ namespace RedumpTool.Features
             Add(PasswordInput);
             Add(AttemptCountInput);
             Add(TimeoutInput);
+            Add(ForceDownloadInput);
+            Add(ForceContinueInput);
 
             // Specific
             Add(QueryInput);
             Add(QuickSearchInput);
             Add(ListInput);
-            Add(ForceDownloadInput);
-            Add(ForceContinueInput);
             Add(NoSlashInput);
         }
 
@@ -71,13 +65,13 @@ namespace RedumpTool.Features
             string? password = PasswordInput.Value;
             int? attemptCount = AttemptCountInput.Value;
             int? timeout = TimeoutInput.Value;
+            bool forceDownload = ForceDownloadInput.Value;
+            bool forceContinue = ForceContinueInput.Value;
 
             // Get specific values
             bool onlyList = ListInput.Value;
             string? queryString = QueryInput.Value;
             bool quick = QuickSearchInput.Value;
-            bool forceDownload = ForceDownloadInput.Value;
-            bool forceContinue = ForceContinueInput.Value;
             bool convertForwardSlashes = !NoSlashInput.Value;
 
             // Output directory validation
@@ -110,14 +104,14 @@ namespace RedumpTool.Features
                 if (onlyList)
                     processingTask = _client.ListSearchResults(queryString, convertForwardSlashes);
                 else
-                    processingTask = _client.DownloadSearchResults(queryString, outDir, forceDownload, forceContinue, convertForwardSlashes);
+                    processingTask = _client.DownloadSearchResults(queryString, outDir, convertForwardSlashes);
             }
             else
             {
                 if (onlyList)
                     processingTask = _client.ListDiscsResults(queryString, convertForwardSlashes);
                 else
-                    processingTask = _client.DownloadDiscsResults(queryString, outDir, forceDownload, forceContinue, convertForwardSlashes);
+                    processingTask = _client.DownloadDiscsResults(queryString, outDir, convertForwardSlashes);
             }
 
             // Retrieve the result
