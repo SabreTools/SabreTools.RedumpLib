@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SabreTools.RedumpLib.Data;
 
 namespace SabreTools.RedumpLib.Web
 {
@@ -30,8 +29,7 @@ namespace SabreTools.RedumpLib.Web
             int pageNumber = 1;
             while (true)
             {
-                string url = string.Format(Constants.UserDumpsUrl, username, pageNumber++);
-                var pageIds = await client.CheckSingleSitePage(url, outDir);
+                var pageIds = await client.CheckSingleUserPage(username!, pageNumber++, outDir);
                 if (pageIds is null)
                     return [];
 
@@ -63,8 +61,7 @@ namespace SabreTools.RedumpLib.Web
             int pageNumber = 1;
             while (true)
             {
-                string url = string.Format(Constants.UserDumpsLastModifiedUrl, username, pageNumber++);
-                var pageIds = await client.CheckSingleSitePage(url, outDir);
+                var pageIds = await client.CheckSingleUserLastModifiedPage(username!, pageNumber++, outDir);
                 if (pageIds is null)
                     return [];
 
@@ -97,8 +94,7 @@ namespace SabreTools.RedumpLib.Web
                 int pageNumber = 1;
                 while (true)
                 {
-                    string url = string.Format(Constants.UserDumpsUrl, username, pageNumber++);
-                    var pageIds = await client.CheckSingleSitePage(url);
+                    var pageIds = await client.CheckSingleUserPage(username!, pageNumber++);
                     if (pageIds is null)
                         return [];
 

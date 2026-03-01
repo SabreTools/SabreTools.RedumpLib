@@ -371,100 +371,126 @@ namespace SabreTools.RedumpLib.Web
         #region Single Page Helpers
 
         /// <summary>
-        /// Process a Redump site page as a list of possible IDs or disc page
+        /// Process a Redump discs page as a list of possible IDs or disc page
         /// </summary>
-        /// <param name="url">Base URL to download using</param>
+        /// <param name="query">Discs query string to use</param>
+        /// <param name="pageNumber">Page number to use</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleSitePage(string url)
+        public async Task<List<int>?> CheckSingleDiscsPage(string query, int pageNumber)
         {
-            List<int> ids = [];
-
-            // Try to retrieve the data
-            string? dumpsPage = await DownloadString(url);
-
-            // If the web client failed, return null
-            if (dumpsPage is null)
-            {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Client failure");
-                return null;
-            }
-
-            // If we have no dumps left
-            if (dumpsPage.Contains("No discs found."))
-            {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - No discs found");
-                return ids;
-            }
-
-            // If we have a single disc page already
-            if (dumpsPage.Contains("<b>Download:</b>"))
-            {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Single disc page");
-                var value = Constants.SfvRegex.Match(dumpsPage).Groups[1].Value;
-                if (int.TryParse(value, out int id))
-                    ids.Add(id);
-
-                return ids;
-            }
-
-            // Otherwise, traverse each dump on the page
-            var matches = Constants.DiscRegex.Matches(dumpsPage);
-            foreach (Match? match in matches)
-            {
-                if (match is null)
-                    continue;
-
-                try
-                {
-                    if (int.TryParse(match.Groups[1].Value, out int value))
-                        ids.Add(value);
-                }
-                catch (Exception ex)
-                {
-                    Console.Error.WriteLine($"An exception has occurred: {ex}");
-                    continue;
-                }
-            }
-
-            return ids;
+            string url = string.Format(Constants.DiscsUrl, query, pageNumber);
+            return await CheckSingleSitePage(url);
         }
 
         /// <summary>
-        /// Process a Redump site page as a list of possible IDs or disc page
+        /// Process a Redump discs page as a list of possible IDs or disc page
         /// </summary>
-        /// <param name="url">Base URL to download using</param>
+        /// <param name="query">Discs query string to use</param>
+        /// <param name="pageNumber">Page number to use</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleSitePage(string url, string? outDir)
+        public async Task<List<int>?> CheckSingleDiscsPage(string query, int pageNumber, string? outDir)
         {
-            // Get all IDs from the page
-            List<int>? ids = await CheckSingleSitePage(url);
-            if (ids is null)
-            {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\") - Client failure");
-                return null;
-            }
+            string url = string.Format(Constants.DiscsUrl, query, pageNumber);
+            return await CheckSingleSitePage(url, outDir);
+        }
 
-            // Try to download all IDs
-            List<int> processed = [];
-            foreach (int id in ids)
-            {
-                try
-                {
-                    bool downloaded = await DownloadSingleSiteID(id, outDir, rename: false);
-                    if (!downloaded && !IgnoreErrors)
-                        return processed;
+        /// <summary>
+        /// Process a Redump discs by last modified page as a list of possible IDs or disc page
+        /// </summary>
+        /// <param name="pageNumber">Page number to use</param>
+        /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        public async Task<List<int>?> CheckSingleDiscsLastModifiedPage(int pageNumber)
+        {
+            string url = string.Format(Constants.LastModifiedUrl, pageNumber);
+            return await CheckSingleSitePage(url);
+        }
 
-                    processed.Add(id);
-                }
-                catch (Exception ex)
-                {
-                    Console.Error.WriteLine($"An exception has occurred: {ex}");
-                    continue;
-                }
-            }
+        /// <summary>
+        /// Process a Redump discs by last modified page as a list of possible IDs or disc page
+        /// </summary>
+        /// <param name="pageNumber">Page number to use</param>
+        /// <param name="outDir">Output directory to save data to</param>
+        /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        public async Task<List<int>?> CheckSingleDiscsLastModifiedPage(int pageNumber, string? outDir)
+        {
+            string url = string.Format(Constants.LastModifiedUrl, pageNumber);
+            return await CheckSingleSitePage(url, outDir);
+        }
 
-            return processed;
+        /// <summary>
+        /// Process a Redump quicksearch page as a list of possible IDs or disc page
+        /// </summary>
+        /// <param name="query">Quicksearch query string to use</param>
+        /// <param name="pageNumber">Page number to use</param>
+        /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        public async Task<List<int>?> CheckSingleQuicksearchPage(string query, int pageNumber)
+        {
+            string url = string.Format(Constants.QuickSearchUrl, query, pageNumber);
+            return await CheckSingleSitePage(url);
+        }
+
+        /// <summary>
+        /// Process a Redump quicksearch page as a list of possible IDs or disc page
+        /// </summary>
+        /// <param name="query">Quicksearch query string to use</param>
+        /// <param name="pageNumber">Page number to use</param>
+        /// <param name="outDir">Output directory to save data to</param>
+        /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        public async Task<List<int>?> CheckSingleQuicksearchPage(string query, int pageNumber, string? outDir)
+        {
+            string url = string.Format(Constants.QuickSearchUrl, query, pageNumber);
+            return await CheckSingleSitePage(url, outDir);
+        }
+
+        /// <summary>
+        /// Process a Redump user page as a list of possible IDs or disc page
+        /// </summary>
+        /// <param name="username">Username to use</param>
+        /// <param name="pageNumber">Page number to use</param>
+        /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        public async Task<List<int>?> CheckSingleUserPage(string username, int pageNumber)
+        {
+            string url = string.Format(Constants.UserDumpsUrl, username, pageNumber);
+            return await CheckSingleSitePage(url);
+        }
+
+        /// <summary>
+        /// Process a Redump user page as a list of possible IDs or disc page
+        /// </summary>
+        /// <param name="username">Username to use</param>
+        /// <param name="pageNumber">Page number to use</param>
+        /// <param name="outDir">Output directory to save data to</param>
+        /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        public async Task<List<int>?> CheckSingleUserPage(string username, int pageNumber, string? outDir)
+        {
+            string url = string.Format(Constants.UserDumpsUrl, username, pageNumber);
+            return await CheckSingleSitePage(url, outDir);
+        }
+
+        /// <summary>
+        /// Process a Redump user last modified page as a list of possible IDs or disc page
+        /// </summary>
+        /// <param name="username">Username to use</param>
+        /// <param name="pageNumber">Page number to use</param>
+        /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        public async Task<List<int>?> CheckSingleUserLastModifiedPage(string username, int pageNumber)
+        {
+            string url = string.Format(Constants.UserDumpsLastModifiedUrl, username, pageNumber);
+            return await CheckSingleSitePage(url);
+        }
+
+        /// <summary>
+        /// Process a Redump user last modified page as a list of possible IDs or disc page
+        /// </summary>
+        /// <param name="username">Username to use</param>
+        /// <param name="pageNumber">Page number to use</param>
+        /// <param name="outDir">Output directory to save data to</param>
+        /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        public async Task<List<int>?> CheckSingleUserLastModifiedPage(string username, int pageNumber, string? outDir)
+        {
+            string url = string.Format(Constants.UserDumpsLastModifiedUrl, username, pageNumber);
+            return await CheckSingleSitePage(url, outDir);
         }
 
         /// <summary>
@@ -547,6 +573,103 @@ namespace SabreTools.RedumpLib.Web
                 try
                 {
                     bool downloaded = await DownloadSingleWIPID(id, outDir, rename: false);
+                    if (!downloaded && !IgnoreErrors)
+                        return processed;
+
+                    processed.Add(id);
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($"An exception has occurred: {ex}");
+                    continue;
+                }
+            }
+
+            return processed;
+        }
+
+        /// <summary>
+        /// Process a Redump site page as a list of possible IDs or disc page
+        /// </summary>
+        /// <param name="url">Base URL to download using</param>
+        /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        private async Task<List<int>?> CheckSingleSitePage(string url)
+        {
+            List<int> ids = [];
+
+            // Try to retrieve the data
+            string? dumpsPage = await DownloadString(url);
+
+            // If the web client failed, return null
+            if (dumpsPage is null)
+            {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Client failure");
+                return null;
+            }
+
+            // If we have no dumps left
+            if (dumpsPage.Contains("No discs found."))
+            {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - No discs found");
+                return ids;
+            }
+
+            // If we have a single disc page already
+            if (dumpsPage.Contains("<b>Download:</b>"))
+            {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Single disc page");
+                var value = Constants.SfvRegex.Match(dumpsPage).Groups[1].Value;
+                if (int.TryParse(value, out int id))
+                    ids.Add(id);
+
+                return ids;
+            }
+
+            // Otherwise, traverse each dump on the page
+            var matches = Constants.DiscRegex.Matches(dumpsPage);
+            foreach (Match? match in matches)
+            {
+                if (match is null)
+                    continue;
+
+                try
+                {
+                    if (int.TryParse(match.Groups[1].Value, out int value))
+                        ids.Add(value);
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($"An exception has occurred: {ex}");
+                    continue;
+                }
+            }
+
+            return ids;
+        }
+
+        /// <summary>
+        /// Process a Redump site page as a list of possible IDs or disc page
+        /// </summary>
+        /// <param name="url">Base URL to download using</param>
+        /// <param name="outDir">Output directory to save data to</param>
+        /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        private async Task<List<int>?> CheckSingleSitePage(string url, string? outDir)
+        {
+            // Get all IDs from the page
+            List<int>? ids = await CheckSingleSitePage(url);
+            if (ids is null)
+            {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\") - Client failure");
+                return null;
+            }
+
+            // Try to download all IDs
+            List<int> processed = [];
+            foreach (int id in ids)
+            {
+                try
+                {
+                    bool downloaded = await DownloadSingleSiteID(id, outDir, rename: false);
                     if (!downloaded && !IgnoreErrors)
                         return processed;
 
