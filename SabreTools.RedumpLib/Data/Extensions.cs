@@ -1140,6 +1140,70 @@ namespace SabreTools.RedumpLib.Data
 
         #endregion
 
+        #region PackType
+
+        /// <summary>
+        /// Get the human readable name for a PackType
+        /// </summary>
+        /// <param name="packType"></param>
+        /// <returns></returns>
+        public static string? LongName(this PackType packType)
+            => AttributeHelper<PackType>.GetAttribute(packType)?.LongName;
+
+        /// <summary>
+        /// Get the human readable name for a PackType
+        /// </summary>
+        /// <param name="packType"></param>
+        /// <returns></returns>
+        public static string? LongName(this PackType? packType)
+            => AttributeHelper<PackType?>.GetAttribute(packType)?.LongName;
+
+        /// <summary>
+        /// Get the URL path part for a PackType
+        /// </summary>
+        /// <param name="packType"></param>
+        /// <returns></returns>
+        public static string? ShortName(this PackType packType)
+            => AttributeHelper<PackType>.GetAttribute(packType)?.ShortName;
+
+        /// <summary>
+        /// Get the URL path part for a PackType
+        /// </summary>
+        /// <param name="packType"></param>
+        /// <returns></returns>
+        public static string? ShortName(this PackType? packType)
+            => AttributeHelper<PackType?>.GetAttribute(packType)?.ShortName;
+
+        /// <summary>
+        /// Get the Region enum value for a given string
+        /// </summary>
+        /// <param name="region">String value to convert</param>
+        /// <returns>Region represented by the string, if possible</returns>
+        public static PackType? ToPackType(this string? region)
+        {
+            // No value means no match
+            if (region is null || region.Length == 0)
+                return null;
+
+            region = region.ToLowerInvariant();
+            var packTypes = (PackType[])Enum.GetValues(typeof(PackType));
+
+            // Check short names
+            int index = Array.FindIndex(packTypes, s => region == s.ShortName()?.ToLowerInvariant());
+            if (index > -1)
+                return packTypes[index];
+
+            // Check long names
+            index = Array.FindIndex(packTypes, s => region == s.LongName()?.ToLowerInvariant()
+                || region == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return packTypes[index];
+
+            return null;
+        }
+
+        #endregion
+
         #region Region
 
         /// <summary>

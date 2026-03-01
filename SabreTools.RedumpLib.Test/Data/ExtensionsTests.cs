@@ -567,12 +567,119 @@ namespace SabreTools.RedumpLib.Test.Data
 
         #endregion
 
+        #region PackType
+
+        /// <summary>
+        /// Check that every PackType has a long name provided
+        /// </summary>
+        /// <param name="packType">PackType value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GeneratePackTypeTestData))]
+        public void PackType_LongName(PackType? packType, bool expectNull)
+        {
+            var actual = packType.LongName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Check that every PackType has a short name provided
+        /// </summary>
+        /// <param name="packType">PackType value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GeneratePackTypeTestData))]
+        public void PackType_ShortName(PackType? packType, bool expectNull)
+        {
+            var actual = packType.ShortName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Ensure that every PackType that has a short name that is unique
+        /// </summary>
+        [Fact]
+        public void PackType_ShortName_NoDuplicates()
+        {
+            var fullPackTypes = Enum.GetValues<PackType>().Cast<PackType>().ToList();
+            var filteredPackTypes = new Dictionary<string, PackType?>();
+
+            int totalCount = 0;
+            foreach (PackType? packType in fullPackTypes)
+            {
+                var code = packType.ShortName();
+                if (string.IsNullOrEmpty(code))
+                    continue;
+
+                // Throw if the code already exists
+                if (filteredPackTypes.ContainsKey(code))
+                    throw new DuplicateNameException($"Code {code} already in dictionary");
+
+                filteredPackTypes[code] = packType;
+                totalCount++;
+            }
+
+            Assert.Equal(totalCount, filteredPackTypes.Count);
+        }
+
+        /// <summary>
+        /// Check that every PackType can be mapped from a string
+        /// </summary>
+        /// <param name="packType">PackType value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GeneratePackTypeTestData))]
+        public void PackType_ToPackType(PackType? packType, bool expectNull)
+        {
+            string? longName = packType.LongName();
+            string? longNameSpaceless = longName?.Replace(" ", string.Empty);
+
+            var actualNormal = longName.ToPackType();
+            var actualSpaceless = longNameSpaceless.ToPackType();
+
+            if (expectNull)
+            {
+                Assert.Null(actualNormal);
+                Assert.Null(actualSpaceless);
+            }
+            else
+            {
+                Assert.Equal(packType, actualNormal);
+                Assert.Equal(packType, actualSpaceless);
+            }
+        }
+
+        /// <summary>
+        /// Generate a test set of PackType values
+        /// </summary>
+        /// <returns>MemberData-compatible list of PackType values</returns>
+        public static TheoryData<PackType?, bool> GeneratePackTypeTestData()
+        {
+            var testData = new TheoryData<PackType?, bool>() { { null, true } };
+            foreach (PackType? packType in Enum.GetValues<PackType>().Cast<PackType?>())
+            {
+                testData.Add(packType, false);
+            }
+
+            return testData;
+        }
+
+        #endregion
+
         #region Region
 
         /// <summary>
         /// Check that every Region has a long name provided
         /// </summary>
-        /// <param name="region">Region value to check</param>
+        /// <param name="packType">Region value to check</param>
         /// <param name="expectNull">True to expect a null value, false otherwise</param>
         [Theory]
         [MemberData(nameof(GenerateRegionTestData))]
@@ -589,7 +696,7 @@ namespace SabreTools.RedumpLib.Test.Data
         /// <summary>
         /// Check that every Region has a short name provided
         /// </summary>
-        /// <param name="region">Region value to check</param>
+        /// <param name="packType">Region value to check</param>
         /// <param name="expectNull">True to expect a null value, false otherwise</param>
         [Theory]
         [MemberData(nameof(GenerateRegionTestData))]
@@ -633,7 +740,7 @@ namespace SabreTools.RedumpLib.Test.Data
         /// <summary>
         /// Check that every Region can be mapped from a string
         /// </summary>
-        /// <param name="region">Region value to check</param>
+        /// <param name="packType">Region value to check</param>
         /// <param name="expectNull">True to expect a null value, false otherwise</param>
         [Theory]
         [MemberData(nameof(GenerateRegionTestData))]
