@@ -148,6 +148,35 @@ namespace SabreTools.RedumpLib.Web
         }
 
         /// <summary>
+        /// Download the specified set of site disc pages
+        /// </summary>
+        /// <param name="client">RedumpClient for connectivity</param>
+        /// <param name="siteIds">Set of site IDs to download</param>
+        /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="forceDownload">True to force all downloads, false otherwise</param>
+        /// <param name="forceContinue">Force continuation of download</param>
+        /// <returns>All disc IDs that successfully downloaded, empty on error</returns>
+        public static async Task<List<int>> DownloadSiteSet(this RedumpClient client,
+            List<int> siteIds,
+            string? outDir,
+            bool forceDownload,
+            bool forceContinue)
+        {
+            List<int> ids = [];
+            foreach (int id in siteIds)
+            {
+                bool downloaded = await client.DownloadSingleSiteID(id, outDir, rename: true, forceDownload, forceContinue);
+                if (downloaded)
+                {
+                    ids.Add(id);
+                    DelayHelper.DelayRandom();
+                }
+            }
+
+            return ids;
+        }
+
+        /// <summary>
         /// Download the specified range of site disc pages
         /// </summary>
         /// <param name="client">RedumpClient for connectivity</param>
@@ -156,7 +185,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="forceContinue">Force continuation of download</param>
         /// <param name="minId">Starting ID for the range</param>
         /// <param name="maxId">Ending ID for the range (inclusive)</param>
-        /// <returns>All disc IDs in last modified range, empty on error</returns>
+        /// <returns>All disc IDs that successfully downloaded, empty on error</returns>
         public static async Task<List<int>> DownloadSiteRange(this RedumpClient client,
             string? outDir,
             bool forceDownload,
