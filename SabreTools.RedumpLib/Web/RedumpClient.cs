@@ -1028,7 +1028,6 @@ namespace SabreTools.RedumpLib.Web
         public async Task<Dictionary<RedumpSystem, byte[]>> DownloadPacks(string url, RedumpSystem[] systems)
         {
             var packsDictionary = new Dictionary<RedumpSystem, byte[]>();
-
             foreach (var system in systems)
             {
                 // If the system is invalid, we can't do anything
@@ -1059,6 +1058,66 @@ namespace SabreTools.RedumpLib.Web
                     Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
 
                 byte[]? pack = await DownloadSinglePack(url, system);
+                if (pack is not null)
+                    packsDictionary.Add(system, pack);
+            }
+
+            if (Debug)
+                Console.WriteLine("Complete!");
+            else
+                Console.Write($"\rComplete!{new string(' ', Console.BufferWidth - 10)}");
+
+            Console.WriteLine();
+
+            return packsDictionary;
+        }
+
+        /// <summary>
+        /// Download a set of packs
+        /// </summary>
+        /// <param name="packType">Pack type to use to determine the download URL</param>
+        /// <param name="system">Systems to download packs for</param>
+        public async Task<Dictionary<RedumpSystem, byte[]>> DownloadPacks(PackType packType, RedumpSystem[] systems)
+        {
+            // Determine the base URL, if possible
+            string? baseUrl = PackTypeToBaseUrl(packType);
+            if (baseUrl is null)
+            {
+                if (Debug) Console.Error.WriteLine($"'{packType}' is not a recognized pack type, skipping...");
+                return [];
+            }
+
+            var packsDictionary = new Dictionary<RedumpSystem, byte[]>();
+            foreach (var system in systems)
+            {
+                // If the system is invalid, we can't do anything
+                if (!system.IsAvailable())
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
+                    continue;
+                }
+
+                // If we didn't have credentials
+                if (!_loggedIn && system.IsBanned())
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access, skipping...");
+                    continue;
+                }
+
+                // If the system is unknown, we can't do anything
+                string? longName = system.LongName();
+                if (string.IsNullOrEmpty(longName))
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {system} is not a recognized system, skipping...");
+                    continue;
+                }
+
+                if (Debug)
+                    Console.WriteLine(longName);
+                else
+                    Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
+
+                byte[]? pack = await DownloadSinglePack(baseUrl, system);
                 if (pack is not null)
                     packsDictionary.Add(system, pack);
             }
@@ -1121,6 +1180,84 @@ namespace SabreTools.RedumpLib.Web
 
             Console.WriteLine();
             return true;
+        }
+
+        /// <summary>
+        /// Download a set of packs
+        /// </summary>
+        /// <param name="packType">Pack type to use to determine the download URL</param>
+        /// <param name="systems">Systems to download packs for</param>
+        /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
+        public async Task<bool> DownloadPacks(PackType packType, RedumpSystem[] systems, string? outDir, string? subfolder)
+        {
+            // Determine the base URL, if possible
+            string? baseUrl = PackTypeToBaseUrl(packType);
+            if (baseUrl is null)
+            {
+                if (Debug) Console.Error.WriteLine($"'{packType}' is not a recognized pack type, skipping...");
+                return false;
+            }
+
+            foreach (var system in systems)
+            {
+                // If the system is invalid, we can't do anything
+                if (!system.IsAvailable())
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
+                    continue;
+                }
+
+                // If we didn't have credentials
+                if (!_loggedIn && system.IsBanned())
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access, skipping...");
+                    continue;
+                }
+
+                // If the system is unknown, we can't do anything
+                string? longName = system.LongName();
+                if (string.IsNullOrEmpty(longName))
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {system} is not a recognized system, skipping...");
+                    continue;
+                }
+
+                if (Debug)
+                    Console.WriteLine(longName);
+                else
+                    Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
+
+                await DownloadSinglePack(baseUrl, system, outDir, subfolder);
+            }
+
+            if (Debug)
+                Console.WriteLine("Complete!");
+            else
+                Console.Write($"\rComplete!{new string(' ', Console.BufferWidth - 10)}");
+
+            Console.WriteLine();
+            return true;
+        }
+
+        /// <summary>
+        /// Convert the pack type to a base URL
+        /// </summary>
+        /// <param name="packType"></param>
+        /// <returns></returns>
+        private static string? PackTypeToBaseUrl(PackType packType)
+        {
+            return packType switch
+            {
+                PackType.Cuesheets => Constants.PackCuesUrl,
+                PackType.Datfile => Constants.PackDatfileUrl,
+                PackType.DecryptedKeys => Constants.PackDkeysUrl,
+                PackType.Gdis => Constants.PackGdiUrl,
+                PackType.Keys => Constants.PackKeysUrl,
+                PackType.Lsds => Constants.PackLsdUrl,
+                PackType.Sbis => Constants.PackSbiUrl,
+                _ => null,
+            };
         }
 
         /// <summary>
