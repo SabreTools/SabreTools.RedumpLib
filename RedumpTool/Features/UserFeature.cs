@@ -80,6 +80,8 @@ namespace RedumpTool.Features
                 _client.AttemptCount = attemptCount.Value;
             if (timeout != null && timeout > 0)
                 _client.Timeout = TimeSpan.FromSeconds(timeout.Value);
+            _client.ForceDownload = forceDownload;
+            _client.ForceContinue = forceContinue;
 
             // Login to Redump, if necessary
             _client.Login(username, password).Wait();

@@ -49,6 +49,16 @@ namespace SabreTools.RedumpLib.Web
         }
 
         /// <summary>
+        /// Indicates if existing files will be overwritten
+        /// </summary>
+        public bool ForceDownload { get; set; }
+
+        /// <summary>
+        /// Indicates if download errors are ignored
+        /// </summary>
+        public bool ForceContinue { get; set; }
+
+        /// <summary>
         /// Internal client for interaction
         /// </summary>
 #if NETCOREAPP
