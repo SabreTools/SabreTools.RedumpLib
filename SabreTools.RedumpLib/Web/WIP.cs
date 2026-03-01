@@ -23,7 +23,7 @@ namespace SabreTools.RedumpLib.Web
         }
 
         /// <summary>
-        /// Download the specified range of WIP disc pages
+        /// Download the specified set of WIP disc pages
         /// </summary>
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="wipIds">Set of WIP IDs to download</param>
