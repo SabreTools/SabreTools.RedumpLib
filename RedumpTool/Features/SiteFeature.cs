@@ -63,8 +63,8 @@ namespace RedumpTool.Features
         {
             // Get common values
             string? outDir = OutputInput.Value;
-            string username = UsernameInput.Value ?? string.Empty;
-            string password = PasswordInput.Value ?? string.Empty;
+            string? username = UsernameInput.Value;
+            string? password = PasswordInput.Value;
             int? attemptCount = AttemptCountInput.Value;
             int? timeout = TimeoutInput.Value;
 

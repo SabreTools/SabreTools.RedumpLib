@@ -93,7 +93,10 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Validate supplied credentials
         /// </summary>
-        public static async Task<bool?> ValidateCredentials(string username, string password)
+        /// <param name="username">Redump username</param>
+        /// <param name="password">Redump password</param>
+        /// <returns>True if the user could be logged in, false otherwise, null on error</returns>
+        public static async Task<bool?> ValidateCredentials(string? username, string? password)
         {
             // If options are invalid or we're missing something key, just return
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
@@ -101,14 +104,7 @@ namespace SabreTools.RedumpLib.Web
 
             // Try logging in with the supplied credentials otherwise
             var redumpClient = new RedumpClient();
-
-            bool? loggedIn = await redumpClient.Login(username, password);
-            if (loggedIn == true)
-                return true;
-            else if (loggedIn == false)
-                return false;
-            else
-                return null;
+            return await redumpClient.Login(username, password);
         }
 
         /// <summary>
@@ -117,7 +113,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="username">Redump username</param>
         /// <param name="password">Redump password</param>
         /// <returns>True if the user could be logged in, false otherwise, null on error</returns>
-        public async Task<bool?> Login(string username, string password)
+        public async Task<bool?> Login(string? username, string? password)
         {
             // Check for already logged in
             if (_loggedIn)
