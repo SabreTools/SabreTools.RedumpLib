@@ -95,11 +95,15 @@ namespace RedumpTool
             Console.WriteLine("user - Download pages and related files for a particular user");
             Console.WriteLine("    -n, --onlynew - Use the last modified view instead of sequential parsing");
             Console.WriteLine("    -l, --list - Only list the page IDs for that user");
+            Console.WriteLine("    -f, --force - Force downloading contents even if they already exist");
+            Console.WriteLine("    -c, --continue - Force continuing downloads until user cancels");
             Console.WriteLine();
             Console.WriteLine("query - Download pages and related files from a Redump-compatible query");
             Console.WriteLine("    -q, --query - Redump-compatible query to run");
             Console.WriteLine("    -s, --quick - Indicate a query is for the 'quicksearch' path, not 'discs'");
             Console.WriteLine("    -l, --list - Only list the page IDs for that query");
+            Console.WriteLine("    -f, --force - Force downloading contents even if they already exist");
+            Console.WriteLine("    -c, --continue - Force continuing downloads until user cancels");
             Console.WriteLine("    -ns, --noslash - Don't replace forward slashes with '-'");
             Console.WriteLine();
             Console.WriteLine("If using an ID range, both minimum and maximum are required");

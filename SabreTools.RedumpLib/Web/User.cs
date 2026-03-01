@@ -16,8 +16,10 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="username">Username to check discs for</param>
         /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="forceDownload">True to force all downloads, false otherwise</param>
+        /// <param name="forceContinue">Force continuation of download</param>
         /// <returns>All disc IDs for the given user, empty on error</returns>
-        public static async Task<List<int>> DownloadUser(this RedumpClient client, string? username, string? outDir)
+        public static async Task<List<int>> DownloadUser(this RedumpClient client, string? username, string? outDir, bool forceDownload, bool forceContinue)
         {
             List<int> ids = [];
             if (string.IsNullOrEmpty(username))
@@ -30,7 +32,8 @@ namespace SabreTools.RedumpLib.Web
             int pageNumber = 1;
             while (true)
             {
-                var pageIds = await client.CheckSingleSitePage(string.Format(Constants.UserDumpsUrl, username, pageNumber++), outDir, true);
+                string url = string.Format(Constants.UserDumpsUrl, username, pageNumber++);
+                var pageIds = await client.CheckSingleSitePage(url, outDir, forceDownload, forceContinue);
                 if (pageIds is null)
                     return [];
 
@@ -48,8 +51,10 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="username">Username to check discs for</param>
         /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="forceDownload">True to force all downloads, false otherwise</param>
+        /// <param name="forceContinue">Force continuation of download</param>
         /// <returns>All disc IDs for the given user, empty on error</returns>
-        public static async Task<List<int>> DownloadUserLastModified(this RedumpClient client, string? username, string? outDir)
+        public static async Task<List<int>> DownloadUserLastModified(this RedumpClient client, string? username, string? outDir, bool forceDownload, bool forceContinue)
         {
             List<int> ids = [];
             if (string.IsNullOrEmpty(username))
@@ -62,7 +67,8 @@ namespace SabreTools.RedumpLib.Web
             int pageNumber = 1;
             while (true)
             {
-                var pageIds = await client.CheckSingleSitePage(string.Format(Constants.UserDumpsLastModifiedUrl, username, pageNumber++), outDir, false);
+                string url = string.Format(Constants.UserDumpsLastModifiedUrl, username, pageNumber++);
+                var pageIds = await client.CheckSingleSitePage(url, outDir, forceDownload, forceContinue);
                 if (pageIds is null)
                     return [];
 
@@ -95,7 +101,8 @@ namespace SabreTools.RedumpLib.Web
                 int pageNumber = 1;
                 while (true)
                 {
-                    var pageIds = await client.CheckSingleSitePage(string.Format(Constants.UserDumpsUrl, username, pageNumber++));
+                    string url = string.Format(Constants.UserDumpsUrl, username, pageNumber++);
+                    var pageIds = await client.CheckSingleSitePage(url);
                     if (pageIds is null)
                         return [];
 

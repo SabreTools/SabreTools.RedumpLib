@@ -20,6 +20,12 @@ namespace RedumpTool.Features
 
         #region Inputs
 
+        private const string _forceContinueName = "forcecontinue";
+        internal readonly FlagInput ForceContinueInput = new(_forceContinueName, ["-c", "--continue"], "Force continuing downloads until user cancels");
+
+        private const string _forceDownloadName = "forcedownload";
+        internal readonly FlagInput ForceDownloadInput = new(_forceDownloadName, ["-f", "--force"], "Force downloading contents even if they already exist");
+
         private const string _listName = "list";
         internal readonly FlagInput ListInput = new(_listName, ["-l", "--list"], "Only list the page IDs for that query");
 
@@ -51,6 +57,8 @@ namespace RedumpTool.Features
             Add(QueryInput);
             Add(QuickSearchInput);
             Add(ListInput);
+            Add(ForceDownloadInput);
+            Add(ForceContinueInput);
             Add(NoSlashInput);
         }
 
@@ -68,6 +76,8 @@ namespace RedumpTool.Features
             bool onlyList = ListInput.Value;
             string? queryString = QueryInput.Value;
             bool quick = QuickSearchInput.Value;
+            bool forceDownload = ForceDownloadInput.Value;
+            bool forceContinue = ForceContinueInput.Value;
             bool convertForwardSlashes = !NoSlashInput.Value;
 
             // Output directory validation
@@ -98,14 +108,14 @@ namespace RedumpTool.Features
                 if (onlyList)
                     processingTask = _client.ListSearchResults(queryString, convertForwardSlashes);
                 else
-                    processingTask = _client.DownloadSearchResults(queryString, outDir, convertForwardSlashes);
+                    processingTask = _client.DownloadSearchResults(queryString, outDir, forceDownload, forceContinue, convertForwardSlashes);
             }
             else
             {
                 if (onlyList)
                     processingTask = _client.ListDiscsResults(queryString, convertForwardSlashes);
                 else
-                    processingTask = _client.DownloadDiscsResults(queryString, outDir, convertForwardSlashes);
+                    processingTask = _client.DownloadDiscsResults(queryString, outDir, forceDownload, forceContinue, convertForwardSlashes);
             }
 
             // Retrieve the result

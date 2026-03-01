@@ -70,9 +70,16 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="query">Query string to attempt to search for</param>
         /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="forceDownload">True to force all downloads, false otherwise</param>
+        /// <param name="forceContinue">Force continuation of download</param>
         /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
         /// <returns>All disc IDs for the given query, empty on error</returns>
-        public static async Task<List<int>> DownloadSearchResults(this RedumpClient client, string? query, string? outDir, bool convertForwardSlashes)
+        public static async Task<List<int>> DownloadSearchResults(this RedumpClient client,
+            string? query,
+            string? outDir,
+            bool forceDownload,
+            bool forceContinue,
+            bool convertForwardSlashes)
         {
             List<int> ids = [];
 
@@ -99,7 +106,7 @@ namespace SabreTools.RedumpLib.Web
             while (true)
             {
                 string url = string.Format(Constants.QuickSearchUrl, query, pageNumber++);
-                var pageIds = await client.CheckSingleSitePage(url, outDir, forceDownload: true, forceContinue: true);
+                var pageIds = await client.CheckSingleSitePage(url, outDir, forceDownload, forceContinue);
                 if (pageIds is null)
                     return [];
 
