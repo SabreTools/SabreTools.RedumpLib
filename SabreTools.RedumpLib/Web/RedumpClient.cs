@@ -1025,12 +1025,10 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="url">Base URL to download using</param>
         /// <param name="system">Systems to download packs for</param>
-        /// <param name="title">Name of the pack that is downloading</param>
-        public async Task<Dictionary<RedumpSystem, byte[]>> DownloadPacks(string url, RedumpSystem[] systems, string title)
+        public async Task<Dictionary<RedumpSystem, byte[]>> DownloadPacks(string url, RedumpSystem[] systems)
         {
             var packsDictionary = new Dictionary<RedumpSystem, byte[]>();
 
-            Console.WriteLine($"Downloading {title}");
             foreach (var system in systems)
             {
                 // If the system is invalid, we can't do anything
