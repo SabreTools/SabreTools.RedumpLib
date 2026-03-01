@@ -21,7 +21,7 @@ namespace RedumpTool.Features
         #region Inputs
 
         private const string _forceContinueName = "forcecontinue";
-        internal readonly FlagInput ForceContinueInput = new(_forceContinueName, ["-c", "--continue"], "Force continuing downloads until user cancels (requires only new)");
+        internal readonly FlagInput ForceContinueInput = new(_forceContinueName, ["-c", "--continue"], "Force continuing downloads through errors");
 
         private const string _forceDownloadName = "forcedownload";
         internal readonly FlagInput ForceDownloadInput = new(_forceDownloadName, ["-f", "--force"], "Force downloading contents even if they already exist");

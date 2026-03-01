@@ -153,15 +153,21 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="forceDownload">True to force all downloads, false otherwise</param>
+        /// <param name="forceContinue">Force continuation of download</param>
         /// <param name="minId">Starting ID for the range</param>
         /// <param name="maxId">Ending ID for the range (inclusive)</param>
         /// <returns>All disc IDs in last modified range, empty on error</returns>
-        public static async Task<List<int>> DownloadSiteRange(this RedumpClient client, string? outDir, bool forceDownload, int minId = 0, int maxId = 0)
+        public static async Task<List<int>> DownloadSiteRange(this RedumpClient client,
+            string? outDir,
+            bool forceDownload,
+            bool forceContinue,
+            int minId = 0,
+            int maxId = 0)
         {
             List<int> ids = [];
             for (int id = minId; id <= maxId; id++)
             {
-                bool downloaded = await client.DownloadSingleSiteID(id, outDir, rename: true, forceDownload);
+                bool downloaded = await client.DownloadSingleSiteID(id, outDir, rename: true, forceDownload, forceContinue);
                 if (downloaded)
                 {
                     ids.Add(id);

@@ -443,7 +443,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
-                    bool downloaded = await DownloadSingleSiteID(id, outDir, rename: false, forceDownload);
+                    bool downloaded = await DownloadSingleSiteID(id, outDir, rename: false, forceDownload, forceContinue);
                     if (!downloaded && !forceContinue)
                         return processed;
 
@@ -659,8 +659,9 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
         /// <param name="forceDownload">True to force all downloads, false otherwise</param>
+        /// <param name="forceContinue">True to continue even if a page item fails to process, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
-        public async Task<bool> DownloadSingleSiteID(int id, string? outDir, bool rename, bool forceDownload)
+        public async Task<bool> DownloadSingleSiteID(int id, string? outDir, bool rename, bool forceDownload, bool forceContinue)
         {
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrEmpty(outDir))
@@ -741,49 +742,64 @@ namespace SabreTools.RedumpLib.Web
                 if (discPage.Contains($"<a href=\"/disc/{id}/changes/\""))
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.ChangesExt;
-                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, "changes.html"));
+                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, "changes.html"));
+                    if (!forceContinue && remoteName is null)
+                        return false;
+
                 }
 
                 // CUE
                 if (discPage.Contains($"<a href=\"/disc/{id}/cue/\""))
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.CueExt;
-                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.cue"));
+                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.cue"));
+                    if (!forceContinue && remoteName is null)
+                        return false;
                 }
 
                 // Edit disc
                 if (discPage.Contains($"<a href=\"/disc/{id}/edit/\""))
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.EditExt;
-                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, "edit.html"));
+                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, "edit.html"));
+                    if (!forceContinue && remoteName is null)
+                        return false;
                 }
 
                 // GDI
                 if (discPage.Contains($"<a href=\"/disc/{id}/gdi/\""))
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.GdiExt;
-                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.gdi"));
+                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.gdi"));
+                    if (!forceContinue && remoteName is null)
+                        return false;
                 }
 
                 // KEYS
                 if (discPage.Contains($"<a href=\"/disc/{id}/key/\""))
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.KeyExt;
-                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.key"));
+                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.key"));
+                    if (!forceContinue && remoteName is null)
+                        return false;
                 }
 
                 // LSD
                 if (discPage.Contains($"<a href=\"/disc/{id}/lsd/\""))
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.LsdExt;
-                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.lsd"));
+                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.lsd"));
+                    if (!forceContinue && remoteName is null)
+                        return false;
                 }
 
                 // MD5
                 if (discPage.Contains($"<a href=\"/disc/{id}/md5/\""))
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.Md5Ext;
-                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.md5"));
+                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.md5"));
+                    if (!forceContinue && remoteName is null)
+                        return false;
                 }
 
                 // Review WIP entry
@@ -791,28 +807,36 @@ namespace SabreTools.RedumpLib.Web
                 {
                     var match = Constants.NewDiscRegex.Match(discPage);
                     string uri = string.Format(Constants.WipDiscPageUrl, match.Groups[2].Value);
-                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, "newdisc.html"));
+                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, "newdisc.html"));
+                    if (!forceContinue && remoteName is null)
+                        return false;
                 }
 
                 // SBI
                 if (discPage.Contains($"<a href=\"/disc/{id}/sbi/\""))
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.SbiExt;
-                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sbi"));
+                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sbi"));
+                    if (!forceContinue && remoteName is null)
+                        return false;
                 }
 
                 // SFV
                 if (discPage.Contains($"<a href=\"/disc/{id}/sfv/\""))
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.SfvExt;
-                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sfv"));
+                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sfv"));
+                    if (!forceContinue && remoteName is null)
+                        return false;
                 }
 
                 // SHA1
                 if (discPage.Contains($"<a href=\"/disc/{id}/sha1/\""))
                 {
                     string uri = string.Format(Constants.DiscPageUrl, +id) + Constants.Sha1Ext;
-                    _ = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sha1"));
+                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sha1"));
+                    if (!forceContinue && remoteName is null)
+                        return false;
                 }
 
                 // HTML (Last in case of errors)
