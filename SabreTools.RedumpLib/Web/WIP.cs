@@ -17,7 +17,9 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="forceDownload">True to force all downloads, false otherwise</param>
         /// <param name="forceContinue">Force continuation of download</param>
         /// <returns>All disc IDs in last submitted range, empty on error</returns>
-        public static async Task<List<int>> DownloadLastSubmitted(this RedumpClient client, string? outDir, bool forceDownload, bool forceContinue)
+        public static async Task<List<int>> DownloadLastSubmitted(this RedumpClient client,
+            string? outDir,
+            bool forceDownload, bool forceContinue)
         {
             return await client.CheckSingleWIPPage(Constants.WipDumpsUrl, outDir, forceDownload, forceContinue) ?? [];
         }
@@ -30,7 +32,10 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="forceDownload">True to force all downloads, false otherwise</param>
         /// <returns>All WIP IDs in last submitted range, empty on error</returns>
-        public static async Task<List<int>> DownloadWIPSet(this RedumpClient client, List<int> wipIds, string? outDir, bool forceDownload)
+        public static async Task<List<int>> DownloadWIPSet(this RedumpClient client,
+            List<int> wipIds,
+            string? outDir,
+            bool forceDownload)
         {
             List<int> ids = [];
             foreach (int id in wipIds)

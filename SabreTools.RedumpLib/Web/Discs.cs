@@ -126,7 +126,10 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="forceDownload">True to force all downloads, false otherwise</param>
         /// <param name="forceContinue">Force continuation of download</param>
         /// <returns>All disc IDs in last modified range, empty on error</returns>
-        public static async Task<List<int>> DownloadLastModified(this RedumpClient client, string? outDir, bool forceDownload, bool forceContinue)
+        public static async Task<List<int>> DownloadLastModified(this RedumpClient client,
+            string? outDir,
+            bool forceDownload,
+            bool forceContinue)
         {
             List<int> ids = [];
 

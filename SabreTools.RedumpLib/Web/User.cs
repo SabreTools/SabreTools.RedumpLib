@@ -19,7 +19,11 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="forceDownload">True to force all downloads, false otherwise</param>
         /// <param name="forceContinue">Force continuation of download</param>
         /// <returns>All disc IDs for the given user, empty on error</returns>
-        public static async Task<List<int>> DownloadUser(this RedumpClient client, string? username, string? outDir, bool forceDownload, bool forceContinue)
+        public static async Task<List<int>> DownloadUser(this RedumpClient client,
+            string? username,
+            string? outDir,
+            bool forceDownload,
+            bool forceContinue)
         {
             List<int> ids = [];
             if (string.IsNullOrEmpty(username))
@@ -54,7 +58,11 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="forceDownload">True to force all downloads, false otherwise</param>
         /// <param name="forceContinue">Force continuation of download</param>
         /// <returns>All disc IDs for the given user, empty on error</returns>
-        public static async Task<List<int>> DownloadUserLastModified(this RedumpClient client, string? username, string? outDir, bool forceDownload, bool forceContinue)
+        public static async Task<List<int>> DownloadUserLastModified(this RedumpClient client,
+            string? username,
+            string? outDir,
+            bool forceDownload,
+            bool forceContinue)
         {
             List<int> ids = [];
             if (string.IsNullOrEmpty(username))

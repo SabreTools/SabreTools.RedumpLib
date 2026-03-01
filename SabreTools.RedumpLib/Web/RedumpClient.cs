@@ -427,7 +427,10 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="forceDownload">True to force all downloads, false otherwise</param>
         /// <param name="forceContinue">True to continue even if a page fails to process, false otherwise</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleSitePage(string url, string? outDir, bool forceDownload, bool forceContinue)
+        public async Task<List<int>?> CheckSingleSitePage(string url,
+            string? outDir,
+            bool forceDownload,
+            bool forceContinue)
         {
             // Get all IDs from the page
             List<int>? ids = await CheckSingleSitePage(url);
@@ -524,7 +527,10 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="forceContinue">True to continue even if a page fails to process, false otherwise</param>
         /// <returns>List of IDs that were found on success, empty on error</returns>
         /// <remarks>Limited to moderators and staff</remarks>
-        public async Task<List<int>?> CheckSingleWIPPage(string url, string? outDir, bool forceDownload, bool forceContinue)
+        public async Task<List<int>?> CheckSingleWIPPage(string url,
+            string? outDir,
+            bool forceDownload,
+            bool forceContinue)
         {
             // Get all IDs from the page
             List<int>? ids = await CheckSingleWIPPage(url);
@@ -661,7 +667,11 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="forceDownload">True to force all downloads, false otherwise</param>
         /// <param name="forceContinue">True to continue even if a page item fails to process, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
-        public async Task<bool> DownloadSingleSiteID(int id, string? outDir, bool rename, bool forceDownload, bool forceContinue)
+        public async Task<bool> DownloadSingleSiteID(int id,
+            string? outDir,
+            bool rename,
+            bool forceDownload,
+            bool forceContinue)
         {
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrEmpty(outDir))
@@ -1080,7 +1090,11 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="title">Name of the pack that is downloading</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
-        public async Task<bool> DownloadPacks(string url, RedumpSystem[] systems, string title, string? outDir, string? subfolder)
+        public async Task<bool> DownloadPacks(string url,
+            RedumpSystem[] systems,
+            string title,
+            string? outDir,
+            string? subfolder)
         {
             Console.WriteLine($"Downloading {title}");
             foreach (var system in systems)
