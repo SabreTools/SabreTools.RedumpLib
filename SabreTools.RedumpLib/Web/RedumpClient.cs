@@ -387,6 +387,89 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Process a Redump discs page as a list of possible IDs or disc page
         /// </summary>
+        /// <param name="antimodchip">Anti-modchip status to filter, null to omit</param>
+        /// <param name="barcode">Add no barcode search to filter, false to omit</param>
+        /// <param name="category">Add category to filter, null to omit</param>
+        /// <param name="discType">Disc type extension to filter, null to omit</param>
+        /// <param name="dumper">Add dumper name to filter, null to omit</param>
+        /// <param name="edc">EDC status to filter, null to omit</param>
+        /// <param name="edition">Add edition to filter, null to omit</param>
+        /// <param name="errors">Add error count or range, null to omit</param>
+        /// <param name="language">Add language to filter, null to omit</param>
+        /// <param name="letter">Starts with letter or '~' for numbers, null to omit</param>
+        /// <param name="libcrypt">LibCrypt status to filter, null to omit</param>
+        /// <param name="media">Non-specific media type to filter, null to omit</param>
+        /// <param name="offset">Write offset to filter, null to omit</param>
+        /// <param name="quicksearch">Generic text search to filter, null to omit</param>
+        /// <param name="region">Add region to filter, null to omit</param>
+        /// <param name="ringcode">Add ringcode to filter, null to omit</param>
+        /// <param name="sort">Add sorting type, null to omit</param>
+        /// <param name="sortDir">Add sorting direction, null to omit</param>
+        /// <param name="status">Add status to filter, null to omit</param>
+        /// <param name="system">Add system to filter, null to omit</param>
+        /// <param name="tracks">Track count up to 99, null to omit</param>
+        /// <param name="comments">Marks search as comments field only, false to omit; cannot be used with <paramref name="contents"/> or <paramref name="protection"/></param>
+        /// <param name="contents">Marks search as contents field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="protection"/></param>
+        /// <param name="protection">Marks search as protection field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="contents"/></param>
+        /// <param name="page">Page number, null to omit</param>
+        /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        public async Task<List<int>?> CheckSingleDiscsPage(bool? antimodchip = null,
+            bool barcode = false,
+            DiscCategory? category = null,
+            DiscType? discType = null,
+            string? dumper = null,
+            YesNo? edc = null,
+            string? edition = null,
+            string? errors = null,
+            Language? language = null,
+            char? letter = null,
+            bool? libcrypt = null,
+            MediaType? media = null,
+            int? offset = null,
+            string? quicksearch = null,
+            Region? region = null,
+            string? ringcode = null,
+            SortCategory? sort = null,
+            SortDirection? sortDir = null,
+            DumpStatus? status = null,
+            RedumpSystem? system = null,
+            int? tracks = null,
+            bool comments = false,
+            bool contents = false,
+            bool protection = false,
+            int? page = null)
+        {
+            string url = UrlBuilder.BuildDiscsUrl(antimodchip,
+                barcode,
+                category,
+                discType,
+                dumper,
+                edc,
+                edition,
+                errors,
+                language,
+                letter,
+                libcrypt,
+                media,
+                offset,
+                quicksearch,
+                region,
+                ringcode,
+                sort,
+                sortDir,
+                status,
+                system,
+                tracks,
+                comments,
+                contents,
+                protection,
+                page);
+            return await CheckSingleSitePage(url);
+        }
+
+        /// <summary>
+        /// Process a Redump discs page as a list of possible IDs or disc page
+        /// </summary>
         /// <param name="query">Discs query string to use</param>
         /// <param name="pageNumber">Page number to use</param>
         /// <param name="outDir">Output directory to save data to</param>
@@ -396,6 +479,91 @@ namespace SabreTools.RedumpLib.Web
         {
             query = NormalizeQuery(query, convertForwardSlashes);
             string url = string.Format(Constants.DiscsUrl, query, pageNumber);
+            return await CheckSingleSitePage(url, outDir);
+        }
+
+        /// <summary>
+        /// Process a Redump discs page as a list of possible IDs or disc page
+        /// </summary>
+        /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="antimodchip">Anti-modchip status to filter, null to omit</param>
+        /// <param name="barcode">Add no barcode search to filter, false to omit</param>
+        /// <param name="category">Add category to filter, null to omit</param>
+        /// <param name="discType">Disc type extension to filter, null to omit</param>
+        /// <param name="dumper">Add dumper name to filter, null to omit</param>
+        /// <param name="edc">EDC status to filter, null to omit</param>
+        /// <param name="edition">Add edition to filter, null to omit</param>
+        /// <param name="errors">Add error count or range, null to omit</param>
+        /// <param name="language">Add language to filter, null to omit</param>
+        /// <param name="letter">Starts with letter or '~' for numbers, null to omit</param>
+        /// <param name="libcrypt">LibCrypt status to filter, null to omit</param>
+        /// <param name="media">Non-specific media type to filter, null to omit</param>
+        /// <param name="offset">Write offset to filter, null to omit</param>
+        /// <param name="quicksearch">Generic text search to filter, null to omit</param>
+        /// <param name="region">Add region to filter, null to omit</param>
+        /// <param name="ringcode">Add ringcode to filter, null to omit</param>
+        /// <param name="sort">Add sorting type, null to omit</param>
+        /// <param name="sortDir">Add sorting direction, null to omit</param>
+        /// <param name="status">Add status to filter, null to omit</param>
+        /// <param name="system">Add system to filter, null to omit</param>
+        /// <param name="tracks">Track count up to 99, null to omit</param>
+        /// <param name="comments">Marks search as comments field only, false to omit; cannot be used with <paramref name="contents"/> or <paramref name="protection"/></param>
+        /// <param name="contents">Marks search as contents field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="protection"/></param>
+        /// <param name="protection">Marks search as protection field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="contents"/></param>
+        /// <param name="page">Page number, null to omit</param>
+        /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        public async Task<List<int>?> CheckSingleDiscsPage(string? outDir,
+            bool? antimodchip = null,
+            bool barcode = false,
+            DiscCategory? category = null,
+            DiscType? discType = null,
+            string? dumper = null,
+            YesNo? edc = null,
+            string? edition = null,
+            string? errors = null,
+            Language? language = null,
+            char? letter = null,
+            bool? libcrypt = null,
+            MediaType? media = null,
+            int? offset = null,
+            string? quicksearch = null,
+            Region? region = null,
+            string? ringcode = null,
+            SortCategory? sort = null,
+            SortDirection? sortDir = null,
+            DumpStatus? status = null,
+            RedumpSystem? system = null,
+            int? tracks = null,
+            bool comments = false,
+            bool contents = false,
+            bool protection = false,
+            int? page = null)
+        {
+            string url = UrlBuilder.BuildDiscsUrl(antimodchip,
+                barcode,
+                category,
+                discType,
+                dumper,
+                edc,
+                edition,
+                errors,
+                language,
+                letter,
+                libcrypt,
+                media,
+                offset,
+                quicksearch,
+                region,
+                ringcode,
+                sort,
+                sortDir,
+                status,
+                system,
+                tracks,
+                comments,
+                contents,
+                protection,
+                page);
             return await CheckSingleSitePage(url, outDir);
         }
 
