@@ -68,7 +68,17 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Path for per-user lists
         /// </summary>
-        private const string ListPath = @"list/{0}/{1}/{2}/";
+        //private const string ListPath = "list/";
+
+        /// <summary>
+        /// Path for per-user lists with an operation ("have", "miss")
+        /// </summary>
+        private const string ListWithOperationPath = @"list/{0}/{1}/{2}/";
+
+        /// <summary>
+        /// Path for per-user lists without an operation (acts like "have")
+        /// </summary>
+        private const string ListWithoutOperationPath = @"list/{0}/{1}/";
 
         /// <summary>
         /// Path for LSD pack downloads
@@ -378,21 +388,28 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Build a /list/ path URL
         /// </summary>
-        /// <param name="have">True to show "have" discs, false to show "miss" discs</param>
         /// <param name="username">Username to use</param>
         /// <param name="system">System for filtering</param>
+        /// <param name="have">True to show "have" discs, false to show "miss" discs, null to omit (acts like "have")</param>
         /// <remarks>Does not check for incompatibilities</remarks>
-        public static string BuildListUrl(bool have,
-            string username,
-            RedumpSystem system)
+        public static string BuildListUrl(string username,
+            RedumpSystem system,
+            bool? have = null)
         {
             var sb = new StringBuilder();
 
             sb.Append(SiteBaseUrl);
 
-            string operation = have ? "have" : "miss";
             string systemName = system.ShortName() ?? string.Empty;
-            sb.AppendFormat(ListPath, operation, username, systemName);
+            if (have is not null)
+            {
+                string operation = have.Value ? "have" : "miss";
+                sb.AppendFormat(ListWithOperationPath, operation, username, systemName);
+            }
+            else
+            {
+                sb.AppendFormat(ListWithoutOperationPath, username, systemName);
+            }
 
             return sb.ToString();
         }
