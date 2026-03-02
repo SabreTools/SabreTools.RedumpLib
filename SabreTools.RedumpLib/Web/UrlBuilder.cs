@@ -91,6 +91,11 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         private const string SbiPath = @"sbi/{0}/";
 
+        /// <summary>
+        /// Path for statistics
+        /// </summary>
+        private const string StatisticsPath = "statistics/";
+
         #endregion
 
         #region /disc/{id}/ Subpaths
@@ -527,6 +532,20 @@ namespace SabreTools.RedumpLib.Web
 
                 default: throw new ArgumentOutOfRangeException(nameof(packType));
             }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Build a /statistics/ path URL
+        /// </summary>
+        /// TODO: Determine if there are any parameters, when possible
+        public static string BuildStatisticsUrl()
+        {
+            var sb = new StringBuilder();
+
+            sb.Append(SiteBaseUrl);
+            sb.Append(StatisticsPath);
 
             return sb.ToString();
         }

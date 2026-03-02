@@ -180,5 +180,17 @@ namespace SabreTools.RedumpLib.Test.Web
         }
 
         #endregion
+
+        #region BuildStatisticsUrl
+
+        [Fact]
+        public void BuildStatisticsUrl_Constant()
+        {
+            string actual = UrlBuilder.BuildStatisticsUrl();
+            Assert.Equal("http://redump.org/statistics/", actual);
+        }
+
+        #endregion
+
     }
 }
