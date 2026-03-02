@@ -93,8 +93,60 @@ namespace SabreTools.RedumpLib.Web
 
         #endregion
 
-        // TODO: Add other top-level paths
-        // TODO: Add path extensions for disc
+        #region /disc/{id}/ Subpaths
+
+        /// <summary>
+        /// Path for individual disc page changes subpage
+        /// </summary>
+        private const string DiscPathChangesSubpath = "changes/";
+
+        /// <summary>
+        /// Path for individual disc page cuesheet download
+        /// </summary>
+        private const string DiscPathCueSubpath = "cue/";
+
+        /// <summary>
+        /// Path for individual disc page edit subpage
+        /// </summary>
+        private const string DiscPathEditSubpath = "edit/";
+
+        /// <summary>
+        /// Path for individual disc page GDI download
+        /// </summary>
+        private const string DiscPathGdiSubpath = "gdi/";
+
+        /// <summary>
+        /// Path for individual disc page key download
+        /// </summary>
+        private const string DiscPathKeySubpath = "key/";
+
+        /// <summary>
+        /// Path for individual disc page LSD download
+        /// </summary>
+        private const string DiscPathLsdSubpath = "lsd/";
+
+        /// <summary>
+        /// Path for individual disc page MD5 download
+        /// </summary>
+        private const string DiscPathMd5Subpath = "md5/";
+
+        /// <summary>
+        /// Path for individual disc page SBI download
+        /// </summary>
+        private const string DiscPathSbiSubpath = "sbi/";
+
+        /// <summary>
+        /// Path for individual disc page SFV download
+        /// </summary>
+        private const string DiscPathSfvSubpath = "sfv/";
+
+        /// <summary>
+        /// Path for individual disc page SHA-1 download
+        /// </summary>
+        private const string DiscPathSha1Subpath = "sha1/";
+
+        #endregion
+
         // TODO: Add filter statements for discs
 
         #endregion
@@ -132,25 +184,25 @@ namespace SabreTools.RedumpLib.Web
             sb.AppendFormat(DiscPath, +id);
 
             if (changes)
-                sb.Append("changes/");
+                sb.Append(DiscPathChangesSubpath);
             else if (cue)
-                sb.Append("cue/");
+                sb.Append(DiscPathCueSubpath);
             else if (edit)
-                sb.Append("edit/");
+                sb.Append(DiscPathEditSubpath);
             else if (gdi)
-                sb.Append("gdi/");
+                sb.Append(DiscPathGdiSubpath);
             else if (key)
-                sb.Append("key/");
+                sb.Append(DiscPathKeySubpath);
             else if (lsd)
-                sb.Append("lsd/");
+                sb.Append(DiscPathLsdSubpath);
             else if (md5)
-                sb.Append("md5/");
+                sb.Append(DiscPathMd5Subpath);
             else if (sbi)
-                sb.Append("sbi/");
+                sb.Append(DiscPathSbiSubpath);
             else if (sfv)
-                sb.Append("sfv/");
+                sb.Append(DiscPathSfvSubpath);
             else if (sha1)
-                sb.Append("sha1/");
+                sb.Append(DiscPathSha1Subpath);
 
             return sb.ToString();
         }
