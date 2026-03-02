@@ -29,6 +29,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="libcrypt">LibCrypt status to filter, null to omit</param>
         /// <param name="media">Non-specific media type to filter, null to omit</param>
         /// <param name="offset">Write offset to filter, null to omit</param>
+        /// <param name="page">Page number, null to omit</param>
         /// <param name="protection">Marks search as protection field only, false to omit</param>
         /// <param name="quicksearch">Generic text search to filter, null to omit</param>
         /// <param name="region">Add region to filter, null to omit</param>
@@ -54,6 +55,7 @@ namespace SabreTools.RedumpLib.Web
             bool? libcrypt = null,
             MediaType? media = null,
             int? offset = null,
+            int? page = null,
             bool protection = false,
             string? quicksearch = null,
             Region? region = null,
@@ -221,6 +223,10 @@ namespace SabreTools.RedumpLib.Web
             // Tracks
             if (tracks is not null && tracks >= 1 && tracks <= 99)
                 sb.Append($"tracks/{tracks}/");
+
+            // Page Number - Has to be last
+            if (page is not null)
+                sb.Append($"?page={page}");
 
             return sb.ToString();
         }
