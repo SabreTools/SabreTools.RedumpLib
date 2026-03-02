@@ -1371,6 +1371,13 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>String containing the page contents if successful, null on error</returns>
         public async Task<string?> DownloadStatisticsPage()
         {
+            // If the user is not logged in
+            if (!_loggedIn)
+            {
+                Console.Error.WriteLine("Statistics download functionality is only available to logged in users");
+                return null;
+            }
+
             Console.WriteLine("Processing statistics page");
             try
             {
@@ -1399,8 +1406,16 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="outDir">Output directory to save data to</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
+        /// <remarks>Limited to logged in users</remarks>
         public async Task<bool> DownloadStatisticsPage(string? outDir)
         {
+            // If the user is not logged in
+            if (!_loggedIn)
+            {
+                Console.Error.WriteLine("Statistics download functionality is only available to logged in users");
+                return false;
+            }
+
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrEmpty(outDir))
                 outDir = Environment.CurrentDirectory;
