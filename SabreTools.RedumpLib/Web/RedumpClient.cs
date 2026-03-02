@@ -1450,9 +1450,6 @@ namespace SabreTools.RedumpLib.Web
                 return;
             }
 
-            // Ensure the output directory exists
-            Directory.CreateDirectory(outDir);
-
             // If the file already exists, don't overwrite it
             if (File.Exists(Path.Combine(outDir, newfile)))
                 File.Delete(tempfile);
