@@ -459,6 +459,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="have">True to show "have" discs, false to show "miss" discs</param>
         /// <param name="username">Username to use</param>
         /// <param name="system">System for filtering</param>
+        /// <remarks>Does not check for incompatibilities</remarks>
         public static string BuildListUrl(bool have,
             string username,
             RedumpSystem system)
