@@ -2143,6 +2143,20 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="yesno">Nullable boolean value to convert</param>
         /// <returns>YesNo represented by the nullable boolean, if possible</returns>
+        public static YesNo ToYesNo(this bool yesno)
+        {
+            return yesno switch
+            {
+                false => YesNo.No,
+                true => YesNo.Yes,
+            };
+        }
+
+        /// <summary>
+        /// Get the YesNo enum value for a given nullable boolean
+        /// </summary>
+        /// <param name="yesno">Nullable boolean value to convert</param>
+        /// <returns>YesNo represented by the nullable boolean, if possible</returns>
         public static YesNo? ToYesNo(this bool? yesno)
         {
             return yesno switch

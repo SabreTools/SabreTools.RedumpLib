@@ -96,7 +96,7 @@ namespace RedumpTool.Features
             bool forceContinue = ForceContinueInput.Value;
 
             // Get discs path values
-            bool? antiModchip = AntiModchipInput.Value;
+            bool? antimodchip = AntiModchipInput.Value;
             bool barcode = BarcodeInput.Value;
             string? categoryString = CategoryInput.Value;
             DiscCategory? category = categoryString.ToDiscCategory();
@@ -105,7 +105,8 @@ namespace RedumpTool.Features
             string? discTypeString = DiscTypeInput.Value;
             DiscType? discType = discTypeString.ToDiscType();
             string? dumper = DumperInput.Value;
-            bool? edc = EdcInput.Value;
+            bool? edcBool = EdcInput.Value;
+            YesNo? edc = edcBool?.ToYesNo();
             string? edition = EditionInput.Value;
             string? errors = ErrorsInput.Value;
             string? languageString = LanguageInput.Value;
@@ -146,13 +147,6 @@ namespace RedumpTool.Features
             if (!ValidateAndCreateOutputDirectory(outDir))
                 return false;
 
-            // Range verification
-            if (!onlyNew && (minId < 0 || maxId < 0))
-            {
-                Console.WriteLine("Please enter a valid range of Redump IDs");
-                return false;
-            }
-
             // Update client properties
             _client.Debug = DebugInput.Value;
             if (attemptCount != null && attemptCount > 0)
@@ -168,9 +162,42 @@ namespace RedumpTool.Features
             // Start the processing
             Task<List<int>> processingTask;
             if (onlyNew)
+            {
                 processingTask = _client.DownloadLastModified(outDir, limit);
-            else
+            }
+            else if (minId >= 0 && maxId >= 0)
+            {
                 processingTask = _client.DownloadSiteRange(outDir, minId, maxId);
+            }
+            else
+            {
+                processingTask = _client.DownloadDiscsResults(outDir,
+                    antimodchip,
+                    barcode,
+                    category,
+                    discType,
+                    dumper,
+                    edc,
+                    edition,
+                    errors,
+                    language,
+                    letter,
+                    libcrypt,
+                    media,
+                    offset,
+                    quicksearch,
+                    region,
+                    ringcode,
+                    sort,
+                    sortDir,
+                    status,
+                    system,
+                    tracks,
+                    comments,
+                    contents,
+                    protection,
+                    limit);
+            }
 
             // Retrieve the result
             processingTask.Wait();
