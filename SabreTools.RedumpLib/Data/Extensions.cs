@@ -873,7 +873,7 @@ namespace SabreTools.RedumpLib.Data
 
         #endregion
 
-        #region DiscSubpath
+        #region Disc Subpath
 
         /// <summary>
         /// Get the human readable name for a DiscSubpath
@@ -999,6 +999,74 @@ namespace SabreTools.RedumpLib.Data
 
                 _ => null,
             };
+        }
+
+        #endregion
+
+        #region Dump Status
+
+        /// <summary>
+        /// Get the human readable name for a DumpStatus
+        /// </summary>
+        /// <param name="dumpStatus"></param>
+        /// <returns></returns>
+        public static string? LongName(this DumpStatus dumpStatus)
+            => AttributeHelper<DumpStatus>.GetAttribute(dumpStatus)?.LongName;
+
+        /// <summary>
+        /// Get the human readable name for a DumpStatus
+        /// </summary>
+        /// <param name="dumpStatus"></param>
+        /// <returns></returns>
+        public static string? LongName(this DumpStatus? dumpStatus)
+            => AttributeHelper<DumpStatus?>.GetAttribute(dumpStatus)?.LongName;
+
+        /// <summary>
+        /// Get the URL path part for a DumpStatus
+        /// </summary>
+        /// <param name="dumpStatus"></param>
+        /// <returns></returns>
+        public static string? ShortName(this DumpStatus dumpStatus)
+            => AttributeHelper<DumpStatus>.GetAttribute(dumpStatus)?.ShortName;
+
+        /// <summary>
+        /// Get the URL path part for a DumpStatus
+        /// </summary>
+        /// <param name="dumpStatus"></param>
+        /// <returns></returns>
+        public static string? ShortName(this DumpStatus? dumpStatus)
+            => AttributeHelper<DumpStatus?>.GetAttribute(dumpStatus)?.ShortName;
+
+        /// <summary>
+        /// Get the Region enum value for a given string
+        /// </summary>
+        /// <param name="dumpStatus">String value to convert</param>
+        /// <returns>Region represented by the string, if possible</returns>
+        public static DumpStatus? ToDumpStatus(this string? dumpStatus)
+        {
+            // No value means no match
+            if (dumpStatus is null || dumpStatus.Length == 0)
+                return null;
+
+            dumpStatus = dumpStatus.ToLowerInvariant();
+            var dumpStatuses = (DumpStatus[])Enum.GetValues(typeof(DumpStatus));
+
+            // Check short names
+            int index = Array.FindIndex(dumpStatuses, s => dumpStatus == s.ShortName()?.ToLowerInvariant());
+            if (index > -1)
+                return dumpStatuses[index];
+
+            // Check long names
+            index = Array.FindIndex(dumpStatuses, s => dumpStatus == s.LongName()?.ToLowerInvariant()
+                || dumpStatus == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return dumpStatuses[index];
+
+            // Check numeric values
+            if (int.TryParse(dumpStatus, out int dumpStatusInt) && Enum.IsDefined(typeof(DumpStatus), dumpStatusInt))
+                return (DumpStatus)dumpStatusInt;
+
+            return null;
         }
 
         #endregion
@@ -1204,7 +1272,7 @@ namespace SabreTools.RedumpLib.Data
 
         #endregion
 
-        #region PackType
+        #region Pack Type
 
         /// <summary>
         /// Get the human readable name for a PackType
@@ -1585,7 +1653,7 @@ namespace SabreTools.RedumpLib.Data
 
         #endregion
 
-        #region SortCategory
+        #region Sort Category
 
         /// <summary>
         /// Get the human readable name for a SortCategory
@@ -1649,7 +1717,7 @@ namespace SabreTools.RedumpLib.Data
 
         #endregion
 
-        #region SortDirection
+        #region Sort Direction
 
         /// <summary>
         /// Get the human readable name for a SortDirection

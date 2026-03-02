@@ -207,7 +207,7 @@ namespace SabreTools.RedumpLib.Test.Data
 
         #endregion
 
-        #region DiscSubpath
+        #region Disc Subpath
 
         /// <summary>
         /// Check that every DiscSubpath has a long name provided
@@ -375,6 +375,117 @@ namespace SabreTools.RedumpLib.Test.Data
                     testData.Add(discType, true);
                 else
                     testData.Add(discType, false);
+            }
+
+            return testData;
+        }
+
+        #endregion
+
+        #region Dump Status
+
+        /// <summary>
+        /// Check that every DumpStatus has a long name provided
+        /// </summary>
+        /// <param name="dumpStatus">DumpStatus value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateDumpStatusTestData))]
+        public void DumpStatus_LongName(DumpStatus? dumpStatus, bool expectNull)
+        {
+            var actual = dumpStatus.LongName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Check that every DumpStatus has a short name provided
+        /// </summary>
+        /// <param name="dumpStatus">DumpStatus value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateDumpStatusTestData))]
+        public void DumpStatus_ShortName(DumpStatus? dumpStatus, bool expectNull)
+        {
+            var actual = dumpStatus.ShortName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Ensure that every DumpStatus that has a short name that is unique
+        /// </summary>
+        [Fact]
+        public void DumpStatus_ShortName_NoDuplicates()
+        {
+            var fullDumpStatuses = Enum.GetValues<DumpStatus>().Cast<DumpStatus>().ToList();
+            var filteredDumpStatuses = new Dictionary<string, DumpStatus?>();
+
+            int totalCount = 0;
+            foreach (DumpStatus? dumpStatus in fullDumpStatuses)
+            {
+                var code = dumpStatus.ShortName();
+                if (string.IsNullOrEmpty(code))
+                    continue;
+
+                // Throw if the code already exists
+                if (filteredDumpStatuses.ContainsKey(code))
+                    throw new DuplicateNameException($"Code {code} already in dictionary");
+
+                filteredDumpStatuses[code] = dumpStatus;
+                totalCount++;
+            }
+
+            Assert.Equal(totalCount, filteredDumpStatuses.Count);
+        }
+
+        /// <summary>
+        /// Check that every DumpStatus can be mapped from a string
+        /// </summary>
+        /// <param name="dumpStatus">DumpStatus value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateDumpStatusTestData))]
+        public void DumpStatus_ToDumpStatus(DumpStatus? dumpStatus, bool expectNull)
+        {
+            string? longName = dumpStatus.LongName();
+            string? longNameSpaceless = longName?.Replace(" ", string.Empty);
+            string? possibleInteger = $"{(int?)dumpStatus}";
+
+            var actualNormal = longName.ToDumpStatus();
+            var actualSpaceless = longNameSpaceless.ToDumpStatus();
+            var actualInteger = possibleInteger.ToDumpStatus();
+
+            if (expectNull)
+            {
+                Assert.Null(actualNormal);
+                Assert.Null(actualSpaceless);
+                Assert.Null(actualInteger);
+            }
+            else
+            {
+                Assert.Equal(dumpStatus, actualNormal);
+                Assert.Equal(dumpStatus, actualSpaceless);
+                Assert.Equal(dumpStatus, actualInteger);
+            }
+        }
+
+        /// <summary>
+        /// Generate a test set of DumpStatus values
+        /// </summary>
+        /// <returns>MemberData-compatible list of DumpStatus values</returns>
+        public static TheoryData<DumpStatus?, bool> GenerateDumpStatusTestData()
+        {
+            var testData = new TheoryData<DumpStatus?, bool>() { { null, true } };
+            foreach (DumpStatus? dumpStatus in Enum.GetValues<DumpStatus>().Cast<DumpStatus?>())
+            {
+                testData.Add(dumpStatus, false);
             }
 
             return testData;
@@ -674,7 +785,7 @@ namespace SabreTools.RedumpLib.Test.Data
 
         #endregion
 
-        #region PackType
+        #region Pack Type
 
         /// <summary>
         /// Check that every PackType has a long name provided
@@ -1198,7 +1309,7 @@ namespace SabreTools.RedumpLib.Test.Data
 
         #endregion
 
-        #region SortCategory
+        #region Sort Category
 
         /// <summary>
         /// Check that every SortCategory has a long name provided
@@ -1305,7 +1416,7 @@ namespace SabreTools.RedumpLib.Test.Data
 
         #endregion
 
-        #region SortDirection
+        #region Sort Direction
 
         /// <summary>
         /// Check that every SortDirection has a long name provided
