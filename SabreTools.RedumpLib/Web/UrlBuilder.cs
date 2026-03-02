@@ -68,17 +68,7 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Path for per-user lists
         /// </summary>
-        //private const string ListPath = "list/";
-
-        /// <summary>
-        /// Path for per-user lists with an operation ("have", "miss")
-        /// </summary>
-        private const string ListWithOperationPath = @"list/{0}/{1}/{2}/";
-
-        /// <summary>
-        /// Path for per-user lists without an operation (acts like "have")
-        /// </summary>
-        private const string ListWithoutOperationPath = @"list/{0}/{1}/";
+        private const string ListPath = "list/";
 
         /// <summary>
         /// Path for LSD pack downloads
@@ -389,27 +379,29 @@ namespace SabreTools.RedumpLib.Web
         /// Build a /list/ path URL
         /// </summary>
         /// <param name="username">Username to use</param>
-        /// <param name="system">System for filtering</param>
         /// <param name="have">True to show "have" discs, false to show "miss" discs, null to omit (acts like "have")</param>
-        /// <remarks>Does not check for incompatibilities</remarks>
+        /// <param name="system">System for filtering, null to omit (acts on all systems)</param>
+        /// <remarks>Does not check for invalid usernames</remarks>
         public static string BuildListUrl(string username,
-            RedumpSystem system,
-            bool? have = null)
+            bool? have = null,
+            RedumpSystem? system = null)
         {
             var sb = new StringBuilder();
 
             sb.Append(SiteBaseUrl);
+            sb.Append(ListPath);
 
-            string systemName = system.ShortName() ?? string.Empty;
             if (have is not null)
             {
                 string operation = have.Value ? "have" : "miss";
-                sb.AppendFormat(ListWithOperationPath, operation, username, systemName);
+                sb.Append($"{operation}/");
             }
-            else
-            {
-                sb.AppendFormat(ListWithoutOperationPath, username, systemName);
-            }
+
+            sb.Append($"{username}/");
+
+            string? systemName = system.ShortName();
+            if (systemName is not null)
+                sb.Append($"{systemName}/");
 
             return sb.ToString();
         }

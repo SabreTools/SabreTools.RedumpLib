@@ -118,22 +118,24 @@ namespace SabreTools.RedumpLib.Test.Web
         [InlineData(null, "http://redump.org/list/user/arch/")]
         public void BuildListUrl_HaveMissSet(bool? have, string expected)
         {
-            string actual = UrlBuilder.BuildListUrl("user", RedumpSystem.AcornArchimedes, have);
+            string actual = UrlBuilder.BuildListUrl("user", have, system: RedumpSystem.AcornArchimedes);
             Assert.Equal(expected, actual);
         }
 
         [Fact]
         public void BuildListUrl_InvalidUsername_Builds()
         {
-            string actual = UrlBuilder.BuildListUrl(string.Empty, RedumpSystem.AcornArchimedes, have: true);
+            string actual = UrlBuilder.BuildListUrl(string.Empty, have: true, system: RedumpSystem.AcornArchimedes);
             Assert.Equal("http://redump.org/list/have//arch/", actual);
         }
 
-        [Fact]
-        public void BuildListUrl_InvalidSystem_Builds()
+        [Theory]
+        [InlineData(RedumpSystem.MarkerOtherEnd)]
+        [InlineData(RedumpSystem.RainbowDisc)]
+        public void BuildListUrl_InvalidSystem_Builds(RedumpSystem? system)
         {
-            string actual = UrlBuilder.BuildListUrl("user", RedumpSystem.MarkerOtherEnd, have: true);
-            Assert.Equal("http://redump.org/list/have/user//", actual);
+            string actual = UrlBuilder.BuildListUrl("user", have: true, system: system);
+            Assert.Equal("http://redump.org/list/have/user/", actual);
         }
 
         #endregion
