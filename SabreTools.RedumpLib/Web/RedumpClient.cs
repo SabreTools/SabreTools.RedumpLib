@@ -1076,10 +1076,13 @@ namespace SabreTools.RedumpLib.Web
                 if (Constants.NewDiscRegex.IsMatch(discPage))
                 {
                     var match = Constants.NewDiscRegex.Match(discPage);
-                    string uri = string.Format(Constants.NewDiscUrlTemplate, match.Groups[2].Value);
-                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, "newdisc.html"));
-                    if (!IgnoreErrors && remoteName is null)
-                        return false;
+                    if (int.TryParse(match.Groups[2].Value, out int newDiscId))
+                    {
+                        string uri = UrlBuilder.BuildNewDiscUrl(newDiscId);
+                        string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, "newdisc.html"));
+                        if (!IgnoreErrors && remoteName is null)
+                            return false;
+                    }
                 }
 
                 // SBI
@@ -1146,7 +1149,7 @@ namespace SabreTools.RedumpLib.Web
             try
             {
                 // Try to retrieve the data
-                string discPageUri = string.Format(Constants.NewDiscUrlTemplate, +id);
+                string discPageUri = UrlBuilder.BuildNewDiscUrl(id);
                 string? discPage = await DownloadString(discPageUri);
 
                 if (discPage is null)
@@ -1200,7 +1203,7 @@ namespace SabreTools.RedumpLib.Web
             try
             {
                 // Try to retrieve the data
-                string discPageUri = string.Format(Constants.NewDiscUrlTemplate, +id);
+                string discPageUri = UrlBuilder.BuildNewDiscUrl(id);
                 string? discPage = await DownloadString(discPageUri);
 
                 if (discPage is null)

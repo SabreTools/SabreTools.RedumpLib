@@ -196,11 +196,6 @@ namespace SabreTools.RedumpLib.Data
         public const string LoginUrl = "http://forum.redump.org/login/";
 
         /// <summary>
-        /// Redump new disc URL template
-        /// </summary>
-        public const string NewDiscUrlTemplate = @"http://redump.org/newdisc/{0}";
-
-        /// <summary>
         /// Redump quicksearch URL template
         /// </summary>
         public const string QuickSearchUrl = @"http://redump.org/discs/quicksearch/{0}/?page={1}";
