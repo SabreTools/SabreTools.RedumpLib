@@ -1365,6 +1365,76 @@ namespace SabreTools.RedumpLib.Web
             }
         }
 
+        /// <summary>
+        /// Download the statistics page
+        /// </summary>
+        /// <returns>String containing the page contents if successful, null on error</returns>
+        public async Task<string?> DownloadStatisticsPage()
+        {
+            Console.WriteLine("Processing statistics page");
+            try
+            {
+                // Try to retrieve the data
+                string statisticsUrl = UrlBuilder.BuildStatisticsUrl();
+                string? listPage = await DownloadString(statisticsUrl);
+
+                if (listPage is null)
+                {
+                    Console.Error.WriteLine("An error occurred retrieving statistics page!");
+                    return null;
+                }
+
+                Console.WriteLine("Statistics page has been successfully downloaded");
+                return listPage;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"An exception has occurred: {ex}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Download the statistics page
+        /// </summary>
+        /// <param name="outDir">Output directory to save data to</param>
+        /// <returns>True if all data was downloaded, false otherwise</returns>
+        public async Task<bool> DownloadStatisticsPage(string? outDir)
+        {
+            // If no output directory is defined, use the current directory instead
+            if (string.IsNullOrEmpty(outDir))
+                outDir = Environment.CurrentDirectory;
+
+            Console.WriteLine("Processing statistics page");
+            try
+            {
+                // Try to retrieve the data
+                string? statisticsPage = await DownloadStatisticsPage();
+
+                if (statisticsPage is null)
+                {
+                    Console.Error.WriteLine("An error occurred retrieving statistics page!");
+                    return false;
+                }
+
+                // Write the list to the output directory
+                Directory.CreateDirectory(outDir);
+                using (var listStreamWriter = File.CreateText(Path.Combine(outDir, $"statistics.html")))
+                {
+                    listStreamWriter.Write(statisticsPage);
+                    listStreamWriter.Flush();
+                }
+
+                Console.WriteLine("Statistics page has been successfully downloaded");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"An exception has occurred: {ex}");
+                return false;
+            }
+        }
+
         #endregion
 
         #region Helpers
