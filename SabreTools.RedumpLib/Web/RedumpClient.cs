@@ -900,7 +900,7 @@ namespace SabreTools.RedumpLib.Web
             try
             {
                 // Try to retrieve the data
-                string discPageUri = string.Format(Constants.DiscPageUrlTemplate, +id);
+                string discPageUri = UrlBuilder.BuildDiscUrl(id);
                 string? discPage = await DownloadString(discPageUri);
 
                 if (discPage is null)
@@ -943,7 +943,7 @@ namespace SabreTools.RedumpLib.Web
             try
             {
                 // Try to retrieve the data
-                string discPageUri = string.Format(Constants.DiscPageUrlTemplate, +id);
+                string discPageUri = UrlBuilder.BuildDiscUrl(id);
                 string? discPage = await DownloadString(discPageUri);
 
                 if (discPage is null)
