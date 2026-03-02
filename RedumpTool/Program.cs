@@ -33,6 +33,7 @@ namespace RedumpTool
                 case PacksFeature pf: pf.ProcessArgs(args, 1); pf.Execute(); return;
                 case UserFeature uf: uf.ProcessArgs(args, 1); uf.Execute(); return;
                 case QueryFeature qf: qf.ProcessArgs(args, 1); qf.Execute(); return;
+                case StatsFeature sf: sf.ProcessArgs(args, 1); sf.Execute(); return;
 
                 default:
                     Console.WriteLine($"{featureName} is not a known feature");
@@ -54,6 +55,7 @@ namespace RedumpTool
             commandSet.Add(new PacksFeature());
             commandSet.Add(new UserFeature());
             commandSet.Add(new QueryFeature());
+            commandSet.Add(new StatsFeature());
 
             return commandSet;
         }
@@ -102,6 +104,8 @@ namespace RedumpTool
             Console.WriteLine("    -l, --list - Only list the page IDs for that query");
             Console.WriteLine("    -ns, --noslash - Don't replace forward slashes with '-'");
             Console.WriteLine("    --limit - Limit number of retrieved result pages");
+            Console.WriteLine();
+            Console.WriteLine("stats - Download the statistics page");
             Console.WriteLine();
             Console.WriteLine("If using an ID range, both minimum and maximum are required");
             Console.WriteLine();
