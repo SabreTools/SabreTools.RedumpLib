@@ -3,6 +3,7 @@ using System.Text;
 using SabreTools.RedumpLib.Data;
 
 // TODO: Errors should validate number or number range (# or #-#)
+// TODO: "only" flags should be consolidated into an enum (comments, contents, protection)
 
 namespace SabreTools.RedumpLib.Web
 {
