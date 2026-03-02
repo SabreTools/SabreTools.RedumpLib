@@ -702,6 +702,84 @@ namespace SabreTools.RedumpLib.Web
         #region Download Helpers
 
         /// <summary>
+        /// Download an individual list, if possible
+        /// </summary>
+        /// <param name="have">True to show "have" discs, false to show "miss" discs</param>
+        /// <param name="username">Username to use</param>
+        /// <param name="system">System for filtering, null to retrieve for all systems at once</param>
+        /// <returns>String containing the page contents if successful, null on error</returns>
+        public async Task<string?> DownloadSingleList(bool have, string username, RedumpSystem? system)
+        {
+            string systemName = system.ShortName() ?? "all";
+            Console.WriteLine($"Processing {(have ? "have" : "miss")} list for {username} for {systemName}");
+            try
+            {
+                // Try to retrieve the data
+                string listUri = UrlBuilder.BuildListUrl(username, have, system);
+                string? listPage = await DownloadString(listUri);
+
+                if (listPage is null)
+                {
+                    Console.Error.WriteLine($"An error occurred retrieving {(have ? "have" : "miss")} list!");
+                    return null;
+                }
+
+                Console.WriteLine($"{(have ? "Have" : "Miss")} list has been successfully downloaded");
+                return listPage;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"An exception has occurred: {ex}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Download an individual list, if possible
+        /// </summary>
+        /// <param name="have">True to show "have" discs, false to show "miss" discs</param>
+        /// <param name="username">Username to use</param>
+        /// <param name="system">System for filtering, null to retrieve for all systems at once</param>
+        /// <param name="outDir">Output directory to save data to</param>
+        /// <returns>True if all data was downloaded, false otherwise</returns>
+        public async Task<bool> DownloadSingleList(bool have, string username, RedumpSystem? system, string? outDir)
+        {
+            // If no output directory is defined, use the current directory instead
+            if (string.IsNullOrEmpty(outDir))
+                outDir = Environment.CurrentDirectory;
+
+            string systemName = system.ShortName() ?? "all";
+            Console.WriteLine($"Processing {(have ? "have" : "miss")} list for {username} for {systemName}");
+            try
+            {
+                // Try to retrieve the data
+                string? listPage = await DownloadSingleList(have, username, system);
+
+                if (listPage is null)
+                {
+                    Console.Error.WriteLine($"An error occurred retrieving {(have ? "have" : "miss")} list!");
+                    return false;
+                }
+
+                // Write the list to the output directory
+                Directory.CreateDirectory(outDir);
+                using (var listStreamWriter = File.CreateText(Path.Combine(outDir, $"{systemName}-{(have ? "have" : "miss")}.lst")))
+                {
+                    listStreamWriter.Write(listPage);
+                    listStreamWriter.Flush();
+                }
+
+                Console.WriteLine($"{(have ? "Have" : "Miss")} list has been successfully downloaded");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"An exception has occurred: {ex}");
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Download a single pack
         /// </summary>
         /// <param name="packType">Pack type to use to determine the download URL</param>
