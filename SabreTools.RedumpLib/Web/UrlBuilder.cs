@@ -439,7 +439,7 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="packType">Pack type</param>
         /// <param name="system">System for download</param>
-        /// <remarks>Does not check for incompatibilities</remarks>
+        /// <remarks>Does not check for invalid systems</remarks>
         public static string BuildPackUrl(PackType packType, RedumpSystem system)
         {
             var sb = new StringBuilder();
