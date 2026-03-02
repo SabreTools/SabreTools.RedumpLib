@@ -23,12 +23,22 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Path for individual disc pages
         /// </summary>
-        private const string DiscPath = "disc/";
+        private const string DiscPath = @"disc/{0}/";
 
         /// <summary>
         /// Path for multi-disc pages
         /// </summary>
         private const string DiscsPath = "discs/";
+
+        /// <summary>
+        /// Path for WIP discs queue
+        /// </summary>
+        private const string DiscsWipPath = "discs-wip/";
+
+        /// <summary>
+        /// Path for individual WIP disc pages
+        /// </summary>
+        private const string NewDiscPath = @"newdisc/{0}/";
 
         #endregion
 
@@ -68,9 +78,7 @@ namespace SabreTools.RedumpLib.Web
             var sb = new StringBuilder();
 
             sb.Append(SiteBaseUrl);
-            sb.Append(DiscPath);
-            sb.Append(+id);
-            sb.Append("/");
+            sb.AppendFormat(DiscPath, +id);
 
             if (changes)
                 sb.Append("changes/");
@@ -316,10 +324,21 @@ namespace SabreTools.RedumpLib.Web
             return sb.ToString();
         }
 
-        // TODO: Implement
-        public static string BuildDiscsWipUrl()
+        /// <summary>
+        /// Build a /discs-wip/ or /newdisc/ path URL
+        /// </summary>
+        /// <param name="id">WIP disc ID, omit to get WIP discs queue</param>
+        public static string BuildDiscsWipUrl(int? id = null)
         {
-            return string.Empty;
+            var sb = new StringBuilder();
+
+            sb.Append(SiteBaseUrl);
+            if (id is null)
+                sb.Append(DiscsWipPath);
+            else
+                sb.AppendFormat(NewDiscPath, +id);
+
+            return sb.ToString();
         }
 
         // TODO: Implement
