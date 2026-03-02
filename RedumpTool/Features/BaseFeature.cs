@@ -38,7 +38,7 @@ namespace RedumpTool.Features
         #region Discs Path Filter Inputs
 
         private const string _antiModchipName = "antimodchip";
-        internal readonly BooleanInput AntiModchipInput = new(_antiModchipName, ["--anti-modchip"], "Filter by anti-modchip status");
+        internal readonly BooleanInput AntiModchipInput = new(_antiModchipName, ["--anti-modchip"], "Filter by anti-modchip status [true, false, null]");
 
         private const string _barcodeName = "barcode";
         internal readonly FlagInput BarcodeInput = new(_barcodeName, ["--barcode"], "Filter by missing barcodes");
@@ -53,13 +53,13 @@ namespace RedumpTool.Features
         internal readonly FlagInput ContentsInput = new(_contentsName, ["--contents"], "Filter by contents only, incompatible with --comments and --protection");
 
         private const string _discTypeName = "disctype";
-        internal readonly StringInput DiscTypeInput = new(_discTypeName, ["--disc-type"], "Filter by disc type, requires --system (cd, dvd)");
+        internal readonly StringInput DiscTypeInput = new(_discTypeName, ["--disc-type"], "Filter by disc type, requires --system [cd, dvd]");
 
         private const string _dumperName = "dumper";
         internal readonly StringInput DumperInput = new(_dumperName, ["--dumper"], "Filter by dumper");
 
         private const string _edcName = "edc";
-        internal readonly BooleanInput EdcInput = new(_edcName, ["--edc"], "Filter by EDC status");
+        internal readonly BooleanInput EdcInput = new(_edcName, ["--edc"], "Filter by EDC status [true, false, null]");
 
         private const string _editionName = "edition";
         internal readonly StringInput EditionInput = new(_editionName, ["--edition"], "Filter by edition");
@@ -74,7 +74,7 @@ namespace RedumpTool.Features
         internal readonly StringInput LetterInput = new(_letterName, ["--letter"], "Filter by first letter");
 
         private const string _libCryptName = "libcrypt";
-        internal readonly BooleanInput LibCryptInput = new(_libCryptName, ["--libcrypt"], "Filter by LibCrypt status");
+        internal readonly BooleanInput LibCryptInput = new(_libCryptName, ["--libcrypt"], "Filter by LibCrypt status [true, false, null]");
 
         private const string _mediaName = "media";
         internal readonly StringInput MediaInput = new(_mediaName, ["--media"], "Filter by media type");
@@ -98,19 +98,19 @@ namespace RedumpTool.Features
         internal readonly StringInput RingcodeInput = new(_ringcodeName, ["--ringcode"], "Filter by ringcode");
 
         private const string _sortName = "sort";
-        internal readonly StringInput SortInput = new(_sortName, ["--sort"], "Sort results by criteria (added, region, system, version, edition, languages, serial, status, modified)");
+        internal readonly StringInput SortInput = new(_sortName, ["--sort"], "Sort results by criteria [added, region, system, version, edition, languages, serial, status, modified]");
 
         private const string _sortDirName = "sortdir";
-        internal readonly StringInput SortDirInput = new(_sortDirName, ["--sort-dir"], "Set sorting direction (asc, desc)");
+        internal readonly StringInput SortDirInput = new(_sortDirName, ["--sort-dir"], "Set sorting direction [asc, desc]");
 
         private const string _statusName = "status";
-        internal readonly StringInput StatusInput = new(_statusName, ["--status"], "Filter by status (grey, red, yellow, blue, green)");
+        internal readonly StringInput StatusInput = new(_statusName, ["--status"], "Filter by status [grey, red, yellow, blue, green]");
 
         private const string _systemName = "system";
         internal readonly StringInput SystemInput = new(_systemName, ["--system"], "Filter by system");
 
         private const string _tracksName = "tracks";
-        internal readonly Int32Input TracksInput = new(_tracksName, ["--tracks"], "Filter by track count (1-99)");
+        internal readonly Int32Input TracksInput = new(_tracksName, ["--tracks"], "Filter by track count [1-99]");
 
         #endregion
 

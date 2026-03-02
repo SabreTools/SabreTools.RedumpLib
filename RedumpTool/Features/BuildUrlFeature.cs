@@ -23,19 +23,19 @@ namespace RedumpTool.Features
         internal readonly StringInput BasePathInput = new(_basePathName, ["-b", "--base-path"], "Indicate base path for building URL (disc [requires --disc-id], discs, discs-wip, downloads, list [requires --dumper], newdisc, pack [requires --pack and --system], statistics)");
 
         private const string _discIdName = "discid";
-        internal readonly Int32Input DiscIdInput = new(_discIdName, ["-i", "--disc-id"], "Disc ID, requires 'disc'");
+        internal readonly Int32Input DiscIdInput = new(_discIdName, ["-i", "--disc-id"], "Disc ID (required)");
 
         private const string _haveName = "have";
-        internal readonly BooleanInput HaveInput = new(_haveName, ["-g", "--have"], "Have or miss filter, requires 'list'");
+        internal readonly BooleanInput HaveInput = new(_haveName, ["-g", "--have"], "Have [true] or miss [false] filter");
 
         private const string _newDiscIdName = "newdiscid";
-        internal readonly Int32Input NewDiscIdInput = new(_newDiscIdName, ["-w", "--newdisc-id"], "Disc WIP ID, requires 'newdisc'");
+        internal readonly Int32Input NewDiscIdInput = new(_newDiscIdName, ["-w", "--newdisc-id"], "WIP Disc ID (required)");
 
         private const string _packName = "pack";
-        internal readonly StringInput PackInput = new(_packName, ["-k", "--pack"], "Download pack ID, requires 'downloads' and --system (cues, datfile, dkeys, gdi, keys, lsd, sbi)");
+        internal readonly StringInput PackInput = new(_packName, ["-k", "--pack"], "Download pack ID (required) [cues, datfile, dkeys, gdi, keys, lsd, sbi]");
 
         private const string _subpathName = "subpath";
-        internal readonly StringInput SubpathInput = new(_subpathName, ["-s", "--subpath"], "Disc page subpath, requires 'disc' (changes, cue, edit, gdi, key, lsd, md5, sbi, sfv, sha1)");
+        internal readonly StringInput SubpathInput = new(_subpathName, ["-s", "--subpath"], "Disc page subpath [changes, cue, edit, gdi, key, lsd, md5, sbi, sfv, sha1]");
 
         #endregion
 
