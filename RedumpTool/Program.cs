@@ -85,7 +85,7 @@ namespace RedumpTool
             Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (cannot be used with only new)");
             Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (cannot be used with only new)");
             Console.WriteLine("    -n, --onlynew - Use the last modified view (cannot be used with min and max)");
-            Console.WriteLine("    --limit - Limit number of retrieved result pages");
+            Console.WriteLine("    --limit <Limit> - Limit number of retrieved result pages");
             Console.WriteLine();
             Console.WriteLine("wip - Download pages and related files from the WIP list");
             Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (cannot be used with only new)");
@@ -98,14 +98,66 @@ namespace RedumpTool
             Console.WriteLine("user - Download pages and related files for a particular user");
             Console.WriteLine("    -n, --onlynew - Use the last modified view instead of sequential parsing");
             Console.WriteLine("    -l, --list - Only list the page IDs for that user");
-            Console.WriteLine("    --limit - Limit number of retrieved result pages");
+            Console.WriteLine("    --limit <Limit> - Limit number of retrieved result pages");
             Console.WriteLine();
             Console.WriteLine("query - Download pages and related files from a Redump-compatible query");
             Console.WriteLine("    -q, --query - Redump-compatible query to run");
             Console.WriteLine("    -s, --quick - Indicate a query is for the 'quicksearch' path, not 'discs'");
             Console.WriteLine("    -l, --list - Only list the page IDs for that query");
             Console.WriteLine("    -ns, --noslash - Don't replace forward slashes with '-'");
-            Console.WriteLine("    --limit - Limit number of retrieved result pages");
+            Console.WriteLine("    --limit <Limit> - Limit number of retrieved result pages");
+            Console.WriteLine();
+            Console.WriteLine("build-url - Build a Redump URL");
+            Console.WriteLine("    -b, --base-path <BasePath> - Indicate base path for building URL, see below for options");
+            Console.WriteLine();
+            Console.WriteLine("    disc - Individual disc pages");
+            Console.WriteLine("        -i, --disc-id <ID> - Disc ID (required)"); // TODO: Port back description
+            Console.WriteLine("        -s, --subpath <Subpath> - Disc page subpath [changes, cue, edit, gdi, key, lsd, md5, sbi, sfv, sha1]"); // TODO: Port back description
+            Console.WriteLine();
+            Console.WriteLine("    discs - Individual disc pages");
+            Console.WriteLine("        --anti-modchip <Value> - Filter by anti-modchip status [true, false, null]"); // TODO: Port back description
+            Console.WriteLine("        --barcode - Filter by missing barcodes");
+            Console.WriteLine("        --category <Category> - Filter by disc category"); // TODO: Create list
+            Console.WriteLine("        --comments - Filter by comments only, incompatible with --contents and --protection");
+            Console.WriteLine("        --contents - Filter by contents only, incompatible with --comments and --protection");
+            Console.WriteLine("        --disc-type <DiscType> - Filter by disc type, requires --system [cd, dvd]"); // TODO: Port back description
+            Console.WriteLine("        --dumper <Dumper> - Filter by dumper");
+            Console.WriteLine("        --edc <Value> - Filter by EDC status [true, false, null]"); // TODO: Port back description
+            Console.WriteLine("        --edition <Edition> - Filter by edition");
+            Console.WriteLine("        --errors <Errors> - Filter by errors");
+            Console.WriteLine("        --language <Language> - Filter by language"); // TODO: Create list
+            Console.WriteLine("        --letter <First> - Filter by first letter");
+            Console.WriteLine("        --libcrypt <Value> - Filter by LibCrypt status [true, false, null]"); // TODO: Port back description
+            Console.WriteLine("        --media <MediaType> - Filter by media type"); // TODO: Create list
+            Console.WriteLine("        --offset <Offset> - Filter by disc offset");
+            Console.WriteLine("        --page <Page> - Retrieve specific result page");
+            Console.WriteLine("        --protection - Filter by protection only, incompatible with --comments and --contents");
+            Console.WriteLine("        --quicksearch <Query> - Filter by quicksearch");
+            Console.WriteLine("        --region <Region> - Filter by region"); // TODO: Create list
+            Console.WriteLine("        --ringcode <Ringcode> - Filter by ringcode");
+            Console.WriteLine("        --sort <Criteria> - Sort results by criteria [added, region, system, version, edition, languages, serial, status, modified]"); // TODO: Port back description
+            Console.WriteLine("        --sort-dir <Direction> - Set sorting direction [asc, desc]"); // TODO: Port back description
+            Console.WriteLine("        --status <Status> - Filter by status [grey, red, yellow, blue, green]"); // TODO: Port back description
+            Console.WriteLine("        --system <System> - Filter by system"); // TODO: Create list
+            Console.WriteLine("        --tracks <Count> - Filter by track count [1-99]"); // TODO: Port back description
+            Console.WriteLine();
+            Console.WriteLine("    discs-wip - WIP discs queue");
+            Console.WriteLine();
+            Console.WriteLine("    downloads - Downloads landing page");
+            Console.WriteLine();
+            Console.WriteLine("    list - Plaintext have/miss lists");
+            Console.WriteLine("        -g, --have <Value> - Have [true] or miss [false] filter"); // TODO: Port back description
+            Console.WriteLine("        --dumper <Dumper> - Dumper name, requires logged-in user (required)"); // TODO: Port back description
+            Console.WriteLine("        --system <System> - System to filter list by, otherwise returns for all systems combined"); // TODO: Create list, port back description
+            Console.WriteLine();
+            Console.WriteLine("    newdisc - Individual WIP disc pages");
+            Console.WriteLine("        -w, --newdisc-id <ID> - WIP Disc ID (required)"); // TODO: Port back description
+            Console.WriteLine();
+            Console.WriteLine("    pack - Download packs");
+            Console.WriteLine("        -k, --pack <Pack> - Download pack ID (required) [cues, datfile, dkeys, gdi, keys, lsd, sbi]"); // TODO: Port back description
+            Console.WriteLine("        --system <System> - System to download pack for (required)"); // TODO: Create list, port back description
+            Console.WriteLine();
+            Console.WriteLine("    statistics - Redump statistics page");
             Console.WriteLine();
             Console.WriteLine("stats - Download the statistics page");
             Console.WriteLine();

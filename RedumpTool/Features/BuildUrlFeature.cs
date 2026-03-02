@@ -199,7 +199,7 @@ namespace RedumpTool.Features
                     ? UrlBuilder.BuildDiscsWipUrl()
                     : UrlBuilder.BuildNewDiscUrl(newDiscId.Value),
 
-                "download" => pack is null || system is null
+                "downloads" => pack is null || system is null
                     ? UrlBuilder.BuildDownloadsUrl()
                     : UrlBuilder.BuildPackUrl(pack.Value, system.Value),
                 "pack" => pack is null || system is null
