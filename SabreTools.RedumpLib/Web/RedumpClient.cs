@@ -1434,7 +1434,7 @@ namespace SabreTools.RedumpLib.Web
 
                 // Write the list to the output directory
                 Directory.CreateDirectory(outDir);
-                using (var listStreamWriter = File.CreateText(Path.Combine(outDir, $"statistics.html")))
+                using (var listStreamWriter = File.CreateText(Path.Combine(outDir, "statistics.html")))
                 {
                     listStreamWriter.Write(statisticsPage);
                     listStreamWriter.Flush();
