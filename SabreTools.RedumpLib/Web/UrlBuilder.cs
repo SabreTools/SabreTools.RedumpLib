@@ -3,7 +3,6 @@ using System.Text;
 using SabreTools.RedumpLib.Data;
 
 // TODO: Errors should validate number or number range (# or #-#)
-// TODO: "only" flags should be consolidated into an enum (comments, contents, protection)
 
 namespace SabreTools.RedumpLib.Web
 {
@@ -218,8 +217,8 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="antimodchip">Anti-modchip status to filter, null to omit</param>
         /// <param name="barcode">Add no barcode search to filter, false to omit</param>
         /// <param name="category">Add category to filter, null to omit</param>
-        /// <param name="comments">Marks search as comments field only, false to omit</param>
-        /// <param name="contents">Marks search as contents field only, false to omit</param>
+        /// <param name="comments">Marks search as comments field only, false to omit; cannot be used with <paramref name="contents"/> or <paramref name="protection"/></param>
+        /// <param name="contents">Marks search as contents field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="protection"/></param>
         /// <param name="discType">Disc type extension to filter, null to omit</param>
         /// <param name="dumper">Add dumper name to filter, null to omit</param>
         /// <param name="edc">EDC status to filter, null to omit</param>
@@ -231,7 +230,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="media">Non-specific media type to filter, null to omit</param>
         /// <param name="offset">Write offset to filter, null to omit</param>
         /// <param name="page">Page number, null to omit</param>
-        /// <param name="protection">Marks search as protection field only, false to omit</param>
+        /// <param name="protection">Marks search as protection field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="contents"/></param>
         /// <param name="quicksearch">Generic text search to filter, null to omit</param>
         /// <param name="region">Add region to filter, null to omit</param>
         /// <param name="ringcode">Add ringcode to filter, null to omit</param>
@@ -288,14 +287,6 @@ namespace SabreTools.RedumpLib.Web
             string? categoryName = category.LongName()?.ToLowerInvariant();
             if (categoryName is not null)
                 sb.Append($"category/{categoryName}/");
-
-            // Comments Search
-            if (comments)
-                sb.Append("comments/only/");
-
-            // Contents Search
-            if (contents)
-                sb.Append("contents/only/");
 
             // Dumper
             if (dumper is not null)
@@ -354,10 +345,6 @@ namespace SabreTools.RedumpLib.Web
             // Offset
             if (offset is not null)
                 sb.Append($"offset/{offset}/");
-
-            // Protection Search
-            if (protection)
-                sb.Append("protection/only/");
 
             // Text Search
             if (quicksearch is not null)
@@ -423,6 +410,14 @@ namespace SabreTools.RedumpLib.Web
             // Tracks
             if (tracks is not null && tracks >= 1 && tracks <= 99)
                 sb.Append($"tracks/{tracks}/");
+
+            // Field-specific
+            if (comments)
+                sb.Append("comments/only/");
+            else if (contents)
+                sb.Append("contents/only/");
+            else if (protection)
+                sb.Append("protection/only/");
 
             // Page Number - Has to be last
             if (page is not null)

@@ -62,6 +62,17 @@ namespace SabreTools.RedumpLib.Test.Web
         }
 
         [Theory]
+        [InlineData(true, true, true, "http://redump.org/discs/comments/only/")]
+        [InlineData(false, true, true, "http://redump.org/discs/contents/only/")]
+        [InlineData(false, false, true, "http://redump.org/discs/protection/only/")]
+        [InlineData(false, false, false, "http://redump.org/discs/")]
+        public void BuildDiscsUrl_SingleOnlyFilterAllowedAtMost(bool comments, bool contents, bool protection, string expected)
+        {
+            string actual = UrlBuilder.BuildDiscsUrl(comments: comments, contents: contents, protection: protection);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
         [InlineData("", "http://redump.org/discs/quicksearch//?page=3")]
         [InlineData("simple", "http://redump.org/discs/quicksearch/simple/?page=3")]
         [InlineData("search-format", "http://redump.org/discs/quicksearch/search-format/?page=3")]
