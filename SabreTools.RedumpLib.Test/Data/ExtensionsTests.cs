@@ -207,6 +207,113 @@ namespace SabreTools.RedumpLib.Test.Data
 
         #endregion
 
+        #region DiscSubpath
+
+        /// <summary>
+        /// Check that every DiscSubpath has a long name provided
+        /// </summary>
+        /// <param name="discSubpath">DiscSubpath value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateDiscSubpathTestData))]
+        public void DiscSubpath_LongName(DiscSubpath? discSubpath, bool expectNull)
+        {
+            var actual = discSubpath.LongName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Check that every DiscSubpath has a short name provided
+        /// </summary>
+        /// <param name="discSubpath">DiscSubpath value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateDiscSubpathTestData))]
+        public void DiscSubpath_ShortName(DiscSubpath? discSubpath, bool expectNull)
+        {
+            var actual = discSubpath.ShortName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Ensure that every DiscSubpath that has a short name that is unique
+        /// </summary>
+        [Fact]
+        public void DiscSubpath_ShortName_NoDuplicates()
+        {
+            var fullDiscSubpaths = Enum.GetValues<DiscSubpath>().Cast<DiscSubpath>().ToList();
+            var filteredDiscSubpaths = new Dictionary<string, DiscSubpath?>();
+
+            int totalCount = 0;
+            foreach (DiscSubpath? discSubpath in fullDiscSubpaths)
+            {
+                var code = discSubpath.ShortName();
+                if (string.IsNullOrEmpty(code))
+                    continue;
+
+                // Throw if the code already exists
+                if (filteredDiscSubpaths.ContainsKey(code))
+                    throw new DuplicateNameException($"Code {code} already in dictionary");
+
+                filteredDiscSubpaths[code] = discSubpath;
+                totalCount++;
+            }
+
+            Assert.Equal(totalCount, filteredDiscSubpaths.Count);
+        }
+
+        /// <summary>
+        /// Check that every DiscSubpath can be mapped from a string
+        /// </summary>
+        /// <param name="discSubpath">DiscSubpath value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateDiscSubpathTestData))]
+        public void DiscSubpath_ToDiscSubpath(DiscSubpath? discSubpath, bool expectNull)
+        {
+            string? longName = discSubpath.LongName();
+            string? longNameSpaceless = longName?.Replace(" ", string.Empty);
+
+            var actualNormal = longName.ToDiscSubpath();
+            var actualSpaceless = longNameSpaceless.ToDiscSubpath();
+
+            if (expectNull)
+            {
+                Assert.Null(actualNormal);
+                Assert.Null(actualSpaceless);
+            }
+            else
+            {
+                Assert.Equal(discSubpath, actualNormal);
+                Assert.Equal(discSubpath, actualSpaceless);
+            }
+        }
+
+        /// <summary>
+        /// Generate a test set of DiscSubpath values
+        /// </summary>
+        /// <returns>MemberData-compatible list of DiscSubpath values</returns>
+        public static TheoryData<DiscSubpath?, bool> GenerateDiscSubpathTestData()
+        {
+            var testData = new TheoryData<DiscSubpath?, bool>() { { null, true } };
+            foreach (DiscSubpath? discSubpath in Enum.GetValues<DiscSubpath>().Cast<DiscSubpath?>())
+            {
+                testData.Add(discSubpath, false);
+            }
+
+            return testData;
+        }
+
+        #endregion
+
         #region Disc Type
 
         /// <summary>

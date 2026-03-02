@@ -19,20 +19,20 @@ namespace SabreTools.RedumpLib.Test.Web
         }
 
         [Theory]
-        [InlineData(true, true, true, true, true, true, true, true, true, true, "http://redump.org/disc/1/changes/")]
-        [InlineData(false, true, true, true, true, true, true, true, true, true, "http://redump.org/disc/1/cue/")]
-        [InlineData(false, false, true, true, true, true, true, true, true, true, "http://redump.org/disc/1/edit/")]
-        [InlineData(false, false, false, true, true, true, true, true, true, true, "http://redump.org/disc/1/gdi/")]
-        [InlineData(false, false, false, false, true, true, true, true, true, true, "http://redump.org/disc/1/key/")]
-        [InlineData(false, false, false, false, false, true, true, true, true, true, "http://redump.org/disc/1/lsd/")]
-        [InlineData(false, false, false, false, false, false, true, true, true, true, "http://redump.org/disc/1/md5/")]
-        [InlineData(false, false, false, false, false, false, false, true, true, true, "http://redump.org/disc/1/sbi/")]
-        [InlineData(false, false, false, false, false, false, false, false, true, true, "http://redump.org/disc/1/sfv/")]
-        [InlineData(false, false, false, false, false, false, false, false, false, true, "http://redump.org/disc/1/sha1/")]
-        [InlineData(false, false, false, false, false, false, false, false, false, false, "http://redump.org/disc/1/")]
-        public void BuildDiscUrl_SingleSubpathAllowedAtMost(bool changes, bool cue, bool edit, bool gdi, bool key, bool lsd, bool md5, bool sbi, bool sfv, bool sha1, string expected)
+        [InlineData(DiscSubpath.Changes, "http://redump.org/disc/1/changes/")]
+        [InlineData(DiscSubpath.Cuesheet, "http://redump.org/disc/1/cue/")]
+        [InlineData(DiscSubpath.Edit, "http://redump.org/disc/1/edit/")]
+        [InlineData(DiscSubpath.GDI, "http://redump.org/disc/1/gdi/")]
+        [InlineData(DiscSubpath.Key, "http://redump.org/disc/1/key/")]
+        [InlineData(DiscSubpath.LSD, "http://redump.org/disc/1/lsd/")]
+        [InlineData(DiscSubpath.MD5, "http://redump.org/disc/1/md5/")]
+        [InlineData(DiscSubpath.SBI, "http://redump.org/disc/1/sbi/")]
+        [InlineData(DiscSubpath.SFV, "http://redump.org/disc/1/sfv/")]
+        [InlineData(DiscSubpath.SHA1, "http://redump.org/disc/1/sha1/")]
+        [InlineData(null, "http://redump.org/disc/1/")]
+        public void BuildDiscUrl_Subpath_Builds(DiscSubpath? subpath, string expected)
         {
-            string actual = UrlBuilder.BuildDiscUrl(1, changes, cue, edit, gdi, key, lsd, md5, sbi, sfv, sha1);
+            string actual = UrlBuilder.BuildDiscUrl(1, subpath);
             Assert.Equal(expected, actual);
         }
 

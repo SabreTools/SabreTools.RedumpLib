@@ -97,60 +97,6 @@ namespace SabreTools.RedumpLib.Web
 
         #endregion
 
-        #region /disc/{id}/ Subpaths
-
-        /// <summary>
-        /// Path for individual disc page changes subpage
-        /// </summary>
-        private const string DiscPathChangesSubpath = "changes/";
-
-        /// <summary>
-        /// Path for individual disc page cuesheet download
-        /// </summary>
-        private const string DiscPathCueSubpath = "cue/";
-
-        /// <summary>
-        /// Path for individual disc page edit subpage
-        /// </summary>
-        private const string DiscPathEditSubpath = "edit/";
-
-        /// <summary>
-        /// Path for individual disc page GDI download
-        /// </summary>
-        private const string DiscPathGdiSubpath = "gdi/";
-
-        /// <summary>
-        /// Path for individual disc page key download
-        /// </summary>
-        private const string DiscPathKeySubpath = "key/";
-
-        /// <summary>
-        /// Path for individual disc page LSD download
-        /// </summary>
-        private const string DiscPathLsdSubpath = "lsd/";
-
-        /// <summary>
-        /// Path for individual disc page MD5 download
-        /// </summary>
-        private const string DiscPathMd5Subpath = "md5/";
-
-        /// <summary>
-        /// Path for individual disc page SBI download
-        /// </summary>
-        private const string DiscPathSbiSubpath = "sbi/";
-
-        /// <summary>
-        /// Path for individual disc page SFV download
-        /// </summary>
-        private const string DiscPathSfvSubpath = "sfv/";
-
-        /// <summary>
-        /// Path for individual disc page SHA-1 download
-        /// </summary>
-        private const string DiscPathSha1Subpath = "sha1/";
-
-        #endregion
-
         // TODO: Add filter statements for discs
 
         #endregion
@@ -159,54 +105,31 @@ namespace SabreTools.RedumpLib.Web
         /// Build a /disc/ path URL
         /// </summary>
         /// <param name="id">Disc ID, required</param>
-        /// <param name="changes">True to add changes subpath, false otherwise</param>
-        /// <param name="cue">True to add cue subpath, false otherwise</param>
-        /// <param name="edit">True to add edit subpath, false otherwise</param>
-        /// <param name="gdi">True to add gdi subpath, false otherwise</param>
-        /// <param name="key">True to add key subpath, false otherwise</param>
-        /// <param name="lsd">True to add lsd subpath, false otherwise</param>
-        /// <param name="md5">True to add md5 subpath, false otherwise</param>
-        /// <param name="sbi">True to add sbi subpath, false otherwise</param>
-        /// <param name="sfv">True to add sfv subpath, false otherwise</param>
-        /// <param name="sha1">True to add sha1 subpath, false otherwise</param>
-        /// <remarks>All flags are mutually-exclusive and have precedence in order of the method signature</remarks>
-        public static string BuildDiscUrl(int id,
-            bool changes = false,
-            bool cue = false,
-            bool edit = false,
-            bool gdi = false,
-            bool key = false,
-            bool lsd = false,
-            bool md5 = false,
-            bool sbi = false,
-            bool sfv = false,
-            bool sha1 = false)
+        /// <param name="subpath">Disc page subpath, null to omit</param>
+        public static string BuildDiscUrl(int id, DiscSubpath? subpath = null)
         {
             var sb = new StringBuilder();
 
             sb.Append(SiteBaseUrl);
             sb.AppendFormat(DiscPath, Math.Abs(id));
 
-            if (changes)
-                sb.Append(DiscPathChangesSubpath);
-            else if (cue)
-                sb.Append(DiscPathCueSubpath);
-            else if (edit)
-                sb.Append(DiscPathEditSubpath);
-            else if (gdi)
-                sb.Append(DiscPathGdiSubpath);
-            else if (key)
-                sb.Append(DiscPathKeySubpath);
-            else if (lsd)
-                sb.Append(DiscPathLsdSubpath);
-            else if (md5)
-                sb.Append(DiscPathMd5Subpath);
-            else if (sbi)
-                sb.Append(DiscPathSbiSubpath);
-            else if (sfv)
-                sb.Append(DiscPathSfvSubpath);
-            else if (sha1)
-                sb.Append(DiscPathSha1Subpath);
+            switch (subpath)
+            {
+                case DiscSubpath.Changes:
+                case DiscSubpath.Cuesheet:
+                case DiscSubpath.Edit:
+                case DiscSubpath.GDI:
+                case DiscSubpath.Key:
+                case DiscSubpath.LSD:
+                case DiscSubpath.MD5:
+                case DiscSubpath.SBI:
+                case DiscSubpath.SFV:
+                case DiscSubpath.SHA1:
+                    sb.Append($"{subpath.ShortName()}/");
+                    break;
+
+                default: break;
+            }
 
             return sb.ToString();
         }
