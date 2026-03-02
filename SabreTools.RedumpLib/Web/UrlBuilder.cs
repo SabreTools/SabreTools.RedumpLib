@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using SabreTools.RedumpLib.Data;
 
@@ -21,6 +22,16 @@ namespace SabreTools.RedumpLib.Web
         #region Top-Level Paths
 
         /// <summary>
+        /// Path for cuesheet pack downloads
+        /// </summary>
+        private const string CuesPath = @"cues/{0}/";
+
+        /// <summary>
+        /// Path for datfile downloads
+        /// </summary>
+        private const string DatfilePath = @"datfile/{0}/";
+
+        /// <summary>
         /// Path for individual disc pages
         /// </summary>
         private const string DiscPath = @"disc/{0}/";
@@ -36,9 +47,39 @@ namespace SabreTools.RedumpLib.Web
         private const string DiscsWipPath = "discs-wip/";
 
         /// <summary>
+        /// Path for decrypted key pack downloads
+        /// </summary>
+        private const string DkeysPath = @"dkeys/{0}/";
+
+        /// <summary>
+        /// Path for downloads page
+        /// </summary>
+        private const string DownloadsPath = "downloads/";
+
+        /// <summary>
+        /// Path for GDI pack downloads
+        /// </summary>
+        private const string GdiPath = @"gdi/{0}/";
+
+        /// <summary>
+        /// Path for key pack downloads
+        /// </summary>
+        private const string KeysPath = @"keys/{0}/";
+
+        /// <summary>
+        /// Path for LSD pack downloads
+        /// </summary>
+        private const string LsdPath = @"lsd/{0}/";
+
+        /// <summary>
         /// Path for individual WIP disc pages
         /// </summary>
         private const string NewDiscPath = @"newdisc/{0}/";
+
+        /// <summary>
+        /// Path for SBI pack downloads
+        /// </summary>
+        private const string SbiPath = @"sbi/{0}/";
 
         #endregion
 
@@ -325,32 +366,79 @@ namespace SabreTools.RedumpLib.Web
         }
 
         /// <summary>
-        /// Build a /discs-wip/ or /newdisc/ path URL
+        /// Build a /discs-wip/ path URL
         /// </summary>
-        /// <param name="id">WIP disc ID, omit to get WIP discs queue</param>
-        public static string BuildDiscsWipUrl(int? id = null)
+        public static string BuildDiscsWipUrl()
         {
             var sb = new StringBuilder();
 
             sb.Append(SiteBaseUrl);
-            if (id is null)
-                sb.Append(DiscsWipPath);
-            else
-                sb.AppendFormat(NewDiscPath, +id);
+            sb.Append(DiscsWipPath);
 
             return sb.ToString();
         }
 
-        // TODO: Implement
-        public static string BuildDownloadsUrl(PackType packType)
+        /// <summary>
+        /// Build a /downloads/ path URL
+        /// </summary>
+        public static string BuildDownloadsUrl()
         {
-            return string.Empty;
+            var sb = new StringBuilder();
+
+            sb.Append(SiteBaseUrl);
+            sb.Append(DownloadsPath);
+
+            return sb.ToString();
         }
 
         // TODO: Implement
         public static string BuildListUrl()
         {
             return string.Empty;
+        }
+
+        /// <summary>
+        /// Build a /newdisc/ path URL
+        /// </summary>
+        /// <param name="id">WIP disc ID</param>
+        public static string BuildNewDiscUrl(int id)
+        {
+            var sb = new StringBuilder();
+
+            sb.Append(SiteBaseUrl);
+            sb.AppendFormat(NewDiscPath, +id);
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Build a direct-download path URL
+        /// </summary>
+        /// <param name="packType">Pack type</param>
+        /// <param name="system">System for download</param>
+        /// <remarks>Does not check for incompatibilities</remarks>
+        public static string BuildPacks(PackType packType,
+            RedumpSystem system)
+        {
+            var sb = new StringBuilder();
+
+            sb.Append(SiteBaseUrl);
+
+            string systemName = system.ShortName() ?? string.Empty;
+            switch (packType)
+            {
+                case PackType.Cuesheets: sb.AppendFormat(CuesPath, systemName); break;
+                case PackType.Datfile: sb.AppendFormat(DatfilePath, systemName); break;
+                case PackType.DecryptedKeys: sb.AppendFormat(DkeysPath, systemName); break;
+                case PackType.Gdis: sb.AppendFormat(GdiPath, systemName); break;
+                case PackType.Keys: sb.AppendFormat(KeysPath, systemName); break;
+                case PackType.Lsds: sb.AppendFormat(LsdPath, systemName); break;
+                case PackType.Sbis: sb.AppendFormat(SbiPath, systemName); break;
+
+                default: throw new ArgumentOutOfRangeException(nameof(packType));
+            }
+
+            return sb.ToString();
         }
 
         // TODO: Implement
