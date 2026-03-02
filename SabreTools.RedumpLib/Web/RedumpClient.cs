@@ -713,15 +713,37 @@ namespace SabreTools.RedumpLib.Web
             {
                 if (Debug) Console.WriteLine($"DEBUG: DownloadSinglePack(\"{packType}\", {system})");
 
-                // Determine the base URL, if possible
-                string? baseUrl = PackTypeToBaseUrl(packType);
-                if (baseUrl is null)
+                // If the system is invalid, we can't do anything
+                if (system is null || !system.IsAvailable())
                 {
-                    if (Debug) Console.Error.WriteLine($"DEBUG: {packType} is not a recognized pack type, skipping...");
+                    if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
                     return null;
                 }
 
-                string packUri = string.Format(baseUrl, system.ShortName());
+                // If we didn't have credentials
+                if (!_loggedIn && system.IsBanned())
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access, skipping...");
+                    return null;
+                }
+
+                // If the system is unknown, we can't do anything
+                string? shortName = system.ShortName();
+                if (string.IsNullOrEmpty(shortName))
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {system} is not a recognized system, skipping...");
+                    return null;
+                }
+
+                // If the pack is not supported for the system
+                if (!PackTypeToAvailable(packType, system.Value))
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {packType} is not available for {system}, skipping...");
+                    return null;
+                }
+
+                // Determine the pack URL
+                string packUri = UrlBuilder.BuildPackUrl(packType, system.Value);
                 return await DownloadData(packUri);
             }
             catch (Exception ex)
@@ -743,13 +765,37 @@ namespace SabreTools.RedumpLib.Web
             {
                 if (Debug) Console.WriteLine($"DEBUG: DownloadSinglePack(\"{packType}\", {system}, \"{outDir}\")");
 
-                // Determine the base URL, if possible
-                string? baseUrl = PackTypeToBaseUrl(packType);
-                if (baseUrl is null)
+                // If the system is invalid, we can't do anything
+                if (system is null || !system.IsAvailable())
                 {
-                    if (Debug) Console.Error.WriteLine($"DEBUG: {packType} is not a recognized pack type, skipping...");
+                    if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
                     return false;
                 }
+
+                // If we didn't have credentials
+                if (!_loggedIn && system.IsBanned())
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access, skipping...");
+                    return false;
+                }
+
+                // If the system is unknown, we can't do anything
+                string? shortName = system.ShortName();
+                if (string.IsNullOrEmpty(shortName))
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {system} is not a recognized system, skipping...");
+                    return false;
+                }
+
+                // If the pack is not supported for the system
+                if (!PackTypeToAvailable(packType, system.Value))
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {packType} is not available for {system}, skipping...");
+                    return false;
+                }
+
+                // Determine the pack URL
+                string packUri = UrlBuilder.BuildPackUrl(packType, system.Value);
 
                 // If no output directory is defined, use the current directory instead
                 if (string.IsNullOrEmpty(outDir))
@@ -758,10 +804,8 @@ namespace SabreTools.RedumpLib.Web
                     outDir = Environment.CurrentDirectory;
                 }
 
-                string tempfile = Path.Combine(outDir, "tmp" + Guid.NewGuid().ToString());
-                string packUri = string.Format(baseUrl, system.ShortName());
-
                 // Make the call to get the pack
+                string tempfile = Path.Combine(outDir, "tmp" + Guid.NewGuid().ToString());
                 string? remoteFileName = await DownloadFile(packUri, tempfile);
                 if (remoteFileName is null)
                     return false;
@@ -789,13 +833,37 @@ namespace SabreTools.RedumpLib.Web
             {
                 if (Debug) Console.WriteLine($"DEBUG: DownloadSinglePack(\"{packType}\", {system}, \"{outDir}\", \"{subfolder}\")");
 
-                // Determine the base URL, if possible
-                string? baseUrl = PackTypeToBaseUrl(packType);
-                if (baseUrl is null)
+                // If the system is invalid, we can't do anything
+                if (system is null || !system.IsAvailable())
                 {
-                    if (Debug) Console.Error.WriteLine($"DEBUG: {packType} is not a recognized pack type, skipping...");
+                    if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
                     return false;
                 }
+
+                // If we didn't have credentials
+                if (!_loggedIn && system.IsBanned())
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access, skipping...");
+                    return false;
+                }
+
+                // If the system is unknown, we can't do anything
+                string? shortName = system.ShortName();
+                if (string.IsNullOrEmpty(shortName))
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {system} is not a recognized system, skipping...");
+                    return false;
+                }
+
+                // If the pack is not supported for the system
+                if (!PackTypeToAvailable(packType, system.Value))
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {packType} is not available for {system}, skipping...");
+                    return false;
+                }
+
+                // Determine the pack URL
+                string packUri = UrlBuilder.BuildPackUrl(packType, system.Value);
 
                 // If no output directory is defined, use the current directory instead
                 if (string.IsNullOrEmpty(outDir))
@@ -804,10 +872,8 @@ namespace SabreTools.RedumpLib.Web
                     outDir = Environment.CurrentDirectory;
                 }
 
-                string tempfile = Path.Combine(outDir, "tmp" + Guid.NewGuid().ToString());
-                string packUri = string.Format(baseUrl, system.ShortName());
-
                 // Make the call to get the pack
+                string tempfile = Path.Combine(outDir, "tmp" + Guid.NewGuid().ToString());
                 string? remoteFileName = await DownloadFile(packUri, tempfile);
                 if (remoteFileName is null)
                     return false;
@@ -1227,9 +1293,8 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="system">Systems to download packs for</param>
         public async Task<Dictionary<RedumpSystem, byte[]>> DownloadPacks(PackType packType, RedumpSystem[] systems)
         {
-            // Determine the base URL, if possible
-            string? baseUrl = PackTypeToBaseUrl(packType);
-            if (baseUrl is null)
+            // Determine if the pack type is valid
+            if (!Enum.IsDefined(typeof(PackType), packType))
             {
                 if (Debug) Console.Error.WriteLine($"DEBUG: {packType} is not a recognized pack type, skipping...");
                 return [];
@@ -1238,35 +1303,7 @@ namespace SabreTools.RedumpLib.Web
             var packsDictionary = new Dictionary<RedumpSystem, byte[]>();
             foreach (var system in systems)
             {
-                // If the system is invalid, we can't do anything
-                if (!system.IsAvailable())
-                {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
-                    continue;
-                }
-
-                // If we didn't have credentials
-                if (!_loggedIn && system.IsBanned())
-                {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access, skipping...");
-                    continue;
-                }
-
-                // If the system is unknown, we can't do anything
-                string? longName = system.LongName();
-                if (string.IsNullOrEmpty(longName))
-                {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} is not a recognized system, skipping...");
-                    continue;
-                }
-
-                // If the pack is not supported for the system
-                if (!PackTypeToAvailable(packType, system))
-                {
-                    if (Debug) Console.WriteLine($"DEBUG: {packType} is not available for {system}, skipping...");
-                    continue;
-                }
-
+                string longName = system.LongName() ?? $"UNKNOWN_{system}";
                 if (Debug)
                     Console.WriteLine(longName);
                 else
@@ -1295,9 +1332,8 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         public async Task<bool> DownloadPacks(PackType packType, RedumpSystem[] systems, string? outDir)
         {
-            // Determine the base URL, if possible
-            string? baseUrl = PackTypeToBaseUrl(packType);
-            if (baseUrl is null)
+            // Determine if the pack type is valid
+            if (!Enum.IsDefined(typeof(PackType), packType))
             {
                 if (Debug) Console.Error.WriteLine($"DEBUG: {packType} is not a recognized pack type, skipping...");
                 return false;
@@ -1305,35 +1341,7 @@ namespace SabreTools.RedumpLib.Web
 
             foreach (var system in systems)
             {
-                // If the system is invalid, we can't do anything
-                if (!system.IsAvailable())
-                {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
-                    continue;
-                }
-
-                // If we didn't have credentials
-                if (!_loggedIn && system.IsBanned())
-                {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access, skipping...");
-                    continue;
-                }
-
-                // If the system is unknown, we can't do anything
-                string? longName = system.LongName();
-                if (string.IsNullOrEmpty(longName))
-                {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} is not a recognized system, skipping...");
-                    continue;
-                }
-
-                // If the pack is not supported for the system
-                if (!PackTypeToAvailable(packType, system))
-                {
-                    if (Debug) Console.WriteLine($"DEBUG: {packType} is not available for {system}, skipping...");
-                    continue;
-                }
-
+                string longName = system.LongName() ?? $"UNKNOWN_{system}";
                 if (Debug)
                     Console.WriteLine(longName);
                 else
@@ -1360,9 +1368,8 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
         public async Task<bool> DownloadPacks(PackType packType, RedumpSystem[] systems, string? outDir, string? subfolder)
         {
-            // Determine the base URL, if possible
-            string? baseUrl = PackTypeToBaseUrl(packType);
-            if (baseUrl is null)
+            // Determine if the pack type is valid
+            if (!Enum.IsDefined(typeof(PackType), packType))
             {
                 if (Debug) Console.Error.WriteLine($"DEBUG: {packType} is not a recognized pack type, skipping...");
                 return false;
@@ -1468,26 +1475,6 @@ namespace SabreTools.RedumpLib.Web
                 File.Delete(tempfile);
             else
                 File.Move(tempfile, Path.Combine(outDir, newfile));
-        }
-
-        /// <summary>
-        /// Convert the pack type to a base URL
-        /// </summary>
-        /// <param name="packType">Pack type to use to determine the download URL</param>
-        /// <returns>Base URL for downloading a pack type, null on error</returns>
-        private static string? PackTypeToBaseUrl(PackType packType)
-        {
-            return packType switch
-            {
-                PackType.Cuesheets => Constants.PackCuesUrl,
-                PackType.Datfile => Constants.PackDatfileUrl,
-                PackType.DecryptedKeys => Constants.PackDkeysUrl,
-                PackType.Gdis => Constants.PackGdiUrl,
-                PackType.Keys => Constants.PackKeysUrl,
-                PackType.Lsds => Constants.PackLsdUrl,
-                PackType.Sbis => Constants.PackSbiUrl,
-                _ => null,
-            };
         }
 
         /// <summary>

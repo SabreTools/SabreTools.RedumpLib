@@ -206,41 +206,6 @@ namespace SabreTools.RedumpLib.Data
         public const string NewDiscUrlTemplate = @"http://redump.org/newdisc/{0}";
 
         /// <summary>
-        /// Redump CUE pack URL template
-        /// </summary>
-        public const string PackCuesUrl = @"http://redump.org/cues/{0}/";
-
-        /// <summary>
-        /// Redump DAT pack URL template
-        /// </summary>
-        public const string PackDatfileUrl = @"http://redump.org/datfile/{0}/";
-
-        /// <summary>
-        /// Redump DKEYS pack URL template
-        /// </summary>
-        public const string PackDkeysUrl = @"http://redump.org/dkeys/{0}/";
-
-        /// <summary>
-        /// Redump GDI pack URL template
-        /// </summary>
-        public const string PackGdiUrl = @"http://redump.org/gdi/{0}/";
-
-        /// <summary>
-        /// Redump KEYS pack URL template
-        /// </summary>
-        public const string PackKeysUrl = @"http://redump.org/keys/{0}/";
-
-        /// <summary>
-        /// Redump LSD pack URL template
-        /// </summary>
-        public const string PackLsdUrl = @"http://redump.org/lsd/{0}/";
-
-        /// <summary>
-        /// Redump SBI pack URL template
-        /// </summary>
-        public const string PackSbiUrl = @"http://redump.org/sbi/{0}/";
-
-        /// <summary>
         /// Redump quicksearch URL template
         /// </summary>
         public const string QuickSearchUrl = @"http://redump.org/discs/quicksearch/{0}/?page={1}";
