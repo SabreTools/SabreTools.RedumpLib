@@ -1198,6 +1198,113 @@ namespace SabreTools.RedumpLib.Test.Data
 
         #endregion
 
+        #region SortDirection
+
+        /// <summary>
+        /// Check that every SortDirection has a long name provided
+        /// </summary>
+        /// <param name="sortDirection">SortDirection value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateSortDirectionTestData))]
+        public void SortDirection_LongName(SortDirection? sortDirection, bool expectNull)
+        {
+            var actual = sortDirection.LongName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Check that every SortDirection has a short name provided
+        /// </summary>
+        /// <param name="sortDirection">SortDirection value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateSortDirectionTestData))]
+        public void SortDirection_ShortName(SortDirection? sortDirection, bool expectNull)
+        {
+            var actual = sortDirection.ShortName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Ensure that every SortDirection that has a short name that is unique
+        /// </summary>
+        [Fact]
+        public void SortDirection_ShortName_NoDuplicates()
+        {
+            var fullSortDirections = Enum.GetValues<SortDirection>().Cast<SortDirection>().ToList();
+            var filteredSortDirections = new Dictionary<string, SortDirection?>();
+
+            int totalCount = 0;
+            foreach (SortDirection? sortDirection in fullSortDirections)
+            {
+                var code = sortDirection.ShortName();
+                if (string.IsNullOrEmpty(code))
+                    continue;
+
+                // Throw if the code already exists
+                if (filteredSortDirections.ContainsKey(code))
+                    throw new DuplicateNameException($"Code {code} already in dictionary");
+
+                filteredSortDirections[code] = sortDirection;
+                totalCount++;
+            }
+
+            Assert.Equal(totalCount, filteredSortDirections.Count);
+        }
+
+        /// <summary>
+        /// Check that every SortDirection can be mapped from a string
+        /// </summary>
+        /// <param name="sortDirection">SortDirection value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateSortDirectionTestData))]
+        public void SortDirection_ToSortDirection(SortDirection? sortDirection, bool expectNull)
+        {
+            string? longName = sortDirection.LongName();
+            string? longNameSpaceless = longName?.Replace(" ", string.Empty);
+
+            var actualNormal = longName.ToSortDirection();
+            var actualSpaceless = longNameSpaceless.ToSortDirection();
+
+            if (expectNull)
+            {
+                Assert.Null(actualNormal);
+                Assert.Null(actualSpaceless);
+            }
+            else
+            {
+                Assert.Equal(sortDirection, actualNormal);
+                Assert.Equal(sortDirection, actualSpaceless);
+            }
+        }
+
+        /// <summary>
+        /// Generate a test set of SortDirection values
+        /// </summary>
+        /// <returns>MemberData-compatible list of SortDirection values</returns>
+        public static TheoryData<SortDirection?, bool> GenerateSortDirectionTestData()
+        {
+            var testData = new TheoryData<SortDirection?, bool>() { { null, true } };
+            foreach (SortDirection? sortDirection in Enum.GetValues<SortDirection>().Cast<SortDirection?>())
+            {
+                testData.Add(sortDirection, false);
+            }
+
+            return testData;
+        }
+
+        #endregion
+
         #region System
 
         /// <summary>

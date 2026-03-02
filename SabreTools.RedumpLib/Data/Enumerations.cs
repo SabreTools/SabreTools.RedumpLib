@@ -3859,6 +3859,18 @@ namespace SabreTools.RedumpLib.Data
     }
 
     /// <summary>
+    /// List of all recognized sort directions
+    /// </summary>
+    public enum SortDirection
+    {
+        [HumanReadable(LongName = "Ascending", ShortName = "asc")]
+        Ascending,
+
+        [HumanReadable(LongName = "Descending", ShortName = "desc")]
+        Descending,
+    }
+
+    /// <summary>
     /// List of system categories
     /// </summary>
     public enum SystemCategory

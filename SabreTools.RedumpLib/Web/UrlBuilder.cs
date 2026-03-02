@@ -256,7 +256,7 @@ namespace SabreTools.RedumpLib.Web
             Region? region = null,
             string? ringcode = null,
             SortCategory? sort = null,
-            string? sortDir = null,
+            SortDirection? sortDir = null,
             DumpStatus? status = null,
             RedumpSystem? system = null,
             int? tracks = null)
@@ -389,11 +389,11 @@ namespace SabreTools.RedumpLib.Web
             }
 
             // Sort Direction
-            switch (sortDir?.ToLowerInvariant())
+            switch (sortDir)
             {
-                case "asc":
-                case "desc":
-                    sb.Append($"dir/{sortDir}/");
+                case SortDirection.Ascending:
+                case SortDirection.Descending:
+                    sb.Append($"dir/{sortDir.ShortName()}/");
                     break;
 
                 default: break;

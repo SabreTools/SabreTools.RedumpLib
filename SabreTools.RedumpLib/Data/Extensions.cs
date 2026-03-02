@@ -1585,6 +1585,70 @@ namespace SabreTools.RedumpLib.Data
 
         #endregion
 
+        #region SortDirection
+
+        /// <summary>
+        /// Get the human readable name for a SortDirection
+        /// </summary>
+        /// <param name="sortDirection"></param>
+        /// <returns></returns>
+        public static string? LongName(this SortDirection sortDirection)
+            => AttributeHelper<SortDirection>.GetAttribute(sortDirection)?.LongName;
+
+        /// <summary>
+        /// Get the human readable name for a SortDirection
+        /// </summary>
+        /// <param name="sortDirection"></param>
+        /// <returns></returns>
+        public static string? LongName(this SortDirection? sortDirection)
+            => AttributeHelper<SortDirection?>.GetAttribute(sortDirection)?.LongName;
+
+        /// <summary>
+        /// Get the URL path part for a SortDirection
+        /// </summary>
+        /// <param name="sortDirection"></param>
+        /// <returns></returns>
+        public static string? ShortName(this SortDirection sortDirection)
+            => AttributeHelper<SortDirection>.GetAttribute(sortDirection)?.ShortName;
+
+        /// <summary>
+        /// Get the URL path part for a SortDirection
+        /// </summary>
+        /// <param name="sortDirection"></param>
+        /// <returns></returns>
+        public static string? ShortName(this SortDirection? sortDirection)
+            => AttributeHelper<SortDirection?>.GetAttribute(sortDirection)?.ShortName;
+
+        /// <summary>
+        /// Get the Region enum value for a given string
+        /// </summary>
+        /// <param name="sortDirection">String value to convert</param>
+        /// <returns>Region represented by the string, if possible</returns>
+        public static SortDirection? ToSortDirection(this string? sortDirection)
+        {
+            // No value means no match
+            if (sortDirection is null || sortDirection.Length == 0)
+                return null;
+
+            sortDirection = sortDirection.ToLowerInvariant();
+            var sortCategories = (SortDirection[])Enum.GetValues(typeof(SortDirection));
+
+            // Check short names
+            int index = Array.FindIndex(sortCategories, s => sortDirection == s.ShortName()?.ToLowerInvariant());
+            if (index > -1)
+                return sortCategories[index];
+
+            // Check long names
+            index = Array.FindIndex(sortCategories, s => sortDirection == s.LongName()?.ToLowerInvariant()
+                || sortDirection == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return sortCategories[index];
+
+            return null;
+        }
+
+        #endregion
+
         #region System
 
         /// <summary>
