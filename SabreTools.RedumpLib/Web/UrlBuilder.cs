@@ -72,6 +72,11 @@ namespace SabreTools.RedumpLib.Web
         private const string LsdPath = @"lsd/{0}/";
 
         /// <summary>
+        /// Path for member promotion
+        /// </summary>
+        private const string MemberPromotionPath = "member2dumper/";
+
+        /// <summary>
         /// Path for individual WIP disc pages
         /// </summary>
         private const string NewDiscPath = @"newdisc/{0}/";
@@ -395,6 +400,19 @@ namespace SabreTools.RedumpLib.Web
         public static string BuildListUrl()
         {
             return string.Empty;
+        }
+
+        /// <summary>
+        /// Build a /member2dumper/ path URL
+        /// </summary>
+        public static string BuildMemberPromotionUrl()
+        {
+            var sb = new StringBuilder();
+
+            sb.Append(SiteBaseUrl);
+            sb.Append(MemberPromotionPath);
+
+            return sb.ToString();
         }
 
         /// <summary>
