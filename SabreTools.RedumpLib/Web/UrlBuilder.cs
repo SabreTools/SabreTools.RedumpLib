@@ -436,7 +436,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="packType">Pack type</param>
         /// <param name="system">System for download</param>
         /// <remarks>Does not check for incompatibilities</remarks>
-        public static string BuildPacks(PackType packType,
+        public static string BuildPackUrl(PackType packType,
             RedumpSystem system)
         {
             var sb = new StringBuilder();
