@@ -419,6 +419,7 @@ namespace SabreTools.RedumpLib.Web
         /// Build a /newdisc/ path URL
         /// </summary>
         /// <param name="id">WIP disc ID</param>
+        /// TODO: Add form URLs, not just IDs
         public static string BuildNewDiscUrl(int id)
         {
             var sb = new StringBuilder();
@@ -457,12 +458,6 @@ namespace SabreTools.RedumpLib.Web
             }
 
             return sb.ToString();
-        }
-
-        // TODO: Implement
-        public static string BuildNewDiscUrl()
-        {
-            return string.Empty;
         }
     }
 }
