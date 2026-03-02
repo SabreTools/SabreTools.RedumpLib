@@ -456,10 +456,13 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="username">Username to use</param>
         /// <param name="pageNumber">Page number to use</param>
+        /// <param name="lastModified">True to sort by last modified, false otherwise</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleUserPage(string username, int pageNumber)
+        public async Task<List<int>?> CheckSingleUserPage(string username, int pageNumber, bool lastModified)
         {
-            string url = string.Format(Constants.UserDumpsUrl, username, pageNumber);
+            string url = lastModified
+                ? string.Format(Constants.UserDumpsLastModifiedUrl, username, pageNumber)
+                : string.Format(Constants.UserDumpsUrl, username, pageNumber);
             return await CheckSingleSitePage(url);
         }
 
@@ -469,35 +472,13 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="username">Username to use</param>
         /// <param name="pageNumber">Page number to use</param>
         /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="lastModified">True to sort by last modified, false otherwise</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleUserPage(string username, int pageNumber, string? outDir)
+        public async Task<List<int>?> CheckSingleUserPage(string username, int pageNumber, string? outDir, bool lastModified)
         {
-            string url = string.Format(Constants.UserDumpsUrl, username, pageNumber);
-            return await CheckSingleSitePage(url, outDir);
-        }
-
-        /// <summary>
-        /// Process a Redump user last modified page as a list of possible IDs or disc page
-        /// </summary>
-        /// <param name="username">Username to use</param>
-        /// <param name="pageNumber">Page number to use</param>
-        /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleUserLastModifiedPage(string username, int pageNumber)
-        {
-            string url = string.Format(Constants.UserDumpsLastModifiedUrl, username, pageNumber);
-            return await CheckSingleSitePage(url);
-        }
-
-        /// <summary>
-        /// Process a Redump user last modified page as a list of possible IDs or disc page
-        /// </summary>
-        /// <param name="username">Username to use</param>
-        /// <param name="pageNumber">Page number to use</param>
-        /// <param name="outDir">Output directory to save data to</param>
-        /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleUserLastModifiedPage(string username, int pageNumber, string? outDir)
-        {
-            string url = string.Format(Constants.UserDumpsLastModifiedUrl, username, pageNumber);
+            string url = lastModified
+                ? string.Format(Constants.UserDumpsLastModifiedUrl, username, pageNumber)
+                : string.Format(Constants.UserDumpsUrl, username, pageNumber);
             return await CheckSingleSitePage(url, outDir);
         }
 

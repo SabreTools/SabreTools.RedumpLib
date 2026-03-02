@@ -29,7 +29,7 @@ namespace SabreTools.RedumpLib.Web
             int pageNumber = 1;
             while (true)
             {
-                var pageIds = await client.CheckSingleUserPage(username!, pageNumber++, outDir);
+                var pageIds = await client.CheckSingleUserPage(username!, pageNumber++, outDir, lastModified: false);
                 if (pageIds is null)
                     return [];
 
@@ -61,7 +61,7 @@ namespace SabreTools.RedumpLib.Web
             int pageNumber = 1;
             while (true)
             {
-                var pageIds = await client.CheckSingleUserLastModifiedPage(username!, pageNumber++, outDir);
+                var pageIds = await client.CheckSingleUserPage(username!, pageNumber++, outDir, lastModified: true);
                 if (pageIds is null)
                     return [];
 
@@ -94,7 +94,7 @@ namespace SabreTools.RedumpLib.Web
                 int pageNumber = 1;
                 while (true)
                 {
-                    var pageIds = await client.CheckSingleUserPage(username!, pageNumber++);
+                    var pageIds = await client.CheckSingleUserPage(username!, pageNumber++, lastModified: false);
                     if (pageIds is null)
                         return [];
 
