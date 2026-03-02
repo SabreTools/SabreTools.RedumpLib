@@ -406,7 +406,7 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
         public async Task<List<int>?> CheckSingleDiscsLastModifiedPage(int pageNumber)
         {
-            string url = UrlBuilder.BuildDiscsUrl(sort: "modified", sortDir: "desc", page: pageNumber);
+            string url = UrlBuilder.BuildDiscsUrl(sort: SortCategory.Modified, sortDir: "desc", page: pageNumber);
             return await CheckSingleSitePage(url);
         }
 
@@ -418,7 +418,7 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
         public async Task<List<int>?> CheckSingleDiscsLastModifiedPage(int pageNumber, string? outDir)
         {
-            string url = UrlBuilder.BuildDiscsUrl(sort: "modified", sortDir: "desc", page: pageNumber);
+            string url = UrlBuilder.BuildDiscsUrl(sort: SortCategory.Modified, sortDir: "desc", page: pageNumber);
             return await CheckSingleSitePage(url, outDir);
         }
 
@@ -461,7 +461,7 @@ namespace SabreTools.RedumpLib.Web
         public async Task<List<int>?> CheckSingleUserPage(string username, int pageNumber, bool lastModified)
         {
             string url = lastModified
-                ? UrlBuilder.BuildDiscsUrl(dumper: username, sort: "modified", sortDir: "desc", page: pageNumber)
+                ? UrlBuilder.BuildDiscsUrl(dumper: username, sort: SortCategory.Modified, sortDir: "desc", page: pageNumber)
                 : UrlBuilder.BuildDiscsUrl(dumper: username, page: pageNumber);
             return await CheckSingleSitePage(url);
         }
@@ -477,7 +477,7 @@ namespace SabreTools.RedumpLib.Web
         public async Task<List<int>?> CheckSingleUserPage(string username, int pageNumber, string? outDir, bool lastModified)
         {
             string url = lastModified
-                ? UrlBuilder.BuildDiscsUrl(dumper: username, sort: "modified", sortDir: "desc", page: pageNumber)
+                ? UrlBuilder.BuildDiscsUrl(dumper: username, sort: SortCategory.Modified, sortDir: "desc", page: pageNumber)
                 : UrlBuilder.BuildDiscsUrl(dumper: username, page: pageNumber);
             return await CheckSingleSitePage(url, outDir);
         }

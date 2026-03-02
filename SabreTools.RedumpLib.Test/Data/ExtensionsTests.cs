@@ -1091,6 +1091,113 @@ namespace SabreTools.RedumpLib.Test.Data
 
         #endregion
 
+        #region SortCategory
+
+        /// <summary>
+        /// Check that every SortCategory has a long name provided
+        /// </summary>
+        /// <param name="sortCategory">SortCategory value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateSortCategoryTestData))]
+        public void SortCategory_LongName(SortCategory? sortCategory, bool expectNull)
+        {
+            var actual = sortCategory.LongName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Check that every SortCategory has a short name provided
+        /// </summary>
+        /// <param name="sortCategory">SortCategory value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateSortCategoryTestData))]
+        public void SortCategory_ShortName(SortCategory? sortCategory, bool expectNull)
+        {
+            var actual = sortCategory.ShortName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Ensure that every SortCategory that has a short name that is unique
+        /// </summary>
+        [Fact]
+        public void SortCategory_ShortName_NoDuplicates()
+        {
+            var fullSortCategorys = Enum.GetValues<SortCategory>().Cast<SortCategory>().ToList();
+            var filteredSortCategorys = new Dictionary<string, SortCategory?>();
+
+            int totalCount = 0;
+            foreach (SortCategory? sortCategory in fullSortCategorys)
+            {
+                var code = sortCategory.ShortName();
+                if (string.IsNullOrEmpty(code))
+                    continue;
+
+                // Throw if the code already exists
+                if (filteredSortCategorys.ContainsKey(code))
+                    throw new DuplicateNameException($"Code {code} already in dictionary");
+
+                filteredSortCategorys[code] = sortCategory;
+                totalCount++;
+            }
+
+            Assert.Equal(totalCount, filteredSortCategorys.Count);
+        }
+
+        /// <summary>
+        /// Check that every SortCategory can be mapped from a string
+        /// </summary>
+        /// <param name="sortCategory">SortCategory value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateSortCategoryTestData))]
+        public void SortCategory_ToSortCategory(SortCategory? sortCategory, bool expectNull)
+        {
+            string? longName = sortCategory.LongName();
+            string? longNameSpaceless = longName?.Replace(" ", string.Empty);
+
+            var actualNormal = longName.ToSortCategory();
+            var actualSpaceless = longNameSpaceless.ToSortCategory();
+
+            if (expectNull)
+            {
+                Assert.Null(actualNormal);
+                Assert.Null(actualSpaceless);
+            }
+            else
+            {
+                Assert.Equal(sortCategory, actualNormal);
+                Assert.Equal(sortCategory, actualSpaceless);
+            }
+        }
+
+        /// <summary>
+        /// Generate a test set of SortCategory values
+        /// </summary>
+        /// <returns>MemberData-compatible list of SortCategory values</returns>
+        public static TheoryData<SortCategory?, bool> GenerateSortCategoryTestData()
+        {
+            var testData = new TheoryData<SortCategory?, bool>() { { null, true } };
+            foreach (SortCategory? sortCategory in Enum.GetValues<SortCategory>().Cast<SortCategory?>())
+            {
+                testData.Add(sortCategory, false);
+            }
+
+            return testData;
+        }
+
+        #endregion
+
         #region System
 
         /// <summary>

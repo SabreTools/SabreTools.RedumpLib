@@ -1177,25 +1177,25 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// Get the Region enum value for a given string
         /// </summary>
-        /// <param name="region">String value to convert</param>
+        /// <param name="packType">String value to convert</param>
         /// <returns>Region represented by the string, if possible</returns>
-        public static PackType? ToPackType(this string? region)
+        public static PackType? ToPackType(this string? packType)
         {
             // No value means no match
-            if (region is null || region.Length == 0)
+            if (packType is null || packType.Length == 0)
                 return null;
 
-            region = region.ToLowerInvariant();
+            packType = packType.ToLowerInvariant();
             var packTypes = (PackType[])Enum.GetValues(typeof(PackType));
 
             // Check short names
-            int index = Array.FindIndex(packTypes, s => region == s.ShortName()?.ToLowerInvariant());
+            int index = Array.FindIndex(packTypes, s => packType == s.ShortName()?.ToLowerInvariant());
             if (index > -1)
                 return packTypes[index];
 
             // Check long names
-            index = Array.FindIndex(packTypes, s => region == s.LongName()?.ToLowerInvariant()
-                || region == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            index = Array.FindIndex(packTypes, s => packType == s.LongName()?.ToLowerInvariant()
+                || packType == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
             if (index > -1)
                 return packTypes[index];
 
@@ -1518,6 +1518,70 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         public static string? ShortName(this SiteCode? siteCode)
             => AttributeHelper<SiteCode?>.GetAttribute(siteCode)?.ShortName;
+
+        #endregion
+
+        #region SortCategory
+
+        /// <summary>
+        /// Get the human readable name for a SortCategory
+        /// </summary>
+        /// <param name="sortCategory"></param>
+        /// <returns></returns>
+        public static string? LongName(this SortCategory sortCategory)
+            => AttributeHelper<SortCategory>.GetAttribute(sortCategory)?.LongName;
+
+        /// <summary>
+        /// Get the human readable name for a SortCategory
+        /// </summary>
+        /// <param name="sortCategory"></param>
+        /// <returns></returns>
+        public static string? LongName(this SortCategory? sortCategory)
+            => AttributeHelper<SortCategory?>.GetAttribute(sortCategory)?.LongName;
+
+        /// <summary>
+        /// Get the URL path part for a SortCategory
+        /// </summary>
+        /// <param name="sortCategory"></param>
+        /// <returns></returns>
+        public static string? ShortName(this SortCategory sortCategory)
+            => AttributeHelper<SortCategory>.GetAttribute(sortCategory)?.ShortName;
+
+        /// <summary>
+        /// Get the URL path part for a SortCategory
+        /// </summary>
+        /// <param name="sortCategory"></param>
+        /// <returns></returns>
+        public static string? ShortName(this SortCategory? sortCategory)
+            => AttributeHelper<SortCategory?>.GetAttribute(sortCategory)?.ShortName;
+
+        /// <summary>
+        /// Get the Region enum value for a given string
+        /// </summary>
+        /// <param name="sortCategory">String value to convert</param>
+        /// <returns>Region represented by the string, if possible</returns>
+        public static SortCategory? ToSortCategory(this string? sortCategory)
+        {
+            // No value means no match
+            if (sortCategory is null || sortCategory.Length == 0)
+                return null;
+
+            sortCategory = sortCategory.ToLowerInvariant();
+            var sortCategories = (SortCategory[])Enum.GetValues(typeof(SortCategory));
+
+            // Check short names
+            int index = Array.FindIndex(sortCategories, s => sortCategory == s.ShortName()?.ToLowerInvariant());
+            if (index > -1)
+                return sortCategories[index];
+
+            // Check long names
+            index = Array.FindIndex(sortCategories, s => sortCategory == s.LongName()?.ToLowerInvariant()
+                || sortCategory == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return sortCategories[index];
+
+            return null;
+        }
 
         #endregion
 

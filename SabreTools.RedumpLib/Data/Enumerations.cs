@@ -1,4 +1,4 @@
-﻿using SabreTools.RedumpLib.Attributes;
+using SabreTools.RedumpLib.Attributes;
 
 namespace SabreTools.RedumpLib.Data
 {
@@ -3820,6 +3820,42 @@ namespace SabreTools.RedumpLib.Data
         // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>XMID</b>:", LongName = "<b>XMID</b>:")]
         XMID,
+    }
+
+    /// <summary>
+    /// List of all recognized sort parameters
+    /// </summary>
+    public enum SortCategory
+    {
+        [HumanReadable(LongName = "Title", ShortName = "")]
+        Title,
+
+        [HumanReadable(LongName = "Added", ShortName = "added")]
+        Added,
+
+        [HumanReadable(LongName = "Region", ShortName = "region")]
+        Region,
+
+        [HumanReadable(LongName = "System", ShortName = "system")]
+        System,
+
+        [HumanReadable(LongName = "Version", ShortName = "version")]
+        Version,
+
+        [HumanReadable(LongName = "Edition", ShortName = "edition")]
+        Edition,
+
+        [HumanReadable(LongName = "Languages", ShortName = "languages")]
+        Languages,
+
+        [HumanReadable(LongName = "Serial", ShortName = "serial")]
+        Serial,
+
+        [HumanReadable(LongName = "Status", ShortName = "status")]
+        Status,
+
+        [HumanReadable(LongName = "Modified", ShortName = "modified")]
+        Modified,
     }
 
     /// <summary>

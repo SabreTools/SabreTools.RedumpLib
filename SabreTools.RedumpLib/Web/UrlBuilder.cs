@@ -3,7 +3,6 @@ using System.Text;
 using SabreTools.RedumpLib.Data;
 
 // TODO: Errors should validate number or number range (# or #-#)
-// TODO: Sort needs to be an enum (added, region, system, version, edition, languages, serial, status, modified, title [none])
 
 namespace SabreTools.RedumpLib.Web
 {
@@ -256,7 +255,7 @@ namespace SabreTools.RedumpLib.Web
             string? quicksearch = null,
             Region? region = null,
             string? ringcode = null,
-            string? sort = null,
+            SortCategory? sort = null,
             string? sortDir = null,
             DumpStatus? status = null,
             RedumpSystem? system = null,
@@ -368,23 +367,22 @@ namespace SabreTools.RedumpLib.Web
                 sb.Append($"ringcode/{ringcode}/");
 
             // Sorting
-            switch (sort?.ToLowerInvariant())
+            switch (sort)
             {
-                case "":
-                case "title":
+                case SortCategory.Title:
                     sb.Append("sort/");
                     break;
 
-                case "added":
-                case "region":
-                case "system":
-                case "version":
-                case "edition":
-                case "languages":
-                case "serial":
-                case "status":
-                case "modified":
-                    sb.Append($"sort/{sort}/");
+                case SortCategory.Added:
+                case SortCategory.Region:
+                case SortCategory.System:
+                case SortCategory.Version:
+                case SortCategory.Edition:
+                case SortCategory.Languages:
+                case SortCategory.Serial:
+                case SortCategory.Status:
+                case SortCategory.Modified:
+                    sb.Append($"sort/{sort.ShortName()}/");
                     break;
 
                 default: break;
