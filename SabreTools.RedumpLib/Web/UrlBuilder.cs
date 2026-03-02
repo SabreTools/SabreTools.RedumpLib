@@ -11,6 +11,91 @@ namespace SabreTools.RedumpLib.Web
     /// </summary>
     public static class UrlBuilder
     {
+        #region Constants
+
+        /// <summary>
+        /// Redump site URL
+        /// </summary>
+        private const string SiteBaseUrl = "http://redump.org/";
+
+        #region Top-Level Paths
+
+        /// <summary>
+        /// Path for individual disc pages
+        /// </summary>
+        private const string DiscPath = "disc/";
+
+        /// <summary>
+        /// Path for multi-disc pages
+        /// </summary>
+        private const string DiscsPath = "discs/";
+
+        #endregion
+
+        // TODO: Add other top-level paths
+        // TODO: Add path extensions for disc
+        // TODO: Add filter statements for discs
+
+        #endregion
+
+        /// <summary>
+        /// Build a /disc/ path URL
+        /// </summary>
+        /// <param name="id">Disc ID, required</param>
+        /// <param name="changes">True to add changes subpath, false otherwise</param>
+        /// <param name="cue">True to add cue subpath, false otherwise</param>
+        /// <param name="edit">True to add edit subpath, false otherwise</param>
+        /// <param name="gdi">True to add gdi subpath, false otherwise</param>
+        /// <param name="key">True to add key subpath, false otherwise</param>
+        /// <param name="lsd">True to add lsd subpath, false otherwise</param>
+        /// <param name="md5">True to add md5 subpath, false otherwise</param>
+        /// <param name="sbi">True to add sbi subpath, false otherwise</param>
+        /// <param name="sfv">True to add sfv subpath, false otherwise</param>
+        /// <param name="sha1">True to add sha1 subpath, false otherwise</param>
+        /// <remarks>All flags are mutually-exclusive and have precedence in order of the method signature</remarks>
+        public static string BuildDiscUrl(int id,
+            bool changes = false,
+            bool cue = false,
+            bool edit = false,
+            bool gdi = false,
+            bool key = false,
+            bool lsd = false,
+            bool md5 = false,
+            bool sbi = false,
+            bool sfv = false,
+            bool sha1 = false)
+        {
+            var sb = new StringBuilder();
+
+            sb.Append(SiteBaseUrl);
+            sb.Append(DiscPath);
+            sb.Append(+id);
+            sb.Append("/");
+
+            if (changes)
+                sb.Append("changes/");
+            else if (cue)
+                sb.Append("cue/");
+            else if (edit)
+                sb.Append("edit/");
+            else if (gdi)
+                sb.Append("gdi/");
+            else if (key)
+                sb.Append("key/");
+            else if (lsd)
+                sb.Append("lsd/");
+            else if (md5)
+                sb.Append("md5/");
+            else if (sbi)
+                sb.Append("sbi/");
+            else if (sfv)
+                sb.Append("sfv/");
+            else if (sha1)
+                sb.Append("sha1/");
+
+            return sb.ToString();
+        }
+
         /// <summary>
         /// Build a /discs/ path URL
         /// </summary>
@@ -68,8 +153,8 @@ namespace SabreTools.RedumpLib.Web
         {
             var sb = new StringBuilder();
 
-            sb.Append(Constants.SiteBaseUrl);
-            sb.Append("discs/");
+            sb.Append(SiteBaseUrl);
+            sb.Append(DiscsPath);
 
             // Anti-modchip
             switch (antimodchip)
