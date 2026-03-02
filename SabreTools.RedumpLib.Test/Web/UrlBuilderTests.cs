@@ -40,7 +40,14 @@ namespace SabreTools.RedumpLib.Test.Web
 
         #region BuildDiscsUrl
 
-        // TODO: Implement
+        [Fact]
+        public void BuildDiscsUrl_LastModifiedWithPages_Builds()
+        {
+            string actual = UrlBuilder.BuildDiscsUrl(sort: "modified", sortDir: "desc", page: 3);
+            Assert.Equal("http://redump.org/discs/sort/modified/dir/desc/?page=3", actual);
+        }
+
+        // TODO: Implement more extensive tests
 
         #endregion
 

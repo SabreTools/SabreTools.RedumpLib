@@ -406,7 +406,7 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
         public async Task<List<int>?> CheckSingleDiscsLastModifiedPage(int pageNumber)
         {
-            string url = string.Format(Constants.LastModifiedUrl, pageNumber);
+            string url = UrlBuilder.BuildDiscsUrl(sort: "modified", sortDir: "desc", page: pageNumber);
             return await CheckSingleSitePage(url);
         }
 
@@ -418,7 +418,7 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
         public async Task<List<int>?> CheckSingleDiscsLastModifiedPage(int pageNumber, string? outDir)
         {
-            string url = string.Format(Constants.LastModifiedUrl, pageNumber);
+            string url = UrlBuilder.BuildDiscsUrl(sort: "modified", sortDir: "desc", page: pageNumber);
             return await CheckSingleSitePage(url, outDir);
         }
 
