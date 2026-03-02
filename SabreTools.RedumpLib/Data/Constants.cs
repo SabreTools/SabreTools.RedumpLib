@@ -178,12 +178,17 @@ namespace SabreTools.RedumpLib.Data
 
         #endregion
 
-        #region URLs
+        #region URL Templates
+
+        /// <summary>
+        /// Entire site base URL
+        /// </summary>
+        public const string SiteBaseUrl = "http://redump.org/";
 
         /// <summary>
         /// Redump disc page URL template
         /// </summary>
-        public const string DiscPageUrl = @"http://redump.org/disc/{0}/";
+        public const string DiscPageUrlTemplate = @"http://redump.org/disc/{0}/";
 
         /// <summary>
         /// Redump discs path URL template
@@ -199,6 +204,16 @@ namespace SabreTools.RedumpLib.Data
         /// Redump login page URL template
         /// </summary>
         public const string LoginUrl = "http://forum.redump.org/login/";
+
+        /// <summary>
+        /// Redump member promotion URL template
+        /// </summary>
+        public const string MemberPromotionUrl = @"http://redump.org/member2dumper";
+
+        /// <summary>
+        /// Redump new disc URL template
+        /// </summary>
+        public const string NewDiscUrlTemplate = @"http://redump.org/newdisc/{0}";
 
         /// <summary>
         /// Redump CUE pack URL template
@@ -262,57 +277,71 @@ namespace SabreTools.RedumpLib.Data
 
         #endregion
 
-        #region URL Extensions
+        #region disc/{id}/ Subpaths
 
         /// <summary>
         /// Changes page subpath
         /// </summary>
-        public const string ChangesExt = "changes/";
+        public const string DiscChangesSubpath = "changes/";
 
         /// <summary>
         /// Cuesheet download subpath
         /// </summary>
-        public const string CueExt = "cue/";
+        public const string DiscCueSubpath = "cue/";
 
         /// <summary>
         /// Edit page subpath
         /// </summary>
-        public const string EditExt = "edit/";
+        public const string DiscEditSubpath = "edit/";
 
         /// <summary>
         /// GDI download subpath
         /// </summary>
-        public const string GdiExt = "gdi/";
+        public const string DiscGdiSubpath = "gdi/";
 
         /// <summary>
         /// Key download subpath
         /// </summary>
-        public const string KeyExt = "key/";
+        public const string DiscKeySubpath = "key/";
 
         /// <summary>
         /// LSD download subpath
         /// </summary>
-        public const string LsdExt = "lsd/";
+        public const string DiscLsdSubpath = "lsd/";
 
         /// <summary>
         /// MD5 download subpath
         /// </summary>
-        public const string Md5Ext = "md5/";
+        public const string DiscMd5Subpath = "md5/";
 
         /// <summary>
         /// SBI download subpath
         /// </summary>
-        public const string SbiExt = "sbi/";
+        public const string DiscSbiSubpath = "sbi/";
 
         /// <summary>
         /// SFV download subpath
         /// </summary>
-        public const string SfvExt = "sfv/";
+        public const string DiscSfvSubpath = "sfv/";
 
         /// <summary>
         /// SHA1 download subpath
         /// </summary>
-        public const string Sha1Ext = "sha1/";
+        public const string DiscSha1Subpath = "sha1/";
+
+        #endregion
+
+        #region discs/ Subpaths
+
+        /// <summary>
+        /// Region filter subpath
+        /// </summary>
+        public const string DiscsRegionSubpath = @"region/{0}/";
+
+        /// <summary>
+        /// System filter subpath
+        /// </summary>
+        public const string DiscsSystemSubpath = @"system/{0}/";
 
         #endregion
     }

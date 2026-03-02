@@ -116,6 +116,7 @@ namespace SabreTools.RedumpLib.Data
     /// </summary>
     public enum DumpStatus
     {
+        UnknownGrey = 1,
         BadDumpRed = 2,
         PossibleBadDumpYellow = 3,
         OriginalMediaBlue = 4,
