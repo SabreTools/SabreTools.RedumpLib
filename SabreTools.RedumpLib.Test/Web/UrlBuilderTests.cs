@@ -1,3 +1,4 @@
+using System;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Web;
 using Xunit;
@@ -118,7 +119,32 @@ namespace SabreTools.RedumpLib.Test.Web
 
         #region BuildPackUrl
 
-        // TODO: Implement
+        [Theory]
+        [InlineData(PackType.Cuesheets, "http://redump.org/cues/arch/")]
+        [InlineData(PackType.Datfile, "http://redump.org/datfile/arch/")]
+        [InlineData(PackType.DecryptedKeys, "http://redump.org/dkeys/arch/")]
+        [InlineData(PackType.Gdis, "http://redump.org/gdi/arch/")]
+        [InlineData(PackType.Keys, "http://redump.org/keys/arch/")]
+        [InlineData(PackType.Lsds, "http://redump.org/lsd/arch/")]
+        [InlineData(PackType.Sbis, "http://redump.org/sbi/arch/")]
+        public void BuildPackUrl_ValidPackType_ValidSystem_Builds(PackType packType, string expected)
+        {
+            string actual = UrlBuilder.BuildPackUrl(packType, RedumpSystem.AcornArchimedes);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void BuildPackUrl_InvalidPackType_Throws()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => UrlBuilder.BuildPackUrl((PackType)int.MaxValue, RedumpSystem.AcornArchimedes));
+        }
+
+        [Fact]
+        public void BuildPackUrl_InvalidSystem_Builds()
+        {
+            string actual = UrlBuilder.BuildPackUrl(PackType.Datfile, RedumpSystem.MarkerOtherEnd);
+            Assert.Equal("http://redump.org/datfile//", actual);
+        }
 
         #endregion
     }
