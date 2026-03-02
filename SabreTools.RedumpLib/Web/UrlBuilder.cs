@@ -140,8 +140,6 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="antimodchip">Anti-modchip status to filter, null to omit</param>
         /// <param name="barcode">Add no barcode search to filter, false to omit</param>
         /// <param name="category">Add category to filter, null to omit</param>
-        /// <param name="comments">Marks search as comments field only, false to omit; cannot be used with <paramref name="contents"/> or <paramref name="protection"/></param>
-        /// <param name="contents">Marks search as contents field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="protection"/></param>
         /// <param name="discType">Disc type extension to filter, null to omit</param>
         /// <param name="dumper">Add dumper name to filter, null to omit</param>
         /// <param name="edc">EDC status to filter, null to omit</param>
@@ -152,8 +150,6 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="libcrypt">LibCrypt status to filter, null to omit</param>
         /// <param name="media">Non-specific media type to filter, null to omit</param>
         /// <param name="offset">Write offset to filter, null to omit</param>
-        /// <param name="page">Page number, null to omit</param>
-        /// <param name="protection">Marks search as protection field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="contents"/></param>
         /// <param name="quicksearch">Generic text search to filter, null to omit</param>
         /// <param name="region">Add region to filter, null to omit</param>
         /// <param name="ringcode">Add ringcode to filter, null to omit</param>
@@ -162,12 +158,14 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="status">Add status to filter, null to omit</param>
         /// <param name="system">Add system to filter, null to omit</param>
         /// <param name="tracks">Track count up to 99, null to omit</param>
+        /// <param name="comments">Marks search as comments field only, false to omit; cannot be used with <paramref name="contents"/> or <paramref name="protection"/></param>
+        /// <param name="contents">Marks search as contents field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="protection"/></param>
+        /// <param name="protection">Marks search as protection field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="contents"/></param>
+        /// <param name="page">Page number, null to omit</param>
         /// <remarks>Does not check for incompatibilities</remarks>
         public static string BuildDiscsUrl(bool? antimodchip = null,
             bool barcode = false,
             DiscCategory? category = null,
-            bool comments = false,
-            bool contents = false,
             DiscType? discType = null,
             string? dumper = null,
             YesNo? edc = null,
@@ -178,8 +176,6 @@ namespace SabreTools.RedumpLib.Web
             bool? libcrypt = null,
             MediaType? media = null,
             int? offset = null,
-            int? page = null,
-            bool protection = false,
             string? quicksearch = null,
             Region? region = null,
             string? ringcode = null,
@@ -187,7 +183,11 @@ namespace SabreTools.RedumpLib.Web
             SortDirection? sortDir = null,
             DumpStatus? status = null,
             RedumpSystem? system = null,
-            int? tracks = null)
+            int? tracks = null,
+            bool comments = false,
+            bool contents = false,
+            bool protection = false,
+            int? page = null)
         {
             var sb = new StringBuilder();
 
