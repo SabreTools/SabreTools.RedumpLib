@@ -708,6 +708,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="username">Username to use</param>
         /// <param name="system">System for filtering, null to retrieve for all systems at once</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
+        /// <remarks><paramref name="username"/> may have to match the logged-in user</remarks>
         public async Task<string?> DownloadSingleList(bool have, string username, RedumpSystem? system)
         {
             string systemName = system.ShortName() ?? "all";
@@ -742,6 +743,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="system">System for filtering, null to retrieve for all systems at once</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
+        /// <remarks><paramref name="username"/> may have to match the logged-in user</remarks>
         public async Task<bool> DownloadSingleList(bool have, string username, RedumpSystem? system, string? outDir)
         {
             // If no output directory is defined, use the current directory instead
