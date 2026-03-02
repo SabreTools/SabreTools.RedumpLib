@@ -499,7 +499,7 @@ namespace SabreTools.RedumpLib.Web
             }
 
             // Try to retrieve the data
-            string url = Constants.WipDumpsUrl;
+            string url = UrlBuilder.BuildDiscsWipUrl();
             string? dumpsPage = await DownloadString(url);
 
             // If the web client failed, return null

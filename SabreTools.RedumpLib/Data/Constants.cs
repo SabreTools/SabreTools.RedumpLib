@@ -220,11 +220,6 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         public const string UserDumpsLastModifiedUrl = @"http://redump.org/discs/sort/modified/dir/desc/dumper/{0}?page={1}";
 
-        /// <summary>
-        /// Redump WIP dumps queue URL
-        /// </summary>
-        public const string WipDumpsUrl = @"http://redump.org/discs-wip/";
-
         #endregion
     }
 }
