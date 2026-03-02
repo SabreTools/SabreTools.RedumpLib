@@ -226,59 +226,5 @@ namespace SabreTools.RedumpLib.Data
         public const string WipDumpsUrl = @"http://redump.org/discs-wip/";
 
         #endregion
-
-        #region disc/{id}/ Subpaths
-
-        /// <summary>
-        /// Changes page subpath
-        /// </summary>
-        public const string DiscChangesSubpath = "changes/";
-
-        /// <summary>
-        /// Cuesheet download subpath
-        /// </summary>
-        public const string DiscCueSubpath = "cue/";
-
-        /// <summary>
-        /// Edit page subpath
-        /// </summary>
-        public const string DiscEditSubpath = "edit/";
-
-        /// <summary>
-        /// GDI download subpath
-        /// </summary>
-        public const string DiscGdiSubpath = "gdi/";
-
-        /// <summary>
-        /// Key download subpath
-        /// </summary>
-        public const string DiscKeySubpath = "key/";
-
-        /// <summary>
-        /// LSD download subpath
-        /// </summary>
-        public const string DiscLsdSubpath = "lsd/";
-
-        /// <summary>
-        /// MD5 download subpath
-        /// </summary>
-        public const string DiscMd5Subpath = "md5/";
-
-        /// <summary>
-        /// SBI download subpath
-        /// </summary>
-        public const string DiscSbiSubpath = "sbi/";
-
-        /// <summary>
-        /// SFV download subpath
-        /// </summary>
-        public const string DiscSfvSubpath = "sfv/";
-
-        /// <summary>
-        /// SHA1 download subpath
-        /// </summary>
-        public const string DiscSha1Subpath = "sha1/";
-
-        #endregion
     }
 }
