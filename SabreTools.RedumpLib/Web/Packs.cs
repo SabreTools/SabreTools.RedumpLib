@@ -53,25 +53,25 @@ namespace SabreTools.RedumpLib.Web
             bool useSubfolders)
         {
             Console.WriteLine("Downloading CUEs");
-            await client.DownloadPacks(PackType.Cuesheets, systems, outDir, useSubfolders ? "cue" : null);
+            _ = await client.DownloadPacks(PackType.Cuesheets, systems, outDir, useSubfolders ? "cue" : null);
 
             Console.WriteLine("Downloading DATs");
-            await client.DownloadPacks(PackType.Datfile, systems, outDir, useSubfolders ? "dat" : null);
+            _ = await client.DownloadPacks(PackType.Datfile, systems, outDir, useSubfolders ? "dat" : null);
 
             Console.WriteLine("Downloading Decrypted KEYS");
-            await client.DownloadPacks(PackType.DecryptedKeys, systems, outDir, useSubfolders ? "dkey" : null);
+            _ = await client.DownloadPacks(PackType.DecryptedKeys, systems, outDir, useSubfolders ? "dkey" : null);
 
             Console.WriteLine("Downloading GDIs");
-            await client.DownloadPacks(PackType.Gdis, systems, outDir, useSubfolders ? "gdi" : null);
+            _ = await client.DownloadPacks(PackType.Gdis, systems, outDir, useSubfolders ? "gdi" : null);
 
             Console.WriteLine("Downloading KEYS");
-            await client.DownloadPacks(PackType.Keys, systems, outDir, useSubfolders ? "keys" : null);
+            _ = await client.DownloadPacks(PackType.Keys, systems, outDir, useSubfolders ? "keys" : null);
 
             Console.WriteLine("Downloading LSD");
-            await client.DownloadPacks(PackType.Lsds, systems, outDir, useSubfolders ? "lsd" : null);
+            _ = await client.DownloadPacks(PackType.Lsds, systems, outDir, useSubfolders ? "lsd" : null);
 
             Console.WriteLine("Downloading SBIs");
-            await client.DownloadPacks(PackType.Sbis, systems, outDir, useSubfolders ? "sbi" : null);
+            _ = await client.DownloadPacks(PackType.Sbis, systems, outDir, useSubfolders ? "sbi" : null);
 
             return true;
         }
