@@ -432,7 +432,7 @@ namespace SabreTools.RedumpLib.Web
         public async Task<List<int>?> CheckSingleQuicksearchPage(string query, int pageNumber, bool convertForwardSlashes)
         {
             query = NormalizeQuery(query, convertForwardSlashes);
-            string url = string.Format(Constants.QuickSearchUrl, query, pageNumber);
+            string url = UrlBuilder.BuildDiscsUrl(quicksearch: query, page: pageNumber);
             return await CheckSingleSitePage(url);
         }
 
@@ -447,7 +447,7 @@ namespace SabreTools.RedumpLib.Web
         public async Task<List<int>?> CheckSingleQuicksearchPage(string query, int pageNumber, string? outDir, bool convertForwardSlashes)
         {
             query = NormalizeQuery(query, convertForwardSlashes);
-            string url = string.Format(Constants.QuickSearchUrl, query, pageNumber);
+            string url = UrlBuilder.BuildDiscsUrl(quicksearch: query, page: pageNumber);
             return await CheckSingleSitePage(url, outDir);
         }
 

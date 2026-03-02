@@ -61,6 +61,18 @@ namespace SabreTools.RedumpLib.Test.Web
             Assert.Equal("http://redump.org/discs/sort/modified/dir/desc/?page=3", actual);
         }
 
+        [Theory]
+        [InlineData("", "http://redump.org/discs/quicksearch//?page=3")]
+        [InlineData("simple", "http://redump.org/discs/quicksearch/simple/?page=3")]
+        [InlineData("search-format", "http://redump.org/discs/quicksearch/search-format/?page=3")]
+        [InlineData("invalid format", "http://redump.org/discs/quicksearch/invalid format/?page=3")]
+        [InlineData("extra/path", "http://redump.org/discs/quicksearch/extra/path/?page=3")]
+        public void BuildDiscsUrl_QuicksearchWithPages_Builds(string query, string expected)
+        {
+            string actual = UrlBuilder.BuildDiscsUrl(quicksearch: query, page: 3);
+            Assert.Equal(expected, actual);
+        }
+
         // TODO: Implement more extensive tests
 
         #endregion
