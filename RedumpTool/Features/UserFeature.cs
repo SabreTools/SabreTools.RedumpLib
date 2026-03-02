@@ -20,6 +20,9 @@ namespace RedumpTool.Features
 
         #region Inputs
 
+        private const string _limitName = "limit";
+        internal readonly Int32Input LimitInput = new(_limitName, ["--limit"], "Limit number of retrieved result pages");
+
         private const string _listName = "list";
         internal readonly FlagInput ListInput = new(_listName, ["-l", "--list"], "Only list the page IDs for that user");
 
@@ -46,6 +49,7 @@ namespace RedumpTool.Features
             // Specific
             Add(OnlyNewInput);
             Add(ListInput);
+            Add(LimitInput);
         }
 
         /// <inheritdoc/>
@@ -63,6 +67,7 @@ namespace RedumpTool.Features
             // Get specific values
             bool onlyNew = OnlyNewInput.Value;
             bool onlyList = ListInput.Value;
+            int limit = LimitInput.Value ?? -1;
 
             // Output directory validation
             if (!onlyList && !ValidateAndCreateOutputDirectory(outDir))
@@ -83,11 +88,11 @@ namespace RedumpTool.Features
             // Start the processing
             Task<List<int>> processingTask;
             if (onlyList)
-                processingTask = _client.ListUser(username);
+                processingTask = _client.ListUser(username, limit);
             else if (onlyNew)
-                processingTask = _client.DownloadUserLastModified(username, outDir);
+                processingTask = _client.DownloadUserLastModified(username, outDir, limit);
             else
-                processingTask = _client.DownloadUser(username, outDir);
+                processingTask = _client.DownloadUser(username, outDir, limit);
 
             // Retrieve the result
             processingTask.Wait();

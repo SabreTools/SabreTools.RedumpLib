@@ -15,8 +15,12 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="username">Username to check discs for</param>
         /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="limit">Limit number of retrieved result pages, non-positive for unlimited</param>
         /// <returns>All disc IDs for the given user, empty on error</returns>
-        public static async Task<List<int>> DownloadUser(this RedumpClient client, string? username, string? outDir)
+        public static async Task<List<int>> DownloadUser(this RedumpClient client,
+            string? username,
+            string? outDir,
+            int limit = -1)
         {
             List<int> ids = [];
             if (string.IsNullOrEmpty(username))
@@ -29,6 +33,9 @@ namespace SabreTools.RedumpLib.Web
             int pageNumber = 1;
             while (true)
             {
+                if (limit > 0 && pageNumber >= limit)
+                    break;
+
                 var pageIds = await client.CheckSingleUserPage(username!, pageNumber++, outDir, lastModified: false);
                 if (pageIds is null)
                     return [];
@@ -47,8 +54,12 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="username">Username to check discs for</param>
         /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="limit">Limit number of retrieved result pages, non-positive for unlimited</param>
         /// <returns>All disc IDs for the given user, empty on error</returns>
-        public static async Task<List<int>> DownloadUserLastModified(this RedumpClient client, string? username, string? outDir)
+        public static async Task<List<int>> DownloadUserLastModified(this RedumpClient client,
+            string? username,
+            string? outDir,
+            int limit = -1)
         {
             List<int> ids = [];
             if (string.IsNullOrEmpty(username))
@@ -61,6 +72,9 @@ namespace SabreTools.RedumpLib.Web
             int pageNumber = 1;
             while (true)
             {
+                if (limit > 0 && pageNumber >= limit)
+                    break;
+
                 var pageIds = await client.CheckSingleUserPage(username!, pageNumber++, outDir, lastModified: true);
                 if (pageIds is null)
                     return [];
@@ -78,8 +92,11 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="username">Username to check discs for</param>
+        /// <param name="limit">Limit number of retrieved result pages, non-positive for unlimited</param>
         /// <returns>All disc IDs for the given user, empty on error</returns>
-        public static async Task<List<int>> ListUser(this RedumpClient client, string? username)
+        public static async Task<List<int>> ListUser(this RedumpClient client,
+            string? username,
+            int limit = -1)
         {
             List<int> ids = [];
             if (string.IsNullOrEmpty(username))
@@ -94,6 +111,9 @@ namespace SabreTools.RedumpLib.Web
                 int pageNumber = 1;
                 while (true)
                 {
+                    if (limit > 0 && pageNumber >= limit)
+                        break;
+
                     var pageIds = await client.CheckSingleUserPage(username!, pageNumber++, lastModified: false);
                     if (pageIds is null)
                         return [];

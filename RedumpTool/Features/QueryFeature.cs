@@ -20,6 +20,9 @@ namespace RedumpTool.Features
 
         #region Inputs
 
+        private const string _limitName = "limit";
+        internal readonly Int32Input LimitInput = new(_limitName, ["--limit"], "Limit number of retrieved result pages");
+
         private const string _listName = "list";
         internal readonly FlagInput ListInput = new(_listName, ["-l", "--list"], "Only list the page IDs for that query");
 
@@ -54,6 +57,7 @@ namespace RedumpTool.Features
             Add(QuickSearchInput);
             Add(ListInput);
             Add(NoSlashInput);
+            Add(LimitInput);
         }
 
         /// <inheritdoc/>
@@ -73,6 +77,7 @@ namespace RedumpTool.Features
             string? queryString = QueryInput.Value;
             bool quick = QuickSearchInput.Value;
             bool convertForwardSlashes = !NoSlashInput.Value;
+            int limit = LimitInput.Value ?? -1;
 
             // Output directory validation
             if (!onlyList && !ValidateAndCreateOutputDirectory(outDir))
@@ -102,16 +107,16 @@ namespace RedumpTool.Features
             if (quick)
             {
                 if (onlyList)
-                    processingTask = _client.ListSearchResults(queryString, convertForwardSlashes);
+                    processingTask = _client.ListSearchResults(queryString, convertForwardSlashes, limit);
                 else
-                    processingTask = _client.DownloadSearchResults(queryString, outDir, convertForwardSlashes);
+                    processingTask = _client.DownloadSearchResults(queryString, outDir, convertForwardSlashes, limit);
             }
             else
             {
                 if (onlyList)
-                    processingTask = _client.ListDiscsResults(queryString, convertForwardSlashes);
+                    processingTask = _client.ListDiscsResults(queryString, convertForwardSlashes, limit);
                 else
-                    processingTask = _client.DownloadDiscsResults(queryString, outDir, convertForwardSlashes);
+                    processingTask = _client.DownloadDiscsResults(queryString, outDir, convertForwardSlashes, limit);
             }
 
             // Retrieve the result

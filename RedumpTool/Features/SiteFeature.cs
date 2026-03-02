@@ -20,6 +20,9 @@ namespace RedumpTool.Features
 
         #region Inputs
 
+        private const string _limitName = "limit";
+        internal readonly Int32Input LimitInput = new(_limitName, ["--limit"], "Limit number of retrieved result pages");
+
         private const string _maximumName = "maximum";
         internal readonly Int32Input MaximumInput = new(_maximumName, ["-max", "--maximum"], "Upper bound for page numbers (cannot be used with only new)");
 
@@ -50,6 +53,7 @@ namespace RedumpTool.Features
             Add(MinimumInput);
             Add(MaximumInput);
             Add(OnlyNewInput);
+            Add(LimitInput);
         }
 
         /// <inheritdoc/>
@@ -68,6 +72,7 @@ namespace RedumpTool.Features
             int minId = MinimumInput.Value ?? -1;
             int maxId = MaximumInput.Value ?? -1;
             bool onlyNew = OnlyNewInput.Value;
+            int limit = LimitInput.Value ?? -1;
 
             // Output directory validation
             if (!ValidateAndCreateOutputDirectory(outDir))
@@ -95,7 +100,7 @@ namespace RedumpTool.Features
             // Start the processing
             Task<List<int>> processingTask;
             if (onlyNew)
-                processingTask = _client.DownloadLastModified(outDir);
+                processingTask = _client.DownloadLastModified(outDir, limit);
             else
                 processingTask = _client.DownloadSiteRange(outDir, minId, maxId);
 

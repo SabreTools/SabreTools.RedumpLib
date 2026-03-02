@@ -15,10 +15,12 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="query">Query string to attempt to search for</param>
         /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
+        /// <param name="limit">Limit number of retrieved result pages, non-positive for unlimited</param>
         /// <returns>All disc IDs for the given query, empty on error</returns>
         public static async Task<List<int>> ListSearchResults(this RedumpClient client,
             string? query,
-            bool convertForwardSlashes)
+            bool convertForwardSlashes,
+            int limit = -1)
         {
             // If the query is invalid
             if (string.IsNullOrEmpty(query))
@@ -31,6 +33,9 @@ namespace SabreTools.RedumpLib.Web
                 int pageNumber = 1;
                 while (true)
                 {
+                    if (limit > 0 && pageNumber >= limit)
+                        break;
+
                     var pageIds = await client.CheckSingleQuicksearchPage(query!, pageNumber++, convertForwardSlashes);
                     if (pageIds is null)
                         return [];
@@ -56,11 +61,13 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="query">Query string to attempt to search for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
+        /// <param name="limit">Limit number of retrieved result pages, non-positive for unlimited</param>
         /// <returns>All disc IDs for the given query, empty on error</returns>
         public static async Task<List<int>> DownloadSearchResults(this RedumpClient client,
             string? query,
             string? outDir,
-            bool convertForwardSlashes)
+            bool convertForwardSlashes,
+            int limit = -1)
         {
             // If the query is invalid
             if (string.IsNullOrEmpty(query))
@@ -73,6 +80,9 @@ namespace SabreTools.RedumpLib.Web
                 int pageNumber = 1;
                 while (true)
                 {
+                    if (limit > 0 && pageNumber >= limit)
+                        break;
+
                     var pageIds = await client.CheckSingleQuicksearchPage(query!, pageNumber++, outDir, convertForwardSlashes);
                     if (pageIds is null)
                         return [];
