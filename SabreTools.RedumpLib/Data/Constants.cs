@@ -195,16 +195,6 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         public const string QuickSearchUrl = @"http://redump.org/discs/quicksearch/{0}/?page={1}";
 
-        /// <summary>
-        /// Redump user dumps URL template
-        /// </summary>
-        public const string UserDumpsUrl = @"http://redump.org/discs/dumper/{0}/?page={1}";
-
-        /// <summary>
-        /// Redump last modified user dumps URL template
-        /// </summary>
-        public const string UserDumpsLastModifiedUrl = @"http://redump.org/discs/sort/modified/dir/desc/dumper/{0}?page={1}";
-
         #endregion
     }
 }

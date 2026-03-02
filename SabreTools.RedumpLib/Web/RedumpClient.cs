@@ -461,8 +461,8 @@ namespace SabreTools.RedumpLib.Web
         public async Task<List<int>?> CheckSingleUserPage(string username, int pageNumber, bool lastModified)
         {
             string url = lastModified
-                ? string.Format(Constants.UserDumpsLastModifiedUrl, username, pageNumber)
-                : string.Format(Constants.UserDumpsUrl, username, pageNumber);
+                ? UrlBuilder.BuildDiscsUrl(dumper: username, sort: "modified", sortDir: "desc", page: pageNumber)
+                : UrlBuilder.BuildDiscsUrl(dumper: username, page: pageNumber);
             return await CheckSingleSitePage(url);
         }
 
@@ -477,8 +477,8 @@ namespace SabreTools.RedumpLib.Web
         public async Task<List<int>?> CheckSingleUserPage(string username, int pageNumber, string? outDir, bool lastModified)
         {
             string url = lastModified
-                ? string.Format(Constants.UserDumpsLastModifiedUrl, username, pageNumber)
-                : string.Format(Constants.UserDumpsUrl, username, pageNumber);
+                ? UrlBuilder.BuildDiscsUrl(dumper: username, sort: "modified", sortDir: "desc", page: pageNumber)
+                : UrlBuilder.BuildDiscsUrl(dumper: username, page: pageNumber);
             return await CheckSingleSitePage(url, outDir);
         }
 
