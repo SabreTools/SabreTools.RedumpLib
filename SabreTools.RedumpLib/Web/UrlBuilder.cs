@@ -378,11 +378,11 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Build a /list/ path URL
         /// </summary>
-        /// <param name="username">Username to use</param>
+        /// <param name="dumper">Dumper name to use</param>
         /// <param name="have">True to show "have" discs, false to show "miss" discs, null to omit (acts like "have")</param>
         /// <param name="system">System for filtering, null to omit (acts on all systems)</param>
         /// <remarks>Does not check for invalid usernames</remarks>
-        public static string BuildListUrl(string username,
+        public static string BuildListUrl(string dumper,
             bool? have = null,
             RedumpSystem? system = null)
         {
@@ -397,7 +397,7 @@ namespace SabreTools.RedumpLib.Web
                 sb.Append($"{operation}/");
             }
 
-            sb.Append($"{username}/");
+            sb.Append($"{dumper}/");
 
             string? systemName = system.ShortName();
             if (systemName is not null)

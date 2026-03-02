@@ -1,10 +1,10 @@
 using System;
+using SabreTools.CommandLine.Inputs;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Web;
 
 namespace RedumpTool.Features
 {
-    // TODO: Support more than just /discs/ paths
     internal sealed class BuildUrlFeature : BaseFeature
     {
         #region Feature Definition
@@ -14,6 +14,28 @@ namespace RedumpTool.Features
         private static readonly string[] _flags = ["build-url"];
 
         private const string _description = "Builds and outputs a requested discs URL";
+
+        #endregion
+
+        #region Inputs
+
+        private const string _basePathName = "basepath";
+        internal readonly StringInput BasePathInput = new(_basePathName, ["-b", "--base-path"], "Indicate base path for building URL (disc [requires --disc-id], discs, discs-wip, downloads, list [requires --dumper], newdisc, pack [requires --pack and --system], statistics)");
+
+        private const string _discIdName = "discid";
+        internal readonly Int32Input DiscIdInput = new(_discIdName, ["-i", "--disc-id"], "Disc ID, requires 'disc'");
+
+        private const string _haveName = "have";
+        internal readonly BooleanInput HaveInput = new(_haveName, ["-g", "--have"], "Have or miss filter, requires 'list'");
+
+        private const string _newDiscIdName = "newdiscid";
+        internal readonly Int32Input NewDiscIdInput = new(_newDiscIdName, ["-w", "--newdisc-id"], "Disc WIP ID, requires 'newdisc'");
+
+        private const string _packName = "pack";
+        internal readonly StringInput PackInput = new(_packName, ["-k", "--pack"], "Download pack ID, requires 'downloads' and --system (cues, datfile, dkeys, gdi, keys, lsd, sbi)");
+
+        private const string _subpathName = "subpath";
+        internal readonly StringInput SubpathInput = new(_subpathName, ["-s", "--subpath"], "Disc page subpath, requires 'disc' (changes, cue, edit, gdi, key, lsd, md5, sbi, sfv, sha1)");
 
         #endregion
 
@@ -31,6 +53,10 @@ namespace RedumpTool.Features
             Add(TimeoutInput);
             Add(ForceDownloadInput);
             Add(ForceContinueInput);
+
+            // Disc path
+            Add(DiscIdInput);
+            Add(SubpathInput);
 
             // Discs Path
             Add(AntiModchipInput);
@@ -58,11 +84,25 @@ namespace RedumpTool.Features
             Add(StatusInput);
             Add(SystemInput);
             Add(TracksInput);
+
+            // Downloads (Packs) Path
+            Add(PackInput);
+
+            // List Path
+            Add(HaveInput);
+
+            // New Disc Path
+            Add(NewDiscIdInput);
         }
 
         /// <inheritdoc/>
         public override bool Execute()
         {
+            // Get disc path values
+            int? discId = DiscIdInput.Value;
+            string? subpathString = SubpathInput.Value;
+            DiscSubpath? subpath = subpathString.ToDiscSubpath();
+
             // Get discs path values
             bool? antimodchip = AntiModchipInput.Value;
             bool barcode = BarcodeInput.Value;
@@ -106,33 +146,83 @@ namespace RedumpTool.Features
             RedumpSystem? system = systemString.ToRedumpSystem();
             int? tracks = TracksInput.Value;
 
-            // Format and print the discs URL
-            string discsUrl = UrlBuilder.BuildDiscsUrl(antimodchip,
-                barcode,
-                category,
-                discType,
-                dumper,
-                edc,
-                edition,
-                errors,
-                language,
-                letter,
-                libcrypt,
-                media,
-                offset,
-                quicksearch,
-                region,
-                ringcode,
-                sort,
-                sortDir,
-                status,
-                system,
-                tracks,
-                comments,
-                contents,
-                protection,
-                page);
-            Console.WriteLine($"URL: {discsUrl}");
+            // Get the downloads path values
+            string? packString = PackInput.Value;
+            PackType? pack = packString.ToPackType();
+
+            // Get the list path values
+            bool? have = HaveInput.Value;
+
+            // Get new disc path values
+            int? newDiscId = NewDiscIdInput.Value;
+
+            // Get specific values
+            string? basePath = BasePathInput.Value;
+
+            // Build and print the URL
+            string? url = basePath?.ToLowerInvariant() switch
+            {
+                "disc" => discId is null
+                    ? null
+                    : UrlBuilder.BuildDiscUrl(discId.Value, subpath),
+
+                "discs" => UrlBuilder.BuildDiscsUrl(antimodchip,
+                    barcode,
+                    category,
+                    discType,
+                    dumper,
+                    edc,
+                    edition,
+                    errors,
+                    language,
+                    letter,
+                    libcrypt,
+                    media,
+                    offset,
+                    quicksearch,
+                    region,
+                    ringcode,
+                    sort,
+                    sortDir,
+                    status,
+                    system,
+                    tracks,
+                    comments,
+                    contents,
+                    protection,
+                    page),
+
+                "discs-wip" => newDiscId is null
+                    ? UrlBuilder.BuildDiscsWipUrl()
+                    : UrlBuilder.BuildNewDiscUrl(newDiscId.Value),
+                "newdisc" => newDiscId is null
+                    ? UrlBuilder.BuildDiscsWipUrl()
+                    : UrlBuilder.BuildNewDiscUrl(newDiscId.Value),
+
+                "download" => pack is null || system is null
+                    ? UrlBuilder.BuildDownloadsUrl()
+                    : UrlBuilder.BuildPackUrl(pack.Value, system.Value),
+                "pack" => pack is null || system is null
+                    ? UrlBuilder.BuildDownloadsUrl()
+                    : UrlBuilder.BuildPackUrl(pack.Value, system.Value),
+
+                "list" => dumper is null
+                    ? null
+                    : UrlBuilder.BuildListUrl(dumper, have, system),
+
+                "member2dumper" => UrlBuilder.BuildMemberPromotionUrl(),
+                "memberpromotion" => UrlBuilder.BuildMemberPromotionUrl(),
+
+                "statistics" => UrlBuilder.BuildStatisticsUrl(),
+
+                _ => null,
+            };
+
+            if (url is null)
+                Console.WriteLine("An error occurred, please check for required inputs");
+            else
+                Console.WriteLine($"URL: {url}");
+
             return true;
         }
 
