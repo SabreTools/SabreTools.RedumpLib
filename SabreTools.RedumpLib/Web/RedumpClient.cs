@@ -756,6 +756,51 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="packType">Pack type to use to determine the download URL</param>
         /// <param name="system">System to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
+        public async Task<bool> DownloadSinglePack(PackType packType, RedumpSystem? system, string? outDir)
+        {
+            try
+            {
+                if (Debug) Console.WriteLine($"DEBUG: DownloadSinglePack(\"{packType}\", {system}, \"{outDir}\")");
+
+                // Determine the base URL, if possible
+                string? baseUrl = PackTypeToBaseUrl(packType);
+                if (baseUrl is null)
+                {
+                    if (Debug) Console.Error.WriteLine($"DEBUG: {packType} is not a recognized pack type, skipping...");
+                    return false;
+                }
+
+                // If no output directory is defined, use the current directory instead
+                if (string.IsNullOrEmpty(outDir))
+                {
+                    if (Debug) Console.WriteLine("DEBUG: Output directory was not provided, setting to current directory");
+                    outDir = Environment.CurrentDirectory;
+                }
+
+                string tempfile = Path.Combine(outDir, "tmp" + Guid.NewGuid().ToString());
+                string packUri = string.Format(baseUrl, system.ShortName());
+
+                // Make the call to get the pack
+                string? remoteFileName = await DownloadFile(packUri, tempfile);
+                if (remoteFileName is null)
+                    return false;
+
+                MoveOrDelete(tempfile, remoteFileName, outDir!);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"An exception has occurred: {ex}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Download a single pack
+        /// </summary>
+        /// <param name="packType">Pack type to use to determine the download URL</param>
+        /// <param name="system">System to download packs for</param>
+        /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
         public async Task<bool> DownloadSinglePack(PackType packType, RedumpSystem? system, string? outDir, string? subfolder)
         {
@@ -773,7 +818,10 @@ namespace SabreTools.RedumpLib.Web
 
                 // If no output directory is defined, use the current directory instead
                 if (string.IsNullOrEmpty(outDir))
+                {
+                    if (Debug) Console.WriteLine("DEBUG: Output directory was not provided, setting to current directory");
                     outDir = Environment.CurrentDirectory;
+                }
 
                 string tempfile = Path.Combine(outDir, "tmp" + Guid.NewGuid().ToString());
                 string packUri = string.Format(baseUrl, system.ShortName());
@@ -1264,6 +1312,70 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="packType">Pack type to use to determine the download URL</param>
         /// <param name="systems">Systems to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
+        public async Task<bool> DownloadPacks(PackType packType, RedumpSystem[] systems, string? outDir)
+        {
+            // Determine the base URL, if possible
+            string? baseUrl = PackTypeToBaseUrl(packType);
+            if (baseUrl is null)
+            {
+                if (Debug) Console.Error.WriteLine($"DEBUG: {packType} is not a recognized pack type, skipping...");
+                return false;
+            }
+
+            foreach (var system in systems)
+            {
+                // If the system is invalid, we can't do anything
+                if (!system.IsAvailable())
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
+                    continue;
+                }
+
+                // If we didn't have credentials
+                if (!_loggedIn && system.IsBanned())
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access, skipping...");
+                    continue;
+                }
+
+                // If the system is unknown, we can't do anything
+                string? longName = system.LongName();
+                if (string.IsNullOrEmpty(longName))
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {system} is not a recognized system, skipping...");
+                    continue;
+                }
+
+                // If the pack is not supported for the system
+                if (!PackTypeToAvailable(packType, system))
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: {packType} is not available for {system}, skipping...");
+                    continue;
+                }
+
+                if (Debug)
+                    Console.WriteLine(longName);
+                else
+                    Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
+
+                await DownloadSinglePack(packType, system, outDir);
+            }
+
+            if (Debug)
+                Console.WriteLine("Complete!");
+            else
+                Console.Write($"\rComplete!{new string(' ', Console.BufferWidth - 10)}");
+
+            Console.WriteLine();
+            return true;
+        }
+
+        /// <summary>
+        /// Download a set of packs
+        /// </summary>
+        /// <param name="packType">Pack type to use to determine the download URL</param>
+        /// <param name="systems">Systems to download packs for</param>
+        /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
         public async Task<bool> DownloadPacks(PackType packType, RedumpSystem[] systems, string? outDir, string? subfolder)
         {
@@ -1321,6 +1433,31 @@ namespace SabreTools.RedumpLib.Web
 
             Console.WriteLine();
             return true;
+        }
+
+        /// <summary>
+        /// Move a tempfile to a new name unless it aleady exists, in which case, delete the tempfile
+        /// </summary>
+        /// <param name="tempfile">Path to existing temporary file</param>
+        /// <param name="newfile">Path to new output file</param>
+        /// <param name="outDir">Output directory to save data to</param>
+        private static void MoveOrDelete(string tempfile, string? newfile, string outDir)
+        {
+            // If we don't have a file to move to, just delete the temp file
+            if (string.IsNullOrEmpty(newfile))
+            {
+                File.Delete(tempfile);
+                return;
+            }
+
+            // Ensure the output directory exists
+            Directory.CreateDirectory(outDir);
+
+            // If the file already exists, don't overwrite it
+            if (File.Exists(Path.Combine(outDir, newfile)))
+                File.Delete(tempfile);
+            else
+                File.Move(tempfile, Path.Combine(outDir, newfile));
         }
 
         /// <summary>
