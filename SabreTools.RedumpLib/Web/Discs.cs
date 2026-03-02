@@ -146,7 +146,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="minId">Starting ID for the range</param>
         /// <param name="maxId">Ending ID for the range (inclusive)</param>
         /// <returns>All disc IDs that successfully downloaded, empty on error</returns>
-        public static async Task<List<int>> DownloadSiteRange(this RedumpClient client, string? outDir, int minId = 0, int maxId = 0)
+        public static async Task<List<int>> DownloadSiteRange(this RedumpClient client, string? outDir, int minId, int maxId)
         {
             List<int> ids = [];
             for (int id = minId; id <= maxId; id++)
