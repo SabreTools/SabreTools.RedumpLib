@@ -1010,7 +1010,7 @@ namespace SabreTools.RedumpLib.Web
                 if (Constants.NewDiscRegex.IsMatch(discPage))
                 {
                     var match = Constants.NewDiscRegex.Match(discPage);
-                    string uri = string.Format(Constants.WipDiscPageUrl, match.Groups[2].Value);
+                    string uri = string.Format(Constants.NewDiscUrlTemplate, match.Groups[2].Value);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, "newdisc.html"));
                     if (!IgnoreErrors && remoteName is null)
                         return false;
@@ -1080,7 +1080,7 @@ namespace SabreTools.RedumpLib.Web
             try
             {
                 // Try to retrieve the data
-                string discPageUri = string.Format(Constants.WipDiscPageUrl, +id);
+                string discPageUri = string.Format(Constants.NewDiscUrlTemplate, +id);
                 string? discPage = await DownloadString(discPageUri);
 
                 if (discPage is null)
@@ -1134,7 +1134,7 @@ namespace SabreTools.RedumpLib.Web
             try
             {
                 // Try to retrieve the data
-                string discPageUri = string.Format(Constants.WipDiscPageUrl, +id);
+                string discPageUri = string.Format(Constants.NewDiscUrlTemplate, +id);
                 string? discPage = await DownloadString(discPageUri);
 
                 if (discPage is null)

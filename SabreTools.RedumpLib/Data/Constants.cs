@@ -181,11 +181,6 @@ namespace SabreTools.RedumpLib.Data
         #region URL Templates
 
         /// <summary>
-        /// Entire site base URL
-        /// </summary>
-        public const string SiteBaseUrl = "http://redump.org/";
-
-        /// <summary>
         /// Redump disc page URL template
         /// </summary>
         public const string DiscPageUrlTemplate = @"http://redump.org/disc/{0}/";
@@ -204,11 +199,6 @@ namespace SabreTools.RedumpLib.Data
         /// Redump login page URL template
         /// </summary>
         public const string LoginUrl = "http://forum.redump.org/login/";
-
-        /// <summary>
-        /// Redump member promotion URL template
-        /// </summary>
-        public const string MemberPromotionUrl = @"http://redump.org/member2dumper";
 
         /// <summary>
         /// Redump new disc URL template
@@ -264,11 +254,6 @@ namespace SabreTools.RedumpLib.Data
         /// Redump last modified user dumps URL template
         /// </summary>
         public const string UserDumpsLastModifiedUrl = @"http://redump.org/discs/sort/modified/dir/desc/dumper/{0}?page={1}";
-
-        /// <summary>
-        /// Redump WIP disc page URL template
-        /// </summary>
-        public const string WipDiscPageUrl = @"http://redump.org/newdisc/{0}/";
 
         /// <summary>
         /// Redump WIP dumps queue URL
@@ -328,20 +313,6 @@ namespace SabreTools.RedumpLib.Data
         /// SHA1 download subpath
         /// </summary>
         public const string DiscSha1Subpath = "sha1/";
-
-        #endregion
-
-        #region discs/ Subpaths
-
-        /// <summary>
-        /// Region filter subpath
-        /// </summary>
-        public const string DiscsRegionSubpath = @"region/{0}/";
-
-        /// <summary>
-        /// System filter subpath
-        /// </summary>
-        public const string DiscsSystemSubpath = @"system/{0}/";
 
         #endregion
     }
