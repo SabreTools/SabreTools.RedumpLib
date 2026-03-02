@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using SabreTools.RedumpLib.Web;
 using Xunit;
 
@@ -10,6 +6,15 @@ namespace SabreTools.RedumpLib.Test.Web
     public class UrlBuilderTests
     {
         #region BuildDiscUrl
+
+        [Theory]
+        [InlineData(1, 1)]
+        [InlineData(-1, 1)]
+        public void BuildDiscUrl_AlwaysPositive(int id, int expected)
+        {
+            string actual = UrlBuilder.BuildDiscUrl(id);
+            Assert.Equal($"http://redump.org/disc/{expected}/", actual);
+        }
 
         // TODO: Implement
 
@@ -23,13 +28,23 @@ namespace SabreTools.RedumpLib.Test.Web
 
         #region BuildDiscsWipUrl
 
-        // TODO: Implement
+        [Fact]
+        public void BuildDiscsWipUrl_Constant()
+        {
+            string actual = UrlBuilder.BuildDiscsWipUrl();
+            Assert.Equal("http://redump.org/discs-wip/", actual);
+        }
 
         #endregion
 
         #region BuildDownloadsUrl
 
-        // TODO: Implement
+        [Fact]
+        public void BuildDownloadsUrl_Constant()
+        {
+            string actual = UrlBuilder.BuildDownloadsUrl();
+            Assert.Equal("http://redump.org/downloads/", actual);
+        }
 
         #endregion
 
@@ -41,13 +56,25 @@ namespace SabreTools.RedumpLib.Test.Web
 
         #region BuildMemberPromotionUrl
 
-        // TODO: Implement
+        [Fact]
+        public void BuildMemberPromotionUrl_Constant()
+        {
+            string actual = UrlBuilder.BuildMemberPromotionUrl();
+            Assert.Equal("http://redump.org/member2dumper/", actual);
+        }
 
         #endregion
 
         #region BuildNewDiscUrl
 
-        // TODO: Implement
+        [Theory]
+        [InlineData(1, 1)]
+        [InlineData(-1, 1)]
+        public void BuildNewDiscUrl_AlwaysPositive(int id, int expected)
+        {
+            string actual = UrlBuilder.BuildNewDiscUrl(id);
+            Assert.Equal($"http://redump.org/newdisc/{expected}/", actual);
+        }
 
         #endregion
 

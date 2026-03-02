@@ -181,7 +181,7 @@ namespace SabreTools.RedumpLib.Web
             var sb = new StringBuilder();
 
             sb.Append(SiteBaseUrl);
-            sb.AppendFormat(DiscPath, +id);
+            sb.AppendFormat(DiscPath, Math.Abs(id));
 
             if (changes)
                 sb.Append(DiscPathChangesSubpath);
@@ -498,7 +498,7 @@ namespace SabreTools.RedumpLib.Web
             var sb = new StringBuilder();
 
             sb.Append(SiteBaseUrl);
-            sb.AppendFormat(NewDiscPath, +id);
+            sb.AppendFormat(NewDiscPath, Math.Abs(id));
 
             return sb.ToString();
         }
