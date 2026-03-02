@@ -33,6 +33,7 @@ namespace RedumpTool
                 case PacksFeature pf: pf.ProcessArgs(args, 1); pf.Execute(); return;
                 case UserFeature uf: uf.ProcessArgs(args, 1); uf.Execute(); return;
                 case QueryFeature qf: qf.ProcessArgs(args, 1); qf.Execute(); return;
+                case BuildUrlFeature buf: buf.ProcessArgs(args, 1); buf.Execute(); return;
                 case StatsFeature sf: sf.ProcessArgs(args, 1); sf.Execute(); return;
 
                 default:
@@ -55,6 +56,7 @@ namespace RedumpTool
             commandSet.Add(new PacksFeature());
             commandSet.Add(new UserFeature());
             commandSet.Add(new QueryFeature());
+            commandSet.Add(new BuildUrlFeature());
             commandSet.Add(new StatsFeature());
 
             return commandSet;

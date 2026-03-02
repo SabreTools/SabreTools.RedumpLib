@@ -82,6 +82,9 @@ namespace RedumpTool.Features
         private const string _offsetName = "offset";
         internal readonly Int32Input OffsetInput = new(_offsetName, ["--offset"], "Filter by disc offset");
 
+        private const string _pageName = "page";
+        internal readonly Int32Input PageInput = new(_pageName, ["--page"], "Retrieve specific result page");
+
         private const string _protectionName = "protection";
         internal readonly FlagInput ProtectionInput = new(_protectionName, ["--protection"], "Filter by protection only, incompatible with --comments and --contents");
 
