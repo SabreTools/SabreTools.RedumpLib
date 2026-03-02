@@ -67,6 +67,11 @@ namespace SabreTools.RedumpLib.Web
         private const string KeysPath = @"keys/{0}/";
 
         /// <summary>
+        /// Path for per-user lists
+        /// </summary>
+        private const string ListPath = @"list/{0}/{1}/{2}/";
+
+        /// <summary>
         /// Path for LSD pack downloads
         /// </summary>
         private const string LsdPath = @"lsd/{0}/";
@@ -396,10 +401,25 @@ namespace SabreTools.RedumpLib.Web
             return sb.ToString();
         }
 
-        // TODO: Implement
-        public static string BuildListUrl()
+        /// <summary>
+        /// Build a /list/ path URL
+        /// </summary>
+        /// <param name="have">True to show "have" discs, false to show "miss" discs</param>
+        /// <param name="username">Username to use</param>
+        /// <param name="system">System for filtering</param>
+        public static string BuildListUrl(bool have,
+            string username,
+            RedumpSystem system)
         {
-            return string.Empty;
+            var sb = new StringBuilder();
+
+            sb.Append(SiteBaseUrl);
+
+            string operation = have ? "have" : "miss";
+            string systemName = system.ShortName() ?? string.Empty;
+            sb.AppendFormat(ListPath, operation, username, systemName);
+
+            return sb.ToString();
         }
 
         /// <summary>
