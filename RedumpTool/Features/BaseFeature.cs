@@ -35,6 +35,82 @@ namespace RedumpTool.Features
         private const string _usernameName = "username";
         internal readonly StringInput UsernameInput = new(_usernameName, ["-u", "--username"], "Redump username");
 
+        #region Discs Path Filter Inputs
+
+        private const string _antiModchipName = "antimodchip";
+        internal readonly BooleanInput AntiModchipInput = new(_antiModchipName, ["--anti-modchip"], "Filter by anti-modchip status");
+
+        private const string _barcodeName = "barcode";
+        internal readonly FlagInput BarcodeInput = new(_barcodeName, ["--barcode"], "Filter by missing barcodes");
+
+        private const string _categoryName = "category";
+        internal readonly StringInput CategoryInput = new(_categoryName, ["--category"], "Filter by disc category");
+
+        private const string _commentsName = "comments";
+        internal readonly FlagInput CommentsInput = new(_commentsName, ["--comments"], "Filter by comments only, incompatible with --contents and --protection");
+
+        private const string _contentsName = "contents";
+        internal readonly FlagInput ContentsInput = new(_contentsName, ["--contents"], "Filter by contents only, incompatible with --comments and --protection");
+
+        private const string _discTypeName = "disctype";
+        internal readonly StringInput DiscTypeInput = new(_discTypeName, ["--disc-type"], "Filter by disc type, requires --system (cd, dvd)");
+
+        private const string _dumperName = "dumper";
+        internal readonly StringInput DumperInput = new(_dumperName, ["--dumper"], "Filter by dumper");
+
+        private const string _edcName = "edc";
+        internal readonly BooleanInput EdcInput = new(_edcName, ["--edc"], "Filter by EDC status");
+
+        private const string _editionName = "edition";
+        internal readonly StringInput EditionInput = new(_editionName, ["--edition"], "Filter by edition");
+
+        private const string _errorsName = "errors";
+        internal readonly StringInput ErrorsInput = new(_errorsName, ["--errors"], "Filter by errors");
+
+        private const string _languageName = "language";
+        internal readonly StringInput LanguageInput = new(_languageName, ["--language"], "Filter by language");
+
+        private const string _letterName = "letter";
+        internal readonly StringInput LetterInput = new(_letterName, ["--letter"], "Filter by first letter");
+
+        private const string _libCryptName = "libcrypt";
+        internal readonly BooleanInput LibCryptInput = new(_libCryptName, ["--libcrypt"], "Filter by LibCrypt status");
+
+        private const string _mediaName = "media";
+        internal readonly StringInput MediaInput = new(_mediaName, ["--media"], "Filter by media type");
+
+        private const string _offsetName = "offset";
+        internal readonly Int32Input OffsetInput = new(_offsetName, ["--offset"], "Filter by disc offset");
+
+        private const string _protectionName = "protection";
+        internal readonly FlagInput ProtectionInput = new(_protectionName, ["--protection"], "Filter by protection only, incompatible with --comments and --contents");
+
+        private const string _quickSearchName = "quicksearch";
+        internal readonly StringInput QuickSearchInput = new(_quickSearchName, ["--quicksearch"], "Filter by quicksearch");
+
+        private const string _regionName = "region";
+        internal readonly StringInput RegionInput = new(_regionName, ["--region"], "Filter by region");
+
+        private const string _ringcodeName = "ringcode";
+        internal readonly StringInput RingcodeInput = new(_ringcodeName, ["--ringcode"], "Filter by ringcode");
+
+        private const string _sortName = "sort";
+        internal readonly StringInput SortInput = new(_sortName, ["--sort"], "Sort results by criteria (added, region, system, version, edition, languages, serial, status, modified)");
+
+        private const string _sortDirName = "sortdir";
+        internal readonly StringInput SortDirInput = new(_sortDirName, ["--sort-dir"], "Set sorting direction (asc, desc)");
+
+        private const string _statusName = "status";
+        internal readonly StringInput StatusInput = new(_statusName, ["--status"], "Filter by status (grey, red, yellow, blue, green)");
+
+        private const string _systemName = "system";
+        internal readonly StringInput SystemInput = new(_systemName, ["--system"], "Filter by system");
+
+        private const string _tracksName = "tracks";
+        internal readonly Int32Input TracksInput = new(_tracksName, ["--tracks"], "Filter by track count (1-99)");
+
+        #endregion
+
         #endregion
 
         #region Fields

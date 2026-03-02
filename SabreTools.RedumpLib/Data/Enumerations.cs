@@ -152,10 +152,19 @@ namespace SabreTools.RedumpLib.Data
     /// </summary>
     public enum DumpStatus
     {
+        [HumanReadable(LongName = "Unknown", ShortName = "grey")]
         UnknownGrey = 1,
+
+        [HumanReadable(LongName = "Bad Dump", ShortName = "red")]
         BadDumpRed = 2,
+
+        [HumanReadable(LongName = "Possible Bad Dump", ShortName = "yellow")]
         PossibleBadDumpYellow = 3,
+
+        [HumanReadable(LongName = "Original Media", ShortName = "blue")]
         OriginalMediaBlue = 4,
+
+        [HumanReadable(LongName = "Two or More", ShortName = "green")]
         TwoOrMoreGreen = 5,
     }
 
