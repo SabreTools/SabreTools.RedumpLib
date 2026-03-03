@@ -373,21 +373,6 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Process a Redump discs page as a list of possible IDs or disc page
         /// </summary>
-        /// <param name="query">Discs query string to use</param>
-        /// <param name="pageNumber">Page number to use</param>
-        /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
-        /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        /// TODO: Figure out how to remove raw query variants
-        public async Task<List<int>?> CheckSingleDiscsPage(string query, int pageNumber, bool convertForwardSlashes)
-        {
-            query = NormalizeQuery(query, convertForwardSlashes);
-            string url = string.Format(Constants.DiscsUrl, query, pageNumber);
-            return await CheckSingleSitePage(url);
-        }
-
-        /// <summary>
-        /// Process a Redump discs page as a list of possible IDs or disc page
-        /// </summary>
         /// <param name="antimodchip">Anti-modchip status to filter, null to omit</param>
         /// <param name="barcode">Add no barcode search to filter, false to omit</param>
         /// <param name="category">Add category to filter, null to omit</param>
@@ -470,22 +455,6 @@ namespace SabreTools.RedumpLib.Web
                 protection,
                 page);
             return await CheckSingleSitePage(url);
-        }
-
-        /// <summary>
-        /// Process a Redump discs page as a list of possible IDs or disc page
-        /// </summary>
-        /// <param name="query">Discs query string to use</param>
-        /// <param name="pageNumber">Page number to use</param>
-        /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
-        /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        /// TODO: Figure out how to remove raw query variants
-        public async Task<List<int>?> CheckSingleDiscsPage(string query, int pageNumber, string? outDir, bool convertForwardSlashes)
-        {
-            query = NormalizeQuery(query, convertForwardSlashes);
-            string url = string.Format(Constants.DiscsUrl, query, pageNumber);
-            return await CheckSingleSitePage(url, outDir);
         }
 
         /// <summary>
@@ -574,31 +543,6 @@ namespace SabreTools.RedumpLib.Web
                 contents,
                 protection,
                 page);
-            return await CheckSingleSitePage(url, outDir);
-        }
-
-        /// <summary>
-        /// Process a Redump quicksearch page as a list of possible IDs or disc page
-        /// </summary>
-        /// <param name="query">Raw quicksearch query string to use directly</param>
-        /// <param name="pageNumber">Page number to use</param>
-        /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleQuicksearchPage(string query, int pageNumber)
-        {
-            string url = UrlBuilder.BuildDiscsUrl(quicksearch: query, page: pageNumber);
-            return await CheckSingleSitePage(url);
-        }
-
-        /// <summary>
-        /// Process a Redump quicksearch page as a list of possible IDs or disc page
-        /// </summary>
-        /// <param name="query">Raw quicksearch query string to use directly</param>
-        /// <param name="pageNumber">Page number to use</param>
-        /// <param name="outDir">Output directory to save data to</param>
-        /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleQuicksearchPage(string query, int pageNumber, string? outDir)
-        {
-            string url = UrlBuilder.BuildDiscsUrl(quicksearch: query, page: pageNumber);
             return await CheckSingleSitePage(url, outDir);
         }
 
@@ -799,15 +743,6 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="query">Query string to normalize</param>
         /// <returns>Normalized query</returns>
         private static string NormalizeQuery(string query)
-            => NormalizeQuery(query, convertForwardSlashes: true);
-
-        /// <summary>
-        /// Normalize a URL query string
-        /// </summary>
-        /// <param name="query">Query string to normalize</param>
-        /// <param name="convertForwardSlashes">Replace forward slashes with `-`</param>
-        /// <returns>Normalized query</returns>
-        private static string NormalizeQuery(string query, bool convertForwardSlashes)
         {
             // Strip quotes
             query = query!.Trim('"', '\'');
@@ -815,10 +750,7 @@ namespace SabreTools.RedumpLib.Web
             // Special characters become dashes
             query = query.Replace(' ', '-');
             query = query.Replace('\\', '-');
-            if (convertForwardSlashes)
-                query = query.Replace('/', '-');
-            else
-                query = query.TrimStart('/');
+            query = query.Replace('/', '-');
 
             // Lowercase is defined per language
             query = query.ToLowerInvariant();
