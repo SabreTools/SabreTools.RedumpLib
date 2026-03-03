@@ -87,6 +87,7 @@ namespace RedumpTool
             Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (cannot be used with only new)");
             Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (cannot be used with only new)");
             Console.WriteLine("    -n, --onlynew - Use the last modified view (cannot be used with min and max)");
+            Console.WriteLine("        Internally this sets '--sort modified -sort-dir desc'");
             Console.WriteLine("    --limit <Limit> - Limit number of retrieved result pages");
             Console.WriteLine();
             Console.WriteLine("    In addition to the above options, there are advanced options that allow users to finely tune their");
