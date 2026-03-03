@@ -601,13 +601,11 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Process a Redump quicksearch page as a list of possible IDs or disc page
         /// </summary>
-        /// <param name="query">Quicksearch query string to use</param>
+        /// <param name="query">Raw quicksearch query string to use directly</param>
         /// <param name="pageNumber">Page number to use</param>
-        /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleQuicksearchPage(string query, int pageNumber, bool convertForwardSlashes)
+        public async Task<List<int>?> CheckSingleQuicksearchPage(string query, int pageNumber)
         {
-            query = NormalizeQuery(query, convertForwardSlashes);
             string url = UrlBuilder.BuildDiscsUrl(quicksearch: query, page: pageNumber);
             return await CheckSingleSitePage(url);
         }
@@ -615,14 +613,12 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Process a Redump quicksearch page as a list of possible IDs or disc page
         /// </summary>
-        /// <param name="query">Quicksearch query string to use</param>
+        /// <param name="query">Raw quicksearch query string to use directly</param>
         /// <param name="pageNumber">Page number to use</param>
         /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleQuicksearchPage(string query, int pageNumber, string? outDir, bool convertForwardSlashes)
+        public async Task<List<int>?> CheckSingleQuicksearchPage(string query, int pageNumber, string? outDir)
         {
-            query = NormalizeQuery(query, convertForwardSlashes);
             string url = UrlBuilder.BuildDiscsUrl(quicksearch: query, page: pageNumber);
             return await CheckSingleSitePage(url, outDir);
         }

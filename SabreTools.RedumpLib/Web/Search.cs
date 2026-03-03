@@ -36,7 +36,10 @@ namespace SabreTools.RedumpLib.Web
                     if (limit > 0 && pageNumber >= limit)
                         break;
 
-                    var pageIds = await client.CheckSingleQuicksearchPage(query!, pageNumber++, convertForwardSlashes);
+                    // Convert forward slashes implies a strict query
+                    var pageIds = convertForwardSlashes
+                        ? await client.CheckSingleDiscsPage(quicksearch: query, page: pageNumber++)
+                        : await client.CheckSingleQuicksearchPage(query!, pageNumber++);
                     if (pageIds is null)
                         return [];
 
@@ -83,7 +86,10 @@ namespace SabreTools.RedumpLib.Web
                     if (limit > 0 && pageNumber >= limit)
                         break;
 
-                    var pageIds = await client.CheckSingleQuicksearchPage(query!, pageNumber++, outDir, convertForwardSlashes);
+                    // Convert forward slashes implies a strict query
+                    var pageIds = convertForwardSlashes
+                        ? await client.CheckSingleDiscsPage(outDir, quicksearch: query, page: pageNumber++)
+                        : await client.CheckSingleQuicksearchPage(query!, pageNumber++, outDir);
                     if (pageIds is null)
                         return [];
 
