@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
@@ -25,32 +24,9 @@ namespace SabreTools.RedumpLib.Web
             bool lastModified = false,
             int limit = -1)
         {
-            List<int> ids = [];
-            if (string.IsNullOrEmpty(username))
-            {
-                Console.WriteLine("A username must be specified!");
-                return ids;
-            }
-
-            // Keep getting user pages until there are none left
-            int pageNumber = 1;
-            while (true)
-            {
-                if (limit > 0 && pageNumber >= limit)
-                    break;
-
-                var pageIds = lastModified
-                    ? await client.CheckSingleDiscsPage(outDir, dumper: username, sort: SortCategory.Modified, sortDir: SortDirection.Descending, page: pageNumber++)
-                    : await client.CheckSingleDiscsPage(outDir, dumper: username, page: pageNumber++);
-                if (pageIds is null)
-                    return [];
-
-                ids.AddRange(pageIds);
-                if (pageIds.Count == 0)
-                    break;
-            }
-
-            return ids;
+            return lastModified
+                ? await client.DownloadDiscsResults(outDir, dumper: username, sort: SortCategory.Modified, sortDir: SortDirection.Descending, limit: limit)
+                : await client.DownloadDiscsResults(outDir, dumper: username, limit: limit);
         }
 
         /// <summary>
@@ -64,38 +40,7 @@ namespace SabreTools.RedumpLib.Web
             string? username,
             int limit = -1)
         {
-            List<int> ids = [];
-            if (string.IsNullOrEmpty(username))
-            {
-                Console.WriteLine("A username must be specified!");
-                return ids;
-            }
-
-            // Keep getting user pages until there are none left
-            try
-            {
-                int pageNumber = 1;
-                while (true)
-                {
-                    if (limit > 0 && pageNumber >= limit)
-                        break;
-
-                    var pageIds = await client.CheckSingleDiscsPage(dumper: username, sort: SortCategory.Modified, sortDir: SortDirection.Descending, page: pageNumber++);
-                    if (pageIds is null)
-                        return [];
-
-                    ids.AddRange(pageIds);
-                    if (pageIds.Count <= 1)
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An exception occurred while trying to log in: {ex}");
-                return [];
-            }
-
-            return ids;
+            return await client.ListDiscsResults(dumper: username, limit: limit);
         }
     }
 }
