@@ -181,11 +181,6 @@ namespace SabreTools.RedumpLib.Data
         #region URL Templates
 
         /// <summary>
-        /// Redump discs path URL template
-        /// </summary>
-        public const string DiscsUrl = @"http://redump.org/discs/{0}/?page={1}";
-
-        /// <summary>
         /// Redump login page URL template
         /// </summary>
         public const string LoginUrl = "http://forum.redump.org/login/";
