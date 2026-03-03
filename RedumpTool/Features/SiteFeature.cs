@@ -143,6 +143,13 @@ namespace RedumpTool.Features
             bool onlyNew = OnlyNewInput.Value;
             int limit = LimitInput.Value ?? -1;
 
+            // Override individual flags if shorthand flags used
+            if (onlyNew)
+            {
+                sort = SortCategory.Modified;
+                sortDir = SortDirection.Descending;
+            }
+
             // Output directory validation
             if (!ValidateAndCreateOutputDirectory(outDir))
                 return false;
@@ -161,14 +168,7 @@ namespace RedumpTool.Features
 
             // Start the processing
             Task<List<int>> processingTask;
-            if (onlyNew)
-            {
-                processingTask = _client.DownloadDiscsResults(outDir,
-                    sort: SortCategory.Modified,
-                    sortDir: SortDirection.Descending,
-                    limit: limit);
-            }
-            else if (minId >= 0 && maxId >= 0)
+            if (minId >= 0 && maxId >= 0)
             {
                 processingTask = _client.DownloadSiteRange(outDir, minId, maxId);
             }
