@@ -191,5 +191,52 @@ namespace SabreTools.RedumpLib.Data
         public const string LoginUrl = "http://forum.redump.org/login/";
 
         #endregion
+
+        #region Subpath Sets
+
+        /// <summary>
+        /// All disc page subpaths as a set
+        /// </summary>
+        public static readonly DiscSubpath[] AllDiscSubpaths =
+        [
+            DiscSubpath.Changes,
+            DiscSubpath.Cuesheet,
+            DiscSubpath.Edit,
+            DiscSubpath.GDI,
+            DiscSubpath.Key,
+            DiscSubpath.LSD,
+            DiscSubpath.MD5,
+            DiscSubpath.SBI,
+            DiscSubpath.SFV,
+            DiscSubpath.SHA1,
+            DiscSubpath.WIP,
+        ];
+
+        /// <summary>
+        /// Disc subpages only (changes, edit, and WIP entry)
+        /// </summary>
+        public static readonly DiscSubpath[] DiscSubPagesOnly =
+        [
+            DiscSubpath.Changes,
+            DiscSubpath.Edit,
+            DiscSubpath.WIP,
+        ];
+
+        /// <summary>
+        /// Disc file attachments only (cue, gdi, key, lsd, md5, sbi, sfv, sha1)
+        /// </summary>
+        public static readonly DiscSubpath[] DiscFilesOnly =
+        [
+            DiscSubpath.Cuesheet,
+            DiscSubpath.GDI,
+            DiscSubpath.Key,
+            DiscSubpath.LSD,
+            DiscSubpath.MD5,
+            DiscSubpath.SBI,
+            DiscSubpath.SFV,
+            DiscSubpath.SHA1,
+        ];
+
+        #endregion
     }
 }
