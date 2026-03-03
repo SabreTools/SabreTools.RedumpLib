@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Web;
@@ -86,7 +86,7 @@ namespace SabreTools.RedumpLib
         public static async Task<List<int>?> ValidateSingleTrack(RedumpClient client, SubmissionInfo info, string? sha1)
         {
             // Get all matching IDs for the track
-            var newIds = await client.ListSearchResults(sha1, convertForwardSlashes: true);
+            var newIds = await client.ListSearchResults(sha1);
 
             // If we got null back, there was an error
             if (newIds is null)
@@ -130,7 +130,7 @@ namespace SabreTools.RedumpLib
 #endif
 
             // Get all matching IDs for the hash
-            var newIds = await client.ListSearchResults(universalHashQuery, convertForwardSlashes: false);
+            var newIds = await client.ListSearchResults(universalHashQuery);
 
             // If we got null back, there was an error
             if (newIds is null)

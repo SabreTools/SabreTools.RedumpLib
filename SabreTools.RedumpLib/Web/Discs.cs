@@ -14,53 +14,6 @@ namespace SabreTools.RedumpLib.Web
         /// Download the disc pages associated with a given discs query
         /// </summary>
         /// <param name="client">RedumpClient for connectivity</param>
-        /// <param name="query">Query string to attempt to search for</param>
-        /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
-        /// <param name="limit">Limit number of retrieved result pages, non-positive for unlimited</param>
-        /// <returns>All disc IDs for the given query, empty on error</returns>
-        public static async Task<List<int>> DownloadDiscsResults(this RedumpClient client,
-            string? query,
-            string? outDir,
-            bool convertForwardSlashes,
-            int limit = -1)
-        {
-            // If the query is invalid
-            if (string.IsNullOrEmpty(query))
-                return [];
-
-            // Keep getting discs pages until there are none left
-            List<int> ids = [];
-            try
-            {
-                int pageNumber = 1;
-                while (true)
-                {
-                    if (limit > 0 && pageNumber >= limit)
-                        break;
-
-                    var pageIds = await client.CheckSingleDiscsPage(query!, pageNumber++, outDir, convertForwardSlashes);
-                    if (pageIds is null)
-                        return [];
-
-                    ids.AddRange(pageIds);
-                    if (pageIds.Count == 0)
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An exception occurred while trying to log in: {ex}");
-                return [];
-            }
-
-            return ids;
-        }
-
-        /// <summary>
-        /// Download the disc pages associated with a given discs query
-        /// </summary>
-        /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="antimodchip">Anti-modchip status to filter, null to omit</param>
         /// <param name="barcode">Add no barcode search to filter, false to omit</param>
@@ -171,29 +124,6 @@ namespace SabreTools.RedumpLib.Web
         }
 
         /// <summary>
-        /// Download the specified set of site disc pages
-        /// </summary>
-        /// <param name="client">RedumpClient for connectivity</param>
-        /// <param name="siteIds">Set of site IDs to download</param>
-        /// <param name="outDir">Output directory to save data to</param>
-        /// <returns>All disc IDs that successfully downloaded, empty on error</returns>
-        public static async Task<List<int>> DownloadSiteSet(this RedumpClient client, List<int> siteIds, string? outDir)
-        {
-            List<int> ids = [];
-            foreach (int id in siteIds)
-            {
-                bool downloaded = await client.DownloadSingleSiteID(id, outDir, rename: true);
-                if (downloaded)
-                {
-                    ids.Add(id);
-                    DelayHelper.DelayRandom();
-                }
-            }
-
-            return ids;
-        }
-
-        /// <summary>
         /// Download the specified range of site disc pages
         /// </summary>
         /// <param name="client">RedumpClient for connectivity</param>
@@ -218,45 +148,23 @@ namespace SabreTools.RedumpLib.Web
         }
 
         /// <summary>
-        /// List the disc IDs associated with a given discs query
+        /// Download the specified set of site disc pages
         /// </summary>
         /// <param name="client">RedumpClient for connectivity</param>
-        /// <param name="query">Query string to attempt to search for</param>
-        /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
-        /// <param name="limit">Limit number of retrieved result pages, non-positive for unlimited</param>
-        /// <returns>All disc IDs for the given query, empty on error</returns>
-        public static async Task<List<int>> ListDiscsResults(this RedumpClient client,
-            string? query,
-            bool convertForwardSlashes,
-            int limit = -1)
+        /// <param name="siteIds">Set of site IDs to download</param>
+        /// <param name="outDir">Output directory to save data to</param>
+        /// <returns>All disc IDs that successfully downloaded, empty on error</returns>
+        public static async Task<List<int>> DownloadSiteSet(this RedumpClient client, List<int> siteIds, string? outDir)
         {
-            // If the query is invalid
-            if (string.IsNullOrEmpty(query))
-                return [];
-
-            // Keep getting discs pages until there are none left
             List<int> ids = [];
-            try
+            foreach (int id in siteIds)
             {
-                int pageNumber = 1;
-                while (true)
+                bool downloaded = await client.DownloadSingleSiteID(id, outDir, rename: true);
+                if (downloaded)
                 {
-                    if (limit > 0 && pageNumber >= limit)
-                        break;
-
-                    var pageIds = await client.CheckSingleDiscsPage(query!, pageNumber++, convertForwardSlashes);
-                    if (pageIds is null)
-                        return [];
-
-                    ids.AddRange(pageIds);
-                    if (pageIds.Count <= 1)
-                        break;
+                    ids.Add(id);
+                    DelayHelper.DelayRandom();
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An exception occurred while trying to log in: {ex}");
-                return [];
             }
 
             return ids;

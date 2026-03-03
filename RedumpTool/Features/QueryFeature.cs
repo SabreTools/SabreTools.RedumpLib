@@ -14,7 +14,7 @@ namespace RedumpTool.Features
 
         private static readonly string[] _flags = ["query"];
 
-        private const string _description = "Download pages and related files from a Redump-compatible query";
+        private const string _description = "Download pages and related files from a Redump-compatible quicksearch query";
 
         #endregion
 
@@ -26,14 +26,8 @@ namespace RedumpTool.Features
         private const string _listName = "list";
         internal readonly FlagInput ListInput = new(_listName, ["-l", "--list"], "Only list the page IDs for that query");
 
-        private const string _noSlashName = "noslash";
-        internal readonly FlagInput NoSlashInput = new(_noSlashName, ["-ns", "--noslash"], "Don't replace forward slashes with '-'");
-
         private const string _queryName = "query";
         internal readonly StringInput QueryInput = new(_queryName, ["-q", "--query"], "Redump-compatible query to run");
-
-        private const string _quickQueryName = "quickquery";
-        internal readonly FlagInput QuickQueryName = new(_quickQueryName, ["-s", "--quick"], "Indicate a query is for the 'quicksearch' path, not 'discs'");
 
         #endregion
 
@@ -54,9 +48,7 @@ namespace RedumpTool.Features
 
             // Specific
             Add(QueryInput);
-            Add(QuickQueryName);
             Add(ListInput);
-            Add(NoSlashInput);
             Add(LimitInput);
         }
 
@@ -74,9 +66,7 @@ namespace RedumpTool.Features
 
             // Get specific values
             bool onlyList = ListInput.Value;
-            string? queryString = QueryInput.Value;
-            bool quick = QuickQueryName.Value;
-            bool convertForwardSlashes = !NoSlashInput.Value;
+            string? query = QueryInput.Value;
             int limit = LimitInput.Value ?? -1;
 
             // Output directory validation
@@ -84,7 +74,7 @@ namespace RedumpTool.Features
                 return false;
 
             // Query verification (and cleanup)
-            if (string.IsNullOrEmpty(queryString))
+            if (string.IsNullOrEmpty(query))
             {
                 Console.Error.WriteLine("Please enter a query for searching");
                 return false;
@@ -104,20 +94,10 @@ namespace RedumpTool.Features
 
             // Start the processing
             Task<List<int>> processingTask;
-            if (quick)
-            {
-                if (onlyList)
-                    processingTask = _client.ListSearchResults(queryString, convertForwardSlashes, limit);
-                else
-                    processingTask = _client.DownloadSearchResults(queryString, outDir, convertForwardSlashes, limit);
-            }
+            if (onlyList)
+                processingTask = _client.ListSearchResults(query, limit);
             else
-            {
-                if (onlyList)
-                    processingTask = _client.ListDiscsResults(queryString, convertForwardSlashes, limit);
-                else
-                    processingTask = _client.DownloadDiscsResults(queryString, outDir, convertForwardSlashes, limit);
-            }
+                processingTask = _client.DownloadSearchResults(query, outDir, limit);
 
             // Retrieve the result
             processingTask.Wait();

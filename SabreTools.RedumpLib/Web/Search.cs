@@ -15,13 +15,11 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="query">Query string to attempt to search for</param>
         /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
         /// <param name="limit">Limit number of retrieved result pages, non-positive for unlimited</param>
         /// <returns>All disc IDs for the given query, empty on error</returns>
         public static async Task<List<int>> DownloadSearchResults(this RedumpClient client,
             string? query,
             string? outDir,
-            bool convertForwardSlashes,
             int limit = -1)
         {
             // If the query is invalid
@@ -39,9 +37,7 @@ namespace SabreTools.RedumpLib.Web
                         break;
 
                     // Convert forward slashes implies a strict query
-                    var pageIds = convertForwardSlashes
-                        ? await client.CheckSingleDiscsPage(outDir, quicksearch: query, page: pageNumber++)
-                        : await client.CheckSingleQuicksearchPage(query!, pageNumber++, outDir);
+                    var pageIds = await client.CheckSingleDiscsPage(outDir, quicksearch: query, page: pageNumber++);
                     if (pageIds is null)
                         return [];
 
@@ -64,12 +60,10 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="query">Query string to attempt to search for</param>
-        /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
         /// <param name="limit">Limit number of retrieved result pages, non-positive for unlimited</param>
         /// <returns>All disc IDs for the given query, empty on error</returns>
         public static async Task<List<int>> ListSearchResults(this RedumpClient client,
             string? query,
-            bool convertForwardSlashes,
             int limit = -1)
         {
             // If the query is invalid
@@ -86,10 +80,7 @@ namespace SabreTools.RedumpLib.Web
                     if (limit > 0 && pageNumber >= limit)
                         break;
 
-                    // Convert forward slashes implies a strict query
-                    var pageIds = convertForwardSlashes
-                        ? await client.CheckSingleDiscsPage(quicksearch: query, page: pageNumber++)
-                        : await client.CheckSingleQuicksearchPage(query!, pageNumber++);
+                    var pageIds = await client.CheckSingleDiscsPage(quicksearch: query, page: pageNumber++);
                     if (pageIds is null)
                         return [];
 

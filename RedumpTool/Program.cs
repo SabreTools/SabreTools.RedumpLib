@@ -135,11 +135,9 @@ namespace RedumpTool
             Console.WriteLine("    --limit <Limit> - Limit number of retrieved result pages");
             Console.WriteLine();
 
-            Console.WriteLine("query - Download pages and related files from a Redump-compatible query");
+            Console.WriteLine("query - Download pages and related files from a Redump-compatible quicksearch query");
             Console.WriteLine("    -q, --query - Redump-compatible query to run");
-            Console.WriteLine("    -s, --quick - Indicate a query is for the 'quicksearch' path, not 'discs'");
             Console.WriteLine("    -l, --list - Only list the page IDs for that query");
-            Console.WriteLine("    -ns, --noslash - Don't replace forward slashes with '-'");
             Console.WriteLine("    --limit <Limit> - Limit number of retrieved result pages");
             Console.WriteLine();
 
