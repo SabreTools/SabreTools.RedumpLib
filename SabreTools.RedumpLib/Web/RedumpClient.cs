@@ -1029,7 +1029,7 @@ namespace SabreTools.RedumpLib.Web
         }
 
         /// <summary>
-        /// Download an individual site ID data, if possible
+        /// Download an individual site ID page, if possible
         /// </summary>
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
@@ -1071,9 +1071,13 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
+        /// <param name="discSubpaths">Set of subpaths to download if available, null for all</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
         /// <remarks>This includes all subpages and attached files</remarks>
-        public async Task<bool> DownloadSingleSiteID(int id, string? outDir, bool rename)
+        public async Task<bool> DownloadSingleSiteID(int id,
+            string? outDir,
+            bool rename,
+            DiscSubpath[]? discSubpaths = null)
         {
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrEmpty(outDir))
@@ -1150,7 +1154,7 @@ namespace SabreTools.RedumpLib.Web
                 #region Pages
 
                 // View Edit History
-                if (discPage.Contains($"<a href=\"/disc/{id}/changes/\""))
+                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.Changes)) && discPage.Contains($"<a href=\"/disc/{id}/changes/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Changes);
                     string? changesPage = await DownloadString(uri);
@@ -1166,7 +1170,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // Edit disc
-                if (discPage.Contains($"<a href=\"/disc/{id}/edit/\""))
+                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.Edit)) && discPage.Contains($"<a href=\"/disc/{id}/edit/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Edit);
                     string? editPage = await DownloadString(uri);
@@ -1182,7 +1186,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // Review WIP entry
-                if (Constants.NewDiscRegex.IsMatch(discPage))
+                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.WIP)) && Constants.NewDiscRegex.IsMatch(discPage))
                 {
                     var match = Constants.NewDiscRegex.Match(discPage);
                     if (int.TryParse(match.Groups[2].Value, out int newDiscId))
@@ -1206,7 +1210,7 @@ namespace SabreTools.RedumpLib.Web
                 #region Files
 
                 // CUE
-                if (discPage.Contains($"<a href=\"/disc/{id}/cue/\""))
+                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.Cuesheet)) && discPage.Contains($"<a href=\"/disc/{id}/cue/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Cuesheet);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.cue"));
@@ -1218,7 +1222,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // GDI
-                if (discPage.Contains($"<a href=\"/disc/{id}/gdi/\""))
+                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.GDI)) && discPage.Contains($"<a href=\"/disc/{id}/gdi/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.GDI);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.gdi"));
@@ -1230,7 +1234,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // KEYS
-                if (discPage.Contains($"<a href=\"/disc/{id}/key/\""))
+                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.Key)) && discPage.Contains($"<a href=\"/disc/{id}/key/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Key);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.key"));
@@ -1242,7 +1246,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // LSD
-                if (discPage.Contains($"<a href=\"/disc/{id}/lsd/\""))
+                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.LSD)) && discPage.Contains($"<a href=\"/disc/{id}/lsd/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.LSD);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.lsd"));
@@ -1254,7 +1258,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // MD5
-                if (discPage.Contains($"<a href=\"/disc/{id}/md5/\""))
+                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.MD5)) && discPage.Contains($"<a href=\"/disc/{id}/md5/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.MD5);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.md5"));
@@ -1266,7 +1270,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // SBI
-                if (discPage.Contains($"<a href=\"/disc/{id}/sbi/\""))
+                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.SBI)) && discPage.Contains($"<a href=\"/disc/{id}/sbi/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.SBI);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sbi"));
@@ -1278,7 +1282,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // SFV
-                if (discPage.Contains($"<a href=\"/disc/{id}/sfv/\""))
+                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.SFV)) && discPage.Contains($"<a href=\"/disc/{id}/sfv/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.SFV);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sfv"));
@@ -1290,7 +1294,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // SHA1
-                if (discPage.Contains($"<a href=\"/disc/{id}/sha1/\""))
+                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.SHA1)) && discPage.Contains($"<a href=\"/disc/{id}/sha1/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.SHA1);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sha1"));
