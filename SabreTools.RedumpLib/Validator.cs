@@ -131,6 +131,8 @@ namespace SabreTools.RedumpLib
 
             // Get all matching IDs for the hash
             var newIds = await client.ListDiscsResults(quicksearch: universalHashQuery, comments: true);
+
+            // If we got null back, there was an error
             if (newIds is null)
                 return null;
 
