@@ -77,7 +77,7 @@ namespace SabreTools.RedumpLib.Data
         SHA1,
 
         // Placeholder for the linked new disc page, not an actual subpath
-        [HumanReadable(LongName = "WIP")]
+        [HumanReadable(Available = false, LongName = "WIP", ShortName = "wip")]
         WIP,
     }
 
