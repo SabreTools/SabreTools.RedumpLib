@@ -1151,8 +1151,10 @@ namespace SabreTools.RedumpLib.Web
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Changes);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, "changes.html"));
                     if (!IgnoreErrors && remoteName is null)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading changes page for {id} failed!");
                         return false;
-
+                    }
                 }
 
                 // CUE
@@ -1161,7 +1163,10 @@ namespace SabreTools.RedumpLib.Web
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Cuesheet);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.cue"));
                     if (!IgnoreErrors && remoteName is null)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading cuesheet for {id} failed!");
                         return false;
+                    }
                 }
 
                 // Edit disc
@@ -1170,7 +1175,10 @@ namespace SabreTools.RedumpLib.Web
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Edit);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, "edit.html"));
                     if (!IgnoreErrors && remoteName is null)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading edit page for {id} failed!");
                         return false;
+                    }
                 }
 
                 // GDI
@@ -1179,7 +1187,10 @@ namespace SabreTools.RedumpLib.Web
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.GDI);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.gdi"));
                     if (!IgnoreErrors && remoteName is null)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading GDI for {id} failed!");
                         return false;
+                    }
                 }
 
                 // KEYS
@@ -1188,7 +1199,10 @@ namespace SabreTools.RedumpLib.Web
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Key);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.key"));
                     if (!IgnoreErrors && remoteName is null)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading key for {id} failed!");
                         return false;
+                    }
                 }
 
                 // LSD
@@ -1197,7 +1211,10 @@ namespace SabreTools.RedumpLib.Web
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.LSD);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.lsd"));
                     if (!IgnoreErrors && remoteName is null)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading LSD for {id} failed!");
                         return false;
+                    }
                 }
 
                 // MD5
@@ -1206,7 +1223,10 @@ namespace SabreTools.RedumpLib.Web
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.MD5);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.md5"));
                     if (!IgnoreErrors && remoteName is null)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading MD5 for {id} failed!");
                         return false;
+                    }
                 }
 
                 // Review WIP entry
@@ -1218,7 +1238,10 @@ namespace SabreTools.RedumpLib.Web
                         string uri = UrlBuilder.BuildNewDiscUrl(newDiscId);
                         string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, "newdisc.html"));
                         if (!IgnoreErrors && remoteName is null)
+                        {
+                            if (Debug) Console.Error.WriteLine($"DEBUG: Downloading WIP entry for {id} failed!");
                             return false;
+                        }
                     }
                 }
 
@@ -1228,7 +1251,10 @@ namespace SabreTools.RedumpLib.Web
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.SBI);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sbi"));
                     if (!IgnoreErrors && remoteName is null)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading SBI for {id} failed!");
                         return false;
+                    }
                 }
 
                 // SFV
@@ -1237,7 +1263,10 @@ namespace SabreTools.RedumpLib.Web
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.SFV);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sfv"));
                     if (!IgnoreErrors && remoteName is null)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading SFV for {id} failed!");
                         return false;
+                    }
                 }
 
                 // SHA1
@@ -1246,7 +1275,10 @@ namespace SabreTools.RedumpLib.Web
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.SHA1);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sha1"));
                     if (!IgnoreErrors && remoteName is null)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading SHA-1 for {id} failed!");
                         return false;
+                    }
                 }
 
                 // HTML (Last in case of errors)
