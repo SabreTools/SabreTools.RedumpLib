@@ -71,6 +71,7 @@ namespace RedumpTool
             Console.WriteLine();
             Console.WriteLine("Usage: RedumpTool <feature> [options]");
             Console.WriteLine();
+
             Console.WriteLine("Common Options");
             Console.WriteLine("    -d, --debug - Enable debug mode");
             Console.WriteLine("    -o <folder>, --output <folder> - Set the base output directory");
@@ -81,25 +82,58 @@ namespace RedumpTool
             Console.WriteLine("    -f, --force - Force downloading contents even if they already exist");
             Console.WriteLine("    -c, --continue - Force continuing downloads through errors");
             Console.WriteLine();
+
             Console.WriteLine("site - Download pages and related files from the main site");
             Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (cannot be used with only new)");
             Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (cannot be used with only new)");
             Console.WriteLine("    -n, --onlynew - Use the last modified view (cannot be used with min and max)");
             Console.WriteLine("    --limit <Limit> - Limit number of retrieved result pages");
             Console.WriteLine();
+            Console.WriteLine("    In addition to the above options, there are advanced options that allow users to finely tune their");
+            Console.WriteLine("    site queries. All flags below are incompatible with --minimum, --maximum, and --onlynew.");
+            Console.WriteLine("        --anti-modchip <Value> - Filter by anti-modchip status [true, false, null]");
+            Console.WriteLine("        --barcode - Filter by missing barcodes");
+            Console.WriteLine("        --category <Category> - Filter by disc category"); // TODO: Create list
+            Console.WriteLine("        --comments - Filter by comments only, incompatible with --contents and --protection");
+            Console.WriteLine("        --contents - Filter by contents only, incompatible with --comments and --protection");
+            Console.WriteLine("        --disc-type <DiscType> - Filter by disc type, requires --system [cd, dvd]");
+            Console.WriteLine("        --dumper <Dumper> - Filter by dumper");
+            Console.WriteLine("        --edc <Value> - Filter by EDC status [true, false, null]");
+            Console.WriteLine("        --edition <Edition> - Filter by edition");
+            Console.WriteLine("        --errors <Errors> - Filter by errors");
+            Console.WriteLine("        --language <Language> - Filter by language"); // TODO: Create list
+            Console.WriteLine("        --letter <First> - Filter by first letter");
+            Console.WriteLine("        --libcrypt <Value> - Filter by LibCrypt status [true, false, null]");
+            Console.WriteLine("        --media <MediaType> - Filter by media type"); // TODO: Create list
+            Console.WriteLine("        --offset <Offset> - Filter by disc offset");
+            Console.WriteLine("        --page <Page> - Retrieve specific result page");
+            Console.WriteLine("        --protection - Filter by protection only, incompatible with --comments and --contents");
+            Console.WriteLine("        --quicksearch <Query> - Filter by quicksearch");
+            Console.WriteLine("        --region <Region> - Filter by region"); // TODO: Create list
+            Console.WriteLine("        --ringcode <Ringcode> - Filter by ringcode");
+            Console.WriteLine("        --sort <Criteria> - Sort results by criteria [added, region, system, version, edition, languages, serial, status, modified]");
+            Console.WriteLine("        --sort-dir <Direction> - Set sorting direction [asc, desc]");
+            Console.WriteLine("        --status <Status> - Filter by status [grey, red, yellow, blue, green]");
+            Console.WriteLine("        --system <System> - Filter by system"); // TODO: Create list
+            Console.WriteLine("        --tracks <Count> - Filter by track count [1-99]");
+            Console.WriteLine();
+
             Console.WriteLine("wip - Download pages and related files from the WIP list");
             Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (cannot be used with only new)");
             Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (cannot be used with only new)");
             Console.WriteLine("    -n, --onlynew - Use the last modified view (cannot be used with min and max)");
             Console.WriteLine();
+
             Console.WriteLine("packs - Download available packs");
             Console.WriteLine("    -s, --subfolders - Download packs to named subfolders");
             Console.WriteLine();
+
             Console.WriteLine("user - Download pages and related files for a particular user");
             Console.WriteLine("    -n, --onlynew - Use the last modified view instead of sequential parsing");
             Console.WriteLine("    -l, --list - Only list the page IDs for that user");
             Console.WriteLine("    --limit <Limit> - Limit number of retrieved result pages");
             Console.WriteLine();
+
             Console.WriteLine("query - Download pages and related files from a Redump-compatible query");
             Console.WriteLine("    -q, --query - Redump-compatible query to run");
             Console.WriteLine("    -s, --quick - Indicate a query is for the 'quicksearch' path, not 'discs'");
@@ -107,6 +141,7 @@ namespace RedumpTool
             Console.WriteLine("    -ns, --noslash - Don't replace forward slashes with '-'");
             Console.WriteLine("    --limit <Limit> - Limit number of retrieved result pages");
             Console.WriteLine();
+
             Console.WriteLine("build-url - Build a Redump URL");
             Console.WriteLine("    -b, --base-path <BasePath> - Indicate base path for building URL, see below for options");
             Console.WriteLine();
@@ -159,8 +194,10 @@ namespace RedumpTool
             Console.WriteLine();
             Console.WriteLine("    statistics - Redump statistics page");
             Console.WriteLine();
+
             Console.WriteLine("stats - Download the statistics page");
             Console.WriteLine();
+
             Console.WriteLine("If using an ID range, both minimum and maximum are required");
             Console.WriteLine();
         }
