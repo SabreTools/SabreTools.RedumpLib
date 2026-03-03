@@ -1145,6 +1145,8 @@ namespace SabreTools.RedumpLib.Web
                 // Create ID subdirectory
                 Directory.CreateDirectory(paddedIdDir);
 
+                #region Pages
+
                 // View Edit History
                 if (discPage.Contains($"<a href=\"/disc/{id}/changes/\""))
                 {
@@ -1161,18 +1163,6 @@ namespace SabreTools.RedumpLib.Web
                     sw.Flush();
                 }
 
-                // CUE
-                if (discPage.Contains($"<a href=\"/disc/{id}/cue/\""))
-                {
-                    string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Cuesheet);
-                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.cue"));
-                    if (!IgnoreErrors && remoteName is null)
-                    {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading cuesheet for {id} failed!");
-                        return false;
-                    }
-                }
-
                 // Edit disc
                 if (discPage.Contains($"<a href=\"/disc/{id}/edit/\""))
                 {
@@ -1187,6 +1177,42 @@ namespace SabreTools.RedumpLib.Web
                     using var sw = File.CreateText(Path.Combine(paddedIdDir, "edit.html"));
                     sw.Write(editPage);
                     sw.Flush();
+                }
+
+                // Review WIP entry
+                if (Constants.NewDiscRegex.IsMatch(discPage))
+                {
+                    var match = Constants.NewDiscRegex.Match(discPage);
+                    if (int.TryParse(match.Groups[2].Value, out int newDiscId))
+                    {
+                        string uri = UrlBuilder.BuildNewDiscUrl(newDiscId);
+                        string? wipPage = await DownloadString(uri);
+                        if (!IgnoreErrors && wipPage is null)
+                        {
+                            if (Debug) Console.Error.WriteLine($"DEBUG: Downloading WIP entry for {id} failed!");
+                            return false;
+                        }
+
+                        using var sw = File.CreateText(Path.Combine(paddedIdDir, "newdisc.html"));
+                        sw.Write(wipPage);
+                        sw.Flush();
+                    }
+                }
+
+                #endregion
+
+                #region Files
+
+                // CUE
+                if (discPage.Contains($"<a href=\"/disc/{id}/cue/\""))
+                {
+                    string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Cuesheet);
+                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.cue"));
+                    if (!IgnoreErrors && remoteName is null)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading cuesheet for {id} failed!");
+                        return false;
+                    }
                 }
 
                 // GDI
@@ -1237,26 +1263,6 @@ namespace SabreTools.RedumpLib.Web
                     }
                 }
 
-                // Review WIP entry
-                if (Constants.NewDiscRegex.IsMatch(discPage))
-                {
-                    var match = Constants.NewDiscRegex.Match(discPage);
-                    if (int.TryParse(match.Groups[2].Value, out int newDiscId))
-                    {
-                        string uri = UrlBuilder.BuildNewDiscUrl(newDiscId);
-                        string? wipPage = await DownloadString(uri);
-                        if (!IgnoreErrors && wipPage is null)
-                        {
-                            if (Debug) Console.Error.WriteLine($"DEBUG: Downloading WIP entry for {id} failed!");
-                            return false;
-                        }
-
-                        using var sw = File.CreateText(Path.Combine(paddedIdDir, "newdisc.html"));
-                        sw.Write(wipPage);
-                        sw.Flush();
-                    }
-                }
-
                 // SBI
                 if (discPage.Contains($"<a href=\"/disc/{id}/sbi/\""))
                 {
@@ -1292,6 +1298,8 @@ namespace SabreTools.RedumpLib.Web
                         return false;
                     }
                 }
+
+                #endregion
 
                 // HTML (Last in case of errors)
                 using (var discStreamWriter = File.CreateText(Path.Combine(paddedIdDir, "disc.html")))
