@@ -296,7 +296,8 @@ namespace SabreTools.RedumpLib.Web
                         responseStream.CopyTo(tempFileStream);
                     }
 
-                    return response.Content.Headers.ContentDisposition?.FileName?.Replace("\"", "");
+                    return response.Content.Headers.ContentDisposition?.FileName?.Replace("\"", "")
+                        ?? $"content-with-length-{response.Content.Headers.ContentLength}";
 #elif NET40
                     await Task.Factory.StartNew(() => { _internalClient.DownloadFile(uri, fileName); return true; });
                     string? lastFilename = _internalClient.GetLastFilename();
