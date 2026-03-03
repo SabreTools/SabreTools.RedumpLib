@@ -90,9 +90,9 @@ namespace RedumpTool.Features
             if (onlyList)
                 processingTask = _client.ListUser(username, limit);
             else if (onlyNew)
-                processingTask = _client.DownloadUserLastModified(username, outDir, limit);
+                processingTask = _client.DownloadUser(username, outDir, lastModified: true, limit: limit);
             else
-                processingTask = _client.DownloadUser(username, outDir, limit);
+                processingTask = _client.DownloadUser(username, outDir, lastModified: false, limit: limit);
 
             // Retrieve the result
             processingTask.Wait();

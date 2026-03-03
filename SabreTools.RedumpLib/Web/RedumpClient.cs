@@ -576,29 +576,6 @@ namespace SabreTools.RedumpLib.Web
         }
 
         /// <summary>
-        /// Process a Redump discs by last modified page as a list of possible IDs or disc page
-        /// </summary>
-        /// <param name="pageNumber">Page number to use</param>
-        /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleDiscsLastModifiedPage(int pageNumber)
-        {
-            string url = UrlBuilder.BuildDiscsUrl(sort: SortCategory.Modified, sortDir: SortDirection.Descending, page: pageNumber);
-            return await CheckSingleSitePage(url);
-        }
-
-        /// <summary>
-        /// Process a Redump discs by last modified page as a list of possible IDs or disc page
-        /// </summary>
-        /// <param name="pageNumber">Page number to use</param>
-        /// <param name="outDir">Output directory to save data to</param>
-        /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleDiscsLastModifiedPage(int pageNumber, string? outDir)
-        {
-            string url = UrlBuilder.BuildDiscsUrl(sort: SortCategory.Modified, sortDir: SortDirection.Descending, page: pageNumber);
-            return await CheckSingleSitePage(url, outDir);
-        }
-
-        /// <summary>
         /// Process a Redump quicksearch page as a list of possible IDs or disc page
         /// </summary>
         /// <param name="query">Raw quicksearch query string to use directly</param>
