@@ -76,7 +76,7 @@ namespace SabreTools.RedumpLib.Web
                 int pageNumber = 1;
                 while (true)
                 {
-                    if (limit > 0 && pageNumber >= limit)
+                    if (limit > 0 && pageNumber > limit)
                         break;
 
                     var pageIds = await client.CheckSingleDiscsPage(
@@ -234,7 +234,7 @@ namespace SabreTools.RedumpLib.Web
                 int pageNumber = 1;
                 while (true)
                 {
-                    if (limit > 0 && pageNumber >= limit)
+                    if (limit > 0 && pageNumber > limit)
                         break;
 
                     var pageIds = await client.CheckSingleDiscsPage(antimodchip,
