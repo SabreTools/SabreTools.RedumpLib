@@ -628,37 +628,6 @@ namespace SabreTools.RedumpLib.Web
         }
 
         /// <summary>
-        /// Process a Redump user page as a list of possible IDs or disc page
-        /// </summary>
-        /// <param name="username">Username to use</param>
-        /// <param name="pageNumber">Page number to use</param>
-        /// <param name="lastModified">True to sort by last modified, false otherwise</param>
-        /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleUserPage(string username, int pageNumber, bool lastModified)
-        {
-            string url = lastModified
-                ? UrlBuilder.BuildDiscsUrl(dumper: username, sort: SortCategory.Modified, sortDir: SortDirection.Descending, page: pageNumber)
-                : UrlBuilder.BuildDiscsUrl(dumper: username, page: pageNumber);
-            return await CheckSingleSitePage(url);
-        }
-
-        /// <summary>
-        /// Process a Redump user page as a list of possible IDs or disc page
-        /// </summary>
-        /// <param name="username">Username to use</param>
-        /// <param name="pageNumber">Page number to use</param>
-        /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="lastModified">True to sort by last modified, false otherwise</param>
-        /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleUserPage(string username, int pageNumber, string? outDir, bool lastModified)
-        {
-            string url = lastModified
-                ? UrlBuilder.BuildDiscsUrl(dumper: username, sort: SortCategory.Modified, sortDir: SortDirection.Descending, page: pageNumber)
-                : UrlBuilder.BuildDiscsUrl(dumper: username, page: pageNumber);
-            return await CheckSingleSitePage(url, outDir);
-        }
-
-        /// <summary>
         /// Process a Redump WIP page as a list of possible IDs or disc page
         /// </summary>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>

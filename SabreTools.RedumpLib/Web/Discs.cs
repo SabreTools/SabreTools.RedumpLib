@@ -171,38 +171,6 @@ namespace SabreTools.RedumpLib.Web
         }
 
         /// <summary>
-        /// Download the last modified disc pages, until first failure
-        /// </summary>
-        /// <param name="client">RedumpClient for connectivity</param>
-        /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="limit">Limit number of retrieved result pages, non-positive for unlimited</param>
-        /// <returns>All disc IDs in last modified range, empty on error</returns>
-        public static async Task<List<int>> DownloadLastModified(this RedumpClient client,
-            string? outDir,
-            int limit = -1)
-        {
-            List<int> ids = [];
-
-            // Keep getting last modified pages until there are none left
-            int pageNumber = 1;
-            while (true)
-            {
-                if (limit > 0 && pageNumber >= limit)
-                    break;
-
-                var pageIds = await client.CheckSingleDiscsLastModifiedPage(pageNumber++, outDir);
-                if (pageIds is null)
-                    return [];
-
-                ids.AddRange(pageIds);
-                if (pageIds.Count == 0)
-                    break;
-            }
-
-            return ids;
-        }
-
-        /// <summary>
         /// Download the specified set of site disc pages
         /// </summary>
         /// <param name="client">RedumpClient for connectivity</param>

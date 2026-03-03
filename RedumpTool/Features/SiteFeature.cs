@@ -163,7 +163,10 @@ namespace RedumpTool.Features
             Task<List<int>> processingTask;
             if (onlyNew)
             {
-                processingTask = _client.DownloadLastModified(outDir, limit);
+                processingTask = _client.DownloadDiscsResults(outDir,
+                    sort: SortCategory.Modified,
+                    sortDir: SortDirection.Descending,
+                    limit: limit);
             }
             else if (minId >= 0 && maxId >= 0)
             {

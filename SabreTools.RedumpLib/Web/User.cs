@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SabreTools.RedumpLib.Data;
 
 namespace SabreTools.RedumpLib.Web
 {
@@ -36,7 +37,7 @@ namespace SabreTools.RedumpLib.Web
                 if (limit > 0 && pageNumber >= limit)
                     break;
 
-                var pageIds = await client.CheckSingleUserPage(username!, pageNumber++, outDir, lastModified: false);
+                var pageIds = await client.CheckSingleDiscsPage(outDir, dumper: username, page: pageNumber++);
                 if (pageIds is null)
                     return [];
 
@@ -75,7 +76,7 @@ namespace SabreTools.RedumpLib.Web
                 if (limit > 0 && pageNumber >= limit)
                     break;
 
-                var pageIds = await client.CheckSingleUserPage(username!, pageNumber++, outDir, lastModified: true);
+                var pageIds = await client.CheckSingleDiscsPage(outDir, dumper: username, sort: SortCategory.Modified, sortDir: SortDirection.Descending, page: pageNumber++);
                 if (pageIds is null)
                     return [];
 
@@ -114,7 +115,7 @@ namespace SabreTools.RedumpLib.Web
                     if (limit > 0 && pageNumber >= limit)
                         break;
 
-                    var pageIds = await client.CheckSingleUserPage(username!, pageNumber++, lastModified: false);
+                    var pageIds = await client.CheckSingleDiscsPage(dumper: username, sort: SortCategory.Modified, sortDir: SortDirection.Descending, page: pageNumber++);
                     if (pageIds is null)
                         return [];
 
