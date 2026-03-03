@@ -377,6 +377,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="pageNumber">Page number to use</param>
         /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        /// TODO: Figure out how to remove raw query variants
         public async Task<List<int>?> CheckSingleDiscsPage(string query, int pageNumber, bool convertForwardSlashes)
         {
             query = NormalizeQuery(query, convertForwardSlashes);
@@ -479,6 +480,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="convertForwardSlashes">Replace forward slashes with `-` in queries</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        /// TODO: Figure out how to remove raw query variants
         public async Task<List<int>?> CheckSingleDiscsPage(string query, int pageNumber, string? outDir, bool convertForwardSlashes)
         {
             query = NormalizeQuery(query, convertForwardSlashes);
