@@ -97,7 +97,7 @@ namespace RedumpTool.Features
             if (onlyList)
                 processingTask = _client.ListDiscsResults(quicksearch: query, limit: limit);
             else
-                processingTask = _client.DownloadDiscsResults(outDir, quicksearch: query, limit: limit);
+                processingTask = _client.DownloadDiscsResults(outDir, quicksearch: query, limit: limit, discSubpaths: null);
 
             // Retrieve the result
             processingTask.Wait();

@@ -170,7 +170,7 @@ namespace RedumpTool.Features
             Task<List<int>> processingTask;
             if (minId >= 0 && maxId >= 0)
             {
-                processingTask = _client.DownloadSiteRange(outDir, minId, maxId);
+                processingTask = _client.DownloadSiteRange(outDir, minId, maxId, discSubpaths: null);
             }
             else
             {
@@ -199,7 +199,8 @@ namespace RedumpTool.Features
                     comments,
                     contents,
                     protection,
-                    limit);
+                    limit,
+                    discSubpaths: null);
             }
 
             // Retrieve the result

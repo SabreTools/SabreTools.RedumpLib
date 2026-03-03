@@ -40,6 +40,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="contents">Marks search as contents field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="protection"/></param>
         /// <param name="protection">Marks search as protection field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="contents"/></param>
         /// <param name="limit">Limit number of retrieved result pages, non-positive for unlimited</param>
+        /// <param name="discSubpaths">Set of subpaths to download if available, null for all</param>
         /// <returns>All disc IDs for the given query, empty on error</returns>
         public static async Task<List<int>> DownloadDiscsResults(this RedumpClient client,
             string? outDir,
@@ -67,7 +68,8 @@ namespace SabreTools.RedumpLib.Web
             bool comments = false,
             bool contents = false,
             bool protection = false,
-            int limit = -1)
+            int limit = -1,
+            DiscSubpath[]? discSubpaths = null)
         {
             // Keep getting discs pages until there are none left
             List<int> ids = [];
@@ -105,7 +107,8 @@ namespace SabreTools.RedumpLib.Web
                         comments,
                         contents,
                         protection,
-                        pageNumber++);
+                        pageNumber++,
+                        discSubpaths);
                     if (pageIds is null)
                         return [];
 
@@ -130,13 +133,18 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="minId">Starting ID for the range</param>
         /// <param name="maxId">Ending ID for the range (inclusive)</param>
+        /// <param name="discSubpaths">Set of subpaths to download if available, null for all</param>
         /// <returns>All disc IDs that successfully downloaded, empty on error</returns>
-        public static async Task<List<int>> DownloadSiteRange(this RedumpClient client, string? outDir, int minId, int maxId)
+        public static async Task<List<int>> DownloadSiteRange(this RedumpClient client,
+            string? outDir,
+            int minId,
+            int maxId,
+            DiscSubpath[]? discSubpaths = null)
         {
             List<int> ids = [];
             for (int id = minId; id <= maxId; id++)
             {
-                bool downloaded = await client.DownloadSingleSiteID(id, outDir, rename: true);
+                bool downloaded = await client.DownloadSingleSiteID(id, outDir, rename: true, discSubpaths);
                 if (downloaded)
                 {
                     ids.Add(id);
@@ -153,13 +161,17 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="siteIds">Set of site IDs to download</param>
         /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="discSubpaths">Set of subpaths to download if available, null for all</param>
         /// <returns>All disc IDs that successfully downloaded, empty on error</returns>
-        public static async Task<List<int>> DownloadSiteSet(this RedumpClient client, List<int> siteIds, string? outDir)
+        public static async Task<List<int>> DownloadSiteSet(this RedumpClient client,
+            List<int> siteIds,
+            string? outDir,
+            DiscSubpath[]? discSubpaths = null)
         {
             List<int> ids = [];
             foreach (int id in siteIds)
             {
-                bool downloaded = await client.DownloadSingleSiteID(id, outDir, rename: true);
+                bool downloaded = await client.DownloadSingleSiteID(id, outDir, rename: true, discSubpaths);
                 if (downloaded)
                 {
                     ids.Add(id);

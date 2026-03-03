@@ -454,7 +454,57 @@ namespace SabreTools.RedumpLib.Web
                 contents,
                 protection,
                 page);
-            return await CheckSingleSitePage(url);
+
+            List<int> ids = [];
+
+            // Try to retrieve the data
+            string? dumpsPage = await DownloadString(url);
+
+            // If the web client failed, return null
+            if (dumpsPage is null)
+            {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Client failure");
+                return null;
+            }
+
+            // If we have no dumps left
+            if (dumpsPage.Contains("No discs found."))
+            {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - No discs found");
+                return ids;
+            }
+
+            // If we have a single disc page already
+            if (dumpsPage.Contains("<b>Download:</b>"))
+            {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Single disc page");
+                var value = Constants.SfvRegex.Match(dumpsPage).Groups[1].Value;
+                if (int.TryParse(value, out int id))
+                    ids.Add(id);
+
+                return ids;
+            }
+
+            // Otherwise, traverse each dump on the page
+            var matches = Constants.DiscRegex.Matches(dumpsPage);
+            foreach (Match? match in matches)
+            {
+                if (match is null)
+                    continue;
+
+                try
+                {
+                    if (int.TryParse(match.Groups[1].Value, out int value))
+                        ids.Add(value);
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($"An exception has occurred: {ex}");
+                    continue;
+                }
+            }
+
+            return ids;
         }
 
         /// <summary>
@@ -486,6 +536,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="contents">Marks search as contents field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="protection"/></param>
         /// <param name="protection">Marks search as protection field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="contents"/></param>
         /// <param name="page">Page number, null to omit</param>
+        /// <param name="discSubpaths">Set of subpaths to download if available, null for all</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
         public async Task<List<int>?> CheckSingleDiscsPage(string? outDir,
             bool? antimodchip = null,
@@ -512,13 +563,11 @@ namespace SabreTools.RedumpLib.Web
             bool comments = false,
             bool contents = false,
             bool protection = false,
-            int? page = null)
+            int? page = null,
+            DiscSubpath[]? discSubpaths = null)
         {
-            // Normalize the search query, if needed
-            if (quicksearch is not null)
-                quicksearch = NormalizeQuery(quicksearch);
-
-            string url = UrlBuilder.BuildDiscsUrl(antimodchip,
+            // Get all IDs from the page
+            List<int>? ids = await CheckSingleDiscsPage(antimodchip,
                 barcode,
                 category,
                 discType,
@@ -543,7 +592,32 @@ namespace SabreTools.RedumpLib.Web
                 contents,
                 protection,
                 page);
-            return await CheckSingleSitePage(url, outDir);
+            if (ids is null)
+            {
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{outDir}\") - Client failure");
+                return null;
+            }
+
+            // Try to download all IDs
+            List<int> processed = [];
+            foreach (int id in ids)
+            {
+                try
+                {
+                    bool downloaded = await DownloadSingleSiteID(id, outDir, rename: false, discSubpaths);
+                    if (!downloaded && !IgnoreErrors)
+                        return processed;
+
+                    processed.Add(id);
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($"An exception has occurred: {ex}");
+                    continue;
+                }
+            }
+
+            return processed;
         }
 
         /// <summary>
@@ -625,103 +699,6 @@ namespace SabreTools.RedumpLib.Web
                 try
                 {
                     bool downloaded = await DownloadSingleWIPID(id, outDir, rename: false);
-                    if (!downloaded && !IgnoreErrors)
-                        return processed;
-
-                    processed.Add(id);
-                }
-                catch (Exception ex)
-                {
-                    Console.Error.WriteLine($"An exception has occurred: {ex}");
-                    continue;
-                }
-            }
-
-            return processed;
-        }
-
-        /// <summary>
-        /// Process a Redump site page as a list of possible IDs or disc page
-        /// </summary>
-        /// <param name="url">Base URL to download using</param>
-        /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        private async Task<List<int>?> CheckSingleSitePage(string url)
-        {
-            List<int> ids = [];
-
-            // Try to retrieve the data
-            string? dumpsPage = await DownloadString(url);
-
-            // If the web client failed, return null
-            if (dumpsPage is null)
-            {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Client failure");
-                return null;
-            }
-
-            // If we have no dumps left
-            if (dumpsPage.Contains("No discs found."))
-            {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - No discs found");
-                return ids;
-            }
-
-            // If we have a single disc page already
-            if (dumpsPage.Contains("<b>Download:</b>"))
-            {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Single disc page");
-                var value = Constants.SfvRegex.Match(dumpsPage).Groups[1].Value;
-                if (int.TryParse(value, out int id))
-                    ids.Add(id);
-
-                return ids;
-            }
-
-            // Otherwise, traverse each dump on the page
-            var matches = Constants.DiscRegex.Matches(dumpsPage);
-            foreach (Match? match in matches)
-            {
-                if (match is null)
-                    continue;
-
-                try
-                {
-                    if (int.TryParse(match.Groups[1].Value, out int value))
-                        ids.Add(value);
-                }
-                catch (Exception ex)
-                {
-                    Console.Error.WriteLine($"An exception has occurred: {ex}");
-                    continue;
-                }
-            }
-
-            return ids;
-        }
-
-        /// <summary>
-        /// Process a Redump site page as a list of possible IDs or disc page
-        /// </summary>
-        /// <param name="url">Base URL to download using</param>
-        /// <param name="outDir">Output directory to save data to</param>
-        /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        private async Task<List<int>?> CheckSingleSitePage(string url, string? outDir)
-        {
-            // Get all IDs from the page
-            List<int>? ids = await CheckSingleSitePage(url);
-            if (ids is null)
-            {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\", \"{outDir}\") - Client failure");
-                return null;
-            }
-
-            // Try to download all IDs
-            List<int> processed = [];
-            foreach (int id in ids)
-            {
-                try
-                {
-                    bool downloaded = await DownloadSingleSiteID(id, outDir, rename: false);
                     if (!downloaded && !IgnoreErrors)
                         return processed;
 
@@ -1154,7 +1131,7 @@ namespace SabreTools.RedumpLib.Web
                 #region Pages
 
                 // View Edit History
-                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.Changes)) && discPage.Contains($"<a href=\"/disc/{id}/changes/\""))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.Changes)) && discPage.Contains($"<a href=\"/disc/{id}/changes/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Changes);
                     string? changesPage = await DownloadString(uri);
@@ -1170,7 +1147,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // Edit disc
-                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.Edit)) && discPage.Contains($"<a href=\"/disc/{id}/edit/\""))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.Edit)) && discPage.Contains($"<a href=\"/disc/{id}/edit/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Edit);
                     string? editPage = await DownloadString(uri);
@@ -1186,7 +1163,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // Review WIP entry
-                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.WIP)) && Constants.NewDiscRegex.IsMatch(discPage))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.WIP)) && Constants.NewDiscRegex.IsMatch(discPage))
                 {
                     var match = Constants.NewDiscRegex.Match(discPage);
                     if (int.TryParse(match.Groups[2].Value, out int newDiscId))
@@ -1210,7 +1187,7 @@ namespace SabreTools.RedumpLib.Web
                 #region Files
 
                 // CUE
-                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.Cuesheet)) && discPage.Contains($"<a href=\"/disc/{id}/cue/\""))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.Cuesheet)) && discPage.Contains($"<a href=\"/disc/{id}/cue/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Cuesheet);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.cue"));
@@ -1222,7 +1199,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // GDI
-                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.GDI)) && discPage.Contains($"<a href=\"/disc/{id}/gdi/\""))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.GDI)) && discPage.Contains($"<a href=\"/disc/{id}/gdi/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.GDI);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.gdi"));
@@ -1234,7 +1211,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // KEYS
-                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.Key)) && discPage.Contains($"<a href=\"/disc/{id}/key/\""))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.Key)) && discPage.Contains($"<a href=\"/disc/{id}/key/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Key);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.key"));
@@ -1246,7 +1223,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // LSD
-                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.LSD)) && discPage.Contains($"<a href=\"/disc/{id}/lsd/\""))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.LSD)) && discPage.Contains($"<a href=\"/disc/{id}/lsd/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.LSD);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.lsd"));
@@ -1258,7 +1235,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // MD5
-                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.MD5)) && discPage.Contains($"<a href=\"/disc/{id}/md5/\""))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.MD5)) && discPage.Contains($"<a href=\"/disc/{id}/md5/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.MD5);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.md5"));
@@ -1270,7 +1247,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // SBI
-                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.SBI)) && discPage.Contains($"<a href=\"/disc/{id}/sbi/\""))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.SBI)) && discPage.Contains($"<a href=\"/disc/{id}/sbi/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.SBI);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sbi"));
@@ -1282,7 +1259,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // SFV
-                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.SFV)) && discPage.Contains($"<a href=\"/disc/{id}/sfv/\""))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.SFV)) && discPage.Contains($"<a href=\"/disc/{id}/sfv/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.SFV);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sfv"));
@@ -1294,7 +1271,7 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // SHA1
-                if ((discSubpaths is null || discSubpaths.Contains(DiscSubpath.SHA1)) && discPage.Contains($"<a href=\"/disc/{id}/sha1/\""))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.SHA1)) && discPage.Contains($"<a href=\"/disc/{id}/sha1/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.SHA1);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sha1"));

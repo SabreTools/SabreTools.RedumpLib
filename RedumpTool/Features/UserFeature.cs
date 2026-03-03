@@ -91,9 +91,9 @@ namespace RedumpTool.Features
             if (onlyList)
                 processingTask = _client.ListDiscsResults(dumper: username, limit: limit);
             else if (onlyNew)
-                processingTask = _client.DownloadDiscsResults(outDir, dumper: username, sort: SortCategory.Modified, sortDir: SortDirection.Descending, limit: limit);
+                processingTask = _client.DownloadDiscsResults(outDir, dumper: username, sort: SortCategory.Modified, sortDir: SortDirection.Descending, limit: limit, discSubpaths: null);
             else
-                processingTask = _client.DownloadDiscsResults(outDir, dumper: username, limit: limit);
+                processingTask = _client.DownloadDiscsResults(outDir, dumper: username, limit: limit, discSubpaths: null);
 
             // Retrieve the result
             processingTask.Wait();
