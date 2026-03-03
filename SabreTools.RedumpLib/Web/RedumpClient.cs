@@ -1132,17 +1132,14 @@ namespace SabreTools.RedumpLib.Web
                         Console.WriteLine($"ID {paddedId} has not been changed since last download, skipping...");
                         return false;
                     }
+                }
 
-                    // Check the added date as a backup
-                    oldResult = Constants.AddedRegex.Match(oldDiscPage);
-                    newResult = Constants.AddedRegex.Match(discPage);
-
-                    // If the downloaded data is invalid or otherwise empty, skip it
-                    if (oldResult.Success && !newResult.Success)
-                    {
-                        Console.WriteLine($"ID {paddedId} retieved an empty page, skipping...");
-                        return false;
-                    }
+                // If the downloaded data is invalid or otherwise empty, skip it
+                var hasAddedDate = Constants.AddedRegex.Match(discPage);
+                if (!hasAddedDate.Success)
+                {
+                    Console.WriteLine($"ID {paddedId} retieved an empty page, skipping...");
+                    return false;
                 }
 
                 // Create ID subdirectory
