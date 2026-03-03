@@ -296,8 +296,7 @@ namespace SabreTools.RedumpLib.Web
                         responseStream.CopyTo(tempFileStream);
                     }
 
-                    return response.Content.Headers.ContentDisposition?.FileName?.Replace("\"", "")
-                        ?? $"content-with-length-{response.Content.Headers.ContentLength}";
+                    return response.Content.Headers.ContentDisposition?.FileName?.Replace("\"", "");
 #elif NET40
                     await Task.Factory.StartNew(() => { _internalClient.DownloadFile(uri, fileName); return true; });
                     string? lastFilename = _internalClient.GetLastFilename();
@@ -1150,12 +1149,16 @@ namespace SabreTools.RedumpLib.Web
                 if (discPage.Contains($"<a href=\"/disc/{id}/changes/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Changes);
-                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, "changes.html"));
-                    if (!IgnoreErrors && remoteName is null)
+                    string? changesPage = await DownloadString(uri);
+                    if (!IgnoreErrors && changesPage is null)
                     {
                         if (Debug) Console.Error.WriteLine($"DEBUG: Downloading changes page for {id} failed!");
                         return false;
                     }
+
+                    using var sw = File.CreateText(Path.Combine(paddedIdDir, "changes.html"));
+                    sw.Write(changesPage);
+                    sw.Flush();
                 }
 
                 // CUE
@@ -1174,12 +1177,16 @@ namespace SabreTools.RedumpLib.Web
                 if (discPage.Contains($"<a href=\"/disc/{id}/edit/\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Edit);
-                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, "edit.html"));
-                    if (!IgnoreErrors && remoteName is null)
+                    string? editPage = await DownloadString(uri);
+                    if (!IgnoreErrors && editPage is null)
                     {
                         if (Debug) Console.Error.WriteLine($"DEBUG: Downloading edit page for {id} failed!");
                         return false;
                     }
+
+                    using var sw = File.CreateText(Path.Combine(paddedIdDir, "edit.html"));
+                    sw.Write(editPage);
+                    sw.Flush();
                 }
 
                 // GDI
@@ -1237,12 +1244,16 @@ namespace SabreTools.RedumpLib.Web
                     if (int.TryParse(match.Groups[2].Value, out int newDiscId))
                     {
                         string uri = UrlBuilder.BuildNewDiscUrl(newDiscId);
-                        string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, "newdisc.html"));
-                        if (!IgnoreErrors && remoteName is null)
+                        string? wipPage = await DownloadString(uri);
+                        if (!IgnoreErrors && wipPage is null)
                         {
                             if (Debug) Console.Error.WriteLine($"DEBUG: Downloading WIP entry for {id} failed!");
                             return false;
                         }
+
+                        using var sw = File.CreateText(Path.Combine(paddedIdDir, "newdisc.html"));
+                        sw.Write(wipPage);
+                        sw.Flush();
                     }
                 }
 
