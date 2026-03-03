@@ -1033,6 +1033,7 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
+        /// <remarks>This only includes the site page itself</remarks>
         public async Task<string?> DownloadSingleSiteID(int id)
         {
             string paddedId = id.ToString().PadLeft(6, '0');
@@ -1071,6 +1072,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
+        /// <remarks>This includes all subpages and attached files</remarks>
         public async Task<bool> DownloadSingleSiteID(int id, string? outDir, bool rename)
         {
             // If no output directory is defined, use the current directory instead
