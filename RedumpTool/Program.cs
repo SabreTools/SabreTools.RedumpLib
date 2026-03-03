@@ -34,7 +34,9 @@ namespace RedumpTool
                 case UserFeature uf: uf.ProcessArgs(args, 1); uf.Execute(); return;
                 case QueryFeature qf: qf.ProcessArgs(args, 1); qf.Execute(); return;
                 case BuildUrlFeature buf: buf.ProcessArgs(args, 1); buf.Execute(); return;
-                case StatsFeature sf: sf.ProcessArgs(args, 1); sf.Execute(); return;
+
+                // This is entirely broken on the site side
+                //case StatsFeature sf: sf.ProcessArgs(args, 1); sf.Execute(); return;
 
                 default:
                     Console.WriteLine($"{featureName} is not a known feature");
@@ -192,9 +194,6 @@ namespace RedumpTool
             Console.WriteLine("        --system <System> - System to download pack for (required)"); // TODO: Create list
             Console.WriteLine();
             Console.WriteLine("    statistics - Redump statistics page");
-            Console.WriteLine();
-
-            Console.WriteLine("stats - Download the statistics page");
             Console.WriteLine();
 
             Console.WriteLine("If using an ID range, both minimum and maximum are required");
