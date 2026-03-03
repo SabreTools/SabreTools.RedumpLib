@@ -439,6 +439,10 @@ namespace SabreTools.RedumpLib.Web
             bool protection = false,
             int? page = null)
         {
+            // Normalize the search query, if needed
+            if (quicksearch is not null)
+                quicksearch = NormalizeQuery(quicksearch);
+
             string url = UrlBuilder.BuildDiscsUrl(antimodchip,
                 barcode,
                 category,
@@ -539,6 +543,10 @@ namespace SabreTools.RedumpLib.Web
             bool protection = false,
             int? page = null)
         {
+            // Normalize the search query, if needed
+            if (quicksearch is not null)
+                quicksearch = NormalizeQuery(quicksearch);
+
             string url = UrlBuilder.BuildDiscsUrl(antimodchip,
                 barcode,
                 category,
@@ -840,6 +848,14 @@ namespace SabreTools.RedumpLib.Web
 
             return processed;
         }
+
+        /// <summary>
+        /// Normalize a URL query string
+        /// </summary>
+        /// <param name="query">Query string to normalize</param>
+        /// <returns>Normalized query</returns>
+        private static string NormalizeQuery(string query)
+            => NormalizeQuery(query, convertForwardSlashes: true);
 
         /// <summary>
         /// Normalize a URL query string
