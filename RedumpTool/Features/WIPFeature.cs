@@ -21,13 +21,13 @@ namespace RedumpTool.Features
         #region Inputs
 
         private const string _maximumName = "maximum";
-        internal readonly Int32Input MaximumInput = new(_maximumName, ["-max", "--maximum"], "Upper bound for page numbers (cannot be used with only new)");
+        internal readonly Int32Input MaximumInput = new(_maximumName, ["-max", "--maximum"], "Upper bound for page numbers (incompatible with --onlynew)");
 
         private const string _minimumName = "minimum";
-        internal readonly Int32Input MinimumInput = new(_minimumName, ["-min", "--minimum"], "Lower bound for page numbers (cannot be used with only new)");
+        internal readonly Int32Input MinimumInput = new(_minimumName, ["-min", "--minimum"], "Lower bound for page numbers (incompatible with --onlynew)");
 
         private const string _onlyNewName = "onlynew";
-        internal readonly FlagInput OnlyNewInput = new(_onlyNewName, ["-n", "--onlynew"], "Use the last modified view (cannot be used with min and max)");
+        internal readonly FlagInput OnlyNewInput = new(_onlyNewName, ["-n", "--onlynew"], "Use the last modified view (incompatible with min and max)");
 
         #endregion
 

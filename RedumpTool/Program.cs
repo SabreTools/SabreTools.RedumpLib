@@ -86,11 +86,13 @@ namespace RedumpTool
             Console.WriteLine();
 
             Console.WriteLine("site - Download pages and related files from the main site");
-            Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (cannot be used with only new)");
-            Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (cannot be used with only new)");
-            Console.WriteLine("    -n, --onlynew - Use the last modified view (cannot be used with min and max)");
+            Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (incompatible with --onlynew)");
+            Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (incompatible with --onlynew)");
+            Console.WriteLine("    -n, --onlynew - Use the last modified view (incompatible with min and max)");
             Console.WriteLine("        Internally this sets '--sort modified -sort-dir desc'");
             Console.WriteLine("    --limit <Limit> - Limit number of retrieved result pages");
+            Console.WriteLine("    --only-pages - Only download disc subpages (incompatible with --only-files)");
+            Console.WriteLine("    --only-files - Only download disc file attachments (incompatible with --only-pages)");
             Console.WriteLine();
             Console.WriteLine("    In addition to the above options, there are advanced options that allow users to finely tune their");
             Console.WriteLine("    site queries. All flags below are incompatible with --minimum, --maximum, and --onlynew.");
@@ -122,9 +124,9 @@ namespace RedumpTool
             Console.WriteLine();
 
             Console.WriteLine("wip - Download pages and related files from the WIP list");
-            Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (cannot be used with only new)");
-            Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (cannot be used with only new)");
-            Console.WriteLine("    -n, --onlynew - Use the last modified view (cannot be used with min and max)");
+            Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (incompatible with --onlynew)");
+            Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (incompatible with --onlynew)");
+            Console.WriteLine("    -n, --onlynew - Use the last modified view (incompatible with min and max)");
             Console.WriteLine();
 
             Console.WriteLine("packs - Download available packs");
@@ -135,12 +137,16 @@ namespace RedumpTool
             Console.WriteLine("    -n, --onlynew - Use the last modified view instead of sequential parsing");
             Console.WriteLine("    -l, --list - Only list the page IDs for that user");
             Console.WriteLine("    --limit <Limit> - Limit number of retrieved result pages");
+            Console.WriteLine("    --only-pages - Only download disc subpages (incompatible with --only-files)");
+            Console.WriteLine("    --only-files - Only download disc file attachments (incompatible with --only-pages)");
             Console.WriteLine();
 
             Console.WriteLine("query - Download pages and related files from a Redump-compatible quicksearch query");
             Console.WriteLine("    -q, --query - Redump-compatible query to run");
             Console.WriteLine("    -l, --list - Only list the page IDs for that query");
             Console.WriteLine("    --limit <Limit> - Limit number of retrieved result pages");
+            Console.WriteLine("    --only-pages - Only download disc subpages (incompatible with --only-files)");
+            Console.WriteLine("    --only-files - Only download disc file attachments (incompatible with --only-pages)");
             Console.WriteLine();
 
             Console.WriteLine("build-url - Build a Redump URL");

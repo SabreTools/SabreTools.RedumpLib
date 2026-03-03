@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.CommandLine.Inputs;
+using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Web;
 
 namespace RedumpTool.Features
@@ -25,6 +26,12 @@ namespace RedumpTool.Features
 
         private const string _listName = "list";
         internal readonly FlagInput ListInput = new(_listName, ["-l", "--list"], "Only list the page IDs for that query");
+
+        private const string _onlyFilesName = "onlypages";
+        internal readonly FlagInput OnlyFilesInput = new(_onlyFilesName, ["--only-files"], "Only download disc file attachments (incompatible with --only-pages)");
+
+        private const string _onlyPagesName = "onlypages";
+        internal readonly FlagInput OnlyPagesInput = new(_onlyPagesName, ["--only-pages"], "Only download disc subpages (incompatible with --only-files)");
 
         private const string _queryName = "query";
         internal readonly StringInput QueryInput = new(_queryName, ["-q", "--query"], "Redump-compatible query to run");
@@ -50,6 +57,8 @@ namespace RedumpTool.Features
             Add(QueryInput);
             Add(ListInput);
             Add(LimitInput);
+            Add(OnlyPagesInput);
+            Add(OnlyFilesInput);
         }
 
         /// <inheritdoc/>
@@ -68,6 +77,15 @@ namespace RedumpTool.Features
             bool onlyList = ListInput.Value;
             string? query = QueryInput.Value;
             int limit = LimitInput.Value ?? -1;
+            bool onlyPages = OnlyPagesInput.Value;
+            bool onlyFiles = OnlyFilesInput.Value;
+
+            // Build the disc subpaths
+            DiscSubpath[]? discSubpaths = Constants.AllDiscSubpaths;
+            if (onlyPages)
+                discSubpaths = Constants.DiscSubPagesOnly;
+            else if (onlyFiles)
+                discSubpaths = Constants.DiscFilesOnly;
 
             // Output directory validation
             if (!onlyList && !ValidateAndCreateOutputDirectory(outDir))
@@ -97,7 +115,7 @@ namespace RedumpTool.Features
             if (onlyList)
                 processingTask = _client.ListDiscsResults(quicksearch: query, limit: limit);
             else
-                processingTask = _client.DownloadDiscsResults(outDir, quicksearch: query, limit: limit, discSubpaths: null);
+                processingTask = _client.DownloadDiscsResults(outDir, quicksearch: query, limit: limit, discSubpaths: discSubpaths);
 
             // Retrieve the result
             processingTask.Wait();

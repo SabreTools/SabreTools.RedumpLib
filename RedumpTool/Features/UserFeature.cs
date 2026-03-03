@@ -27,8 +27,14 @@ namespace RedumpTool.Features
         private const string _listName = "list";
         internal readonly FlagInput ListInput = new(_listName, ["-l", "--list"], "Only list the page IDs for that user");
 
+        private const string _onlyFilesName = "onlypages";
+        internal readonly FlagInput OnlyFilesInput = new(_onlyFilesName, ["--only-files"], "Only download disc file attachments (incompatible with --only-pages)");
+
         private const string _onlyNewName = "onlynew";
         internal readonly FlagInput OnlyNewInput = new(_onlyNewName, ["-n", "--onlynew"], "Use the last modified view instead of sequential parsing");
+
+        private const string _onlyPagesName = "onlypages";
+        internal readonly FlagInput OnlyPagesInput = new(_onlyPagesName, ["--only-pages"], "Only download disc subpages (incompatible with --only-files)");
 
         #endregion
 
@@ -51,6 +57,8 @@ namespace RedumpTool.Features
             Add(OnlyNewInput);
             Add(ListInput);
             Add(LimitInput);
+            Add(OnlyPagesInput);
+            Add(OnlyFilesInput);
         }
 
         /// <inheritdoc/>
@@ -69,6 +77,15 @@ namespace RedumpTool.Features
             bool onlyNew = OnlyNewInput.Value;
             bool onlyList = ListInput.Value;
             int limit = LimitInput.Value ?? -1;
+            bool onlyPages = OnlyPagesInput.Value;
+            bool onlyFiles = OnlyFilesInput.Value;
+
+            // Build the disc subpaths
+            DiscSubpath[]? discSubpaths = Constants.AllDiscSubpaths;
+            if (onlyPages)
+                discSubpaths = Constants.DiscSubPagesOnly;
+            else if (onlyFiles)
+                discSubpaths = Constants.DiscFilesOnly;
 
             // Output directory validation
             if (!onlyList && !ValidateAndCreateOutputDirectory(outDir))
@@ -91,9 +108,9 @@ namespace RedumpTool.Features
             if (onlyList)
                 processingTask = _client.ListDiscsResults(dumper: username, limit: limit);
             else if (onlyNew)
-                processingTask = _client.DownloadDiscsResults(outDir, dumper: username, sort: SortCategory.Modified, sortDir: SortDirection.Descending, limit: limit, discSubpaths: null);
+                processingTask = _client.DownloadDiscsResults(outDir, dumper: username, sort: SortCategory.Modified, sortDir: SortDirection.Descending, limit: limit, discSubpaths: discSubpaths);
             else
-                processingTask = _client.DownloadDiscsResults(outDir, dumper: username, limit: limit, discSubpaths: null);
+                processingTask = _client.DownloadDiscsResults(outDir, dumper: username, limit: limit, discSubpaths: discSubpaths);
 
             // Retrieve the result
             processingTask.Wait();

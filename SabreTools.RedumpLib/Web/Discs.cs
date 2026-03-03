@@ -36,9 +36,9 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="status">Add status to filter, null to omit</param>
         /// <param name="system">Add system to filter, null to omit</param>
         /// <param name="tracks">Track count up to 99, null to omit</param>
-        /// <param name="comments">Marks search as comments field only, false to omit; cannot be used with <paramref name="contents"/> or <paramref name="protection"/></param>
-        /// <param name="contents">Marks search as contents field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="protection"/></param>
-        /// <param name="protection">Marks search as protection field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="contents"/></param>
+        /// <param name="comments">Marks search as comments field only, false to omit; incompatible with <paramref name="contents"/> or <paramref name="protection"/></param>
+        /// <param name="contents">Marks search as contents field only, false to omit; incompatible with <paramref name="comments"/> or <paramref name="protection"/></param>
+        /// <param name="protection">Marks search as protection field only, false to omit; incompatible with <paramref name="comments"/> or <paramref name="contents"/></param>
         /// <param name="limit">Limit number of retrieved result pages, non-positive for unlimited</param>
         /// <param name="discSubpaths">Set of subpaths to download if available, null for all</param>
         /// <returns>All disc IDs for the given query, empty on error</returns>
@@ -207,9 +207,9 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="status">Add status to filter, null to omit</param>
         /// <param name="system">Add system to filter, null to omit</param>
         /// <param name="tracks">Track count up to 99, null to omit</param>
-        /// <param name="comments">Marks search as comments field only, false to omit; cannot be used with <paramref name="contents"/> or <paramref name="protection"/></param>
-        /// <param name="contents">Marks search as contents field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="protection"/></param>
-        /// <param name="protection">Marks search as protection field only, false to omit; cannot be used with <paramref name="comments"/> or <paramref name="contents"/></param>
+        /// <param name="comments">Marks search as comments field only, false to omit; incompatible with <paramref name="contents"/> or <paramref name="protection"/></param>
+        /// <param name="contents">Marks search as contents field only, false to omit; incompatible with <paramref name="comments"/> or <paramref name="protection"/></param>
+        /// <param name="protection">Marks search as protection field only, false to omit; incompatible with <paramref name="comments"/> or <paramref name="contents"/></param>
         /// <param name="limit">Limit number of retrieved result pages, non-positive for unlimited</param>
         /// <returns>All disc IDs for the given query, empty on error</returns>
         public static async Task<List<int>> ListDiscsResults(this RedumpClient client,

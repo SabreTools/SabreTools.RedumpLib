@@ -25,13 +25,19 @@ namespace RedumpTool.Features
         internal readonly Int32Input LimitInput = new(_limitName, ["--limit"], "Limit number of retrieved result pages");
 
         private const string _maximumName = "maximum";
-        internal readonly Int32Input MaximumInput = new(_maximumName, ["-max", "--maximum"], "Upper bound for page numbers (cannot be used with only new)");
+        internal readonly Int32Input MaximumInput = new(_maximumName, ["-max", "--maximum"], "Upper bound for page numbers (incompatible with --onlynew)");
 
         private const string _minimumName = "minimum";
-        internal readonly Int32Input MinimumInput = new(_minimumName, ["-min", "--minimum"], "Lower bound for page numbers (cannot be used with only new)");
+        internal readonly Int32Input MinimumInput = new(_minimumName, ["-min", "--minimum"], "Lower bound for page numbers (incompatible with --onlynew)");
+
+        private const string _onlyFilesName = "onlypages";
+        internal readonly FlagInput OnlyFilesInput = new(_onlyFilesName, ["--only-files"], "Only download disc file attachments (incompatible with --only-pages)");
 
         private const string _onlyNewName = "onlynew";
-        internal readonly FlagInput OnlyNewInput = new(_onlyNewName, ["-n", "--onlynew"], "Use the last modified view (cannot be used with min and max)");
+        internal readonly FlagInput OnlyNewInput = new(_onlyNewName, ["-n", "--onlynew"], "Use the last modified view (incompatible with min and max)");
+
+        private const string _onlyPagesName = "onlypages";
+        internal readonly FlagInput OnlyPagesInput = new(_onlyPagesName, ["--only-pages"], "Only download disc subpages (incompatible with --only-files)");
 
         #endregion
 
@@ -81,6 +87,8 @@ namespace RedumpTool.Features
             Add(MaximumInput);
             Add(OnlyNewInput);
             Add(LimitInput);
+            Add(OnlyPagesInput);
+            Add(OnlyFilesInput);
         }
 
         /// <inheritdoc/>
@@ -142,6 +150,15 @@ namespace RedumpTool.Features
             int maxId = MaximumInput.Value ?? -1;
             bool onlyNew = OnlyNewInput.Value;
             int limit = LimitInput.Value ?? -1;
+            bool onlyPages = OnlyPagesInput.Value;
+            bool onlyFiles = OnlyFilesInput.Value;
+
+            // Build the disc subpaths
+            DiscSubpath[]? discSubpaths = Constants.AllDiscSubpaths;
+            if (onlyPages)
+                discSubpaths = Constants.DiscSubPagesOnly;
+            else if (onlyFiles)
+                discSubpaths = Constants.DiscFilesOnly;
 
             // Override individual flags if shorthand flags used
             if (onlyNew)
@@ -170,7 +187,7 @@ namespace RedumpTool.Features
             Task<List<int>> processingTask;
             if (minId >= 0 && maxId >= 0)
             {
-                processingTask = _client.DownloadSiteRange(outDir, minId, maxId, discSubpaths: null);
+                processingTask = _client.DownloadSiteRange(outDir, minId, maxId, discSubpaths: discSubpaths);
             }
             else
             {
@@ -200,7 +217,7 @@ namespace RedumpTool.Features
                     contents,
                     protection,
                     limit,
-                    discSubpaths: null);
+                    discSubpaths: discSubpaths);
             }
 
             // Retrieve the result

@@ -126,7 +126,7 @@ namespace SabreTools.RedumpLib
 #if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
             string universalHashQuery = universalHash[..^1];
 #else
-            string universalHashQuery = universalHash.Substring(0, universalHash.Length - 1)};
+            string universalHashQuery = universalHash.Substring(0, universalHash.Length - 1);
 #endif
 
             // Get all matching IDs for the hash
