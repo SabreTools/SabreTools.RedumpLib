@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.CommandLine.Inputs;
+using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Web;
 
 namespace RedumpTool.Features
@@ -88,11 +89,11 @@ namespace RedumpTool.Features
             // Start the processing
             Task<List<int>> processingTask;
             if (onlyList)
-                processingTask = _client.ListUser(username, limit);
+                processingTask = _client.ListDiscsResults(dumper: username, limit: limit);
             else if (onlyNew)
-                processingTask = _client.DownloadUser(username, outDir, lastModified: true, limit: limit);
+                processingTask = _client.DownloadDiscsResults(outDir, dumper: username, sort: SortCategory.Modified, sortDir: SortDirection.Descending, limit: limit);
             else
-                processingTask = _client.DownloadUser(username, outDir, lastModified: false, limit: limit);
+                processingTask = _client.DownloadDiscsResults(outDir, dumper: username, limit: limit);
 
             // Retrieve the result
             processingTask.Wait();
