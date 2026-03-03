@@ -124,15 +124,13 @@ namespace SabreTools.RedumpLib
 
             // Format the universal hash for finding within the comments
 #if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
-            string universalHashQuery = $"{universalHash[..^1]}/comments/only";
+            string universalHashQuery = universalHash[..^1];
 #else
-            string universalHashQuery = $"{universalHash.Substring(0, universalHash.Length - 1)}/comments/only";
+            string universalHashQuery = universalHash.Substring(0, universalHash.Length - 1)};
 #endif
 
             // Get all matching IDs for the hash
-            var newIds = await client.ListDiscsResults(quicksearch: universalHashQuery);
-
-            // If we got null back, there was an error
+            var newIds = await client.ListDiscsResults(quicksearch: universalHashQuery, comments: true);
             if (newIds is null)
                 return null;
 
