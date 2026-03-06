@@ -1119,7 +1119,8 @@ namespace SabreTools.RedumpLib.Web
 
                 // If the downloaded data is invalid or otherwise empty, skip it
                 var hasAddedDate = Constants.AddedRegex.Match(discPage);
-                if (!hasAddedDate.Success)
+                var hasModifiedDate = Constants.LastModifiedRegex.Match(discPage);
+                if (!hasAddedDate.Success && !hasModifiedDate.Success)
                 {
                     Console.WriteLine($"ID {paddedId} retieved an empty page, skipping...");
                     return false;
