@@ -846,7 +846,7 @@ namespace SabreTools.RedumpLib.Data
         /// Get the Redump longnames for each known category
         /// </summary>
         public static string? LongName(this DiscCategory? category)
-            => AttributeHelper<DiscCategory?>.GetAttribute(category)?.LongName;
+            => AttributeHelper<DiscCategory?>.GetHumanReadableAttribute(category)?.LongName;
 
         /// <summary>
         /// Get the Category enum value for a given string
@@ -881,7 +881,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="discSubpath"></param>
         /// <returns></returns>
         public static string? LongName(this DiscSubpath discSubpath)
-            => AttributeHelper<DiscSubpath>.GetAttribute(discSubpath)?.LongName;
+            => AttributeHelper<DiscSubpath>.GetHumanReadableAttribute(discSubpath)?.LongName;
 
         /// <summary>
         /// Get the human readable name for a DiscSubpath
@@ -889,7 +889,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="discSubpath"></param>
         /// <returns></returns>
         public static string? LongName(this DiscSubpath? discSubpath)
-            => AttributeHelper<DiscSubpath?>.GetAttribute(discSubpath)?.LongName;
+            => AttributeHelper<DiscSubpath?>.GetHumanReadableAttribute(discSubpath)?.LongName;
 
         /// <summary>
         /// Get the URL path part for a DiscSubpath
@@ -897,7 +897,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="discSubpath"></param>
         /// <returns></returns>
         public static string? ShortName(this DiscSubpath discSubpath)
-            => AttributeHelper<DiscSubpath>.GetAttribute(discSubpath)?.ShortName;
+            => AttributeHelper<DiscSubpath>.GetHumanReadableAttribute(discSubpath)?.ShortName;
 
         /// <summary>
         /// Get the URL path part for a DiscSubpath
@@ -905,7 +905,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="discSubpath"></param>
         /// <returns></returns>
         public static string? ShortName(this DiscSubpath? discSubpath)
-            => AttributeHelper<DiscSubpath?>.GetAttribute(discSubpath)?.ShortName;
+            => AttributeHelper<DiscSubpath?>.GetHumanReadableAttribute(discSubpath)?.ShortName;
 
         /// <summary>
         /// Get the Region enum value for a given string
@@ -953,7 +953,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="discType"></param>
         /// <returns></returns>
         public static string? LongName(this DiscType? discType)
-            => AttributeHelper<DiscType?>.GetAttribute(discType)?.LongName;
+            => AttributeHelper<DiscType?>.GetHumanReadableAttribute(discType)?.LongName;
 
         /// <summary>
         /// Get the DiscType enum value for a given string
@@ -1011,7 +1011,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="dumpStatus"></param>
         /// <returns></returns>
         public static string? LongName(this DumpStatus dumpStatus)
-            => AttributeHelper<DumpStatus>.GetAttribute(dumpStatus)?.LongName;
+            => AttributeHelper<DumpStatus>.GetHumanReadableAttribute(dumpStatus)?.LongName;
 
         /// <summary>
         /// Get the human readable name for a DumpStatus
@@ -1019,7 +1019,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="dumpStatus"></param>
         /// <returns></returns>
         public static string? LongName(this DumpStatus? dumpStatus)
-            => AttributeHelper<DumpStatus?>.GetAttribute(dumpStatus)?.LongName;
+            => AttributeHelper<DumpStatus?>.GetHumanReadableAttribute(dumpStatus)?.LongName;
 
         /// <summary>
         /// Get the URL path part for a DumpStatus
@@ -1027,7 +1027,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="dumpStatus"></param>
         /// <returns></returns>
         public static string? ShortName(this DumpStatus dumpStatus)
-            => AttributeHelper<DumpStatus>.GetAttribute(dumpStatus)?.ShortName;
+            => AttributeHelper<DumpStatus>.GetHumanReadableAttribute(dumpStatus)?.ShortName;
 
         /// <summary>
         /// Get the URL path part for a DumpStatus
@@ -1035,7 +1035,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="dumpStatus"></param>
         /// <returns></returns>
         public static string? ShortName(this DumpStatus? dumpStatus)
-            => AttributeHelper<DumpStatus?>.GetAttribute(dumpStatus)?.ShortName;
+            => AttributeHelper<DumpStatus?>.GetHumanReadableAttribute(dumpStatus)?.ShortName;
 
         /// <summary>
         /// Get the Region enum value for a given string
@@ -1083,7 +1083,7 @@ namespace SabreTools.RedumpLib.Data
         /// Get the Redump longnames for each known language
         /// </summary>
         public static string? LongName(this Language? language)
-            => AttributeHelper<Language?>.GetAttribute(language)?.LongName;
+            => AttributeHelper<Language?>.GetHumanReadableAttribute(language)?.LongName;
 
         /// <summary>
         /// Get the Redump shortnames for each known language
@@ -1147,7 +1147,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="language"></param>
         /// <returns></returns>
         public static string? ThreeLetterCode(this Language language)
-            => (AttributeHelper<Language>.GetAttribute(language) as LanguageAttribute)?.ThreeLetterCode;
+            => (AttributeHelper<Language>.GetHumanReadableAttribute(language) as LanguageAttribute)?.ThreeLetterCode;
 
         /// <summary>
         /// Get the ISO 639-2 code for each known language
@@ -1155,7 +1155,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="language"></param>
         /// <returns></returns>
         public static string? ThreeLetterCode(this Language? language)
-            => (AttributeHelper<Language?>.GetAttribute(language) as LanguageAttribute)?.ThreeLetterCode;
+            => (AttributeHelper<Language?>.GetHumanReadableAttribute(language) as LanguageAttribute)?.ThreeLetterCode;
 
         /// <summary>
         /// Get the ISO 639-2 alternate code for each known language
@@ -1163,7 +1163,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="language"></param>
         /// <returns></returns>
         public static string? ThreeLetterCodeAlt(this Language language)
-            => (AttributeHelper<Language>.GetAttribute(language) as LanguageAttribute)?.ThreeLetterCodeAlt;
+            => (AttributeHelper<Language>.GetHumanReadableAttribute(language) as LanguageAttribute)?.ThreeLetterCodeAlt;
 
         /// <summary>
         /// Get the ISO 639-2 alternate code for each known language
@@ -1171,7 +1171,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="language"></param>
         /// <returns></returns>
         public static string? ThreeLetterCodeAlt(this Language? language)
-            => (AttributeHelper<Language?>.GetAttribute(language) as LanguageAttribute)?.ThreeLetterCodeAlt;
+            => (AttributeHelper<Language?>.GetHumanReadableAttribute(language) as LanguageAttribute)?.ThreeLetterCodeAlt;
 
         /// <summary>
         /// Get the ISO 639-1 code for each known language
@@ -1179,7 +1179,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="language"></param>
         /// <returns></returns>
         public static string? TwoLetterCode(this Language language)
-            => (AttributeHelper<Language>.GetAttribute(language) as LanguageAttribute)?.TwoLetterCode;
+            => (AttributeHelper<Language>.GetHumanReadableAttribute(language) as LanguageAttribute)?.TwoLetterCode;
 
         /// <summary>
         /// Get the ISO 639-1 code for each known language
@@ -1187,7 +1187,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="language"></param>
         /// <returns></returns>
         public static string? TwoLetterCode(this Language? language)
-            => (AttributeHelper<Language?>.GetAttribute(language) as LanguageAttribute)?.TwoLetterCode;
+            => (AttributeHelper<Language?>.GetHumanReadableAttribute(language) as LanguageAttribute)?.TwoLetterCode;
 
         #endregion
 
@@ -1207,7 +1207,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="langSelect">LanguageSelection value to convert</param>
         /// <returns>String representing the value, if possible</returns>
         public static string? LongName(this LanguageSelection? langSelect)
-            => AttributeHelper<LanguageSelection?>.GetAttribute(langSelect)?.LongName;
+            => AttributeHelper<LanguageSelection?>.GetHumanReadableAttribute(langSelect)?.LongName;
 
         /// <summary>
         /// Get the LanguageSelection enum value for a given string
@@ -1260,7 +1260,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="mediaType"></param>
         /// <returns></returns>
         public static string? LongName(this MediaType? mediaType)
-            => AttributeHelper<MediaType?>.GetAttribute(mediaType)?.LongName;
+            => AttributeHelper<MediaType?>.GetHumanReadableAttribute(mediaType)?.LongName;
 
         /// <summary>
         /// Get the Redump shortnames for each known media type
@@ -1268,7 +1268,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="mediaType"></param>
         /// <returns></returns>
         public static string? ShortName(this MediaType? mediaType)
-            => AttributeHelper<MediaType?>.GetAttribute(mediaType)?.ShortName;
+            => AttributeHelper<MediaType?>.GetHumanReadableAttribute(mediaType)?.ShortName;
 
         #endregion
 
@@ -1280,7 +1280,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="packType"></param>
         /// <returns></returns>
         public static string? LongName(this PackType packType)
-            => AttributeHelper<PackType>.GetAttribute(packType)?.LongName;
+            => AttributeHelper<PackType>.GetHumanReadableAttribute(packType)?.LongName;
 
         /// <summary>
         /// Get the human readable name for a PackType
@@ -1288,7 +1288,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="packType"></param>
         /// <returns></returns>
         public static string? LongName(this PackType? packType)
-            => AttributeHelper<PackType?>.GetAttribute(packType)?.LongName;
+            => AttributeHelper<PackType?>.GetHumanReadableAttribute(packType)?.LongName;
 
         /// <summary>
         /// Get the URL path part for a PackType
@@ -1296,7 +1296,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="packType"></param>
         /// <returns></returns>
         public static string? ShortName(this PackType packType)
-            => AttributeHelper<PackType>.GetAttribute(packType)?.ShortName;
+            => AttributeHelper<PackType>.GetHumanReadableAttribute(packType)?.ShortName;
 
         /// <summary>
         /// Get the URL path part for a PackType
@@ -1304,7 +1304,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="packType"></param>
         /// <returns></returns>
         public static string? ShortName(this PackType? packType)
-            => AttributeHelper<PackType?>.GetAttribute(packType)?.ShortName;
+            => AttributeHelper<PackType?>.GetHumanReadableAttribute(packType)?.ShortName;
 
         /// <summary>
         /// Get the Region enum value for a given string
@@ -1344,7 +1344,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="region"></param>
         /// <returns></returns>
         public static string? LongName(this Region region)
-            => AttributeHelper<Region>.GetAttribute(region)?.LongName;
+            => AttributeHelper<Region>.GetHumanReadableAttribute(region)?.LongName;
 
         /// <summary>
         /// Get the Redump longnames for each known region
@@ -1352,7 +1352,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="region"></param>
         /// <returns></returns>
         public static string? LongName(this Region? region)
-            => AttributeHelper<Region?>.GetAttribute(region)?.LongName;
+            => AttributeHelper<Region?>.GetHumanReadableAttribute(region)?.LongName;
 
         /// <summary>
         /// Get the Redump shortnames for each known region
@@ -1360,7 +1360,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="region"></param>
         /// <returns></returns>
         public static string? ShortName(this Region region)
-            => AttributeHelper<Region>.GetAttribute(region)?.ShortName;
+            => AttributeHelper<Region>.GetHumanReadableAttribute(region)?.ShortName;
 
         /// <summary>
         /// Get the Redump shortnames for each known region
@@ -1368,7 +1368,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="region"></param>
         /// <returns></returns>
         public static string? ShortName(this Region? region)
-            => AttributeHelper<Region?>.GetAttribute(region)?.ShortName;
+            => AttributeHelper<Region?>.GetHumanReadableAttribute(region)?.ShortName;
 
         /// <summary>
         /// Get the Region enum value for a given string
@@ -1631,25 +1631,25 @@ namespace SabreTools.RedumpLib.Data
         /// Get the HTML version for each known site code
         /// </summary>
         public static string? LongName(this SiteCode siteCode)
-            => AttributeHelper<SiteCode>.GetAttribute(siteCode)?.LongName;
+            => AttributeHelper<SiteCode>.GetHumanReadableAttribute(siteCode)?.LongName;
 
         /// <summary>
         /// Get the HTML version for each known site code
         /// </summary>
         public static string? LongName(this SiteCode? siteCode)
-            => AttributeHelper<SiteCode?>.GetAttribute(siteCode)?.LongName;
+            => AttributeHelper<SiteCode?>.GetHumanReadableAttribute(siteCode)?.LongName;
 
         /// <summary>
         /// Get the short tag for each known site code
         /// </summary>
         public static string? ShortName(this SiteCode siteCode)
-            => AttributeHelper<SiteCode>.GetAttribute(siteCode)?.ShortName;
+            => AttributeHelper<SiteCode>.GetHumanReadableAttribute(siteCode)?.ShortName;
 
         /// <summary>
         /// Get the short tag for each known site code
         /// </summary>
         public static string? ShortName(this SiteCode? siteCode)
-            => AttributeHelper<SiteCode?>.GetAttribute(siteCode)?.ShortName;
+            => AttributeHelper<SiteCode?>.GetHumanReadableAttribute(siteCode)?.ShortName;
 
         #endregion
 
@@ -1661,7 +1661,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="sortCategory"></param>
         /// <returns></returns>
         public static string? LongName(this SortCategory sortCategory)
-            => AttributeHelper<SortCategory>.GetAttribute(sortCategory)?.LongName;
+            => AttributeHelper<SortCategory>.GetHumanReadableAttribute(sortCategory)?.LongName;
 
         /// <summary>
         /// Get the human readable name for a SortCategory
@@ -1669,7 +1669,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="sortCategory"></param>
         /// <returns></returns>
         public static string? LongName(this SortCategory? sortCategory)
-            => AttributeHelper<SortCategory?>.GetAttribute(sortCategory)?.LongName;
+            => AttributeHelper<SortCategory?>.GetHumanReadableAttribute(sortCategory)?.LongName;
 
         /// <summary>
         /// Get the URL path part for a SortCategory
@@ -1677,7 +1677,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="sortCategory"></param>
         /// <returns></returns>
         public static string? ShortName(this SortCategory sortCategory)
-            => AttributeHelper<SortCategory>.GetAttribute(sortCategory)?.ShortName;
+            => AttributeHelper<SortCategory>.GetHumanReadableAttribute(sortCategory)?.ShortName;
 
         /// <summary>
         /// Get the URL path part for a SortCategory
@@ -1685,7 +1685,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="sortCategory"></param>
         /// <returns></returns>
         public static string? ShortName(this SortCategory? sortCategory)
-            => AttributeHelper<SortCategory?>.GetAttribute(sortCategory)?.ShortName;
+            => AttributeHelper<SortCategory?>.GetHumanReadableAttribute(sortCategory)?.ShortName;
 
         /// <summary>
         /// Get the Region enum value for a given string
@@ -1725,7 +1725,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="sortDirection"></param>
         /// <returns></returns>
         public static string? LongName(this SortDirection sortDirection)
-            => AttributeHelper<SortDirection>.GetAttribute(sortDirection)?.LongName;
+            => AttributeHelper<SortDirection>.GetHumanReadableAttribute(sortDirection)?.LongName;
 
         /// <summary>
         /// Get the human readable name for a SortDirection
@@ -1733,7 +1733,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="sortDirection"></param>
         /// <returns></returns>
         public static string? LongName(this SortDirection? sortDirection)
-            => AttributeHelper<SortDirection?>.GetAttribute(sortDirection)?.LongName;
+            => AttributeHelper<SortDirection?>.GetHumanReadableAttribute(sortDirection)?.LongName;
 
         /// <summary>
         /// Get the URL path part for a SortDirection
@@ -1741,7 +1741,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="sortDirection"></param>
         /// <returns></returns>
         public static string? ShortName(this SortDirection sortDirection)
-            => AttributeHelper<SortDirection>.GetAttribute(sortDirection)?.ShortName;
+            => AttributeHelper<SortDirection>.GetHumanReadableAttribute(sortDirection)?.ShortName;
 
         /// <summary>
         /// Get the URL path part for a SortDirection
@@ -1749,7 +1749,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="sortDirection"></param>
         /// <returns></returns>
         public static string? ShortName(this SortDirection? sortDirection)
-            => AttributeHelper<SortDirection?>.GetAttribute(sortDirection)?.ShortName;
+            => AttributeHelper<SortDirection?>.GetHumanReadableAttribute(sortDirection)?.ShortName;
 
         /// <summary>
         /// Get the Region enum value for a given string
@@ -1940,7 +1940,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="system"></param>
         /// <returns></returns>
         public static string? LongName(this RedumpSystem system)
-            => AttributeHelper<RedumpSystem>.GetAttribute(system)?.LongName;
+            => AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system)?.LongName;
 
         /// <summary>
         /// Get the Redump longnames for each known system
@@ -1948,7 +1948,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="system"></param>
         /// <returns></returns>
         public static string? LongName(this RedumpSystem? system)
-            => AttributeHelper<RedumpSystem?>.GetAttribute(system)?.LongName;
+            => AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system)?.LongName;
 
         /// <summary>
         /// Get the Redump shortnames for each known system
@@ -1956,7 +1956,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="system"></param>
         /// <returns></returns>
         public static string? ShortName(this RedumpSystem system)
-            => AttributeHelper<RedumpSystem>.GetAttribute(system)?.ShortName;
+            => AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system)?.ShortName;
 
         /// <summary>
         /// Get the Redump shortnames for each known system
@@ -1964,7 +1964,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="system"></param>
         /// <returns></returns>
         public static string? ShortName(this RedumpSystem? system)
-            => AttributeHelper<RedumpSystem?>.GetAttribute(system)?.ShortName;
+            => AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system)?.ShortName;
 
         /// <summary>
         /// Determine the category of a system
@@ -1976,115 +1976,115 @@ namespace SabreTools.RedumpLib.Data
         /// Determine the category of a system
         /// </summary>
         public static SystemCategory GetCategory(this RedumpSystem? system)
-            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.Category ?? SystemCategory.NONE;
+            => (AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.Category ?? SystemCategory.NONE;
 
         /// <summary>
         /// Determine if a system is available in Redump yet
         /// </summary>
         public static bool IsAvailable(this RedumpSystem system)
-            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.Available ?? false;
+            => (AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.Available ?? false;
 
         /// <summary>
         /// Determine if a system is available in Redump yet
         /// </summary>
         public static bool IsAvailable(this RedumpSystem? system)
-            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.Available ?? false;
+            => (AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.Available ?? false;
 
         /// <summary>
         /// Determine if a system is restricted to dumpers
         /// </summary>
         public static bool IsBanned(this RedumpSystem system)
-            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.IsBanned ?? false;
+            => (AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.IsBanned ?? false;
 
         /// <summary>
         /// Determine if a system is restricted to dumpers
         /// </summary>
         public static bool IsBanned(this RedumpSystem? system)
-            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.IsBanned ?? false;
+            => (AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.IsBanned ?? false;
 
         /// <summary>
         /// Determine if a system has a CUE pack
         /// </summary>
         public static bool HasCues(this RedumpSystem system)
-            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.HasCues ?? false;
+            => (AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasCues ?? false;
 
         /// <summary>
         /// Determine if a system has a CUE pack
         /// </summary>
         public static bool HasCues(this RedumpSystem? system)
-            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasCues ?? false;
+            => (AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasCues ?? false;
 
         /// <summary>
         /// Determine if a system has a DAT
         /// </summary>
         public static bool HasDat(this RedumpSystem system)
-            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.HasDat ?? false;
+            => (AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasDat ?? false;
 
         /// <summary>
         /// Determine if a system has a DAT
         /// </summary>
         public static bool HasDat(this RedumpSystem? system)
-            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasDat ?? false;
+            => (AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasDat ?? false;
 
         /// <summary>
         /// Determine if a system has a decrypted keys pack
         /// </summary>
         public static bool HasDkeys(this RedumpSystem system)
-            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.HasDkeys ?? false;
+            => (AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasDkeys ?? false;
 
         /// <summary>
         /// Determine if a system has a decrypted keys pack
         /// </summary>
         public static bool HasDkeys(this RedumpSystem? system)
-            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasDkeys ?? false;
+            => (AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasDkeys ?? false;
 
         /// <summary>
         /// Determine if a system has a GDI pack
         /// </summary>
         public static bool HasGdi(this RedumpSystem system)
-            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.HasGdi ?? false;
+            => (AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasGdi ?? false;
 
         /// <summary>
         /// Determine if a system has a GDI pack
         /// </summary>
         public static bool HasGdi(this RedumpSystem? system)
-            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasGdi ?? false;
+            => (AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasGdi ?? false;
 
         /// <summary>
         /// Determine if a system has a keys pack
         /// </summary>
         public static bool HasKeys(this RedumpSystem system)
-            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.HasKeys ?? false;
+            => (AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasKeys ?? false;
 
         /// <summary>
         /// Determine if a system has a keys pack
         /// </summary>
         public static bool HasKeys(this RedumpSystem? system)
-            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasKeys ?? false;
+            => (AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasKeys ?? false;
 
         /// <summary>
         /// Determine if a system has an LSD pack
         /// </summary>
         public static bool HasLsd(this RedumpSystem system)
-            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.HasLsd ?? false;
+            => (AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasLsd ?? false;
 
         /// <summary>
         /// Determine if a system has an LSD pack
         /// </summary>
         public static bool HasLsd(this RedumpSystem? system)
-            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasLsd ?? false;
+            => (AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasLsd ?? false;
 
         /// <summary>
         /// Determine if a system has an SBI pack
         /// </summary>
         public static bool HasSbi(this RedumpSystem system)
-            => (AttributeHelper<RedumpSystem>.GetAttribute(system) as SystemAttribute)?.HasSbi ?? false;
+            => (AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasSbi ?? false;
 
         /// <summary>
         /// Determine if a system has an SBI pack
         /// </summary>
         public static bool HasSbi(this RedumpSystem? system)
-            => (AttributeHelper<RedumpSystem?>.GetAttribute(system) as SystemAttribute)?.HasSbi ?? false;
+            => (AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasSbi ?? false;
 
         /// <summary>
         /// Get the RedumpSystem enum value for a given string
@@ -2124,7 +2124,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="category"></param>
         /// <returns></returns>
         public static string? LongName(this SystemCategory? category)
-            => AttributeHelper<SystemCategory?>.GetAttribute(category)?.LongName;
+            => AttributeHelper<SystemCategory?>.GetHumanReadableAttribute(category)?.LongName;
 
         #endregion
 
@@ -2136,7 +2136,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="yesno"></param>
         /// <returns></returns>
         public static string LongName(this YesNo? yesno)
-            => AttributeHelper<YesNo?>.GetAttribute(yesno)?.LongName ?? "Yes/No";
+            => AttributeHelper<YesNo?>.GetHumanReadableAttribute(yesno)?.LongName ?? "Yes/No";
 
         /// <summary>
         /// Get the YesNo enum value for a given nullable boolean

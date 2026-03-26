@@ -9,7 +9,7 @@ namespace SabreTools.RedumpLib.Attributes
         /// </summary>
         /// <param name="value">Value to use</param>
         /// <returns>HumanReadableAttribute attached to the value</returns>
-        public static HumanReadableAttribute? GetAttribute(T value)
+        public static HumanReadableAttribute? GetHumanReadableAttribute(T value)
         {
             // Null value in, null value out
             if (value is null)
