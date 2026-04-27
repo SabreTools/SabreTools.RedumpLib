@@ -64,6 +64,7 @@ namespace SabreTools.RedumpLib
             SiteCode.BandaiID,
             SiteCode.BethesdaID,
             SiteCode.CDProjektID,
+            SiteCode.DisneyInteractiveID,
             SiteCode.EidosID,
             SiteCode.ElectronicArtsID,
             SiteCode.FoxInteractiveID,

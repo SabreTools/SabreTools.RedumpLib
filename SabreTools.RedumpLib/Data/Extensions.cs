@@ -1534,6 +1534,7 @@ namespace SabreTools.RedumpLib.Data
                 SiteCode.BandaiID => true,
                 SiteCode.BethesdaID => true,
                 SiteCode.CDProjektID => true,
+                SiteCode.DisneyInteractiveID => true,
                 SiteCode.EidosID => true,
                 SiteCode.ElectronicArtsID => true,
                 SiteCode.FoxInteractiveID => true,

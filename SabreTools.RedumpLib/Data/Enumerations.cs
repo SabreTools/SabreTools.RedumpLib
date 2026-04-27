@@ -3646,6 +3646,10 @@ namespace SabreTools.RedumpLib.Data
         DiscTitleNonLatin,
 
         // This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Disney Interactive ID</b>", LongName = "<b>Disney Interactive ID</b>:")]
+        DisneyInteractiveID,
+
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>DMI</b>:", LongName = "<b>DMI</b>:")]
         DMIHash,
 
