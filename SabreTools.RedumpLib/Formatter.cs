@@ -46,12 +46,17 @@ namespace SabreTools.RedumpLib
             SiteCode.BBFCRegistrationNumber,
             SiteCode.DiscHologramID,
             SiteCode.DNASDiscID,
+            SiteCode.DiscID,
+            SiteCode.CoverID,
             SiteCode.ISBN,
             SiteCode.ISSN,
             SiteCode.PPN,
             SiteCode.VFCCode,
 
             SiteCode.CompatibleOS,
+            SiteCode.AdditionalBCAData,
+
+            // Legacy Codes
             SiteCode.Genre,
             SiteCode.Series,
             SiteCode.PostgapType,
@@ -60,6 +65,7 @@ namespace SabreTools.RedumpLib
             // Publisher / Company IDs
             SiteCode.TwoKGamesID,
             SiteCode.AcclaimID,
+            SiteCode.AccoladeID,
             SiteCode.ActivisionID,
             SiteCode.BandaiID,
             SiteCode.BethesdaID,

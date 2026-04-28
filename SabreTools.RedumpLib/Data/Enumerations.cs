@@ -3606,8 +3606,16 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:ACC]", LongName = "<b>Acclaim ID</b>:")]
         AcclaimID,
 
+        // This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Accolade ID</b>:", LongName = "<b>Accolade ID</b>:")]
+        AccoladeID,
+
         [HumanReadable(ShortName = "[T:ACT]", LongName = "<b>Activision ID</b>:")]
         ActivisionID,
+
+        // This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Additional BCA Data</b>:", LongName = "<b>Additional BCA Data</b>:")]
+        AdditionalBCAData,
 
         [HumanReadable(ShortName = "[T:ALT]", LongName = "<b>Alternative Title</b>:")]
         AlternativeTitle,
@@ -3638,8 +3646,16 @@ namespace SabreTools.RedumpLib.Data
         CompatibleOS,
 
         // This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Cover ID</b>:", LongName = "<b>Cover ID</b>:")]
+        CoverID,
+
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Disc Hologram ID</b>:", LongName = "<b>Disc Hologram ID</b>:")]
         DiscHologramID,
+
+        // This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Disc ID</b>:", LongName = "<b>Disc ID</b>:")]
+        DiscID,
 
         // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Disc Title (non-Latin)</b>:", LongName = "<b>Disc Title (non-Latin)</b>:")]

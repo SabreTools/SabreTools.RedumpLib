@@ -1017,11 +1017,14 @@ namespace SabreTools.RedumpLib.Test.Data
         private static readonly SiteCode?[] _commentSiteCodes =
         [
             // Identifying Info
+            SiteCode.AdditionalBCAData,
             SiteCode.AlternativeTitle,
             SiteCode.AlternativeForeignTitle,
             SiteCode.BBFCRegistrationNumber,
             SiteCode.CompatibleOS,
+            SiteCode.CoverID,
             SiteCode.DiscHologramID,
+            SiteCode.DiscID,
             SiteCode.DiscTitleNonLatin,
             SiteCode.DMIHash,
             SiteCode.DNASDiscID,
@@ -1057,6 +1060,7 @@ namespace SabreTools.RedumpLib.Test.Data
             // Publisher / Company IDs
             SiteCode.TwoKGamesID,
             SiteCode.AcclaimID,
+            SiteCode.AccoladeID,
             SiteCode.ActivisionID,
             SiteCode.BandaiID,
             SiteCode.BethesdaID,

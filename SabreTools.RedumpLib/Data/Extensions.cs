@@ -1490,11 +1490,14 @@ namespace SabreTools.RedumpLib.Data
             return siteCode switch
             {
                 // Identifying Info
+                SiteCode.AdditionalBCAData => true,
                 SiteCode.AlternativeTitle => true,
                 SiteCode.AlternativeForeignTitle => true,
                 SiteCode.BBFCRegistrationNumber => true,
                 SiteCode.CompatibleOS => true,
+                SiteCode.CoverID => true,
                 SiteCode.DiscHologramID => true,
+                SiteCode.DiscID => true,
                 SiteCode.DiscTitleNonLatin => true,
                 SiteCode.DMIHash => true,
                 SiteCode.DNASDiscID => true,
@@ -1530,6 +1533,7 @@ namespace SabreTools.RedumpLib.Data
                 // Publisher / Company IDs
                 SiteCode.TwoKGamesID => true,
                 SiteCode.AcclaimID => true,
+                SiteCode.AccoladeID => true,
                 SiteCode.ActivisionID => true,
                 SiteCode.BandaiID => true,
                 SiteCode.BethesdaID => true,
