@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
 
-namespace SabreTools.RedumpLib.Web
+namespace SabreTools.RedumpLib.RedumpOrg
 {
     /// <summary>
     /// Contains logic for dealing with packs

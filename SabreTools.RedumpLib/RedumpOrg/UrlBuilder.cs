@@ -4,7 +4,7 @@ using SabreTools.RedumpLib.Data;
 
 // TODO: Errors should validate number or number range (# or #-#)
 
-namespace SabreTools.RedumpLib.Web
+namespace SabreTools.RedumpLib.RedumpOrg
 {
     /// <summary>
     /// URL builder helper
@@ -128,7 +128,11 @@ namespace SabreTools.RedumpLib.Web
                     sb.Append($"{subpath.ShortName()}/");
                     break;
 
-                default: break;
+                // WIP and null are invalid for a disc page
+                case DiscSubpath.WIP:
+                case null:
+                default:
+                    break;
             }
 
             return sb.ToString();

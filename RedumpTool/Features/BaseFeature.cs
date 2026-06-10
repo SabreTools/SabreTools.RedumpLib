@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using SabreTools.CommandLine;
 using SabreTools.CommandLine.Inputs;
-using SabreTools.RedumpLib.Web;
+using SabreTools.RedumpLib.RedumpOrg;
 
 namespace RedumpTool.Features
 {

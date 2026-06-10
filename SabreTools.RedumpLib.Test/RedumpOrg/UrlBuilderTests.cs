@@ -1,9 +1,9 @@
 using System;
 using SabreTools.RedumpLib.Data;
-using SabreTools.RedumpLib.Web;
+using SabreTools.RedumpLib.RedumpOrg;
 using Xunit;
 
-namespace SabreTools.RedumpLib.Test.Web
+namespace SabreTools.RedumpLib.Test.RedumpOrg
 {
     public class UrlBuilderTests
     {

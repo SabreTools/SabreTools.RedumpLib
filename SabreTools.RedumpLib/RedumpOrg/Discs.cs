@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
+using SabreTools.RedumpLib.Web;
 
-namespace SabreTools.RedumpLib.Web
+namespace SabreTools.RedumpLib.RedumpOrg
 {
     /// <summary>
     /// Contains logic for dealing with disc pages

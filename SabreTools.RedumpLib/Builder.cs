@@ -11,7 +11,7 @@ using System.Xml;
 using Newtonsoft.Json;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Data.Sections;
-using SabreTools.RedumpLib.Web;
+using SabreTools.RedumpLib.RedumpOrg;
 
 namespace SabreTools.RedumpLib
 {
