@@ -166,10 +166,13 @@ namespace SabreTools.RedumpLib.Test
             var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
+                TracksAndWriteOffsets = new TracksAndWriteOffsetsSection
+                {
+                    ClrMameProData = "<rom name=\"X\" size=\"50050629633\" crc=\"X\" md5=\"X\" sha1=\"X\" />",
+                },
                 SizeAndChecksums = new SizeAndChecksumsSection
                 {
                     Layerbreak = 12345,
-                    Size = 50_050_629_633,
                 },
             };
 
@@ -236,9 +239,9 @@ namespace SabreTools.RedumpLib.Test
             var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
-                SizeAndChecksums = new SizeAndChecksumsSection
+                TracksAndWriteOffsets = new TracksAndWriteOffsetsSection
                 {
-                    Size = 25_025_314_817,
+                    ClrMameProData = "<rom name=\"X\" size=\"25025314817\" crc=\"X\" md5=\"X\" sha1=\"X\" />",
                 },
             };
 

@@ -276,6 +276,9 @@ namespace SabreTools.RedumpLib
             var system = section?.System;
             bool reverseOrder = system.HasReversedRingcodes();
 
+            // Extract the size from the hashes
+            long size = Extensions.ExtractSizeFromHashData(tawo?.ClrMameProData);
+
             output.AppendLine("Common Disc Info:");
 
             AddIfExists(output, Template.TitleField, section?.Title, 1);
@@ -286,7 +289,7 @@ namespace SabreTools.RedumpLib
             AddIfExists(output, Template.MediaTypeField, GetFixedMediaType(
                     section?.Media.ToMediaType(),
                     sac?.PICIdentifier,
-                    sac?.Size,
+                    size,
                     sac?.Layerbreak,
                     sac?.Layerbreak2,
                     sac?.Layerbreak3),
@@ -515,11 +518,6 @@ namespace SabreTools.RedumpLib
             {
                 AddIfExists(output, Template.LayerbreakField, section?.Layerbreak, 1);
             }
-
-            AddIfExists(output, Template.SizeField, section?.Size.ToString(), 1);
-            AddIfExists(output, Template.CRC32Field, section?.CRC32, 1);
-            AddIfExists(output, Template.MD5Field, section?.MD5, 1);
-            AddIfExists(output, Template.SHA1Field, section?.SHA1, 1);
         }
 
         /// <summary>

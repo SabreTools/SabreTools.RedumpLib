@@ -153,10 +153,6 @@ namespace SabreTools.RedumpLib.Test
                     Layerbreak = 0,
                     Layerbreak2 = 1,
                     Layerbreak3 = 2,
-                    Size = 12345,
-                    CRC32 = "CRC32",
-                    MD5 = "MD5",
-                    SHA1 = "SHA1",
                 },
 
                 DumpingInfo = new DumpingInfoSection()
