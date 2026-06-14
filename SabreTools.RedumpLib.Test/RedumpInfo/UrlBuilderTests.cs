@@ -1,7 +1,6 @@
 using System;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.RedumpInfo;
-using SabreTools.RedumpLib.RedumpInfo.Data;
 using Xunit;
 
 namespace SabreTools.RedumpLib.Test.RedumpInfo

@@ -3,22 +3,6 @@ using SabreTools.RedumpLib.Attributes;
 namespace SabreTools.RedumpLib.RedumpInfo.Data
 {
     /// <summary>
-    /// List of all disc subpaths
-    /// </summary>
-    public enum DiscSubpath
-    {
-        [HumanReadable(LongName = "Cuesheet", ShortName = "cue")]
-        Cuesheet,
-
-        [HumanReadable(LongName = "Edit", ShortName = "edit")]
-        Edit,
-
-        // Placeholder for the linked queue history page, not an actual subpath
-        [HumanReadable(LongName = "History", ShortName = "history")]
-        History,
-    }
-
-    /// <summary>
     /// Dump status
     /// </summary>
     public enum DumpStatus

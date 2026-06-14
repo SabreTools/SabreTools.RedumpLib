@@ -3,46 +3,6 @@ using SabreTools.RedumpLib.Attributes;
 namespace SabreTools.RedumpLib.RedumpOrg.Data
 {
     /// <summary>
-    /// List of all disc subpaths
-    /// </summary>
-    public enum DiscSubpath
-    {
-        [HumanReadable(LongName = "Changes", ShortName = "changes")]
-        Changes,
-
-        [HumanReadable(LongName = "Cuesheet", ShortName = "cue")]
-        Cuesheet,
-
-        [HumanReadable(LongName = "Edit", ShortName = "edit")]
-        Edit,
-
-        [HumanReadable(LongName = "GDI", ShortName = "gdi")]
-        GDI,
-
-        [HumanReadable(LongName = "Key", ShortName = "key")]
-        Key,
-
-        [HumanReadable(LongName = "LSD", ShortName = "lsd")]
-        LSD,
-
-        [HumanReadable(LongName = "MD5", ShortName = "md5")]
-        MD5,
-
-        [HumanReadable(LongName = "SBI", ShortName = "sbi")]
-        SBI,
-
-        [HumanReadable(LongName = "SFV", ShortName = "sfv")]
-        SFV,
-
-        [HumanReadable(LongName = "SHA-1", ShortName = "sha1")]
-        SHA1,
-
-        // Placeholder for the linked new disc page, not an actual subpath
-        [HumanReadable(Available = false, LongName = "WIP", ShortName = "wip")]
-        WIP,
-    }
-
-    /// <summary>
     /// Dump status
     /// </summary>
     public enum DumpStatus

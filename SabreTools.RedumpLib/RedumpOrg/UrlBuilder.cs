@@ -129,6 +129,10 @@ namespace SabreTools.RedumpLib.RedumpOrg
                     sb.Append($"{subpath.ShortName()}/");
                     break;
 
+                // redump.info subpaths that don't have equivilent paths
+                case DiscSubpath.History:
+                    break;
+
                 // WIP and null are invalid for a disc page
                 case DiscSubpath.WIP:
                 case null:

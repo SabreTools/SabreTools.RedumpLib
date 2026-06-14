@@ -42,6 +42,60 @@ namespace SabreTools.RedumpLib.Data
     }
 
     /// <summary>
+    /// List of all disc subpaths
+    /// </summary>
+    public enum DiscSubpath
+    {
+        /// <remarks>Only in redump.org</remarks>
+        [HumanReadable(LongName = "Changes", ShortName = "changes")]
+        Changes,
+
+        [HumanReadable(LongName = "Cuesheet", ShortName = "cue")]
+        Cuesheet,
+
+        [HumanReadable(LongName = "Edit", ShortName = "edit")]
+        Edit,
+
+        /// <remarks>Only in redump.org</remarks>
+        [HumanReadable(LongName = "GDI", ShortName = "gdi")]
+        GDI,
+
+        /// <remarks>Only in redump.info</remarks>
+        // Placeholder for the linked queue history page, not an actual subpath
+        [HumanReadable(LongName = "History", ShortName = "history")]
+        History,
+
+        /// <remarks>Only in redump.org</remarks>
+        [HumanReadable(LongName = "Key", ShortName = "key")]
+        Key,
+
+        /// <remarks>Only in redump.org</remarks>
+        [HumanReadable(LongName = "LSD", ShortName = "lsd")]
+        LSD,
+
+        /// <remarks>Only in redump.org</remarks>
+        [HumanReadable(LongName = "MD5", ShortName = "md5")]
+        MD5,
+
+        /// <remarks>Only in redump.org</remarks>
+        [HumanReadable(LongName = "SBI", ShortName = "sbi")]
+        SBI,
+
+        /// <remarks>Only in redump.org</remarks>
+        [HumanReadable(LongName = "SFV", ShortName = "sfv")]
+        SFV,
+
+        /// <remarks>Only in redump.org</remarks>
+        [HumanReadable(LongName = "SHA-1", ShortName = "sha1")]
+        SHA1,
+
+        /// <remarks>Only in redump.org</remarks>
+        // Placeholder for the linked new disc page, not an actual subpath
+        [HumanReadable(Available = false, LongName = "WIP", ShortName = "wip")]
+        WIP,
+    }
+
+    /// <summary>
     /// List of all disc langauges
     /// </summary>
     /// <remarks>https://www.loc.gov/standards/iso639-2/php/code_list.php</remarks>
