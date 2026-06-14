@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.RedumpOrg;
-using SabreTools.RedumpLib.RedumpOrg.Data;
 
 namespace SabreTools.RedumpLib
 {
