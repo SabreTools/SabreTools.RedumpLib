@@ -9,12 +9,14 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using SabreTools.RedumpLib.RedumpOrg.Data;
+using SabreTools.RedumpLib.RedumpInfo.Data;
 using SabreTools.RedumpLib.Web;
+using static SabreTools.RedumpLib.RedumpOrg.Data.Extensions;
 
-namespace SabreTools.RedumpLib.RedumpOrg
+namespace SabreTools.RedumpLib.RedumpInfo
 {
-    public class RedumpClient
+    // TODO: Nearly every method here needs to be validated
+    public class Client
     {
         #region Properties
 
@@ -91,6 +93,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <summary>
         /// Login page URL template
         /// </summary>
+        /// TODO: Fix this once the login page is confirmed
         public const string LoginUrl = "http://forum.redump.org/login/";
 
         #endregion
@@ -98,7 +101,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <summary>
         /// Constructor
         /// </summary>
-        public RedumpClient()
+        public Client()
         {
 #if NETCOREAPP
             _internalClient = new HttpClient(new HttpClientHandler { UseCookies = true });
@@ -123,7 +126,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
                 return false;
 
             // Try logging in with the supplied credentials otherwise
-            var redumpClient = new RedumpClient();
+            var redumpClient = new Client();
             return await redumpClient.Login(username, password);
         }
 
@@ -174,7 +177,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
 
                     // Get the current token from the login page
                     var loginPage = await DownloadString(LoginUrl);
-                    string token = Constants.TokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
+                    string token = RedumpOrg.Data.Constants.TokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
 
 #if NETCOREAPP
                     // Construct the login request
@@ -383,86 +386,41 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <summary>
         /// Process a Redump discs page as a list of possible IDs or disc page
         /// </summary>
-        /// <param name="antimodchip">Anti-modchip status to filter, null to omit</param>
-        /// <param name="barcode">Add no barcode search to filter, false to omit</param>
-        /// <param name="category">Add category to filter, null to omit</param>
-        /// <param name="discType">Disc type extension to filter, null to omit</param>
+        /// <param name="comments">Add comments to filter, null to omit</param>
         /// <param name="dumper">Add dumper name to filter, null to omit</param>
-        /// <param name="edc">EDC status to filter, null to omit</param>
         /// <param name="edition">Add edition to filter, null to omit</param>
-        /// <param name="errors">Add error count or range, null to omit</param>
-        /// <param name="language">Add language to filter, null to omit</param>
-        /// <param name="letter">Starts with letter or '~' for numbers, null to omit</param>
-        /// <param name="libcrypt">LibCrypt status to filter, null to omit</param>
-        /// <param name="media">Non-specific media type to filter, null to omit</param>
-        /// <param name="offset">Write offset to filter, null to omit</param>
         /// <param name="quicksearch">Generic text search to filter, null to omit</param>
         /// <param name="region">Add region to filter, null to omit</param>
-        /// <param name="ringcode">Add ringcode to filter, null to omit</param>
         /// <param name="sort">Add sorting type, null to omit</param>
         /// <param name="sortDir">Add sorting direction, null to omit</param>
         /// <param name="status">Add status to filter, null to omit</param>
         /// <param name="system">Add system to filter, null to omit</param>
-        /// <param name="tracks">Track count up to 99, null to omit</param>
-        /// <param name="comments">Marks search as comments field only, false to omit; incompatible with <paramref name="contents"/> or <paramref name="protection"/></param>
-        /// <param name="contents">Marks search as contents field only, false to omit; incompatible with <paramref name="comments"/> or <paramref name="protection"/></param>
-        /// <param name="protection">Marks search as protection field only, false to omit; incompatible with <paramref name="comments"/> or <paramref name="contents"/></param>
         /// <param name="page">Page number, null to omit</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleDiscsPage(bool? antimodchip = null,
-            bool barcode = false,
-            DiscCategory? category = null,
-            DiscType? discType = null,
+        public async Task<List<int>?> CheckSingleDiscsPage(string? comments = null,
             string? dumper = null,
-            YesNo? edc = null,
             string? edition = null,
-            string? errors = null,
-            Language? language = null,
-            char? letter = null,
-            bool? libcrypt = null,
-            MediaType? media = null,
-            int? offset = null,
             string? quicksearch = null,
-            Region? region = null,
-            string? ringcode = null,
-            SortCategory? sort = null,
-            SortDirection? sortDir = null,
+            RedumpOrg.Data.Region? region = null,
+            RedumpOrg.Data.SortCategory? sort = null,
+            RedumpOrg.Data.SortDirection? sortDir = null,
             DumpStatus? status = null,
-            RedumpSystem? system = null,
-            int? tracks = null,
-            bool comments = false,
-            bool contents = false,
-            bool protection = false,
+            RedumpOrg.Data.RedumpSystem? system = null,
             int? page = null)
         {
             // Normalize the search query, if needed
             if (quicksearch is not null)
                 quicksearch = NormalizeQuery(quicksearch);
 
-            string url = UrlBuilder.BuildDiscsUrl(antimodchip,
-                barcode,
-                category,
-                discType,
+            string url = UrlBuilder.BuildDiscsUrl(comments,
                 dumper,
-                edc,
                 edition,
-                errors,
-                language,
-                letter,
-                libcrypt,
-                media,
-                offset,
                 quicksearch,
                 region,
-                ringcode,
                 sort,
                 sortDir,
                 status,
                 system,
-                tracks,
-                comments,
-                contents,
-                protection,
                 page);
 
             List<int> ids = [];
@@ -488,7 +446,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             if (dumpsPage.Contains("<b>Download:</b>"))
             {
                 if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Single disc page");
-                var value = Constants.SfvRegex.Match(dumpsPage).Groups[1].Value;
+                var value = RedumpOrg.Data.Constants.SfvRegex.Match(dumpsPage).Groups[1].Value;
                 if (int.TryParse(value, out int id))
                     ids.Add(id);
 
@@ -496,7 +454,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             }
 
             // Otherwise, traverse each dump on the page
-            var matches = Constants.DiscRegex.Matches(dumpsPage);
+            var matches = RedumpOrg.Data.Constants.DiscRegex.Matches(dumpsPage);
             foreach (Match? match in matches)
             {
                 if (match is null)
@@ -521,86 +479,41 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// Process a Redump discs page as a list of possible IDs or disc page
         /// </summary>
         /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="antimodchip">Anti-modchip status to filter, null to omit</param>
-        /// <param name="barcode">Add no barcode search to filter, false to omit</param>
-        /// <param name="category">Add category to filter, null to omit</param>
-        /// <param name="discType">Disc type extension to filter, null to omit</param>
+        /// <param name="comments">Add comments to filter, null to omit</param>
         /// <param name="dumper">Add dumper name to filter, null to omit</param>
-        /// <param name="edc">EDC status to filter, null to omit</param>
         /// <param name="edition">Add edition to filter, null to omit</param>
-        /// <param name="errors">Add error count or range, null to omit</param>
-        /// <param name="language">Add language to filter, null to omit</param>
-        /// <param name="letter">Starts with letter or '~' for numbers, null to omit</param>
-        /// <param name="libcrypt">LibCrypt status to filter, null to omit</param>
-        /// <param name="media">Non-specific media type to filter, null to omit</param>
-        /// <param name="offset">Write offset to filter, null to omit</param>
         /// <param name="quicksearch">Generic text search to filter, null to omit</param>
         /// <param name="region">Add region to filter, null to omit</param>
-        /// <param name="ringcode">Add ringcode to filter, null to omit</param>
         /// <param name="sort">Add sorting type, null to omit</param>
         /// <param name="sortDir">Add sorting direction, null to omit</param>
         /// <param name="status">Add status to filter, null to omit</param>
         /// <param name="system">Add system to filter, null to omit</param>
-        /// <param name="tracks">Track count up to 99, null to omit</param>
-        /// <param name="comments">Marks search as comments field only, false to omit; incompatible with <paramref name="contents"/> or <paramref name="protection"/></param>
-        /// <param name="contents">Marks search as contents field only, false to omit; incompatible with <paramref name="comments"/> or <paramref name="protection"/></param>
-        /// <param name="protection">Marks search as protection field only, false to omit; incompatible with <paramref name="comments"/> or <paramref name="contents"/></param>
         /// <param name="page">Page number, null to omit</param>
         /// <param name="discSubpaths">Set of subpaths to download if available, null for all</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
         public async Task<List<int>?> CheckSingleDiscsPage(string? outDir,
-            bool? antimodchip = null,
-            bool barcode = false,
-            DiscCategory? category = null,
-            DiscType? discType = null,
+            string? comments = null,
             string? dumper = null,
-            YesNo? edc = null,
             string? edition = null,
-            string? errors = null,
-            Language? language = null,
-            char? letter = null,
-            bool? libcrypt = null,
-            MediaType? media = null,
-            int? offset = null,
             string? quicksearch = null,
-            Region? region = null,
-            string? ringcode = null,
-            SortCategory? sort = null,
-            SortDirection? sortDir = null,
+            RedumpOrg.Data.Region? region = null,
+            RedumpOrg.Data.SortCategory? sort = null,
+            RedumpOrg.Data.SortDirection? sortDir = null,
             DumpStatus? status = null,
-            RedumpSystem? system = null,
-            int? tracks = null,
-            bool comments = false,
-            bool contents = false,
-            bool protection = false,
+            RedumpOrg.Data.RedumpSystem? system = null,
             int? page = null,
             DiscSubpath[]? discSubpaths = null)
         {
             // Get all IDs from the page
-            List<int>? ids = await CheckSingleDiscsPage(antimodchip,
-                barcode,
-                category,
-                discType,
+            List<int>? ids = await CheckSingleDiscsPage(comments,
                 dumper,
-                edc,
                 edition,
-                errors,
-                language,
-                letter,
-                libcrypt,
-                media,
-                offset,
                 quicksearch,
                 region,
-                ringcode,
                 sort,
                 sortDir,
                 status,
                 system,
-                tracks,
-                comments,
-                contents,
-                protection,
                 page);
             if (ids is null)
             {
@@ -647,7 +560,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             }
 
             // Try to retrieve the data
-            string url = UrlBuilder.BuildDiscsWipUrl();
+            string url = UrlBuilder.BuildQueueUrl();
             string? dumpsPage = await DownloadString(url);
 
             // If the web client failed, return null
@@ -665,7 +578,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             }
 
             // Otherwise, traverse each dump on the page
-            var matches = Constants.NewDiscRegex.Matches(dumpsPage);
+            var matches = RedumpOrg.Data.Constants.NewDiscRegex.Matches(dumpsPage);
             foreach (Match? match in matches)
             {
                 if (match is null)
@@ -749,92 +662,12 @@ namespace SabreTools.RedumpLib.RedumpOrg
         #region Download Helpers
 
         /// <summary>
-        /// Download an individual list, if possible
-        /// </summary>
-        /// <param name="have">True to show "have" discs, false to show "miss" discs</param>
-        /// <param name="username">Username to use</param>
-        /// <param name="system">System for filtering, null to retrieve for all systems at once</param>
-        /// <returns>String containing the page contents if successful, null on error</returns>
-        /// <remarks><paramref name="username"/> may have to match the logged-in user</remarks>
-        public async Task<string?> DownloadSingleList(bool have, string username, RedumpSystem? system)
-        {
-            string systemName = system.ShortName() ?? "all";
-            Console.WriteLine($"Processing {(have ? "have" : "miss")} list for {username} for {systemName}");
-            try
-            {
-                // Try to retrieve the data
-                string listUri = UrlBuilder.BuildListUrl(username, have, system);
-                string? listPage = await DownloadString(listUri);
-
-                if (listPage is null)
-                {
-                    Console.Error.WriteLine($"An error occurred retrieving {(have ? "have" : "miss")} list!");
-                    return null;
-                }
-
-                Console.WriteLine($"{(have ? "Have" : "Miss")} list has been successfully downloaded");
-                return listPage;
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine($"An exception has occurred: {ex}");
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Download an individual list, if possible
-        /// </summary>
-        /// <param name="have">True to show "have" discs, false to show "miss" discs</param>
-        /// <param name="username">Username to use</param>
-        /// <param name="system">System for filtering, null to retrieve for all systems at once</param>
-        /// <param name="outDir">Output directory to save data to</param>
-        /// <returns>True if all data was downloaded, false otherwise</returns>
-        /// <remarks><paramref name="username"/> may have to match the logged-in user</remarks>
-        public async Task<bool> DownloadSingleList(bool have, string username, RedumpSystem? system, string? outDir)
-        {
-            // If no output directory is defined, use the current directory instead
-            if (string.IsNullOrEmpty(outDir))
-                outDir = Environment.CurrentDirectory;
-
-            string systemName = system.ShortName() ?? "all";
-            Console.WriteLine($"Processing {(have ? "have" : "miss")} list for {username} for {systemName}");
-            try
-            {
-                // Try to retrieve the data
-                string? listPage = await DownloadSingleList(have, username, system);
-
-                if (listPage is null)
-                {
-                    Console.Error.WriteLine($"An error occurred retrieving {(have ? "have" : "miss")} list!");
-                    return false;
-                }
-
-                // Write the list to the output directory
-                Directory.CreateDirectory(outDir);
-                using (var listStreamWriter = File.CreateText(Path.Combine(outDir, $"{systemName}-{(have ? "have" : "miss")}.lst")))
-                {
-                    listStreamWriter.Write(listPage);
-                    listStreamWriter.Flush();
-                }
-
-                Console.WriteLine($"{(have ? "Have" : "Miss")} list has been successfully downloaded");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine($"An exception has occurred: {ex}");
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Download a single pack
         /// </summary>
         /// <param name="packType">Pack type to use to determine the download URL</param>
         /// <param name="system">System to download packs for</param>
         /// <returns>Byte array containing the downloaded pack, null on error</returns>
-        public async Task<byte[]?> DownloadSinglePack(PackType packType, RedumpSystem? system)
+        public async Task<byte[]?> DownloadSinglePack(RedumpOrg.Data.PackType packType, RedumpOrg.Data.RedumpSystem? system)
         {
             try
             {
@@ -886,7 +719,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="packType">Pack type to use to determine the download URL</param>
         /// <param name="system">System to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
-        public async Task<bool> DownloadSinglePack(PackType packType, RedumpSystem? system, string? outDir)
+        public async Task<bool> DownloadSinglePack(RedumpOrg.Data.PackType packType, RedumpOrg.Data.RedumpSystem? system, string? outDir)
         {
             try
             {
@@ -954,7 +787,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="system">System to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
-        public async Task<bool> DownloadSinglePack(PackType packType, RedumpSystem? system, string? outDir, string? subfolder)
+        public async Task<bool> DownloadSinglePack(RedumpOrg.Data.PackType packType, RedumpOrg.Data.RedumpSystem? system, string? outDir, string? subfolder)
         {
             try
             {
@@ -1109,8 +942,8 @@ namespace SabreTools.RedumpLib.RedumpOrg
                     var oldDiscPage = File.ReadAllText(Path.Combine(paddedIdDir, "disc.html"));
 
                     // Check for the last modified date in both pages
-                    var oldResult = Constants.LastModifiedRegex.Match(oldDiscPage);
-                    var newResult = Constants.LastModifiedRegex.Match(discPage);
+                    var oldResult = RedumpOrg.Data.Constants.LastModifiedRegex.Match(oldDiscPage);
+                    var newResult = RedumpOrg.Data.Constants.LastModifiedRegex.Match(discPage);
 
                     // If both pages contain the same modified date, skip it
                     if (oldResult.Success && newResult.Success && oldResult.Groups[1].Value == newResult.Groups[1].Value)
@@ -1128,8 +961,8 @@ namespace SabreTools.RedumpLib.RedumpOrg
                 }
 
                 // If the downloaded data is invalid or otherwise empty, skip it
-                var hasAddedDate = Constants.AddedRegex.Match(discPage);
-                var hasModifiedDate = Constants.LastModifiedRegex.Match(discPage);
+                var hasAddedDate = RedumpOrg.Data.Constants.AddedRegex.Match(discPage);
+                var hasModifiedDate = RedumpOrg.Data.Constants.LastModifiedRegex.Match(discPage);
                 if (!hasAddedDate.Success && !hasModifiedDate.Success)
                 {
                     Console.WriteLine($"ID {paddedId} retieved an empty page, skipping...");
@@ -1142,9 +975,9 @@ namespace SabreTools.RedumpLib.RedumpOrg
                 #region Pages
 
                 // View Edit History
-                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.Changes)) && discPage.Contains($"<a href=\"/disc/{id}/changes/\""))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.History)) && discPage.Contains($"<a href=\"/queue/?disc_id=/{id}"))
                 {
-                    string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Changes);
+                    string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.History);
                     string? changesPage = await DownloadString(uri);
                     if (!IgnoreErrors && changesPage is null)
                     {
@@ -1173,26 +1006,6 @@ namespace SabreTools.RedumpLib.RedumpOrg
                     sw.Flush();
                 }
 
-                // Review WIP entry
-                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.WIP)) && Constants.NewDiscRegex.IsMatch(discPage))
-                {
-                    var match = Constants.NewDiscRegex.Match(discPage);
-                    if (int.TryParse(match.Groups[2].Value, out int newDiscId))
-                    {
-                        string uri = UrlBuilder.BuildNewDiscUrl(newDiscId);
-                        string? wipPage = await DownloadString(uri);
-                        if (!IgnoreErrors && wipPage is null)
-                        {
-                            if (Debug) Console.Error.WriteLine($"DEBUG: Downloading WIP entry for {id} failed!");
-                            return false;
-                        }
-
-                        using var sw = File.CreateText(Path.Combine(paddedIdDir, "newdisc.html"));
-                        sw.Write(wipPage);
-                        sw.Flush();
-                    }
-                }
-
                 #endregion
 
                 #region Files
@@ -1205,90 +1018,6 @@ namespace SabreTools.RedumpLib.RedumpOrg
                     if (!IgnoreErrors && remoteName is null)
                     {
                         if (Debug) Console.Error.WriteLine($"DEBUG: Downloading cuesheet for {id} failed!");
-                        return false;
-                    }
-                }
-
-                // GDI
-                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.GDI)) && discPage.Contains($"<a href=\"/disc/{id}/gdi/\""))
-                {
-                    string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.GDI);
-                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.gdi"));
-                    if (!IgnoreErrors && remoteName is null)
-                    {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading GDI for {id} failed!");
-                        return false;
-                    }
-                }
-
-                // KEYS
-                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.Key)) && discPage.Contains($"<a href=\"/disc/{id}/key/\""))
-                {
-                    string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Key);
-                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.key"));
-                    if (!IgnoreErrors && remoteName is null)
-                    {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading key for {id} failed!");
-                        return false;
-                    }
-                }
-
-                // LSD
-                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.LSD)) && discPage.Contains($"<a href=\"/disc/{id}/lsd/\""))
-                {
-                    string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.LSD);
-                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.lsd"));
-                    if (!IgnoreErrors && remoteName is null)
-                    {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading LSD for {id} failed!");
-                        return false;
-                    }
-                }
-
-                // MD5
-                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.MD5)) && discPage.Contains($"<a href=\"/disc/{id}/md5/\""))
-                {
-                    string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.MD5);
-                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.md5"));
-                    if (!IgnoreErrors && remoteName is null)
-                    {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading MD5 for {id} failed!");
-                        return false;
-                    }
-                }
-
-                // SBI
-                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.SBI)) && discPage.Contains($"<a href=\"/disc/{id}/sbi/\""))
-                {
-                    string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.SBI);
-                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sbi"));
-                    if (!IgnoreErrors && remoteName is null)
-                    {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading SBI for {id} failed!");
-                        return false;
-                    }
-                }
-
-                // SFV
-                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.SFV)) && discPage.Contains($"<a href=\"/disc/{id}/sfv/\""))
-                {
-                    string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.SFV);
-                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sfv"));
-                    if (!IgnoreErrors && remoteName is null)
-                    {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading SFV for {id} failed!");
-                        return false;
-                    }
-                }
-
-                // SHA1
-                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.SHA1)) && discPage.Contains($"<a href=\"/disc/{id}/sha1/\""))
-                {
-                    string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.SHA1);
-                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sha1"));
-                    if (!IgnoreErrors && remoteName is null)
-                    {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading SHA-1 for {id} failed!");
                         return false;
                     }
                 }
@@ -1332,7 +1061,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             try
             {
                 // Try to retrieve the data
-                string discPageUri = UrlBuilder.BuildNewDiscUrl(id);
+                string discPageUri = UrlBuilder.BuildQueueDiscUrl(id);
                 string? discPage = await DownloadString(discPageUri);
 
                 if (discPage is null)
@@ -1386,7 +1115,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             try
             {
                 // Try to retrieve the data
-                string discPageUri = UrlBuilder.BuildNewDiscUrl(id);
+                string discPageUri = UrlBuilder.BuildQueueDiscUrl(id);
                 string? discPage = await DownloadString(discPageUri);
 
                 if (discPage is null)
@@ -1419,8 +1148,8 @@ namespace SabreTools.RedumpLib.RedumpOrg
                     var oldDiscPage = File.ReadAllText(Path.Combine(paddedIdDir, "disc.html"));
 
                     // Check for the full match ID in both pages
-                    var oldResult = Constants.FullMatchRegex.Match(oldDiscPage);
-                    var newResult = Constants.FullMatchRegex.Match(discPage);
+                    var oldResult = RedumpOrg.Data.Constants.FullMatchRegex.Match(oldDiscPage);
+                    var newResult = RedumpOrg.Data.Constants.FullMatchRegex.Match(discPage);
 
                     // If both pages contain the same ID, skip it
                     if (oldResult.Success && newResult.Success && oldResult.Groups[1].Value == newResult.Groups[1].Value)
@@ -1437,8 +1166,8 @@ namespace SabreTools.RedumpLib.RedumpOrg
                     }
 
                     // Check the added date as a backup
-                    oldResult = Constants.AddedRegex.Match(oldDiscPage);
-                    newResult = Constants.AddedRegex.Match(discPage);
+                    oldResult = RedumpOrg.Data.Constants.AddedRegex.Match(oldDiscPage);
+                    newResult = RedumpOrg.Data.Constants.AddedRegex.Match(discPage);
 
                     // If the downloaded data is invalid or otherwise empty, skip it
                     if (oldResult.Success && !newResult.Success)
@@ -1468,91 +1197,6 @@ namespace SabreTools.RedumpLib.RedumpOrg
             }
         }
 
-        /// <summary>
-        /// Download the statistics page
-        /// </summary>
-        /// <returns>String containing the page contents if successful, null on error</returns>
-        public async Task<string?> DownloadStatisticsPage()
-        {
-            // If the user is not logged in
-            if (!_loggedIn)
-            {
-                Console.Error.WriteLine("Statistics download functionality is only available to logged in users");
-                return null;
-            }
-
-            Console.WriteLine("Processing statistics page");
-            try
-            {
-                // Try to retrieve the data
-                string statisticsUrl = UrlBuilder.BuildStatisticsUrl();
-                string? listPage = await DownloadString(statisticsUrl);
-
-                if (listPage is null)
-                {
-                    Console.Error.WriteLine("An error occurred retrieving statistics page!");
-                    return null;
-                }
-
-                Console.WriteLine("Statistics page has been successfully downloaded");
-                return listPage;
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine($"An exception has occurred: {ex}");
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Download the statistics page
-        /// </summary>
-        /// <param name="outDir">Output directory to save data to</param>
-        /// <returns>True if all data was downloaded, false otherwise</returns>
-        /// <remarks>Limited to logged in users</remarks>
-        public async Task<bool> DownloadStatisticsPage(string? outDir)
-        {
-            // If the user is not logged in
-            if (!_loggedIn)
-            {
-                Console.Error.WriteLine("Statistics download functionality is only available to logged in users");
-                return false;
-            }
-
-            // If no output directory is defined, use the current directory instead
-            if (string.IsNullOrEmpty(outDir))
-                outDir = Environment.CurrentDirectory;
-
-            Console.WriteLine("Processing statistics page");
-            try
-            {
-                // Try to retrieve the data
-                string? statisticsPage = await DownloadStatisticsPage();
-
-                if (statisticsPage is null)
-                {
-                    Console.Error.WriteLine("An error occurred retrieving statistics page!");
-                    return false;
-                }
-
-                // Write the list to the output directory
-                Directory.CreateDirectory(outDir);
-                using (var listStreamWriter = File.CreateText(Path.Combine(outDir, "statistics.html")))
-                {
-                    listStreamWriter.Write(statisticsPage);
-                    listStreamWriter.Flush();
-                }
-
-                Console.WriteLine("Statistics page has been successfully downloaded");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine($"An exception has occurred: {ex}");
-                return false;
-            }
-        }
-
         #endregion
 
         #region Helpers
@@ -1562,16 +1206,16 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// </summary>
         /// <param name="packType">Pack type to use to determine the download URL</param>
         /// <param name="system">Systems to download packs for</param>
-        public async Task<Dictionary<RedumpSystem, byte[]>> DownloadPacks(PackType packType, RedumpSystem[] systems)
+        public async Task<Dictionary<RedumpOrg.Data.RedumpSystem, byte[]>> DownloadPacks(RedumpOrg.Data.PackType packType, RedumpOrg.Data.RedumpSystem[] systems)
         {
             // Determine if the pack type is valid
-            if (!Enum.IsDefined(typeof(PackType), packType))
+            if (!Enum.IsDefined(typeof(RedumpOrg.Data.PackType), packType))
             {
                 if (Debug) Console.Error.WriteLine($"DEBUG: {packType} is not a recognized pack type, skipping...");
                 return [];
             }
 
-            var packsDictionary = new Dictionary<RedumpSystem, byte[]>();
+            var packsDictionary = new Dictionary<RedumpOrg.Data.RedumpSystem, byte[]>();
             foreach (var system in systems)
             {
                 string longName = system.LongName() ?? $"UNKNOWN_{system}";
@@ -1601,10 +1245,10 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="packType">Pack type to use to determine the download URL</param>
         /// <param name="systems">Systems to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
-        public async Task<bool> DownloadPacks(PackType packType, RedumpSystem[] systems, string? outDir)
+        public async Task<bool> DownloadPacks(RedumpOrg.Data.PackType packType, RedumpOrg.Data.RedumpSystem[] systems, string? outDir)
         {
             // Determine if the pack type is valid
-            if (!Enum.IsDefined(typeof(PackType), packType))
+            if (!Enum.IsDefined(typeof(RedumpOrg.Data.PackType), packType))
             {
                 if (Debug) Console.Error.WriteLine($"DEBUG: {packType} is not a recognized pack type, skipping...");
                 return false;
@@ -1637,10 +1281,10 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="systems">Systems to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
-        public async Task<bool> DownloadPacks(PackType packType, RedumpSystem[] systems, string? outDir, string? subfolder)
+        public async Task<bool> DownloadPacks(RedumpOrg.Data.PackType packType, RedumpOrg.Data.RedumpSystem[] systems, string? outDir, string? subfolder)
         {
             // Determine if the pack type is valid
-            if (!Enum.IsDefined(typeof(PackType), packType))
+            if (!Enum.IsDefined(typeof(RedumpOrg.Data.PackType), packType))
             {
                 if (Debug) Console.Error.WriteLine($"DEBUG: {packType} is not a recognized pack type, skipping...");
                 return false;
@@ -1754,17 +1398,17 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="packType">Pack type to use to determine the support status</param>
         /// <param name="system">Systems to determine pack availability for</param>
         /// <returns>True if the pack is available for a system, false otherwise</returns>
-        private static bool PackTypeToAvailable(PackType packType, RedumpSystem system)
+        private static bool PackTypeToAvailable(RedumpOrg.Data.PackType packType, RedumpOrg.Data.RedumpSystem system)
         {
             return packType switch
             {
-                PackType.Cuesheets => system.HasCues(),
-                PackType.Datfile => system.HasDat(),
-                PackType.DecryptedKeys => system.HasDkeys(),
-                PackType.Gdis => system.HasGdi(),
-                PackType.Keys => system.HasKeys(),
-                PackType.Lsds => system.HasLsd(),
-                PackType.Sbis => system.HasSbi(),
+                RedumpOrg.Data.PackType.Cuesheets => system.HasCues(),
+                RedumpOrg.Data.PackType.Datfile => system.HasDat(),
+                RedumpOrg.Data.PackType.DecryptedKeys => system.HasDkeys(),
+                RedumpOrg.Data.PackType.Gdis => system.HasGdi(),
+                RedumpOrg.Data.PackType.Keys => system.HasKeys(),
+                RedumpOrg.Data.PackType.Lsds => system.HasLsd(),
+                RedumpOrg.Data.PackType.Sbis => system.HasSbi(),
                 _ => false,
             };
         }

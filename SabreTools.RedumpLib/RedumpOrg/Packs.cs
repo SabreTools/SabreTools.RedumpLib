@@ -15,7 +15,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="useSubfolders">True to use named subfolders to store downloads, false to store directly in the output directory</param>
-        public static async Task<bool> DownloadAllPacks(this RedumpClient client, string? outDir, bool useSubfolders)
+        public static async Task<bool> DownloadAllPacks(this Client client, string? outDir, bool useSubfolders)
         {
             var systems = (RedumpSystem[])Enum.GetValues(typeof(RedumpSystem));
             return await client.DownloadPacksForSystems(systems, outDir, useSubfolders);
@@ -28,7 +28,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="system">RedumpSystem to get all possible packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="useSubfolders">True to use named subfolders to store downloads, false to store directly in the output directory</param>
-        public static async Task<bool> DownloadPacksForSystem(this RedumpClient client,
+        public static async Task<bool> DownloadPacksForSystem(this Client client,
             RedumpSystem? system,
             string? outDir,
             bool useSubfolders)
@@ -47,7 +47,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="systems">Systems to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="useSubfolders">True to use named subfolders to store downloads, false to store directly in the output directory</param>
-        public static async Task<bool> DownloadPacksForSystems(this RedumpClient client,
+        public static async Task<bool> DownloadPacksForSystems(this Client client,
             RedumpSystem[] systems,
             string? outDir,
             bool useSubfolders)

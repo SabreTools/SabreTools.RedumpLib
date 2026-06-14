@@ -28,7 +28,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="limit">Limit number of retrieved result pages, non-positive for unlimited</param>
         /// <param name="discSubpaths">Set of subpaths to download if available, null for all</param>
         /// <returns>All disc IDs for the given query, empty on error</returns>
-        public static async Task<List<int>> DownloadDiscsResults(this RedumpClient client,
+        public static async Task<List<int>> DownloadDiscsResults(this Client client,
             string? outDir,
             string? comments,
             string? dumper = null,
@@ -91,7 +91,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="maxId">Ending ID for the range (inclusive)</param>
         /// <param name="discSubpaths">Set of subpaths to download if available, null for all</param>
         /// <returns>All disc IDs that successfully downloaded, empty on error</returns>
-        public static async Task<List<int>> DownloadSiteRange(this RedumpClient client,
+        public static async Task<List<int>> DownloadSiteRange(this Client client,
             string? outDir,
             int minId,
             int maxId,
@@ -119,7 +119,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="discSubpaths">Set of subpaths to download if available, null for all</param>
         /// <returns>All disc IDs that successfully downloaded, empty on error</returns>
-        public static async Task<List<int>> DownloadSiteSet(this RedumpClient client,
+        public static async Task<List<int>> DownloadSiteSet(this Client client,
             List<int> siteIds,
             string? outDir,
             DiscSubpath[]? discSubpaths = null)
@@ -154,7 +154,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="comments">Marks search as comments field only, false to omit; incompatible with <paramref name="contents"/> or <paramref name="protection"/></param>
         /// <param name="limit">Limit number of retrieved result pages, non-positive for unlimited</param>
         /// <returns>All disc IDs for the given query, empty on error</returns>
-        public static async Task<List<int>> ListDiscsResults(this RedumpClient client,
+        public static async Task<List<int>> ListDiscsResults(this Client client,
             string? comments = null,
             string? dumper = null,
             string? edition = null,

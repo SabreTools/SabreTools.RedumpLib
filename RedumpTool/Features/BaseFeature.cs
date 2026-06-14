@@ -121,14 +121,14 @@ namespace RedumpTool.Features
         /// <summary>
         /// Client to use for external connections
         /// </summary>
-        protected RedumpClient _client;
+        protected Client _client;
 
         #endregion
 
         public BaseFeature(string name, string[] flags, string description, string? detailed = null)
            : base(name, flags, description, detailed)
         {
-            _client = new RedumpClient();
+            _client = new Client();
         }
 
         #region Helpers

@@ -255,7 +255,7 @@ namespace SabreTools.RedumpLib
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <param name="includeAllData">True to include all pullable information, false to do bare minimum</param>
-        public static async Task<bool> FillFromId(RedumpClient client, SubmissionInfo info, int id, bool includeAllData)
+        public static async Task<bool> FillFromId(Client client, SubmissionInfo info, int id, bool includeAllData)
         {
             var discData = await client.DownloadSingleSiteID(id);
             if (string.IsNullOrEmpty(discData))
