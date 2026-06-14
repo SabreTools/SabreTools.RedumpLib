@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.RedumpInfo.Data;
 
 namespace SabreTools.RedumpLib.RedumpInfo
@@ -17,7 +18,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="useSubfolders">True to use named subfolders to store downloads, false to store directly in the output directory</param>
         public static async Task<bool> DownloadAllPacks(this Client client, string? outDir, bool useSubfolders)
         {
-            var systems = (RedumpSystem[])Enum.GetValues(typeof(RedumpSystem));
+            var systems = (PhysicalSystem[])Enum.GetValues(typeof(PhysicalSystem));
             return await client.DownloadPacksForSystems(systems, outDir, useSubfolders);
         }
 
@@ -25,18 +26,18 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// Download premade packs for an individual system
         /// </summary>
         /// <param name="client">RedumpClient for connectivity</param>
-        /// <param name="system">RedumpSystem to get all possible packs for</param>
+        /// <param name="system">PhysicalSystem to get all possible packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="useSubfolders">True to use named subfolders to store downloads, false to store directly in the output directory</param>
         public static async Task<bool> DownloadPacksForSystem(this Client client,
-            RedumpSystem? system,
+            PhysicalSystem? system,
             string? outDir,
             bool useSubfolders)
         {
             if (system is null)
                 return false;
 
-            var systems = new RedumpSystem[] { system.Value };
+            var systems = new PhysicalSystem[] { system.Value };
             return await client.DownloadPacksForSystems(systems, outDir, useSubfolders);
         }
 
@@ -48,7 +49,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="useSubfolders">True to use named subfolders to store downloads, false to store directly in the output directory</param>
         public static async Task<bool> DownloadPacksForSystems(this Client client,
-            RedumpSystem[] systems,
+            PhysicalSystem[] systems,
             string? outDir,
             bool useSubfolders)
         {

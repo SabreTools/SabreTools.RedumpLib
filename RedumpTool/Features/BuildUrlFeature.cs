@@ -144,7 +144,7 @@ namespace RedumpTool.Features
             string? statusString = StatusInput.Value;
             DumpStatus? status = statusString.ToDumpStatus();
             string? systemString = SystemInput.Value;
-            RedumpSystem? system = systemString.ToRedumpSystem();
+            PhysicalSystem? system = systemString.ToPhysicalSystem();
             int? tracks = TracksInput.Value;
 
             // Get the downloads path values

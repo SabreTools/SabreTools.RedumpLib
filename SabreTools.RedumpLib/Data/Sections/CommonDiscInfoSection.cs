@@ -14,8 +14,8 @@ namespace SabreTools.RedumpLib.Data.Sections
     {
         // Name not defined by Redump
         [JsonProperty(PropertyName = "d_system", DefaultValueHandling = DefaultValueHandling.Include)]
-        [JsonConverter(typeof(SystemConverter))]
-        public RedumpSystem? System { get; set; }
+        [JsonConverter(typeof(PhysicalSystemConverter))]
+        public PhysicalSystem? System { get; set; }
 
         // Name not defined by Redump
         [JsonProperty(PropertyName = "d_media", DefaultValueHandling = DefaultValueHandling.Include)]

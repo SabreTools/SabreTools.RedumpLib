@@ -187,7 +187,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             SortCategory? sort = null,
             SortDirection? sortDir = null,
             DumpStatus? status = null,
-            RedumpSystem? system = null,
+            PhysicalSystem? system = null,
             int? tracks = null,
             bool comments = false,
             bool contents = false,
@@ -389,7 +389,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <remarks>Does not check for invalid usernames</remarks>
         public static string BuildListUrl(string dumper,
             bool? have = null,
-            RedumpSystem? system = null)
+            PhysicalSystem? system = null)
         {
             var sb = new StringBuilder();
 
@@ -445,7 +445,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="packType">Pack type</param>
         /// <param name="system">System for download</param>
         /// <remarks>Does not check for invalid systems</remarks>
-        public static string BuildPackUrl(PackType packType, RedumpSystem system)
+        public static string BuildPackUrl(PackType packType, PhysicalSystem system)
         {
             var sb = new StringBuilder();
 

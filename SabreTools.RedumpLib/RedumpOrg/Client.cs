@@ -429,7 +429,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             SortCategory? sort = null,
             SortDirection? sortDir = null,
             DumpStatus? status = null,
-            RedumpSystem? system = null,
+            PhysicalSystem? system = null,
             int? tracks = null,
             bool comments = false,
             bool contents = false,
@@ -569,7 +569,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             SortCategory? sort = null,
             SortDirection? sortDir = null,
             DumpStatus? status = null,
-            RedumpSystem? system = null,
+            PhysicalSystem? system = null,
             int? tracks = null,
             bool comments = false,
             bool contents = false,
@@ -757,7 +757,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="system">System for filtering, null to retrieve for all systems at once</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
         /// <remarks><paramref name="username"/> may have to match the logged-in user</remarks>
-        public async Task<string?> DownloadSingleList(bool have, string username, RedumpSystem? system)
+        public async Task<string?> DownloadSingleList(bool have, string username, PhysicalSystem? system)
         {
             string systemName = system.ShortName() ?? "all";
             Console.WriteLine($"Processing {(have ? "have" : "miss")} list for {username} for {systemName}");
@@ -792,7 +792,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="outDir">Output directory to save data to</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
         /// <remarks><paramref name="username"/> may have to match the logged-in user</remarks>
-        public async Task<bool> DownloadSingleList(bool have, string username, RedumpSystem? system, string? outDir)
+        public async Task<bool> DownloadSingleList(bool have, string username, PhysicalSystem? system, string? outDir)
         {
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrEmpty(outDir))
@@ -835,7 +835,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="packType">Pack type to use to determine the download URL</param>
         /// <param name="system">System to download packs for</param>
         /// <returns>Byte array containing the downloaded pack, null on error</returns>
-        public async Task<byte[]?> DownloadSinglePack(PackType packType, RedumpSystem? system)
+        public async Task<byte[]?> DownloadSinglePack(PackType packType, PhysicalSystem? system)
         {
             try
             {
@@ -887,7 +887,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="packType">Pack type to use to determine the download URL</param>
         /// <param name="system">System to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
-        public async Task<bool> DownloadSinglePack(PackType packType, RedumpSystem? system, string? outDir)
+        public async Task<bool> DownloadSinglePack(PackType packType, PhysicalSystem? system, string? outDir)
         {
             try
             {
@@ -955,7 +955,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="system">System to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
-        public async Task<bool> DownloadSinglePack(PackType packType, RedumpSystem? system, string? outDir, string? subfolder)
+        public async Task<bool> DownloadSinglePack(PackType packType, PhysicalSystem? system, string? outDir, string? subfolder)
         {
             try
             {
@@ -1563,7 +1563,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// </summary>
         /// <param name="packType">Pack type to use to determine the download URL</param>
         /// <param name="system">Systems to download packs for</param>
-        public async Task<Dictionary<RedumpSystem, byte[]>> DownloadPacks(PackType packType, RedumpSystem[] systems)
+        public async Task<Dictionary<PhysicalSystem, byte[]>> DownloadPacks(PackType packType, PhysicalSystem[] systems)
         {
             // Determine if the pack type is valid
             if (!Enum.IsDefined(typeof(PackType), packType))
@@ -1572,7 +1572,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
                 return [];
             }
 
-            var packsDictionary = new Dictionary<RedumpSystem, byte[]>();
+            var packsDictionary = new Dictionary<PhysicalSystem, byte[]>();
             foreach (var system in systems)
             {
                 string longName = system.LongName() ?? $"UNKNOWN_{system}";
@@ -1602,7 +1602,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="packType">Pack type to use to determine the download URL</param>
         /// <param name="systems">Systems to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
-        public async Task<bool> DownloadPacks(PackType packType, RedumpSystem[] systems, string? outDir)
+        public async Task<bool> DownloadPacks(PackType packType, PhysicalSystem[] systems, string? outDir)
         {
             // Determine if the pack type is valid
             if (!Enum.IsDefined(typeof(PackType), packType))
@@ -1638,7 +1638,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="systems">Systems to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
-        public async Task<bool> DownloadPacks(PackType packType, RedumpSystem[] systems, string? outDir, string? subfolder)
+        public async Task<bool> DownloadPacks(PackType packType, PhysicalSystem[] systems, string? outDir, string? subfolder)
         {
             // Determine if the pack type is valid
             if (!Enum.IsDefined(typeof(PackType), packType))
@@ -1755,7 +1755,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="packType">Pack type to use to determine the support status</param>
         /// <param name="system">Systems to determine pack availability for</param>
         /// <returns>True if the pack is available for a system, false otherwise</returns>
-        private static bool PackTypeToAvailable(PackType packType, RedumpSystem system)
+        private static bool PackTypeToAvailable(PackType packType, PhysicalSystem system)
         {
             return packType switch
             {

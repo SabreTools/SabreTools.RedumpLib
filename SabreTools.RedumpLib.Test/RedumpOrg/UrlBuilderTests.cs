@@ -1,4 +1,5 @@
 using System;
+using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.RedumpOrg;
 using SabreTools.RedumpLib.RedumpOrg.Data;
 using Xunit;
@@ -118,21 +119,21 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
         [InlineData(null, "http://redump.org/list/user/arch/")]
         public void BuildListUrl_HaveMissSet(bool? have, string expected)
         {
-            string actual = UrlBuilder.BuildListUrl("user", have, system: RedumpSystem.AcornArchimedes);
+            string actual = UrlBuilder.BuildListUrl("user", have, system: PhysicalSystem.AcornArchimedes);
             Assert.Equal(expected, actual);
         }
 
         [Fact]
         public void BuildListUrl_InvalidUsername_Builds()
         {
-            string actual = UrlBuilder.BuildListUrl(string.Empty, have: true, system: RedumpSystem.AcornArchimedes);
+            string actual = UrlBuilder.BuildListUrl(string.Empty, have: true, system: PhysicalSystem.AcornArchimedes);
             Assert.Equal("http://redump.org/list/have//arch/", actual);
         }
 
         [Theory]
-        [InlineData(RedumpSystem.MarkerOtherEnd)]
-        [InlineData(RedumpSystem.RainbowDisc)]
-        public void BuildListUrl_InvalidSystem_Builds(RedumpSystem? system)
+        [InlineData(PhysicalSystem.MarkerOtherEnd)]
+        [InlineData(PhysicalSystem.RainbowDisc)]
+        public void BuildListUrl_InvalidSystem_Builds(PhysicalSystem? system)
         {
             string actual = UrlBuilder.BuildListUrl("user", have: true, system: system);
             Assert.Equal("http://redump.org/list/have/user/", actual);
@@ -176,20 +177,20 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
         [InlineData(PackType.Sbis, "http://redump.org/sbi/arch/")]
         public void BuildPackUrl_ValidPackType_ValidSystem_Builds(PackType packType, string expected)
         {
-            string actual = UrlBuilder.BuildPackUrl(packType, RedumpSystem.AcornArchimedes);
+            string actual = UrlBuilder.BuildPackUrl(packType, PhysicalSystem.AcornArchimedes);
             Assert.Equal(expected, actual);
         }
 
         [Fact]
         public void BuildPackUrl_InvalidPackType_Throws()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => UrlBuilder.BuildPackUrl((PackType)int.MaxValue, RedumpSystem.AcornArchimedes));
+            Assert.Throws<ArgumentOutOfRangeException>(() => UrlBuilder.BuildPackUrl((PackType)int.MaxValue, PhysicalSystem.AcornArchimedes));
         }
 
         [Fact]
         public void BuildPackUrl_InvalidSystem_Builds()
         {
-            string actual = UrlBuilder.BuildPackUrl(PackType.Datfile, RedumpSystem.MarkerOtherEnd);
+            string actual = UrlBuilder.BuildPackUrl(PackType.Datfile, PhysicalSystem.MarkerOtherEnd);
             Assert.Equal("http://redump.org/datfile//", actual);
         }
 

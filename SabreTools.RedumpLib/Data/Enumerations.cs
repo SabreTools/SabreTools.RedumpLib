@@ -1756,6 +1756,606 @@ namespace SabreTools.RedumpLib.Data
     }
 
     /// <summary>
+    /// List of all known systems not bound to specific site limitations
+    /// </summary>
+    /// TODO: Remove marker items
+    /// TODO: Double check all flags once the site is live
+    /// TODO: Add MAXTEST as a debug-only system
+    /// TODO: Does "Banned" now only mean that things like keys can't be downloaded?
+    public enum PhysicalSystem
+    {
+        #region BIOS Sets
+
+        [System(LongName = "Microsoft Xbox (BIOS)", ShortName = "xbox-bios", HasDat = true)]
+        MicrosoftXboxBIOS,
+
+        [System(LongName = "Nintendo GameCube (BIOS)", ShortName = "gc-bios", HasDat = true)]
+        NintendoGameCubeBIOS,
+
+        [System(LongName = "Sony PlayStation (BIOS)", ShortName = "psx-bios", HasDat = true)]
+        SonyPlayStationBIOS,
+
+        [System(LongName = "Sony PlayStation 2 (BIOS)", ShortName = "ps2-bios", HasDat = true)]
+        SonyPlayStation2BIOS,
+
+        #endregion
+
+        #region Disc-Based Consoles
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Atari Jaguar CD Interactive Multimedia System", ShortName = "AJCD", RedumpOrgCode = "ajcd", HasCues = true, HasDat = true)]
+        AtariJaguarCDInteractiveMultimediaSystem,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Bandai Pippin", ShortName = "PIPPIN", RedumpOrgCode = "pippin", HasCues = true, HasDat = true)]
+        BandaiPippin,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Bandai Playdia Quick Interactive System", RedumpOrgCode = "qis", ShortName = "QIS", HasCues = true, HasDat = true)]
+        BandaiPlaydiaQuickInteractiveSystem,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Commodore Amiga CD32", ShortName = "CD32", RedumpOrgCode = "cd32", HasCues = true, HasDat = true)]
+        CommodoreAmigaCD32,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Commodore Amiga CDTV", ShortName = "CDTV", RedumpOrgCode = "cdtv", HasCues = true, HasDat = true)]
+        CommodoreAmigaCDTV,
+
+        [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Envizions EVO Smart Console")]
+        EnvizionsEVOSmartConsole,
+
+        [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Fujitsu FM Towns Marty")]
+        FujitsuFMTownsMarty,
+
+        [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Hasbro iON Educational Gaming System")]
+        HasbroiONEducationalGamingSystem,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Hasbro VideoNow", ShortName = "HVN", RedumpOrgCode = "hvn", IsBanned = true, HasCues = true, HasDat = true)]
+        HasbroVideoNow,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Hasbro VideoNow Color", ShortName = "HVNC", RedumpOrgCode = "hvnc", IsBanned = true, HasCues = true, HasDat = true)]
+        HasbroVideoNowColor,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Hasbro VideoNow Jr.", ShortName = "HVNJR", RedumpOrgCode = "hvnjr", IsBanned = true, HasCues = true, HasDat = true)]
+        HasbroVideoNowJr,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Hasbro VideoNow XP", ShortName = "HVNXP", RedumpOrgCode = "hvnxp", IsBanned = true, HasCues = true, HasDat = true)]
+        HasbroVideoNowXP,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Mattel Fisher-Price iXL", ShortName = "IXL", RedumpOrgCode = "ixl", HasCues = true, HasDat = true)]
+        MattelFisherPriceiXL,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Mattel HyperScan", ShortName = "HS", RedumpOrgCode = "hs", HasCues = true, HasDat = true)]
+        MattelHyperScan,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Memorex Visual Information System", ShortName = "VIS", RedumpOrgCode = "vis", HasCues = true, HasDat = true)]
+        MemorexVisualInformationSystem,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Microsoft Xbox", ShortName = "XBOX", RedumpOrgCode = "xbox", HasCues = true, HasDat = true)]
+        MicrosoftXbox,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Microsoft Xbox 360", ShortName = "XBOX360", RedumpOrgCode = "xbox360", HasCues = true, HasDat = true)]
+        MicrosoftXbox360,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Microsoft Xbox One", ShortName = "XBOXONE", RedumpOrgCode = "xboxone", IsBanned = true, HasDat = true)]
+        MicrosoftXboxOne,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Microsoft Xbox Series X", ShortName = "XBOXSX", RedumpOrgCode = "xboxsx", IsBanned = true, HasDat = true)]
+        MicrosoftXboxSeriesXS,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "NEC PC Engine CD & TurboGrafx CD", ShortName = "PCE", RedumpOrgCode = "pce", HasCues = true, HasDat = true)]
+        NECPCEngineCDTurboGrafxCD,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "NEC PC-FX & PC-FXGA", ShortName = "PC-FX", RedumpOrgCode = "pc-fx", HasCues = true, HasDat = true)]
+        NECPCFXPCFXGA,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Nintendo GameCube", ShortName = "GC", RedumpOrgCode = "gc", HasDat = true)]
+        NintendoGameCube,
+
+        [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Nintendo-Sony Super NES CD-ROM System")]
+        NintendoSonySuperNESCDROMSystem,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Nintendo Wii", ShortName = "WII", RedumpOrgCode = "wii", HasDat = true)]
+        NintendoWii,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Nintendo Wii U", ShortName = "WIIU", RedumpOrgCode = "wiiu", IsBanned = true, HasDat = true, HasKeys = true)]
+        NintendoWiiU,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Panasonic 3DO Interactive Multiplayer", ShortName = "3DO", RedumpOrgCode = "3do", HasCues = true, HasDat = true)]
+        Panasonic3DOInteractiveMultiplayer,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Philips CD-i", ShortName = "CDI", RedumpOrgCode = "cdi", HasCues = true, HasDat = true)]
+        PhilipsCDi,
+
+        [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Playmaji Polymega")]
+        PlaymajiPolymega,
+
+        [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Pioneer LaserActive")]
+        PioneerLaserActive,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sega Dreamcast", ShortName = "DC", RedumpOrgCode = "dc", HasCues = true, HasDat = true)]
+        SegaDreamcast,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sega Mega CD & Sega CD", ShortName = "MCD", RedumpOrgCode = "mcd", HasCues = true, HasDat = true)]
+        SegaMegaCDSegaCD,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sega Saturn", ShortName = "SS", RedumpOrgCode = "ss", HasCues = true, HasDat = true)]
+        SegaSaturn,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Neo Geo CD", ShortName = "NGCD", RedumpOrgCode = "ngcd", HasCues = true, HasDat = true)]
+        SNKNeoGeoCD,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation", ShortName = "PSX", RedumpOrgCode = "psx", HasCues = true, HasDat = true, HasSbi = true)]
+        SonyPlayStation,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation 2", ShortName = "PS2", RedumpOrgCode = "ps2", HasCues = true, HasDat = true)]
+        SonyPlayStation2,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation 3", ShortName = "PS3", RedumpOrgCode = "ps3", HasCues = true, HasDat = true, HasKeys = true)]
+        SonyPlayStation3,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation 4", ShortName = "PS4", RedumpOrgCode = "ps4", IsBanned = true, HasDat = true)]
+        SonyPlayStation4,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation 5", ShortName = "PS5", RedumpOrgCode = "ps5", IsBanned = true, HasDat = true)]
+        SonyPlayStation5,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation Portable", ShortName = "PSP", RedumpOrgCode = "psp", HasDat = true)]
+        SonyPlayStationPortable,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "VM Labs NUON", ShortName = "NUON", RedumpOrgCode = "nuon", HasDat = true)]
+        VMLabsNUON,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "VTech V.Flash & V.Smile Pro", ShortName = "VFLASH", RedumpOrgCode = "vflash", HasCues = true, HasDat = true)]
+        VTechVFlashVSmilePro,
+
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "ZAPiT Games Game Wave Family Entertainment System", ShortName = "GAMEWAVE", RedumpOrgCode = "gamewave", HasDat = true)]
+        ZAPiTGamesGameWaveFamilyEntertainmentSystem,
+
+        // End of console section delimiter
+        MarkerDiscBasedConsoleEnd,
+
+        #endregion
+
+        #region Cartridge-Based and Other Consoles
+
+        /*
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Amstrad GX-4000")]
+        AmstradGX4000,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "APF Microcomputer System")]
+        APFMicrocomputerSystem,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Atari 2600 & VCS")]
+        Atari2600VCS,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Atari 5200")]
+        Atari5200,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Atari 7800")]
+        Atari7800,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Atari Jaguar")]
+        AtariJaguar,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Atari XEGS")]
+        AtariXEGS,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Audiosonic 1292 Advanced Programmable Video System")]
+        Audiosonic1292AdvancedProgrammableVideoSystem,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Bally Astrocade")]
+        BallyAstrocade,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Bit Corporation Dina")]
+        BitCorporationDina,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Casio Loopy")]
+        CasioLoopy,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Casio PV-1000")]
+        CasioPV1000,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Commodore 64 Games System")]
+        Commodore64GamesSystem,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Daewoo Electronics Zemmix")]
+        DaewooElectronicsZemmix,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Emerson Arcadia 2001")]
+        EmersonArcadia2001,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Epoch Cassette Vision")]
+        EpochCassetteVision,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Epoch Super Cassette Vision")]
+        EpochSuperCassetteVision,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Fairchild Channel F")]
+        FairchildChannelF,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Funtech Super A'Can")]
+        FuntechSuperACan,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "GCE Vectrex")]
+        GCEVectrex,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Heber BBC Bridge Companion")]
+        HeberBBCBridgeCompanion,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Interton VC-4000")]
+        IntertonVC4000,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "JungleTac Vii")]
+        JungleTacVii,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "LeapFrog ClickStart")]
+        LeapFrogClickStart,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "LJN VideoArt")]
+        LJNVideoArt,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Magnavox Odyssey 2")]
+        MagnavoxOdyssey2,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Mattel Intellivision")]
+        MattelIntellivision,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "NEC PC Engine & TurboGrafx-16")]
+        NECPCEngineTurboGrafx16,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Nichibutsu MyVision")]
+        NichibutsuMyVision,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Nintendo 64")]
+        Nintendo64,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Nintendo 64DD")]
+        Nintendo64DD,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Nintendo Famicom & Nintendo Entertainment System")]
+        NintendoFamicomNintendoEntertainmentSystem,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Nintendo Famicom Disk System")]
+        NintendoFamicomDiskSystem,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Nintendo Super Famicom & Super Nintendo Entertainment System")]
+        NintendoSuperFamicomSuperNintendoEntertainmentSystem,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Nintendo Switch")]
+        NintendoSwitch,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Philips Videopac+ & G7400")]
+        PhilipsVideopacPlusG7400,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "RCA Studio-II")]
+        RCAStudioII,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Sega 32X")]
+        Sega32X,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Sega Mark III & Master System")]
+        SegaMarkIIIMasterSystem,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Sega MegaDrive & Genesis")]
+        SegaMegaDriveGenesis,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Sega SG-1000")]
+        SegaSG1000,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "SNK NeoGeo")]
+        SNKNeoGeo,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "SSD COMPANY LIMITED XaviXPORT")]
+        SSDCOMPANYLIMITEDXaviXPORT,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "ViewMaster Interactive Vision")]
+        ViewMasterInteractiveVision,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "V.Tech CreatiVision")]
+        VTechCreatiVision,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "V.Tech V.Smile")]
+        VTechVSmile,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "V.Tech Socrates")]
+        VTechSocrates,
+
+        [System(Category = SystemCategory.OtherConsole, Available = false, LongName = "Worlds of Wonder ActionMax")]
+        WorldsOfWonderActionMax,
+
+        // End of other console delimiter
+        MarkerOtherConsoleEnd,
+        */
+
+        #endregion
+
+        #region Computers
+
+        [System(Category = SystemCategory.Computer, LongName = "Acorn Archimedes", ShortName = "ARCH", RedumpOrgCode = "arch", HasCues = true, HasDat = true)]
+        AcornArchimedes,
+
+        [System(Category = SystemCategory.Computer, LongName = "Apple Macintosh", ShortName = "MAC", RedumpOrgCode = "mac", HasCues = true, HasDat = true, HasSbi = true)]
+        AppleMacintosh,
+
+        [System(Category = SystemCategory.Computer, LongName = "Commodore Amiga CD", ShortName = "ACD", RedumpOrgCode = "acd", HasCues = true, HasDat = true)]
+        CommodoreAmigaCD,
+
+        [System(Category = SystemCategory.Computer, LongName = "Fujitsu FM Towns series", ShortName = "FMT", RedumpOrgCode = "fmt", HasCues = true, HasDat = true)]
+        FujitsuFMTownsseries,
+
+        [System(Category = SystemCategory.Computer, LongName = "IBM PC compatible", ShortName = "PC", RedumpOrgCode = "pc", HasCues = true, HasDat = true, HasSbi = true)]
+        IBMPCcompatible,
+
+        [System(Category = SystemCategory.Computer, LongName = "NEC PC-88 series", ShortName = "PC-88", RedumpOrgCode = "pc-88", HasCues = true, HasDat = true)]
+        NECPC88series,
+
+        [System(Category = SystemCategory.Computer, LongName = "NEC PC-98 series", ShortName = "PC-98", RedumpOrgCode = "pc-98", HasCues = true, HasDat = true)]
+        NECPC98series,
+
+        [System(Category = SystemCategory.Computer, LongName = "Sharp X68000", ShortName = "X68K", RedumpOrgCode = "x68k", HasCues = true, HasDat = true)]
+        SharpX68000,
+
+        // End of computer section delimiter
+        MarkerComputerEnd,
+
+        #endregion
+
+        #region Arcade
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Amiga CUBO CD32")]
+        AmigaCUBOCD32,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "American Laser Games 3DO")]
+        AmericanLaserGames3DO,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Atari 3DO")]
+        Atari3DO,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Atronic")]
+        Atronic,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "AUSCOM System 1")]
+        AUSCOMSystem1,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Bally Game Magic")]
+        BallyGameMagic,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Capcom CP System III")]
+        CapcomCPSystemIII,
+
+        [System(Category = SystemCategory.Arcade, LongName = "funworld Photo Play", ShortName = "FPP", RedumpOrgCode = "fpp", HasCues = true, HasDat = true)]
+        funworldPhotoPlay,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "FuRyu & Omron Purikura")]
+        FuRyuOmronPurikura,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Global VR PC-based Systems")]
+        GlobalVRVarious,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Global VR Vortek")]
+        GlobalVRVortek,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Global VR Vortek V3")]
+        GlobalVRVortekV3,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "ICE PC-based Hardware")]
+        ICEPCHardware,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Incredible Technologies Eagle", ShortName = "ITE", RedumpOrgCode = "ite", HasCues = true, HasDat = true)]
+        IncredibleTechnologiesEagle,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Incredible Technologies PC-based Systems")]
+        IncredibleTechnologiesVarious,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "JVL iTouch")]
+        JVLiTouch,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Konami e-Amusement", ShortName = "KEA", RedumpOrgCode = "kea", HasCues = true, HasDat = true)]
+        KonamieAmusement,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Konami FireBeat", ShortName = "KFB", RedumpOrgCode = "kfb", HasCues = true, HasDat = true)]
+        KonamiFireBeat,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Konami M2", ShortName = "KM2", RedumpOrgCode = "km2", IsBanned = true, HasCues = true, HasDat = true)]
+        KonamiM2,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Konami Python")]
+        KonamiPython,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Konami Python 2")]
+        KonamiPython2,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Konami System 573", ShortName = "KS573", RedumpOrgCode = "ks573", HasCues = true, HasDat = true)]
+        KonamiSystem573,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Konami System GV", ShortName = "KSGV", RedumpOrgCode = "ksgv", HasCues = true, HasDat = true)]
+        KonamiSystemGV,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Konami Twinkle", ShortName = "kt", RedumpOrgCode = "kt")]
+        KonamiTwinkle,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Konami PC-based Systems")]
+        KonamiVarious,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Merit Industries Boardwalk")]
+        MeritIndustriesBoardwalk,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Merit Industries MegaTouch Force")]
+        MeritIndustriesMegaTouchForce,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Merit Industries MegaTouch ION")]
+        MeritIndustriesMegaTouchION,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Merit Industries MegaTouch Maxx")]
+        MeritIndustriesMegaTouchMaxx,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Merit Industries MegaTouch XL")]
+        MeritIndustriesMegaTouchXL,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Namco Purikura")]
+        NamcoPurikura,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Namco · Sega · Nintendo Triforce", ShortName = "TRF", RedumpOrgCode = "trf", HasCues = true, HasDat = true)]
+        NamcoSegaNintendoTriforce,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Namco System 12", ShortName = "ns12", RedumpOrgCode = "ns12")]
+        NamcoSystem12,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Namco System 246 / System 256", ShortName = "NS246", RedumpOrgCode = "ns246", HasCues = true, HasDat = true)]
+        NamcoSystem246256,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "New Jatre CD-i")]
+        NewJatreCDi,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Nichibutsu High Rate System")]
+        NichibutsuHighRateSystem,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Nichibutsu Super CD")]
+        NichibutsuSuperCD,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Nichibutsu X-Rate System")]
+        NichibutsuXRateSystem,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Panasonic M2", ShortName = "M2", RedumpOrgCode = "m2", IsBanned = true, HasCues = true, HasDat = true)]
+        PanasonicM2,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "PhotoPlay PC-based Systems")]
+        PhotoPlayVarious,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Raw Thrills PC-based Systems")]
+        RawThrillsVarious,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega ALLS")]
+        SegaALLS,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Chihiro", ShortName = "CHIHIRO", RedumpOrgCode = "chihiro", HasCues = true, HasDat = true)]
+        SegaChihiro,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Europa-R")]
+        SegaEuropaR,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Lindbergh", ShortName = "LINDBERGH", RedumpOrgCode = "lindbergh", HasDat = true)]
+        SegaLindbergh,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Naomi", ShortName = "NAOMI", RedumpOrgCode = "naomi", HasCues = true, HasDat = true)]
+        SegaNaomi,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Naomi 2", ShortName = "NAOMI2", RedumpOrgCode = "naomi2", HasCues = true, HasDat = true)]
+        SegaNaomi2,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega NAOMI Satellite Terminal PC")]
+        SegaNaomiSatelliteTerminalPC,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Nu")]
+        SegaNu,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Nu 1.1")]
+        SegaNu11,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Nu 2")]
+        SegaNu2,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Nu SX")]
+        SegaNuSX,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Sega RingEdge", ShortName = "SRE", RedumpOrgCode = "sre", HasDat = true)]
+        SegaRingEdge,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Sega RingEdge 2", ShortName = "SRE2", RedumpOrgCode = "sre2", HasDat = true)]
+        SegaRingEdge2,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega RingWide")]
+        SegaRingWide,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega System 32")]
+        SegaSystem32,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Titan Video", ShortName = "stv", RedumpOrgCode = "stv")]
+        SegaTitanVideo,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Seibu CATS System")]
+        SeibuCATSSystem,
+
+        [System(Category = SystemCategory.Arcade, LongName = "TAB-Austria Quizard", ShortName = "QUIZARD", RedumpOrgCode = "quizard", HasCues = true, HasDat = true)]
+        TABAustriaQuizard,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Tsunami TsuMo Multi-Game Motion System")]
+        TsunamiTsuMoMultiGameMotionSystem,
+
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "UltraCade PC-based Systems")]
+        UltraCade,
+
+        // End of arcade section delimiter
+        MarkerArcadeEnd,
+
+        #endregion
+
+        #region Other
+
+        [System(Category = SystemCategory.Other, LongName = "Audio CD", ShortName = "AUDIO-CD", RedumpOrgCode = "audio-cd", IsBanned = true, HasCues = true, HasDat = true)]
+        AudioCD,
+
+        [System(Category = SystemCategory.Other, LongName = "BD-Video", ShortName = "BD-VIDEO", RedumpOrgCode = "bd-video", IsBanned = true, HasDat = true)]
+        BDVideo,
+
+        [System(Category = SystemCategory.Other, Available = false, LongName = "DVD-Audio")]
+        DVDAudio,
+
+        [System(Category = SystemCategory.Other, LongName = "DVD-Video", ShortName = "DVD-VIDEO", RedumpOrgCode = "dvd-video", IsBanned = true, HasDat = true)]
+        DVDVideo,
+
+        [System(Category = SystemCategory.Other, LongName = "Enhanced CD", ShortName = "ENHANCED-CD", RedumpOrgCode = "enhanced-cd", IsBanned = true)]
+        EnhancedCD,
+
+        [System(Category = SystemCategory.Other, LongName = "HD DVD-Video", ShortName = "HDDVD-VIDEO", RedumpOrgCode = "hddvd-video", IsBanned = true, HasDat = true)]
+        HDDVDVideo,
+
+        [System(Category = SystemCategory.Other, LongName = "Navisoft Naviken 2.1", ShortName = "NAVI21", RedumpOrgCode = "navi21", IsBanned = true, HasCues = true, HasDat = true)]
+        NavisoftNaviken21,
+
+        [System(Category = SystemCategory.Other, LongName = "Palm OS", ShortName = "PALM", RedumpOrgCode = "palm", HasCues = true, HasDat = true)]
+        PalmOS,
+
+        [System(Category = SystemCategory.Other, LongName = "Photo CD", ShortName = "PHOTO-CD", RedumpOrgCode = "photo-cd", HasCues = true, HasDat = true)]
+        PhotoCD,
+
+        [System(Category = SystemCategory.Other, LongName = "PlayStation GameShark Updates", ShortName = "PSXGS", RedumpOrgCode = "psxgs", HasCues = true, HasDat = true)]
+        PlayStationGameSharkUpdates,
+
+        [System(Category = SystemCategory.Other, LongName = "Pocket PC", ShortName = "PPC", RedumpOrgCode = "ppc", HasCues = true, HasDat = true)]
+        PocketPC,
+
+        [System(Category = SystemCategory.Other, Available = false, LongName = "Psion")]
+        Psion,
+
+        [System(Category = SystemCategory.Other, Available = false, LongName = "Rainbow Disc")]
+        RainbowDisc,
+
+        [System(Category = SystemCategory.Other, LongName = "Sega Prologue 21 Multimedia Karaoke System", ShortName = "SP21", RedumpOrgCode = "sp21", HasCues = true, HasDat = true)]
+        SegaPrologue21MultimediaKaraokeSystem,
+
+        [System(Category = SystemCategory.Other, Available = false, LongName = "Sharp Zaurus")]
+        SharpZaurus,
+
+        [System(Category = SystemCategory.Other, Available = false, LongName = "Sony Electronic Book")]
+        SonyElectronicBook,
+
+        [System(Category = SystemCategory.Other, Available = false, LongName = "Super Audio CD")]
+        SuperAudioCD,
+
+        [System(Category = SystemCategory.Other, LongName = "Tao iKTV", ShortName = "IKTV", RedumpOrgCode = "iktv")]
+        TaoiKTV,
+
+        [System(Category = SystemCategory.Other, LongName = "Tomy Kiss-Site", ShortName = "KSITE", RedumpOrgCode = "ksite", HasCues = true, HasDat = true)]
+        TomyKissSite,
+
+        [System(Category = SystemCategory.Other, LongName = "Video CD", ShortName = "VCD", RedumpOrgCode = "vcd", IsBanned = true, HasCues = true, HasDat = true)]
+        VideoCD,
+
+        // End of other section delimiter
+        MarkerOtherEnd,
+
+        #endregion
+    }
+
+    /// <summary>
     /// List of all known regions
     /// </summary>
     /// <remarks>
@@ -1924,149 +2524,149 @@ namespace SabreTools.RedumpLib.Data
 
         #region B
 
-        [RegionCode(LongName = "Bahamas", ShortName="bs", RedumpOrgCode="Bs")]
+        [RegionCode(LongName = "Bahamas", ShortName = "bs", RedumpOrgCode = "Bs")]
         Bahamas,
 
-        [RegionCode(LongName = "Bahrain", ShortName="bh", RedumpOrgCode="Bh")]
+        [RegionCode(LongName = "Bahrain", ShortName = "bh", RedumpOrgCode = "Bh")]
         Bahrain,
 
-        [RegionCode(LongName = "Bangladesh", ShortName="bd", RedumpOrgCode="Bd")]
+        [RegionCode(LongName = "Bangladesh", ShortName = "bd", RedumpOrgCode = "Bd")]
         Bangladesh,
 
-        [RegionCode(LongName = "Barbados", ShortName="bb", RedumpOrgCode="Bb")]
+        [RegionCode(LongName = "Barbados", ShortName = "bb", RedumpOrgCode = "Bb")]
         Barbados,
 
-        [RegionCode(LongName = "Belarus", ShortName="by", RedumpOrgCode="By")]
+        [RegionCode(LongName = "Belarus", ShortName = "by", RedumpOrgCode = "By")]
         Belarus,
 
-        [RegionCode(LongName = "Belgium", ShortName="be", RedumpOrgCode="Be")]
+        [RegionCode(LongName = "Belgium", ShortName = "be", RedumpOrgCode = "Be")]
         Belgium,
 
-        [RegionCode(LongName = "Belize", ShortName="bz", RedumpOrgCode="Bz")]
+        [RegionCode(LongName = "Belize", ShortName = "bz", RedumpOrgCode = "Bz")]
         Belize,
 
-        [RegionCode(LongName = "Benin", ShortName="bj", RedumpOrgCode="Bj")]
+        [RegionCode(LongName = "Benin", ShortName = "bj", RedumpOrgCode = "Bj")]
         Benin,
 
-        [RegionCode(LongName = "Bermuda", ShortName="bm", RedumpOrgCode="Bm")]
+        [RegionCode(LongName = "Bermuda", ShortName = "bm", RedumpOrgCode = "Bm")]
         Bermuda,
 
-        [RegionCode(LongName = "Bhutan", ShortName="bt", RedumpOrgCode="Bt")]
+        [RegionCode(LongName = "Bhutan", ShortName = "bt", RedumpOrgCode = "Bt")]
         Bhutan,
 
-        [RegionCode(LongName = "Bolivia", ShortName="bo", RedumpOrgCode="Bo")]
+        [RegionCode(LongName = "Bolivia", ShortName = "bo", RedumpOrgCode = "Bo")]
         Bolivia,
 
-        [RegionCode(LongName = "Bonaire, Sint Eustatius and Saba", ShortName="bq", RedumpOrgCode="Bq")]
+        [RegionCode(LongName = "Bonaire, Sint Eustatius and Saba", ShortName = "bq", RedumpOrgCode = "Bq")]
         Bonaire,
 
-        [RegionCode(LongName = "Bosnia and Herzegovina", ShortName="ba", RedumpOrgCode="Ba")]
+        [RegionCode(LongName = "Bosnia and Herzegovina", ShortName = "ba", RedumpOrgCode = "Ba")]
         BosniaAndHerzegovina,
 
-        [RegionCode(LongName = "Botswana", ShortName="bw", RedumpOrgCode="Bw")]
+        [RegionCode(LongName = "Botswana", ShortName = "bw", RedumpOrgCode = "Bw")]
         Botswana,
 
-        [RegionCode(LongName = "Bouvet Island", ShortName="bv", RedumpOrgCode="Bv")]
+        [RegionCode(LongName = "Bouvet Island", ShortName = "bv", RedumpOrgCode = "Bv")]
         BouvetIsland,
 
-        [RegionCode(LongName = "Brazil", ShortName="br", RedumpOrgCode="B")]
+        [RegionCode(LongName = "Brazil", ShortName = "br", RedumpOrgCode = "B")]
         Brazil,
 
-        [RegionCode(LongName = "British Indian Ocean Territory", ShortName="io", RedumpOrgCode="Io")]
+        [RegionCode(LongName = "British Indian Ocean Territory", ShortName = "io", RedumpOrgCode = "Io")]
         BritishIndianOceanTerritory,
 
-        [RegionCode(LongName = "Brunei Darussalam", ShortName="bn", RedumpOrgCode="Bn")]
+        [RegionCode(LongName = "Brunei Darussalam", ShortName = "bn", RedumpOrgCode = "Bn")]
         BruneiDarussalam,
 
-        [RegionCode(LongName = "Bulgaria", ShortName="bg", RedumpOrgCode="Bg")]
+        [RegionCode(LongName = "Bulgaria", ShortName = "bg", RedumpOrgCode = "Bg")]
         Bulgaria,
 
-        [RegionCode(LongName = "Burkina Faso", ShortName="bf", RedumpOrgCode="Bf")]
+        [RegionCode(LongName = "Burkina Faso", ShortName = "bf", RedumpOrgCode = "Bf")]
         BurkinaFaso,
 
-        [RegionCode(LongName = "Burundi", ShortName="bi", RedumpOrgCode="Bi")]
+        [RegionCode(LongName = "Burundi", ShortName = "bi", RedumpOrgCode = "Bi")]
         Burundi,
 
         #endregion
 
         #region C
 
-        [RegionCode(LongName = "Cabo Verde", ShortName="cv", RedumpOrgCode="Cv")]
+        [RegionCode(LongName = "Cabo Verde", ShortName = "cv", RedumpOrgCode = "Cv")]
         CaboVerde,
 
-        [RegionCode(LongName = "Cambodia", ShortName="kh", RedumpOrgCode="Kh")]
+        [RegionCode(LongName = "Cambodia", ShortName = "kh", RedumpOrgCode = "Kh")]
         Cambodia,
 
-        [RegionCode(LongName = "Cameroon", ShortName="cm", RedumpOrgCode="Cm")]
+        [RegionCode(LongName = "Cameroon", ShortName = "cm", RedumpOrgCode = "Cm")]
         Cameroon,
 
-        [RegionCode(LongName = "Canada", ShortName="ca", RedumpOrgCode="Ca")]
+        [RegionCode(LongName = "Canada", ShortName = "ca", RedumpOrgCode = "Ca")]
         Canada,
 
-        [RegionCode(LongName = "Canary Islands", ShortName="ic", RedumpOrgCode="Ic")]
+        [RegionCode(LongName = "Canary Islands", ShortName = "ic", RedumpOrgCode = "Ic")]
         CanaryIslands,
 
-        [RegionCode(LongName = "Cayman Islands", ShortName="ky", RedumpOrgCode="Ky")]
+        [RegionCode(LongName = "Cayman Islands", ShortName = "ky", RedumpOrgCode = "Ky")]
         CaymanIslands,
 
-        [RegionCode(LongName = "Central African Republic", ShortName="cf", RedumpOrgCode="Cf")]
+        [RegionCode(LongName = "Central African Republic", ShortName = "cf", RedumpOrgCode = "Cf")]
         CentralAfricanRepublic,
 
-        [RegionCode(LongName = "Ceuta, Melilla", ShortName="ea", RedumpOrgCode="Ea")]
+        [RegionCode(LongName = "Ceuta, Melilla", ShortName = "ea", RedumpOrgCode = "Ea")]
         CeutaMelilla,
 
-        [RegionCode(LongName = "Chad", ShortName="td", RedumpOrgCode="Td")]
+        [RegionCode(LongName = "Chad", ShortName = "td", RedumpOrgCode = "Td")]
         Chad,
 
-        [RegionCode(LongName = "Chile", ShortName="cl", RedumpOrgCode="Cl")]
+        [RegionCode(LongName = "Chile", ShortName = "cl", RedumpOrgCode = "Cl")]
         Chile,
 
-        [RegionCode(LongName = "China", ShortName="cn", RedumpOrgCode="C")]
+        [RegionCode(LongName = "China", ShortName = "cn", RedumpOrgCode = "C")]
         China,
 
-        [RegionCode(LongName = "Christmas Island", ShortName="cx", RedumpOrgCode="Cx")]
+        [RegionCode(LongName = "Christmas Island", ShortName = "cx", RedumpOrgCode = "Cx")]
         ChristmasIsland,
 
-        [RegionCode(LongName = "Clipperton Island", ShortName="cp", RedumpOrgCode="Cp")]
+        [RegionCode(LongName = "Clipperton Island", ShortName = "cp", RedumpOrgCode = "Cp")]
         ClippertonIsland,
 
-        [RegionCode(LongName = "Cocos (Keeling) Islands", ShortName="cc", RedumpOrgCode="Cc")]
+        [RegionCode(LongName = "Cocos (Keeling) Islands", ShortName = "cc", RedumpOrgCode = "Cc")]
         CocosIslands,
 
-        [RegionCode(LongName = "Colombia", ShortName="co", RedumpOrgCode="Co")]
+        [RegionCode(LongName = "Colombia", ShortName = "co", RedumpOrgCode = "Co")]
         Colombia,
 
-        [RegionCode(LongName = "Comoros", ShortName="km", RedumpOrgCode="Km")]
+        [RegionCode(LongName = "Comoros", ShortName = "km", RedumpOrgCode = "Km")]
         Comoros,
 
-        [RegionCode(LongName = "Congo", ShortName="cg", RedumpOrgCode="Cg")]
+        [RegionCode(LongName = "Congo", ShortName = "cg", RedumpOrgCode = "Cg")]
         Congo,
 
-        [RegionCode(LongName = "Cook Islands", ShortName="ck", RedumpOrgCode="Ck")]
+        [RegionCode(LongName = "Cook Islands", ShortName = "ck", RedumpOrgCode = "Ck")]
         CookIslands,
 
-        [RegionCode(LongName = "Costa Rica", ShortName="cr", RedumpOrgCode="Cr")]
+        [RegionCode(LongName = "Costa Rica", ShortName = "cr", RedumpOrgCode = "Cr")]
         CostaRica,
 
-        [RegionCode(LongName = "Côte d'Ivoire", ShortName="ci", RedumpOrgCode="Ci")]
+        [RegionCode(LongName = "Côte d'Ivoire", ShortName = "ci", RedumpOrgCode = "Ci")]
         CoteDIvoire,
 
-        [RegionCode(LongName = "Croatia", ShortName="hr", RedumpOrgCode="Hr")]
+        [RegionCode(LongName = "Croatia", ShortName = "hr", RedumpOrgCode = "Hr")]
         Croatia,
 
-        [RegionCode(LongName = "Cuba", ShortName="cu", RedumpOrgCode="Cu")]
+        [RegionCode(LongName = "Cuba", ShortName = "cu", RedumpOrgCode = "Cu")]
         Cuba,
 
-        [RegionCode(LongName = "Curaçao", ShortName="cw", RedumpOrgCode="Cw")]
+        [RegionCode(LongName = "Curaçao", ShortName = "cw", RedumpOrgCode = "Cw")]
         Curacao,
 
-        [RegionCode(LongName = "Cyprus", ShortName="cy", RedumpOrgCode="Cy")]
+        [RegionCode(LongName = "Cyprus", ShortName = "cy", RedumpOrgCode = "Cy")]
         Cyprus,
 
-        [RegionCode(LongName = "Czechia", ShortName="cz", RedumpOrgCode="Cz")]
+        [RegionCode(LongName = "Czechia", ShortName = "cz", RedumpOrgCode = "Cz")]
         Czechia,
 
-        [RegionCode(LongName = "Czechoslovakia", ShortName="cs", RedumpOrgCode="Cs")]
+        [RegionCode(LongName = "Czechoslovakia", ShortName = "cs", RedumpOrgCode = "Cs")]
         Czechoslovakia,
 
         #endregion
@@ -2074,50 +2674,50 @@ namespace SabreTools.RedumpLib.Data
         #region D
 
         // Zaire was "Zr"
-        [RegionCode(LongName = "Democratic Republic of the Congo (Zaire)", ShortName="cd", RedumpOrgCode="Cd")]
+        [RegionCode(LongName = "Democratic Republic of the Congo (Zaire)", ShortName = "cd", RedumpOrgCode = "Cd")]
         DemocraticRepublicOfTheCongo,
 
-        [RegionCode(LongName = "Denmark", ShortName="dk", RedumpOrgCode="Dk")]
+        [RegionCode(LongName = "Denmark", ShortName = "dk", RedumpOrgCode = "Dk")]
         Denmark,
 
-        [RegionCode(LongName = "Diego Garcia", ShortName="dg", RedumpOrgCode="Dg")]
+        [RegionCode(LongName = "Diego Garcia", ShortName = "dg", RedumpOrgCode = "Dg")]
         DiegoGarcia,
 
-        [RegionCode(LongName = "Djibouti", ShortName="dj", RedumpOrgCode="Dj")]
+        [RegionCode(LongName = "Djibouti", ShortName = "dj", RedumpOrgCode = "Dj")]
         Djibouti,
 
-        [RegionCode(LongName = "Dominica", ShortName="dm", RedumpOrgCode="Dm")]
+        [RegionCode(LongName = "Dominica", ShortName = "dm", RedumpOrgCode = "Dm")]
         Dominica,
 
-        [RegionCode(LongName = "Dominican Republic", ShortName="do", RedumpOrgCode="Do")]
+        [RegionCode(LongName = "Dominican Republic", ShortName = "do", RedumpOrgCode = "Do")]
         DominicanRepublic,
 
         #endregion
 
         #region E
 
-        [RegionCode(LongName = "Ecuador", ShortName="ec", RedumpOrgCode="Ec")]
+        [RegionCode(LongName = "Ecuador", ShortName = "ec", RedumpOrgCode = "Ec")]
         Ecuador,
 
-        [RegionCode(LongName = "Egypt", ShortName="eg", RedumpOrgCode="Eg")]
+        [RegionCode(LongName = "Egypt", ShortName = "eg", RedumpOrgCode = "Eg")]
         Egypt,
 
-        [RegionCode(LongName = "El Salvador", ShortName="sv", RedumpOrgCode="Sv")]
+        [RegionCode(LongName = "El Salvador", ShortName = "sv", RedumpOrgCode = "Sv")]
         ElSalvador,
 
-        [RegionCode(LongName = "Equatorial Guinea", ShortName="gq", RedumpOrgCode="Gq")]
+        [RegionCode(LongName = "Equatorial Guinea", ShortName = "gq", RedumpOrgCode = "Gq")]
         EquatorialGuinea,
 
-        [RegionCode(LongName = "Eritrea", ShortName="er", RedumpOrgCode="Er")]
+        [RegionCode(LongName = "Eritrea", ShortName = "er", RedumpOrgCode = "Er")]
         Eritrea,
 
-        [RegionCode(LongName = "Estonia", ShortName="ee", RedumpOrgCode="Ee")]
+        [RegionCode(LongName = "Estonia", ShortName = "ee", RedumpOrgCode = "Ee")]
         Estonia,
 
-        [RegionCode(LongName = "Eswatini", ShortName="sz", RedumpOrgCode="Sz")]
+        [RegionCode(LongName = "Eswatini", ShortName = "sz", RedumpOrgCode = "Sz")]
         Eswatini,
 
-        [RegionCode(LongName = "Ethiopia", ShortName="et", RedumpOrgCode="Et")]
+        [RegionCode(LongName = "Ethiopia", ShortName = "et", RedumpOrgCode = "Et")]
         Ethiopia,
 
         // Commented out to avoid confusion
@@ -2132,646 +2732,669 @@ namespace SabreTools.RedumpLib.Data
 
         #region F
 
-        [RegionCode(LongName = "Falkland Islands (Malvinas)", ShortName="fk", RedumpOrgCode="Fk")]
+        [RegionCode(LongName = "Falkland Islands (Malvinas)", ShortName = "fk", RedumpOrgCode = "Fk")]
         FalklandIslands,
 
-        [RegionCode(LongName = "Faroe Islands", ShortName="fo", RedumpOrgCode="Fo")]
+        [RegionCode(LongName = "Faroe Islands", ShortName = "fo", RedumpOrgCode = "Fo")]
         FaroeIslands,
 
-        [RegionCode(LongName = "Federated States of Micronesia", ShortName="fm", RedumpOrgCode="Fm")]
+        [RegionCode(LongName = "Federated States of Micronesia", ShortName = "fm", RedumpOrgCode = "Fm")]
         FederatedStatesOfMicronesia,
 
-        [RegionCode(LongName = "Fiji", ShortName="fj", RedumpOrgCode="Fj")]
+        [RegionCode(LongName = "Fiji", ShortName = "fj", RedumpOrgCode = "Fj")]
         Fiji,
 
         // Formerly "Sf"
-        [RegionCode(LongName = "Finland", ShortName="fi", RedumpOrgCode="Fi")]
+        [RegionCode(LongName = "Finland", ShortName = "fi", RedumpOrgCode = "Fi")]
         Finland,
 
-        [RegionCode(LongName = "France", ShortName="fr", RedumpOrgCode="F")]
+        [RegionCode(LongName = "France", ShortName = "fr", RedumpOrgCode = "F")]
         France,
 
         // Commented out to avoid confusion
         //[RegionCode(LongName = "France, Metropolitan", ShortName="fx", RedumpOrgCode="Fx")]
         //FranceMetropolitan,
 
-        [RegionCode(LongName = "French Guiana", ShortName="gf", RedumpOrgCode="Gf")]
+        [RegionCode(LongName = "French Guiana", ShortName = "gf", RedumpOrgCode = "Gf")]
         FrenchGuiana,
 
-        [RegionCode(LongName = "French Polynesia", ShortName="pf", RedumpOrgCode="Pf")]
+        [RegionCode(LongName = "French Polynesia", ShortName = "pf", RedumpOrgCode = "Pf")]
         FrenchPolynesia,
 
-        [RegionCode(LongName = "French Southern Territories", ShortName="tf", RedumpOrgCode="Tf")]
+        [RegionCode(LongName = "French Southern Territories", ShortName = "tf", RedumpOrgCode = "Tf")]
         FrenchSouthernTerritories,
 
         #endregion
 
         #region G
 
-        [RegionCode(LongName = "Gabon", ShortName="ga", RedumpOrgCode="Ga")]
+        [RegionCode(LongName = "Gabon", ShortName = "ga", RedumpOrgCode = "Ga")]
         Gabon,
 
-        [RegionCode(LongName = "Gambia", ShortName="gm", RedumpOrgCode="Gm")]
+        [RegionCode(LongName = "Gambia", ShortName = "gm", RedumpOrgCode = "Gm")]
         Gambia,
 
-        [RegionCode(LongName = "Georgia", ShortName="ge", RedumpOrgCode="Ge")]
+        [RegionCode(LongName = "Georgia", ShortName = "ge", RedumpOrgCode = "Ge")]
         Georgia,
 
-        [RegionCode(LongName = "Germany", ShortName="de", RedumpOrgCode="G")]
+        [RegionCode(LongName = "Germany", ShortName = "de", RedumpOrgCode = "G")]
         Germany,
 
-        [RegionCode(LongName = "Ghana", ShortName="gh", RedumpOrgCode="Gh")]
+        [RegionCode(LongName = "Ghana", ShortName = "gh", RedumpOrgCode = "Gh")]
         Ghana,
 
-        [RegionCode(LongName = "Gibraltar", ShortName="gi", RedumpOrgCode="Gi")]
+        [RegionCode(LongName = "Gibraltar", ShortName = "gi", RedumpOrgCode = "Gi")]
         Gibraltar,
 
-        [RegionCode(LongName = "Greece", ShortName="gr", RedumpOrgCode="Gr")]
+        [RegionCode(LongName = "Greece", ShortName = "gr", RedumpOrgCode = "Gr")]
         Greece,
 
-        [RegionCode(LongName = "Greenland", ShortName="gl", RedumpOrgCode="Gl")]
+        [RegionCode(LongName = "Greenland", ShortName = "gl", RedumpOrgCode = "Gl")]
         Greenland,
 
-        [RegionCode(LongName = "Grenada", ShortName="gd", RedumpOrgCode="Gd")]
+        [RegionCode(LongName = "Grenada", ShortName = "gd", RedumpOrgCode = "Gd")]
         Grenada,
 
-        [RegionCode(LongName = "Guadeloupe", ShortName="gp", RedumpOrgCode="Gp")]
+        [RegionCode(LongName = "Guadeloupe", ShortName = "gp", RedumpOrgCode = "Gp")]
         Guadeloupe,
 
-        [RegionCode(LongName = "Guam", ShortName="gu", RedumpOrgCode="Gu")]
+        [RegionCode(LongName = "Guam", ShortName = "gu", RedumpOrgCode = "Gu")]
         Guam,
 
-        [RegionCode(LongName = "Guatemala", ShortName="gt", RedumpOrgCode="Gt")]
+        [RegionCode(LongName = "Guatemala", ShortName = "gt", RedumpOrgCode = "Gt")]
         Guatemala,
 
-        [RegionCode(LongName = "Guernsey", ShortName="gg", RedumpOrgCode="Gg")]
+        [RegionCode(LongName = "Guernsey", ShortName = "gg", RedumpOrgCode = "Gg")]
         Guernsey,
 
-        [RegionCode(LongName = "Guinea", ShortName="gn", RedumpOrgCode="Gn")]
+        [RegionCode(LongName = "Guinea", ShortName = "gn", RedumpOrgCode = "Gn")]
         Guinea,
 
-        [RegionCode(LongName = "Guinea-Bissau", ShortName="gw", RedumpOrgCode="Gw")]
+        [RegionCode(LongName = "Guinea-Bissau", ShortName = "gw", RedumpOrgCode = "Gw")]
         GuineaBissau,
 
-        [RegionCode(LongName = "Guyana", ShortName="gy", RedumpOrgCode="Gy")]
+        [RegionCode(LongName = "Guyana", ShortName = "gy", RedumpOrgCode = "Gy")]
         Guyana,
 
         #endregion
 
         #region H
 
-        [RegionCode(LongName = "Haiti", ShortName="ht", RedumpOrgCode="Ht")]
+        [RegionCode(LongName = "Haiti", ShortName = "ht", RedumpOrgCode = "Ht")]
         Haiti,
 
-        [RegionCode(LongName = "Heard Island and McDonald Islands", ShortName="hm", RedumpOrgCode="Hm")]
+        [RegionCode(LongName = "Heard Island and McDonald Islands", ShortName = "hm", RedumpOrgCode = "Hm")]
         HeardIslandAndMcDonaldIslands,
 
-        [RegionCode(LongName = "Holy See (Vatican City)", ShortName="va", RedumpOrgCode="Va")]
+        [RegionCode(LongName = "Holy See (Vatican City)", ShortName = "va", RedumpOrgCode = "Va")]
         HolySee,
 
-        [RegionCode(LongName = "Honduras", ShortName="hn", RedumpOrgCode="Hn")]
+        [RegionCode(LongName = "Honduras", ShortName = "hn", RedumpOrgCode = "Hn")]
         Honduras,
 
-        [RegionCode(LongName = "Hong Kong", ShortName="hk", RedumpOrgCode="Hk")]
+        [RegionCode(LongName = "Hong Kong", ShortName = "hk", RedumpOrgCode = "Hk")]
         HongKong,
 
-        [RegionCode(LongName = "Hungary", ShortName="hu", RedumpOrgCode="H")]
+        [RegionCode(LongName = "Hungary", ShortName = "hu", RedumpOrgCode = "H")]
         Hungary,
 
         #endregion
 
         #region I
 
-        [RegionCode(LongName = "Iceland", ShortName="is", RedumpOrgCode="Is")]
+        [RegionCode(LongName = "Iceland", ShortName = "is", RedumpOrgCode = "Is")]
         Iceland,
 
-        [RegionCode(LongName = "India", ShortName="in", RedumpOrgCode="In")]
+        [RegionCode(LongName = "India", ShortName = "in", RedumpOrgCode = "In")]
         India,
 
-        [RegionCode(LongName = "Indonesia", ShortName="id", RedumpOrgCode="Id")]
+        [RegionCode(LongName = "Indonesia", ShortName = "id", RedumpOrgCode = "Id")]
         Indonesia,
 
-        [RegionCode(LongName = "Iran", ShortName="ir", RedumpOrgCode="Ir")]
+        [RegionCode(LongName = "Iran", ShortName = "ir", RedumpOrgCode = "Ir")]
         Iran,
 
-        [RegionCode(LongName = "Iraq", ShortName="iq", RedumpOrgCode="Iq")]
+        [RegionCode(LongName = "Iraq", ShortName = "iq", RedumpOrgCode = "Iq")]
         Iraq,
 
-        [RegionCode(LongName = "Ireland", ShortName="ie", RedumpOrgCode="Ie")]
+        [RegionCode(LongName = "Ireland", ShortName = "ie", RedumpOrgCode = "Ie")]
         Ireland,
 
-        [RegionCode(LongName = "Island of Sark", ShortName="cq", RedumpOrgCode="Cq")]
+        [RegionCode(LongName = "Island of Sark", ShortName = "cq", RedumpOrgCode = "Cq")]
         IslandOfSark,
 
-        [RegionCode(LongName = "Isle of Man", ShortName="im", RedumpOrgCode="Im")]
+        [RegionCode(LongName = "Isle of Man", ShortName = "im", RedumpOrgCode = "Im")]
         IsleOfMan,
 
-        [RegionCode(LongName = "Israel", ShortName="il", RedumpOrgCode="Il")]
+        [RegionCode(LongName = "Israel", ShortName = "il", RedumpOrgCode = "Il")]
         Israel,
 
-        [RegionCode(LongName = "Italy", ShortName="it", RedumpOrgCode="I")]
+        [RegionCode(LongName = "Italy", ShortName = "it", RedumpOrgCode = "I")]
         Italy,
 
         #endregion
 
         #region J
 
-        [RegionCode(LongName = "Jamaica", ShortName="jm", RedumpOrgCode="Jm")]
+        [RegionCode(LongName = "Jamaica", ShortName = "jm", RedumpOrgCode = "Jm")]
         Jamaica,
 
-        [RegionCode(LongName = "Japan", ShortName="jp", RedumpOrgCode="J")]
+        [RegionCode(LongName = "Japan", ShortName = "jp", RedumpOrgCode = "J")]
         Japan,
 
-        [RegionCode(LongName = "Jersey", ShortName="je", RedumpOrgCode="Je")]
+        [RegionCode(LongName = "Jersey", ShortName = "je", RedumpOrgCode = "Je")]
         Jersey,
 
-        [RegionCode(LongName = "Jordan", ShortName="jo", RedumpOrgCode="Jo")]
+        [RegionCode(LongName = "Jordan", ShortName = "jo", RedumpOrgCode = "Jo")]
         Jordan,
 
         #endregion
 
         #region K
 
-        [RegionCode(LongName = "Kazakhstan", ShortName="kz", RedumpOrgCode="Kz")]
+        [RegionCode(LongName = "Kazakhstan", ShortName = "kz", RedumpOrgCode = "Kz")]
         Kazakhstan,
 
-        [RegionCode(LongName = "Kenya", ShortName="ke", RedumpOrgCode="Ke")]
+        [RegionCode(LongName = "Kenya", ShortName = "ke", RedumpOrgCode = "Ke")]
         Kenya,
 
-        [RegionCode(LongName = "Kiribati", ShortName="ki", RedumpOrgCode="Ki")]
+        [RegionCode(LongName = "Kiribati", ShortName = "ki", RedumpOrgCode = "Ki")]
         Kiribati,
 
-        [RegionCode(LongName = "Korea (Democratic People's Republic of Korea)", ShortName="kp", RedumpOrgCode="Kp")]
+        [RegionCode(LongName = "Korea (Democratic People's Republic of Korea)", ShortName = "kp", RedumpOrgCode = "Kp")]
         NorthKorea,
 
-        [RegionCode(LongName = "Korea (Republic of Korea)", ShortName="kr", RedumpOrgCode="K")]
+        [RegionCode(LongName = "Korea (Republic of Korea)", ShortName = "kr", RedumpOrgCode = "K")]
         SouthKorea,
 
-        [RegionCode(LongName = "Kuwait", ShortName="kw", RedumpOrgCode="Kw")]
+        [RegionCode(LongName = "Kuwait", ShortName = "kw", RedumpOrgCode = "Kw")]
         Kuwait,
 
-        [RegionCode(LongName = "Kyrgyzstan", ShortName="kg", RedumpOrgCode="Kg")]
+        [RegionCode(LongName = "Kyrgyzstan", ShortName = "kg", RedumpOrgCode = "Kg")]
         Kyrgyzstan,
 
         #endregion
 
         #region L
 
-        [RegionCode(LongName = "(Laos) Lao People's Democratic Republic", ShortName="la", RedumpOrgCode="La")]
+        [RegionCode(LongName = "(Laos) Lao People's Democratic Republic", ShortName = "la", RedumpOrgCode = "La")]
         Laos,
 
-        [RegionCode(LongName = "Latvia", ShortName="lv", RedumpOrgCode="Lv")]
+        [RegionCode(LongName = "Latvia", ShortName = "lv", RedumpOrgCode = "Lv")]
         Latvia,
 
-        [RegionCode(LongName = "Lebanon", ShortName="lb", RedumpOrgCode="Lb")]
+        [RegionCode(LongName = "Lebanon", ShortName = "lb", RedumpOrgCode = "Lb")]
         Lebanon,
 
-        [RegionCode(LongName = "Lesotho", ShortName="ls", RedumpOrgCode="Ls")]
+        [RegionCode(LongName = "Lesotho", ShortName = "ls", RedumpOrgCode = "Ls")]
         Lesotho,
 
-        [RegionCode(LongName = "Liberia", ShortName="lr", RedumpOrgCode="Lr")]
+        [RegionCode(LongName = "Liberia", ShortName = "lr", RedumpOrgCode = "Lr")]
         Liberia,
 
-        [RegionCode(LongName = "Libya", ShortName="ly", RedumpOrgCode="Ly")]
+        [RegionCode(LongName = "Libya", ShortName = "ly", RedumpOrgCode = "Ly")]
         Libya,
 
-        [RegionCode(LongName = "Liechtenstein", ShortName="li", RedumpOrgCode="Li")]
+        [RegionCode(LongName = "Liechtenstein", ShortName = "li", RedumpOrgCode = "Li")]
         Liechtenstein,
 
-        [RegionCode(LongName = "Lithuania", ShortName="lt", RedumpOrgCode="Lt")]
+        [RegionCode(LongName = "Lithuania", ShortName = "lt", RedumpOrgCode = "Lt")]
         Lithuania,
 
-        [RegionCode(LongName = "Luxembourg", ShortName="lu", RedumpOrgCode="Lu")]
+        [RegionCode(LongName = "Luxembourg", ShortName = "lu", RedumpOrgCode = "Lu")]
         Luxembourg,
 
         #endregion
 
         #region M
 
-        [RegionCode(LongName = "Macao", ShortName="mo", RedumpOrgCode="Mo")]
+        [RegionCode(LongName = "Macao", ShortName = "mo", RedumpOrgCode = "Mo")]
         Macao,
 
-        [RegionCode(LongName = "Madagascar", ShortName="mg", RedumpOrgCode="Mg")]
+        [RegionCode(LongName = "Madagascar", ShortName = "mg", RedumpOrgCode = "Mg")]
         Madagascar,
 
-        [RegionCode(LongName = "Malawi", ShortName="mw", RedumpOrgCode="Mw")]
+        [RegionCode(LongName = "Malawi", ShortName = "mw", RedumpOrgCode = "Mw")]
         Malawi,
 
-        [RegionCode(LongName = "Malaysia", ShortName="my", RedumpOrgCode="My")]
+        [RegionCode(LongName = "Malaysia", ShortName = "my", RedumpOrgCode = "My")]
         Malaysia,
 
-        [RegionCode(LongName = "Maldives", ShortName="mv", RedumpOrgCode="Mv")]
+        [RegionCode(LongName = "Maldives", ShortName = "mv", RedumpOrgCode = "Mv")]
         Maldives,
 
-        [RegionCode(LongName = "Mali", ShortName="ml", RedumpOrgCode="Ml")]
+        [RegionCode(LongName = "Mali", ShortName = "ml", RedumpOrgCode = "Ml")]
         Mali,
 
-        [RegionCode(LongName = "Malta", ShortName="mt", RedumpOrgCode="Mt")]
+        [RegionCode(LongName = "Malta", ShortName = "mt", RedumpOrgCode = "Mt")]
         Malta,
 
-        [RegionCode(LongName = "Marshall Islands", ShortName="mh", RedumpOrgCode="Mh")]
+        [RegionCode(LongName = "Marshall Islands", ShortName = "mh", RedumpOrgCode = "Mh")]
         MarshallIslands,
 
-        [RegionCode(LongName = "Martinique", ShortName="mq", RedumpOrgCode="Mq")]
+        [RegionCode(LongName = "Martinique", ShortName = "mq", RedumpOrgCode = "Mq")]
         Martinique,
 
-        [RegionCode(LongName = "Mauritania", ShortName="mr", RedumpOrgCode="Mr")]
+        [RegionCode(LongName = "Mauritania", ShortName = "mr", RedumpOrgCode = "Mr")]
         Mauritania,
 
-        [RegionCode(LongName = "Mauritius", ShortName="mu", RedumpOrgCode="Mu")]
+        [RegionCode(LongName = "Mauritius", ShortName = "mu", RedumpOrgCode = "Mu")]
         Mauritius,
 
-        [RegionCode(LongName = "Mayotte", ShortName="yt", RedumpOrgCode="Yt")]
+        [RegionCode(LongName = "Mayotte", ShortName = "yt", RedumpOrgCode = "Yt")]
         Mayotte,
 
-        [RegionCode(LongName = "Mexico", ShortName="mx", RedumpOrgCode="Mx")]
+        [RegionCode(LongName = "Mexico", ShortName = "mx", RedumpOrgCode = "Mx")]
         Mexico,
 
-        [RegionCode(LongName = "Monaco", ShortName="mc", RedumpOrgCode="Mc")]
+        [RegionCode(LongName = "Monaco", ShortName = "mc", RedumpOrgCode = "Mc")]
         Monaco,
 
-        [RegionCode(LongName = "Mongolia", ShortName="mn", RedumpOrgCode="Mn")]
+        [RegionCode(LongName = "Mongolia", ShortName = "mn", RedumpOrgCode = "Mn")]
         Mongolia,
 
-        [RegionCode(LongName = "Montenegro", ShortName="me", RedumpOrgCode="Me")]
+        [RegionCode(LongName = "Montenegro", ShortName = "me", RedumpOrgCode = "Me")]
         Montenegro,
 
-        [RegionCode(LongName = "Montserrat", ShortName="ms", RedumpOrgCode="Ms")]
+        [RegionCode(LongName = "Montserrat", ShortName = "ms", RedumpOrgCode = "Ms")]
         Montserrat,
 
-        [RegionCode(LongName = "Morocco", ShortName="ma", RedumpOrgCode="Ma")]
+        [RegionCode(LongName = "Morocco", ShortName = "ma", RedumpOrgCode = "Ma")]
         Morocco,
 
-        [RegionCode(LongName = "Mozambique", ShortName="mz", RedumpOrgCode="Mz")]
+        [RegionCode(LongName = "Mozambique", ShortName = "mz", RedumpOrgCode = "Mz")]
         Mozambique,
 
         // Burma was "Bu"
-        [RegionCode(LongName = "Myanmar (Burma)", ShortName="mm", RedumpOrgCode="Mm")]
+        [RegionCode(LongName = "Myanmar (Burma)", ShortName = "mm", RedumpOrgCode = "Mm")]
         Myanmar,
 
         #endregion
 
         #region N
 
-        [RegionCode(LongName = "Namibia", ShortName="na", RedumpOrgCode="Na")]
+        [RegionCode(LongName = "Namibia", ShortName = "na", RedumpOrgCode = "Na")]
         Namibia,
 
-        [RegionCode(LongName = "Nauru", ShortName="nr", RedumpOrgCode="Nr")]
+        [RegionCode(LongName = "Nauru", ShortName = "nr", RedumpOrgCode = "Nr")]
         Nauru,
 
-        [RegionCode(LongName = "Nepal", ShortName="np", RedumpOrgCode="Np")]
+        [RegionCode(LongName = "Nepal", ShortName = "np", RedumpOrgCode = "Np")]
         Nepal,
 
-        [RegionCode(LongName = "Netherlands", ShortName="nl", RedumpOrgCode="N")]
+        [RegionCode(LongName = "Netherlands", ShortName = "nl", RedumpOrgCode = "N")]
         Netherlands,
 
-        [RegionCode(LongName = "Netherlands Antilles", ShortName="an", RedumpOrgCode="An")]
+        [RegionCode(LongName = "Netherlands Antilles", ShortName = "an", RedumpOrgCode = "An")]
         NetherlandsAntilles,
 
         // Commented out to avoid confusion
         //[RegionCode(LongName = "Neutral Zone", ShortName="nt", RedumpOrgCode="Nt")]
         //NeutralZone,
 
-        [RegionCode(LongName = "New Caledonia", ShortName="nc", RedumpOrgCode="Nc")]
+        [RegionCode(LongName = "New Caledonia", ShortName = "nc", RedumpOrgCode = "Nc")]
         NewCaledonia,
 
-        [RegionCode(LongName = "New Zealand", ShortName="nz", RedumpOrgCode="Nz")]
+        [RegionCode(LongName = "New Zealand", ShortName = "nz", RedumpOrgCode = "Nz")]
         NewZealand,
 
-        [RegionCode(LongName = "Nicaragua", ShortName="ni", RedumpOrgCode="Ni")]
+        [RegionCode(LongName = "Nicaragua", ShortName = "ni", RedumpOrgCode = "Ni")]
         Nicaragua,
 
-        [RegionCode(LongName = "Niger", ShortName="ne", RedumpOrgCode="Ne")]
+        [RegionCode(LongName = "Niger", ShortName = "ne", RedumpOrgCode = "Ne")]
         Niger,
 
-        [RegionCode(LongName = "Nigeria", ShortName="ng", RedumpOrgCode="Ng")]
+        [RegionCode(LongName = "Nigeria", ShortName = "ng", RedumpOrgCode = "Ng")]
         Nigeria,
 
-        [RegionCode(LongName = "Niue", ShortName="nu", RedumpOrgCode="Nu")]
+        [RegionCode(LongName = "Niue", ShortName = "nu", RedumpOrgCode = "Nu")]
         Niue,
 
-        [RegionCode(LongName = "Norfolk Island", ShortName="nf", RedumpOrgCode="Nf")]
+        [RegionCode(LongName = "Norfolk Island", ShortName = "nf", RedumpOrgCode = "Nf")]
         NorfolkIsland,
 
-        [RegionCode(LongName = "North Macedonia", ShortName="mk", RedumpOrgCode="Mk")]
+        [RegionCode(LongName = "North Macedonia", ShortName = "mk", RedumpOrgCode = "Mk")]
         NorthMacedonia,
 
-        [RegionCode(LongName = "Northern Mariana Islands", ShortName="mp", RedumpOrgCode="Mp")]
+        [RegionCode(LongName = "Northern Mariana Islands", ShortName = "mp", RedumpOrgCode = "Mp")]
         NorthernMarianaIslands,
 
-        [RegionCode(LongName = "Norway", ShortName="no", RedumpOrgCode="No")]
+        [RegionCode(LongName = "Norway", ShortName = "no", RedumpOrgCode = "No")]
         Norway,
 
         #endregion
 
         #region O
 
-        [RegionCode(LongName = "Oman", ShortName="om", RedumpOrgCode="Om")]
+        [RegionCode(LongName = "Oman", ShortName = "om", RedumpOrgCode = "Om")]
         Oman,
 
         #endregion
 
         #region P
 
-        [RegionCode(LongName = "Pakistan", ShortName="pk", RedumpOrgCode="Pk")]
+        [RegionCode(LongName = "Pakistan", ShortName = "pk", RedumpOrgCode = "Pk")]
         Pakistan,
 
-        [RegionCode(LongName = "Palau", ShortName="pw", RedumpOrgCode="Pw")]
+        [RegionCode(LongName = "Palau", ShortName = "pw", RedumpOrgCode = "Pw")]
         Palau,
 
-        [RegionCode(LongName = "Panama", ShortName="pa", RedumpOrgCode="Pa")]
+        [RegionCode(LongName = "Panama", ShortName = "pa", RedumpOrgCode = "Pa")]
         Panama,
 
-        [RegionCode(LongName = "Papua New Guinea", ShortName="pg", RedumpOrgCode="Pg")]
+        [RegionCode(LongName = "Papua New Guinea", ShortName = "pg", RedumpOrgCode = "Pg")]
         PapuaNewGuinea,
 
-        [RegionCode(LongName = "Paraguay", ShortName="py", RedumpOrgCode="Py")]
+        [RegionCode(LongName = "Paraguay", ShortName = "py", RedumpOrgCode = "Py")]
         Paraguay,
 
-        [RegionCode(LongName = "Peru", ShortName="pe", RedumpOrgCode="Pe")]
+        [RegionCode(LongName = "Peru", ShortName = "pe", RedumpOrgCode = "Pe")]
         Peru,
 
-        [RegionCode(LongName = "Philippines", ShortName="ph", RedumpOrgCode="Ph")]
+        [RegionCode(LongName = "Philippines", ShortName = "ph", RedumpOrgCode = "Ph")]
         Philippines,
 
-        [RegionCode(LongName = "Pitcairn", ShortName="pn", RedumpOrgCode="Pn")]
+        [RegionCode(LongName = "Pitcairn", ShortName = "pn", RedumpOrgCode = "Pn")]
         Pitcairn,
 
-        [RegionCode(LongName = "Poland", ShortName="pl", RedumpOrgCode="P")]
+        [RegionCode(LongName = "Poland", ShortName = "pl", RedumpOrgCode = "P")]
         Poland,
 
-        [RegionCode(LongName = "Portugal", ShortName="pt", RedumpOrgCode="Pt")]
+        [RegionCode(LongName = "Portugal", ShortName = "pt", RedumpOrgCode = "Pt")]
         Portugal,
 
-        [RegionCode(LongName = "Puerto Rico", ShortName="pr", RedumpOrgCode="Pr")]
+        [RegionCode(LongName = "Puerto Rico", ShortName = "pr", RedumpOrgCode = "Pr")]
         PuertoRico,
 
         #endregion
 
         #region Q
 
-        [RegionCode(LongName = "Qatar", ShortName="qa", RedumpOrgCode="Qa")]
+        [RegionCode(LongName = "Qatar", ShortName = "qa", RedumpOrgCode = "Qa")]
         Qatar,
 
         #endregion
 
         #region R
 
-        [RegionCode(LongName = "Republic of Moldova", ShortName="md", RedumpOrgCode="Md")]
+        [RegionCode(LongName = "Republic of Moldova", ShortName = "md", RedumpOrgCode = "Md")]
         RepublicOfMoldova,
 
-        [RegionCode(LongName = "Réunion", ShortName="re", RedumpOrgCode="Re")]
+        [RegionCode(LongName = "Réunion", ShortName = "re", RedumpOrgCode = "Re")]
         Reunion,
 
-        [RegionCode(LongName = "Romania", ShortName="ro", RedumpOrgCode="Ro")]
+        [RegionCode(LongName = "Romania", ShortName = "ro", RedumpOrgCode = "Ro")]
         Romania,
 
-        [RegionCode(LongName = "Russian Federation", ShortName="ru", RedumpOrgCode="R")]
+        [RegionCode(LongName = "Russian Federation", ShortName = "ru", RedumpOrgCode = "R")]
         RussianFederation,
 
-        [RegionCode(LongName = "Rwanda", ShortName="rw", RedumpOrgCode="Rw")]
+        [RegionCode(LongName = "Rwanda", ShortName = "rw", RedumpOrgCode = "Rw")]
         Rwanda,
 
         #endregion
 
         #region S
 
-        [RegionCode(LongName = "Saint Barthélemy", ShortName="bl", RedumpOrgCode="Bl")]
+        [RegionCode(LongName = "Saint Barthélemy", ShortName = "bl", RedumpOrgCode = "Bl")]
         SaintBarthelemy,
 
-        [RegionCode(LongName = "Saint Helena, Ascension and Tristan da Cunha", ShortName="sh", RedumpOrgCode="Sh")]
+        [RegionCode(LongName = "Saint Helena, Ascension and Tristan da Cunha", ShortName = "sh", RedumpOrgCode = "Sh")]
         SaintHelena,
 
-        [RegionCode(LongName = "Saint Kitts and Nevis", ShortName="kn", RedumpOrgCode="Kn")]
+        [RegionCode(LongName = "Saint Kitts and Nevis", ShortName = "kn", RedumpOrgCode = "Kn")]
         SaintKittsAndNevis,
 
-        [RegionCode(LongName = "Saint Lucia", ShortName="lc", RedumpOrgCode="Lc")]
+        [RegionCode(LongName = "Saint Lucia", ShortName = "lc", RedumpOrgCode = "Lc")]
         SaintLucia,
 
-        [RegionCode(LongName = "Saint Martin", ShortName="mf", RedumpOrgCode="Mf")]
+        [RegionCode(LongName = "Saint Martin", ShortName = "mf", RedumpOrgCode = "Mf")]
         SaintMartin,
 
-        [RegionCode(LongName = "Saint Pierre and Miquelon", ShortName="pm", RedumpOrgCode="Pm")]
+        [RegionCode(LongName = "Saint Pierre and Miquelon", ShortName = "pm", RedumpOrgCode = "Pm")]
         SaintPierreAndMiquelon,
 
-        [RegionCode(LongName = "Saint Vincent and the Grenadines", ShortName="vc", RedumpOrgCode="Vc")]
+        [RegionCode(LongName = "Saint Vincent and the Grenadines", ShortName = "vc", RedumpOrgCode = "Vc")]
         SaintVincentAndTheGrenadines,
 
-        [RegionCode(LongName = "Samoa", ShortName="ws", RedumpOrgCode="Ws")]
+        [RegionCode(LongName = "Samoa", ShortName = "ws", RedumpOrgCode = "Ws")]
         Samoa,
 
-        [RegionCode(LongName = "San Marino", ShortName="sm", RedumpOrgCode="Sm")]
+        [RegionCode(LongName = "San Marino", ShortName = "sm", RedumpOrgCode = "Sm")]
         SanMarino,
 
-        [RegionCode(LongName = "Sao Tome and Principe", ShortName="st", RedumpOrgCode="St")]
+        [RegionCode(LongName = "Sao Tome and Principe", ShortName = "st", RedumpOrgCode = "St")]
         SaoTomeAndPrincipe,
 
-        [RegionCode(LongName = "Saudi Arabia", ShortName="sa", RedumpOrgCode="Sa")]
+        [RegionCode(LongName = "Saudi Arabia", ShortName = "sa", RedumpOrgCode = "Sa")]
         SaudiArabia,
 
-        [RegionCode(LongName = "Senegal", ShortName="sn", RedumpOrgCode="Sn")]
+        [RegionCode(LongName = "Senegal", ShortName = "sn", RedumpOrgCode = "Sn")]
         Senegal,
 
-        [RegionCode(LongName = "Serbia", ShortName="rs", RedumpOrgCode="Rs")]
+        [RegionCode(LongName = "Serbia", ShortName = "rs", RedumpOrgCode = "Rs")]
         Serbia,
 
-        [RegionCode(LongName = "Seychelles", ShortName="sc", RedumpOrgCode="Sc")]
+        [RegionCode(LongName = "Seychelles", ShortName = "sc", RedumpOrgCode = "Sc")]
         Seychelles,
 
-        [RegionCode(LongName = "Sierra Leone", ShortName="sl", RedumpOrgCode="Sl")]
+        [RegionCode(LongName = "Sierra Leone", ShortName = "sl", RedumpOrgCode = "Sl")]
         SierraLeone,
 
-        [RegionCode(LongName = "Singapore", ShortName="sg", RedumpOrgCode="Sg")]
+        [RegionCode(LongName = "Singapore", ShortName = "sg", RedumpOrgCode = "Sg")]
         Singapore,
 
-        [RegionCode(LongName = "Sint Maarten", ShortName="sx", RedumpOrgCode="Sx")]
+        [RegionCode(LongName = "Sint Maarten", ShortName = "sx", RedumpOrgCode = "Sx")]
         SintMaarten,
 
-        [RegionCode(LongName = "Slovakia", ShortName="sk", RedumpOrgCode="Sk")]
+        [RegionCode(LongName = "Slovakia", ShortName = "sk", RedumpOrgCode = "Sk")]
         Slovakia,
 
-        [RegionCode(LongName = "Slovenia", ShortName="si", RedumpOrgCode="Si")]
+        [RegionCode(LongName = "Slovenia", ShortName = "si", RedumpOrgCode = "Si")]
         Slovenia,
 
-        [RegionCode(LongName = "Solomon Islands", ShortName="sb", RedumpOrgCode="Sb")]
+        [RegionCode(LongName = "Solomon Islands", ShortName = "sb", RedumpOrgCode = "Sb")]
         SolomonIslands,
 
-        [RegionCode(LongName = "Somalia", ShortName="so", RedumpOrgCode="So")]
+        [RegionCode(LongName = "Somalia", ShortName = "so", RedumpOrgCode = "So")]
         Somalia,
 
-        [RegionCode(LongName = "South Africa", ShortName="za", RedumpOrgCode="Za")]
+        [RegionCode(LongName = "South Africa", ShortName = "za", RedumpOrgCode = "Za")]
         SouthAfrica,
 
-        [RegionCode(LongName = "South Georgia and the South Sandwich Islands", ShortName="gs", RedumpOrgCode="Gs")]
+        [RegionCode(LongName = "South Georgia and the South Sandwich Islands", ShortName = "gs", RedumpOrgCode = "Gs")]
         SouthGeorgia,
 
-        [RegionCode(LongName = "South Sudan", ShortName="ss", RedumpOrgCode="Ss")]
+        [RegionCode(LongName = "South Sudan", ShortName = "ss", RedumpOrgCode = "Ss")]
         SouthSudan,
 
-        [RegionCode(LongName = "Spain", ShortName="es", RedumpOrgCode="S")]
+        [RegionCode(LongName = "Spain", ShortName = "es", RedumpOrgCode = "S")]
         Spain,
 
-        [RegionCode(LongName = "Sri Lanka", ShortName="lk", RedumpOrgCode="Lk")]
+        [RegionCode(LongName = "Sri Lanka", ShortName = "lk", RedumpOrgCode = "Lk")]
         SriLanka,
 
-        [RegionCode(LongName = "State of Palestine", ShortName="ps", RedumpOrgCode="Ps")]
+        [RegionCode(LongName = "State of Palestine", ShortName = "ps", RedumpOrgCode = "Ps")]
         StateOfPalestine,
 
-        [RegionCode(LongName = "Sudan", ShortName="sd", RedumpOrgCode="Sd")]
+        [RegionCode(LongName = "Sudan", ShortName = "sd", RedumpOrgCode = "Sd")]
         Sudan,
 
-        [RegionCode(LongName = "Suriname", ShortName="sr", RedumpOrgCode="Sr")]
+        [RegionCode(LongName = "Suriname", ShortName = "sr", RedumpOrgCode = "Sr")]
         Suriname,
 
-        [RegionCode(LongName = "Svalbard and Jan Mayen", ShortName="sj", RedumpOrgCode="Sj")]
+        [RegionCode(LongName = "Svalbard and Jan Mayen", ShortName = "sj", RedumpOrgCode = "Sj")]
         SvalbardAndJanMayen,
 
-        [RegionCode(LongName = "Sweden", ShortName="se", RedumpOrgCode="Sw")]
+        [RegionCode(LongName = "Sweden", ShortName = "se", RedumpOrgCode = "Sw")]
         Sweden,
 
-        [RegionCode(LongName = "Switzerland", ShortName="ch", RedumpOrgCode="Ch")]
+        [RegionCode(LongName = "Switzerland", ShortName = "ch", RedumpOrgCode = "Ch")]
         Switzerland,
 
-        [RegionCode(LongName = "Syrian Arab Republic", ShortName="sy", RedumpOrgCode="Sy")]
+        [RegionCode(LongName = "Syrian Arab Republic", ShortName = "sy", RedumpOrgCode = "Sy")]
         SyrianArabRepublic,
 
         #endregion
 
         #region T
 
-        [RegionCode(LongName = "Taiwan", ShortName="tw", RedumpOrgCode="Tw")]
+        [RegionCode(LongName = "Taiwan", ShortName = "tw", RedumpOrgCode = "Tw")]
         Taiwan,
 
-        [RegionCode(LongName = "Tajikistan", ShortName="tj", RedumpOrgCode="Tj")]
+        [RegionCode(LongName = "Tajikistan", ShortName = "tj", RedumpOrgCode = "Tj")]
         Tajikistan,
 
-        [RegionCode(LongName = "Thailand", ShortName="th", RedumpOrgCode="Th")]
+        [RegionCode(LongName = "Thailand", ShortName = "th", RedumpOrgCode = "Th")]
         Thailand,
 
         // East Timor was "Tp"
-        [RegionCode(LongName = "Timor-Leste (East Timor)", ShortName="tl", RedumpOrgCode="Tl")]
+        [RegionCode(LongName = "Timor-Leste (East Timor)", ShortName = "tl", RedumpOrgCode = "Tl")]
         TimorLeste,
 
-        [RegionCode(LongName = "Togo", ShortName="tg", RedumpOrgCode="Tg")]
+        [RegionCode(LongName = "Togo", ShortName = "tg", RedumpOrgCode = "Tg")]
         Togo,
 
-        [RegionCode(LongName = "Tokelau", ShortName="tk", RedumpOrgCode="Tk")]
+        [RegionCode(LongName = "Tokelau", ShortName = "tk", RedumpOrgCode = "Tk")]
         Tokelau,
 
-        [RegionCode(LongName = "Tonga", ShortName="to", RedumpOrgCode="To")]
+        [RegionCode(LongName = "Tonga", ShortName = "to", RedumpOrgCode = "To")]
         Tonga,
 
-        [RegionCode(LongName = "Trinidad and Tobago", ShortName="tt", RedumpOrgCode="Tt")]
+        [RegionCode(LongName = "Trinidad and Tobago", ShortName = "tt", RedumpOrgCode = "Tt")]
         TrinidadAndTobago,
 
-        [RegionCode(LongName = "Tristan da Cunha", ShortName="ta", RedumpOrgCode="Ta")]
+        [RegionCode(LongName = "Tristan da Cunha", ShortName = "ta", RedumpOrgCode = "Ta")]
         TristanDaCunha,
 
-        [RegionCode(LongName = "Tunisia", ShortName="tn", RedumpOrgCode="Tn")]
+        [RegionCode(LongName = "Tunisia", ShortName = "tn", RedumpOrgCode = "Tn")]
         Tunisia,
 
-        [RegionCode(LongName = "Turkey", ShortName="tr", RedumpOrgCode="Tr")]
+        [RegionCode(LongName = "Turkey", ShortName = "tr", RedumpOrgCode = "Tr")]
         Turkey,
 
-        [RegionCode(LongName = "Turkmenistan", ShortName="tm", RedumpOrgCode="Tm")]
+        [RegionCode(LongName = "Turkmenistan", ShortName = "tm", RedumpOrgCode = "Tm")]
         Turkmenistan,
 
-        [RegionCode(LongName = "Turks and Caicos Islands", ShortName="tc", RedumpOrgCode="Tc")]
+        [RegionCode(LongName = "Turks and Caicos Islands", ShortName = "tc", RedumpOrgCode = "Tc")]
         TurksAndCaicosIslands,
 
-        [RegionCode(LongName = "Tuvalu", ShortName="tv", RedumpOrgCode="Tv")]
+        [RegionCode(LongName = "Tuvalu", ShortName = "tv", RedumpOrgCode = "Tv")]
         Tuvalu,
 
         #endregion
 
         #region U
 
-        [RegionCode(LongName = "Uganda", ShortName="ug", RedumpOrgCode="Ug")]
+        [RegionCode(LongName = "Uganda", ShortName = "ug", RedumpOrgCode = "Ug")]
         Uganda,
 
         // Should be both "Gb" and "Uk"
         // United Kingdom of Great Britain and Northern Ireland
-        [RegionCode(LongName = "UK", ShortName="gb", RedumpOrgCode="Uk")]
+        [RegionCode(LongName = "UK", ShortName = "gb", RedumpOrgCode = "Uk")]
         UnitedKingdom,
 
-        [RegionCode(LongName = "Ukraine", ShortName="ue", RedumpOrgCode="Ue")]
+        [RegionCode(LongName = "Ukraine", ShortName = "ue", RedumpOrgCode = "Ue")]
         Ukraine,
 
-        [RegionCode(LongName = "United Arab Emirates", ShortName="ae", RedumpOrgCode="Ae")]
+        [RegionCode(LongName = "United Arab Emirates", ShortName = "ae", RedumpOrgCode = "Ae")]
         UnitedArabEmirates,
 
         // Commented out to avoid confusion
         //[RegionCode(LongName = "United Nations", ShortName="un", RedumpOrgCode="Un")]
         //UnitedNations,
 
-        [RegionCode(LongName = "United Republic of Tanzania", ShortName="tz", RedumpOrgCode="Tz")]
+        [RegionCode(LongName = "United Republic of Tanzania", ShortName = "tz", RedumpOrgCode = "Tz")]
         UnitedRepublicOfTanzania,
 
-        [RegionCode(LongName = "United States Minor Outlying Islands", ShortName="um", RedumpOrgCode="Um")]
+        [RegionCode(LongName = "United States Minor Outlying Islands", ShortName = "um", RedumpOrgCode = "Um")]
         UnitedStatesMinorOutlyingIslands,
 
-        [RegionCode(LongName = "Uruguay", ShortName="uy", RedumpOrgCode="Uy")]
+        [RegionCode(LongName = "Uruguay", ShortName = "uy", RedumpOrgCode = "Uy")]
         Uruguay,
 
         // United States of America
-        [RegionCode(LongName = "USA", ShortName="us", RedumpOrgCode="U")]
+        [RegionCode(LongName = "USA", ShortName = "us", RedumpOrgCode = "U")]
         UnitedStatesOfAmerica,
 
-        [RegionCode(LongName = "USSR", ShortName="su", RedumpOrgCode="Su")]
+        [RegionCode(LongName = "USSR", ShortName = "su", RedumpOrgCode = "Su")]
         USSR,
 
-        [RegionCode(LongName = "Uzbekistan", ShortName="uz", RedumpOrgCode="Uz")]
+        [RegionCode(LongName = "Uzbekistan", ShortName = "uz", RedumpOrgCode = "Uz")]
         Uzbekistan,
 
         #endregion
 
         #region V
 
-        [RegionCode(LongName = "Vanuatu", ShortName="vu", RedumpOrgCode="Vu")]
+        [RegionCode(LongName = "Vanuatu", ShortName = "vu", RedumpOrgCode = "Vu")]
         Vanuatu,
 
-        [RegionCode(LongName = "Venezuela", ShortName="ve", RedumpOrgCode="Ve")]
+        [RegionCode(LongName = "Venezuela", ShortName = "ve", RedumpOrgCode = "Ve")]
         Venezuela,
 
-        [RegionCode(LongName = "Viet Nam", ShortName="vn", RedumpOrgCode="Vn")]
+        [RegionCode(LongName = "Viet Nam", ShortName = "vn", RedumpOrgCode = "Vn")]
         VietNam,
 
-        [RegionCode(LongName = "Virgin Islands (British)", ShortName="vg", RedumpOrgCode="Vg")]
+        [RegionCode(LongName = "Virgin Islands (British)", ShortName = "vg", RedumpOrgCode = "Vg")]
         BritishVirginIslands,
 
-        [RegionCode(LongName = "Virgin Islands (US)", ShortName="vi", RedumpOrgCode="Vi")]
+        [RegionCode(LongName = "Virgin Islands (US)", ShortName = "vi", RedumpOrgCode = "Vi")]
         USVirginIslands,
 
         #endregion
 
         #region W
 
-        [RegionCode(LongName = "Wallis and Futuna", ShortName="wf", RedumpOrgCode="Wf")]
+        [RegionCode(LongName = "Wallis and Futuna", ShortName = "wf", RedumpOrgCode = "Wf")]
         WallisAndFutuna,
 
-        [RegionCode(LongName = "Western Sahara", ShortName="eh", RedumpOrgCode="Eh")]
+        [RegionCode(LongName = "Western Sahara", ShortName = "eh", RedumpOrgCode = "Eh")]
         WesternSahara,
 
         #endregion
 
         #region Y
 
-        [RegionCode(LongName = "Yemen", ShortName="ye", RedumpOrgCode="Ye")]
+        [RegionCode(LongName = "Yemen", ShortName = "ye", RedumpOrgCode = "Ye")]
         Yemen,
 
-        [RegionCode(LongName = "Yugoslavia", ShortName="yu", RedumpOrgCode="Yu")]
+        [RegionCode(LongName = "Yugoslavia", ShortName = "yu", RedumpOrgCode = "Yu")]
         Yugoslavia,
 
         #endregion
 
         #region Z
 
-        [RegionCode(LongName = "Zambia", ShortName="zm", RedumpOrgCode="Zm")]
+        [RegionCode(LongName = "Zambia", ShortName = "zm", RedumpOrgCode = "Zm")]
         Zambia,
 
-        [RegionCode(LongName = "Zimbabwe", ShortName="zw", RedumpOrgCode="Zw")]
+        [RegionCode(LongName = "Zimbabwe", ShortName = "zw", RedumpOrgCode = "Zw")]
         Zimbabwe,
 
         #endregion
     }
+
+    /// <summary>
+    /// List of system categories
+    /// </summary>
+    public enum SystemCategory
+    {
+        NONE = 0,
+
+        [HumanReadable(LongName = "Disc-Based Consoles")]
+        DiscBasedConsole,
+
+        [HumanReadable(LongName = "Other Consoles")]
+        OtherConsole,
+
+        [HumanReadable(LongName = "Computers")]
+        Computer,
+
+        [HumanReadable(LongName = "Arcade")]
+        Arcade,
+
+        [HumanReadable(LongName = "Other")]
+        Other,
+    };
 }

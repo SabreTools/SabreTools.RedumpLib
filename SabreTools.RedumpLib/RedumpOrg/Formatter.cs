@@ -411,10 +411,10 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <summary>
         /// Format a EDCSection
         /// </summary>
-        internal static void FormatOutputData(StringBuilder output, EDCSection? section, RedumpSystem? system)
+        internal static void FormatOutputData(StringBuilder output, EDCSection? section, PhysicalSystem? system)
         {
             // Check the section can be added
-            if (system != RedumpSystem.SonyPlayStation)
+            if (system != PhysicalSystem.SonyPlayStation)
                 return;
 
             output.AppendLine("EDC:");
@@ -456,7 +456,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// </summary>
         internal static void FormatOutputData(StringBuilder output,
             CopyProtectionSection? section,
-            RedumpSystem? system)
+            PhysicalSystem? system)
         {
             // Optional sections have to exist to format
             if (section is null)
@@ -474,7 +474,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
 
             output.AppendLine("Copy Protection:");
 
-            if (system == RedumpSystem.SonyPlayStation)
+            if (system == PhysicalSystem.SonyPlayStation)
             {
                 AddIfExists(output, Template.PlayStationAntiModchipField, section.AntiModchip.LongName(), 1);
                 AddIfExists(output, Template.PlayStationLibCryptField, section.LibCrypt.LongName(), 1);
@@ -508,7 +508,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         internal static void FormatOutputData(StringBuilder output,
             SizeAndChecksumsSection? section,
             PhysicalMediaType? mediaType,
-            RedumpSystem? system,
+            PhysicalSystem? system,
             bool enableRedumpCompatibility)
         {
             output.AppendLine("Size & Checksum:");

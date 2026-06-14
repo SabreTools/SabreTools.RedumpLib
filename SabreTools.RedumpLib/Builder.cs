@@ -180,15 +180,15 @@ namespace SabreTools.RedumpLib
                                         }
                                         else if (string.Equals(gameInfoNodeHeader.InnerText, "System", StringComparison.OrdinalIgnoreCase))
                                         {
-                                            info.CommonDiscInfo.System = RedumpOrg.Data.Extensions.ToRedumpSystem(gameInfoNodeData["a"]?.InnerText ?? string.Empty);
+                                            info.CommonDiscInfo.System = (gameInfoNodeData["a"]?.InnerText ?? string.Empty).ToPhysicalSystem();
                                         }
                                         else if (string.Equals(gameInfoNodeHeader.InnerText, "Media", StringComparison.OrdinalIgnoreCase))
                                         {
-                                            info.CommonDiscInfo.Media = RedumpOrg.Data.Extensions.ToDiscType(gameInfoNodeData.InnerText);
+                                            info.CommonDiscInfo.Media = gameInfoNodeData.InnerText.ToDiscType();
                                         }
                                         else if (string.Equals(gameInfoNodeHeader.InnerText, "Category", StringComparison.OrdinalIgnoreCase))
                                         {
-                                            info.CommonDiscInfo.Category = RedumpOrg.Data.Extensions.ToDiscCategory(gameInfoNodeData.InnerText);
+                                            info.CommonDiscInfo.Category = gameInfoNodeData.InnerText.ToDiscCategory();
                                         }
                                         else if (string.Equals(gameInfoNodeHeader.InnerText, "Region", StringComparison.OrdinalIgnoreCase))
                                         {

@@ -1,4 +1,5 @@
 using System;
+using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.RedumpInfo;
 using SabreTools.RedumpLib.RedumpInfo.Data;
 using Xunit;
@@ -89,20 +90,20 @@ namespace SabreTools.RedumpLib.Test.RedumpInfo
         [InlineData(PackType.Sbis, "https://redump.info/sbi/ARCH/")]
         public void BuildPackUrl_ValidPackType_ValidSystem_Builds(PackType packType, string expected)
         {
-            string actual = UrlBuilder.BuildPackUrl(packType, RedumpSystem.AcornArchimedes);
+            string actual = UrlBuilder.BuildPackUrl(packType, PhysicalSystem.AcornArchimedes);
             Assert.Equal(expected, actual);
         }
 
         [Fact]
         public void BuildPackUrl_InvalidPackType_Throws()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => UrlBuilder.BuildPackUrl((PackType)int.MaxValue, RedumpSystem.AcornArchimedes));
+            Assert.Throws<ArgumentOutOfRangeException>(() => UrlBuilder.BuildPackUrl((PackType)int.MaxValue, PhysicalSystem.AcornArchimedes));
         }
 
         [Fact]
         public void BuildPackUrl_InvalidSystem_Builds()
         {
-            string actual = UrlBuilder.BuildPackUrl(PackType.Datfile, RedumpSystem.MarkerOtherEnd);
+            string actual = UrlBuilder.BuildPackUrl(PackType.Datfile, PhysicalSystem.MarkerOtherEnd);
             Assert.Equal("https://redump.info/datfile//", actual);
         }
 

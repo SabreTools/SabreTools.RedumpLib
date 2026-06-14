@@ -92,7 +92,7 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
 
             var builder = new StringBuilder();
             EDCSection? section = null;
-            RedumpSystem? system = RedumpSystem.SonyPlayStation;
+            PhysicalSystem? system = PhysicalSystem.SonyPlayStation;
 
             Formatter.FormatOutputData(builder, section, system);
 
@@ -107,7 +107,7 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
 
             var builder = new StringBuilder();
             EDCSection? section = null;
-            RedumpSystem? system = RedumpSystem.IBMPCcompatible;
+            PhysicalSystem? system = PhysicalSystem.IBMPCcompatible;
 
             Formatter.FormatOutputData(builder, section, system);
 
@@ -122,7 +122,7 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
 
             var builder = new StringBuilder();
             EDCSection? section = new() { EDC = YesNo.Yes };
-            RedumpSystem? system = RedumpSystem.SonyPlayStation;
+            PhysicalSystem? system = PhysicalSystem.SonyPlayStation;
 
             Formatter.FormatOutputData(builder, section, system);
 
@@ -202,7 +202,7 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
 
             var builder = new StringBuilder();
             CopyProtectionSection? section = null;
-            RedumpSystem? system = RedumpSystem.IBMPCcompatible;
+            PhysicalSystem? system = PhysicalSystem.IBMPCcompatible;
 
             Formatter.FormatOutputData(builder, section, system);
 
@@ -224,7 +224,7 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
                 LibCryptData = null,
                 SecuROMData = null,
             };
-            RedumpSystem? system = RedumpSystem.IBMPCcompatible;
+            PhysicalSystem? system = PhysicalSystem.IBMPCcompatible;
 
             Formatter.FormatOutputData(builder, section, system);
 
@@ -246,7 +246,7 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
                 Protection = "XXXXXX",
                 SecuROMData = "XXXXXX",
             };
-            RedumpSystem? system = RedumpSystem.IBMPCcompatible;
+            PhysicalSystem? system = PhysicalSystem.IBMPCcompatible;
 
             Formatter.FormatOutputData(builder, section, system);
 
@@ -268,7 +268,7 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
                 Protection = "XXXXXX",
                 SecuROMData = "XXXXXX",
             };
-            RedumpSystem? system = RedumpSystem.SonyPlayStation;
+            PhysicalSystem? system = PhysicalSystem.SonyPlayStation;
 
             Formatter.FormatOutputData(builder, section, system);
 

@@ -39,7 +39,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             RedumpOrg.Data.SortCategory? sort = null,
             RedumpOrg.Data.SortDirection? sortDir = null,
             DumpStatus? status = null,
-            RedumpSystem? system = null,
+            PhysicalSystem? system = null,
             int limit = -1,
             DiscSubpath[]? discSubpaths = null)
         {
@@ -164,7 +164,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             RedumpOrg.Data.SortCategory? sort = null,
             RedumpOrg.Data.SortDirection? sortDir = null,
             DumpStatus? status = null,
-            RedumpSystem? system = null,
+            PhysicalSystem? system = null,
             int limit = -1)
         {
             // Keep getting discs pages until there are none left

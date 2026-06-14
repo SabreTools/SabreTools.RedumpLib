@@ -36,6 +36,776 @@ namespace SabreTools.RedumpLib.Data
 
         #endregion
 
+        #region Cross-Enumeration
+
+        /// <summary>
+        /// Get a list of valid MediaTypes for a given PhysicalSystem
+        /// </summary>
+        /// <param name="system">PhysicalSystem value to check</param>
+        /// <returns>MediaTypes, if possible</returns>
+        public static List<PhysicalMediaType?> MediaTypes(this PhysicalSystem? system)
+        {
+            var types = new List<PhysicalMediaType?>();
+
+#pragma warning disable IDE0010 // Add missing cases
+            switch (system)
+            {
+                #region Consoles
+
+                // https://en.wikipedia.org/wiki/Atari_Jaguar_CD
+                case PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Playdia
+                case PhysicalSystem.BandaiPlaydiaQuickInteractiveSystem:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Apple_Bandai_Pippin
+                case PhysicalSystem.BandaiPippin:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Amiga_CD32
+                case PhysicalSystem.CommodoreAmigaCD32:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Commodore_CDTV
+                case PhysicalSystem.CommodoreAmigaCDTV:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/EVO_Smart_Console
+                case PhysicalSystem.EnvizionsEVOSmartConsole:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/FM_Towns_Marty
+                case PhysicalSystem.FujitsuFMTownsMarty:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.FloppyDisk);
+                    break;
+
+                // http://videogamekraken.com/ion-educational-gaming-system-by-hasbro
+                case PhysicalSystem.HasbroiONEducationalGamingSystem:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/VideoNow
+                case PhysicalSystem.HasbroVideoNow:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/VideoNow
+                case PhysicalSystem.HasbroVideoNowColor:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/VideoNow
+                case PhysicalSystem.HasbroVideoNowJr:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/VideoNow
+                case PhysicalSystem.HasbroVideoNowXP:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                case PhysicalSystem.MattelFisherPriceiXL:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/HyperScan
+                case PhysicalSystem.MattelHyperScan:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Xbox_(console)
+                case PhysicalSystem.MicrosoftXbox:
+                    types.Add(PhysicalMediaType.DVD);
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Xbox_360
+                case PhysicalSystem.MicrosoftXbox360:
+                    types.Add(PhysicalMediaType.DVD);
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Xbox_One
+                case PhysicalSystem.MicrosoftXboxOne:
+                    types.Add(PhysicalMediaType.BluRay);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Xbox_Series_X_and_Series_S
+                case PhysicalSystem.MicrosoftXboxSeriesXS:
+                    types.Add(PhysicalMediaType.BluRay);
+                    break;
+
+                // https://en.wikipedia.org/wiki/TurboGrafx-16
+                case PhysicalSystem.NECPCEngineCDTurboGrafxCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PC-FX
+                case PhysicalSystem.NECPCFXPCFXGA:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/GameCube
+                case PhysicalSystem.NintendoGameCube:
+                    types.Add(PhysicalMediaType.DVD); // Only added here to help users; not strictly correct
+                    types.Add(PhysicalMediaType.NintendoGameCubeGameDisc);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Super_NES_CD-ROM
+                case PhysicalSystem.NintendoSonySuperNESCDROMSystem:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Wii
+                case PhysicalSystem.NintendoWii:
+                    types.Add(PhysicalMediaType.DVD); // Only added here to help users; not strictly correct
+                    types.Add(PhysicalMediaType.NintendoWiiOpticalDisc);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Wii_U
+                case PhysicalSystem.NintendoWiiU:
+                    types.Add(PhysicalMediaType.NintendoWiiUOpticalDisc);
+                    break;
+
+                // https://en.wikipedia.org/wiki/3DO_Interactive_Multiplayer
+                case PhysicalSystem.Panasonic3DOInteractiveMultiplayer:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Philips_CD-i
+                case PhysicalSystem.PhilipsCDi:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Polymega
+                case PhysicalSystem.PlaymajiPolymega:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/LaserActive
+                case PhysicalSystem.PioneerLaserActive:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.LaserDisc);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Sega_CD
+                case PhysicalSystem.SegaMegaCDSegaCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Dreamcast
+                case PhysicalSystem.SegaDreamcast:
+                    types.Add(PhysicalMediaType.CDROM); // Low density partition, MIL-CD
+                    types.Add(PhysicalMediaType.GDROM); // High density partition
+                    break;
+
+                // https://en.wikipedia.org/wiki/Sega_Saturn
+                case PhysicalSystem.SegaSaturn:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Neo_Geo_CD
+                case PhysicalSystem.SNKNeoGeoCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PlayStation_(console)
+                case PhysicalSystem.SonyPlayStation:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PlayStation_2
+                case PhysicalSystem.SonyPlayStation2:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PlayStation_3
+                case PhysicalSystem.SonyPlayStation3:
+                    types.Add(PhysicalMediaType.BluRay);
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PlayStation_4
+                case PhysicalSystem.SonyPlayStation4:
+                    types.Add(PhysicalMediaType.BluRay);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PlayStation_5
+                case PhysicalSystem.SonyPlayStation5:
+                    types.Add(PhysicalMediaType.BluRay);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PlayStation_Portable
+                case PhysicalSystem.SonyPlayStationPortable:
+                    types.Add(PhysicalMediaType.UMD);
+                    types.Add(PhysicalMediaType.CDROM); // Development discs only
+                    types.Add(PhysicalMediaType.DVD); // Development discs only
+                    break;
+
+                // https://en.wikipedia.org/wiki/Tandy_Video_Information_System
+                case PhysicalSystem.MemorexVisualInformationSystem:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Nuon_(DVD_technology)
+                case PhysicalSystem.VMLabsNUON:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/V.Flash
+                case PhysicalSystem.VTechVFlashVSmilePro:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Game_Wave_Family_Entertainment_System
+                case PhysicalSystem.ZAPiTGamesGameWaveFamilyEntertainmentSystem:
+                    types.Add(PhysicalMediaType.CDROM); // Firmware discs only(?)
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                #endregion
+
+                #region Computers
+
+                // https://en.wikipedia.org/wiki/Acorn_Archimedes
+                case PhysicalSystem.AcornArchimedes:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.FloppyDisk);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Macintosh
+                case PhysicalSystem.AppleMacintosh:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    types.Add(PhysicalMediaType.FloppyDisk);
+                    types.Add(PhysicalMediaType.HardDisk);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Amiga
+                case PhysicalSystem.CommodoreAmigaCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.FloppyDisk);
+                    break;
+
+                // https://en.wikipedia.org/wiki/FM_Towns
+                case PhysicalSystem.FujitsuFMTownsseries:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/IBM_PC_compatible
+                case PhysicalSystem.IBMPCcompatible:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    types.Add(PhysicalMediaType.BluRay);
+                    types.Add(PhysicalMediaType.FloppyDisk);
+                    types.Add(PhysicalMediaType.HardDisk);
+                    types.Add(PhysicalMediaType.DataCartridge);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PC-8800_series
+                case PhysicalSystem.NECPC88series:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.FloppyDisk);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PC-9800_series
+                case PhysicalSystem.NECPC98series:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    types.Add(PhysicalMediaType.FloppyDisk);
+                    break;
+
+                // https://en.wikipedia.org/wiki/X68000
+                case PhysicalSystem.SharpX68000:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.FloppyDisk);
+                    break;
+
+                #endregion
+
+                #region Arcade
+
+                // https://www.bigbookofamigahardware.com/bboah/product.aspx?id=36
+                case PhysicalSystem.AmigaCUBOCD32:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Orbatak
+                case PhysicalSystem.AmericanLaserGames3DO:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // http://system16.com/hardware.php?id=779
+                case PhysicalSystem.Atari3DO:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // http://newlifegames.net/nlg/index.php?topic=22003.0
+                // http://newlifegames.net/nlg/index.php?topic=5486.msg119440
+                case PhysicalSystem.Atronic:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://www.arcade-museum.com/members/member_detail.php?member_id=406530
+                case PhysicalSystem.AUSCOMSystem1:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // http://newlifegames.net/nlg/index.php?topic=285.0
+                case PhysicalSystem.BallyGameMagic:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/CP_System_III
+                case PhysicalSystem.CapcomCPSystemIII:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.funworldPhotoPlay:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/FuRyu
+                case PhysicalSystem.FuRyuOmronPurikura:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.GlobalVRVarious:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://service.globalvr.com/troubleshooting/vortek.html
+                case PhysicalSystem.GlobalVRVortek:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://service.globalvr.com/downloads/v3/040-1001-01c-V3-System-Manual.pdf
+                case PhysicalSystem.GlobalVRVortekV3:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://www.icegame.com/games
+                case PhysicalSystem.ICEPCHardware:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://github.com/mamedev/mame/blob/master/src/mame/drivers/iteagle.cpp
+                case PhysicalSystem.IncredibleTechnologiesEagle:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.IncredibleTechnologiesVarious:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.JVLiTouch:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/E-Amusement
+                case PhysicalSystem.KonamieAmusement:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=828
+                case PhysicalSystem.KonamiFireBeat:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=577
+                case PhysicalSystem.KonamiSystemGV:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // http://system16.com/hardware.php?id=575
+                case PhysicalSystem.KonamiM2:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // http://system16.com/hardware.php?id=586
+                // http://system16.com/hardware.php?id=977
+                case PhysicalSystem.KonamiPython:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=976
+                // http://system16.com/hardware.php?id=831
+                case PhysicalSystem.KonamiPython2:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=582
+                // http://system16.com/hardware.php?id=822
+                // http://system16.com/hardware.php?id=823
+                case PhysicalSystem.KonamiSystem573:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // http://system16.com/hardware.php?id=827
+                case PhysicalSystem.KonamiTwinkle:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.KonamiVarious:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://www.meritgames.com/Support_Center/manuals/PM0591-01.pdf
+                case PhysicalSystem.MeritIndustriesBoardwalk:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://www.meritgames.com/Support_Center/Force%20Elite/PM0380-09.pdf
+                // http://www.meritgames.com/Support_Center/Force%20Upright/PM0382-07%20FORCE%20Upright%20manual.pdf
+                // http://www.meritgames.com/Support_Center/Force%20Upright/PM0383-07%20FORCE%20Upright%20manual.pdf
+                case PhysicalSystem.MeritIndustriesMegaTouchForce:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // http://www.meritgames.com/Service%20Center/Ion%20Troubleshooting.pdf
+                case PhysicalSystem.MeritIndustriesMegaTouchION:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://www.meritgames.com/Support_Center/EZ%20Maxx/Manuals/MAXX%20Elite%20with%20coin.pdf
+                // http://www.meritgames.com/Support_Center/EZ%20Maxx/Manuals/MAXX%20Elite.pdf
+                // http://www.meritgames.com/Support_Center/manuals/90003010%20Maxx%20TSM_Rev%20C.pdf
+                case PhysicalSystem.MeritIndustriesMegaTouchMaxx:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // http://www.meritgames.com/Support_Center/manuals/pm0076_OA_Megatouch%20XL%20Trouble%20Shooting%20Manual.pdf
+                // http://www.meritgames.com/Support_Center/MEGA%20XL/manuals/Megatouch_XL_pm0109-0D.pdf
+                // http://www.meritgames.com/Support_Center/MEGA%20XL/manuals/Megatouch_XL_Super_5000_manual.pdf
+                case PhysicalSystem.MeritIndustriesMegaTouchXL:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.NamcoPurikura:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=543
+                // http://system16.com/hardware.php?id=546
+                // http://system16.com/hardware.php?id=872
+                case PhysicalSystem.NamcoSystem246256:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=545
+                case PhysicalSystem.NamcoSegaNintendoTriforce:
+                    types.Add(PhysicalMediaType.CDROM); // Low density partition
+                    types.Add(PhysicalMediaType.GDROM); // High density partition
+                    break;
+
+                // http://system16.com/hardware.php?id=535
+                case PhysicalSystem.NamcoSystem12:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://www.arcade-history.com/?n=the-yakyuuken-part-1&page=detail&id=33049
+                case PhysicalSystem.NewJatreCDi:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // http://blog.system11.org/?p=2499
+                case PhysicalSystem.NichibutsuHighRateSystem:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://blog.system11.org/?p=2514
+                case PhysicalSystem.NichibutsuSuperCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // http://collectedit.com/collectors/shou-time-213/arcade-pcbs-281/x-rate-dvd-series-17-newlywed-life-japan-by-nichibutsu-32245
+                case PhysicalSystem.NichibutsuXRateSystem:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Panasonic_M2
+                case PhysicalSystem.PanasonicM2:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://github.com/mamedev/mame/blob/master/src/mame/drivers/photoply.cpp
+                case PhysicalSystem.PhotoPlayVarious:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.RawThrillsVarious:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.SegaALLS:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=729
+                case PhysicalSystem.SegaChihiro:
+                    types.Add(PhysicalMediaType.CDROM); // Low density partition
+                    types.Add(PhysicalMediaType.GDROM); // High density partition
+                    break;
+
+                // http://system16.com/hardware.php?id=907
+                case PhysicalSystem.SegaEuropaR:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=985
+                // http://system16.com/hardware.php?id=731
+                // http://system16.com/hardware.php?id=984
+                // http://system16.com/hardware.php?id=986
+                case PhysicalSystem.SegaLindbergh:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=721
+                // http://system16.com/hardware.php?id=723
+                // http://system16.com/hardware.php?id=906
+                // http://system16.com/hardware.php?id=722
+                case PhysicalSystem.SegaNaomi:
+                    types.Add(PhysicalMediaType.CDROM); // Low density partition
+                    types.Add(PhysicalMediaType.GDROM); // High density partition
+                    break;
+
+                // http://system16.com/hardware.php?id=725
+                // http://system16.com/hardware.php?id=726
+                // http://system16.com/hardware.php?id=727
+                case PhysicalSystem.SegaNaomi2:
+                    types.Add(PhysicalMediaType.CDROM); // Low density partition
+                    types.Add(PhysicalMediaType.GDROM); // High density partition
+                    break;
+
+                // https://segaretro.org/Sega_NAOMI#NAOMI_Satellite_Terminal
+                case PhysicalSystem.SegaNaomiSatelliteTerminalPC:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/List_of_Sega_arcade_system_boards#Sega_Nu
+                case PhysicalSystem.SegaNu:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/List_of_Sega_arcade_system_boards#Sega_Nu
+                case PhysicalSystem.SegaNu11:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/List_of_Sega_arcade_system_boards#Sega_Nu
+                case PhysicalSystem.SegaNu2:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://segaretro.org/Nu_SX
+                case PhysicalSystem.SegaNuSX:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=910
+                // https://en.wikipedia.org/wiki/List_of_Sega_arcade_system_boards#Sega_Ring_series
+                case PhysicalSystem.SegaRingEdge:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=982
+                // https://en.wikipedia.org/wiki/List_of_Sega_arcade_system_boards#Sega_Ring_series
+                case PhysicalSystem.SegaRingEdge2:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=911
+                // https://en.wikipedia.org/wiki/List_of_Sega_arcade_system_boards#Sega_Ring_series
+                case PhysicalSystem.SegaRingWide:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=711
+                case PhysicalSystem.SegaTitanVideo:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // http://system16.com/hardware.php?id=709
+                // http://system16.com/hardware.php?id=710
+                case PhysicalSystem.SegaSystem32:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://github.com/mamedev/mame/blob/master/src/mame/drivers/seibucats.cpp
+                case PhysicalSystem.SeibuCATSSystem:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://www.tab.at/en/support/support/downloads
+                case PhysicalSystem.TABAustriaQuizard:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://primetimeamusements.com/product/tsumo-multi-game-motion-system/
+                // https://www.highwaygames.com/arcade-machines/tsumo-tsunami-motion-8117/
+                case PhysicalSystem.TsunamiTsuMoMultiGameMotionSystem:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/UltraCade_Technologies
+                case PhysicalSystem.UltraCade:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                #endregion
+
+                #region Others
+
+                // https://en.wikipedia.org/wiki/Audio_CD
+                case PhysicalSystem.AudioCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Blu-ray#Player_profiles
+                case PhysicalSystem.BDVideo:
+                    types.Add(PhysicalMediaType.BluRay);
+                    break;
+
+                // https://en.wikipedia.org/wiki/DVD-Audio
+                case PhysicalSystem.DVDAudio:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/DVD-Video
+                case PhysicalSystem.DVDVideo:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Blue_Book_(CD_standard)
+                case PhysicalSystem.EnhancedCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/HD_DVD
+                case PhysicalSystem.HDDVDVideo:
+                    types.Add(PhysicalMediaType.HDDVD);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.NavisoftNaviken21:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.PalmOS:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Photo_CD
+                case PhysicalSystem.PhotoCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.PlayStationGameSharkUpdates:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.PocketPC:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.Psion:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Doors_and_Windows_(EP)
+                case PhysicalSystem.RainbowDisc:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://segaretro.org/Prologue_21
+                case PhysicalSystem.SegaPrologue21MultimediaKaraokeSystem:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.SharpZaurus:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.SonyElectronicBook:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Super_Audio_CD
+                case PhysicalSystem.SuperAudioCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://www.cnet.com/products/tao-music-iktv-karaoke-station-karaoke-system-series/
+                case PhysicalSystem.TaoiKTV:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // http://ultimateconsoledatabase.com/golden/kiss_site.htm
+                case PhysicalSystem.TomyKissSite:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Video_CD
+                case PhysicalSystem.VideoCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                #endregion
+
+                default:
+                    types.Add(PhysicalMediaType.NONE);
+                    break;
+            }
+#pragma warning restore IDE0010 // Add missing cases
+
+            return types;
+        }
+
+        #endregion
+
         #region Language
 
         /// <summary>
@@ -193,6 +963,372 @@ namespace SabreTools.RedumpLib.Data
         /// <returns></returns>
         public static string? ShortName(this PhysicalMediaType? mediaType)
             => AttributeHelper<PhysicalMediaType?>.GetHumanReadableAttribute(mediaType)?.ShortName;
+
+        #endregion
+
+        #region Physical System
+
+        /// <summary>
+        /// Determine if a system is okay if it's not detected by Windows
+        /// </summary>
+        /// <param name="system">PhysicalSystem value to check</param>
+        /// <returns>True if Windows show see a disc when dumping, false otherwise</returns>
+        public static bool DetectedByWindows(this PhysicalSystem? system)
+        {
+#pragma warning disable IDE0072 // Add missing cases
+            return system switch
+            {
+                // BIOS Sets
+                PhysicalSystem.MicrosoftXboxBIOS
+                    or PhysicalSystem.NintendoGameCubeBIOS
+                    or PhysicalSystem.SonyPlayStationBIOS
+                    or PhysicalSystem.SonyPlayStation2BIOS => false,
+
+                // Disc-Based Consoles
+                PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem
+                    or PhysicalSystem.BandaiPlaydiaQuickInteractiveSystem
+                    or PhysicalSystem.BandaiPippin
+                    or PhysicalSystem.HasbroVideoNow
+                    or PhysicalSystem.HasbroVideoNowColor
+                    or PhysicalSystem.HasbroVideoNowJr
+                    or PhysicalSystem.HasbroVideoNowXP
+                    or PhysicalSystem.NintendoGameCube
+                    or PhysicalSystem.NintendoWii
+                    or PhysicalSystem.NintendoWiiU
+                    or PhysicalSystem.Panasonic3DOInteractiveMultiplayer
+                    or PhysicalSystem.PhilipsCDi
+                    or PhysicalSystem.PioneerLaserActive
+                    or PhysicalSystem.MarkerDiscBasedConsoleEnd => false,
+
+                // Computers
+                PhysicalSystem.AppleMacintosh
+                    or PhysicalSystem.MarkerComputerEnd => false,
+
+                // Arcade
+                PhysicalSystem.AmericanLaserGames3DO
+                    or PhysicalSystem.Atari3DO
+                    or PhysicalSystem.NewJatreCDi
+                    or PhysicalSystem.PanasonicM2
+                    or PhysicalSystem.MarkerArcadeEnd => false,
+
+                // Other
+                PhysicalSystem.PlayStationGameSharkUpdates
+                    or PhysicalSystem.SuperAudioCD
+                    or PhysicalSystem.MarkerOtherEnd => false,
+
+                null => false,
+                _ => true,
+            };
+#pragma warning restore IDE0072 // Add missing cases
+        }
+
+        /// <summary>
+        /// Determine if a system has reversed ringcodes
+        /// </summary>
+        /// <param name="system">PhysicalSystem value to check</param>
+        /// <returns>True if the system has reversed ringcodes, false otherwise</returns>
+        public static bool HasReversedRingcodes(this PhysicalSystem? system)
+        {
+#pragma warning disable IDE0072 // Add missing cases
+            return system switch
+            {
+                PhysicalSystem.SonyPlayStation2
+                    or PhysicalSystem.SonyPlayStation3
+                    or PhysicalSystem.SonyPlayStation4
+                    or PhysicalSystem.SonyPlayStation5
+                    or PhysicalSystem.SonyPlayStationPortable => true,
+                _ => false,
+            };
+#pragma warning restore IDE0072 // Add missing cases
+        }
+
+        /// <summary>
+        /// Determine if a system is considered audio-only
+        /// </summary>
+        /// <param name="system">PhysicalSystem value to check</param>
+        /// <returns>True if the system is audio-only, false otherwise</returns>
+        /// <remarks>
+        /// Philips CD-i should NOT be in this list. It's being included until there's a
+        /// reasonable distinction between CD-i and CD-i ready on the database side.
+        /// </remarks>
+        public static bool IsAudio(this PhysicalSystem? system)
+        {
+#pragma warning disable IDE0072 // Add missing cases
+            return system switch
+            {
+                PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem
+                    or PhysicalSystem.AudioCD
+                    or PhysicalSystem.DVDAudio
+                    or PhysicalSystem.HasbroiONEducationalGamingSystem
+                    or PhysicalSystem.HasbroVideoNow
+                    or PhysicalSystem.HasbroVideoNowColor
+                    or PhysicalSystem.HasbroVideoNowJr
+                    or PhysicalSystem.HasbroVideoNowXP
+                    or PhysicalSystem.PhilipsCDi
+                    or PhysicalSystem.PlayStationGameSharkUpdates
+                    or PhysicalSystem.SuperAudioCD => true,
+                _ => false,
+            };
+#pragma warning restore IDE0072 // Add missing cases
+        }
+
+        /// <summary>
+        /// Determine if a system is a marker value
+        /// </summary>
+        /// <param name="system">PhysicalSystem value to check</param>
+        /// <returns>True if the system is a marker value, false otherwise</returns>
+        public static bool IsMarker(this PhysicalSystem system)
+            => ((PhysicalSystem?)system).IsMarker();
+
+        /// <summary>
+        /// Determine if a system is a marker value
+        /// </summary>
+        /// <param name="system">PhysicalSystem value to check</param>
+        /// <returns>True if the system is a marker value, false otherwise</returns>
+        public static bool IsMarker(this PhysicalSystem? system)
+        {
+#pragma warning disable IDE0072 // Add missing cases
+            return system switch
+            {
+                PhysicalSystem.MarkerArcadeEnd
+                    or PhysicalSystem.MarkerComputerEnd
+                    or PhysicalSystem.MarkerDiscBasedConsoleEnd
+                    or PhysicalSystem.MarkerOtherEnd => true,
+                _ => false,
+            };
+#pragma warning restore IDE0072 // Add missing cases
+        }
+
+        /// <summary>
+        /// Determine if a system is considered XGD
+        /// </summary>
+        /// <param name="system">PhysicalSystem value to check</param>
+        /// <returns>True if the system is XGD, false otherwise</returns>
+        public static bool IsXGD(this PhysicalSystem? system)
+        {
+#pragma warning disable IDE0072 // Add missing cases
+            return system switch
+            {
+                PhysicalSystem.MicrosoftXbox
+                    or PhysicalSystem.MicrosoftXbox360
+                    or PhysicalSystem.MicrosoftXboxOne
+                    or PhysicalSystem.MicrosoftXboxSeriesXS => true,
+                _ => false,
+            };
+#pragma warning restore IDE0072 // Add missing cases
+        }
+
+        /// <summary>
+        /// List all systems with their short usable names
+        /// </summary>
+        public static List<string> ListSystems()
+        {
+            var systems = (PhysicalSystem[])Enum.GetValues(typeof(PhysicalSystem));
+            var knownSystems = Array.FindAll(systems, s => !s.IsMarker() && s.GetCategory() != SystemCategory.NONE);
+            Array.Sort(knownSystems, (x, y) => (x.LongName() ?? string.Empty).CompareTo(y.LongName() ?? string.Empty));
+            return [.. Array.ConvertAll(knownSystems, val => $"{val.ShortName()} - {val.LongName()}")];
+        }
+
+        /// <summary>
+        /// Get the Redump longnames for each known system
+        /// </summary>
+        /// <param name="system"></param>
+        /// <returns></returns>
+        public static string? LongName(this PhysicalSystem system)
+            => (AttributeHelper<PhysicalSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.LongName;
+
+        /// <summary>
+        /// Get the Redump longnames for each known system
+        /// </summary>
+        /// <param name="system"></param>
+        /// <returns></returns>
+        public static string? LongName(this PhysicalSystem? system)
+            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.LongName;
+
+        /// <summary>
+        /// Get the Redump shortnames for each known system
+        /// </summary>
+        /// <param name="system"></param>
+        /// <returns></returns>
+        public static string? ShortName(this PhysicalSystem system)
+            => (AttributeHelper<PhysicalSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.ShortName;
+
+        /// <summary>
+        /// Get the Redump shortnames for each known system
+        /// </summary>
+        /// <param name="system"></param>
+        /// <returns></returns>
+        public static string? ShortName(this PhysicalSystem? system)
+            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.ShortName;
+
+        /// <summary>
+        /// Get the Redump shortnames for each known system
+        /// </summary>
+        /// <param name="system"></param>
+        /// <returns></returns>
+        public static string? ShortNameAlt(this PhysicalSystem system)
+            => (AttributeHelper<PhysicalSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.RedumpOrgCode;
+
+        /// <summary>
+        /// Get the Redump shortnames for each known system
+        /// </summary>
+        /// <param name="system"></param>
+        /// <returns></returns>
+        public static string? ShortNameAlt(this PhysicalSystem? system)
+            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.RedumpOrgCode;
+
+        /// <summary>
+        /// Determine the category of a system
+        /// </summary>
+        public static SystemCategory GetCategory(this PhysicalSystem system)
+            => ((PhysicalSystem?)system).GetCategory();
+
+        /// <summary>
+        /// Determine the category of a system
+        /// </summary>
+        public static SystemCategory GetCategory(this PhysicalSystem? system)
+            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.Category ?? SystemCategory.NONE;
+
+        /// <summary>
+        /// Determine if a system is available in Redump yet
+        /// </summary>
+        public static bool IsAvailable(this PhysicalSystem system)
+            => (AttributeHelper<PhysicalSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.Available ?? false;
+
+        /// <summary>
+        /// Determine if a system is available in Redump yet
+        /// </summary>
+        public static bool IsAvailable(this PhysicalSystem? system)
+            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.Available ?? false;
+
+        /// <summary>
+        /// Determine if a system is restricted to dumpers
+        /// </summary>
+        public static bool IsBanned(this PhysicalSystem system)
+            => (AttributeHelper<PhysicalSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.IsBanned ?? false;
+
+        /// <summary>
+        /// Determine if a system is restricted to dumpers
+        /// </summary>
+        public static bool IsBanned(this PhysicalSystem? system)
+            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.IsBanned ?? false;
+
+        /// <summary>
+        /// Determine if a system has a CUE pack
+        /// </summary>
+        public static bool HasCues(this PhysicalSystem system)
+            => (AttributeHelper<PhysicalSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasCues ?? false;
+
+        /// <summary>
+        /// Determine if a system has a CUE pack
+        /// </summary>
+        public static bool HasCues(this PhysicalSystem? system)
+            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasCues ?? false;
+
+        /// <summary>
+        /// Determine if a system has a DAT
+        /// </summary>
+        public static bool HasDat(this PhysicalSystem system)
+            => (AttributeHelper<PhysicalSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasDat ?? false;
+
+        /// <summary>
+        /// Determine if a system has a DAT
+        /// </summary>
+        public static bool HasDat(this PhysicalSystem? system)
+            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasDat ?? false;
+
+        /// <summary>
+        /// Determine if a system has a decrypted keys pack
+        /// </summary>
+        public static bool HasDkeys(this PhysicalSystem system)
+            => (AttributeHelper<PhysicalSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasDkeys ?? false;
+
+        /// <summary>
+        /// Determine if a system has a decrypted keys pack
+        /// </summary>
+        public static bool HasDkeys(this PhysicalSystem? system)
+            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasDkeys ?? false;
+
+        /// <summary>
+        /// Determine if a system has a GDI pack
+        /// </summary>
+        public static bool HasGdi(this PhysicalSystem system)
+            => (AttributeHelper<PhysicalSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasGdi ?? false;
+
+        /// <summary>
+        /// Determine if a system has a GDI pack
+        /// </summary>
+        public static bool HasGdi(this PhysicalSystem? system)
+            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasGdi ?? false;
+
+        /// <summary>
+        /// Determine if a system has a keys pack
+        /// </summary>
+        public static bool HasKeys(this PhysicalSystem system)
+            => (AttributeHelper<PhysicalSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasKeys ?? false;
+
+        /// <summary>
+        /// Determine if a system has a keys pack
+        /// </summary>
+        public static bool HasKeys(this PhysicalSystem? system)
+            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasKeys ?? false;
+
+        /// <summary>
+        /// Determine if a system has an LSD pack
+        /// </summary>
+        public static bool HasLsd(this PhysicalSystem system)
+            => (AttributeHelper<PhysicalSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasLsd ?? false;
+
+        /// <summary>
+        /// Determine if a system has an LSD pack
+        /// </summary>
+        public static bool HasLsd(this PhysicalSystem? system)
+            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasLsd ?? false;
+
+        /// <summary>
+        /// Determine if a system has an SBI pack
+        /// </summary>
+        public static bool HasSbi(this PhysicalSystem system)
+            => (AttributeHelper<PhysicalSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasSbi ?? false;
+
+        /// <summary>
+        /// Determine if a system has an SBI pack
+        /// </summary>
+        public static bool HasSbi(this PhysicalSystem? system)
+            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasSbi ?? false;
+
+        /// <summary>
+        /// Get the PhysicalSystem enum value for a given string
+        /// </summary>
+        /// <param name="system">String value to convert</param>
+        /// <returns>PhysicalSystem represented by the string, if possible</returns>
+        public static PhysicalSystem? ToPhysicalSystem(this string? system)
+        {
+            // No value means no match
+            if (system is null || system.Length == 0)
+                return null;
+
+            system = system.ToLowerInvariant();
+            var redumpSystems = (PhysicalSystem[])Enum.GetValues(typeof(PhysicalSystem));
+
+            // Check short names
+            int index = Array.FindIndex(redumpSystems, s => system == s.ShortName()?.ToLowerInvariant());
+            if (index > -1)
+                return redumpSystems[index];
+
+            // Check redump.org short names
+            index = Array.FindIndex(redumpSystems, s => system == s.ShortNameAlt()?.ToLowerInvariant());
+            if (index > -1)
+                return redumpSystems[index];
+
+            // Check long names
+            index = Array.FindIndex(redumpSystems, s => system == s.LongName()?.ToLowerInvariant()
+                || system == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return redumpSystems[index];
+
+            return null;
+        }
 
         #endregion
 

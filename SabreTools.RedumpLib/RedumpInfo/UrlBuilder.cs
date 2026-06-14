@@ -147,7 +147,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             RedumpOrg.Data.SortCategory? sort = null,
             RedumpOrg.Data.SortDirection? sortDir = null,
             DumpStatus? status = null,
-            RedumpSystem? system = null,
+            PhysicalSystem? system = null,
             int? page = null)
         {
             var sb = new StringBuilder();
@@ -242,7 +242,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="packType">Pack type</param>
         /// <param name="system">System for download</param>
         /// <remarks>Does not check for invalid systems</remarks>
-        public static string BuildPackUrl(PackType packType, RedumpSystem system)
+        public static string BuildPackUrl(PackType packType, PhysicalSystem system)
         {
             var sb = new StringBuilder();
 
