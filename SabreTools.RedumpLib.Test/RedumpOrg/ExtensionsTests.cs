@@ -2,7 +2,6 @@
 using System.Data;
 using System.Linq;
 using SabreTools.RedumpLib.Data;
-using SabreTools.RedumpLib.RedumpOrg.Data;
 using Xunit;
 
 namespace SabreTools.RedumpLib.Test.RedumpOrg
@@ -145,7 +144,7 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
         [Fact]
         public void SiteCode_ListSiteCodes()
         {
-            var actual = RedumpLib.RedumpOrg.Data.Extensions.ListSiteCodes();
+            var actual = Extensions.ListSiteCodes();
             Assert.NotEmpty(actual);
         }
 

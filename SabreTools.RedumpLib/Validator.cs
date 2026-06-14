@@ -37,7 +37,7 @@ namespace SabreTools.RedumpLib
                 case MediaType.BD100:
                 case MediaType.BD128:
                     // Extract the size from the hashes
-                    long size = Data.Extensions.ExtractSizeFromHashData(info.TracksAndWriteOffsets.ClrMameProData);
+                    long size = Extensions.ExtractSizeFromHashData(info.TracksAndWriteOffsets.ClrMameProData);
 
                     if (info.SizeAndChecksums.Layerbreak3 != default)
                         info.CommonDiscInfo.Media = MediaType.BD128;

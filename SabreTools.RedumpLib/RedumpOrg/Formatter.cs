@@ -4,7 +4,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Data.Sections;
-using SabreTools.RedumpLib.RedumpOrg.Data;
 
 namespace SabreTools.RedumpLib.RedumpOrg
 {
@@ -278,7 +277,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             bool reverseOrder = system.HasReversedRingcodes();
 
             // Extract the size from the hashes
-            long size = RedumpLib.Data.Extensions.ExtractSizeFromHashData(tawo?.ClrMameProData);
+            long size = Extensions.ExtractSizeFromHashData(tawo?.ClrMameProData);
 
             output.AppendLine("Common Disc Info:");
 

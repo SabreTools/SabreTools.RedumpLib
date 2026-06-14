@@ -11,7 +11,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Web;
-using static SabreTools.RedumpLib.RedumpOrg.Data.Extensions;
 
 namespace SabreTools.RedumpLib.RedumpInfo
 {
