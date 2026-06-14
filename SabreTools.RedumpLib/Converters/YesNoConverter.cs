@@ -1,9 +1,9 @@
 using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SabreTools.RedumpLib.RedumpOrg.Data;
+using SabreTools.RedumpLib.Data;
 
-namespace SabreTools.RedumpLib.RedumpOrg.Converters
+namespace SabreTools.RedumpLib.Converters
 {
     /// <summary>
     /// Serialize YesNo enum values

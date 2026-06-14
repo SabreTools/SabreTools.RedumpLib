@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using SabreTools.RedumpLib.RedumpOrg.Converters;
-using SabreTools.RedumpLib.RedumpOrg.Data;
+using SabreTools.RedumpLib.Converters;
 
 namespace SabreTools.RedumpLib.Data.Sections
 {

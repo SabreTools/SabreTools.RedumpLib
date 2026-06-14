@@ -310,62 +310,6 @@ namespace SabreTools.RedumpLib.RedumpOrg.Data
             => AttributeHelper<SiteCode?>.GetHumanReadableAttribute(siteCode)?.ShortName;
 
         #endregion
-
-        #region Yes/No
-
-        /// <summary>
-        /// Get the string representation of the YesNo value
-        /// </summary>
-        /// <param name="yesno"></param>
-        /// <returns></returns>
-        public static string LongName(this YesNo? yesno)
-            => AttributeHelper<YesNo?>.GetHumanReadableAttribute(yesno)?.LongName ?? "Yes/No";
-
-        /// <summary>
-        /// Get the YesNo enum value for a given nullable boolean
-        /// </summary>
-        /// <param name="yesno">Nullable boolean value to convert</param>
-        /// <returns>YesNo represented by the nullable boolean, if possible</returns>
-        public static YesNo ToYesNo(this bool yesno)
-        {
-            return yesno switch
-            {
-                false => YesNo.No,
-                true => YesNo.Yes,
-            };
-        }
-
-        /// <summary>
-        /// Get the YesNo enum value for a given nullable boolean
-        /// </summary>
-        /// <param name="yesno">Nullable boolean value to convert</param>
-        /// <returns>YesNo represented by the nullable boolean, if possible</returns>
-        public static YesNo? ToYesNo(this bool? yesno)
-        {
-            return yesno switch
-            {
-                false => YesNo.No,
-                true => YesNo.Yes,
-                _ => YesNo.NULL,
-            };
-        }
-
-        /// <summary>
-        /// Get the YesNo enum value for a given string
-        /// </summary>
-        /// <param name="yesno">String value to convert</param>
-        /// <returns>YesNo represented by the string, if possible</returns>
-        public static YesNo? ToYesNo(this string? yesno)
-        {
-            return (yesno?.ToLowerInvariant()) switch
-            {
-                "no" or "false" => YesNo.No,
-                "yes" or "true" => YesNo.Yes,
-                _ => YesNo.NULL,
-            };
-        }
-
-        #endregion
     }
 #pragma warning restore IDE0072
 }

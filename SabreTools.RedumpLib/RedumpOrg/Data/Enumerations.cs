@@ -309,19 +309,4 @@ namespace SabreTools.RedumpLib.RedumpOrg.Data
         [HumanReadable(ShortName = "<b>XMID</b>:", LongName = "<b>XMID</b>:")]
         XMID,
     }
-
-    /// <summary>
-    /// Generic yes/no values
-    /// </summary>
-    public enum YesNo
-    {
-        [HumanReadable(LongName = "Yes/No")]
-        NULL = 0,
-
-        [HumanReadable(LongName = "No")]
-        No = 1,
-
-        [HumanReadable(LongName = "Yes")]
-        Yes = 2,
-    }
 }
