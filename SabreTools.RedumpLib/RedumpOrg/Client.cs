@@ -113,8 +113,8 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <summary>
         /// Validate supplied credentials
         /// </summary>
-        /// <param name="username">Redump username</param>
-        /// <param name="password">Redump password</param>
+        /// <param name="username">redump.org username</param>
+        /// <param name="password">redump.org password</param>
         /// <returns>True if the user could be logged in, false otherwise, null on error</returns>
         public static async Task<bool?> ValidateCredentials(string? username, string? password)
         {
@@ -128,10 +128,10 @@ namespace SabreTools.RedumpLib.RedumpOrg
         }
 
         /// <summary>
-        /// Login to Redump, if possible
+        /// Login to redump.org, if possible
         /// </summary>
-        /// <param name="username">Redump username</param>
-        /// <param name="password">Redump password</param>
+        /// <param name="username">redump.org username</param>
+        /// <param name="password">redump.org password</param>
         /// <returns>True if the user could be logged in, false otherwise, null on error</returns>
         public async Task<bool?> Login(string? username, string? password)
         {

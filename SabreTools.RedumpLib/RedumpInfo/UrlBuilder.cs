@@ -15,7 +15,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <summary>
         /// Redump site URL
         /// </summary>
-        private const string SiteBaseUrl = "https://redump.info";
+        private const string SiteBaseUrl = "https://redump.info/";
 
         #region Top-Level Paths
 
@@ -57,7 +57,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <summary>
         /// Path for discs queue
         /// </summary>
-        private const string QueuePath = "queue/}";
+        private const string QueuePath = "queue/";
 
         /// <summary>
         /// Path for individual queue disc pages
@@ -215,9 +215,9 @@ namespace SabreTools.RedumpLib.RedumpInfo
             if (systemName is not null)
                 sb.Append($"system={systemName}&");
 
-            // TODO: Page Number - Has to be last
+            // TODO: Page Number - Has to be last?
             if (page is not null)
-                sb.Append($"?page={page}");
+                sb.Append($"page={page}");
 
             return sb.ToString();
         }
@@ -241,24 +241,22 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="packType">Pack type</param>
         /// <param name="system">System for download</param>
         /// <remarks>Does not check for invalid systems</remarks>
-        public static string BuildPackUrl(RedumpOrg.Data.PackType packType, RedumpSystem system)
+        public static string BuildPackUrl(PackType packType, RedumpSystem system)
         {
             var sb = new StringBuilder();
 
             sb.Append(SiteBaseUrl);
 
             string systemName = system.ShortName() ?? string.Empty;
-#pragma warning disable IDE0010 // Add missing cases
             switch (packType)
             {
-                case RedumpOrg.Data.PackType.Cuesheets: sb.AppendFormat(CuesPath, systemName); break;
-                case RedumpOrg.Data.PackType.Datfile: sb.AppendFormat(DatfilePath, systemName); break;
-                case RedumpOrg.Data.PackType.Keys: sb.AppendFormat(KeysPath, systemName); break;
-                case RedumpOrg.Data.PackType.Sbis: sb.AppendFormat(SbiPath, systemName); break;
+                case PackType.Cuesheets: sb.AppendFormat(CuesPath, systemName); break;
+                case PackType.Datfile: sb.AppendFormat(DatfilePath, systemName); break;
+                case PackType.Keys: sb.AppendFormat(KeysPath, systemName); break;
+                case PackType.Sbis: sb.AppendFormat(SbiPath, systemName); break;
 
                 default: throw new ArgumentOutOfRangeException(nameof(packType));
             }
-#pragma warning restore IDE0010 // Add missing cases
 
             return sb.ToString();
         }
