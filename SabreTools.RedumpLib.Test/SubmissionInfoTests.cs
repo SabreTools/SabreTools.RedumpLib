@@ -135,7 +135,7 @@ namespace SabreTools.RedumpLib.Test
 
                 DumpersAndStatus = new DumpersAndStatusSection()
                 {
-                    Status = DumpStatus.TwoOrMoreGreen,
+                    Status = DumpStatus.VerifiedGreen,
                     Dumpers = ["Dumper1", "Dumper2"],
                     OtherDumpers = "Dumper3",
                 },

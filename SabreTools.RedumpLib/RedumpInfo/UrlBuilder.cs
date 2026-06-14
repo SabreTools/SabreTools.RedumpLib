@@ -1,7 +1,6 @@
 using System;
 using System.Text;
 using SabreTools.RedumpLib.Data;
-using SabreTools.RedumpLib.RedumpInfo.Data;
 using static SabreTools.RedumpLib.RedumpOrg.Data.Extensions;
 
 namespace SabreTools.RedumpLib.RedumpInfo
@@ -227,7 +226,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             }
 
             // Status
-            if (status is not null && status >= DumpStatus.UnknownGrey && status <= DumpStatus.Verified)
+            if (status is not null && status >= DumpStatus.UnknownGrey && status <= DumpStatus.VerifiedGreen)
                 sb.Append($"status={(int)status}&");
 
             // System

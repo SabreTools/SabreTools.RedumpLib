@@ -96,6 +96,32 @@ namespace SabreTools.RedumpLib.Data
     }
 
     /// <summary>
+    /// Dump status
+    /// </summary>
+    public enum DumpStatus
+    {
+        // TODO: Verify new naming
+        [HumanReadable(LongName = "Unknown", ShortName = "grey")]
+        UnknownGrey = 1,
+
+        // TODO: Verify new naming
+        [HumanReadable(LongName = "Bad Dump", ShortName = "red")]
+        BadDumpRed = 2,
+
+        // Known as "Possible Bad Dump" on redump.org
+        [HumanReadable(LongName = "Questionable", ShortName = "yellow")]
+        QuestionableYellow = 3,
+
+        // Known as "Original Media" on redump.org
+        [HumanReadable(LongName = "Unverified", ShortName = "blue")]
+        UnverifiedBlue = 4,
+
+        // Known as "Two or More" on redump.org
+        [HumanReadable(LongName = "Verified", ShortName = "green")]
+        VerifiedGreen = 5,
+    }
+
+    /// <summary>
     /// List of all disc langauges
     /// </summary>
     /// <remarks>https://www.loc.gov/standards/iso639-2/php/code_list.php</remarks>

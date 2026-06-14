@@ -326,7 +326,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             }
 
             // Status
-            if (status is not null && status >= DumpStatus.UnknownGrey && status <= DumpStatus.TwoOrMoreGreen)
+            if (status is not null && status >= DumpStatus.UnknownGrey && status <= DumpStatus.VerifiedGreen)
                 sb.Append($"status/{(int)status}/");
 
             // System / Disc Type Search
