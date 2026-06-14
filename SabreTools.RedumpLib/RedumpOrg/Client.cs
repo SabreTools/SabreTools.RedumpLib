@@ -145,16 +145,16 @@ namespace SabreTools.RedumpLib.RedumpOrg
             // Credentials verification
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
-                Console.WriteLine("Credentials entered, will attempt Redump login...");
+                Console.WriteLine("Credentials entered, will attempt redump.org login...");
             }
             else if (!string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password))
             {
-                Console.Error.WriteLine("Only a username was specified, will not attempt Redump login...");
+                Console.Error.WriteLine("Only a username was specified, will not attempt redump.org login...");
                 return false;
             }
             else if (string.IsNullOrEmpty(username))
             {
-                Console.WriteLine("No credentials entered, will not attempt Redump login...");
+                Console.WriteLine("No credentials entered, will not attempt redump.org login...");
                 return false;
             }
 

@@ -91,10 +91,19 @@ namespace SabreTools.RedumpLib.RedumpInfo
         #region Constants
 
         /// <summary>
-        /// Login page URL template
+        /// Regex matching the current creation time for login
         /// </summary>
-        /// TODO: Fix this once the login page is confirmed
-        public const string LoginUrl = "http://forum.redump.org/login/";
+        public static readonly Regex LoginCreationTimeRegex = new(@"<input type=""hidden"" name=""form_token"" value=""(.*?)"" />", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Regex matching the current nonce token for login
+        /// </summary>
+        public static readonly Regex LoginTokenRegex = new(@"<input type=""hidden"" name=""form_token"" value=""(.*?)"" />", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Login page URL
+        /// </summary>
+        public const string LoginUrl = "https://forum.redump.info/ucp.php?mode=login&redirect=index.php";
 
         #endregion
 
@@ -148,16 +157,16 @@ namespace SabreTools.RedumpLib.RedumpInfo
             // Credentials verification
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
-                Console.WriteLine("Credentials entered, will attempt Redump login...");
+                Console.WriteLine("Credentials entered, will attempt redump.info login...");
             }
             else if (!string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password))
             {
-                Console.Error.WriteLine("Only a username was specified, will not attempt Redump login...");
+                Console.Error.WriteLine("Only a username was specified, will not attempt redump.info login...");
                 return false;
             }
             else if (string.IsNullOrEmpty(username))
             {
-                Console.WriteLine("No credentials entered, will not attempt Redump login...");
+                Console.WriteLine("No credentials entered, will not attempt redump.info login...");
                 return false;
             }
 
@@ -177,11 +186,12 @@ namespace SabreTools.RedumpLib.RedumpInfo
 
                     // Get the current token from the login page
                     var loginPage = await DownloadString(LoginUrl);
-                    string token = RedumpOrg.Data.Constants.TokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
+                    string creationTime = LoginCreationTimeRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
+                    string token = LoginTokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
 
 #if NETCOREAPP
                     // Construct the login request
-                    var postContent = new StringContent($"form_sent=1&redirect_url=&csrf_token={token}&req_username={username}&req_password={password}&save_pass=0", Encoding.UTF8);
+                    var postContent = new StringContent($"username={username}&password={password}&autologin=&viewonline=&redirect=&creation_time={creationTime}&form_token={token}", Encoding.UTF8);
                     postContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
 
                     // Send the login request and get the result
@@ -195,7 +205,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
                     _internalClient.Encoding = Encoding.UTF8;
 
                     // Send the login request and get the result
-                    string? responseContent = _internalClient.UploadString(LoginUrl, $"form_sent=1&redirect_url=&csrf_token={token}&req_username={username}&req_password={password}&save_pass=0");
+                    string? responseContent = _internalClient.UploadString(LoginUrl, $"username={username}&password={password}&autologin=&viewonline=&redirect=&creation_time={creationTime}&form_token={token}");
 #endif
 
                     // An empty response indicates an error
@@ -217,7 +227,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
                     _loggedIn = true;
 
                     // If the user is a moderator or staff, set accordingly
-                    if (responseContent.Contains("http://forum.redump.org/forum/9/staff/"))
+                    if (responseContent.Contains("https://forum.redump.info/viewforum.php?f=4"))
                         _staffMember = true;
 
                     return true;
