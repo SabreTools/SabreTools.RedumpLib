@@ -1526,6 +1526,39 @@ namespace SabreTools.RedumpLib.Test.Data
         #region Region
 
         /// <summary>
+        /// Region values that don't have redump.info shortnames
+        /// </summary>
+        private static readonly Region?[] _regionsWithoutInfoShortname =
+        [
+            Region.AsiaEurope,
+            Region.AsiaUSA,
+            Region.AustraliaGermany,
+            Region.AustraliaNewZealand,
+            Region.AustriaSwitzerland,
+            Region.BelgiumNetherlands,
+            Region.EuropeAsia,
+            Region.EuropeAustralia,
+            Region.EuropeCanada,
+            Region.EuropeGermany,
+            Region.FranceSpain,
+            Region.GreaterChina,
+            Region.JapanAsia,
+            Region.JapanEurope,
+            Region.JapanKorea,
+            Region.JapanUSA,
+            Region.SpainPortugal,
+            Region.UKAustralia,
+            Region.USAAsia,
+            Region.USAAustralia,
+            Region.USABrazil,
+            Region.USACanada,
+            Region.USAEurope,
+            Region.USAGermany,
+            Region.USAJapan,
+            Region.USAKorea,
+        ];
+
+        /// <summary>
         /// Check that every Region has a long name provided
         /// </summary>
         /// <param name="region">Region value to check</param>
@@ -1551,6 +1584,10 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GenerateRegionTestData))]
         public void Region_ShortName(Region? region, bool expectNull)
         {
+            // HACK: Hardcoded list of aggregate regions to ignore
+            if (_regionsWithoutInfoShortname.Contains(region))
+                expectNull = true;
+
             var actual = region.ShortName();
 
             if (expectNull)

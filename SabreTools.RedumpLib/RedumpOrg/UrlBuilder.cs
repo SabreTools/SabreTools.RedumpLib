@@ -279,7 +279,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
                 sb.Append($"quicksearch/{quicksearch}/");
 
             // Region
-            string? regionName = region.ShortName();
+            string? regionName = region.ShortNameAlt();
             if (regionName is not null)
                 sb.Append($"region/{regionName}/");
 
@@ -325,7 +325,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
                 sb.Append($"status/{(int)status}/");
 
             // System / Disc Type Search
-            string? systemName = system.ShortName();
+            string? systemName = system.ShortNameAlt();
             if (systemName is not null)
             {
                 string? discTypeName = discType.LongName()?.ToLowerInvariant();
@@ -404,7 +404,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
 
             sb.Append($"{dumper}/");
 
-            string? systemName = system.ShortName();
+            string? systemName = system.ShortNameAlt();
             if (systemName is not null)
                 sb.Append($"{systemName}/");
 
@@ -451,7 +451,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
 
             sb.Append(SiteBaseUrl);
 
-            string systemName = system.ShortName() ?? string.Empty;
+            string systemName = system.ShortNameAlt() ?? string.Empty;
             switch (packType)
             {
                 case PackType.Cuesheets: sb.AppendFormat(CuesPath, systemName); break;

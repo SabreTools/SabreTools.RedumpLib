@@ -1869,7 +1869,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Pioneer LaserActive")]
         PioneerLaserActive,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sega Dreamcast", ShortName = "DC", RedumpOrgCode = "dc", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sega Dreamcast", ShortName = "DC", RedumpOrgCode = "dc", HasCues = true, HasDat = true, HasGdi = true)]
         SegaDreamcast,
 
         [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sega Mega CD & Sega CD", ShortName = "MCD", RedumpOrgCode = "mcd", HasCues = true, HasDat = true)]
@@ -1881,13 +1881,13 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.DiscBasedConsole, LongName = "Neo Geo CD", ShortName = "NGCD", RedumpOrgCode = "ngcd", HasCues = true, HasDat = true)]
         SNKNeoGeoCD,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation", ShortName = "PSX", RedumpOrgCode = "psx", HasCues = true, HasDat = true, HasSbi = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation", ShortName = "PSX", RedumpOrgCode = "psx", HasCues = true, HasDat = true, HasLsd = true, HasSbi = true)]
         SonyPlayStation,
 
         [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation 2", ShortName = "PS2", RedumpOrgCode = "ps2", HasCues = true, HasDat = true)]
         SonyPlayStation2,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation 3", ShortName = "PS3", RedumpOrgCode = "ps3", HasCues = true, HasDat = true, HasKeys = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation 3", ShortName = "PS3", RedumpOrgCode = "ps3", HasCues = true, HasDat = true, HasDkeys = true, HasKeys = true)]
         SonyPlayStation3,
 
         [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation 4", ShortName = "PS4", RedumpOrgCode = "ps4", IsBanned = true, HasDat = true)]
@@ -2071,7 +2071,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Computer, LongName = "Acorn Archimedes", ShortName = "ARCH", RedumpOrgCode = "arch", HasCues = true, HasDat = true)]
         AcornArchimedes,
 
-        [System(Category = SystemCategory.Computer, LongName = "Apple Macintosh", ShortName = "MAC", RedumpOrgCode = "mac", HasCues = true, HasDat = true, HasSbi = true)]
+        [System(Category = SystemCategory.Computer, LongName = "Apple Macintosh", ShortName = "MAC", RedumpOrgCode = "mac", HasCues = true, HasDat = true, HasLsd = true, HasSbi = true)]
         AppleMacintosh,
 
         [System(Category = SystemCategory.Computer, LongName = "Commodore Amiga CD", ShortName = "ACD", RedumpOrgCode = "acd", HasCues = true, HasDat = true)]
@@ -2080,7 +2080,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Computer, LongName = "Fujitsu FM Towns series", ShortName = "FMT", RedumpOrgCode = "fmt", HasCues = true, HasDat = true)]
         FujitsuFMTownsseries,
 
-        [System(Category = SystemCategory.Computer, LongName = "IBM PC compatible", ShortName = "PC", RedumpOrgCode = "pc", HasCues = true, HasDat = true, HasSbi = true)]
+        [System(Category = SystemCategory.Computer, LongName = "IBM PC compatible", ShortName = "PC", RedumpOrgCode = "pc", HasCues = true, HasDat = true, HasLsd = true, HasSbi = true)]
         IBMPCcompatible,
 
         [System(Category = SystemCategory.Computer, LongName = "NEC PC-88 series", ShortName = "PC-88", RedumpOrgCode = "pc-88", HasCues = true, HasDat = true)]
@@ -2192,7 +2192,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Namco Purikura")]
         NamcoPurikura,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Namco · Sega · Nintendo Triforce", ShortName = "TRF", RedumpOrgCode = "trf", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Namco · Sega · Nintendo Triforce", ShortName = "TRF", RedumpOrgCode = "trf", HasCues = true, HasDat = true, HasGdi = true)]
         NamcoSegaNintendoTriforce,
 
         [System(Category = SystemCategory.Arcade, LongName = "Namco System 12", ShortName = "ns12", RedumpOrgCode = "ns12")]
@@ -2225,7 +2225,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega ALLS")]
         SegaALLS,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Sega Chihiro", ShortName = "CHIHIRO", RedumpOrgCode = "chihiro", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Chihiro", ShortName = "CHIHIRO", RedumpOrgCode = "chihiro", HasCues = true, HasDat = true, HasGdi = true)]
         SegaChihiro,
 
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Europa-R")]
@@ -2234,10 +2234,10 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "Sega Lindbergh", ShortName = "LINDBERGH", RedumpOrgCode = "lindbergh", HasDat = true)]
         SegaLindbergh,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Sega Naomi", ShortName = "NAOMI", RedumpOrgCode = "naomi", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Naomi", ShortName = "NAOMI", RedumpOrgCode = "naomi", HasCues = true, HasDat = true, HasGdi = true)]
         SegaNaomi,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Sega Naomi 2", ShortName = "NAOMI2", RedumpOrgCode = "naomi2", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Naomi 2", ShortName = "NAOMI2", RedumpOrgCode = "naomi2", HasCues = true, HasDat = true, HasGdi = true)]
         SegaNaomi2,
 
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega NAOMI Satellite Terminal PC")]
