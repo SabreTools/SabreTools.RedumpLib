@@ -6,7 +6,7 @@ using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Data.Sections;
 using SabreTools.RedumpLib.RedumpOrg.Data;
 
-namespace SabreTools.RedumpLib
+namespace SabreTools.RedumpLib.RedumpOrg
 {
     public static class Formatter
     {
@@ -278,7 +278,7 @@ namespace SabreTools.RedumpLib
             bool reverseOrder = system.HasReversedRingcodes();
 
             // Extract the size from the hashes
-            long size = Data.Extensions.ExtractSizeFromHashData(tawo?.ClrMameProData);
+            long size = RedumpLib.Data.Extensions.ExtractSizeFromHashData(tawo?.ClrMameProData);
 
             output.AppendLine("Common Disc Info:");
 
