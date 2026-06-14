@@ -146,6 +146,7 @@ namespace SabreTools.RedumpLib.RedumpInfo.Data
     /// TODO: Remove marker items
     /// TODO: Double check all flags once the site is live
     /// TODO: Add MAXTEST as a debug-only system
+    /// TODO: Does "Banned" now only mean that things like keys can't be downloaded?
     public enum RedumpSystem
     {
         // TODO: Somehow indicate that these are static paths
