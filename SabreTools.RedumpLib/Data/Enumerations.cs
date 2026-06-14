@@ -1671,6 +1671,78 @@ namespace SabreTools.RedumpLib.Data
     }
 
     /// <summary>
+    /// List of all site-supported media types
+    /// </summary>
+    public enum MediaType
+    {
+        NONE = 0,
+
+        [HumanReadable(LongName = "BD-25", ShortName = "bd25")]
+        BD25,
+
+        /// <remarks>Not official</remarks>
+        [HumanReadable(LongName = "BD-33", ShortName = "bd33")]
+        BD33,
+
+        [HumanReadable(LongName = "BD-50", ShortName = "bd50")]
+        BD50,
+
+        [HumanReadable(LongName = "BD-66", ShortName = "bd66")]
+        BD66,
+
+        [HumanReadable(LongName = "BD-100", ShortName = "bd100")]
+        BD100,
+
+        /// <remarks>Not official</remarks>
+        [HumanReadable(LongName = "BD-128", ShortName = "bd128")]
+        BD128,
+
+        [HumanReadable(LongName = "CD", ShortName = "cd")]
+        CD,
+
+        [HumanReadable(LongName = "DVD-5", ShortName = "dvd5")]
+        DVD5,
+
+        [HumanReadable(LongName = "DVD-9", ShortName = "dvd9")]
+        DVD9,
+
+        [HumanReadable(LongName = "GD-ROM", ShortName = "gdrom")]
+        GDROM,
+
+        [HumanReadable(LongName = "HD-DVD (SL)", ShortName = "hdvd15")]
+        HDDVDSL,
+
+        [HumanReadable(LongName = "HD-DVD (DL)", ShortName = "hdvd30")]
+        HDDVDDL,
+
+        // TODO: Figure out how to mark this as debug-only
+        [HumanReadable(LongName = "Max Test (4-layer)", ShortName = "test4l")]
+        MaxTest4Layer,
+
+        /// <remarks>Not official</remarks>
+        [HumanReadable(LongName = "MIL-CD", ShortName = "milcd")]
+        MILCD,
+
+        [HumanReadable(LongName = "Nintendo GameCube Game Disc", ShortName = "dvd5gc")]
+        NintendoGameCubeGameDisc,
+
+        [HumanReadable(LongName = "Nintendo Wii Optical Disc (SL)", ShortName = "dvd5wii")]
+        NintendoWiiOpticalDiscSL,
+
+        [HumanReadable(LongName = "Nintendo Wii Optical Disc (DL)", ShortName = "dvd9wii")]
+        NintendoWiiOpticalDiscDL,
+
+        [HumanReadable(LongName = "Nintendo Wii U Optical Disc (SL)", ShortName = "bd25wiiu")]
+        NintendoWiiUOpticalDiscSL,
+
+        [HumanReadable(LongName = "UMD (SL)", ShortName = "umd1")]
+        UMDSL,
+
+        [HumanReadable(LongName = "UMD (DL)", ShortName = "umd2")]
+        UMDDL,
+    }
+
+    /// <summary>
     /// All possible packs
     /// </summary>
     public enum PackType

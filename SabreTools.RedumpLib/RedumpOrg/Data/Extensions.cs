@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using SabreTools.RedumpLib.Attributes;
-using SabreTools.RedumpLib.Data;
 
 namespace SabreTools.RedumpLib.RedumpOrg.Data
 {
@@ -12,65 +11,6 @@ namespace SabreTools.RedumpLib.RedumpOrg.Data
 #pragma warning disable IDE0072
     public static class Extensions
     {
-        #region Cross-Enumeration
-
-        /// <summary>
-        /// Convert master list of all media types to currently known Redump disc types
-        /// </summary>
-        /// <param name="mediaType">MediaType value to check</param>
-        /// <returns>DiscType if possible, null on error</returns>
-        public static DiscType? ToDiscType(this PhysicalMediaType? mediaType)
-        {
-            return mediaType switch
-            {
-                PhysicalMediaType.BluRay => DiscType.BD50,
-                PhysicalMediaType.CDROM => DiscType.CD,
-                PhysicalMediaType.DVD => DiscType.DVD9,
-                PhysicalMediaType.GDROM => DiscType.GDROM,
-                PhysicalMediaType.HDDVD => DiscType.HDDVDSL,
-                // PhysicalMediaType.MILCD => DiscType.MILCD, // TODO: Support this?
-                PhysicalMediaType.NintendoGameCubeGameDisc => DiscType.NintendoGameCubeGameDisc,
-                PhysicalMediaType.NintendoWiiOpticalDisc => DiscType.NintendoWiiOpticalDiscDL,
-                PhysicalMediaType.NintendoWiiUOpticalDisc => DiscType.NintendoWiiUOpticalDiscSL,
-                PhysicalMediaType.UMD => DiscType.UMDDL,
-                _ => null,
-            };
-        }
-
-        /// <summary>
-        /// Convert currently known Redump disc types to master list of all media types
-        /// </summary>
-        /// <param name="discType">DiscType value to check</param>
-        /// <returns>MediaType if possible, null on error</returns>
-        public static PhysicalMediaType? ToMediaType(this DiscType? discType)
-        {
-            return discType switch
-            {
-                DiscType.BD25
-                    or DiscType.BD33
-                    or DiscType.BD50
-                    or DiscType.BD66
-                    or DiscType.BD100
-                    or DiscType.BD128 => PhysicalMediaType.BluRay,
-                DiscType.CD => PhysicalMediaType.CDROM,
-                DiscType.DVD5
-                    or DiscType.DVD9 => PhysicalMediaType.DVD,
-                DiscType.GDROM => PhysicalMediaType.GDROM,
-                DiscType.HDDVDSL
-                    or DiscType.HDDVDDL => PhysicalMediaType.HDDVD,
-                // DiscType.MILCD => PhysicalMediaType.MILCD, // TODO: Support this?
-                DiscType.NintendoGameCubeGameDisc => PhysicalMediaType.NintendoGameCubeGameDisc,
-                DiscType.NintendoWiiOpticalDiscSL
-                    or DiscType.NintendoWiiOpticalDiscDL => PhysicalMediaType.NintendoWiiOpticalDisc,
-                DiscType.NintendoWiiUOpticalDiscSL => PhysicalMediaType.NintendoWiiUOpticalDisc,
-                DiscType.UMDSL
-                    or DiscType.UMDDL => PhysicalMediaType.UMD,
-                _ => null,
-            };
-        }
-
-        #endregion
-
         #region Disc Subpath
 
         /// <summary>
@@ -131,72 +71,6 @@ namespace SabreTools.RedumpLib.RedumpOrg.Data
                 return discSubpaths[index];
 
             return null;
-        }
-
-        #endregion
-
-        #region Disc Type
-
-        /// <summary>
-        /// Get the Redump longnames for each known disc type
-        /// </summary>
-        /// <param name="discType"></param>
-        /// <returns></returns>
-        public static string? LongName(this DiscType discType)
-            => ((DiscType?)discType).LongName();
-
-        /// <summary>
-        /// Get the Redump longnames for each known disc type
-        /// </summary>
-        /// <param name="discType"></param>
-        /// <returns></returns>
-        public static string? LongName(this DiscType? discType)
-            => AttributeHelper<DiscType?>.GetHumanReadableAttribute(discType)?.LongName;
-
-        /// <summary>
-        /// Get the DiscType enum value for a given string
-        /// </summary>
-        /// <param name="discType">String value to convert</param>
-        /// <returns>DiscType represented by the string, if possible</returns>
-        public static DiscType? ToDiscType(this string? discType)
-        {
-            // No value means no match
-            if (discType is null || discType.Length == 0)
-                return null;
-
-            discType = discType.ToLowerInvariant();
-            var discTypes = (DiscType[])Enum.GetValues(typeof(DiscType));
-
-            // Check long names
-            int index = Array.FindIndex(discTypes, s => discType == s.LongName()?.ToLowerInvariant()
-                || discType == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant()
-                || discType == s.LongName()?.Replace("-", string.Empty)?.ToLowerInvariant()
-                || discType == s.LongName()?
-                    .Replace(" ", string.Empty)?
-                    .Replace("-", string.Empty)?
-                    .ToLowerInvariant());
-            if (index > -1)
-                return discTypes[index];
-
-            // Special cases
-            return (discType?.ToLowerInvariant()) switch
-            {
-                "bd"
-                    or "bdrom"
-                    or "bd-rom"
-                    or "bluray"
-                    or "blu-ray" => DiscType.BD25,
-                "cdrom"
-                    or "cd-rom" => DiscType.CD,
-                "dvd"
-                    or "dvd-rom" => DiscType.DVD5,
-                "gd" => DiscType.GDROM,
-                "hddvd"
-                    or "hd-dvd" => DiscType.HDDVDSL,
-                "umd" => DiscType.UMDSL,
-
-                _ => null,
-            };
         }
 
         #endregion
@@ -567,18 +441,6 @@ namespace SabreTools.RedumpLib.RedumpOrg.Data
         /// </summary>
         public static string? ShortName(this SiteCode? siteCode)
             => AttributeHelper<SiteCode?>.GetHumanReadableAttribute(siteCode)?.ShortName;
-
-        #endregion
-
-        #region System Category
-
-        /// <summary>
-        /// Get the string representation of the system category
-        /// </summary>
-        /// <param name="category"></param>
-        /// <returns></returns>
-        public static string? LongName(this SystemCategory? category)
-            => AttributeHelper<SystemCategory?>.GetHumanReadableAttribute(category)?.LongName;
 
         #endregion
 

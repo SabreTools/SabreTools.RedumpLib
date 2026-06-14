@@ -52,7 +52,7 @@ namespace SabreTools.RedumpLib.Test
                 CommonDiscInfo = new CommonDiscInfoSection()
                 {
                     System = PhysicalSystem.IBMPCcompatible,
-                    Media = DiscType.CD,
+                    Media = MediaType.CD,
                     Title = "Game Title",
                     ForeignTitleNonLatin = "Foreign Game Title",
                     DiscNumberLetter = "1",

@@ -1,9 +1,9 @@
 using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SabreTools.RedumpLib.RedumpInfo.Data;
+using SabreTools.RedumpLib.Data;
 
-namespace SabreTools.RedumpLib.RedumpInfo.Converters
+namespace SabreTools.RedumpLib.Converters
 {
     /// <summary>
     /// Serialize MediaType enum values

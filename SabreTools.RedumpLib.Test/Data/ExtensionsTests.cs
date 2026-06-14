@@ -12,6 +12,48 @@ namespace SabreTools.RedumpLib.Test.Data
         #region Cross-Enumeration
 
         /// <summary>
+        /// redump.info media type values that map to the combined media type
+        /// </summary>
+        private static readonly MediaType?[] _mappableMediaTypes =
+        [
+            MediaType.BD25,
+            MediaType.BD33,
+            MediaType.BD50,
+            MediaType.BD66,
+            MediaType.BD100,
+            MediaType.BD128,
+            MediaType.MaxTest4Layer,
+            MediaType.CD,
+            MediaType.DVD5,
+            MediaType.DVD9,
+            MediaType.GDROM,
+            MediaType.HDDVDSL,
+            MediaType.HDDVDDL,
+            MediaType.NintendoGameCubeGameDisc,
+            MediaType.NintendoWiiOpticalDiscSL,
+            MediaType.NintendoWiiOpticalDiscDL,
+            MediaType.NintendoWiiUOpticalDiscSL,
+            MediaType.UMDSL,
+            MediaType.UMDDL,
+        ];
+
+        /// <summary>
+        /// Combined media type values that map to redump.info media type
+        /// </summary>
+        private static readonly PhysicalMediaType?[] _mappablePhysicalMediaTypes =
+        [
+            PhysicalMediaType.BluRay,
+            PhysicalMediaType.CDROM,
+            PhysicalMediaType.DVD,
+            PhysicalMediaType.GDROM,
+            PhysicalMediaType.HDDVD,
+            PhysicalMediaType.NintendoGameCubeGameDisc,
+            PhysicalMediaType.NintendoWiiOpticalDisc,
+            PhysicalMediaType.NintendoWiiUOpticalDisc,
+            PhysicalMediaType.UMD,
+        ];
+
+        /// <summary>
         /// Check that every supported system has some set of MediaTypes supported
         /// </summary>
         /// <param name="physicalSystem">PhysicalSystem value to check</param>
@@ -24,6 +66,32 @@ namespace SabreTools.RedumpLib.Test.Data
         }
 
         /// <summary>
+        /// Check that both mappable and unmappable media types output correctly
+        /// </summary>
+        /// <param name="mediaType">MediaType value to check</param>
+        /// <param name="expectNull">True to expect a null mapping, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GeneratePhysicalMediaTypeMappingTestData))]
+        public void ToPhysicalMediaTypeTest(PhysicalMediaType? mediaType, bool expectNull)
+        {
+            MediaType? actual = mediaType.ToMediaType();
+            Assert.Equal(expectNull, actual is null);
+        }
+
+        /// <summary>
+        /// Check that MediaType values all map to something appropriate
+        /// </summary>
+        /// <param name="discType">MediaType value to check</param>
+        /// <param name="expectNull">True to expect a null mapping, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateMediaTypeMappingTestData))]
+        public void ToMediaTypeTest(MediaType? discType, bool expectNull)
+        {
+            PhysicalMediaType? actual = discType.ToPhysicalMediaType();
+            Assert.Equal(expectNull, actual is null);
+        }
+
+        /// <summary>
         /// Generate a test set of PhysicalSystem values
         /// </summary>
         /// <returns>MemberData-compatible list of PhysicalSystem values</returns>
@@ -33,6 +101,43 @@ namespace SabreTools.RedumpLib.Test.Data
             foreach (PhysicalSystem? physicalSystem in Enum.GetValues<PhysicalSystem>().Cast<PhysicalSystem?>())
             {
                 testData.Add(physicalSystem);
+            }
+
+            return testData;
+        }
+
+        /// <summary>
+        /// Generate a test set of MediaType values
+        /// </summary>
+        /// <returns>MemberData-compatible list of MediaType values</returns>
+        public static TheoryData<MediaType?, bool> GenerateMediaTypeMappingTestData()
+        {
+            var testData = new TheoryData<MediaType?, bool>() { { null, true } };
+            foreach (MediaType? discType in Enum.GetValues<MediaType>().Cast<MediaType?>())
+            {
+                if (_mappableMediaTypes.Contains(discType))
+                    testData.Add(discType, false);
+                else
+                    testData.Add(discType, true);
+            }
+
+            return testData;
+        }
+
+        /// <summary>
+        /// Generate a test set of mappable media types
+        /// </summary>
+        /// <returns>MemberData-compatible list of MediaTypes</returns>
+        public static TheoryData<PhysicalMediaType?, bool> GeneratePhysicalMediaTypeMappingTestData()
+        {
+            var testData = new TheoryData<PhysicalMediaType?, bool>() { { null, true } };
+
+            foreach (PhysicalMediaType? mediaType in Enum.GetValues<PhysicalMediaType>().Cast<PhysicalMediaType?>())
+            {
+                if (_mappablePhysicalMediaTypes.Contains(mediaType))
+                    testData.Add(mediaType, false);
+                else
+                    testData.Add(mediaType, true);
             }
 
             return testData;
@@ -265,6 +370,91 @@ namespace SabreTools.RedumpLib.Test.Data
             foreach (Language? language in Enum.GetValues<Language>().Cast<Language?>())
             {
                 testData.Add(language, false);
+            }
+
+            return testData;
+        }
+
+        #endregion
+
+        #region Media Type
+
+        /// <summary>
+        /// Check that every MediaType has a long name provided
+        /// </summary>
+        /// <param name="mediaType">MediaType value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateMediaTypeTestData))]
+        public void DiscType_LongName(MediaType? mediaType, bool expectNull)
+        {
+            var actual = mediaType.LongName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Check that every MediaType has a short name provided
+        /// </summary>
+        /// <param name="mediaType">MediaType value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateMediaTypeTestData))]
+        public void DiscType_ShortName(MediaType? mediaType, bool expectNull)
+        {
+            var actual = mediaType.ShortName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Check that every MediaType can be mapped from a string
+        /// </summary>
+        /// <param name="mediaType">MediaType value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateMediaTypeTestData))]
+        public void DiscType_ToMediaType(MediaType? mediaType, bool expectNull)
+        {
+            string? longName = mediaType.LongName();
+            string? longNameSpaceless = longName?
+                .Replace(" ", string.Empty)
+                .Replace("-", string.Empty);
+
+            var actualNormal = longName.ToMediaType();
+            var actualSpaceless = longNameSpaceless.ToMediaType();
+
+            if (expectNull)
+            {
+                Assert.Null(actualNormal);
+                Assert.Null(actualSpaceless);
+            }
+            else
+            {
+                Assert.Equal(mediaType, actualNormal);
+                Assert.Equal(mediaType, actualSpaceless);
+            }
+        }
+
+        /// <summary>
+        /// Generate a test set of DiscType values
+        /// </summary>
+        /// <returns>MemberData-compatible list of DiscType values</returns>
+        public static TheoryData<MediaType?, bool> GenerateMediaTypeTestData()
+        {
+            var testData = new TheoryData<MediaType?, bool>() { { null, true } };
+            foreach (MediaType? discType in Enum.GetValues<MediaType>().Cast<MediaType?>())
+            {
+                if (discType == MediaType.NONE)
+                    testData.Add(discType, true);
+                else
+                    testData.Add(discType, false);
             }
 
             return testData;
@@ -2088,6 +2278,45 @@ namespace SabreTools.RedumpLib.Test.Data
             foreach (SortDirection? sortDirection in Enum.GetValues<SortDirection>().Cast<SortDirection?>())
             {
                 testData.Add(sortDirection, false);
+            }
+
+            return testData;
+        }
+
+        #endregion
+
+        #region System Category
+
+        /// <summary>
+        /// Check that every SystemCategory has a long name provided
+        /// </summary>
+        /// <param name="systemCategory">SystemCategory value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateSystemCategoryTestData))]
+        public void SystemCategory_LongName(SystemCategory? systemCategory, bool expectNull)
+        {
+            var actual = systemCategory.LongName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Generate a test set of SystemCategory values
+        /// </summary>
+        /// <returns>MemberData-compatible list of SystemCategory values</returns>
+        public static TheoryData<SystemCategory?, bool> GenerateSystemCategoryTestData()
+        {
+            var testData = new TheoryData<SystemCategory?, bool>() { { null, true } };
+            foreach (SystemCategory? systemCategory in Enum.GetValues<SystemCategory>().Cast<SystemCategory?>())
+            {
+                if (systemCategory == SystemCategory.NONE)
+                    testData.Add(systemCategory, true);
+                else
+                    testData.Add(systemCategory, false);
             }
 
             return testData;

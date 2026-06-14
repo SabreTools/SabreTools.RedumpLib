@@ -191,7 +191,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
                 {
                     FormatOutputData(output,
                         info.SizeAndChecksums,
-                        info.CommonDiscInfo.Media.ToMediaType(),
+                        info.CommonDiscInfo.Media.ToPhysicalMediaType(),
                         info.CommonDiscInfo.System,
                         enableRedumpCompatibility);
                     output.AppendLine();
@@ -288,7 +288,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             AddIfExists(output, Template.DiscTitleField, section?.DiscTitle, 1);
             AddIfExists(output, Template.SystemField, section?.System.LongName(), 1);
             AddIfExists(output, Template.MediaTypeField, GetFixedMediaType(
-                    section?.Media.ToMediaType(),
+                    section?.Media.ToPhysicalMediaType(),
                     sac?.PICIdentifier,
                     size,
                     sac?.Layerbreak,

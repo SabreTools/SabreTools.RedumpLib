@@ -26,10 +26,10 @@ namespace SabreTools.RedumpLib.Test
         [Fact]
         public void NormalizeDiscType_InvalidSizeChecksums_Untouched()
         {
-            DiscType expected = DiscType.CD;
+            MediaType expected = MediaType.CD;
             var si = new SubmissionInfo
             {
-                CommonDiscInfo = new CommonDiscInfoSection { Media = DiscType.CD },
+                CommonDiscInfo = new CommonDiscInfoSection { Media = MediaType.CD },
                 SizeAndChecksums = new(),
             };
 
@@ -41,10 +41,10 @@ namespace SabreTools.RedumpLib.Test
         [Fact]
         public void NormalizeDiscType_UnformattedType_Fixed()
         {
-            DiscType expected = DiscType.CD;
+            MediaType expected = MediaType.CD;
             var si = new SubmissionInfo
             {
-                CommonDiscInfo = new CommonDiscInfoSection { Media = DiscType.CD },
+                CommonDiscInfo = new CommonDiscInfoSection { Media = MediaType.CD },
                 SizeAndChecksums = new SizeAndChecksumsSection(),
             };
 
@@ -54,11 +54,11 @@ namespace SabreTools.RedumpLib.Test
         }
 
         [Theory]
-        [InlineData(DiscType.DVD5)]
-        [InlineData(DiscType.DVD9)]
-        public void NormalizeDiscType_DVD9_Fixed(DiscType type)
+        [InlineData(MediaType.DVD5)]
+        [InlineData(MediaType.DVD9)]
+        public void NormalizeDiscType_DVD9_Fixed(MediaType type)
         {
-            DiscType expected = DiscType.DVD9;
+            MediaType expected = MediaType.DVD9;
             var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
@@ -71,11 +71,11 @@ namespace SabreTools.RedumpLib.Test
         }
 
         [Theory]
-        [InlineData(DiscType.DVD5)]
-        [InlineData(DiscType.DVD9)]
-        public void NormalizeDiscType_DVD5_Fixed(DiscType type)
+        [InlineData(MediaType.DVD5)]
+        [InlineData(MediaType.DVD9)]
+        public void NormalizeDiscType_DVD5_Fixed(MediaType type)
         {
-            DiscType expected = DiscType.DVD5;
+            MediaType expected = MediaType.DVD5;
             var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
@@ -88,15 +88,15 @@ namespace SabreTools.RedumpLib.Test
         }
 
         [Theory]
-        [InlineData(DiscType.BD25)]
-        [InlineData(DiscType.BD33)]
-        [InlineData(DiscType.BD50)]
-        [InlineData(DiscType.BD66)]
-        [InlineData(DiscType.BD100)]
-        [InlineData(DiscType.BD128)]
-        public void NormalizeDiscType_BD128_Fixed(DiscType type)
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscType_BD128_Fixed(MediaType type)
         {
-            DiscType expected = DiscType.BD128;
+            MediaType expected = MediaType.BD128;
             var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
@@ -109,15 +109,15 @@ namespace SabreTools.RedumpLib.Test
         }
 
         [Theory]
-        [InlineData(DiscType.BD25)]
-        [InlineData(DiscType.BD33)]
-        [InlineData(DiscType.BD50)]
-        [InlineData(DiscType.BD66)]
-        [InlineData(DiscType.BD100)]
-        [InlineData(DiscType.BD128)]
-        public void NormalizeDiscType_BD100_Fixed(DiscType type)
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscType_BD100_Fixed(MediaType type)
         {
-            DiscType expected = DiscType.BD100;
+            MediaType expected = MediaType.BD100;
             var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
@@ -130,15 +130,15 @@ namespace SabreTools.RedumpLib.Test
         }
 
         [Theory]
-        [InlineData(DiscType.BD25)]
-        [InlineData(DiscType.BD33)]
-        [InlineData(DiscType.BD50)]
-        [InlineData(DiscType.BD66)]
-        [InlineData(DiscType.BD100)]
-        [InlineData(DiscType.BD128)]
-        public void NormalizeDiscType_BD66PIC_Fixed(DiscType type)
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscType_BD66PIC_Fixed(MediaType type)
         {
-            DiscType expected = DiscType.BD66;
+            MediaType expected = MediaType.BD66;
             var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
@@ -155,15 +155,15 @@ namespace SabreTools.RedumpLib.Test
         }
 
         [Theory]
-        [InlineData(DiscType.BD25)]
-        [InlineData(DiscType.BD33)]
-        [InlineData(DiscType.BD50)]
-        [InlineData(DiscType.BD66)]
-        [InlineData(DiscType.BD100)]
-        [InlineData(DiscType.BD128)]
-        public void NormalizeDiscType_BD66Size_Fixed(DiscType type)
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscType_BD66Size_Fixed(MediaType type)
         {
-            DiscType expected = DiscType.BD66;
+            MediaType expected = MediaType.BD66;
             var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
@@ -183,15 +183,15 @@ namespace SabreTools.RedumpLib.Test
         }
 
         [Theory]
-        [InlineData(DiscType.BD25)]
-        [InlineData(DiscType.BD33)]
-        [InlineData(DiscType.BD50)]
-        [InlineData(DiscType.BD66)]
-        [InlineData(DiscType.BD100)]
-        [InlineData(DiscType.BD128)]
-        public void NormalizeDiscType_BD50_Fixed(DiscType type)
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscType_BD50_Fixed(MediaType type)
         {
-            DiscType expected = DiscType.BD50;
+            MediaType expected = MediaType.BD50;
             var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
@@ -204,15 +204,15 @@ namespace SabreTools.RedumpLib.Test
         }
 
         [Theory]
-        [InlineData(DiscType.BD25)]
-        [InlineData(DiscType.BD33)]
-        [InlineData(DiscType.BD50)]
-        [InlineData(DiscType.BD66)]
-        [InlineData(DiscType.BD100)]
-        [InlineData(DiscType.BD128)]
-        public void NormalizeDiscType_BD33PIC_Fixed(DiscType type)
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscType_BD33PIC_Fixed(MediaType type)
         {
-            DiscType expected = DiscType.BD33;
+            MediaType expected = MediaType.BD33;
             var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
@@ -228,15 +228,15 @@ namespace SabreTools.RedumpLib.Test
         }
 
         [Theory]
-        [InlineData(DiscType.BD25)]
-        [InlineData(DiscType.BD33)]
-        [InlineData(DiscType.BD50)]
-        [InlineData(DiscType.BD66)]
-        [InlineData(DiscType.BD100)]
-        [InlineData(DiscType.BD128)]
-        public void NormalizeDiscType_BD33Size_Fixed(DiscType type)
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscType_BD33Size_Fixed(MediaType type)
         {
-            DiscType expected = DiscType.BD33;
+            MediaType expected = MediaType.BD33;
             var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
@@ -252,15 +252,15 @@ namespace SabreTools.RedumpLib.Test
         }
 
         [Theory]
-        [InlineData(DiscType.BD25)]
-        [InlineData(DiscType.BD33)]
-        [InlineData(DiscType.BD50)]
-        [InlineData(DiscType.BD66)]
-        [InlineData(DiscType.BD100)]
-        [InlineData(DiscType.BD128)]
-        public void NormalizeDiscType_BD25_Fixed(DiscType type)
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscType_BD25_Fixed(MediaType type)
         {
-            DiscType expected = DiscType.BD25;
+            MediaType expected = MediaType.BD25;
             var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
@@ -273,11 +273,11 @@ namespace SabreTools.RedumpLib.Test
         }
 
         [Theory]
-        [InlineData(DiscType.UMDSL)]
-        [InlineData(DiscType.UMDDL)]
-        public void NormalizeDiscType_UMDDL_Fixed(DiscType type)
+        [InlineData(MediaType.UMDSL)]
+        [InlineData(MediaType.UMDDL)]
+        public void NormalizeDiscType_UMDDL_Fixed(MediaType type)
         {
-            DiscType expected = DiscType.UMDDL;
+            MediaType expected = MediaType.UMDDL;
             var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },
@@ -290,11 +290,11 @@ namespace SabreTools.RedumpLib.Test
         }
 
         [Theory]
-        [InlineData(DiscType.UMDSL)]
-        [InlineData(DiscType.UMDDL)]
-        public void NormalizeDiscType_UMDSL_Fixed(DiscType type)
+        [InlineData(MediaType.UMDSL)]
+        [InlineData(MediaType.UMDDL)]
+        public void NormalizeDiscType_UMDSL_Fixed(MediaType type)
         {
-            DiscType expected = DiscType.UMDSL;
+            MediaType expected = MediaType.UMDSL;
             var si = new SubmissionInfo
             {
                 CommonDiscInfo = new CommonDiscInfoSection { Media = type },

@@ -22,55 +22,55 @@ namespace SabreTools.RedumpLib
 #pragma warning disable IDE0010
             switch (info.CommonDiscInfo.Media)
             {
-                case DiscType.DVD5:
-                case DiscType.DVD9:
+                case MediaType.DVD5:
+                case MediaType.DVD9:
                     if (info.SizeAndChecksums.Layerbreak != default)
-                        info.CommonDiscInfo.Media = DiscType.DVD9;
+                        info.CommonDiscInfo.Media = MediaType.DVD9;
                     else
-                        info.CommonDiscInfo.Media = DiscType.DVD5;
+                        info.CommonDiscInfo.Media = MediaType.DVD5;
                     break;
 
-                case DiscType.BD25:
-                case DiscType.BD33:
-                case DiscType.BD50:
-                case DiscType.BD66:
-                case DiscType.BD100:
-                case DiscType.BD128:
+                case MediaType.BD25:
+                case MediaType.BD33:
+                case MediaType.BD50:
+                case MediaType.BD66:
+                case MediaType.BD100:
+                case MediaType.BD128:
                     // Extract the size from the hashes
                     long size = Data.Extensions.ExtractSizeFromHashData(info.TracksAndWriteOffsets.ClrMameProData);
 
                     if (info.SizeAndChecksums.Layerbreak3 != default)
-                        info.CommonDiscInfo.Media = DiscType.BD128;
+                        info.CommonDiscInfo.Media = MediaType.BD128;
                     else if (info.SizeAndChecksums.Layerbreak2 != default)
-                        info.CommonDiscInfo.Media = DiscType.BD100;
+                        info.CommonDiscInfo.Media = MediaType.BD100;
                     else if (info.SizeAndChecksums.Layerbreak != default && info.SizeAndChecksums.PICIdentifier == "BDU")
-                        info.CommonDiscInfo.Media = DiscType.BD66;
+                        info.CommonDiscInfo.Media = MediaType.BD66;
                     else if (info.SizeAndChecksums.Layerbreak != default && size > 50_050_629_632)
-                        info.CommonDiscInfo.Media = DiscType.BD66;
+                        info.CommonDiscInfo.Media = MediaType.BD66;
                     else if (info.SizeAndChecksums.Layerbreak != default)
-                        info.CommonDiscInfo.Media = DiscType.BD50;
+                        info.CommonDiscInfo.Media = MediaType.BD50;
                     else if (info.SizeAndChecksums.PICIdentifier == "BDU")
-                        info.CommonDiscInfo.Media = DiscType.BD33;
+                        info.CommonDiscInfo.Media = MediaType.BD33;
                     else if (size > 25_025_314_816)
-                        info.CommonDiscInfo.Media = DiscType.BD33;
+                        info.CommonDiscInfo.Media = MediaType.BD33;
                     else
-                        info.CommonDiscInfo.Media = DiscType.BD25;
+                        info.CommonDiscInfo.Media = MediaType.BD25;
                     break;
 
-                case DiscType.HDDVDSL:
-                case DiscType.HDDVDDL:
+                case MediaType.HDDVDSL:
+                case MediaType.HDDVDDL:
                     if (info.SizeAndChecksums.Layerbreak != default)
-                        info.CommonDiscInfo.Media = DiscType.HDDVDDL;
+                        info.CommonDiscInfo.Media = MediaType.HDDVDDL;
                     else
-                        info.CommonDiscInfo.Media = DiscType.HDDVDSL;
+                        info.CommonDiscInfo.Media = MediaType.HDDVDSL;
                     break;
 
-                case DiscType.UMDSL:
-                case DiscType.UMDDL:
+                case MediaType.UMDSL:
+                case MediaType.UMDDL:
                     if (info.SizeAndChecksums.Layerbreak != default)
-                        info.CommonDiscInfo.Media = DiscType.UMDDL;
+                        info.CommonDiscInfo.Media = MediaType.UMDDL;
                     else
-                        info.CommonDiscInfo.Media = DiscType.UMDSL;
+                        info.CommonDiscInfo.Media = MediaType.UMDSL;
                     break;
 
                 // All other disc types are not processed

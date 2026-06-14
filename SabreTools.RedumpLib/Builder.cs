@@ -184,7 +184,7 @@ namespace SabreTools.RedumpLib
                                         }
                                         else if (string.Equals(gameInfoNodeHeader.InnerText, "Media", StringComparison.OrdinalIgnoreCase))
                                         {
-                                            info.CommonDiscInfo.Media = gameInfoNodeData.InnerText.ToDiscType();
+                                            info.CommonDiscInfo.Media = gameInfoNodeData.InnerText.ToMediaType();
                                         }
                                         else if (string.Equals(gameInfoNodeHeader.InnerText, "Category", StringComparison.OrdinalIgnoreCase))
                                         {

@@ -112,7 +112,7 @@ namespace RedumpTool.Features
             bool comments = CommentsInput.Value;
             bool contents = ContentsInput.Value;
             string? discTypeString = DiscTypeInput.Value;
-            DiscType? discType = discTypeString.ToDiscType();
+            MediaType? mediaType = discTypeString.ToMediaType();
             string? dumper = DumperInput.Value;
             bool? edcBool = EdcInput.Value;
             YesNo? edc = edcBool?.ToYesNo();
@@ -196,7 +196,7 @@ namespace RedumpTool.Features
                     antimodchip,
                     barcode,
                     category,
-                    discType,
+                    mediaType,
                     dumper,
                     edc,
                     edition,

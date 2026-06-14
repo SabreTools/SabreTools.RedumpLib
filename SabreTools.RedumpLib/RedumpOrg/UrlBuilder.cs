@@ -171,7 +171,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         public static string BuildDiscsUrl(bool? antimodchip = null,
             bool barcode = false,
             DiscCategory? category = null,
-            DiscType? discType = null,
+            MediaType? discType = null,
             string? dumper = null,
             YesNo? edc = null,
             string? edition = null,
