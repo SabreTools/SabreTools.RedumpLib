@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.RedumpInfo.Data;
 using SabreTools.RedumpLib.Web;
 

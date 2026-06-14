@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.RedumpInfo.Data;
 using static SabreTools.RedumpLib.RedumpOrg.Data.Extensions;
 

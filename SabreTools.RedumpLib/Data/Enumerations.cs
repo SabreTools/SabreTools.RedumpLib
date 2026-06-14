@@ -1754,4 +1754,1024 @@ namespace SabreTools.RedumpLib.Data
 
         #endregion
     }
+
+    /// <summary>
+    /// List of all known regions
+    /// </summary>
+    /// <remarks>
+    /// https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+    /// </remarks>
+    public enum Region
+    {
+        #region Aggregate Regions
+
+        [RegionCode(LongName = "Asia", ShortName = "xa", RedumpOrgCode = "A")]
+        Asia,
+
+        [RegionCode(LongName = "Europe", ShortName = "eu", RedumpOrgCode = "E")]
+        Europe,
+
+        [RegionCode(LongName = "Export", ShortName = "xp", RedumpOrgCode = "Ex")]
+        Export,
+
+        [RegionCode(LongName = "Latin America", ShortName = "xl", RedumpOrgCode = "LAm")]
+        LatinAmerica,
+
+        [RegionCode(LongName = "Scandinavia", ShortName = "xs", RedumpOrgCode = "Sca")]
+        Scandinavia,
+
+        [RegionCode(LongName = "World", ShortName = "un", RedumpOrgCode = "W")]
+        World,
+
+        #endregion
+
+        #region Aggregate Regions - redump.org Only
+
+        [RegionCode(LongName = "Asia, Europe", RedumpOrgCode = "A,E")]
+        AsiaEurope,
+
+        [RegionCode(LongName = "Asia, USA", RedumpOrgCode = "A,U")]
+        AsiaUSA,
+
+        [RegionCode(LongName = "Australia, Germany", RedumpOrgCode = "Au,G")]
+        AustraliaGermany,
+
+        [RegionCode(LongName = "Australia, New Zealand", RedumpOrgCode = "Au,Nz")]
+        AustraliaNewZealand,
+
+        [RegionCode(LongName = "Austria, Switzerland", RedumpOrgCode = "At,Ch")]
+        AustriaSwitzerland,
+
+        [RegionCode(LongName = "Belgium, Netherlands", RedumpOrgCode = "Be,N")]
+        BelgiumNetherlands,
+
+        [RegionCode(LongName = "Europe, Asia", RedumpOrgCode = "E,A")]
+        EuropeAsia,
+
+        [RegionCode(LongName = "Europe, Australia", RedumpOrgCode = "E,Au")]
+        EuropeAustralia,
+
+        [RegionCode(LongName = "Europe, Canada", RedumpOrgCode = "E,Ca")]
+        EuropeCanada,
+
+        [RegionCode(LongName = "Europe, Germany", RedumpOrgCode = "E,G")]
+        EuropeGermany,
+
+        [RegionCode(LongName = "France, Spain", RedumpOrgCode = "F,S")]
+        FranceSpain,
+
+        [RegionCode(LongName = "Greater China", RedumpOrgCode = "GC")]
+        GreaterChina,
+
+        [RegionCode(LongName = "Japan, Asia", RedumpOrgCode = "J,A")]
+        JapanAsia,
+
+        [RegionCode(LongName = "Japan, Europe", RedumpOrgCode = "J,E")]
+        JapanEurope,
+
+        [RegionCode(LongName = "Japan, Korea", RedumpOrgCode = "J,K")]
+        JapanKorea,
+
+        [RegionCode(LongName = "Japan, USA", RedumpOrgCode = "J,U")]
+        JapanUSA,
+
+        [RegionCode(LongName = "Spain, Portugal", RedumpOrgCode = "S,Pt")]
+        SpainPortugal,
+
+        [RegionCode(LongName = "UK, Australia", RedumpOrgCode = "Uk,Au")]
+        UKAustralia,
+
+        [RegionCode(LongName = "USA, Asia", RedumpOrgCode = "U,A")]
+        USAAsia,
+
+        [RegionCode(LongName = "USA, Australia", RedumpOrgCode = "U,Au")]
+        USAAustralia,
+
+        [RegionCode(LongName = "USA, Brazil", RedumpOrgCode = "U,B")]
+        USABrazil,
+
+        [RegionCode(LongName = "USA, Canada", RedumpOrgCode = "U,Ca")]
+        USACanada,
+
+        [RegionCode(LongName = "USA, Europe", RedumpOrgCode = "U,E")]
+        USAEurope,
+
+        [RegionCode(LongName = "USA, Germany", RedumpOrgCode = "U,G")]
+        USAGermany,
+
+        [RegionCode(LongName = "USA, Japan", RedumpOrgCode = "U,J")]
+        USAJapan,
+
+        [RegionCode(LongName = "USA, Korea", RedumpOrgCode = "U,K")]
+        USAKorea,
+
+        #endregion
+
+        #region A
+
+        [RegionCode(LongName = "Afghanistan", ShortName = "af", RedumpOrgCode = "Af")]
+        Afghanistan,
+
+        [RegionCode(LongName = "Åland Islands", ShortName = "ax", RedumpOrgCode = "Ax")]
+        AlandIslands,
+
+        [RegionCode(LongName = "Albania", ShortName = "al", RedumpOrgCode = "Al")]
+        Albania,
+
+        [RegionCode(LongName = "Algeria", ShortName = "dz", RedumpOrgCode = "Dz")]
+        Algeria,
+
+        [RegionCode(LongName = "American Samoa", ShortName = "as", RedumpOrgCode = "As")]
+        AmericanSamoa,
+
+        [RegionCode(LongName = "Andorra", ShortName = "ad", RedumpOrgCode = "Ad")]
+        Andorra,
+
+        [RegionCode(LongName = "Angola", ShortName = "ao", RedumpOrgCode = "Ao")]
+        Angola,
+
+        [RegionCode(LongName = "Anguilla", ShortName = "ai", RedumpOrgCode = "Ai")]
+        Anguilla,
+
+        [RegionCode(LongName = "Antarctica", ShortName = "aq", RedumpOrgCode = "Aq")]
+        Antarctica,
+
+        [RegionCode(LongName = "Antigua and Barbuda", ShortName = "ag", RedumpOrgCode = "Ag")]
+        AntiguaAndBarbuda,
+
+        [RegionCode(LongName = "Argentina", ShortName = "ar", RedumpOrgCode = "Ar")]
+        Argentina,
+
+        [RegionCode(LongName = "Armenia", ShortName = "am", RedumpOrgCode = "Am")]
+        Armenia,
+
+        [RegionCode(LongName = "Aruba", ShortName = "aw", RedumpOrgCode = "Aw")]
+        Aruba,
+
+        [RegionCode(LongName = "Ascension Island", ShortName = "ac", RedumpOrgCode = "Ac")]
+        AscensionIsland,
+
+        [RegionCode(LongName = "Australia", ShortName = "au", RedumpOrgCode = "Au")]
+        Australia,
+
+        [RegionCode(LongName = "Austria", ShortName = "at", RedumpOrgCode = "At")]
+        Austria,
+
+        [RegionCode(LongName = "Azerbaijan", ShortName = "az", RedumpOrgCode = "Az")]
+        Azerbaijan,
+
+        #endregion
+
+        #region B
+
+        [RegionCode(LongName = "Bahamas", ShortName="bs", RedumpOrgCode="Bs")]
+        Bahamas,
+
+        [RegionCode(LongName = "Bahrain", ShortName="bh", RedumpOrgCode="Bh")]
+        Bahrain,
+
+        [RegionCode(LongName = "Bangladesh", ShortName="bd", RedumpOrgCode="Bd")]
+        Bangladesh,
+
+        [RegionCode(LongName = "Barbados", ShortName="bb", RedumpOrgCode="Bb")]
+        Barbados,
+
+        [RegionCode(LongName = "Belarus", ShortName="by", RedumpOrgCode="By")]
+        Belarus,
+
+        [RegionCode(LongName = "Belgium", ShortName="be", RedumpOrgCode="Be")]
+        Belgium,
+
+        [RegionCode(LongName = "Belize", ShortName="bz", RedumpOrgCode="Bz")]
+        Belize,
+
+        [RegionCode(LongName = "Benin", ShortName="bj", RedumpOrgCode="Bj")]
+        Benin,
+
+        [RegionCode(LongName = "Bermuda", ShortName="bm", RedumpOrgCode="Bm")]
+        Bermuda,
+
+        [RegionCode(LongName = "Bhutan", ShortName="bt", RedumpOrgCode="Bt")]
+        Bhutan,
+
+        [RegionCode(LongName = "Bolivia", ShortName="bo", RedumpOrgCode="Bo")]
+        Bolivia,
+
+        [RegionCode(LongName = "Bonaire, Sint Eustatius and Saba", ShortName="bq", RedumpOrgCode="Bq")]
+        Bonaire,
+
+        [RegionCode(LongName = "Bosnia and Herzegovina", ShortName="ba", RedumpOrgCode="Ba")]
+        BosniaAndHerzegovina,
+
+        [RegionCode(LongName = "Botswana", ShortName="bw", RedumpOrgCode="Bw")]
+        Botswana,
+
+        [RegionCode(LongName = "Bouvet Island", ShortName="bv", RedumpOrgCode="Bv")]
+        BouvetIsland,
+
+        [RegionCode(LongName = "Brazil", ShortName="br", RedumpOrgCode="B")]
+        Brazil,
+
+        [RegionCode(LongName = "British Indian Ocean Territory", ShortName="io", RedumpOrgCode="Io")]
+        BritishIndianOceanTerritory,
+
+        [RegionCode(LongName = "Brunei Darussalam", ShortName="bn", RedumpOrgCode="Bn")]
+        BruneiDarussalam,
+
+        [RegionCode(LongName = "Bulgaria", ShortName="bg", RedumpOrgCode="Bg")]
+        Bulgaria,
+
+        [RegionCode(LongName = "Burkina Faso", ShortName="bf", RedumpOrgCode="Bf")]
+        BurkinaFaso,
+
+        [RegionCode(LongName = "Burundi", ShortName="bi", RedumpOrgCode="Bi")]
+        Burundi,
+
+        #endregion
+
+        #region C
+
+        [RegionCode(LongName = "Cabo Verde", ShortName="cv", RedumpOrgCode="Cv")]
+        CaboVerde,
+
+        [RegionCode(LongName = "Cambodia", ShortName="kh", RedumpOrgCode="Kh")]
+        Cambodia,
+
+        [RegionCode(LongName = "Cameroon", ShortName="cm", RedumpOrgCode="Cm")]
+        Cameroon,
+
+        [RegionCode(LongName = "Canada", ShortName="ca", RedumpOrgCode="Ca")]
+        Canada,
+
+        [RegionCode(LongName = "Canary Islands", ShortName="ic", RedumpOrgCode="Ic")]
+        CanaryIslands,
+
+        [RegionCode(LongName = "Cayman Islands", ShortName="ky", RedumpOrgCode="Ky")]
+        CaymanIslands,
+
+        [RegionCode(LongName = "Central African Republic", ShortName="cf", RedumpOrgCode="Cf")]
+        CentralAfricanRepublic,
+
+        [RegionCode(LongName = "Ceuta, Melilla", ShortName="ea", RedumpOrgCode="Ea")]
+        CeutaMelilla,
+
+        [RegionCode(LongName = "Chad", ShortName="td", RedumpOrgCode="Td")]
+        Chad,
+
+        [RegionCode(LongName = "Chile", ShortName="cl", RedumpOrgCode="Cl")]
+        Chile,
+
+        [RegionCode(LongName = "China", ShortName="cn", RedumpOrgCode="C")]
+        China,
+
+        [RegionCode(LongName = "Christmas Island", ShortName="cx", RedumpOrgCode="Cx")]
+        ChristmasIsland,
+
+        [RegionCode(LongName = "Clipperton Island", ShortName="cp", RedumpOrgCode="Cp")]
+        ClippertonIsland,
+
+        [RegionCode(LongName = "Cocos (Keeling) Islands", ShortName="cc", RedumpOrgCode="Cc")]
+        CocosIslands,
+
+        [RegionCode(LongName = "Colombia", ShortName="co", RedumpOrgCode="Co")]
+        Colombia,
+
+        [RegionCode(LongName = "Comoros", ShortName="km", RedumpOrgCode="Km")]
+        Comoros,
+
+        [RegionCode(LongName = "Congo", ShortName="cg", RedumpOrgCode="Cg")]
+        Congo,
+
+        [RegionCode(LongName = "Cook Islands", ShortName="ck", RedumpOrgCode="Ck")]
+        CookIslands,
+
+        [RegionCode(LongName = "Costa Rica", ShortName="cr", RedumpOrgCode="Cr")]
+        CostaRica,
+
+        [RegionCode(LongName = "Côte d'Ivoire", ShortName="ci", RedumpOrgCode="Ci")]
+        CoteDIvoire,
+
+        [RegionCode(LongName = "Croatia", ShortName="hr", RedumpOrgCode="Hr")]
+        Croatia,
+
+        [RegionCode(LongName = "Cuba", ShortName="cu", RedumpOrgCode="Cu")]
+        Cuba,
+
+        [RegionCode(LongName = "Curaçao", ShortName="cw", RedumpOrgCode="Cw")]
+        Curacao,
+
+        [RegionCode(LongName = "Cyprus", ShortName="cy", RedumpOrgCode="Cy")]
+        Cyprus,
+
+        [RegionCode(LongName = "Czechia", ShortName="cz", RedumpOrgCode="Cz")]
+        Czechia,
+
+        [RegionCode(LongName = "Czechoslovakia", ShortName="cs", RedumpOrgCode="Cs")]
+        Czechoslovakia,
+
+        #endregion
+
+        #region D
+
+        // Zaire was "Zr"
+        [RegionCode(LongName = "Democratic Republic of the Congo (Zaire)", ShortName="cd", RedumpOrgCode="Cd")]
+        DemocraticRepublicOfTheCongo,
+
+        [RegionCode(LongName = "Denmark", ShortName="dk", RedumpOrgCode="Dk")]
+        Denmark,
+
+        [RegionCode(LongName = "Diego Garcia", ShortName="dg", RedumpOrgCode="Dg")]
+        DiegoGarcia,
+
+        [RegionCode(LongName = "Djibouti", ShortName="dj", RedumpOrgCode="Dj")]
+        Djibouti,
+
+        [RegionCode(LongName = "Dominica", ShortName="dm", RedumpOrgCode="Dm")]
+        Dominica,
+
+        [RegionCode(LongName = "Dominican Republic", ShortName="do", RedumpOrgCode="Do")]
+        DominicanRepublic,
+
+        #endregion
+
+        #region E
+
+        [RegionCode(LongName = "Ecuador", ShortName="ec", RedumpOrgCode="Ec")]
+        Ecuador,
+
+        [RegionCode(LongName = "Egypt", ShortName="eg", RedumpOrgCode="Eg")]
+        Egypt,
+
+        [RegionCode(LongName = "El Salvador", ShortName="sv", RedumpOrgCode="Sv")]
+        ElSalvador,
+
+        [RegionCode(LongName = "Equatorial Guinea", ShortName="gq", RedumpOrgCode="Gq")]
+        EquatorialGuinea,
+
+        [RegionCode(LongName = "Eritrea", ShortName="er", RedumpOrgCode="Er")]
+        Eritrea,
+
+        [RegionCode(LongName = "Estonia", ShortName="ee", RedumpOrgCode="Ee")]
+        Estonia,
+
+        [RegionCode(LongName = "Eswatini", ShortName="sz", RedumpOrgCode="Sz")]
+        Eswatini,
+
+        [RegionCode(LongName = "Ethiopia", ShortName="et", RedumpOrgCode="Et")]
+        Ethiopia,
+
+        // Commented out to avoid confusion
+        //[RegionCode(LongName = "European Union", ShortName="eu", RedumpOrgCode="Eu")]
+        //EuropeanUnion,
+
+        // Commented out to avoid confusion
+        //[RegionCode(LongName = "Eurozone", ShortName="ez", RedumpOrgCode="Ez")]
+        //Eurozone,
+
+        #endregion
+
+        #region F
+
+        [RegionCode(LongName = "Falkland Islands (Malvinas)", ShortName="fk", RedumpOrgCode="Fk")]
+        FalklandIslands,
+
+        [RegionCode(LongName = "Faroe Islands", ShortName="fo", RedumpOrgCode="Fo")]
+        FaroeIslands,
+
+        [RegionCode(LongName = "Federated States of Micronesia", ShortName="fm", RedumpOrgCode="Fm")]
+        FederatedStatesOfMicronesia,
+
+        [RegionCode(LongName = "Fiji", ShortName="fj", RedumpOrgCode="Fj")]
+        Fiji,
+
+        // Formerly "Sf"
+        [RegionCode(LongName = "Finland", ShortName="fi", RedumpOrgCode="Fi")]
+        Finland,
+
+        [RegionCode(LongName = "France", ShortName="fr", RedumpOrgCode="F")]
+        France,
+
+        // Commented out to avoid confusion
+        //[RegionCode(LongName = "France, Metropolitan", ShortName="fx", RedumpOrgCode="Fx")]
+        //FranceMetropolitan,
+
+        [RegionCode(LongName = "French Guiana", ShortName="gf", RedumpOrgCode="Gf")]
+        FrenchGuiana,
+
+        [RegionCode(LongName = "French Polynesia", ShortName="pf", RedumpOrgCode="Pf")]
+        FrenchPolynesia,
+
+        [RegionCode(LongName = "French Southern Territories", ShortName="tf", RedumpOrgCode="Tf")]
+        FrenchSouthernTerritories,
+
+        #endregion
+
+        #region G
+
+        [RegionCode(LongName = "Gabon", ShortName="ga", RedumpOrgCode="Ga")]
+        Gabon,
+
+        [RegionCode(LongName = "Gambia", ShortName="gm", RedumpOrgCode="Gm")]
+        Gambia,
+
+        [RegionCode(LongName = "Georgia", ShortName="ge", RedumpOrgCode="Ge")]
+        Georgia,
+
+        [RegionCode(LongName = "Germany", ShortName="de", RedumpOrgCode="G")]
+        Germany,
+
+        [RegionCode(LongName = "Ghana", ShortName="gh", RedumpOrgCode="Gh")]
+        Ghana,
+
+        [RegionCode(LongName = "Gibraltar", ShortName="gi", RedumpOrgCode="Gi")]
+        Gibraltar,
+
+        [RegionCode(LongName = "Greece", ShortName="gr", RedumpOrgCode="Gr")]
+        Greece,
+
+        [RegionCode(LongName = "Greenland", ShortName="gl", RedumpOrgCode="Gl")]
+        Greenland,
+
+        [RegionCode(LongName = "Grenada", ShortName="gd", RedumpOrgCode="Gd")]
+        Grenada,
+
+        [RegionCode(LongName = "Guadeloupe", ShortName="gp", RedumpOrgCode="Gp")]
+        Guadeloupe,
+
+        [RegionCode(LongName = "Guam", ShortName="gu", RedumpOrgCode="Gu")]
+        Guam,
+
+        [RegionCode(LongName = "Guatemala", ShortName="gt", RedumpOrgCode="Gt")]
+        Guatemala,
+
+        [RegionCode(LongName = "Guernsey", ShortName="gg", RedumpOrgCode="Gg")]
+        Guernsey,
+
+        [RegionCode(LongName = "Guinea", ShortName="gn", RedumpOrgCode="Gn")]
+        Guinea,
+
+        [RegionCode(LongName = "Guinea-Bissau", ShortName="gw", RedumpOrgCode="Gw")]
+        GuineaBissau,
+
+        [RegionCode(LongName = "Guyana", ShortName="gy", RedumpOrgCode="Gy")]
+        Guyana,
+
+        #endregion
+
+        #region H
+
+        [RegionCode(LongName = "Haiti", ShortName="ht", RedumpOrgCode="Ht")]
+        Haiti,
+
+        [RegionCode(LongName = "Heard Island and McDonald Islands", ShortName="hm", RedumpOrgCode="Hm")]
+        HeardIslandAndMcDonaldIslands,
+
+        [RegionCode(LongName = "Holy See (Vatican City)", ShortName="va", RedumpOrgCode="Va")]
+        HolySee,
+
+        [RegionCode(LongName = "Honduras", ShortName="hn", RedumpOrgCode="Hn")]
+        Honduras,
+
+        [RegionCode(LongName = "Hong Kong", ShortName="hk", RedumpOrgCode="Hk")]
+        HongKong,
+
+        [RegionCode(LongName = "Hungary", ShortName="hu", RedumpOrgCode="H")]
+        Hungary,
+
+        #endregion
+
+        #region I
+
+        [RegionCode(LongName = "Iceland", ShortName="is", RedumpOrgCode="Is")]
+        Iceland,
+
+        [RegionCode(LongName = "India", ShortName="in", RedumpOrgCode="In")]
+        India,
+
+        [RegionCode(LongName = "Indonesia", ShortName="id", RedumpOrgCode="Id")]
+        Indonesia,
+
+        [RegionCode(LongName = "Iran", ShortName="ir", RedumpOrgCode="Ir")]
+        Iran,
+
+        [RegionCode(LongName = "Iraq", ShortName="iq", RedumpOrgCode="Iq")]
+        Iraq,
+
+        [RegionCode(LongName = "Ireland", ShortName="ie", RedumpOrgCode="Ie")]
+        Ireland,
+
+        [RegionCode(LongName = "Island of Sark", ShortName="cq", RedumpOrgCode="Cq")]
+        IslandOfSark,
+
+        [RegionCode(LongName = "Isle of Man", ShortName="im", RedumpOrgCode="Im")]
+        IsleOfMan,
+
+        [RegionCode(LongName = "Israel", ShortName="il", RedumpOrgCode="Il")]
+        Israel,
+
+        [RegionCode(LongName = "Italy", ShortName="it", RedumpOrgCode="I")]
+        Italy,
+
+        #endregion
+
+        #region J
+
+        [RegionCode(LongName = "Jamaica", ShortName="jm", RedumpOrgCode="Jm")]
+        Jamaica,
+
+        [RegionCode(LongName = "Japan", ShortName="jp", RedumpOrgCode="J")]
+        Japan,
+
+        [RegionCode(LongName = "Jersey", ShortName="je", RedumpOrgCode="Je")]
+        Jersey,
+
+        [RegionCode(LongName = "Jordan", ShortName="jo", RedumpOrgCode="Jo")]
+        Jordan,
+
+        #endregion
+
+        #region K
+
+        [RegionCode(LongName = "Kazakhstan", ShortName="kz", RedumpOrgCode="Kz")]
+        Kazakhstan,
+
+        [RegionCode(LongName = "Kenya", ShortName="ke", RedumpOrgCode="Ke")]
+        Kenya,
+
+        [RegionCode(LongName = "Kiribati", ShortName="ki", RedumpOrgCode="Ki")]
+        Kiribati,
+
+        [RegionCode(LongName = "Korea (Democratic People's Republic of Korea)", ShortName="kp", RedumpOrgCode="Kp")]
+        NorthKorea,
+
+        [RegionCode(LongName = "Korea (Republic of Korea)", ShortName="kr", RedumpOrgCode="K")]
+        SouthKorea,
+
+        [RegionCode(LongName = "Kuwait", ShortName="kw", RedumpOrgCode="Kw")]
+        Kuwait,
+
+        [RegionCode(LongName = "Kyrgyzstan", ShortName="kg", RedumpOrgCode="Kg")]
+        Kyrgyzstan,
+
+        #endregion
+
+        #region L
+
+        [RegionCode(LongName = "(Laos) Lao People's Democratic Republic", ShortName="la", RedumpOrgCode="La")]
+        Laos,
+
+        [RegionCode(LongName = "Latvia", ShortName="lv", RedumpOrgCode="Lv")]
+        Latvia,
+
+        [RegionCode(LongName = "Lebanon", ShortName="lb", RedumpOrgCode="Lb")]
+        Lebanon,
+
+        [RegionCode(LongName = "Lesotho", ShortName="ls", RedumpOrgCode="Ls")]
+        Lesotho,
+
+        [RegionCode(LongName = "Liberia", ShortName="lr", RedumpOrgCode="Lr")]
+        Liberia,
+
+        [RegionCode(LongName = "Libya", ShortName="ly", RedumpOrgCode="Ly")]
+        Libya,
+
+        [RegionCode(LongName = "Liechtenstein", ShortName="li", RedumpOrgCode="Li")]
+        Liechtenstein,
+
+        [RegionCode(LongName = "Lithuania", ShortName="lt", RedumpOrgCode="Lt")]
+        Lithuania,
+
+        [RegionCode(LongName = "Luxembourg", ShortName="lu", RedumpOrgCode="Lu")]
+        Luxembourg,
+
+        #endregion
+
+        #region M
+
+        [RegionCode(LongName = "Macao", ShortName="mo", RedumpOrgCode="Mo")]
+        Macao,
+
+        [RegionCode(LongName = "Madagascar", ShortName="mg", RedumpOrgCode="Mg")]
+        Madagascar,
+
+        [RegionCode(LongName = "Malawi", ShortName="mw", RedumpOrgCode="Mw")]
+        Malawi,
+
+        [RegionCode(LongName = "Malaysia", ShortName="my", RedumpOrgCode="My")]
+        Malaysia,
+
+        [RegionCode(LongName = "Maldives", ShortName="mv", RedumpOrgCode="Mv")]
+        Maldives,
+
+        [RegionCode(LongName = "Mali", ShortName="ml", RedumpOrgCode="Ml")]
+        Mali,
+
+        [RegionCode(LongName = "Malta", ShortName="mt", RedumpOrgCode="Mt")]
+        Malta,
+
+        [RegionCode(LongName = "Marshall Islands", ShortName="mh", RedumpOrgCode="Mh")]
+        MarshallIslands,
+
+        [RegionCode(LongName = "Martinique", ShortName="mq", RedumpOrgCode="Mq")]
+        Martinique,
+
+        [RegionCode(LongName = "Mauritania", ShortName="mr", RedumpOrgCode="Mr")]
+        Mauritania,
+
+        [RegionCode(LongName = "Mauritius", ShortName="mu", RedumpOrgCode="Mu")]
+        Mauritius,
+
+        [RegionCode(LongName = "Mayotte", ShortName="yt", RedumpOrgCode="Yt")]
+        Mayotte,
+
+        [RegionCode(LongName = "Mexico", ShortName="mx", RedumpOrgCode="Mx")]
+        Mexico,
+
+        [RegionCode(LongName = "Monaco", ShortName="mc", RedumpOrgCode="Mc")]
+        Monaco,
+
+        [RegionCode(LongName = "Mongolia", ShortName="mn", RedumpOrgCode="Mn")]
+        Mongolia,
+
+        [RegionCode(LongName = "Montenegro", ShortName="me", RedumpOrgCode="Me")]
+        Montenegro,
+
+        [RegionCode(LongName = "Montserrat", ShortName="ms", RedumpOrgCode="Ms")]
+        Montserrat,
+
+        [RegionCode(LongName = "Morocco", ShortName="ma", RedumpOrgCode="Ma")]
+        Morocco,
+
+        [RegionCode(LongName = "Mozambique", ShortName="mz", RedumpOrgCode="Mz")]
+        Mozambique,
+
+        // Burma was "Bu"
+        [RegionCode(LongName = "Myanmar (Burma)", ShortName="mm", RedumpOrgCode="Mm")]
+        Myanmar,
+
+        #endregion
+
+        #region N
+
+        [RegionCode(LongName = "Namibia", ShortName="na", RedumpOrgCode="Na")]
+        Namibia,
+
+        [RegionCode(LongName = "Nauru", ShortName="nr", RedumpOrgCode="Nr")]
+        Nauru,
+
+        [RegionCode(LongName = "Nepal", ShortName="np", RedumpOrgCode="Np")]
+        Nepal,
+
+        [RegionCode(LongName = "Netherlands", ShortName="nl", RedumpOrgCode="N")]
+        Netherlands,
+
+        [RegionCode(LongName = "Netherlands Antilles", ShortName="an", RedumpOrgCode="An")]
+        NetherlandsAntilles,
+
+        // Commented out to avoid confusion
+        //[RegionCode(LongName = "Neutral Zone", ShortName="nt", RedumpOrgCode="Nt")]
+        //NeutralZone,
+
+        [RegionCode(LongName = "New Caledonia", ShortName="nc", RedumpOrgCode="Nc")]
+        NewCaledonia,
+
+        [RegionCode(LongName = "New Zealand", ShortName="nz", RedumpOrgCode="Nz")]
+        NewZealand,
+
+        [RegionCode(LongName = "Nicaragua", ShortName="ni", RedumpOrgCode="Ni")]
+        Nicaragua,
+
+        [RegionCode(LongName = "Niger", ShortName="ne", RedumpOrgCode="Ne")]
+        Niger,
+
+        [RegionCode(LongName = "Nigeria", ShortName="ng", RedumpOrgCode="Ng")]
+        Nigeria,
+
+        [RegionCode(LongName = "Niue", ShortName="nu", RedumpOrgCode="Nu")]
+        Niue,
+
+        [RegionCode(LongName = "Norfolk Island", ShortName="nf", RedumpOrgCode="Nf")]
+        NorfolkIsland,
+
+        [RegionCode(LongName = "North Macedonia", ShortName="mk", RedumpOrgCode="Mk")]
+        NorthMacedonia,
+
+        [RegionCode(LongName = "Northern Mariana Islands", ShortName="mp", RedumpOrgCode="Mp")]
+        NorthernMarianaIslands,
+
+        [RegionCode(LongName = "Norway", ShortName="no", RedumpOrgCode="No")]
+        Norway,
+
+        #endregion
+
+        #region O
+
+        [RegionCode(LongName = "Oman", ShortName="om", RedumpOrgCode="Om")]
+        Oman,
+
+        #endregion
+
+        #region P
+
+        [RegionCode(LongName = "Pakistan", ShortName="pk", RedumpOrgCode="Pk")]
+        Pakistan,
+
+        [RegionCode(LongName = "Palau", ShortName="pw", RedumpOrgCode="Pw")]
+        Palau,
+
+        [RegionCode(LongName = "Panama", ShortName="pa", RedumpOrgCode="Pa")]
+        Panama,
+
+        [RegionCode(LongName = "Papua New Guinea", ShortName="pg", RedumpOrgCode="Pg")]
+        PapuaNewGuinea,
+
+        [RegionCode(LongName = "Paraguay", ShortName="py", RedumpOrgCode="Py")]
+        Paraguay,
+
+        [RegionCode(LongName = "Peru", ShortName="pe", RedumpOrgCode="Pe")]
+        Peru,
+
+        [RegionCode(LongName = "Philippines", ShortName="ph", RedumpOrgCode="Ph")]
+        Philippines,
+
+        [RegionCode(LongName = "Pitcairn", ShortName="pn", RedumpOrgCode="Pn")]
+        Pitcairn,
+
+        [RegionCode(LongName = "Poland", ShortName="pl", RedumpOrgCode="P")]
+        Poland,
+
+        [RegionCode(LongName = "Portugal", ShortName="pt", RedumpOrgCode="Pt")]
+        Portugal,
+
+        [RegionCode(LongName = "Puerto Rico", ShortName="pr", RedumpOrgCode="Pr")]
+        PuertoRico,
+
+        #endregion
+
+        #region Q
+
+        [RegionCode(LongName = "Qatar", ShortName="qa", RedumpOrgCode="Qa")]
+        Qatar,
+
+        #endregion
+
+        #region R
+
+        [RegionCode(LongName = "Republic of Moldova", ShortName="md", RedumpOrgCode="Md")]
+        RepublicOfMoldova,
+
+        [RegionCode(LongName = "Réunion", ShortName="re", RedumpOrgCode="Re")]
+        Reunion,
+
+        [RegionCode(LongName = "Romania", ShortName="ro", RedumpOrgCode="Ro")]
+        Romania,
+
+        [RegionCode(LongName = "Russian Federation", ShortName="ru", RedumpOrgCode="R")]
+        RussianFederation,
+
+        [RegionCode(LongName = "Rwanda", ShortName="rw", RedumpOrgCode="Rw")]
+        Rwanda,
+
+        #endregion
+
+        #region S
+
+        [RegionCode(LongName = "Saint Barthélemy", ShortName="bl", RedumpOrgCode="Bl")]
+        SaintBarthelemy,
+
+        [RegionCode(LongName = "Saint Helena, Ascension and Tristan da Cunha", ShortName="sh", RedumpOrgCode="Sh")]
+        SaintHelena,
+
+        [RegionCode(LongName = "Saint Kitts and Nevis", ShortName="kn", RedumpOrgCode="Kn")]
+        SaintKittsAndNevis,
+
+        [RegionCode(LongName = "Saint Lucia", ShortName="lc", RedumpOrgCode="Lc")]
+        SaintLucia,
+
+        [RegionCode(LongName = "Saint Martin", ShortName="mf", RedumpOrgCode="Mf")]
+        SaintMartin,
+
+        [RegionCode(LongName = "Saint Pierre and Miquelon", ShortName="pm", RedumpOrgCode="Pm")]
+        SaintPierreAndMiquelon,
+
+        [RegionCode(LongName = "Saint Vincent and the Grenadines", ShortName="vc", RedumpOrgCode="Vc")]
+        SaintVincentAndTheGrenadines,
+
+        [RegionCode(LongName = "Samoa", ShortName="ws", RedumpOrgCode="Ws")]
+        Samoa,
+
+        [RegionCode(LongName = "San Marino", ShortName="sm", RedumpOrgCode="Sm")]
+        SanMarino,
+
+        [RegionCode(LongName = "Sao Tome and Principe", ShortName="st", RedumpOrgCode="St")]
+        SaoTomeAndPrincipe,
+
+        [RegionCode(LongName = "Saudi Arabia", ShortName="sa", RedumpOrgCode="Sa")]
+        SaudiArabia,
+
+        [RegionCode(LongName = "Senegal", ShortName="sn", RedumpOrgCode="Sn")]
+        Senegal,
+
+        [RegionCode(LongName = "Serbia", ShortName="rs", RedumpOrgCode="Rs")]
+        Serbia,
+
+        [RegionCode(LongName = "Seychelles", ShortName="sc", RedumpOrgCode="Sc")]
+        Seychelles,
+
+        [RegionCode(LongName = "Sierra Leone", ShortName="sl", RedumpOrgCode="Sl")]
+        SierraLeone,
+
+        [RegionCode(LongName = "Singapore", ShortName="sg", RedumpOrgCode="Sg")]
+        Singapore,
+
+        [RegionCode(LongName = "Sint Maarten", ShortName="sx", RedumpOrgCode="Sx")]
+        SintMaarten,
+
+        [RegionCode(LongName = "Slovakia", ShortName="sk", RedumpOrgCode="Sk")]
+        Slovakia,
+
+        [RegionCode(LongName = "Slovenia", ShortName="si", RedumpOrgCode="Si")]
+        Slovenia,
+
+        [RegionCode(LongName = "Solomon Islands", ShortName="sb", RedumpOrgCode="Sb")]
+        SolomonIslands,
+
+        [RegionCode(LongName = "Somalia", ShortName="so", RedumpOrgCode="So")]
+        Somalia,
+
+        [RegionCode(LongName = "South Africa", ShortName="za", RedumpOrgCode="Za")]
+        SouthAfrica,
+
+        [RegionCode(LongName = "South Georgia and the South Sandwich Islands", ShortName="gs", RedumpOrgCode="Gs")]
+        SouthGeorgia,
+
+        [RegionCode(LongName = "South Sudan", ShortName="ss", RedumpOrgCode="Ss")]
+        SouthSudan,
+
+        [RegionCode(LongName = "Spain", ShortName="es", RedumpOrgCode="S")]
+        Spain,
+
+        [RegionCode(LongName = "Sri Lanka", ShortName="lk", RedumpOrgCode="Lk")]
+        SriLanka,
+
+        [RegionCode(LongName = "State of Palestine", ShortName="ps", RedumpOrgCode="Ps")]
+        StateOfPalestine,
+
+        [RegionCode(LongName = "Sudan", ShortName="sd", RedumpOrgCode="Sd")]
+        Sudan,
+
+        [RegionCode(LongName = "Suriname", ShortName="sr", RedumpOrgCode="Sr")]
+        Suriname,
+
+        [RegionCode(LongName = "Svalbard and Jan Mayen", ShortName="sj", RedumpOrgCode="Sj")]
+        SvalbardAndJanMayen,
+
+        [RegionCode(LongName = "Sweden", ShortName="se", RedumpOrgCode="Sw")]
+        Sweden,
+
+        [RegionCode(LongName = "Switzerland", ShortName="ch", RedumpOrgCode="Ch")]
+        Switzerland,
+
+        [RegionCode(LongName = "Syrian Arab Republic", ShortName="sy", RedumpOrgCode="Sy")]
+        SyrianArabRepublic,
+
+        #endregion
+
+        #region T
+
+        [RegionCode(LongName = "Taiwan", ShortName="tw", RedumpOrgCode="Tw")]
+        Taiwan,
+
+        [RegionCode(LongName = "Tajikistan", ShortName="tj", RedumpOrgCode="Tj")]
+        Tajikistan,
+
+        [RegionCode(LongName = "Thailand", ShortName="th", RedumpOrgCode="Th")]
+        Thailand,
+
+        // East Timor was "Tp"
+        [RegionCode(LongName = "Timor-Leste (East Timor)", ShortName="tl", RedumpOrgCode="Tl")]
+        TimorLeste,
+
+        [RegionCode(LongName = "Togo", ShortName="tg", RedumpOrgCode="Tg")]
+        Togo,
+
+        [RegionCode(LongName = "Tokelau", ShortName="tk", RedumpOrgCode="Tk")]
+        Tokelau,
+
+        [RegionCode(LongName = "Tonga", ShortName="to", RedumpOrgCode="To")]
+        Tonga,
+
+        [RegionCode(LongName = "Trinidad and Tobago", ShortName="tt", RedumpOrgCode="Tt")]
+        TrinidadAndTobago,
+
+        [RegionCode(LongName = "Tristan da Cunha", ShortName="ta", RedumpOrgCode="Ta")]
+        TristanDaCunha,
+
+        [RegionCode(LongName = "Tunisia", ShortName="tn", RedumpOrgCode="Tn")]
+        Tunisia,
+
+        [RegionCode(LongName = "Turkey", ShortName="tr", RedumpOrgCode="Tr")]
+        Turkey,
+
+        [RegionCode(LongName = "Turkmenistan", ShortName="tm", RedumpOrgCode="Tm")]
+        Turkmenistan,
+
+        [RegionCode(LongName = "Turks and Caicos Islands", ShortName="tc", RedumpOrgCode="Tc")]
+        TurksAndCaicosIslands,
+
+        [RegionCode(LongName = "Tuvalu", ShortName="tv", RedumpOrgCode="Tv")]
+        Tuvalu,
+
+        #endregion
+
+        #region U
+
+        [RegionCode(LongName = "Uganda", ShortName="ug", RedumpOrgCode="Ug")]
+        Uganda,
+
+        // Should be both "Gb" and "Uk"
+        // United Kingdom of Great Britain and Northern Ireland
+        [RegionCode(LongName = "UK", ShortName="gb", RedumpOrgCode="Uk")]
+        UnitedKingdom,
+
+        [RegionCode(LongName = "Ukraine", ShortName="ue", RedumpOrgCode="Ue")]
+        Ukraine,
+
+        [RegionCode(LongName = "United Arab Emirates", ShortName="ae", RedumpOrgCode="Ae")]
+        UnitedArabEmirates,
+
+        // Commented out to avoid confusion
+        //[RegionCode(LongName = "United Nations", ShortName="un", RedumpOrgCode="Un")]
+        //UnitedNations,
+
+        [RegionCode(LongName = "United Republic of Tanzania", ShortName="tz", RedumpOrgCode="Tz")]
+        UnitedRepublicOfTanzania,
+
+        [RegionCode(LongName = "United States Minor Outlying Islands", ShortName="um", RedumpOrgCode="Um")]
+        UnitedStatesMinorOutlyingIslands,
+
+        [RegionCode(LongName = "Uruguay", ShortName="uy", RedumpOrgCode="Uy")]
+        Uruguay,
+
+        // United States of America
+        [RegionCode(LongName = "USA", ShortName="us", RedumpOrgCode="U")]
+        UnitedStatesOfAmerica,
+
+        [RegionCode(LongName = "USSR", ShortName="su", RedumpOrgCode="Su")]
+        USSR,
+
+        [RegionCode(LongName = "Uzbekistan", ShortName="uz", RedumpOrgCode="Uz")]
+        Uzbekistan,
+
+        #endregion
+
+        #region V
+
+        [RegionCode(LongName = "Vanuatu", ShortName="vu", RedumpOrgCode="Vu")]
+        Vanuatu,
+
+        [RegionCode(LongName = "Venezuela", ShortName="ve", RedumpOrgCode="Ve")]
+        Venezuela,
+
+        [RegionCode(LongName = "Viet Nam", ShortName="vn", RedumpOrgCode="Vn")]
+        VietNam,
+
+        [RegionCode(LongName = "Virgin Islands (British)", ShortName="vg", RedumpOrgCode="Vg")]
+        BritishVirginIslands,
+
+        [RegionCode(LongName = "Virgin Islands (US)", ShortName="vi", RedumpOrgCode="Vi")]
+        USVirginIslands,
+
+        #endregion
+
+        #region W
+
+        [RegionCode(LongName = "Wallis and Futuna", ShortName="wf", RedumpOrgCode="Wf")]
+        WallisAndFutuna,
+
+        [RegionCode(LongName = "Western Sahara", ShortName="eh", RedumpOrgCode="Eh")]
+        WesternSahara,
+
+        #endregion
+
+        #region Y
+
+        [RegionCode(LongName = "Yemen", ShortName="ye", RedumpOrgCode="Ye")]
+        Yemen,
+
+        [RegionCode(LongName = "Yugoslavia", ShortName="yu", RedumpOrgCode="Yu")]
+        Yugoslavia,
+
+        #endregion
+
+        #region Z
+
+        [RegionCode(LongName = "Zambia", ShortName="zm", RedumpOrgCode="Zm")]
+        Zambia,
+
+        [RegionCode(LongName = "Zimbabwe", ShortName="zw", RedumpOrgCode="Zw")]
+        Zimbabwe,
+
+        #endregion
+    }
 }
