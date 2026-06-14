@@ -37,7 +37,7 @@ namespace SabreTools.RedumpLib
                 case DiscType.BD100:
                 case DiscType.BD128:
                     // Extract the size from the hashes
-                    long size = Extensions.ExtractSizeFromHashData(info.TracksAndWriteOffsets.ClrMameProData);
+                    long size = Data.Extensions.ExtractSizeFromHashData(info.TracksAndWriteOffsets.ClrMameProData);
 
                     if (info.SizeAndChecksums.Layerbreak3 != default)
                         info.CommonDiscInfo.Media = DiscType.BD128;

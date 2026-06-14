@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.RedumpOrg.Data;
 
 // TODO: Errors should validate number or number range (# or #-#)
@@ -178,7 +179,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             Language? language = null,
             char? letter = null,
             bool? libcrypt = null,
-            MediaType? media = null,
+            PhysicalMediaType? media = null,
             int? offset = null,
             string? quicksearch = null,
             Region? region = null,
@@ -263,8 +264,8 @@ namespace SabreTools.RedumpLib.RedumpOrg
             // Media Search
             switch (media)
             {
-                case MediaType.CDROM: sb.Append("media/cd/"); break;
-                case MediaType.DVD: sb.Append("media/dvd/"); break;
+                case PhysicalMediaType.CDROM: sb.Append("media/cd/"); break;
+                case PhysicalMediaType.DVD: sb.Append("media/dvd/"); break;
                 default: break;
             }
 #pragma warning restore IDE0010

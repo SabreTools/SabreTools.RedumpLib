@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.RedumpOrg.Data;
 using SabreTools.RedumpLib.Web;
 
@@ -420,7 +421,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             Language? language = null,
             char? letter = null,
             bool? libcrypt = null,
-            MediaType? media = null,
+            PhysicalMediaType? media = null,
             int? offset = null,
             string? quicksearch = null,
             Region? region = null,
@@ -560,7 +561,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             Language? language = null,
             char? letter = null,
             bool? libcrypt = null,
-            MediaType? media = null,
+            PhysicalMediaType? media = null,
             int? offset = null,
             string? quicksearch = null,
             Region? region = null,

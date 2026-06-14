@@ -124,10 +124,10 @@ namespace RedumpTool.Features
                 ? null
                 : LetterInput.Value![0];
             bool? libcrypt = LibCryptInput.Value;
-            MediaType? media = MediaInput.Value?.ToLowerInvariant() switch
+            PhysicalMediaType? media = MediaInput.Value?.ToLowerInvariant() switch
             {
-                "cd" => MediaType.CDROM,
-                "dvd" => MediaType.DVD,
+                "cd" => PhysicalMediaType.CDROM,
+                "dvd" => PhysicalMediaType.DVD,
                 _ => null,
             };
             int? offset = OffsetInput.Value;

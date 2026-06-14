@@ -278,7 +278,7 @@ namespace SabreTools.RedumpLib
             bool reverseOrder = system.HasReversedRingcodes();
 
             // Extract the size from the hashes
-            long size = Extensions.ExtractSizeFromHashData(tawo?.ClrMameProData);
+            long size = Data.Extensions.ExtractSizeFromHashData(tawo?.ClrMameProData);
 
             output.AppendLine("Common Disc Info:");
 
@@ -507,7 +507,7 @@ namespace SabreTools.RedumpLib
         /// </summary>
         internal static void FormatOutputData(StringBuilder output,
             SizeAndChecksumsSection? section,
-            MediaType? mediaType,
+            PhysicalMediaType? mediaType,
             RedumpSystem? system,
             bool enableRedumpCompatibility)
         {
@@ -515,7 +515,7 @@ namespace SabreTools.RedumpLib
 
             // Gross hack because of automatic layerbreaks in Redump
             if (!enableRedumpCompatibility
-                || (mediaType != MediaType.BluRay && !system.IsXGD()))
+                || (mediaType != PhysicalMediaType.BluRay && !system.IsXGD()))
             {
                 AddIfExists(output, Template.LayerbreakField, section?.Layerbreak, 1);
             }
@@ -695,18 +695,18 @@ namespace SabreTools.RedumpLib
         /// <param name="layerbreak2">Second layerbreak value, as applicable</param>
         /// <param name="layerbreak3">Third layerbreak value, as applicable</param>
         /// <returns>String representation of the media, including layer specification</returns>
-        internal static string? GetFixedMediaType(MediaType? mediaType, string? picIdentifier, long? size, long? layerbreak, long? layerbreak2, long? layerbreak3)
+        internal static string? GetFixedMediaType(PhysicalMediaType? mediaType, string? picIdentifier, long? size, long? layerbreak, long? layerbreak2, long? layerbreak3)
         {
 #pragma warning disable IDE0010
             switch (mediaType)
             {
-                case MediaType.DVD:
+                case PhysicalMediaType.DVD:
                     if (layerbreak != default && layerbreak != default(long))
                         return $"{mediaType.LongName()}-9";
                     else
                         return $"{mediaType.LongName()}-5";
 
-                case MediaType.BluRay:
+                case PhysicalMediaType.BluRay:
                     if (layerbreak3 != default && layerbreak3 != default(long))
                         return $"{mediaType.LongName()}-128";
                     else if (layerbreak2 != default && layerbreak2 != default(long))
@@ -724,13 +724,13 @@ namespace SabreTools.RedumpLib
                     else
                         return $"{mediaType.LongName()}-25";
 
-                case MediaType.HDDVD:
+                case PhysicalMediaType.HDDVD:
                     if (layerbreak != default && layerbreak != default(long))
                         return $"{mediaType.LongName()}-DL";
                     else
                         return $"{mediaType.LongName()}-SL";
 
-                case MediaType.UMD:
+                case PhysicalMediaType.UMD:
                     if (layerbreak != default && layerbreak != default(long))
                         return $"{mediaType.LongName()}-DL";
                     else

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Data.Sections;
 using SabreTools.RedumpLib.RedumpOrg.Data;
 using Xunit;
@@ -425,7 +426,7 @@ namespace SabreTools.RedumpLib.Test
         [Fact]
         public void GetFixedMediaType_NullType_Null()
         {
-            MediaType? mediaType = null;
+            PhysicalMediaType? mediaType = null;
             string? picIdentifier = null;
             long? size = null;
             long? layerbreak = null;
@@ -447,7 +448,7 @@ namespace SabreTools.RedumpLib.Test
         {
             string? expected = "CD-ROM";
 
-            MediaType? mediaType = MediaType.CDROM;
+            PhysicalMediaType? mediaType = PhysicalMediaType.CDROM;
             string? picIdentifier = null;
             long? size = null;
             long? layerbreak = null;
@@ -469,7 +470,7 @@ namespace SabreTools.RedumpLib.Test
         {
             string? expected = "DVD-ROM-9";
 
-            MediaType? mediaType = MediaType.DVD;
+            PhysicalMediaType? mediaType = PhysicalMediaType.DVD;
             string? picIdentifier = null;
             long? size = null;
             long? layerbreak = 12345;
@@ -491,7 +492,7 @@ namespace SabreTools.RedumpLib.Test
         {
             string? expected = "DVD-ROM-5";
 
-            MediaType? mediaType = MediaType.DVD;
+            PhysicalMediaType? mediaType = PhysicalMediaType.DVD;
             string? picIdentifier = null;
             long? size = null;
             long? layerbreak = null;
@@ -513,7 +514,7 @@ namespace SabreTools.RedumpLib.Test
         {
             string? expected = "BD-ROM-128";
 
-            MediaType? mediaType = MediaType.BluRay;
+            PhysicalMediaType? mediaType = PhysicalMediaType.BluRay;
             string? picIdentifier = null;
             long? size = null;
             long? layerbreak = null;
@@ -535,7 +536,7 @@ namespace SabreTools.RedumpLib.Test
         {
             string? expected = "BD-ROM-100";
 
-            MediaType? mediaType = MediaType.BluRay;
+            PhysicalMediaType? mediaType = PhysicalMediaType.BluRay;
             string? picIdentifier = null;
             long? size = null;
             long? layerbreak = null;
@@ -557,7 +558,7 @@ namespace SabreTools.RedumpLib.Test
         {
             string? expected = "BD-ROM-66";
 
-            MediaType? mediaType = MediaType.BluRay;
+            PhysicalMediaType? mediaType = PhysicalMediaType.BluRay;
             string? picIdentifier = "BDU";
             long? size = null;
             long? layerbreak = 12345;
@@ -579,7 +580,7 @@ namespace SabreTools.RedumpLib.Test
         {
             string? expected = "BD-ROM-66";
 
-            MediaType? mediaType = MediaType.BluRay;
+            PhysicalMediaType? mediaType = PhysicalMediaType.BluRay;
             string? picIdentifier = null;
             long? size = 53_687_063_713;
             long? layerbreak = 12345;
@@ -601,7 +602,7 @@ namespace SabreTools.RedumpLib.Test
         {
             string? expected = "BD-ROM-50";
 
-            MediaType? mediaType = MediaType.BluRay;
+            PhysicalMediaType? mediaType = PhysicalMediaType.BluRay;
             string? picIdentifier = null;
             long? size = null;
             long? layerbreak = 12345;
@@ -623,7 +624,7 @@ namespace SabreTools.RedumpLib.Test
         {
             string? expected = "BD-ROM-33";
 
-            MediaType? mediaType = MediaType.BluRay;
+            PhysicalMediaType? mediaType = PhysicalMediaType.BluRay;
             string? picIdentifier = "BDU";
             long? size = null;
             long? layerbreak = null;
@@ -645,7 +646,7 @@ namespace SabreTools.RedumpLib.Test
         {
             string? expected = "BD-ROM-33";
 
-            MediaType? mediaType = MediaType.BluRay;
+            PhysicalMediaType? mediaType = PhysicalMediaType.BluRay;
             string? picIdentifier = null;
             long? size = 26_843_531_857;
             long? layerbreak = null;
@@ -667,7 +668,7 @@ namespace SabreTools.RedumpLib.Test
         {
             string? expected = "BD-ROM-25";
 
-            MediaType? mediaType = MediaType.BluRay;
+            PhysicalMediaType? mediaType = PhysicalMediaType.BluRay;
             string? picIdentifier = null;
             long? size = null;
             long? layerbreak = null;
@@ -689,7 +690,7 @@ namespace SabreTools.RedumpLib.Test
         {
             string? expected = "HD-DVD-ROM-DL";
 
-            MediaType? mediaType = MediaType.HDDVD;
+            PhysicalMediaType? mediaType = PhysicalMediaType.HDDVD;
             string? picIdentifier = null;
             long? size = null;
             long? layerbreak = 12345;
@@ -711,7 +712,7 @@ namespace SabreTools.RedumpLib.Test
         {
             string? expected = "HD-DVD-ROM-SL";
 
-            MediaType? mediaType = MediaType.HDDVD;
+            PhysicalMediaType? mediaType = PhysicalMediaType.HDDVD;
             string? picIdentifier = null;
             long? size = null;
             long? layerbreak = null;
@@ -733,7 +734,7 @@ namespace SabreTools.RedumpLib.Test
         {
             string? expected = "UMD-DL";
 
-            MediaType? mediaType = MediaType.UMD;
+            PhysicalMediaType? mediaType = PhysicalMediaType.UMD;
             string? picIdentifier = null;
             long? size = null;
             long? layerbreak = 12345;
@@ -755,7 +756,7 @@ namespace SabreTools.RedumpLib.Test
         {
             string? expected = "UMD-SL";
 
-            MediaType? mediaType = MediaType.UMD;
+            PhysicalMediaType? mediaType = PhysicalMediaType.UMD;
             string? picIdentifier = null;
             long? size = null;
             long? layerbreak = null;

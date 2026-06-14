@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.RedumpOrg.Data;
 using Xunit;
 
@@ -12,7 +13,7 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
         #region Cross-Enumeration
 
         /// <summary>
-        /// DiscType values that map to MediaType
+        /// DiscType values that map to PhysicalMediaType
         /// </summary>
         private static readonly DiscType?[] _mappableDiscTypes =
         [
@@ -37,19 +38,19 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
         ];
 
         /// <summary>
-        /// MediaType values that map to DiscType
+        /// PhysicalMediaType values that map to DiscType
         /// </summary>
-        private static readonly MediaType?[] _mappableMediaTypes =
+        private static readonly PhysicalMediaType?[] _mappablePhysicalMediaTypes =
         [
-            MediaType.BluRay,
-            MediaType.CDROM,
-            MediaType.DVD,
-            MediaType.GDROM,
-            MediaType.HDDVD,
-            MediaType.NintendoGameCubeGameDisc,
-            MediaType.NintendoWiiOpticalDisc,
-            MediaType.NintendoWiiUOpticalDisc,
-            MediaType.UMD,
+            PhysicalMediaType.BluRay,
+            PhysicalMediaType.CDROM,
+            PhysicalMediaType.DVD,
+            PhysicalMediaType.GDROM,
+            PhysicalMediaType.HDDVD,
+            PhysicalMediaType.NintendoGameCubeGameDisc,
+            PhysicalMediaType.NintendoWiiOpticalDisc,
+            PhysicalMediaType.NintendoWiiUOpticalDisc,
+            PhysicalMediaType.UMD,
         ];
 
         /// <summary>
@@ -71,7 +72,7 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
         /// <param name="expectNull">True to expect a null mapping, false otherwise</param>
         [Theory]
         [MemberData(nameof(GenerateMediaTypeMappingTestData))]
-        public void ToDiscTypeTest(MediaType? mediaType, bool expectNull)
+        public void ToDiscTypeTest(PhysicalMediaType? mediaType, bool expectNull)
         {
             DiscType? actual = mediaType.ToDiscType();
             Assert.Equal(expectNull, actual is null);
@@ -86,7 +87,7 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
         [MemberData(nameof(GenerateDiscTypeMappingTestData))]
         public void ToMediaTypeTest(DiscType? discType, bool expectNull)
         {
-            MediaType? actual = discType.ToMediaType();
+            PhysicalMediaType? actual = discType.ToMediaType();
             Assert.Equal(expectNull, actual is null);
         }
 
@@ -127,13 +128,13 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
         /// Generate a test set of mappable media types
         /// </summary>
         /// <returns>MemberData-compatible list of MediaTypes</returns>
-        public static TheoryData<MediaType?, bool> GenerateMediaTypeMappingTestData()
+        public static TheoryData<PhysicalMediaType?, bool> GenerateMediaTypeMappingTestData()
         {
-            var testData = new TheoryData<MediaType?, bool>() { { null, true } };
+            var testData = new TheoryData<PhysicalMediaType?, bool>() { { null, true } };
 
-            foreach (MediaType? mediaType in Enum.GetValues<MediaType>().Cast<MediaType?>())
+            foreach (PhysicalMediaType? mediaType in Enum.GetValues<PhysicalMediaType>().Cast<PhysicalMediaType?>())
             {
-                if (_mappableMediaTypes.Contains(mediaType))
+                if (_mappablePhysicalMediaTypes.Contains(mediaType))
                     testData.Add(mediaType, false);
                 else
                     testData.Add(mediaType, true);
@@ -725,66 +726,6 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
 
         #endregion
 
-        #region Media Type
-
-        [Fact]
-        public void MediaType_ListMediaTypes()
-        {
-            var actual = Extensions.ListMediaTypes();
-            Assert.NotEmpty(actual);
-        }
-
-        /// <summary>
-        /// Check that every MediaType has a long name provided
-        /// </summary>
-        /// <param name="mediaType">MediaType value to check</param>
-        /// <param name="expectNull">True to expect a null value, false otherwise</param>
-        [Theory]
-        [MemberData(nameof(GenerateMediaTypeTestData))]
-        public void MediaType_LongName(MediaType? mediaType, bool expectNull)
-        {
-            var actual = mediaType.LongName();
-
-            if (expectNull)
-                Assert.Null(actual);
-            else
-                Assert.NotNull(actual);
-        }
-
-        /// <summary>
-        /// Check that every MediaType has a short name provided
-        /// </summary>
-        /// <param name="mediaType">MediaType value to check</param>
-        /// <param name="expectNull">True to expect a null value, false otherwise</param>
-        [Theory]
-        [MemberData(nameof(GenerateMediaTypeTestData))]
-        public void MediaType_ShortName(MediaType? mediaType, bool expectNull)
-        {
-            var actual = mediaType.ShortName();
-
-            if (expectNull)
-                Assert.Null(actual);
-            else
-                Assert.NotNull(actual);
-        }
-
-        /// <summary>
-        /// Generate a test set of MediaType values
-        /// </summary>
-        /// <returns>MemberData-compatible list of MediaType values</returns>
-        public static TheoryData<MediaType?, bool> GenerateMediaTypeTestData()
-        {
-            var testData = new TheoryData<MediaType?, bool>() { { null, true } };
-            foreach (MediaType? mediaType in Enum.GetValues<MediaType>().Cast<MediaType?>())
-            {
-                testData.Add(mediaType, false);
-            }
-
-            return testData;
-        }
-
-        #endregion
-
         #region Pack Type
 
         /// <summary>
@@ -1135,7 +1076,7 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
         [Fact]
         public void SiteCode_ListSiteCodes()
         {
-            var actual = Extensions.ListSiteCodes();
+            var actual = RedumpLib.RedumpOrg.Data.Extensions.ListSiteCodes();
             Assert.NotEmpty(actual);
         }
 
@@ -2280,7 +2221,7 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
         [Fact]
         public void RedumpSystem_ListRedumpSystem()
         {
-            var actual = Extensions.ListSystems();
+            var actual = RedumpLib.RedumpOrg.Data.Extensions.ListSystems();
             Assert.NotEmpty(actual);
         }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.RedumpOrg.Data;
 using SabreTools.RedumpLib.Web;
 
@@ -56,7 +57,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             Language? language = null,
             char? letter = null,
             bool? libcrypt = null,
-            MediaType? media = null,
+            PhysicalMediaType? media = null,
             int? offset = null,
             string? quicksearch = null,
             Region? region = null,
@@ -225,7 +226,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             Language? language = null,
             char? letter = null,
             bool? libcrypt = null,
-            MediaType? media = null,
+            PhysicalMediaType? media = null,
             int? offset = null,
             string? quicksearch = null,
             Region? region = null,

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SabreTools.RedumpLib.Attributes;
-using MediaTypeCombined = SabreTools.RedumpLib.RedumpOrg.Data.MediaType;
-using MediaTypeInfo = SabreTools.RedumpLib.RedumpInfo.Data.MediaType;
+using SabreTools.RedumpLib.Data;
 
 namespace SabreTools.RedumpLib.RedumpInfo.Data
 {
@@ -18,47 +17,47 @@ namespace SabreTools.RedumpLib.RedumpInfo.Data
         /// </summary>
         /// <param name="mediaType">MediaType value to check</param>
         /// <returns>DiscType if possible, null on error</returns>
-        public static MediaTypeInfo? ToMediaTypeInfo(this MediaTypeCombined? mediaType)
+        public static MediaType? ToMediaType(this PhysicalMediaType? mediaType)
         {
             return mediaType switch
             {
-                MediaTypeCombined.BluRay => MediaTypeInfo.BD50,
-                MediaTypeCombined.CDROM => MediaTypeInfo.CD,
-                MediaTypeCombined.DVD => MediaTypeInfo.DVD9,
-                MediaTypeCombined.GDROM => MediaTypeInfo.GDROM,
-                MediaTypeCombined.HDDVD => MediaTypeInfo.HDDVDSL,
-                // MediaTypeCombined.MILCD => MediaTypeInfo.MILCD, // TODO: Support this?
-                MediaTypeCombined.NintendoGameCubeGameDisc => MediaTypeInfo.NintendoGameCubeGameDisc,
-                MediaTypeCombined.NintendoWiiOpticalDisc => MediaTypeInfo.WiiOpticalDiscDL,
-                MediaTypeCombined.NintendoWiiUOpticalDisc => MediaTypeInfo.WiiUOpticalDiscSL,
-                MediaTypeCombined.UMD => MediaTypeInfo.UMDDL,
+                PhysicalMediaType.BluRay => MediaType.BD50,
+                PhysicalMediaType.CDROM => MediaType.CD,
+                PhysicalMediaType.DVD => MediaType.DVD9,
+                PhysicalMediaType.GDROM => MediaType.GDROM,
+                PhysicalMediaType.HDDVD => MediaType.HDDVDSL,
+                // PhysicalMediaType.MILCD => MediaType.MILCD, // TODO: Support this?
+                PhysicalMediaType.NintendoGameCubeGameDisc => MediaType.NintendoGameCubeGameDisc,
+                PhysicalMediaType.NintendoWiiOpticalDisc => MediaType.WiiOpticalDiscDL,
+                PhysicalMediaType.NintendoWiiUOpticalDisc => MediaType.WiiUOpticalDiscSL,
+                PhysicalMediaType.UMD => MediaType.UMDDL,
 
                 // Invalid cases for conversion
-                MediaTypeCombined.NONE => null,
-                MediaTypeCombined.ApertureCard => null,
-                MediaTypeCombined.JacquardLoomCard => null,
-                MediaTypeCombined.MagneticStripeCard => null,
-                MediaTypeCombined.OpticalPhonecard => null,
-                MediaTypeCombined.PunchedCard => null,
-                MediaTypeCombined.PunchedTape => null,
-                MediaTypeCombined.Cassette => null,
-                MediaTypeCombined.DataCartridge => null,
-                MediaTypeCombined.OpenReel => null,
-                MediaTypeCombined.FloppyDisk => null,
-                MediaTypeCombined.Floptical => null,
-                MediaTypeCombined.HardDisk => null,
-                MediaTypeCombined.IomegaBernoulliDisk => null,
-                MediaTypeCombined.IomegaJaz => null,
-                MediaTypeCombined.IomegaZip => null,
-                MediaTypeCombined.LaserDisc => null,
-                MediaTypeCombined.Nintendo64DD => null,
-                MediaTypeCombined.NintendoFamicomDiskSystem => null,
-                MediaTypeCombined.Cartridge => null,
-                MediaTypeCombined.CED => null,
-                MediaTypeCombined.CompactFlash => null,
-                MediaTypeCombined.MMC => null,
-                MediaTypeCombined.SDCard => null,
-                MediaTypeCombined.FlashDrive => null,
+                PhysicalMediaType.NONE => null,
+                PhysicalMediaType.ApertureCard => null,
+                PhysicalMediaType.JacquardLoomCard => null,
+                PhysicalMediaType.MagneticStripeCard => null,
+                PhysicalMediaType.OpticalPhonecard => null,
+                PhysicalMediaType.PunchedCard => null,
+                PhysicalMediaType.PunchedTape => null,
+                PhysicalMediaType.Cassette => null,
+                PhysicalMediaType.DataCartridge => null,
+                PhysicalMediaType.OpenReel => null,
+                PhysicalMediaType.FloppyDisk => null,
+                PhysicalMediaType.Floptical => null,
+                PhysicalMediaType.HardDisk => null,
+                PhysicalMediaType.IomegaBernoulliDisk => null,
+                PhysicalMediaType.IomegaJaz => null,
+                PhysicalMediaType.IomegaZip => null,
+                PhysicalMediaType.LaserDisc => null,
+                PhysicalMediaType.Nintendo64DD => null,
+                PhysicalMediaType.NintendoFamicomDiskSystem => null,
+                PhysicalMediaType.Cartridge => null,
+                PhysicalMediaType.CED => null,
+                PhysicalMediaType.CompactFlash => null,
+                PhysicalMediaType.MMC => null,
+                PhysicalMediaType.SDCard => null,
+                PhysicalMediaType.FlashDrive => null,
                 null => null,
                 _ => null,
             };
@@ -69,31 +68,31 @@ namespace SabreTools.RedumpLib.RedumpInfo.Data
         /// </summary>
         /// <param name="discType">DiscType value to check</param>
         /// <returns>MediaType if possible, null on error</returns>
-        public static MediaTypeCombined? ToMediaTypeCombined(this MediaTypeInfo? discType)
+        public static PhysicalMediaType? ToPhysicalMediaType(this MediaType? discType)
         {
             return discType switch
             {
-                MediaTypeInfo.BD25
-                    or MediaTypeInfo.BD50
-                    or MediaTypeInfo.BD66
-                    or MediaTypeInfo.BD100
-                    or MediaTypeInfo.MaxTest4Layer => MediaTypeCombined.BluRay,
-                MediaTypeInfo.CD => MediaTypeCombined.CDROM,
-                MediaTypeInfo.DVD5
-                    or MediaTypeInfo.DVD9 => MediaTypeCombined.DVD,
-                MediaTypeInfo.GDROM => MediaTypeCombined.GDROM,
-                MediaTypeInfo.HDDVDSL
-                    or MediaTypeInfo.HDDVDDL => MediaTypeCombined.HDDVD,
-                // MediaTypeInfo.MILCD => MediaType.MILCD, // TODO: Support this?
-                MediaTypeInfo.NintendoGameCubeGameDisc => MediaTypeCombined.NintendoGameCubeGameDisc,
-                MediaTypeInfo.WiiOpticalDiscSL
-                    or MediaTypeInfo.WiiOpticalDiscDL => MediaTypeCombined.NintendoWiiOpticalDisc,
-                MediaTypeInfo.WiiUOpticalDiscSL => MediaTypeCombined.NintendoWiiUOpticalDisc,
-                MediaTypeInfo.UMDSL
-                    or MediaTypeInfo.UMDDL => MediaTypeCombined.UMD,
+                MediaType.BD25
+                    or MediaType.BD50
+                    or MediaType.BD66
+                    or MediaType.BD100
+                    or MediaType.MaxTest4Layer => PhysicalMediaType.BluRay,
+                MediaType.CD => PhysicalMediaType.CDROM,
+                MediaType.DVD5
+                    or MediaType.DVD9 => PhysicalMediaType.DVD,
+                MediaType.GDROM => PhysicalMediaType.GDROM,
+                MediaType.HDDVDSL
+                    or MediaType.HDDVDDL => PhysicalMediaType.HDDVD,
+                // MediaType.MILCD => MediaType.MILCD, // TODO: Support this?
+                MediaType.NintendoGameCubeGameDisc => PhysicalMediaType.NintendoGameCubeGameDisc,
+                MediaType.WiiOpticalDiscSL
+                    or MediaType.WiiOpticalDiscDL => PhysicalMediaType.NintendoWiiOpticalDisc,
+                MediaType.WiiUOpticalDiscSL => PhysicalMediaType.NintendoWiiUOpticalDisc,
+                MediaType.UMDSL
+                    or MediaType.UMDDL => PhysicalMediaType.UMD,
 
                 // Invalid cases for conversion
-                MediaTypeInfo.NONE => null,
+                MediaType.NONE => null,
                 null => null,
                 _ => null,
             };
@@ -279,46 +278,46 @@ namespace SabreTools.RedumpLib.RedumpInfo.Data
         /// </summary>
         /// <param name="mediaType"></param>
         /// <returns></returns>
-        public static string? LongName(this MediaTypeInfo mediaType)
-            => ((MediaTypeInfo?)mediaType).LongName();
+        public static string? LongName(this MediaType mediaType)
+            => ((MediaType?)mediaType).LongName();
 
         /// <summary>
         /// Get the Redump longnames for each known media type
         /// </summary>
         /// <param name="mediaType"></param>
         /// <returns></returns>
-        public static string? LongName(this MediaTypeInfo? mediaType)
-            => AttributeHelper<MediaTypeInfo?>.GetHumanReadableAttribute(mediaType)?.LongName;
+        public static string? LongName(this MediaType? mediaType)
+            => AttributeHelper<MediaType?>.GetHumanReadableAttribute(mediaType)?.LongName;
 
         /// <summary>
         /// Get the Redump shortnames for each known media type
         /// </summary>
         /// <param name="mediaType"></param>
         /// <returns></returns>
-        public static string? ShortName(this MediaTypeInfo mediaType)
-            => AttributeHelper<MediaTypeInfo>.GetHumanReadableAttribute(mediaType)?.ShortName;
+        public static string? ShortName(this MediaType mediaType)
+            => AttributeHelper<MediaType>.GetHumanReadableAttribute(mediaType)?.ShortName;
 
         /// <summary>
         /// Get the Redump shortnames for each known media type
         /// </summary>
         /// <param name="mediaType"></param>
         /// <returns></returns>
-        public static string? ShortName(this MediaTypeInfo? mediaType)
-            => AttributeHelper<MediaTypeInfo?>.GetHumanReadableAttribute(mediaType)?.ShortName;
+        public static string? ShortName(this MediaType? mediaType)
+            => AttributeHelper<MediaType?>.GetHumanReadableAttribute(mediaType)?.ShortName;
 
         /// <summary>
         /// Get the MediaType enum value for a given string
         /// </summary>
         /// <param name="mediaType">String value to convert</param>
         /// <returns>MediaType represented by the string, if possible</returns>
-        public static MediaTypeInfo? ToMediaType(this string? mediaType)
+        public static MediaType? ToMediaType(this string? mediaType)
         {
             // No value means no match
             if (mediaType is null || mediaType.Length == 0)
                 return null;
 
             mediaType = mediaType.ToLowerInvariant();
-            var mediaTypes = (MediaTypeInfo[])Enum.GetValues(typeof(MediaTypeInfo));
+            var mediaTypes = (MediaType[])Enum.GetValues(typeof(MediaType));
 
             // Check short names
             int index = Array.FindIndex(mediaTypes, s => mediaType == s.ShortName()?.ToLowerInvariant());
@@ -337,8 +336,8 @@ namespace SabreTools.RedumpLib.RedumpInfo.Data
                 return mediaTypes[index];
 
             // Check numeric values
-            if (int.TryParse(mediaType, out int mediaTypeInt) && Enum.IsDefined(typeof(MediaTypeInfo), mediaTypeInt))
-                return (MediaTypeInfo)mediaTypeInt;
+            if (int.TryParse(mediaType, out int mediaTypeInt) && Enum.IsDefined(typeof(MediaType), mediaTypeInt))
+                return (MediaType)mediaTypeInt;
 
             // Special cases
             return (mediaType?.ToLowerInvariant()) switch
@@ -347,17 +346,17 @@ namespace SabreTools.RedumpLib.RedumpInfo.Data
                     or "bdrom"
                     or "bd-rom"
                     or "bluray"
-                    or "blu-ray" => MediaTypeInfo.BD25,
+                    or "blu-ray" => MediaType.BD25,
                 "cdrom"
-                    or "cd-rom" => MediaTypeInfo.CD,
+                    or "cd-rom" => MediaType.CD,
                 "dvd"
-                    or "dvd-rom" => MediaTypeInfo.DVD5,
-                "gc" => MediaTypeInfo.NintendoGameCubeGameDisc,
-                "gd" => MediaTypeInfo.GDROM,
+                    or "dvd-rom" => MediaType.DVD5,
+                "gc" => MediaType.NintendoGameCubeGameDisc,
+                "gd" => MediaType.GDROM,
                 "hddvd"
-                    or "hd-dvd" => MediaTypeInfo.HDDVDSL,
-                "umd" => MediaTypeInfo.UMDSL,
-                "wii" => MediaTypeInfo.WiiOpticalDiscSL,
+                    or "hd-dvd" => MediaType.HDDVDSL,
+                "umd" => MediaType.UMDSL,
+                "wii" => MediaType.WiiOpticalDiscSL,
 
                 _ => null,
             };
