@@ -1456,6 +1456,70 @@ namespace SabreTools.RedumpLib.Data
 
         #endregion
 
+        #region Sort Category
+
+        /// <summary>
+        /// Get the human readable name for a SortCategory
+        /// </summary>
+        /// <param name="sortCategory"></param>
+        /// <returns></returns>
+        public static string? LongName(this SortCategory sortCategory)
+            => AttributeHelper<SortCategory>.GetHumanReadableAttribute(sortCategory)?.LongName;
+
+        /// <summary>
+        /// Get the human readable name for a SortCategory
+        /// </summary>
+        /// <param name="sortCategory"></param>
+        /// <returns></returns>
+        public static string? LongName(this SortCategory? sortCategory)
+            => AttributeHelper<SortCategory?>.GetHumanReadableAttribute(sortCategory)?.LongName;
+
+        /// <summary>
+        /// Get the URL path part for a SortCategory
+        /// </summary>
+        /// <param name="sortCategory"></param>
+        /// <returns></returns>
+        public static string? ShortName(this SortCategory sortCategory)
+            => AttributeHelper<SortCategory>.GetHumanReadableAttribute(sortCategory)?.ShortName;
+
+        /// <summary>
+        /// Get the URL path part for a SortCategory
+        /// </summary>
+        /// <param name="sortCategory"></param>
+        /// <returns></returns>
+        public static string? ShortName(this SortCategory? sortCategory)
+            => AttributeHelper<SortCategory?>.GetHumanReadableAttribute(sortCategory)?.ShortName;
+
+        /// <summary>
+        /// Get the Region enum value for a given string
+        /// </summary>
+        /// <param name="sortCategory">String value to convert</param>
+        /// <returns>Region represented by the string, if possible</returns>
+        public static SortCategory? ToSortCategory(this string? sortCategory)
+        {
+            // No value means no match
+            if (sortCategory is null || sortCategory.Length == 0)
+                return null;
+
+            sortCategory = sortCategory.ToLowerInvariant();
+            var sortCategories = (SortCategory[])Enum.GetValues(typeof(SortCategory));
+
+            // Check short names
+            int index = Array.FindIndex(sortCategories, s => sortCategory == s.ShortName()?.ToLowerInvariant());
+            if (index > -1)
+                return sortCategories[index];
+
+            // Check long names
+            index = Array.FindIndex(sortCategories, s => sortCategory == s.LongName()?.ToLowerInvariant()
+                || sortCategory == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return sortCategories[index];
+
+            return null;
+        }
+
+        #endregion
+
         #region Sort Direction
 
         /// <summary>

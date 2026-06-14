@@ -20,6 +20,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="comments">Add comments to filter, null to omit</param>
         /// <param name="dumper">Add dumper name to filter, null to omit</param>
         /// <param name="edition">Add edition to filter, null to omit</param>
+        /// <param name="letter">Starts with upper-case letter or '#' for numbers, null to omit</param>
         /// <param name="quicksearch">Generic text search to filter, null to omit</param>
         /// <param name="region">Add region to filter, null to omit</param>
         /// <param name="sort">Add sorting type, null to omit</param>
@@ -34,9 +35,10 @@ namespace SabreTools.RedumpLib.RedumpInfo
             string? comments,
             string? dumper = null,
             string? edition = null,
+            char? letter = null,
             string? quicksearch = null,
             Region? region = null,
-            RedumpOrg.Data.SortCategory? sort = null,
+            SortCategory? sort = null,
             SortDirection? sortDir = null,
             DumpStatus? status = null,
             PhysicalSystem? system = null,
@@ -58,6 +60,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
                         comments,
                         dumper,
                         edition,
+                        letter,
                         quicksearch,
                         region,
                         sort,
@@ -146,6 +149,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="comments">Add comments to filter, null to omit</param>
         /// <param name="dumper">Add dumper name to filter, null to omit</param>
         /// <param name="edition">Add edition to filter, null to omit</param>
+        /// <param name="letter">Starts with upper-case letter or '#' for numbers, null to omit</param>
         /// <param name="quicksearch">Generic text search to filter, null to omit</param>
         /// <param name="region">Add region to filter, null to omit</param>
         /// <param name="sort">Add sorting type, null to omit</param>
@@ -159,9 +163,10 @@ namespace SabreTools.RedumpLib.RedumpInfo
             string? comments = null,
             string? dumper = null,
             string? edition = null,
+            char? letter = null,
             string? quicksearch = null,
             Region? region = null,
-            RedumpOrg.Data.SortCategory? sort = null,
+            SortCategory? sort = null,
             SortDirection? sortDir = null,
             DumpStatus? status = null,
             PhysicalSystem? system = null,
@@ -181,6 +186,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
                         comments,
                         dumper,
                         edition,
+                        letter,
                         quicksearch,
                         region,
                         sort,

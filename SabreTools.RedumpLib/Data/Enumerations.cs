@@ -3415,6 +3415,49 @@ namespace SabreTools.RedumpLib.Data
     }
 
     /// <summary>
+    /// List of all recognized sort parameters
+    /// </summary>
+    public enum SortCategory
+    {
+        [HumanReadable(LongName = "Title", ShortName = "title")]
+        Title,
+
+        /// <remarks>Not exposed in the redump.info UI</remarks>
+        [HumanReadable(LongName = "Added", ShortName = "added")]
+        Added,
+
+        [HumanReadable(LongName = "Region", ShortName = "region")]
+        Region,
+
+        [HumanReadable(LongName = "System", ShortName = "system")]
+        System,
+
+        [HumanReadable(LongName = "Version", ShortName = "version")]
+        Version,
+
+        [HumanReadable(LongName = "Edition", ShortName = "edition")]
+        Edition,
+
+        /// <remarks>redump.info only</remarks>
+        [HumanReadable(LongName = "Language", ShortName = "language")]
+        Language,
+
+        /// <remarks>redump.org only</remarks>
+        [HumanReadable(LongName = "Languages", ShortName = "languages")]
+        Languages,
+
+        [HumanReadable(LongName = "Serial", ShortName = "serial")]
+        Serial,
+
+        [HumanReadable(LongName = "Status", ShortName = "status")]
+        Status,
+
+        /// <remarks>Not exposed in the redump.info UI</remarks>
+        [HumanReadable(LongName = "Modified", ShortName = "modified")]
+        Modified,
+    }
+
+    /// <summary>
     /// List of all recognized sort directions
     /// </summary>
     public enum SortDirection

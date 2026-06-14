@@ -43,14 +43,14 @@ namespace SabreTools.RedumpLib.Test.RedumpInfo
         [Fact]
         public void BuildDiscsUrl_DumperLastModifiedWithPages_Builds()
         {
-            string actual = UrlBuilder.BuildDiscsUrl(dumper: "user", sort: RedumpLib.RedumpOrg.Data.SortCategory.Modified, sortDir: SortDirection.Descending, page: 3);
+            string actual = UrlBuilder.BuildDiscsUrl(dumper: "user", sort: SortCategory.Modified, sortDir: SortDirection.Descending, page: 3);
             Assert.Equal("https://redump.info/discs/?dumper=user&sort=modified&order=desc&page=3", actual);
         }
 
         [Fact]
         public void BuildDiscsUrl_LastModifiedWithPages_Builds()
         {
-            string actual = UrlBuilder.BuildDiscsUrl(sort: RedumpLib.RedumpOrg.Data.SortCategory.Modified, sortDir: SortDirection.Descending, page: 3);
+            string actual = UrlBuilder.BuildDiscsUrl(sort: SortCategory.Modified, sortDir: SortDirection.Descending, page: 3);
             Assert.Equal("https://redump.info/discs/?sort=modified&order=desc&page=3", actual);
         }
 

@@ -130,6 +130,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="comments">Add comments to filter, null to omit</param>
         /// <param name="dumper">Add dumper name to filter, null to omit</param>
         /// <param name="edition">Add edition to filter, null to omit</param>
+        /// <param name="letter">Starts with upper-case letter or '#' for numbers, null to omit</param>
         /// <param name="quicksearch">Generic text search to filter, null to omit</param>
         /// <param name="region">Add region to filter, null to omit</param>
         /// <param name="sort">Add sorting type, null to omit</param>
@@ -142,9 +143,10 @@ namespace SabreTools.RedumpLib.RedumpInfo
             string? comments = null,
             string? dumper = null,
             string? edition = null,
+            char? letter = null,
             string? quicksearch = null,
             Region? region = null,
-            RedumpOrg.Data.SortCategory? sort = null,
+            SortCategory? sort = null,
             SortDirection? sortDir = null,
             DumpStatus? status = null,
             PhysicalSystem? system = null,
@@ -168,6 +170,10 @@ namespace SabreTools.RedumpLib.RedumpInfo
             if (edition is not null)
                 sb.Append($"edition_q={edition}&");
 
+            // Letter
+            if (letter is not null)
+                sb.Append($"letter={char.ToUpperInvariant(letter.Value)}&");
+
             // TODO: Text Search
             if (quicksearch is not null)
                 sb.Append($"q={quicksearch}&");
@@ -180,16 +186,17 @@ namespace SabreTools.RedumpLib.RedumpInfo
             // Sorting
             switch (sort)
             {
-                case RedumpOrg.Data.SortCategory.Title:
-                case RedumpOrg.Data.SortCategory.Added:
-                case RedumpOrg.Data.SortCategory.Region:
-                case RedumpOrg.Data.SortCategory.System:
-                case RedumpOrg.Data.SortCategory.Version:
-                case RedumpOrg.Data.SortCategory.Edition:
-                case RedumpOrg.Data.SortCategory.Languages:
-                case RedumpOrg.Data.SortCategory.Serial:
-                case RedumpOrg.Data.SortCategory.Status:
-                case RedumpOrg.Data.SortCategory.Modified:
+                case SortCategory.Title:
+                case SortCategory.Added:
+                case SortCategory.Region:
+                case SortCategory.System:
+                case SortCategory.Version:
+                case SortCategory.Edition:
+                case SortCategory.Language:
+                case SortCategory.Languages:
+                case SortCategory.Serial:
+                case SortCategory.Status:
+                case SortCategory.Modified:
                     sb.Append($"sort={sort.ShortName()}&");
                     break;
 

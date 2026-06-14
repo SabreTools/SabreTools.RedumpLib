@@ -299,6 +299,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
                 case SortCategory.System:
                 case SortCategory.Version:
                 case SortCategory.Edition:
+                case SortCategory.Language:
                 case SortCategory.Languages:
                 case SortCategory.Serial:
                 case SortCategory.Status:
