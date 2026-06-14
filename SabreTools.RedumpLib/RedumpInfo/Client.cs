@@ -91,16 +91,6 @@ namespace SabreTools.RedumpLib.RedumpInfo
         #region Constants
 
         /// <summary>
-        /// Regex matching the current creation time for login
-        /// </summary>
-        public static readonly Regex LoginCreationTimeRegex = new(@"<input type=""hidden"" name=""form_token"" value=""(.*?)"" />", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Regex matching the current nonce token for login
-        /// </summary>
-        public static readonly Regex LoginTokenRegex = new(@"<input type=""hidden"" name=""form_token"" value=""(.*?)"" />", RegexOptions.Compiled);
-
-        /// <summary>
         /// Login page URL
         /// </summary>
         public const string LoginUrl = "https://forum.redump.info/ucp.php?mode=login&redirect=index.php";
@@ -186,8 +176,8 @@ namespace SabreTools.RedumpLib.RedumpInfo
 
                     // Get the current token from the login page
                     var loginPage = await DownloadString(LoginUrl);
-                    string creationTime = LoginCreationTimeRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
-                    string token = LoginTokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
+                    string creationTime = Constants.LoginCreationTimeRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
+                    string token = Constants.LoginTokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
 
 #if NETCOREAPP
                     // Construct the login request
@@ -459,7 +449,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             if (dumpsPage.Contains("<b>Download:</b>"))
             {
                 if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Single disc page");
-                var value = RedumpOrg.Data.Constants.SfvRegex.Match(dumpsPage).Groups[1].Value;
+                var value = Constants.SfvRegex.Match(dumpsPage).Groups[1].Value;
                 if (int.TryParse(value, out int id))
                     ids.Add(id);
 
@@ -467,7 +457,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             }
 
             // Otherwise, traverse each dump on the page
-            var matches = RedumpOrg.Data.Constants.DiscRegex.Matches(dumpsPage);
+            var matches = Constants.DiscRegex.Matches(dumpsPage);
             foreach (Match? match in matches)
             {
                 if (match is null)
@@ -594,7 +584,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             }
 
             // Otherwise, traverse each dump on the page
-            var matches = RedumpOrg.Data.Constants.NewDiscRegex.Matches(dumpsPage);
+            var matches = Constants.NewDiscRegex.Matches(dumpsPage);
             foreach (Match? match in matches)
             {
                 if (match is null)
@@ -958,8 +948,8 @@ namespace SabreTools.RedumpLib.RedumpInfo
                     var oldDiscPage = File.ReadAllText(Path.Combine(paddedIdDir, "disc.html"));
 
                     // Check for the last modified date in both pages
-                    var oldResult = RedumpOrg.Data.Constants.LastModifiedRegex.Match(oldDiscPage);
-                    var newResult = RedumpOrg.Data.Constants.LastModifiedRegex.Match(discPage);
+                    var oldResult = Constants.LastModifiedRegex.Match(oldDiscPage);
+                    var newResult = Constants.LastModifiedRegex.Match(discPage);
 
                     // If both pages contain the same modified date, skip it
                     if (oldResult.Success && newResult.Success && oldResult.Groups[1].Value == newResult.Groups[1].Value)
@@ -977,8 +967,8 @@ namespace SabreTools.RedumpLib.RedumpInfo
                 }
 
                 // If the downloaded data is invalid or otherwise empty, skip it
-                var hasAddedDate = RedumpOrg.Data.Constants.AddedRegex.Match(discPage);
-                var hasModifiedDate = RedumpOrg.Data.Constants.LastModifiedRegex.Match(discPage);
+                var hasAddedDate = Constants.AddedRegex.Match(discPage);
+                var hasModifiedDate = Constants.LastModifiedRegex.Match(discPage);
                 if (!hasAddedDate.Success && !hasModifiedDate.Success)
                 {
                     Console.WriteLine($"ID {paddedId} retieved an empty page, skipping...");
@@ -1164,8 +1154,8 @@ namespace SabreTools.RedumpLib.RedumpInfo
                     var oldDiscPage = File.ReadAllText(Path.Combine(paddedIdDir, "disc.html"));
 
                     // Check for the full match ID in both pages
-                    var oldResult = RedumpOrg.Data.Constants.FullMatchRegex.Match(oldDiscPage);
-                    var newResult = RedumpOrg.Data.Constants.FullMatchRegex.Match(discPage);
+                    var oldResult = Constants.FullMatchRegex.Match(oldDiscPage);
+                    var newResult = Constants.FullMatchRegex.Match(discPage);
 
                     // If both pages contain the same ID, skip it
                     if (oldResult.Success && newResult.Success && oldResult.Groups[1].Value == newResult.Groups[1].Value)
@@ -1182,8 +1172,8 @@ namespace SabreTools.RedumpLib.RedumpInfo
                     }
 
                     // Check the added date as a backup
-                    oldResult = RedumpOrg.Data.Constants.AddedRegex.Match(oldDiscPage);
-                    newResult = RedumpOrg.Data.Constants.AddedRegex.Match(discPage);
+                    oldResult = Constants.AddedRegex.Match(oldDiscPage);
+                    newResult = Constants.AddedRegex.Match(discPage);
 
                     // If the downloaded data is invalid or otherwise empty, skip it
                     if (oldResult.Success && !newResult.Success)

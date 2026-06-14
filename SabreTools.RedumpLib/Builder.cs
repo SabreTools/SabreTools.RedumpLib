@@ -12,7 +12,6 @@ using Newtonsoft.Json;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Data.Sections;
 using SabreTools.RedumpLib.RedumpOrg;
-using SabreTools.RedumpLib.RedumpOrg.Data;
 
 namespace SabreTools.RedumpLib
 {

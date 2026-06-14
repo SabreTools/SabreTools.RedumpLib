@@ -1,7 +1,6 @@
 using System;
 using System.Text;
 using SabreTools.RedumpLib.Data;
-using SabreTools.RedumpLib.RedumpOrg.Data;
 
 // TODO: Errors should validate number or number range (# or #-#)
 
