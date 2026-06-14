@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using SabreTools.RedumpLib.RedumpOrg.Data;
 
 namespace SabreTools.RedumpLib.Data
 {

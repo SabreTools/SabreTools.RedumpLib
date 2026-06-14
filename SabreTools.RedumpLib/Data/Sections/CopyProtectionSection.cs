@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using SabreTools.RedumpLib.Converters;
+using SabreTools.RedumpLib.RedumpOrg.Data;
 
 namespace SabreTools.RedumpLib.Data.Sections
 {

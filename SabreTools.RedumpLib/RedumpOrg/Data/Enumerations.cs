@@ -1,6 +1,6 @@
 using SabreTools.RedumpLib.Attributes;
 
-namespace SabreTools.RedumpLib.Data
+namespace SabreTools.RedumpLib.RedumpOrg.Data
 {
     /// <summary>
     /// List of all disc categories

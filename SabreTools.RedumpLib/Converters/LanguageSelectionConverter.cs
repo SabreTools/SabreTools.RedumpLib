@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SabreTools.RedumpLib.Data;
+using SabreTools.RedumpLib.RedumpOrg.Data;
 
 namespace SabreTools.RedumpLib.Converters
 {
@@ -29,7 +29,7 @@ namespace SabreTools.RedumpLib.Converters
                 if (reader.Value is not string value)
                     continue;
 
-                LanguageSelection? sel = Data.Extensions.ToLanguageSelection(value);
+                LanguageSelection? sel = value.ToLanguageSelection();
                 if (sel is not null)
                     selections.Add(sel.Value);
             }

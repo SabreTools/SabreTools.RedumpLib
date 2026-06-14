@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using SabreTools.RedumpLib.Data;
+using SabreTools.RedumpLib.RedumpOrg.Data;
 using Xunit;
 
-namespace SabreTools.RedumpLib.Test.Data
+namespace SabreTools.RedumpLib.Test.RedumpOrg
 {
     public class ExtensionsTests
     {

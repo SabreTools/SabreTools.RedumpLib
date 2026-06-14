@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SabreTools.RedumpLib.Data;
+using SabreTools.RedumpLib.RedumpOrg.Data;
 
 namespace SabreTools.RedumpLib.Converters
 {
@@ -23,7 +23,7 @@ namespace SabreTools.RedumpLib.Converters
                 return null;
 
             // Try to parse the value
-            return Data.Extensions.ToRedumpSystem(value);
+            return value.ToRedumpSystem();
         }
 
         public override void WriteJson(JsonWriter writer, RedumpSystem? value, JsonSerializer serializer)

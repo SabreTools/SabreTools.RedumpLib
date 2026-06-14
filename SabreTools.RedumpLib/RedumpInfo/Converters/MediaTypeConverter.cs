@@ -1,18 +1,18 @@
 using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SabreTools.RedumpLib.Data;
+using SabreTools.RedumpLib.RedumpInfo.Data;
 
-namespace SabreTools.RedumpLib.Converters
+namespace SabreTools.RedumpLib.RedumpInfo.Converters
 {
     /// <summary>
-    /// Serialize DiscCategory enum values
+    /// Serialize MediaType enum values
     /// </summary>
-    public class DiscCategoryConverter : JsonConverter<DiscCategory?>
+    public class MediaTypeConverter : JsonConverter<MediaType?>
     {
         public override bool CanRead { get { return true; } }
 
-        public override DiscCategory? ReadJson(JsonReader reader, Type objectType, DiscCategory? existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override MediaType? ReadJson(JsonReader reader, Type objectType, MediaType? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             // If we have a value already, don't overwrite it
             if (hasExistingValue)
@@ -23,10 +23,10 @@ namespace SabreTools.RedumpLib.Converters
                 return null;
 
             // Try to parse the value
-            return Data.Extensions.ToDiscCategory(value);
+            return value.ToMediaType();
         }
 
-        public override void WriteJson(JsonWriter writer, DiscCategory? value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, MediaType? value, JsonSerializer serializer)
         {
             JToken t = JToken.FromObject(value.LongName() ?? string.Empty);
             t.WriteTo(writer);

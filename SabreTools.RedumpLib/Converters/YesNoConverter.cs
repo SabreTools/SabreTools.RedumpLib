@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SabreTools.RedumpLib.Data;
+using SabreTools.RedumpLib.RedumpOrg.Data;
 
 namespace SabreTools.RedumpLib.Converters
 {
@@ -20,9 +20,9 @@ namespace SabreTools.RedumpLib.Converters
 
             // Read the value
             if (reader.Value is bool bVal)
-                return Data.Extensions.ToYesNo(bVal);
+                return bVal.ToYesNo();
             else if (reader.Value is string sVal)
-                return Data.Extensions.ToYesNo(sVal);
+                return sVal.ToYesNo();
 
             return null;
         }

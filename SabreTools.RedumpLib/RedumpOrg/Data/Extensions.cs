@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using SabreTools.RedumpLib.Attributes;
 
-namespace SabreTools.RedumpLib.Data
+namespace SabreTools.RedumpLib.RedumpOrg.Data
 {
     /// <summary>
     /// Information pertaining to Redump systems

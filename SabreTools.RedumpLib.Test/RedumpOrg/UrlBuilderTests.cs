@@ -1,6 +1,6 @@
 using System;
-using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.RedumpOrg;
+using SabreTools.RedumpLib.RedumpOrg.Data;
 using Xunit;
 
 namespace SabreTools.RedumpLib.Test.RedumpOrg

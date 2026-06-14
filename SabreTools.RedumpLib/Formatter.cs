@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Data.Sections;
+using SabreTools.RedumpLib.RedumpOrg.Data;
 
 namespace SabreTools.RedumpLib
 {

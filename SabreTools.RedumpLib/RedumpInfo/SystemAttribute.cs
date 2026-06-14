@@ -1,6 +1,7 @@
-using SabreTools.RedumpLib.Data;
+using SabreTools.RedumpLib.Attributes;
+using SabreTools.RedumpLib.RedumpInfo.Data;
 
-namespace SabreTools.RedumpLib.Attributes
+namespace SabreTools.RedumpLib.RedumpInfo
 {
     /// <summary>
     /// Attribute specifc to Redump System values
@@ -28,24 +29,9 @@ namespace SabreTools.RedumpLib.Attributes
         public bool HasDat { get; set; } = false;
 
         /// <summary>
-        /// System has a decrypted keys pack
-        /// </summary>
-        public bool HasDkeys { get; set; } = false;
-
-        /// <summary>
-        /// System has a GDI pack
-        /// </summary>
-        public bool HasGdi { get; set; } = false;
-
-        /// <summary>
         /// System has a keys pack
         /// </summary>
         public bool HasKeys { get; set; } = false;
-
-        /// <summary>
-        /// System has an LSD pack
-        /// </summary>
-        public bool HasLsd { get; set; } = false;
 
         /// <summary>
         /// System has an SBI pack

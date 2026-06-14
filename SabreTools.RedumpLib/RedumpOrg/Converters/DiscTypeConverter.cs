@@ -3,16 +3,16 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SabreTools.RedumpLib.RedumpOrg.Data;
 
-namespace SabreTools.RedumpLib.Converters
+namespace SabreTools.RedumpLib.RedumpOrg.Converters
 {
     /// <summary>
-    /// Serialize Region enum values
+    /// Serialize DiscType enum values
     /// </summary>
-    public class RegionConverter : JsonConverter<Region?>
+    public class DiscTypeConverter : JsonConverter<DiscType?>
     {
         public override bool CanRead { get { return true; } }
 
-        public override Region? ReadJson(JsonReader reader, Type objectType, Region? existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override DiscType? ReadJson(JsonReader reader, Type objectType, DiscType? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             // If we have a value already, don't overwrite it
             if (hasExistingValue)
@@ -23,12 +23,12 @@ namespace SabreTools.RedumpLib.Converters
                 return null;
 
             // Try to parse the value
-            return value.ToRegion();
+            return value.ToDiscType();
         }
 
-        public override void WriteJson(JsonWriter writer, Region? value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, DiscType? value, JsonSerializer serializer)
         {
-            JToken t = JToken.FromObject(value.ShortName() ?? string.Empty);
+            JToken t = JToken.FromObject(value.LongName() ?? string.Empty);
             t.WriteTo(writer);
         }
     }
