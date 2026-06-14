@@ -142,7 +142,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             string? dumper = null,
             string? edition = null,
             string? quicksearch = null,
-            RedumpOrg.Data.Region? region = null,
+            Region? region = null,
             RedumpOrg.Data.SortCategory? sort = null,
             RedumpOrg.Data.SortDirection? sortDir = null,
             DumpStatus? status = null,
