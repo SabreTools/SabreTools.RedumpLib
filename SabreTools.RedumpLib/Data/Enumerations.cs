@@ -3,6 +3,45 @@ using SabreTools.RedumpLib.Attributes;
 namespace SabreTools.RedumpLib.Data
 {
     /// <summary>
+    /// List of all disc categories
+    /// </summary>
+    public enum DiscCategory
+    {
+        [HumanReadable(LongName = "Games")]
+        Games = 1,
+
+        [HumanReadable(LongName = "Demos")]
+        Demos = 2,
+
+        [HumanReadable(LongName = "Video")]
+        Video = 3,
+
+        [HumanReadable(LongName = "Audio")]
+        Audio = 4,
+
+        [HumanReadable(LongName = "Multimedia")]
+        Multimedia = 5,
+
+        [HumanReadable(LongName = "Applications")]
+        Applications = 6,
+
+        [HumanReadable(LongName = "Coverdiscs")]
+        Coverdiscs = 7,
+
+        [HumanReadable(LongName = "Educational")]
+        Educational = 8,
+
+        [HumanReadable(LongName = "Bonus Discs")]
+        BonusDiscs = 9,
+
+        [HumanReadable(LongName = "Preproduction")]
+        Preproduction = 10,
+
+        [HumanReadable(LongName = "Add-Ons")]
+        AddOns = 11,
+    }
+
+    /// <summary>
     /// List of all disc langauges
     /// </summary>
     /// <remarks>https://www.loc.gov/standards/iso639-2/php/code_list.php</remarks>

@@ -117,69 +117,6 @@ namespace SabreTools.RedumpLib.Test.RedumpInfo
 
         #endregion
 
-        #region Disc Category
-
-        /// <summary>
-        /// Check that every DiscCategory has a long name provided
-        /// </summary>
-        /// <param name="discCategory">DiscCategory value to check</param>
-        /// <param name="expectNull">True to expect a null value, false otherwise</param>
-        [Theory]
-        [MemberData(nameof(GenerateDiscCategoryTestData))]
-        public void DiscCategory_LongName(DiscCategory? discCategory, bool expectNull)
-        {
-            var actual = discCategory.LongName();
-
-            if (expectNull)
-                Assert.Null(actual);
-            else
-                Assert.NotNull(actual);
-        }
-
-        /// <summary>
-        /// Check that every DiscCategory can be mapped from a string
-        /// </summary>
-        /// <param name="discCategory">DiscCategory value to check</param>
-        /// <param name="expectNull">True to expect a null value, false otherwise</param>
-        [Theory]
-        [MemberData(nameof(GenerateDiscCategoryTestData))]
-        public void DiscCategory_ToDiscCategory(DiscCategory? discCategory, bool expectNull)
-        {
-            string? longName = discCategory.LongName();
-            string? longNameSpaceless = longName?.Replace(" ", string.Empty);
-
-            var actualNormal = longName.ToDiscCategory();
-            var actualSpaceless = longNameSpaceless.ToDiscCategory();
-
-            if (expectNull)
-            {
-                Assert.Null(actualNormal);
-                Assert.Null(actualSpaceless);
-            }
-            else
-            {
-                Assert.Equal(discCategory, actualNormal);
-                Assert.Equal(discCategory, actualSpaceless);
-            }
-        }
-
-        /// <summary>
-        /// Generate a test set of DiscCategory values
-        /// </summary>
-        /// <returns>MemberData-compatible list of DiscCategory values</returns>
-        public static TheoryData<DiscCategory?, bool> GenerateDiscCategoryTestData()
-        {
-            var testData = new TheoryData<DiscCategory?, bool>() { { null, true } };
-            foreach (DiscCategory? discCategory in Enum.GetValues<DiscCategory>().Cast<DiscCategory?>())
-            {
-                testData.Add(discCategory, false);
-            }
-
-            return testData;
-        }
-
-        #endregion
-
         #region Disc Subpath
 
         /// <summary>

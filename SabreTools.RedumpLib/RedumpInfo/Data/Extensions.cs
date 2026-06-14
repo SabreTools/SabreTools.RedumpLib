@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using SabreTools.RedumpLib.Attributes;
 using SabreTools.RedumpLib.Data;
 
@@ -96,45 +95,6 @@ namespace SabreTools.RedumpLib.RedumpInfo.Data
                 null => null,
                 _ => null,
             };
-        }
-
-        #endregion
-
-        #region Disc Category
-
-        /// <summary>
-        /// Get the Redump longnames for each known category
-        /// </summary>
-        public static string? LongName(this DiscCategory category)
-            => ((DiscCategory?)category).LongName();
-
-        /// <summary>
-        /// Get the Redump longnames for each known category
-        /// </summary>
-        public static string? LongName(this DiscCategory? category)
-            => AttributeHelper<DiscCategory?>.GetHumanReadableAttribute(category)?.LongName;
-
-        /// <summary>
-        /// Get the Category enum value for a given string
-        /// </summary>
-        /// <param name="category">String value to convert</param>
-        /// <returns>Category represented by the string, if possible</returns>
-        public static DiscCategory? ToDiscCategory(this string? category)
-        {
-            // No value means no match
-            if (category is null || category.Length == 0)
-                return null;
-
-            category = category?.ToLowerInvariant();
-            var categories = (DiscCategory[])Enum.GetValues(typeof(DiscCategory));
-
-            // Check long names
-            int index = Array.FindIndex(categories, c => category == c.LongName()?.ToLowerInvariant()
-                || category == c.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
-            if (index > -1)
-                return categories[index];
-
-            return null;
         }
 
         #endregion

@@ -3,45 +3,6 @@ using SabreTools.RedumpLib.Attributes;
 namespace SabreTools.RedumpLib.RedumpInfo.Data
 {
     /// <summary>
-    /// List of all disc categories
-    /// </summary>
-    public enum DiscCategory
-    {
-        [HumanReadable(LongName = "Add-Ons")]
-        AddOns,
-
-        [HumanReadable(LongName = "Applications")]
-        Applications,
-
-        [HumanReadable(LongName = "Audio")]
-        Audio,
-
-        [HumanReadable(LongName = "Bonus Discs")]
-        BonusDiscs,
-
-        [HumanReadable(LongName = "Coverdiscs")]
-        Coverdiscs,
-
-        [HumanReadable(LongName = "Demos")]
-        Demos,
-
-        [HumanReadable(LongName = "Educational")]
-        Educational,
-
-        [HumanReadable(LongName = "Games")]
-        Games,
-
-        [HumanReadable(LongName = "Multimedia")]
-        Multimedia,
-
-        [HumanReadable(LongName = "Preproduction")]
-        Preproduction,
-
-        [HumanReadable(LongName = "Video")]
-        Video,
-    }
-
-    /// <summary>
     /// List of all disc subpaths
     /// </summary>
     public enum DiscSubpath
