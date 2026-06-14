@@ -3,21 +3,6 @@ using SabreTools.RedumpLib.Attributes;
 namespace SabreTools.RedumpLib.RedumpOrg.Data
 {
     /// <summary>
-    /// All possible language selections
-    /// </summary>
-    public enum LanguageSelection
-    {
-        [HumanReadable(LongName = "Bios settings")]
-        BiosSettings,
-
-        [HumanReadable(LongName = "Language selector")]
-        LanguageSelector,
-
-        [HumanReadable(LongName = "Options menu")]
-        OptionsMenu,
-    }
-
-    /// <summary>
     /// List of all Redump site codes
     /// </summary>
     public enum SiteCode

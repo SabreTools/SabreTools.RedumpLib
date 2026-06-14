@@ -10,49 +10,6 @@ namespace SabreTools.RedumpLib.RedumpOrg.Data
 #pragma warning disable IDE0072
     public static class Extensions
     {
-        #region Language Selection
-
-        /// <summary>
-        /// Get the string representation of the LanguageSelection enum values
-        /// </summary>
-        /// <param name="langSelect">LanguageSelection value to convert</param>
-        /// <returns>String representing the value, if possible</returns>
-        public static string? LongName(this LanguageSelection langSelect)
-            => ((LanguageSelection?)langSelect).LongName();
-
-        /// <summary>
-        /// Get the string representation of the LanguageSelection enum values
-        /// </summary>
-        /// <param name="langSelect">LanguageSelection value to convert</param>
-        /// <returns>String representing the value, if possible</returns>
-        public static string? LongName(this LanguageSelection? langSelect)
-            => AttributeHelper<LanguageSelection?>.GetHumanReadableAttribute(langSelect)?.LongName;
-
-        /// <summary>
-        /// Get the LanguageSelection enum value for a given string
-        /// </summary>
-        /// <param name="langSelect">String value to convert</param>
-        /// <returns>LanguageSelection represented by the string, if possible</returns>
-        public static LanguageSelection? ToLanguageSelection(this string? langSelect)
-        {
-            // No value means no match
-            if (langSelect is null || langSelect.Length == 0)
-                return null;
-
-            langSelect = langSelect?.ToLowerInvariant();
-            var selects = (LanguageSelection[])Enum.GetValues(typeof(LanguageSelection));
-
-            // Check long names
-            int index = Array.FindIndex(selects, l => langSelect == l.LongName()?.ToLowerInvariant()
-                || langSelect == l.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
-            if (index > -1)
-                return selects[index];
-
-            return null;
-        }
-
-        #endregion
-
         #region Site Code
 
         /// <summary>
