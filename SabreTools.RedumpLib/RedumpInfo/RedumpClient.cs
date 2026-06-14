@@ -9,13 +9,13 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.RedumpInfo.Data;
 using SabreTools.RedumpLib.Web;
 using static SabreTools.RedumpLib.RedumpOrg.Data.Extensions;
 
 namespace SabreTools.RedumpLib.RedumpInfo
 {
+    // TODO: Nearly every method here needs to be validated
     public class RedumpClient
     {
         #region Properties
@@ -85,6 +85,16 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// </summary>
         /// <remarks>Modifying to set as true does not change actual staff status</remarks>
         private bool _staffMember = false;
+
+        #endregion
+
+        #region Constants
+
+        /// <summary>
+        /// Login page URL template
+        /// </summary>
+        /// TODO: Fix this once the login page is confirmed
+        public const string LoginUrl = "http://forum.redump.org/login/";
 
         #endregion
 
@@ -166,8 +176,8 @@ namespace SabreTools.RedumpLib.RedumpInfo
                     Console.WriteLine($"Login attempt {i + 1} of {AttemptCount}");
 
                     // Get the current token from the login page
-                    var loginPage = await DownloadString(Constants.LoginUrl);
-                    string token = Constants.TokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
+                    var loginPage = await DownloadString(LoginUrl);
+                    string token = RedumpOrg.Data.Constants.TokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
 
 #if NETCOREAPP
                     // Construct the login request
@@ -175,7 +185,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
                     postContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
 
                     // Send the login request and get the result
-                    var response = await _internalClient.PostAsync(Constants.LoginUrl, postContent);
+                    var response = await _internalClient.PostAsync(LoginUrl, postContent);
                     string? responseContent = null;
                     if (response?.Content is not null)
                         responseContent = await response.Content.ReadAsStringAsync();
@@ -185,7 +195,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
                     _internalClient.Encoding = Encoding.UTF8;
 
                     // Send the login request and get the result
-                    string? responseContent = _internalClient.UploadString(Constants.LoginUrl, $"form_sent=1&redirect_url=&csrf_token={token}&req_username={username}&req_password={password}&save_pass=0");
+                    string? responseContent = _internalClient.UploadString(LoginUrl, $"form_sent=1&redirect_url=&csrf_token={token}&req_username={username}&req_password={password}&save_pass=0");
 #endif
 
                     // An empty response indicates an error
@@ -436,7 +446,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             if (dumpsPage.Contains("<b>Download:</b>"))
             {
                 if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Single disc page");
-                var value = Constants.SfvRegex.Match(dumpsPage).Groups[1].Value;
+                var value = RedumpOrg.Data.Constants.SfvRegex.Match(dumpsPage).Groups[1].Value;
                 if (int.TryParse(value, out int id))
                     ids.Add(id);
 
@@ -444,7 +454,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             }
 
             // Otherwise, traverse each dump on the page
-            var matches = Constants.DiscRegex.Matches(dumpsPage);
+            var matches = RedumpOrg.Data.Constants.DiscRegex.Matches(dumpsPage);
             foreach (Match? match in matches)
             {
                 if (match is null)
@@ -568,7 +578,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             }
 
             // Otherwise, traverse each dump on the page
-            var matches = Constants.NewDiscRegex.Matches(dumpsPage);
+            var matches = RedumpOrg.Data.Constants.NewDiscRegex.Matches(dumpsPage);
             foreach (Match? match in matches)
             {
                 if (match is null)
@@ -932,8 +942,8 @@ namespace SabreTools.RedumpLib.RedumpInfo
                     var oldDiscPage = File.ReadAllText(Path.Combine(paddedIdDir, "disc.html"));
 
                     // Check for the last modified date in both pages
-                    var oldResult = Constants.LastModifiedRegex.Match(oldDiscPage);
-                    var newResult = Constants.LastModifiedRegex.Match(discPage);
+                    var oldResult = RedumpOrg.Data.Constants.LastModifiedRegex.Match(oldDiscPage);
+                    var newResult = RedumpOrg.Data.Constants.LastModifiedRegex.Match(discPage);
 
                     // If both pages contain the same modified date, skip it
                     if (oldResult.Success && newResult.Success && oldResult.Groups[1].Value == newResult.Groups[1].Value)
@@ -951,8 +961,8 @@ namespace SabreTools.RedumpLib.RedumpInfo
                 }
 
                 // If the downloaded data is invalid or otherwise empty, skip it
-                var hasAddedDate = Constants.AddedRegex.Match(discPage);
-                var hasModifiedDate = Constants.LastModifiedRegex.Match(discPage);
+                var hasAddedDate = RedumpOrg.Data.Constants.AddedRegex.Match(discPage);
+                var hasModifiedDate = RedumpOrg.Data.Constants.LastModifiedRegex.Match(discPage);
                 if (!hasAddedDate.Success && !hasModifiedDate.Success)
                 {
                     Console.WriteLine($"ID {paddedId} retieved an empty page, skipping...");
@@ -1138,8 +1148,8 @@ namespace SabreTools.RedumpLib.RedumpInfo
                     var oldDiscPage = File.ReadAllText(Path.Combine(paddedIdDir, "disc.html"));
 
                     // Check for the full match ID in both pages
-                    var oldResult = Constants.FullMatchRegex.Match(oldDiscPage);
-                    var newResult = Constants.FullMatchRegex.Match(discPage);
+                    var oldResult = RedumpOrg.Data.Constants.FullMatchRegex.Match(oldDiscPage);
+                    var newResult = RedumpOrg.Data.Constants.FullMatchRegex.Match(discPage);
 
                     // If both pages contain the same ID, skip it
                     if (oldResult.Success && newResult.Success && oldResult.Groups[1].Value == newResult.Groups[1].Value)
@@ -1156,8 +1166,8 @@ namespace SabreTools.RedumpLib.RedumpInfo
                     }
 
                     // Check the added date as a backup
-                    oldResult = Constants.AddedRegex.Match(oldDiscPage);
-                    newResult = Constants.AddedRegex.Match(discPage);
+                    oldResult = RedumpOrg.Data.Constants.AddedRegex.Match(oldDiscPage);
+                    newResult = RedumpOrg.Data.Constants.AddedRegex.Match(discPage);
 
                     // If the downloaded data is invalid or otherwise empty, skip it
                     if (oldResult.Success && !newResult.Success)

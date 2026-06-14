@@ -9,7 +9,6 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.RedumpOrg.Data;
 using SabreTools.RedumpLib.Web;
 
@@ -84,6 +83,15 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// </summary>
         /// <remarks>Modifying to set as true does not change actual staff status</remarks>
         private bool _staffMember = false;
+
+        #endregion
+
+        #region Constants
+
+        /// <summary>
+        /// Login page URL template
+        /// </summary>
+        public const string LoginUrl = "http://forum.redump.org/login/";
 
         #endregion
 
@@ -165,7 +173,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
                     Console.WriteLine($"Login attempt {i + 1} of {AttemptCount}");
 
                     // Get the current token from the login page
-                    var loginPage = await DownloadString(Constants.LoginUrl);
+                    var loginPage = await DownloadString(LoginUrl);
                     string token = Constants.TokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
 
 #if NETCOREAPP
@@ -174,7 +182,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
                     postContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
 
                     // Send the login request and get the result
-                    var response = await _internalClient.PostAsync(Constants.LoginUrl, postContent);
+                    var response = await _internalClient.PostAsync(LoginUrl, postContent);
                     string? responseContent = null;
                     if (response?.Content is not null)
                         responseContent = await response.Content.ReadAsStringAsync();
@@ -184,7 +192,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
                     _internalClient.Encoding = Encoding.UTF8;
 
                     // Send the login request and get the result
-                    string? responseContent = _internalClient.UploadString(Constants.LoginUrl, $"form_sent=1&redirect_url=&csrf_token={token}&req_username={username}&req_password={password}&save_pass=0");
+                    string? responseContent = _internalClient.UploadString(LoginUrl, $"form_sent=1&redirect_url=&csrf_token={token}&req_username={username}&req_password={password}&save_pass=0");
 #endif
 
                     // An empty response indicates an error

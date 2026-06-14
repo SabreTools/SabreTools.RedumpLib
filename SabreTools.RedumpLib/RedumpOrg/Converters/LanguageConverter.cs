@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SabreTools.RedumpLib.RedumpOrg.Data;
 
-namespace SabreTools.RedumpLib.Converters
+namespace SabreTools.RedumpLib.RedumpOrg.Converters
 {
     /// <summary>
     /// Serialize Language enum values

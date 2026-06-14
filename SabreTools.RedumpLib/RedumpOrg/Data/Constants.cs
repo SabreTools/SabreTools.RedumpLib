@@ -1,7 +1,6 @@
 using System.Text.RegularExpressions;
-using SabreTools.RedumpLib.RedumpOrg.Data;
 
-namespace SabreTools.RedumpLib.Data
+namespace SabreTools.RedumpLib.RedumpOrg.Data
 {
     public static class Constants
     {
@@ -176,15 +175,6 @@ namespace SabreTools.RedumpLib.Data
         /// Regex matching the write offset field on a disc page
         /// </summary>
         public static readonly Regex WriteOffsetRegex = new(@"<tr><th>Write offset</th><td>(.*?)</td></tr>", RegexOptions.Compiled);
-
-        #endregion
-
-        #region URL Templates
-
-        /// <summary>
-        /// Redump login page URL template
-        /// </summary>
-        public const string LoginUrl = "http://forum.redump.org/login/";
 
         #endregion
 
