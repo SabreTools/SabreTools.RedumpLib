@@ -1671,6 +1671,36 @@ namespace SabreTools.RedumpLib.Data
     }
 
     /// <summary>
+    /// All possible packs
+    /// </summary>
+    public enum PackType
+    {
+        [HumanReadable(LongName = "CUES", ShortName = "cues")]
+        Cuesheets,
+
+        [HumanReadable(LongName = "DAT", ShortName = "datfile")]
+        Datfile,
+
+        /// <remarks>Only in redump.org</remarks>
+        [HumanReadable(LongName = "Decrypted KEYS", ShortName = "dkeys")]
+        DecryptedKeys,
+
+        /// <remarks>Only in redump.org</remarks>
+        [HumanReadable(LongName = "GDIs", ShortName = "gdi")]
+        Gdis,
+
+        [HumanReadable(LongName = "KEYS", ShortName = "keys")]
+        Keys,
+
+        /// <remarks>Only in redump.org</remarks>
+        [HumanReadable(LongName = "LSD", ShortName = "lsd")]
+        Lsds,
+
+        [HumanReadable(LongName = "SBI", ShortName = "sbi")]
+        Sbis,
+    }
+
+    /// <summary>
     /// All possible media types not bound to specific site limitations
     /// </summary>
     public enum PhysicalMediaType

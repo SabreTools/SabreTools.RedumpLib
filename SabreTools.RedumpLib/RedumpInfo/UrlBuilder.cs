@@ -260,7 +260,10 @@ namespace SabreTools.RedumpLib.RedumpInfo
             {
                 case PackType.Cuesheets: sb.AppendFormat(CuesPath, systemName); break;
                 case PackType.Datfile: sb.AppendFormat(DatfilePath, systemName); break;
+                case PackType.DecryptedKeys: break; // Not supported
+                case PackType.Gdis: break; // Not supported
                 case PackType.Keys: sb.AppendFormat(KeysPath, systemName); break;
+                case PackType.Lsds: break; // Not supported
                 case PackType.Sbis: sb.AppendFormat(SbiPath, systemName); break;
 
                 default: throw new ArgumentOutOfRangeException(nameof(packType));

@@ -1422,7 +1422,10 @@ namespace SabreTools.RedumpLib.RedumpInfo
             {
                 PackType.Cuesheets => system.HasCues(),
                 PackType.Datfile => system.HasDat(),
+                PackType.DecryptedKeys => false,
+                PackType.Gdis => false,
                 PackType.Keys => system.HasKeys(),
+                PackType.Lsds => false,
                 PackType.Sbis => system.HasSbi(),
                 _ => false,
             };

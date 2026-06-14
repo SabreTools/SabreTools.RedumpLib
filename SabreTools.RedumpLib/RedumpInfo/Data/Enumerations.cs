@@ -100,22 +100,4 @@ namespace SabreTools.RedumpLib.RedumpInfo.Data
         [HumanReadable(LongName = "Wii U Optical Disc (SL)", ShortName = "bd25wiiu")]
         WiiUOpticalDiscSL,
     }
-
-    /// <summary>
-    /// All possible packs
-    /// </summary>
-    public enum PackType
-    {
-        [HumanReadable(LongName = "CUES", ShortName = "cues")]
-        Cuesheets,
-
-        [HumanReadable(LongName = "DAT", ShortName = "datfile")]
-        Datfile,
-
-        [HumanReadable(LongName = "KEYS", ShortName = "keys")]
-        Keys,
-
-        [HumanReadable(LongName = "SBI", ShortName = "sbi")]
-        Sbis,
-    }
 }

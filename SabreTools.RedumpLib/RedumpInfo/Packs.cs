@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
-using SabreTools.RedumpLib.RedumpInfo.Data;
 
 namespace SabreTools.RedumpLib.RedumpInfo
 {
