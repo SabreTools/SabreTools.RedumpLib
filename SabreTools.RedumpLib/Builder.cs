@@ -316,7 +316,7 @@ namespace SabreTools.RedumpLib
             // Category
             match = Constants.CategoryRegex.Match(discData);
             if (match.Success)
-                info.CommonDiscInfo!.Category = RedumpOrg.Data.Extensions.ToDiscCategory(match.Groups[1].Value);
+                info.CommonDiscInfo!.Category = match.Groups[1].Value.ToDiscCategory();
             else
                 info.CommonDiscInfo!.Category = DiscCategory.Games;
 
@@ -325,7 +325,7 @@ namespace SabreTools.RedumpLib
             {
                 match = Constants.RegionRegex.Match(discData);
                 if (match.Success)
-                    info.CommonDiscInfo.Region = RedumpOrg.Data.Extensions.ToRegion(match.Groups[1].Value);
+                    info.CommonDiscInfo.Region = match.Groups[1].Value.ToRegion();
             }
 
             // Languages
@@ -338,7 +338,7 @@ namespace SabreTools.RedumpLib
                     if (submatch is null)
                         continue;
 
-                    var language = RedumpOrg.Data.Extensions.ToLanguage(submatch.Groups[1].Value);
+                    var language = submatch.Groups[1].Value.ToLanguage();
                     if (language is not null)
                         tempLanguages.Add(language);
                 }
