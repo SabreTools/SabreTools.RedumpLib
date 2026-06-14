@@ -2352,6 +2352,321 @@ namespace SabreTools.RedumpLib.Test.Data
 
         #endregion
 
+        #region Site Code
+
+        /// <summary>
+        /// SiteCode values that are considered Boolean
+        /// </summary>
+        private static readonly SiteCode?[] _booleanSiteCodes =
+        [
+            SiteCode.PCMacHybrid,
+            SiteCode.PostgapType,
+            SiteCode.VCD,
+        ];
+
+        /// <summary>
+        /// SiteCode values that are considered Comment
+        /// </summary>
+        private static readonly SiteCode?[] _commentSiteCodes =
+        [
+            // Identifying Info
+            SiteCode.AdditionalBCAData,
+            SiteCode.AlternativeTitle,
+            SiteCode.AlternativeForeignTitle,
+            SiteCode.BBFCRegistrationNumber,
+            SiteCode.CompatibleOS,
+            SiteCode.CoverID,
+            SiteCode.DiscHologramID,
+            SiteCode.DiscID,
+            SiteCode.DiscTitleNonLatin,
+            SiteCode.DMIHash,
+            SiteCode.DNASDiscID,
+            SiteCode.EditionNonLatin,
+            SiteCode.Filename,
+            SiteCode.Genre,
+            SiteCode.HighSierraVolumeDescriptor,
+            SiteCode.InternalName,
+            SiteCode.InternalSerialName,
+            SiteCode.ISBN,
+            SiteCode.ISSN,
+            SiteCode.LogsLink,
+            SiteCode.Multisession,
+            SiteCode.PCMacHybrid,
+            SiteCode.PFIHash,
+            SiteCode.PostgapType,
+            SiteCode.PPN,
+            SiteCode.Protection,
+            SiteCode.RingNonZeroDataStart,
+            SiteCode.RingPerfectAudioOffset,
+            SiteCode.Series,
+            SiteCode.SSHash,
+            SiteCode.SSVersion,
+            SiteCode.SteamAppID,
+            SiteCode.TitleID,
+            SiteCode.UniversalHash,
+            SiteCode.VCD,
+            SiteCode.VFCCode,
+            SiteCode.VolumeLabel,
+            SiteCode.XeMID,
+            SiteCode.XMID,
+
+            // Publisher / Company IDs
+            SiteCode.TwoKGamesID,
+            SiteCode.AcclaimID,
+            SiteCode.AccoladeID,
+            SiteCode.ActivisionID,
+            SiteCode.BandaiID,
+            SiteCode.BethesdaID,
+            SiteCode.CDProjektID,
+            SiteCode.DisneyInteractiveID,
+            SiteCode.EidosID,
+            SiteCode.ElectronicArtsID,
+            SiteCode.FoxInteractiveID,
+            SiteCode.GTInteractiveID,
+            SiteCode.InterplayID,
+            SiteCode.JASRACID,
+            SiteCode.KingRecordsID,
+            SiteCode.KoeiID,
+            SiteCode.KonamiID,
+            SiteCode.LucasArtsID,
+            SiteCode.MicrosoftID,
+            SiteCode.NaganoID,
+            SiteCode.NamcoID,
+            SiteCode.NipponIchiSoftwareID,
+            SiteCode.OriginID,
+            SiteCode.PonyCanyonID,
+            SiteCode.SegaID,
+            SiteCode.SelenID,
+            SiteCode.SierraID,
+            SiteCode.TaitoID,
+            SiteCode.UbisoftID,
+            SiteCode.ValveID,
+        ];
+
+        /// <summary>
+        /// SiteCode values that are considered Content
+        /// </summary>
+        private static readonly SiteCode?[] _contentSiteCodes =
+        [
+            SiteCode.Applications,
+            SiteCode.Extras,
+            SiteCode.GameFootage,
+            SiteCode.Games,
+            SiteCode.NetYarozeGames,
+            SiteCode.Patches,
+            SiteCode.PlayableDemos,
+            SiteCode.RollingDemos,
+            SiteCode.Savegames,
+            SiteCode.SteamSimSidDepotID,
+            SiteCode.SteamCsmCsdDepotID,
+            SiteCode.TechDemos,
+            SiteCode.Videos,
+        ];
+
+        /// <summary>
+        /// SiteCode values that are considered Multiline
+        /// </summary>
+        private static readonly SiteCode?[] _multilineSiteCodes =
+        [
+            SiteCode.Extras,
+            SiteCode.Filename,
+            SiteCode.Games,
+            SiteCode.GameFootage,
+            SiteCode.HighSierraVolumeDescriptor,
+            SiteCode.Multisession,
+            SiteCode.NetYarozeGames,
+            SiteCode.Patches,
+            SiteCode.PlayableDemos,
+            SiteCode.RollingDemos,
+            SiteCode.Savegames,
+            SiteCode.SteamSimSidDepotID,
+            SiteCode.SteamCsmCsdDepotID,
+            SiteCode.TechDemos,
+            SiteCode.Videos,
+        ];
+
+        [Fact]
+        public void SiteCode_ListSiteCodes()
+        {
+            var actual = Extensions.ListSiteCodes();
+            Assert.NotEmpty(actual);
+        }
+
+        /// <summary>
+        /// Check that all boolean site codes are marked properly
+        /// </summary>
+        /// <param name="siteCode">SiteCode value to check</param>
+        /// <param name="expected">The expected value to come from the check</param>
+        [Theory]
+        [MemberData(nameof(GenerateBooleanSiteCodesTestData))]
+        public void SiteCode_IsBoolean(SiteCode? siteCode, bool expected)
+        {
+            bool actual = siteCode.IsBoolean();
+            Assert.Equal(expected, actual);
+        }
+
+        /// <summary>
+        /// Check that all comment site codes are marked properly
+        /// </summary>
+        /// <param name="siteCode">SiteCode value to check</param>
+        /// <param name="expected">The expected value to come from the check</param>
+        [Theory]
+        [MemberData(nameof(GenerateCommentSiteCodesTestData))]
+        public void SiteCode_IsCommentCode(SiteCode? siteCode, bool expected)
+        {
+            bool actual = siteCode.IsCommentCode();
+            Assert.Equal(expected, actual);
+        }
+
+        /// <summary>
+        /// Check that all content site codes are marked properly
+        /// </summary>
+        /// <param name="siteCode">SiteCode value to check</param>
+        /// <param name="expected">The expected value to come from the check</param>
+        [Theory]
+        [MemberData(nameof(GenerateContentSiteCodesTestData))]
+        public void SiteCode_IsContentCode(SiteCode? siteCode, bool expected)
+        {
+            bool actual = siteCode.IsContentCode();
+            Assert.Equal(expected, actual);
+        }
+
+        /// <summary>
+        /// Check that all multiline site codes are marked properly
+        /// </summary>
+        /// <param name="siteCode">SiteCode value to check</param>
+        /// <param name="expected">The expected value to come from the check</param>
+        [Theory]
+        [MemberData(nameof(GenerateMultilineSiteCodesTestData))]
+        public void SiteCode_IsMultiLine(SiteCode? siteCode, bool expected)
+        {
+            bool actual = siteCode.IsMultiLine();
+            Assert.Equal(expected, actual);
+        }
+
+        /// <summary>
+        /// Check that every SiteCode has a long name provided
+        /// </summary>
+        /// <param name="siteCode">SiteCode value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateSiteCodeTestData))]
+        public void SiteCode_LongName(SiteCode? siteCode, bool expectNull)
+        {
+            var actual = siteCode.LongName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Check that every SiteCode has a short name provided
+        /// </summary>
+        /// <param name="siteCode">SiteCode value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateSiteCodeTestData))]
+        public void SiteCode_ShortName(SiteCode? siteCode, bool expectNull)
+        {
+            var actual = siteCode.ShortName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Generate a test set of SiteCode values
+        /// </summary>
+        /// <returns>MemberData-compatible list of SiteCode values</returns>
+        public static TheoryData<SiteCode?, bool> GenerateSiteCodeTestData()
+        {
+            var testData = new TheoryData<SiteCode?, bool>() { { null, true } };
+            foreach (SiteCode? siteCode in Enum.GetValues<SiteCode>().Cast<SiteCode?>())
+            {
+                testData.Add(siteCode, false);
+            }
+
+            return testData;
+        }
+
+        /// <summary>
+        /// Generate a test set of SiteCode values that are considered Boolean
+        /// </summary>
+        /// <returns>MemberData-compatible list of SiteCode values</returns>
+        public static TheoryData<SiteCode?, bool> GenerateBooleanSiteCodesTestData()
+        {
+            var testData = new TheoryData<SiteCode?, bool>() { { null, false } };
+            foreach (SiteCode siteCode in Enum.GetValues<SiteCode>())
+            {
+                if (_booleanSiteCodes.Contains(siteCode))
+                    testData.Add(siteCode, true);
+                else
+                    testData.Add(siteCode, false);
+            }
+
+            return testData;
+        }
+
+        /// <summary>
+        /// Generate a test set of SiteCode values that are considered Comment
+        /// </summary>
+        /// <returns>MemberData-compatible list of SiteCode values</returns>
+        public static TheoryData<SiteCode?, bool> GenerateCommentSiteCodesTestData()
+        {
+            var testData = new TheoryData<SiteCode?, bool>() { { null, false } };
+            foreach (SiteCode siteCode in Enum.GetValues<SiteCode>())
+            {
+                if (_commentSiteCodes.Contains(siteCode))
+                    testData.Add(siteCode, true);
+                else
+                    testData.Add(siteCode, false);
+            }
+
+            return testData;
+        }
+
+        /// <summary>
+        /// Generate a test set of SiteCode values that are considered Content
+        /// </summary>
+        /// <returns>MemberData-compatible list of SiteCode values</returns>
+        public static TheoryData<SiteCode?, bool> GenerateContentSiteCodesTestData()
+        {
+            var testData = new TheoryData<SiteCode?, bool>() { { null, false } };
+            foreach (SiteCode siteCode in Enum.GetValues<SiteCode>())
+            {
+                if (_contentSiteCodes.Contains(siteCode))
+                    testData.Add(siteCode, true);
+                else
+                    testData.Add(siteCode, false);
+            }
+
+            return testData;
+        }
+
+        /// <summary>
+        /// Generate a test set of SiteCode values that are considered Multiline
+        /// </summary>
+        /// <returns>MemberData-compatible list of SiteCode values</returns>
+        public static TheoryData<SiteCode?, bool> GenerateMultilineSiteCodesTestData()
+        {
+            var testData = new TheoryData<SiteCode?, bool>() { { null, false } };
+            foreach (SiteCode siteCode in Enum.GetValues<SiteCode>())
+            {
+                if (_multilineSiteCodes.Contains(siteCode))
+                    testData.Add(siteCode, true);
+                else
+                    testData.Add(siteCode, false);
+            }
+
+            return testData;
+        }
+
+        #endregion
+
         #region Sort Category
 
         /// <summary>
