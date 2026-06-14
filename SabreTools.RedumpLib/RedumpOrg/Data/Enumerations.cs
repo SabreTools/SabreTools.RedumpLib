@@ -505,18 +505,6 @@ namespace SabreTools.RedumpLib.RedumpOrg.Data
     }
 
     /// <summary>
-    /// List of all recognized sort directions
-    /// </summary>
-    public enum SortDirection
-    {
-        [HumanReadable(LongName = "Ascending", ShortName = "asc")]
-        Ascending,
-
-        [HumanReadable(LongName = "Descending", ShortName = "desc")]
-        Descending,
-    }
-
-    /// <summary>
     /// Generic yes/no values
     /// </summary>
     public enum YesNo

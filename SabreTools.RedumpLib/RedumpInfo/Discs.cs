@@ -37,7 +37,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             string? quicksearch = null,
             Region? region = null,
             RedumpOrg.Data.SortCategory? sort = null,
-            RedumpOrg.Data.SortDirection? sortDir = null,
+            SortDirection? sortDir = null,
             DumpStatus? status = null,
             PhysicalSystem? system = null,
             int limit = -1,
@@ -162,7 +162,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             string? quicksearch = null,
             Region? region = null,
             RedumpOrg.Data.SortCategory? sort = null,
-            RedumpOrg.Data.SortDirection? sortDir = null,
+            SortDirection? sortDir = null,
             DumpStatus? status = null,
             PhysicalSystem? system = null,
             int limit = -1)

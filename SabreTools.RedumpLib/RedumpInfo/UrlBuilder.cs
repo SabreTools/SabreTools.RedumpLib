@@ -145,7 +145,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             string? quicksearch = null,
             Region? region = null,
             RedumpOrg.Data.SortCategory? sort = null,
-            RedumpOrg.Data.SortDirection? sortDir = null,
+            SortDirection? sortDir = null,
             DumpStatus? status = null,
             PhysicalSystem? system = null,
             int? page = null)
@@ -199,8 +199,8 @@ namespace SabreTools.RedumpLib.RedumpInfo
             // Sort Direction
             switch (sortDir)
             {
-                case RedumpOrg.Data.SortDirection.Ascending:
-                case RedumpOrg.Data.SortDirection.Descending:
+                case SortDirection.Ascending:
+                case SortDirection.Descending:
                     sb.Append($"order={sortDir.ShortName()}&");
                     break;
 
