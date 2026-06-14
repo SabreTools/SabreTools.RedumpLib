@@ -45,6 +45,7 @@ namespace SabreTools.RedumpLib.RedumpOrg.Data
         /// </summary>
         /// <param name="system">RedumpSystem value to check</param>
         /// <returns>MediaTypes, if possible</returns>
+        /// TODO: Port a version of this after verifying what the current lists are
         public static List<MediaType?> MediaTypes(this RedumpSystem? system)
         {
             var types = new List<MediaType?>();

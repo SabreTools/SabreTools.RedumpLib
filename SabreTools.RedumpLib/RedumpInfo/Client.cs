@@ -405,7 +405,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             RedumpOrg.Data.SortCategory? sort = null,
             RedumpOrg.Data.SortDirection? sortDir = null,
             DumpStatus? status = null,
-            RedumpOrg.Data.RedumpSystem? system = null,
+            RedumpSystem? system = null,
             int? page = null)
         {
             // Normalize the search query, if needed
@@ -500,7 +500,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             RedumpOrg.Data.SortCategory? sort = null,
             RedumpOrg.Data.SortDirection? sortDir = null,
             DumpStatus? status = null,
-            RedumpOrg.Data.RedumpSystem? system = null,
+            RedumpSystem? system = null,
             int? page = null,
             DiscSubpath[]? discSubpaths = null)
         {
@@ -667,7 +667,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="packType">Pack type to use to determine the download URL</param>
         /// <param name="system">System to download packs for</param>
         /// <returns>Byte array containing the downloaded pack, null on error</returns>
-        public async Task<byte[]?> DownloadSinglePack(RedumpOrg.Data.PackType packType, RedumpOrg.Data.RedumpSystem? system)
+        public async Task<byte[]?> DownloadSinglePack(RedumpOrg.Data.PackType packType, RedumpSystem? system)
         {
             try
             {
@@ -719,7 +719,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="packType">Pack type to use to determine the download URL</param>
         /// <param name="system">System to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
-        public async Task<bool> DownloadSinglePack(RedumpOrg.Data.PackType packType, RedumpOrg.Data.RedumpSystem? system, string? outDir)
+        public async Task<bool> DownloadSinglePack(RedumpOrg.Data.PackType packType, RedumpSystem? system, string? outDir)
         {
             try
             {
@@ -787,7 +787,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="system">System to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
-        public async Task<bool> DownloadSinglePack(RedumpOrg.Data.PackType packType, RedumpOrg.Data.RedumpSystem? system, string? outDir, string? subfolder)
+        public async Task<bool> DownloadSinglePack(RedumpOrg.Data.PackType packType, RedumpSystem? system, string? outDir, string? subfolder)
         {
             try
             {
@@ -1206,7 +1206,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// </summary>
         /// <param name="packType">Pack type to use to determine the download URL</param>
         /// <param name="system">Systems to download packs for</param>
-        public async Task<Dictionary<RedumpOrg.Data.RedumpSystem, byte[]>> DownloadPacks(RedumpOrg.Data.PackType packType, RedumpOrg.Data.RedumpSystem[] systems)
+        public async Task<Dictionary<RedumpSystem, byte[]>> DownloadPacks(RedumpOrg.Data.PackType packType, RedumpSystem[] systems)
         {
             // Determine if the pack type is valid
             if (!Enum.IsDefined(typeof(RedumpOrg.Data.PackType), packType))
@@ -1215,7 +1215,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
                 return [];
             }
 
-            var packsDictionary = new Dictionary<RedumpOrg.Data.RedumpSystem, byte[]>();
+            var packsDictionary = new Dictionary<RedumpSystem, byte[]>();
             foreach (var system in systems)
             {
                 string longName = system.LongName() ?? $"UNKNOWN_{system}";
@@ -1245,7 +1245,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="packType">Pack type to use to determine the download URL</param>
         /// <param name="systems">Systems to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
-        public async Task<bool> DownloadPacks(RedumpOrg.Data.PackType packType, RedumpOrg.Data.RedumpSystem[] systems, string? outDir)
+        public async Task<bool> DownloadPacks(RedumpOrg.Data.PackType packType, RedumpSystem[] systems, string? outDir)
         {
             // Determine if the pack type is valid
             if (!Enum.IsDefined(typeof(RedumpOrg.Data.PackType), packType))
@@ -1281,7 +1281,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="systems">Systems to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
-        public async Task<bool> DownloadPacks(RedumpOrg.Data.PackType packType, RedumpOrg.Data.RedumpSystem[] systems, string? outDir, string? subfolder)
+        public async Task<bool> DownloadPacks(RedumpOrg.Data.PackType packType, RedumpSystem[] systems, string? outDir, string? subfolder)
         {
             // Determine if the pack type is valid
             if (!Enum.IsDefined(typeof(RedumpOrg.Data.PackType), packType))
@@ -1398,16 +1398,16 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="packType">Pack type to use to determine the support status</param>
         /// <param name="system">Systems to determine pack availability for</param>
         /// <returns>True if the pack is available for a system, false otherwise</returns>
-        private static bool PackTypeToAvailable(RedumpOrg.Data.PackType packType, RedumpOrg.Data.RedumpSystem system)
+        private static bool PackTypeToAvailable(RedumpOrg.Data.PackType packType, RedumpSystem system)
         {
             return packType switch
             {
                 RedumpOrg.Data.PackType.Cuesheets => system.HasCues(),
                 RedumpOrg.Data.PackType.Datfile => system.HasDat(),
-                RedumpOrg.Data.PackType.DecryptedKeys => system.HasDkeys(),
-                RedumpOrg.Data.PackType.Gdis => system.HasGdi(),
+                RedumpOrg.Data.PackType.DecryptedKeys => false,
+                RedumpOrg.Data.PackType.Gdis => false,
                 RedumpOrg.Data.PackType.Keys => system.HasKeys(),
-                RedumpOrg.Data.PackType.Lsds => system.HasLsd(),
+                RedumpOrg.Data.PackType.Lsds => false,
                 RedumpOrg.Data.PackType.Sbis => system.HasSbi(),
                 _ => false,
             };

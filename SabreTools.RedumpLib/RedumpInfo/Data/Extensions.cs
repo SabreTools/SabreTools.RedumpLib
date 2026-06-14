@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using SabreTools.RedumpLib.Attributes;
 using MediaTypeCombined = SabreTools.RedumpLib.RedumpOrg.Data.MediaType;
 using MediaTypeInfo = SabreTools.RedumpLib.RedumpInfo.Data.MediaType;
@@ -360,6 +361,315 @@ namespace SabreTools.RedumpLib.RedumpInfo.Data
 
                 _ => null,
             };
+        }
+
+        #endregion
+
+        #region System
+
+        /// <summary>
+        /// Determine if a system is okay if it's not detected by Windows
+        /// </summary>
+        /// <param name="system">RedumpSystem value to check</param>
+        /// <returns>True if Windows show see a disc when dumping, false otherwise</returns>
+        public static bool DetectedByWindows(this RedumpSystem? system)
+        {
+#pragma warning disable IDE0072 // Add missing cases
+            return system switch
+            {
+                // BIOS Sets
+                RedumpSystem.MicrosoftXboxBIOS
+                    or RedumpSystem.NintendoGameCubeBIOS
+                    or RedumpSystem.SonyPlayStationBIOS
+                    or RedumpSystem.SonyPlayStation2BIOS => false,
+
+                // Disc-Based Consoles
+                RedumpSystem.AtariJaguarCDInteractiveMultimediaSystem
+                    or RedumpSystem.BandaiPlaydiaQuickInteractiveSystem
+                    or RedumpSystem.BandaiPippin
+                    or RedumpSystem.HasbroVideoNow
+                    or RedumpSystem.HasbroVideoNowColor
+                    or RedumpSystem.HasbroVideoNowJr
+                    or RedumpSystem.HasbroVideoNowXP
+                    or RedumpSystem.NintendoGameCube
+                    or RedumpSystem.NintendoWii
+                    or RedumpSystem.NintendoWiiU
+                    or RedumpSystem.Panasonic3DOInteractiveMultiplayer
+                    or RedumpSystem.PhilipsCDi
+                    or RedumpSystem.PioneerLaserActive
+                    or RedumpSystem.MarkerDiscBasedConsoleEnd => false,
+
+                // Computers
+                RedumpSystem.AppleMacintosh
+                    or RedumpSystem.MarkerComputerEnd => false,
+
+                // Arcade
+                RedumpSystem.AmericanLaserGames3DO
+                    or RedumpSystem.Atari3DO
+                    or RedumpSystem.NewJatreCDi
+                    or RedumpSystem.PanasonicM2
+                    or RedumpSystem.MarkerArcadeEnd => false,
+
+                // Other
+                RedumpSystem.PlayStationGameSharkUpdates
+                    or RedumpSystem.SuperAudioCD
+                    or RedumpSystem.MarkerOtherEnd => false,
+
+                null => false,
+                _ => true,
+            };
+#pragma warning restore IDE0072 // Add missing cases
+        }
+
+        /// <summary>
+        /// Determine if a system has reversed ringcodes
+        /// </summary>
+        /// <param name="system">RedumpSystem value to check</param>
+        /// <returns>True if the system has reversed ringcodes, false otherwise</returns>
+        public static bool HasReversedRingcodes(this RedumpSystem? system)
+        {
+#pragma warning disable IDE0072 // Add missing cases
+            return system switch
+            {
+                RedumpSystem.SonyPlayStation2
+                    or RedumpSystem.SonyPlayStation3
+                    or RedumpSystem.SonyPlayStation4
+                    or RedumpSystem.SonyPlayStation5
+                    or RedumpSystem.SonyPlayStationPortable => true,
+                _ => false,
+            };
+#pragma warning restore IDE0072 // Add missing cases
+        }
+
+        /// <summary>
+        /// Determine if a system is considered audio-only
+        /// </summary>
+        /// <param name="system">RedumpSystem value to check</param>
+        /// <returns>True if the system is audio-only, false otherwise</returns>
+        /// <remarks>
+        /// Philips CD-i should NOT be in this list. It's being included until there's a
+        /// reasonable distinction between CD-i and CD-i ready on the database side.
+        /// </remarks>
+        public static bool IsAudio(this RedumpSystem? system)
+        {
+#pragma warning disable IDE0072 // Add missing cases
+            return system switch
+            {
+                RedumpSystem.AtariJaguarCDInteractiveMultimediaSystem
+                    or RedumpSystem.AudioCD
+                    or RedumpSystem.DVDAudio
+                    or RedumpSystem.HasbroiONEducationalGamingSystem
+                    or RedumpSystem.HasbroVideoNow
+                    or RedumpSystem.HasbroVideoNowColor
+                    or RedumpSystem.HasbroVideoNowJr
+                    or RedumpSystem.HasbroVideoNowXP
+                    or RedumpSystem.PhilipsCDi
+                    or RedumpSystem.PlayStationGameSharkUpdates
+                    or RedumpSystem.SuperAudioCD => true,
+                _ => false,
+            };
+#pragma warning restore IDE0072 // Add missing cases
+        }
+
+        /// <summary>
+        /// Determine if a system is a marker value
+        /// </summary>
+        /// <param name="system">RedumpSystem value to check</param>
+        /// <returns>True if the system is a marker value, false otherwise</returns>
+        public static bool IsMarker(this RedumpSystem system)
+            => ((RedumpSystem?)system).IsMarker();
+
+        /// <summary>
+        /// Determine if a system is a marker value
+        /// </summary>
+        /// <param name="system">RedumpSystem value to check</param>
+        /// <returns>True if the system is a marker value, false otherwise</returns>
+        public static bool IsMarker(this RedumpSystem? system)
+        {
+#pragma warning disable IDE0072 // Add missing cases
+            return system switch
+            {
+                RedumpSystem.MarkerArcadeEnd
+                    or RedumpSystem.MarkerComputerEnd
+                    or RedumpSystem.MarkerDiscBasedConsoleEnd
+                    or RedumpSystem.MarkerOtherEnd => true,
+                _ => false,
+            };
+#pragma warning restore IDE0072 // Add missing cases
+        }
+
+        /// <summary>
+        /// Determine if a system is considered XGD
+        /// </summary>
+        /// <param name="system">RedumpSystem value to check</param>
+        /// <returns>True if the system is XGD, false otherwise</returns>
+        public static bool IsXGD(this RedumpSystem? system)
+        {
+#pragma warning disable IDE0072 // Add missing cases
+            return system switch
+            {
+                RedumpSystem.MicrosoftXbox
+                    or RedumpSystem.MicrosoftXbox360
+                    or RedumpSystem.MicrosoftXboxOne
+                    or RedumpSystem.MicrosoftXboxSeriesXS => true,
+                _ => false,
+            };
+#pragma warning restore IDE0072 // Add missing cases
+        }
+
+        /// <summary>
+        /// List all systems with their short usable names
+        /// </summary>
+        public static List<string> ListSystems()
+        {
+            var systems = (RedumpSystem[])Enum.GetValues(typeof(RedumpSystem));
+            var knownSystems = Array.FindAll(systems, s => !s.IsMarker() && s.GetCategory() != SystemCategory.NONE);
+            Array.Sort(knownSystems, (x, y) => (x.LongName() ?? string.Empty).CompareTo(y.LongName() ?? string.Empty));
+            return [.. Array.ConvertAll(knownSystems, val => $"{val.ShortName()} - {val.LongName()}")];
+        }
+
+        /// <summary>
+        /// Get the Redump longnames for each known system
+        /// </summary>
+        /// <param name="system"></param>
+        /// <returns></returns>
+        public static string? LongName(this RedumpSystem system)
+            => AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system)?.LongName;
+
+        /// <summary>
+        /// Get the Redump longnames for each known system
+        /// </summary>
+        /// <param name="system"></param>
+        /// <returns></returns>
+        public static string? LongName(this RedumpSystem? system)
+            => AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system)?.LongName;
+
+        /// <summary>
+        /// Get the Redump shortnames for each known system
+        /// </summary>
+        /// <param name="system"></param>
+        /// <returns></returns>
+        public static string? ShortName(this RedumpSystem system)
+            => AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system)?.ShortName;
+
+        /// <summary>
+        /// Get the Redump shortnames for each known system
+        /// </summary>
+        /// <param name="system"></param>
+        /// <returns></returns>
+        public static string? ShortName(this RedumpSystem? system)
+            => AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system)?.ShortName;
+
+        /// <summary>
+        /// Determine the category of a system
+        /// </summary>
+        public static SystemCategory GetCategory(this RedumpSystem system)
+            => ((RedumpSystem?)system).GetCategory();
+
+        /// <summary>
+        /// Determine the category of a system
+        /// </summary>
+        public static SystemCategory GetCategory(this RedumpSystem? system)
+            => (AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.Category ?? SystemCategory.NONE;
+
+        /// <summary>
+        /// Determine if a system is available in Redump yet
+        /// </summary>
+        public static bool IsAvailable(this RedumpSystem system)
+            => (AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.Available ?? false;
+
+        /// <summary>
+        /// Determine if a system is available in Redump yet
+        /// </summary>
+        public static bool IsAvailable(this RedumpSystem? system)
+            => (AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.Available ?? false;
+
+        /// <summary>
+        /// Determine if a system is restricted to dumpers
+        /// </summary>
+        public static bool IsBanned(this RedumpSystem system)
+            => (AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.IsBanned ?? false;
+
+        /// <summary>
+        /// Determine if a system is restricted to dumpers
+        /// </summary>
+        public static bool IsBanned(this RedumpSystem? system)
+            => (AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.IsBanned ?? false;
+
+        /// <summary>
+        /// Determine if a system has a CUE pack
+        /// </summary>
+        public static bool HasCues(this RedumpSystem system)
+            => (AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasCues ?? false;
+
+        /// <summary>
+        /// Determine if a system has a CUE pack
+        /// </summary>
+        public static bool HasCues(this RedumpSystem? system)
+            => (AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasCues ?? false;
+
+        /// <summary>
+        /// Determine if a system has a DAT
+        /// </summary>
+        public static bool HasDat(this RedumpSystem system)
+            => (AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasDat ?? false;
+
+        /// <summary>
+        /// Determine if a system has a DAT
+        /// </summary>
+        public static bool HasDat(this RedumpSystem? system)
+            => (AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasDat ?? false;
+
+        /// <summary>
+        /// Determine if a system has a keys pack
+        /// </summary>
+        public static bool HasKeys(this RedumpSystem system)
+            => (AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasKeys ?? false;
+
+        /// <summary>
+        /// Determine if a system has a keys pack
+        /// </summary>
+        public static bool HasKeys(this RedumpSystem? system)
+            => (AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasKeys ?? false;
+
+        /// <summary>
+        /// Determine if a system has an SBI pack
+        /// </summary>
+        public static bool HasSbi(this RedumpSystem system)
+            => (AttributeHelper<RedumpSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasSbi ?? false;
+
+        /// <summary>
+        /// Determine if a system has an SBI pack
+        /// </summary>
+        public static bool HasSbi(this RedumpSystem? system)
+            => (AttributeHelper<RedumpSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasSbi ?? false;
+
+        /// <summary>
+        /// Get the RedumpSystem enum value for a given string
+        /// </summary>
+        /// <param name="system">String value to convert</param>
+        /// <returns>RedumpSystem represented by the string, if possible</returns>
+        public static RedumpSystem? ToRedumpSystem(this string? system)
+        {
+            // No value means no match
+            if (system is null || system.Length == 0)
+                return null;
+
+            system = system.ToLowerInvariant();
+            var redumpSystems = (RedumpSystem[])Enum.GetValues(typeof(RedumpSystem));
+
+            // Check short names
+            int index = Array.FindIndex(redumpSystems, s => system == s.ShortName()?.ToLowerInvariant());
+            if (index > -1)
+                return redumpSystems[index];
+
+            // Check long names
+            index = Array.FindIndex(redumpSystems, s => system == s.LongName()?.ToLowerInvariant()
+                || system == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return redumpSystems[index];
+
+            return null;
         }
 
         #endregion
