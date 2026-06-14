@@ -53,6 +53,18 @@ namespace SabreTools.RedumpLib.Test.RedumpInfo
         ];
 
         /// <summary>
+        /// Check that every supported system has some set of MediaTypes supported
+        /// </summary>
+        /// <param name="redumpSystem">RedumpSystem value to check</param>
+        [Theory]
+        [MemberData(nameof(GenerateRedumpSystemMappingTestData))]
+        public void MediaTypesTest(RedumpSystem? redumpSystem)
+        {
+            var actual = redumpSystem.MediaTypes();
+            Assert.NotEmpty(actual);
+        }
+
+        /// <summary>
         /// Check that both mappable and unmappable media types output correctly
         /// </summary>
         /// <param name="mediaType">MediaType value to check</param>
@@ -76,6 +88,21 @@ namespace SabreTools.RedumpLib.Test.RedumpInfo
         {
             PhysicalMediaType? actual = discType.ToPhysicalMediaType();
             Assert.Equal(expectNull, actual is null);
+        }
+
+        /// <summary>
+        /// Generate a test set of RedumpSystem values
+        /// </summary>
+        /// <returns>MemberData-compatible list of RedumpSystem values</returns>
+        public static TheoryData<RedumpSystem?> GenerateRedumpSystemMappingTestData()
+        {
+            var testData = new TheoryData<RedumpSystem?>() { null };
+            foreach (RedumpSystem? redumpSystem in Enum.GetValues<RedumpSystem>().Cast<RedumpSystem?>())
+            {
+                testData.Add(redumpSystem);
+            }
+
+            return testData;
         }
 
         /// <summary>
