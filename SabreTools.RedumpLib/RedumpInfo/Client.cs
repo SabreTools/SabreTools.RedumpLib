@@ -1097,9 +1097,9 @@ namespace SabreTools.RedumpLib.RedumpInfo
         }
 
         /// <summary>
-        /// Download an individual WIP ID data, if possible
+        /// Download an individual queue disc ID data, if possible
         /// </summary>
-        /// <param name="id">Redump WIP disc ID to retrieve</param>
+        /// <param name="id">Redump queue disc ID to retrieve</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
