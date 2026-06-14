@@ -114,7 +114,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="language"></param>
         /// <returns></returns>
         public static string? ThreeLetterCode(this Language language)
-            => (AttributeHelper<Language>.GetHumanReadableAttribute(language) as LanguageAttribute)?.ThreeLetterCode;
+            => (AttributeHelper<Language>.GetHumanReadableAttribute(language) as LanguageCodeAttribute)?.ThreeLetterCode;
 
         /// <summary>
         /// Get the ISO 639-2 code for each known language
@@ -122,7 +122,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="language"></param>
         /// <returns></returns>
         public static string? ThreeLetterCode(this Language? language)
-            => (AttributeHelper<Language?>.GetHumanReadableAttribute(language) as LanguageAttribute)?.ThreeLetterCode;
+            => (AttributeHelper<Language?>.GetHumanReadableAttribute(language) as LanguageCodeAttribute)?.ThreeLetterCode;
 
         /// <summary>
         /// Get the ISO 639-2 alternate code for each known language
@@ -130,7 +130,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="language"></param>
         /// <returns></returns>
         public static string? ThreeLetterCodeAlt(this Language language)
-            => (AttributeHelper<Language>.GetHumanReadableAttribute(language) as LanguageAttribute)?.ThreeLetterCodeAlt;
+            => (AttributeHelper<Language>.GetHumanReadableAttribute(language) as LanguageCodeAttribute)?.ThreeLetterCodeAlt;
 
         /// <summary>
         /// Get the ISO 639-2 alternate code for each known language
@@ -138,7 +138,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="language"></param>
         /// <returns></returns>
         public static string? ThreeLetterCodeAlt(this Language? language)
-            => (AttributeHelper<Language?>.GetHumanReadableAttribute(language) as LanguageAttribute)?.ThreeLetterCodeAlt;
+            => (AttributeHelper<Language?>.GetHumanReadableAttribute(language) as LanguageCodeAttribute)?.ThreeLetterCodeAlt;
 
         /// <summary>
         /// Get the ISO 639-1 code for each known language
@@ -146,7 +146,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="language"></param>
         /// <returns></returns>
         public static string? TwoLetterCode(this Language language)
-            => (AttributeHelper<Language>.GetHumanReadableAttribute(language) as LanguageAttribute)?.TwoLetterCode;
+            => (AttributeHelper<Language>.GetHumanReadableAttribute(language) as LanguageCodeAttribute)?.TwoLetterCode;
 
         /// <summary>
         /// Get the ISO 639-1 code for each known language
@@ -154,7 +154,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="language"></param>
         /// <returns></returns>
         public static string? TwoLetterCode(this Language? language)
-            => (AttributeHelper<Language?>.GetHumanReadableAttribute(language) as LanguageAttribute)?.TwoLetterCode;
+            => (AttributeHelper<Language?>.GetHumanReadableAttribute(language) as LanguageCodeAttribute)?.TwoLetterCode;
 
         #endregion
 

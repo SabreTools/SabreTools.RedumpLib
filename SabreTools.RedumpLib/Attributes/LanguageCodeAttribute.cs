@@ -6,7 +6,7 @@ namespace SabreTools.RedumpLib.Attributes
     /// <remarks>
     /// Some languages have multiple proper names. Should all be supported?
     /// </remarks>
-    public class LanguageAttribute : HumanReadableAttribute
+    public class LanguageCodeAttribute : HumanReadableAttribute
     {
         /// <summary>
         /// ISO 639-1 Code
