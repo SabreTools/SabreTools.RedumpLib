@@ -48,7 +48,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <summary>
         /// Regex matching individual disc links on a results page
         /// </summary>
-        public static readonly Regex DiscRegex = new(@"<a href=""/disc/(\d+)/"">", RegexOptions.Compiled);
+        public static readonly Regex DiscRegex = new(@"<a href=""/disc/(\d+)"">", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching the disc number or letter field on a disc page
@@ -158,12 +158,6 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// Regex matching the serial field on a disc page
         /// </summary>
         public static readonly Regex SerialRegex = new(@"<<tr><td><strong>Disc Serial</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Regex matching the SFV link on a disc page
-        /// </summary>
-        /// TODO: Determine if this has a parallel in redump.info
-        public static readonly Regex SfvRegex = new(@"/disc/(\d+)/sfv/", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching the system field on a disc page

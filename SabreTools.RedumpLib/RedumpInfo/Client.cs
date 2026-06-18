@@ -446,10 +446,10 @@ namespace SabreTools.RedumpLib.RedumpInfo
             }
 
             // If we have a single disc page already
-            if (dumpsPage.Contains("<b>Download:</b>"))
+            if (dumpsPage.Contains("<h3>Disc</h3>"))
             {
                 if (Debug) Console.WriteLine($"DEBUG: CheckSingleDiscsPage(\"{url}\") - Single disc page");
-                var value = Constants.SfvRegex.Match(dumpsPage).Groups[1].Value;
+                var value = Regex.Match(dumpsPage, pattern: @"/disc/([0-9]+)/edit").Groups[1].Value;
                 if (int.TryParse(value, out int id))
                     ids.Add(id);
 
