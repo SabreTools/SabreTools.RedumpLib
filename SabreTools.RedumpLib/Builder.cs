@@ -52,7 +52,7 @@ namespace SabreTools.RedumpLib
         /// </summary>
         /// <param name="discData">String containing the HTML disc data</param>
         /// <returns>Filled SubmissionInfo object on success, null on error</returns>
-        /// <remarks>Not currently working</remarks>
+        /// <remarks>Not currently working, based on redump.org disc data</remarks>
 #pragma warning disable IDE0051
         private static SubmissionInfo? CreateFromID(string discData)
         {
