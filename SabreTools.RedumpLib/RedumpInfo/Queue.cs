@@ -17,7 +17,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <returns>All queue disc IDs in last submitted range, empty on error</returns>
         public static async Task<List<int>> DownloadLastSubmitted(this Client client, string? outDir)
         {
-            return await client.CheckSingleWIPPage(outDir) ?? [];
+            return await client.CheckSingleQueuePage(outDir) ?? [];
         }
 
         /// <summary>

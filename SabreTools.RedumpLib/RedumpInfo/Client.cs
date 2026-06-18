@@ -434,21 +434,21 @@ namespace SabreTools.RedumpLib.RedumpInfo
             // If the web client failed, return null
             if (dumpsPage is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Client failure");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleDiscsPage(\"{url}\") - Client failure");
                 return null;
             }
 
             // If we have no dumps left
             if (dumpsPage.Contains("No discs found."))
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - No discs found");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleDiscsPage(\"{url}\") - No discs found");
                 return ids;
             }
 
             // If we have a single disc page already
             if (dumpsPage.Contains("<b>Download:</b>"))
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Single disc page");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleDiscsPage(\"{url}\") - Single disc page");
                 var value = Constants.SfvRegex.Match(dumpsPage).Groups[1].Value;
                 if (int.TryParse(value, out int id))
                     ids.Add(id);
@@ -523,7 +523,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
                 page);
             if (ids is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{outDir}\") - Client failure");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleDiscsPage(\"{outDir}\") - Client failure");
                 return null;
             }
 
@@ -550,11 +550,11 @@ namespace SabreTools.RedumpLib.RedumpInfo
         }
 
         /// <summary>
-        /// Process a Redump WIP page as a list of possible IDs or disc page
+        /// Process a Redump queue page as a list of possible IDs or disc page
         /// </summary>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
         /// <remarks>Limited to moderators and staff</remarks>
-        public async Task<List<int>?> CheckSingleWIPPage()
+        public async Task<List<int>?> CheckSingleQueuePage()
         {
             List<int> ids = [];
 
@@ -572,14 +572,14 @@ namespace SabreTools.RedumpLib.RedumpInfo
             // If the web client failed, return null
             if (dumpsPage is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage() - Client failure");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleQueuePage() - Client failure");
                 return null;
             }
 
             // If we have no dumps left
             if (dumpsPage.Contains("No discs found."))
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage() - No discs found");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleQueuePage() - No discs found");
                 return ids;
             }
 
@@ -606,18 +606,18 @@ namespace SabreTools.RedumpLib.RedumpInfo
         }
 
         /// <summary>
-        /// Process a Redump WIP page as a list of possible IDs or disc page
+        /// Process a Redump queue page as a list of possible IDs or disc page
         /// </summary>
         /// <param name="outDir">Output directory to save data to</param>
         /// <returns>List of IDs that were found on success, empty on error</returns>
         /// <remarks>Limited to moderators and staff</remarks>
-        public async Task<List<int>?> CheckSingleWIPPage(string? outDir)
+        public async Task<List<int>?> CheckSingleQueuePage(string? outDir)
         {
             // Get all IDs from the page
-            List<int>? ids = await CheckSingleWIPPage();
+            List<int>? ids = await CheckSingleQueuePage();
             if (ids is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleWIPPage(\"{outDir}\") - Client failure");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleQueuePage(\"{outDir}\") - Client failure");
                 return null;
             }
 

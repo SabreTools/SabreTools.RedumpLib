@@ -473,21 +473,21 @@ namespace SabreTools.RedumpLib.RedumpOrg
             // If the web client failed, return null
             if (dumpsPage is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Client failure");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleDiscsPage(\"{url}\") - Client failure");
                 return null;
             }
 
             // If we have no dumps left
             if (dumpsPage.Contains("No discs found."))
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - No discs found");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleDiscsPage(\"{url}\") - No discs found");
                 return ids;
             }
 
             // If we have a single disc page already
             if (dumpsPage.Contains("<b>Download:</b>"))
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{url}\") - Single disc page");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleDiscsPage(\"{url}\") - Single disc page");
                 var value = Constants.SfvRegex.Match(dumpsPage).Groups[1].Value;
                 if (int.TryParse(value, out int id))
                     ids.Add(id);
@@ -604,7 +604,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
                 page);
             if (ids is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleSitePage(\"{outDir}\") - Client failure");
+                if (Debug) Console.WriteLine($"DEBUG: CheckSingleDiscsPage(\"{outDir}\") - Client failure");
                 return null;
             }
 
