@@ -919,13 +919,13 @@ namespace SabreTools.RedumpLib.Test.Data
         [
             PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem,
             PhysicalSystem.AudioCD,
+            PhysicalSystem.DatelPlayStationCheatDeviceUpdates,
             PhysicalSystem.DVDAudio,
             PhysicalSystem.HasbroiONEducationalGamingSystem,
             PhysicalSystem.HasbroVideoNow,
             PhysicalSystem.HasbroVideoNowColor,
             PhysicalSystem.HasbroVideoNowJr,
             PhysicalSystem.HasbroVideoNowXP,
-            PhysicalSystem.PlayStationGameSharkUpdates,
             PhysicalSystem.PhilipsCDi,
             PhysicalSystem.SuperAudioCD,
         ];
@@ -944,7 +944,7 @@ namespace SabreTools.RedumpLib.Test.Data
             // Disc-Based Consoles
             PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem,
             PhysicalSystem.BandaiPlaydiaQuickInteractiveSystem,
-            PhysicalSystem.BandaiPippin,
+            PhysicalSystem.AppleBandaiPippin,
             PhysicalSystem.CommodoreAmigaCD32,
             PhysicalSystem.CommodoreAmigaCDTV,
             PhysicalSystem.HasbroVideoNow,
@@ -980,7 +980,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.ZAPiTGamesGameWaveFamilyEntertainmentSystem,
 
             // Computers
-            PhysicalSystem.AcornArchimedes,
+            PhysicalSystem.AcornArchimedesAndRiscPC,
             PhysicalSystem.AppleMacintosh,
             PhysicalSystem.CommodoreAmigaCD,
             PhysicalSystem.FujitsuFMTownsseries,
@@ -990,7 +990,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SharpX68000,
 
             // Arcade
-            PhysicalSystem.funworldPhotoPlay,
+            PhysicalSystem.FunworldPhotoPlay,
             PhysicalSystem.IncredibleTechnologiesEagle,
             PhysicalSystem.KonamieAmusement,
             PhysicalSystem.KonamiFireBeat,
@@ -1014,14 +1014,14 @@ namespace SabreTools.RedumpLib.Test.Data
             // Other
             PhysicalSystem.AudioCD,
             PhysicalSystem.BDVideo,
+            PhysicalSystem.DatelPlayStationCheatDeviceUpdates,
             PhysicalSystem.DVDVideo,
             PhysicalSystem.EnhancedCD,
             PhysicalSystem.HDDVDVideo,
-            PhysicalSystem.NavisoftNaviken21,
+            PhysicalSystem.MicrosoftPocketPC,
+            PhysicalSystem.NavisoftNaviken,
             PhysicalSystem.PalmOS,
             PhysicalSystem.PhotoCD,
-            PhysicalSystem.PlayStationGameSharkUpdates,
-            PhysicalSystem.PocketPC,
             PhysicalSystem.SegaPrologue21MultimediaKaraokeSystem,
             PhysicalSystem.TaoiKTV,
             PhysicalSystem.TomyKissSite,
@@ -1054,7 +1054,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.DVDVideo,
             PhysicalSystem.EnhancedCD,
             PhysicalSystem.HDDVDVideo,
-            PhysicalSystem.NavisoftNaviken21,
+            PhysicalSystem.NavisoftNaviken,
             PhysicalSystem.VideoCD,
         ];
 
@@ -1093,9 +1093,9 @@ namespace SabreTools.RedumpLib.Test.Data
             [PhysicalSystem.SonyPlayStation2BIOS] = SystemCategory.NONE,
 
             // Disc-Based Consoles
+            [PhysicalSystem.AppleBandaiPippin] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.BandaiPlaydiaQuickInteractiveSystem] = SystemCategory.DiscBasedConsole,
-            [PhysicalSystem.BandaiPippin] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.CommodoreAmigaCD32] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.CommodoreAmigaCDTV] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.EnvizionsEVOSmartConsole] = SystemCategory.DiscBasedConsole,
@@ -1138,7 +1138,7 @@ namespace SabreTools.RedumpLib.Test.Data
             [PhysicalSystem.MarkerDiscBasedConsoleEnd] = SystemCategory.NONE,
 
             // Computers
-            [PhysicalSystem.AcornArchimedes] = SystemCategory.Computer,
+            [PhysicalSystem.AcornArchimedesAndRiscPC] = SystemCategory.Computer,
             [PhysicalSystem.AppleMacintosh] = SystemCategory.Computer,
             [PhysicalSystem.CommodoreAmigaCD] = SystemCategory.Computer,
             [PhysicalSystem.FujitsuFMTownsseries] = SystemCategory.Computer,
@@ -1156,7 +1156,7 @@ namespace SabreTools.RedumpLib.Test.Data
             [PhysicalSystem.AUSCOMSystem1] = SystemCategory.Arcade,
             [PhysicalSystem.BallyGameMagic] = SystemCategory.Arcade,
             [PhysicalSystem.CapcomCPSystemIII] = SystemCategory.Arcade,
-            [PhysicalSystem.funworldPhotoPlay] = SystemCategory.Arcade,
+            [PhysicalSystem.FunworldPhotoPlay] = SystemCategory.Arcade,
             [PhysicalSystem.FuRyuOmronPurikura] = SystemCategory.Arcade,
             [PhysicalSystem.GlobalVRVarious] = SystemCategory.Arcade,
             [PhysicalSystem.GlobalVRVortek] = SystemCategory.Arcade,
@@ -1215,15 +1215,15 @@ namespace SabreTools.RedumpLib.Test.Data
             // Other
             [PhysicalSystem.AudioCD] = SystemCategory.Other,
             [PhysicalSystem.BDVideo] = SystemCategory.Other,
+            [PhysicalSystem.DatelPlayStationCheatDeviceUpdates] = SystemCategory.Other,
             [PhysicalSystem.DVDAudio] = SystemCategory.Other,
             [PhysicalSystem.DVDVideo] = SystemCategory.Other,
             [PhysicalSystem.EnhancedCD] = SystemCategory.Other,
             [PhysicalSystem.HDDVDVideo] = SystemCategory.Other,
-            [PhysicalSystem.NavisoftNaviken21] = SystemCategory.Other,
+            [PhysicalSystem.MicrosoftPocketPC] = SystemCategory.Other,
+            [PhysicalSystem.NavisoftNaviken] = SystemCategory.Other,
             [PhysicalSystem.PalmOS] = SystemCategory.Other,
             [PhysicalSystem.PhotoCD] = SystemCategory.Other,
-            [PhysicalSystem.PlayStationGameSharkUpdates] = SystemCategory.Other,
-            [PhysicalSystem.PocketPC] = SystemCategory.Other,
             [PhysicalSystem.Psion] = SystemCategory.Other,
             [PhysicalSystem.RainbowDisc] = SystemCategory.Other,
             [PhysicalSystem.SegaPrologue21MultimediaKaraokeSystem] = SystemCategory.Other,
@@ -1242,9 +1242,9 @@ namespace SabreTools.RedumpLib.Test.Data
         private static readonly PhysicalSystem?[] _systemsWithCues =
         [
             // Disc-Based Consoles
+            PhysicalSystem.AppleBandaiPippin,
             PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem,
             PhysicalSystem.BandaiPlaydiaQuickInteractiveSystem,
-            PhysicalSystem.BandaiPippin,
             PhysicalSystem.CommodoreAmigaCD32,
             PhysicalSystem.CommodoreAmigaCDTV,
             PhysicalSystem.HasbroVideoNow,
@@ -1270,7 +1270,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.VTechVFlashVSmilePro,
 
             // Computers
-            PhysicalSystem.AcornArchimedes,
+            PhysicalSystem.AcornArchimedesAndRiscPC,
             PhysicalSystem.AppleMacintosh,
             PhysicalSystem.CommodoreAmigaCD,
             PhysicalSystem.FujitsuFMTownsseries,
@@ -1280,7 +1280,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SharpX68000,
 
             // Arcade
-            PhysicalSystem.funworldPhotoPlay,
+            PhysicalSystem.FunworldPhotoPlay,
             PhysicalSystem.IncredibleTechnologiesEagle,
             PhysicalSystem.KonamieAmusement,
             PhysicalSystem.KonamiFireBeat,
@@ -1297,11 +1297,11 @@ namespace SabreTools.RedumpLib.Test.Data
 
             // Other
             PhysicalSystem.AudioCD,
-            PhysicalSystem.NavisoftNaviken21,
+            PhysicalSystem.DatelPlayStationCheatDeviceUpdates,
+            PhysicalSystem.MicrosoftPocketPC,
+            PhysicalSystem.NavisoftNaviken,
             PhysicalSystem.PalmOS,
             PhysicalSystem.PhotoCD,
-            PhysicalSystem.PlayStationGameSharkUpdates,
-            PhysicalSystem.PocketPC,
             PhysicalSystem.SegaPrologue21MultimediaKaraokeSystem,
             PhysicalSystem.TomyKissSite,
             PhysicalSystem.VideoCD,
@@ -1319,9 +1319,9 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SonyPlayStation2BIOS,
 
             // Disc-Based Consoles
+            PhysicalSystem.AppleBandaiPippin,
             PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem,
             PhysicalSystem.BandaiPlaydiaQuickInteractiveSystem,
-            PhysicalSystem.BandaiPippin,
             PhysicalSystem.CommodoreAmigaCD32,
             PhysicalSystem.CommodoreAmigaCDTV,
             PhysicalSystem.HasbroVideoNow,
@@ -1357,7 +1357,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.ZAPiTGamesGameWaveFamilyEntertainmentSystem,
 
             // Computers
-            PhysicalSystem.AcornArchimedes,
+            PhysicalSystem.AcornArchimedesAndRiscPC,
             PhysicalSystem.AppleMacintosh,
             PhysicalSystem.CommodoreAmigaCD,
             PhysicalSystem.FujitsuFMTownsseries,
@@ -1367,7 +1367,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SharpX68000,
 
             // Arcade
-            PhysicalSystem.funworldPhotoPlay,
+            PhysicalSystem.FunworldPhotoPlay,
             PhysicalSystem.IncredibleTechnologiesEagle,
             PhysicalSystem.KonamieAmusement,
             PhysicalSystem.KonamiFireBeat,
@@ -1388,13 +1388,13 @@ namespace SabreTools.RedumpLib.Test.Data
             // Other
             PhysicalSystem.AudioCD,
             PhysicalSystem.BDVideo,
+            PhysicalSystem.DatelPlayStationCheatDeviceUpdates,
             PhysicalSystem.DVDVideo,
             PhysicalSystem.HDDVDVideo,
-            PhysicalSystem.NavisoftNaviken21,
+            PhysicalSystem.MicrosoftPocketPC,
+            PhysicalSystem.NavisoftNaviken,
             PhysicalSystem.PalmOS,
             PhysicalSystem.PhotoCD,
-            PhysicalSystem.PlayStationGameSharkUpdates,
-            PhysicalSystem.PocketPC,
             PhysicalSystem.SegaPrologue21MultimediaKaraokeSystem,
             PhysicalSystem.TomyKissSite,
             PhysicalSystem.VideoCD,
@@ -1495,7 +1495,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.ZAPiTGamesGameWaveFamilyEntertainmentSystem,
 
             // Computers
-            PhysicalSystem.AcornArchimedes,
+            PhysicalSystem.AcornArchimedesAndRiscPC,
             PhysicalSystem.CommodoreAmigaCD,
             PhysicalSystem.FujitsuFMTownsseries,
             PhysicalSystem.IBMPCcompatible,
@@ -1509,7 +1509,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.AUSCOMSystem1,
             PhysicalSystem.BallyGameMagic,
             PhysicalSystem.CapcomCPSystemIII,
-            PhysicalSystem.funworldPhotoPlay,
+            PhysicalSystem.FunworldPhotoPlay,
             PhysicalSystem.FuRyuOmronPurikura,
             PhysicalSystem.GlobalVRVarious,
             PhysicalSystem.GlobalVRVortek,
@@ -1569,10 +1569,10 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.DVDVideo,
             PhysicalSystem.EnhancedCD,
             PhysicalSystem.HDDVDVideo,
-            PhysicalSystem.NavisoftNaviken21,
+            PhysicalSystem.MicrosoftPocketPC,
+            PhysicalSystem.NavisoftNaviken,
             PhysicalSystem.PalmOS,
             PhysicalSystem.PhotoCD,
-            PhysicalSystem.PocketPC,
             PhysicalSystem.Psion,
             PhysicalSystem.RainbowDisc,
             PhysicalSystem.SharpZaurus,

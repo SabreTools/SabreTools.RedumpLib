@@ -47,10 +47,14 @@ namespace SabreTools.RedumpLib.Data
         {
             var types = new List<PhysicalMediaType?>();
 
-#pragma warning disable IDE0010 // Add missing cases
             switch (system)
             {
                 #region Consoles
+
+                // https://en.wikipedia.org/wiki/Apple_Bandai_Pippin
+                case PhysicalSystem.AppleBandaiPippin:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
 
                 // https://en.wikipedia.org/wiki/Atari_Jaguar_CD
                 case PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem:
@@ -59,11 +63,6 @@ namespace SabreTools.RedumpLib.Data
 
                 // https://en.wikipedia.org/wiki/Playdia
                 case PhysicalSystem.BandaiPlaydiaQuickInteractiveSystem:
-                    types.Add(PhysicalMediaType.CDROM);
-                    break;
-
-                // https://en.wikipedia.org/wiki/Apple_Bandai_Pippin
-                case PhysicalSystem.BandaiPippin:
                     types.Add(PhysicalMediaType.CDROM);
                     break;
 
@@ -281,7 +280,7 @@ namespace SabreTools.RedumpLib.Data
                 #region Computers
 
                 // https://en.wikipedia.org/wiki/Acorn_Archimedes
-                case PhysicalSystem.AcornArchimedes:
+                case PhysicalSystem.AcornArchimedesAndRiscPC:
                     types.Add(PhysicalMediaType.CDROM);
                     types.Add(PhysicalMediaType.FloppyDisk);
                     break;
@@ -297,6 +296,7 @@ namespace SabreTools.RedumpLib.Data
                 // https://en.wikipedia.org/wiki/Amiga
                 case PhysicalSystem.CommodoreAmigaCD:
                     types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
                     types.Add(PhysicalMediaType.FloppyDisk);
                     break;
 
@@ -376,8 +376,9 @@ namespace SabreTools.RedumpLib.Data
                     break;
 
                 // UNKNOWN
-                case PhysicalSystem.funworldPhotoPlay:
+                case PhysicalSystem.FunworldPhotoPlay:
                     types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
                     break;
 
                 // https://en.wikipedia.org/wiki/FuRyu
@@ -703,6 +704,11 @@ namespace SabreTools.RedumpLib.Data
                     types.Add(PhysicalMediaType.BluRay);
                     break;
 
+                // UNKNOWN
+                case PhysicalSystem.DatelPlayStationCheatDeviceUpdates:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
                 // https://en.wikipedia.org/wiki/DVD-Audio
                 case PhysicalSystem.DVDAudio:
                     types.Add(PhysicalMediaType.DVD);
@@ -724,27 +730,24 @@ namespace SabreTools.RedumpLib.Data
                     break;
 
                 // UNKNOWN
-                case PhysicalSystem.NavisoftNaviken21:
+                case PhysicalSystem.MicrosoftPocketPC:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.NavisoftNaviken:
                     types.Add(PhysicalMediaType.CDROM);
                     break;
 
                 // UNKNOWN
                 case PhysicalSystem.PalmOS:
                     types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
                     break;
 
                 // https://en.wikipedia.org/wiki/Photo_CD
                 case PhysicalSystem.PhotoCD:
-                    types.Add(PhysicalMediaType.CDROM);
-                    break;
-
-                // UNKNOWN
-                case PhysicalSystem.PlayStationGameSharkUpdates:
-                    types.Add(PhysicalMediaType.CDROM);
-                    break;
-
-                // UNKNOWN
-                case PhysicalSystem.PocketPC:
                     types.Add(PhysicalMediaType.CDROM);
                     break;
 
@@ -795,11 +798,27 @@ namespace SabreTools.RedumpLib.Data
 
                 #endregion
 
+                // BIOS systems can't have a media type
+                case PhysicalSystem.MicrosoftXboxBIOS:
+                case PhysicalSystem.NintendoGameCubeBIOS:
+                case PhysicalSystem.SonyPlayStationBIOS:
+                case PhysicalSystem.SonyPlayStation2BIOS:
+                    types.Add(PhysicalMediaType.NONE);
+                    break;
+
+                // Marker systems can't have a media type
+                case PhysicalSystem.MarkerDiscBasedConsoleEnd:
+                case PhysicalSystem.MarkerComputerEnd:
+                case PhysicalSystem.MarkerArcadeEnd:
+                case PhysicalSystem.MarkerOtherEnd:
+                    types.Add(PhysicalMediaType.NONE);
+                    break;
+
+                case null:
                 default:
                     types.Add(PhysicalMediaType.NONE);
                     break;
             }
-#pragma warning restore IDE0010 // Add missing cases
 
             return types;
         }
@@ -1445,9 +1464,9 @@ namespace SabreTools.RedumpLib.Data
                     or PhysicalSystem.SonyPlayStation2BIOS => false,
 
                 // Disc-Based Consoles
-                PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem
+                PhysicalSystem.AppleBandaiPippin
+                    or PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem
                     or PhysicalSystem.BandaiPlaydiaQuickInteractiveSystem
-                    or PhysicalSystem.BandaiPippin
                     or PhysicalSystem.HasbroVideoNow
                     or PhysicalSystem.HasbroVideoNowColor
                     or PhysicalSystem.HasbroVideoNowJr
@@ -1472,7 +1491,7 @@ namespace SabreTools.RedumpLib.Data
                     or PhysicalSystem.MarkerArcadeEnd => false,
 
                 // Other
-                PhysicalSystem.PlayStationGameSharkUpdates
+                PhysicalSystem.DatelPlayStationCheatDeviceUpdates
                     or PhysicalSystem.SuperAudioCD
                     or PhysicalSystem.MarkerOtherEnd => false,
 
@@ -1518,6 +1537,7 @@ namespace SabreTools.RedumpLib.Data
             {
                 PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem
                     or PhysicalSystem.AudioCD
+                    or PhysicalSystem.DatelPlayStationCheatDeviceUpdates
                     or PhysicalSystem.DVDAudio
                     or PhysicalSystem.HasbroiONEducationalGamingSystem
                     or PhysicalSystem.HasbroVideoNow
@@ -1525,7 +1545,6 @@ namespace SabreTools.RedumpLib.Data
                     or PhysicalSystem.HasbroVideoNowJr
                     or PhysicalSystem.HasbroVideoNowXP
                     or PhysicalSystem.PhilipsCDi
-                    or PhysicalSystem.PlayStationGameSharkUpdates
                     or PhysicalSystem.SuperAudioCD => true,
                 _ => false,
             };

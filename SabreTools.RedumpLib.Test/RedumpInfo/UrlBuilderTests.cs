@@ -89,14 +89,14 @@ namespace SabreTools.RedumpLib.Test.RedumpInfo
         [InlineData(PackType.Sbis, "https://redump.info/sbi/ARCH/")]
         public void BuildPackUrl_ValidPackType_ValidSystem_Builds(PackType packType, string expected)
         {
-            string actual = UrlBuilder.BuildPackUrl(packType, PhysicalSystem.AcornArchimedes);
+            string actual = UrlBuilder.BuildPackUrl(packType, PhysicalSystem.AcornArchimedesAndRiscPC);
             Assert.Equal(expected, actual);
         }
 
         [Fact]
         public void BuildPackUrl_InvalidPackType_Throws()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => UrlBuilder.BuildPackUrl((PackType)int.MaxValue, PhysicalSystem.AcornArchimedes));
+            Assert.Throws<ArgumentOutOfRangeException>(() => UrlBuilder.BuildPackUrl((PackType)int.MaxValue, PhysicalSystem.AcornArchimedesAndRiscPC));
         }
 
         [Fact]

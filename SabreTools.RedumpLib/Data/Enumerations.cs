@@ -2019,11 +2019,11 @@ namespace SabreTools.RedumpLib.Data
 
         #region Disc-Based Consoles
 
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Apple/Bandai Pippin", ShortName = "PIPPIN", RedumpOrgCode = "pippin", HasCues = true, HasDat = true)]
+        AppleBandaiPippin,
+
         [System(Category = SystemCategory.DiscBasedConsole, LongName = "Atari Jaguar CD Interactive Multimedia System", ShortName = "AJCD", RedumpOrgCode = "ajcd", HasCues = true, HasDat = true)]
         AtariJaguarCDInteractiveMultimediaSystem,
-
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Bandai Pippin", ShortName = "PIPPIN", RedumpOrgCode = "pippin", HasCues = true, HasDat = true)]
-        BandaiPippin,
 
         [System(Category = SystemCategory.DiscBasedConsole, LongName = "Bandai Playdia Quick Interactive System", RedumpOrgCode = "qis", ShortName = "QIS", HasCues = true, HasDat = true)]
         BandaiPlaydiaQuickInteractiveSystem,
@@ -2305,8 +2305,8 @@ namespace SabreTools.RedumpLib.Data
 
         #region Computers
 
-        [System(Category = SystemCategory.Computer, LongName = "Acorn Archimedes", ShortName = "ARCH", RedumpOrgCode = "arch", HasCues = true, HasDat = true)]
-        AcornArchimedes,
+        [System(Category = SystemCategory.Computer, LongName = "Acorn Archimedes & Risc PC", ShortName = "ARCH", RedumpOrgCode = "arch", HasCues = true, HasDat = true)]
+        AcornArchimedesAndRiscPC,
 
         [System(Category = SystemCategory.Computer, LongName = "Apple Macintosh", ShortName = "MAC", RedumpOrgCode = "mac", HasCues = true, HasDat = true, HasLsd = true, HasSbi = true)]
         AppleMacintosh,
@@ -2357,8 +2357,8 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Capcom CP System III")]
         CapcomCPSystemIII,
 
-        [System(Category = SystemCategory.Arcade, LongName = "funworld Photo Play", ShortName = "FPP", RedumpOrgCode = "fpp", HasCues = true, HasDat = true)]
-        funworldPhotoPlay,
+        [System(Category = SystemCategory.Arcade, LongName = "Funworld Photo Play", ShortName = "FPP", RedumpOrgCode = "fpp", HasCues = true, HasDat = true)]
+        FunworldPhotoPlay,
 
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "FuRyu & Omron Purikura")]
         FuRyuOmronPurikura,
@@ -2532,6 +2532,9 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Other, LongName = "BD-Video", ShortName = "BD-VIDEO", RedumpOrgCode = "bd-video", IsBanned = true, HasDat = true)]
         BDVideo,
 
+        [System(Category = SystemCategory.Other, LongName = "Datel PlayStation Cheat Device Updates", ShortName = "PSXGS", RedumpOrgCode = "psxgs", HasCues = true, HasDat = true)]
+        DatelPlayStationCheatDeviceUpdates,
+
         [System(Category = SystemCategory.Other, Available = false, LongName = "DVD-Audio")]
         DVDAudio,
 
@@ -2545,7 +2548,7 @@ namespace SabreTools.RedumpLib.Data
         HDDVDVideo,
 
         [System(Category = SystemCategory.Other, LongName = "Navisoft Naviken", ShortName = "NAVI", RedumpOrgCode = "navi21", IsBanned = true, HasCues = true, HasDat = true)]
-        NavisoftNaviken21,
+        NavisoftNaviken,
 
         [System(Category = SystemCategory.Other, LongName = "Palm OS", ShortName = "PALM", RedumpOrgCode = "palm", HasCues = true, HasDat = true)]
         PalmOS,
@@ -2553,11 +2556,8 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Other, LongName = "Photo CD", ShortName = "PHOTO-CD", RedumpOrgCode = "photo-cd", HasCues = true, HasDat = true)]
         PhotoCD,
 
-        [System(Category = SystemCategory.Other, LongName = "PlayStation GameShark Updates", ShortName = "PSXGS", RedumpOrgCode = "psxgs", HasCues = true, HasDat = true)]
-        PlayStationGameSharkUpdates,
-
-        [System(Category = SystemCategory.Other, LongName = "Pocket PC", ShortName = "PPC", RedumpOrgCode = "ppc", HasCues = true, HasDat = true)]
-        PocketPC,
+        [System(Category = SystemCategory.Other, LongName = "Microsoft Pocket PC", ShortName = "PPC", RedumpOrgCode = "ppc", HasCues = true, HasDat = true)]
+        MicrosoftPocketPC,
 
         [System(Category = SystemCategory.Other, Available = false, LongName = "Psion")]
         Psion,
