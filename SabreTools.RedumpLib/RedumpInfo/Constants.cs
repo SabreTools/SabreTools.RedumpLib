@@ -182,12 +182,6 @@ namespace SabreTools.RedumpLib.RedumpInfo
         public static readonly Regex TrackRegex = new(@"<tr><td>(?<number>.*?)</td><td>(?<type>.*?)</td><td>(?<pregap>.*?)</td><td>(?<length>.*?)</td><td>(?<sectors>.*?)</td><td>(?<size>.*?)</td><td>(?<crc32>.*?)</td><td>(?<md5>.*?)</td><td>(?<sha1>.*?)</td></tr>", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
-        /// Regex matching the track count on a disc page
-        /// </summary>
-        /// TODO: There doesn't seem to be a track count anymore
-        public static readonly Regex TrackCountRegex = new(@"<tr><th>Number of tracks</th><td>(.*?)</td></tr>", RegexOptions.Compiled);
-
-        /// <summary>
         /// Regex matching the version field on a disc page
         /// </summary>
         public static readonly Regex VersionRegex = new(@"<tr><td><strong>Version</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
