@@ -162,7 +162,7 @@ namespace SabreTools.RedumpLib
         public static async Task<bool> ValidateTrackCount(Client client, int id, int localCount)
         {
             // If we can't pull the remote data, we can't match
-            string? discData = await client.DownloadSingleSiteID(id);
+            string? discData = await client.DownloadSingleDiscPage(id);
             if (string.IsNullOrEmpty(discData))
                 return false;
 

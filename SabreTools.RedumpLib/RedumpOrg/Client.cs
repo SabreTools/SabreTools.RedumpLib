@@ -614,7 +614,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             {
                 try
                 {
-                    bool downloaded = await DownloadSingleSiteID(id, outDir, rename: false, discSubpaths);
+                    bool downloaded = await DownloadSingleDiscPage(id, outDir, rename: false, discSubpaths);
                     if (!downloaded && !IgnoreErrors)
                         return processed;
 
@@ -1016,12 +1016,12 @@ namespace SabreTools.RedumpLib.RedumpOrg
         }
 
         /// <summary>
-        /// Download an individual site ID page, if possible
+        /// Download an individual disc ID page, if possible
         /// </summary>
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
         /// <remarks>This only includes the site page itself</remarks>
-        public async Task<string?> DownloadSingleSiteID(int id)
+        public async Task<string?> DownloadSingleDiscPage(int id)
         {
             string paddedId = id.ToString().PadLeft(6, '0');
             Console.WriteLine($"Processing ID: {paddedId}");
@@ -1053,7 +1053,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         }
 
         /// <summary>
-        /// Download an individual site ID data, if possible
+        /// Download an individual disc ID data, if possible
         /// </summary>
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <param name="outDir">Output directory to save data to</param>
@@ -1061,7 +1061,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
         /// <param name="discSubpaths">Set of subpaths to download if available, null for all</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
         /// <remarks>This includes all subpages and attached files</remarks>
-        public async Task<bool> DownloadSingleSiteID(int id,
+        public async Task<bool> DownloadSingleDiscPage(int id,
             string? outDir,
             bool rename,
             DiscSubpath[]? discSubpaths = null)

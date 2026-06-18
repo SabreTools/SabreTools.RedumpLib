@@ -265,6 +265,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
 
             sb.Append(SiteBaseUrl);
 
+            // TODO: Handle BIOS DAT links somehow
             string systemName = system.ShortName() ?? string.Empty;
             switch (packType)
             {
