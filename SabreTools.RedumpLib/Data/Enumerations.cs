@@ -2094,7 +2094,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.DiscBasedConsole, LongName = "Nintendo Wii U", ShortName = "WIIU", RedumpOrgCode = "wiiu", IsBanned = true, HasDat = true, HasKeys = true)]
         NintendoWiiU,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Panasonic 3DO Interactive Multiplayer", ShortName = "3DO", RedumpOrgCode = "3do", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "3DO Interactive Multiplayer", ShortName = "3DO", RedumpOrgCode = "3do", HasCues = true, HasDat = true)]
         Panasonic3DOInteractiveMultiplayer,
 
         [System(Category = SystemCategory.DiscBasedConsole, LongName = "Philips CD-i", ShortName = "CDI", RedumpOrgCode = "cdi", HasCues = true, HasDat = true)]
@@ -2544,7 +2544,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Other, LongName = "HD DVD-Video", ShortName = "HDDVD-VIDEO", RedumpOrgCode = "hddvd-video", IsBanned = true, HasDat = true)]
         HDDVDVideo,
 
-        [System(Category = SystemCategory.Other, LongName = "Navisoft Naviken 2.1", ShortName = "NAVI21", RedumpOrgCode = "navi21", IsBanned = true, HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Other, LongName = "Navisoft Naviken", ShortName = "NAVI", RedumpOrgCode = "navi21", IsBanned = true, HasCues = true, HasDat = true)]
         NavisoftNaviken21,
 
         [System(Category = SystemCategory.Other, LongName = "Palm OS", ShortName = "PALM", RedumpOrgCode = "palm", HasCues = true, HasDat = true)]
