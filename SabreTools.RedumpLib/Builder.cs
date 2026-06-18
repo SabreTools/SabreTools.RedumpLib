@@ -11,7 +11,6 @@ using System.Xml;
 using Newtonsoft.Json;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Data.Sections;
-using SabreTools.RedumpLib.RedumpOrg;
 
 namespace SabreTools.RedumpLib
 {
@@ -254,14 +253,14 @@ namespace SabreTools.RedumpLib
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <param name="includeAllData">True to include all pullable information, false to do bare minimum</param>
-        public static async Task<bool> FillFromId(Client client, SubmissionInfo info, int id, bool includeAllData)
+        public static async Task<bool> FillFromId(RedumpOrg.Client client, SubmissionInfo info, int id, bool includeAllData)
         {
             var discData = await client.DownloadSingleDiscPage(id);
             if (string.IsNullOrEmpty(discData))
                 return false;
 
             // Title, Disc Number/Letter, Disc Title
-            var match = Constants.TitleRegex.Match(discData);
+            var match = RedumpOrg.Constants.TitleRegex.Match(discData);
             if (match.Success)
             {
                 string? title = WebUtility.HtmlDecode(match.Groups[1].Value);
@@ -275,7 +274,7 @@ namespace SabreTools.RedumpLib
 #else
                     info.CommonDiscInfo!.Title = title.Substring(0, firstParenLocation);
 #endif
-                    var submatches = Constants.DiscNumberLetterRegex.Matches(title);
+                    var submatches = RedumpOrg.Constants.DiscNumberLetterRegex.Matches(title);
                     foreach (Match? submatch in submatches)
                     {
                         if (submatch is null)
@@ -308,12 +307,12 @@ namespace SabreTools.RedumpLib
             }
 
             // Foreign Title
-            match = Constants.ForeignTitleRegex.Match(discData);
+            match = RedumpOrg.Constants.ForeignTitleRegex.Match(discData);
             if (match.Success)
                 info.CommonDiscInfo!.ForeignTitleNonLatin = WebUtility.HtmlDecode(match.Groups[1].Value);
 
             // Category
-            match = Constants.CategoryRegex.Match(discData);
+            match = RedumpOrg.Constants.CategoryRegex.Match(discData);
             if (match.Success)
                 info.CommonDiscInfo!.Category = match.Groups[1].Value.ToDiscCategory();
             else
@@ -322,13 +321,13 @@ namespace SabreTools.RedumpLib
             // Region
             if (info.CommonDiscInfo.Region is null)
             {
-                match = Constants.RegionRegex.Match(discData);
+                match = RedumpOrg.Constants.RegionRegex.Match(discData);
                 if (match.Success)
                     info.CommonDiscInfo.Region = match.Groups[1].Value.ToRegion();
             }
 
             // Languages
-            var matches = Constants.LanguagesRegex.Matches(discData);
+            var matches = RedumpOrg.Constants.LanguagesRegex.Matches(discData);
             if (matches.Count > 0)
             {
                 var tempLanguages = new List<Language?>();
@@ -357,7 +356,7 @@ namespace SabreTools.RedumpLib
             // Error count
             if (string.IsNullOrEmpty(info.CommonDiscInfo.ErrorsCount))
             {
-                match = Constants.ErrorCountRegex.Match(discData);
+                match = RedumpOrg.Constants.ErrorCountRegex.Match(discData);
                 if (match.Success)
                     info.CommonDiscInfo.ErrorsCount = match.Groups[1].Value;
             }
@@ -365,13 +364,13 @@ namespace SabreTools.RedumpLib
             // Version
             if (info.VersionAndEditions!.Version is null)
             {
-                match = Constants.VersionRegex.Match(discData);
+                match = RedumpOrg.Constants.VersionRegex.Match(discData);
                 if (match.Success)
                     info.VersionAndEditions.Version = $"(VERIFY THIS) {WebUtility.HtmlDecode(match.Groups[1].Value)}";
             }
 
             // Dumpers
-            matches = Constants.DumpersRegex.Matches(discData);
+            matches = RedumpOrg.Constants.DumpersRegex.Matches(discData);
             if (matches.Count > 0)
             {
                 // Start with any currently listed dumpers
@@ -399,7 +398,7 @@ namespace SabreTools.RedumpLib
             if (string.IsNullOrEmpty(info.Extras!.DiscKey))
             {
                 // Validate key is not NULL
-                match = Constants.PS3DiscKey.Match(discData);
+                match = RedumpOrg.Constants.PS3DiscKey.Match(discData);
                 if (match.Success && match.Groups[1].Value != "<span class=\"null\">NULL</span>")
                     info.Extras.DiscKey = match.Groups[1].Value;
             }
@@ -409,7 +408,7 @@ namespace SabreTools.RedumpLib
             // Comments
             if (includeAllData)
             {
-                match = Constants.CommentsRegex.Match(discData);
+                match = RedumpOrg.Constants.CommentsRegex.Match(discData);
                 if (match.Success)
                 {
                     // Process the old comments block
@@ -506,7 +505,7 @@ namespace SabreTools.RedumpLib
             // Contents
             if (includeAllData)
             {
-                match = Constants.ContentsRegex.Match(discData);
+                match = RedumpOrg.Constants.ContentsRegex.Match(discData);
                 if (match.Success)
                 {
                     // Process the old contents block
@@ -592,7 +591,7 @@ namespace SabreTools.RedumpLib
             }
 
             // Added
-            match = Constants.AddedRegex.Match(discData);
+            match = RedumpOrg.Constants.AddedRegex.Match(discData);
             if (match.Success)
             {
                 if (DateTime.TryParse(match.Groups[1].Value, out DateTime added))
@@ -602,7 +601,375 @@ namespace SabreTools.RedumpLib
             }
 
             // Last Modified
-            match = Constants.LastModifiedRegex.Match(discData);
+            match = RedumpOrg.Constants.LastModifiedRegex.Match(discData);
+            if (match.Success)
+            {
+                if (DateTime.TryParse(match.Groups[1].Value, out DateTime lastModified))
+                    info.LastModified = lastModified;
+                else
+                    info.LastModified = null;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Fill out an existing SubmissionInfo object based on a disc page
+        /// </summary>
+        /// <param name="client">RedumpClient for making the connection</param>
+        /// <param name="info">Existing SubmissionInfo object to fill</param>
+        /// <param name="id">Redump disc ID to retrieve</param>
+        /// <param name="includeAllData">True to include all pullable information, false to do bare minimum</param>
+        /// TODO: Validate that this code is working
+        public static async Task<bool> FillFromId(RedumpInfo.Client client, SubmissionInfo info, int id, bool includeAllData)
+        {
+            var discData = await client.DownloadSingleDiscPage(id);
+            if (string.IsNullOrEmpty(discData))
+                return false;
+
+            // Title, Disc Number/Letter, Disc Title
+            var match = RedumpInfo.Constants.TitleRegex.Match(discData);
+            if (match.Success)
+            {
+                string? title = WebUtility.HtmlDecode(match.Groups[1].Value);
+
+                // If we have parenthesis, title is everything before the first one
+                int firstParenLocation = title?.IndexOf(" (") ?? -1;
+                if (title is not null && firstParenLocation >= 0)
+                {
+#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
+                    info.CommonDiscInfo!.Title = title[..firstParenLocation];
+#else
+                    info.CommonDiscInfo!.Title = title.Substring(0, firstParenLocation);
+#endif
+                    var submatches = RedumpInfo.Constants.DiscNumberLetterRegex.Matches(title);
+                    foreach (Match? submatch in submatches)
+                    {
+                        if (submatch is null)
+                            continue;
+
+                        var submatchValue = submatch.Groups[1].Value;
+
+                        // Disc number or letter
+                        if (submatchValue.StartsWith("Disc"))
+#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
+                            info.CommonDiscInfo.DiscNumberLetter = submatchValue["Disc ".Length..];
+#else
+                            info.CommonDiscInfo.DiscNumberLetter = submatchValue.Remove(0, "Disc ".Length);
+#endif
+
+                        // Issue number
+                        else if (ulong.TryParse(submatchValue, out _))
+                            info.CommonDiscInfo.Title += $" ({submatchValue})";
+
+                        // Disc title
+                        else
+                            info.CommonDiscInfo.DiscTitle = submatchValue;
+                    }
+                }
+                // Otherwise, leave the title as-is
+                else
+                {
+                    info.CommonDiscInfo!.Title = title;
+                }
+            }
+
+            // Foreign Title
+            match = RedumpInfo.Constants.ForeignTitleRegex.Match(discData);
+            if (match.Success)
+                info.CommonDiscInfo!.ForeignTitleNonLatin = WebUtility.HtmlDecode(match.Groups[1].Value);
+
+            // Category
+            match = RedumpInfo.Constants.CategoryRegex.Match(discData);
+            if (match.Success)
+                info.CommonDiscInfo!.Category = match.Groups[1].Value.ToDiscCategory();
+            else
+                info.CommonDiscInfo!.Category = DiscCategory.Games;
+
+            // Region
+            if (info.CommonDiscInfo.Region is null)
+            {
+                match = RedumpInfo.Constants.RegionRegex.Match(discData);
+                if (match.Success)
+                    info.CommonDiscInfo.Region = match.Groups[1].Value.ToRegion();
+            }
+
+            // Languages
+            var matches = RedumpInfo.Constants.LanguagesRegex.Matches(discData);
+            if (matches.Count > 0)
+            {
+                var tempLanguages = new List<Language?>();
+                foreach (Match? submatch in matches)
+                {
+                    if (submatch is null)
+                        continue;
+
+                    var language = submatch.Groups[1].Value.ToLanguage();
+                    if (language is not null)
+                        tempLanguages.Add(language);
+                }
+
+                info.CommonDiscInfo.Languages = [.. tempLanguages];
+            }
+
+            // Serial
+            if (includeAllData)
+            {
+                // TODO: Re-enable if there's a way of verifying against a disc
+                //match = RedumpInfo.Constants.SerialRegex.Match(discData);
+                //if (match.Success)
+                //    info.CommonDiscInfo.Serial = $"(VERIFY THIS) {WebUtility.HtmlDecode(match.Groups[1].Value)}";
+            }
+
+            // Error count
+            if (string.IsNullOrEmpty(info.CommonDiscInfo.ErrorsCount))
+            {
+                match = RedumpInfo.Constants.ErrorCountRegex.Match(discData);
+                if (match.Success)
+                    info.CommonDiscInfo.ErrorsCount = match.Groups[1].Value;
+            }
+
+            // Version
+            if (info.VersionAndEditions!.Version is null)
+            {
+                match = RedumpInfo.Constants.VersionRegex.Match(discData);
+                if (match.Success)
+                    info.VersionAndEditions.Version = $"(VERIFY THIS) {WebUtility.HtmlDecode(match.Groups[1].Value)}";
+            }
+
+            // Dumpers
+            matches = RedumpInfo.Constants.DumpersRegex.Matches(discData);
+            if (matches.Count > 0)
+            {
+                // Start with any currently listed dumpers
+                var tempDumpers = new List<string>();
+                if (info.DumpersAndStatus!.Dumpers is not null && info.DumpersAndStatus.Dumpers.Length > 0)
+                {
+                    foreach (string dumper in info.DumpersAndStatus.Dumpers)
+                        tempDumpers.Add(dumper);
+                }
+
+                foreach (Match? submatch in matches)
+                {
+                    if (submatch is null)
+                        continue;
+
+                    string? dumper = WebUtility.HtmlDecode(submatch.Groups[1].Value);
+                    if (dumper is not null)
+                        tempDumpers.Add(dumper);
+                }
+
+                info.DumpersAndStatus.Dumpers = [.. tempDumpers];
+            }
+
+            // PS3 DiscKey
+            if (string.IsNullOrEmpty(info.Extras!.DiscKey))
+            {
+                // Validate key is not NULL
+                match = RedumpInfo.Constants.PS3DiscKey.Match(discData);
+                if (match.Success && match.Groups[1].Value != "<span class=\"null\">NULL</span>")
+                    info.Extras.DiscKey = match.Groups[1].Value;
+            }
+
+            // TODO: Unify handling of fields that can include site codes (Comments/Contents)
+
+            // Comments
+            if (includeAllData)
+            {
+                match = RedumpInfo.Constants.CommentsRegex.Match(discData);
+                if (match.Success)
+                {
+                    // Process the old comments block
+                    string oldComments = info.CommonDiscInfo.Comments
+                        + (string.IsNullOrEmpty(info.CommonDiscInfo.Comments) ? string.Empty : "\n")
+                        + (WebUtility.HtmlDecode(match.Groups[1].Value) ?? string.Empty)
+                            .Replace("\r\n", "\n")
+                            .Replace("<br />\n", "\n")
+                            .Replace("<br />", string.Empty)
+                            .Replace("</div>", string.Empty)
+                            .Replace("[+]", string.Empty)
+                            .ReplaceHtmlWithSiteCodes();
+                    oldComments = Regex.Replace(oldComments, @"<div .*?>", string.Empty, RegexOptions.Compiled);
+
+                    // Create state variables
+                    bool addToLast = false;
+                    SiteCode? lastSiteCode = null;
+                    string newComments = string.Empty;
+
+                    // Process the comments block line-by-line
+                    string[] commentsSeparated = oldComments.Split('\n');
+                    for (int i = 0; i < commentsSeparated.Length; i++)
+                    {
+                        string commentLine = commentsSeparated[i].Trim();
+
+                        // If we have an empty line, we want to treat this as intentional
+                        if (string.IsNullOrEmpty(commentLine))
+                        {
+                            addToLast = false;
+                            lastSiteCode = null;
+                            newComments += $"{commentLine}\n";
+                            continue;
+                        }
+
+                        // Otherwise, we need to find what tag is in use
+                        bool foundTag = false;
+                        foreach (SiteCode? siteCode in Enum.GetValues(typeof(SiteCode)))
+                        {
+                            // If we have a null site code, just skip
+                            if (siteCode is null)
+                                continue;
+
+                            // If the line doesn't contain this tag, just skip
+                            var shortName = siteCode.ShortName();
+                            if (shortName is null || !commentLine.Contains(shortName))
+                                continue;
+
+                            // Mark as having found a tag
+                            foundTag = true;
+
+                            // Cache the current site code
+                            lastSiteCode = siteCode;
+
+                            // A subset of tags can be multiline
+                            addToLast = siteCode.IsMultiLine();
+
+                            // Skip certain site codes because of data issues
+                            if (ShouldSkipSiteCode(siteCode))
+                                continue;
+
+                            // If we don't already have this site code, add it to the dictionary
+                            if (!info.CommonDiscInfo.CommentsSpecialFields!.ContainsKey(siteCode.Value))
+                                info.CommonDiscInfo.CommentsSpecialFields[siteCode.Value] = $"(VERIFY THIS) {commentLine.Replace(shortName, string.Empty).Trim()}";
+
+                            // Otherwise, append the value to the existing key
+                            else
+                                info.CommonDiscInfo.CommentsSpecialFields[siteCode.Value] += $", {commentLine.Replace(shortName, string.Empty).Trim()}";
+
+                            break;
+                        }
+
+                        // If we didn't find a known tag, just add the line, just in case
+                        if (!foundTag)
+                        {
+                            if (addToLast && lastSiteCode is not null && !ShouldSkipSiteCode(lastSiteCode))
+                            {
+                                if (!string.IsNullOrEmpty(info.CommonDiscInfo.CommentsSpecialFields![lastSiteCode.Value]))
+                                    info.CommonDiscInfo.CommentsSpecialFields[lastSiteCode.Value] += "\n";
+
+                                info.CommonDiscInfo.CommentsSpecialFields[lastSiteCode.Value] += commentLine;
+                            }
+                            else if (!addToLast || lastSiteCode is null)
+                            {
+                                newComments += $"{commentLine}\n";
+                            }
+                        }
+                    }
+
+                    // Set the new comments field
+                    info.CommonDiscInfo.Comments = newComments;
+                }
+            }
+
+            // Contents
+            if (includeAllData)
+            {
+                match = RedumpInfo.Constants.ContentsRegex.Match(discData);
+                if (match.Success)
+                {
+                    // Process the old contents block
+                    string oldContents = info.CommonDiscInfo.Contents
+                        + (string.IsNullOrEmpty(info.CommonDiscInfo.Contents) ? string.Empty : "\n")
+                        + (WebUtility.HtmlDecode(match.Groups[1].Value) ?? string.Empty)
+                            .Replace("\r\n", "\n")
+                            .Replace("<br />\n", "\n")
+                            .Replace("<br />", string.Empty)
+                            .Replace("</div>", string.Empty)
+                            .Replace("[+]", string.Empty)
+                            .ReplaceHtmlWithSiteCodes();
+                    oldContents = Regex.Replace(oldContents, @"<div .*?>", string.Empty, RegexOptions.Compiled);
+
+                    // Create state variables
+                    bool addToLast = false;
+                    SiteCode? lastSiteCode = null;
+                    string newContents = string.Empty;
+
+                    // Process the contents block line-by-line
+                    string[] contentsSeparated = oldContents.Split('\n');
+                    for (int i = 0; i < contentsSeparated.Length; i++)
+                    {
+                        string contentLine = contentsSeparated[i].Trim();
+
+                        // If we have an empty line, we want to treat this as intentional
+                        if (string.IsNullOrEmpty(contentLine))
+                        {
+                            addToLast = false;
+                            lastSiteCode = null;
+                            newContents += $"{contentLine}\n";
+                            continue;
+                        }
+
+                        // Otherwise, we need to find what tag is in use
+                        bool foundTag = false;
+                        foreach (SiteCode? siteCode in Enum.GetValues(typeof(SiteCode)))
+                        {
+                            // If we have a null site code, just skip
+                            if (siteCode is null)
+                                continue;
+
+                            // If the line doesn't contain this tag, just skip
+                            var shortName = siteCode.ShortName();
+                            if (shortName is null || !contentLine.Contains(shortName))
+                                continue;
+
+                            // Cache the current site code
+                            lastSiteCode = siteCode;
+
+                            // If we don't already have this site code, add it to the dictionary
+                            if (!info.CommonDiscInfo.ContentsSpecialFields!.ContainsKey(siteCode.Value))
+                                info.CommonDiscInfo.ContentsSpecialFields[siteCode.Value] = $"(VERIFY THIS) {contentLine.Replace(shortName, string.Empty).Trim()}";
+
+                            // A subset of tags can be multiline
+                            addToLast = siteCode.IsMultiLine();
+
+                            // Mark as having found a tag
+                            foundTag = true;
+                            break;
+                        }
+
+                        // If we didn't find a known tag, just add the line, just in case
+                        if (!foundTag)
+                        {
+                            if (addToLast && lastSiteCode is not null && !ShouldSkipSiteCode(lastSiteCode))
+                            {
+                                if (!string.IsNullOrEmpty(info.CommonDiscInfo.ContentsSpecialFields![lastSiteCode.Value]))
+                                    info.CommonDiscInfo.ContentsSpecialFields[lastSiteCode.Value] += "\n";
+
+                                info.CommonDiscInfo.ContentsSpecialFields[lastSiteCode.Value] += contentLine;
+                            }
+                            else if (!addToLast || lastSiteCode is null)
+                            {
+                                newContents += $"{contentLine}\n";
+                            }
+                        }
+                    }
+
+                    // Set the new contents field
+                    info.CommonDiscInfo.Contents = newContents;
+                }
+            }
+
+            // Added
+            match = RedumpInfo.Constants.AddedRegex.Match(discData);
+            if (match.Success)
+            {
+                if (DateTime.TryParse(match.Groups[1].Value, out DateTime added))
+                    info.Added = added;
+                else
+                    info.Added = null;
+            }
+
+            // Last Modified
+            match = RedumpInfo.Constants.LastModifiedRegex.Match(discData);
             if (match.Success)
             {
                 if (DateTime.TryParse(match.Groups[1].Value, out DateTime lastModified))
