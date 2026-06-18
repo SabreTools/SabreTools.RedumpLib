@@ -626,7 +626,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             // If the user is not a moderator
             if (!_loggedIn || !_staffMember)
             {
-                Console.Error.WriteLine("WIP download functionality is only available to Redump moderators");
+                Console.Error.WriteLine("Queue download functionality is only available to Redump moderators");
                 return null;
             }
 
@@ -692,7 +692,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             {
                 try
                 {
-                    bool downloaded = await DownloadSingleWIPID(id, outDir, rename: false);
+                    bool downloaded = await DownloadSingleQueuePage(id, outDir, rename: false);
                     if (!downloaded && !IgnoreErrors)
                         return processed;
 
@@ -1113,22 +1113,22 @@ namespace SabreTools.RedumpLib.RedumpInfo
         }
 
         /// <summary>
-        /// Download an individual WIP ID data, if possible
+        /// Download an individual queue ID data, if possible
         /// </summary>
-        /// <param name="id">Redump WIP disc ID to retrieve</param>
+        /// <param name="id">Redump queue disc ID to retrieve</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
         /// <remarks>Limited to moderators and staff</remarks>
-        public async Task<string?> DownloadSingleWIPID(int id)
+        public async Task<string?> DownloadSingleQueuePage(int id)
         {
             // If the user is not a moderator
             if (!_loggedIn || !_staffMember)
             {
-                Console.Error.WriteLine("WIP download functionality is only available to Redump moderators");
+                Console.Error.WriteLine("Queue download functionality is only available to Redump moderators");
                 return null;
             }
 
             string paddedId = id.ToString().PadLeft(6, '0');
-            Console.WriteLine($"Processing WIP ID: {paddedId}");
+            Console.WriteLine($"Processing queue ID: {paddedId}");
             try
             {
                 // Try to retrieve the data
@@ -1140,7 +1140,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
                     Console.Error.WriteLine($"An error occurred retrieving ID {paddedId}!");
                     return null;
                 }
-                else if (discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
+                else if (discPage.Contains("Not found"))
                 {
                     Console.Error.WriteLine($"ID {paddedId} could not be found!");
                     return null;
@@ -1164,12 +1164,12 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
         /// <remarks>Limited to moderators and staff</remarks>
-        public async Task<bool> DownloadSingleWIPID(int id, string? outDir, bool rename)
+        public async Task<bool> DownloadSingleQueuePage(int id, string? outDir, bool rename)
         {
             // If the user is not a moderator
             if (!_loggedIn || !_staffMember)
             {
-                Console.Error.WriteLine("WIP download functionality is only available to Redump moderators");
+                Console.Error.WriteLine("Queue download functionality is only available to Redump moderators");
                 return false;
             }
 
@@ -1182,7 +1182,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
 
             string paddedId = id.ToString().PadLeft(6, '0');
             string paddedIdDir = Path.Combine(outDir, paddedId);
-            Console.WriteLine($"Processing WIP ID: {paddedId}");
+            Console.WriteLine($"Processing queue ID: {paddedId}");
             try
             {
                 // Try to retrieve the data
@@ -1194,7 +1194,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
                     Console.Error.WriteLine($"An error occurred retrieving ID {paddedId}!");
                     return false;
                 }
-                else if (discPage.Contains($"WIP disc with ID \"{id}\" doesn't exist"))
+                else if (discPage.Contains("Not found"))
                 {
                     if (rename)
                     {

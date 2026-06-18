@@ -32,7 +32,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             List<int> ids = [];
             foreach (int id in wipIds)
             {
-                bool downloaded = await client.DownloadSingleWIPID(id, outDir, rename: true);
+                bool downloaded = await client.DownloadSingleQueuePage(id, outDir, rename: true);
                 if (downloaded)
                 {
                     ids.Add(id);
@@ -56,7 +56,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
             List<int> ids = [];
             for (int id = minId; id <= maxId; id++)
             {
-                bool downloaded = await client.DownloadSingleWIPID(id, outDir, rename: true);
+                bool downloaded = await client.DownloadSingleQueuePage(id, outDir, rename: true);
                 if (downloaded)
                 {
                     ids.Add(id);
