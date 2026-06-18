@@ -31,7 +31,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <returns>All disc IDs for the given query, empty on error</returns>
         public static async Task<List<int>> DownloadDiscsResults(this Client client,
             string? outDir,
-            string? comments,
+            string? comments = null,
             string? dumper = null,
             string? edition = null,
             char? letter = null,

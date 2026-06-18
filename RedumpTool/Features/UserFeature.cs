@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.CommandLine.Inputs;
 using SabreTools.RedumpLib.Data;
+using SabreTools.RedumpLib.RedumpInfo;
 using SabreTools.RedumpLib.RedumpOrg;
 
 namespace RedumpTool.Features
@@ -52,6 +53,7 @@ namespace RedumpTool.Features
             Add(TimeoutInput);
             Add(ForceDownloadInput);
             Add(ForceContinueInput);
+            Add(OldSiteInput);
 
             // Specific
             Add(OnlyNewInput);
@@ -72,6 +74,7 @@ namespace RedumpTool.Features
             int? timeout = TimeoutInput.Value;
             bool forceDownload = ForceDownloadInput.Value;
             bool forceContinue = ForceContinueInput.Value;
+            bool oldSite = OldSiteInput.Value;
 
             // Get specific values
             bool onlyNew = OnlyNewInput.Value;
@@ -81,43 +84,85 @@ namespace RedumpTool.Features
             bool onlyFiles = OnlyFilesInput.Value;
 
             // Build the disc subpaths
-            DiscSubpath[]? discSubpaths = Constants.AllDiscSubpaths;
-            if (onlyPages)
-                discSubpaths = Constants.DiscSubPagesOnly;
-            else if (onlyFiles)
-                discSubpaths = Constants.DiscFilesOnly;
+            DiscSubpath[]? discSubpaths;
+            if (oldSite)
+            {
+                discSubpaths = SabreTools.RedumpLib.RedumpOrg.Constants.AllDiscSubpaths;
+                if (onlyPages)
+                    discSubpaths = SabreTools.RedumpLib.RedumpOrg.Constants.DiscSubPagesOnly;
+                else if (onlyFiles)
+                    discSubpaths = SabreTools.RedumpLib.RedumpOrg.Constants.DiscFilesOnly;
+            }
+            else
+            {
+                discSubpaths = SabreTools.RedumpLib.RedumpInfo.Constants.AllDiscSubpaths;
+            }
 
             // Output directory validation
             if (!onlyList && !ValidateAndCreateOutputDirectory(outDir))
                 return false;
 
-            // Update client properties
-            _client.Debug = DebugInput.Value;
-            if (attemptCount != null && attemptCount > 0)
-                _client.AttemptCount = attemptCount.Value;
-            if (timeout != null && timeout > 0)
-                _client.Timeout = TimeSpan.FromSeconds(timeout.Value);
-            _client.Overwrite = forceDownload;
-            _client.IgnoreErrors = forceContinue;
+            // If connecting to redump.org
+            if (oldSite)
+            {
+                // Update redump.org client properties
+                _orgClient.Debug = DebugInput.Value;
+                if (attemptCount != null && attemptCount > 0)
+                    _orgClient.AttemptCount = attemptCount.Value;
+                if (timeout != null && timeout > 0)
+                    _orgClient.Timeout = TimeSpan.FromSeconds(timeout.Value);
+                _orgClient.Overwrite = forceDownload;
+                _orgClient.IgnoreErrors = forceContinue;
 
-            // Login to Redump, if necessary
-            _client.Login(username, password).Wait();
+                // Login to redump.org, if necessary
+                _orgClient.Login(username, password).Wait();
 
-            // Start the processing
-            Task<List<int>> processingTask;
-            if (onlyList)
-                processingTask = _client.ListDiscsResults(dumper: username, limit: limit);
-            else if (onlyNew)
-                processingTask = _client.DownloadDiscsResults(outDir, dumper: username, sort: SortCategory.Modified, sortDir: SortDirection.Descending, limit: limit, discSubpaths: discSubpaths);
+                // Start the processing
+                Task<List<int>> processingTask;
+                if (onlyList)
+                    processingTask = _orgClient.ListDiscsResults(dumper: username, limit: limit);
+                else if (onlyNew)
+                    processingTask = _orgClient.DownloadDiscsResults(outDir, dumper: username, sort: SortCategory.Modified, sortDir: SortDirection.Descending, limit: limit, discSubpaths: discSubpaths);
+                else
+                    processingTask = _orgClient.DownloadDiscsResults(outDir, dumper: username, limit: limit, discSubpaths: discSubpaths);
+
+                // Retrieve the result
+                processingTask.Wait();
+                var processedIds = processingTask.Result;
+
+                // Display the processed IDs
+                return PrintProcessedIds(processedIds);
+            }
             else
-                processingTask = _client.DownloadDiscsResults(outDir, dumper: username, limit: limit, discSubpaths: discSubpaths);
+            {
+                // Update redump.info client properties
+                _infoClient.Debug = DebugInput.Value;
+                if (attemptCount != null && attemptCount > 0)
+                    _infoClient.AttemptCount = attemptCount.Value;
+                if (timeout != null && timeout > 0)
+                    _infoClient.Timeout = TimeSpan.FromSeconds(timeout.Value);
+                _infoClient.Overwrite = forceDownload;
+                _infoClient.IgnoreErrors = forceContinue;
 
-            // Retrieve the result
-            processingTask.Wait();
-            var processedIds = processingTask.Result;
+                // Login to redump.info, if necessary
+                _infoClient.Login(username, password).Wait();
 
-            // Display the processed IDs
-            return PrintProcessedIds(processedIds);
+                // Start the processing
+                Task<List<int>> processingTask;
+                if (onlyList)
+                    processingTask = _infoClient.ListDiscsResults(dumper: username, limit: limit);
+                else if (onlyNew)
+                    processingTask = _infoClient.DownloadDiscsResults(outDir, dumper: username, sort: SortCategory.Modified, sortDir: SortDirection.Descending, limit: limit, discSubpaths: discSubpaths);
+                else
+                    processingTask = _infoClient.DownloadDiscsResults(outDir, dumper: username, limit: limit, discSubpaths: discSubpaths);
+
+                // Retrieve the result
+                processingTask.Wait();
+                var processedIds = processingTask.Result;
+
+                // Display the processed IDs
+                return PrintProcessedIds(processedIds);
+            }
         }
 
         /// <inheritdoc/>

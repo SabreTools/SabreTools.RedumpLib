@@ -29,6 +29,7 @@ namespace RedumpTool.Features
             Add(TimeoutInput);
             Add(ForceDownloadInput);
             Add(ForceContinueInput);
+            Add(OldSiteInput);
         }
 
         /// <inheritdoc/>
@@ -42,25 +43,30 @@ namespace RedumpTool.Features
             int? timeout = TimeoutInput.Value;
             bool forceDownload = ForceDownloadInput.Value;
             bool forceContinue = ForceContinueInput.Value;
+            bool oldSite = OldSiteInput.Value;
+
+            // None of this is valid for redump.info
+            if (!oldSite)
+                return false;
 
             // Output directory validation
             if (!ValidateAndCreateOutputDirectory(outDir))
                 return false;
 
             // Update client properties
-            _client.Debug = DebugInput.Value;
+            _orgClient.Debug = DebugInput.Value;
             if (attemptCount != null && attemptCount > 0)
-                _client.AttemptCount = attemptCount.Value;
+                _orgClient.AttemptCount = attemptCount.Value;
             if (timeout != null && timeout > 0)
-                _client.Timeout = TimeSpan.FromSeconds(timeout.Value);
-            _client.Overwrite = forceDownload;
-            _client.IgnoreErrors = forceContinue;
+                _orgClient.Timeout = TimeSpan.FromSeconds(timeout.Value);
+            _orgClient.Overwrite = forceDownload;
+            _orgClient.IgnoreErrors = forceContinue;
 
             // Login to Redump, if necessary
-            _client.Login(username, password).Wait();
+            _orgClient.Login(username, password).Wait();
 
             // Start the processing
-            Task<bool> processingTask = _client.DownloadStatisticsPage(outDir);
+            Task<bool> processingTask = _orgClient.DownloadStatisticsPage(outDir);
 
             // Retrieve the result
             processingTask.Wait();

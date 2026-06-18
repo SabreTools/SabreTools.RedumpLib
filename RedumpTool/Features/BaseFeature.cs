@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using SabreTools.CommandLine;
 using SabreTools.CommandLine.Inputs;
-using SabreTools.RedumpLib.RedumpOrg;
 
 namespace RedumpTool.Features
 {
@@ -28,6 +27,9 @@ namespace RedumpTool.Features
 
         private const string _passwordName = "password";
         internal readonly StringInput PasswordInput = new(_passwordName, ["-p", "--password"], "Redump password");
+
+        private const string _oldSiteName = "oldsite";
+        internal readonly FlagInput OldSiteInput = new(_oldSiteName, ["--old"], "Connect to redump.org instead of redump.info");
 
         private const string _timeoutName = "timeout";
         internal readonly Int32Input TimeoutInput = new(_timeoutName, ["-t", "--timeout"], "Request timeout in whole seconds (default 30)");
@@ -119,16 +121,22 @@ namespace RedumpTool.Features
         #region Fields
 
         /// <summary>
-        /// Client to use for external connections
+        /// redump.info client to use for external connections
         /// </summary>
-        protected Client _client;
+        protected SabreTools.RedumpLib.RedumpInfo.Client _infoClient;
+
+        /// <summary>
+        /// redump.org client to use for external connections
+        /// </summary>
+        protected SabreTools.RedumpLib.RedumpOrg.Client _orgClient;
 
         #endregion
 
         public BaseFeature(string name, string[] flags, string description, string? detailed = null)
            : base(name, flags, description, detailed)
         {
-            _client = new Client();
+            _infoClient = new SabreTools.RedumpLib.RedumpInfo.Client();
+            _orgClient = new SabreTools.RedumpLib.RedumpOrg.Client();
         }
 
         #region Helpers

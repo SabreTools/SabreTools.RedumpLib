@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.CommandLine.Inputs;
+using SabreTools.RedumpLib.RedumpInfo;
 using SabreTools.RedumpLib.RedumpOrg;
 
 namespace RedumpTool.Features
@@ -45,6 +46,7 @@ namespace RedumpTool.Features
             Add(TimeoutInput);
             Add(ForceDownloadInput);
             Add(ForceContinueInput);
+            Add(OldSiteInput);
 
             // Specific
             Add(MinimumInput);
@@ -63,6 +65,7 @@ namespace RedumpTool.Features
             int? timeout = TimeoutInput.Value;
             bool forceDownload = ForceDownloadInput.Value;
             bool forceContinue = ForceContinueInput.Value;
+            bool oldSite = OldSiteInput.Value;
 
             // Get specific values
             int minId = MinimumInput.Value ?? -1;
@@ -80,31 +83,63 @@ namespace RedumpTool.Features
                 return false;
             }
 
-            // Update client properties
-            _client.Debug = DebugInput.Value;
-            if (attemptCount != null && attemptCount > 0)
-                _client.AttemptCount = attemptCount.Value;
-            if (timeout != null && timeout > 0)
-                _client.Timeout = TimeSpan.FromSeconds(timeout.Value);
-            _client.Overwrite = forceDownload;
-            _client.IgnoreErrors = forceContinue;
+            // If connecting to redump.org
+            if (oldSite)
+            {
+                // Update redump.org properties
+                _orgClient.Debug = DebugInput.Value;
+                if (attemptCount != null && attemptCount > 0)
+                    _orgClient.AttemptCount = attemptCount.Value;
+                if (timeout != null && timeout > 0)
+                    _orgClient.Timeout = TimeSpan.FromSeconds(timeout.Value);
+                _orgClient.Overwrite = forceDownload;
+                _orgClient.IgnoreErrors = forceContinue;
 
-            // Login to Redump, if necessary
-            _client.Login(username, password).Wait();
+                // Login to redump.org, if necessary
+                _orgClient.Login(username, password).Wait();
 
-            // Start the processing
-            Task<List<int>> processingTask;
-            if (onlyNew)
-                processingTask = _client.DownloadLastSubmitted(outDir);
+                // Start the processing
+                Task<List<int>> processingTask;
+                if (onlyNew)
+                    processingTask = _orgClient.DownloadLastSubmitted(outDir);
+                else
+                    processingTask = _orgClient.DownloadWIPRange(outDir, minId, maxId);
+
+                // Retrieve the result
+                processingTask.Wait();
+                var processedIds = processingTask.Result;
+
+                // Display the processed IDs
+                return PrintProcessedIds(processedIds);
+            }
             else
-                processingTask = _client.DownloadWIPRange(outDir, minId, maxId);
+            {
+                // Update redump.info properties
+                _infoClient.Debug = DebugInput.Value;
+                if (attemptCount != null && attemptCount > 0)
+                    _infoClient.AttemptCount = attemptCount.Value;
+                if (timeout != null && timeout > 0)
+                    _infoClient.Timeout = TimeSpan.FromSeconds(timeout.Value);
+                _infoClient.Overwrite = forceDownload;
+                _infoClient.IgnoreErrors = forceContinue;
 
-            // Retrieve the result
-            processingTask.Wait();
-            var processedIds = processingTask.Result;
+                // Login to redump.info, if necessary
+                _infoClient.Login(username, password).Wait();
 
-            // Display the processed IDs
-            return PrintProcessedIds(processedIds);
+                // Start the processing
+                Task<List<int>> processingTask;
+                if (onlyNew)
+                    processingTask = _infoClient.DownloadLastSubmitted(outDir);
+                else
+                    processingTask = _infoClient.DownloadQueueRange(outDir, minId, maxId);
+
+                // Retrieve the result
+                processingTask.Wait();
+                var processedIds = processingTask.Result;
+
+                // Display the processed IDs
+                return PrintProcessedIds(processedIds);
+            }
         }
 
         /// <inheritdoc/>

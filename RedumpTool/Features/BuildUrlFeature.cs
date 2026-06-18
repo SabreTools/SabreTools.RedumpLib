@@ -53,6 +53,7 @@ namespace RedumpTool.Features
             Add(TimeoutInput);
             Add(ForceDownloadInput);
             Add(ForceContinueInput);
+            Add(OldSiteInput);
 
             // Disc path
             Add(DiscIdInput);
