@@ -9,6 +9,11 @@ namespace SabreTools.RedumpLib.Web
     internal class CookieWebClient : WebClient
     {
         /// <summary>
+        /// Last retrieved URL from a web request
+        /// </summary>
+        public Uri? LastUrl { get; private set; }
+
+        /// <summary>
         /// The timespan to wait before the request times out.
         /// </summary>
         public TimeSpan Timeout { get; set; }
@@ -49,6 +54,14 @@ namespace SabreTools.RedumpLib.Web
             }
 
             return request;
+        }
+
+        /// <inheritdoc/>
+        protected override WebResponse GetWebResponse(WebRequest request)
+        {
+            WebResponse response = base.GetWebResponse(request);
+            LastUrl = response.ResponseUri;
+            return response;
         }
     }
 #if NET6_0_OR_GREATER

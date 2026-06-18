@@ -379,6 +379,67 @@ namespace SabreTools.RedumpLib.RedumpInfo
             return null;
         }
 
+        /// <summary>
+        /// Get the resolved URL for a given URI
+        /// </summary>
+        /// <param name="uri">Remote URI to retrieve</param>
+        /// <returns>Final URL, null on error</returns>
+        public async Task<string?> GetResolvedURL(string uri)
+        {
+            // Only retry a positive number of times
+            if (AttemptCount <= 0)
+            {
+                Console.Error.WriteLine("Invalid number of attempts provided, must be at least 1");
+                return null;
+            }
+
+            for (int i = 0; i < AttemptCount; i++)
+            {
+                try
+                {
+                    if (Debug) Console.WriteLine($"DEBUG: GetResolvedURL(\"{uri}\"), Attempt {i + 1} of {AttemptCount}");
+#if NETCOREAPP
+                    // Make the call to get the file
+                    var response = await _internalClient.GetAsync(uri);
+                    if (response?.Content?.Headers is null || !response.IsSuccessStatusCode)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: GetResolvedURL failed, continuing...");
+                        continue;
+                    }
+
+                    return response.RequestMessage?.RequestUri?.AbsoluteUri;
+#elif NET40
+                    await Task.Factory.StartNew(() => { _internalClient.DownloadData(uri); return true; });
+                    string? lastUrl = _internalClient.LastUrl?.AbsoluteUri;
+                    if (lastUrl is null)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: GetResolvedURL failed, continuing...");
+                        continue;
+                    }
+
+                    return lastUrl;
+#else
+                    await Task.Run(() => _internalClient.DownloadData(uri));
+                    string? lastUrl = _internalClient.LastUrl?.AbsoluteUri;
+                    if (lastUrl is null)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: GetResolvedURL failed, continuing...");
+                        continue;
+                    }
+
+                    return lastUrl;
+#endif
+                }
+                catch { }
+
+                // Intentional delay here so we don't flood the server
+                DelayHelper.DelayRandom();
+            }
+
+            Console.Error.WriteLine($"Could not download \"{uri}\" after {AttemptCount} attempts");
+            return null;
+        }
+
         #endregion
 
         #region Single Page Helpers
@@ -449,11 +510,15 @@ namespace SabreTools.RedumpLib.RedumpInfo
             if (dumpsPage.Contains("<h3>Disc</h3>"))
             {
                 if (Debug) Console.WriteLine($"DEBUG: CheckSingleDiscsPage(\"{url}\") - Single disc page");
-                var value = Regex.Match(dumpsPage, pattern: @"/disc/([0-9]+)/edit").Groups[1].Value;
-                if (int.TryParse(value, out int id))
-                    ids.Add(id);
+                string? lastUrl = await GetResolvedURL(url);
+                if (lastUrl is not null)
+                {
+                    var value = Regex.Match(lastUrl, pattern: @"/disc/([0-9]+)").Groups[1].Value;
+                    if (int.TryParse(value, out int id))
+                        ids.Add(id);
 
-                return ids;
+                    return ids;
+                }
             }
 
             // Otherwise, traverse each dump on the page
