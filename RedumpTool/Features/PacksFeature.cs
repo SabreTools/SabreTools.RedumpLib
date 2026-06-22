@@ -1,7 +1,7 @@
 using System;
 using SabreTools.CommandLine.Inputs;
-using SabreTools.RedumpLib.RedumpInfo;
 using SabreTools.RedumpLib.RedumpOrg;
+using SabreTools.RedumpLib.Web;
 
 namespace RedumpTool.Features
 {
