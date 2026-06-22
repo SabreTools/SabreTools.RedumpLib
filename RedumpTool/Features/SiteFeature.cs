@@ -168,7 +168,7 @@ namespace RedumpTool.Features
             }
             else
             {
-                discSubpaths = SabreTools.RedumpLib.RedumpInfo.Constants.AllDiscSubpaths;
+                discSubpaths = SabreTools.RedumpLib.Data.Constants.AllDiscSubpaths;
             }
 
             // Override individual flags if shorthand flags used

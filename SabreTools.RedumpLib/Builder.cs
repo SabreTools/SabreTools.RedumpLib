@@ -264,7 +264,7 @@ namespace SabreTools.RedumpLib
                 return false;
 
             // Title, Disc Number/Letter, Disc Title
-            var match = RedumpInfo.Constants.TitleRegex.Match(discData);
+            var match = Constants.TitleRegex.Match(discData);
             if (match.Success)
             {
                 string? title = WebUtility.HtmlDecode(match.Groups[1].Value);
@@ -278,7 +278,7 @@ namespace SabreTools.RedumpLib
 #else
                     info.CommonDiscInfo!.Title = title.Substring(0, firstParenLocation);
 #endif
-                    var submatches = RedumpInfo.Constants.DiscNumberLetterRegex.Matches(title);
+                    var submatches = Constants.DiscNumberLetterRegex.Matches(title);
                     foreach (Match? submatch in submatches)
                     {
                         if (submatch is null)
@@ -311,12 +311,12 @@ namespace SabreTools.RedumpLib
             }
 
             // Foreign Title
-            match = RedumpInfo.Constants.ForeignTitleRegex.Match(discData);
+            match = Constants.ForeignTitleRegex.Match(discData);
             if (match.Success)
                 info.CommonDiscInfo!.ForeignTitleNonLatin = WebUtility.HtmlDecode(match.Groups[1].Value);
 
             // Category
-            match = RedumpInfo.Constants.CategoryRegex.Match(discData);
+            match = Constants.CategoryRegex.Match(discData);
             if (match.Success)
                 info.CommonDiscInfo!.Category = match.Groups[1].Value.ToDiscCategory();
             else
@@ -325,13 +325,13 @@ namespace SabreTools.RedumpLib
             // Region
             if (info.CommonDiscInfo.Region is null)
             {
-                match = RedumpInfo.Constants.RegionRegex.Match(discData);
+                match = Constants.RegionRegex.Match(discData);
                 if (match.Success)
                     info.CommonDiscInfo.Region = match.Groups[1].Value.ToRegion();
             }
 
             // Languages
-            var matches = RedumpInfo.Constants.LanguagesRegex.Matches(discData);
+            var matches = Constants.LanguagesRegex.Matches(discData);
             if (matches.Count > 0)
             {
                 var tempLanguages = new List<Language?>();
@@ -352,7 +352,7 @@ namespace SabreTools.RedumpLib
             if (includeAllData)
             {
                 // TODO: Re-enable if there's a way of verifying against a disc
-                //match = RedumpInfo.Constants.SerialRegex.Match(discData);
+                //match = Data.Constants.SerialRegex.Match(discData);
                 //if (match.Success)
                 //    info.CommonDiscInfo.Serial = $"(VERIFY THIS) {WebUtility.HtmlDecode(match.Groups[1].Value)}";
             }
@@ -360,7 +360,7 @@ namespace SabreTools.RedumpLib
             // Error count
             if (string.IsNullOrEmpty(info.CommonDiscInfo.ErrorsCount))
             {
-                match = RedumpInfo.Constants.ErrorCountRegex.Match(discData);
+                match = Constants.ErrorCountRegex.Match(discData);
                 if (match.Success)
                     info.CommonDiscInfo.ErrorsCount = match.Groups[1].Value;
             }
@@ -368,13 +368,13 @@ namespace SabreTools.RedumpLib
             // Version
             if (info.VersionAndEditions!.Version is null)
             {
-                match = RedumpInfo.Constants.VersionRegex.Match(discData);
+                match = Constants.VersionRegex.Match(discData);
                 if (match.Success)
                     info.VersionAndEditions.Version = $"(VERIFY THIS) {WebUtility.HtmlDecode(match.Groups[1].Value)}";
             }
 
             // Dumpers
-            matches = RedumpInfo.Constants.DumpersRegex.Matches(discData);
+            matches = Constants.DumpersRegex.Matches(discData);
             if (matches.Count > 0)
             {
                 // Start with any currently listed dumpers
@@ -402,7 +402,7 @@ namespace SabreTools.RedumpLib
             if (string.IsNullOrEmpty(info.Extras!.DiscKey))
             {
                 // Validate key is not NULL
-                match = RedumpInfo.Constants.PS3DiscKey.Match(discData);
+                match = Constants.PS3DiscKey.Match(discData);
                 if (match.Success && match.Groups[1].Value != "<span class=\"null\">NULL</span>")
                     info.Extras.DiscKey = match.Groups[1].Value;
             }
@@ -412,7 +412,7 @@ namespace SabreTools.RedumpLib
             // Comments
             if (includeAllData)
             {
-                match = RedumpInfo.Constants.CommentsRegex.Match(discData);
+                match = Constants.CommentsRegex.Match(discData);
                 if (match.Success)
                 {
                     // Process the old comments block
@@ -509,7 +509,7 @@ namespace SabreTools.RedumpLib
             // Contents
             if (includeAllData)
             {
-                match = RedumpInfo.Constants.ContentsRegex.Match(discData);
+                match = Constants.ContentsRegex.Match(discData);
                 if (match.Success)
                 {
                     // Process the old contents block
@@ -595,7 +595,7 @@ namespace SabreTools.RedumpLib
             }
 
             // Added
-            match = RedumpInfo.Constants.AddedRegex.Match(discData);
+            match = Constants.AddedRegex.Match(discData);
             if (match.Success)
             {
                 if (DateTime.TryParse(match.Groups[1].Value, out DateTime added))
@@ -605,7 +605,7 @@ namespace SabreTools.RedumpLib
             }
 
             // Last Modified
-            match = RedumpInfo.Constants.LastModifiedRegex.Match(discData);
+            match = Constants.LastModifiedRegex.Match(discData);
             if (match.Success)
             {
                 if (DateTime.TryParse(match.Groups[1].Value, out DateTime lastModified))

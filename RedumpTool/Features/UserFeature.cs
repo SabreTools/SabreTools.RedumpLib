@@ -95,7 +95,7 @@ namespace RedumpTool.Features
             }
             else
             {
-                discSubpaths = SabreTools.RedumpLib.RedumpInfo.Constants.AllDiscSubpaths;
+                discSubpaths = SabreTools.RedumpLib.Data.Constants.AllDiscSubpaths;
             }
 
             // Output directory validation
