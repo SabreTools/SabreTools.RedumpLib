@@ -3753,7 +3753,7 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:KID]", LongName = "<b>Konami ID</b>:")]
         KonamiID,
 
-        // This doesn't have a site tag yet
+        // This doesn't have a site tag yet, promoted to field in redump.info
         [HumanReadable(ShortName = "<b>Logs Link</b>:", LongName = "<b>Logs Link</b>:")]
         LogsLink,
 

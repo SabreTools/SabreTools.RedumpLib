@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SabreTools.RedumpLib.Data;
-using SabreTools.RedumpLib.Tools;
 using Xunit;
 using CommonDiscInfoSection = SabreTools.RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection;
 using CopyProtectionSection = SabreTools.RedumpLib.RedumpOrg.Sections.CopyProtectionSection;
 using DumpingInfoSection = SabreTools.RedumpLib.RedumpOrg.Sections.DumpingInfoSection;
 using EDCSection = SabreTools.RedumpLib.RedumpOrg.Sections.EDCSection;
 using ExtrasSection = SabreTools.RedumpLib.RedumpOrg.Sections.ExtrasSection;
+using Formatter = SabreTools.RedumpLib.RedumpOrg.Formatter;
 using SizeAndChecksumsSection = SabreTools.RedumpLib.RedumpOrg.Sections.SizeAndChecksumsSection;
 using TracksAndWriteOffsetsSection = SabreTools.RedumpLib.RedumpOrg.Sections.TracksAndWriteOffsetsSection;
 using VersionAndEditionsSection = SabreTools.RedumpLib.RedumpOrg.Sections.VersionAndEditionsSection;
 
+// TODO: Fix all tests here to point to new formatter
 namespace SabreTools.RedumpLib.Test.Tools
 {
     public class FormatterTests
