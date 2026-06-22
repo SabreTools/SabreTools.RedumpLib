@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SabreTools.RedumpLib.Data;
@@ -8,28 +9,47 @@ namespace SabreTools.RedumpLib.Converters
     /// <summary>
     /// Serialize Region enum values
     /// </summary>
-    public class RegionConverter : JsonConverter<Region?>
+    public class RegionConverter : JsonConverter<Region?[]>
     {
         public override bool CanRead { get { return true; } }
 
-        public override Region? ReadJson(JsonReader reader, Type objectType, Region? existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override Region?[] ReadJson(JsonReader reader, Type objectType, Region?[]? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             // If we have a value already, don't overwrite it
             if (hasExistingValue)
-                return existingValue;
+                return existingValue ?? [];
 
-            // Read the value
-            if (reader.Value is not string value)
-                return null;
+            // Get the current depth for checking
+            int currentDepth = reader.Depth;
 
-            // Try to parse the value
-            return value.ToRegion();
+            // Read the array while it exists
+            List<Region> regions = [];
+            while (reader.Read() && reader.Depth > currentDepth)
+            {
+                if (reader.Value is not string value)
+                    continue;
+
+                Region? region = value.ToRegion();
+                if (region is not null)
+                    regions.Add(region.Value);
+            }
+
+            return [.. regions];
         }
 
-        public override void WriteJson(JsonWriter writer, Region? value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, Region?[]? value, JsonSerializer serializer)
         {
-            JToken t = JToken.FromObject(value.ShortName() ?? string.Empty);
-            t.WriteTo(writer);
+            if (value is null)
+                return;
+
+            JArray array = [];
+            foreach (var val in value)
+            {
+                JToken t = JToken.FromObject(val.ShortName() ?? string.Empty);
+                array.Add(t);
+            }
+
+            array.WriteTo(writer);
         }
     }
 }

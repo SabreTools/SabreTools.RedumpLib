@@ -10,10 +10,6 @@ namespace SabreTools.RedumpLib.Data
     /// </summary>
     /// TODO: Fill section files for each of the following structures
     ///
-    /// Regions and languages:
-    ///     - Regions [regions] (need to make this multi-select)
-    ///     - Languages [languages]
-    ///
     /// Disc identifiers:
     ///     - Disc Serials [serial]
     ///     - Editions [edition]
@@ -56,8 +52,9 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// Version of the current schema
         /// </summary>
+        /// <remarks>Versions 4 and above are wholly incompatible with versions 1-3</remarks>
         [JsonProperty(PropertyName = "schema_version", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int SchemaVersion { get; set; } = 1;
+        public int SchemaVersion { get; set; } = 4;
 
         #endregion
 
@@ -107,6 +104,12 @@ namespace SabreTools.RedumpLib.Data
         [JsonProperty(PropertyName = "disc_identity", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DiscIdentitySection DiscIdentity { get; set; } = new DiscIdentitySection();
 
+        /// <summary>
+        /// Regions and languages section
+        /// </summary>
+        [JsonProperty(PropertyName = "disc_identity", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public RegionsAndLanguagesSection RegionsAndLanguages { get; set; } = new RegionsAndLanguagesSection();
+
         // TODO: To be filled out when sections are added
 
         #endregion
@@ -146,6 +149,7 @@ namespace SabreTools.RedumpLib.Data
                 LastModified = this.LastModified,
 
                 DiscIdentity = this.DiscIdentity?.Clone() as DiscIdentitySection ?? new DiscIdentitySection(),
+                RegionsAndLanguages = this.RegionsAndLanguages?.Clone() as RegionsAndLanguagesSection ?? new RegionsAndLanguagesSection(),
                 // TODO: Add cloning for all submission form sections
 
                 DumpingInfo = this.DumpingInfo?.Clone() as DumpingInfoSection ?? new DumpingInfoSection(),
