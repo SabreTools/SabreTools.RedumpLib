@@ -46,7 +46,7 @@ namespace SabreTools.RedumpLib.RedumpOrg.Sections
         public Language?[]? Languages { get; set; }
 
         [JsonProperty(PropertyName = "d_languages_selection", NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonConverter(typeof(LanguageSelectionConverter))]
+        [JsonConverter(typeof(Converters.LanguageSelectionConverter))]
         public LanguageSelection?[]? LanguageSelection { get; set; }
 
         [JsonProperty(PropertyName = "d_serial", NullValueHandling = NullValueHandling.Ignore)]
