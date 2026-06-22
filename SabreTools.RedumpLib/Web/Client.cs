@@ -10,9 +10,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
-using SabreTools.RedumpLib.Web;
+using SabreTools.RedumpLib.RedumpInfo;
 
-namespace SabreTools.RedumpLib.RedumpInfo
+namespace SabreTools.RedumpLib.Web
 {
     // TODO: Nearly every method here needs to be validated
 #pragma warning disable SYSLIB1045 // Convert to 'GeneratedRegexAttribute'.

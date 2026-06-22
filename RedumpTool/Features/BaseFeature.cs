@@ -123,7 +123,7 @@ namespace RedumpTool.Features
         /// <summary>
         /// redump.info client to use for external connections
         /// </summary>
-        protected SabreTools.RedumpLib.RedumpInfo.Client _infoClient;
+        protected SabreTools.RedumpLib.Web.Client _client;
 
         /// <summary>
         /// redump.org client to use for external connections
@@ -135,7 +135,7 @@ namespace RedumpTool.Features
         public BaseFeature(string name, string[] flags, string description, string? detailed = null)
            : base(name, flags, description, detailed)
         {
-            _infoClient = new SabreTools.RedumpLib.RedumpInfo.Client();
+            _client = new SabreTools.RedumpLib.Web.Client();
             _orgClient = new SabreTools.RedumpLib.RedumpOrg.Client();
         }
 

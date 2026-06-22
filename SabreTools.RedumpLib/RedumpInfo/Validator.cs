@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
+using SabreTools.RedumpLib.Web;
 using SubmissionInfo = SabreTools.RedumpLib.RedumpOrg.SubmissionInfo;
 
 namespace SabreTools.RedumpLib.RedumpInfo
@@ -16,7 +17,7 @@ namespace SabreTools.RedumpLib.RedumpInfo
         /// <returns>List of found values, if possible</returns>
         public static async Task<List<int>?> ValidateSingleTrack(Client client, SubmissionInfo info, string? sha1)
         {
-            // Get all matching IDs for the track
+            // Get all matching IDs for the trackClient
             var newIds = await client.ListDiscsResults(quicksearch: sha1);
 
             // If we got null back, there was an error

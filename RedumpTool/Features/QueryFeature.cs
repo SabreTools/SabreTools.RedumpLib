@@ -141,23 +141,23 @@ namespace RedumpTool.Features
             else
             {
                 // Update redump.info client properties
-                _infoClient.Debug = DebugInput.Value;
+                _client.Debug = DebugInput.Value;
                 if (attemptCount != null && attemptCount > 0)
-                    _infoClient.AttemptCount = attemptCount.Value;
+                    _client.AttemptCount = attemptCount.Value;
                 if (timeout != null && timeout > 0)
-                    _infoClient.Timeout = TimeSpan.FromSeconds(timeout.Value);
-                _infoClient.Overwrite = forceDownload;
-                _infoClient.IgnoreErrors = forceContinue;
+                    _client.Timeout = TimeSpan.FromSeconds(timeout.Value);
+                _client.Overwrite = forceDownload;
+                _client.IgnoreErrors = forceContinue;
 
                 // Login to edump.info, if necessary
-                _infoClient.Login(username, password).Wait();
+                _client.Login(username, password).Wait();
 
                 // Start the processing
                 Task<List<int>> processingTask;
                 if (onlyList)
-                    processingTask = _infoClient.ListDiscsResults(quicksearch: query, limit: limit);
+                    processingTask = _client.ListDiscsResults(quicksearch: query, limit: limit);
                 else
-                    processingTask = _infoClient.DownloadDiscsResults(outDir, quicksearch: query, limit: limit, discSubpaths: discSubpaths);
+                    processingTask = _client.DownloadDiscsResults(outDir, quicksearch: query, limit: limit, discSubpaths: discSubpaths);
 
                 // Retrieve the result
                 processingTask.Wait();
