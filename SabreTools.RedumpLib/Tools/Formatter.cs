@@ -460,7 +460,7 @@ namespace SabreTools.RedumpLib.Tools
             AddIfExists(output, Template.DumpingDriveModel, section.Model, 1);
             AddIfExists(output, Template.DumpingDriveFirmware, section.Firmware, 1);
             AddIfExists(output, Template.ReportedDiscType, section.ReportedDiscType, 1);
-            AddIfExists(output, Template.ErrorCountField, section.C2ErrorsCount, 1);
+            AddIfExists(output, Template.C2ErrorCount, section.C2ErrorsCount, 1);
         }
 
         #region Helpers

@@ -95,6 +95,7 @@
         public const string DumpingDriveModel = "Model";
         public const string DumpingDriveFirmware = "Firmware";
         public const string ReportedDiscType = "Reported Disc Type";
+        public const string C2ErrorCount = "C2 Error Count";
 
         #endregion
 

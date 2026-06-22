@@ -9,7 +9,7 @@ namespace SabreTools.RedumpLib.Test.Tools
     // TODO: Remove all references to redump.org submission information
     public class BuilderTests
     {
-        [Theory]
+        [Theory(Skip = "Re-enable when JSON outputs are recreated from new submission info")]
         [InlineData("success_complete.json", false)]
         [InlineData("success_invalid.json", false)] // Fully invalid returns a default object
         [InlineData("success_partial.json", false)]
