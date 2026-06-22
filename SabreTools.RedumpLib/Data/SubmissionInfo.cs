@@ -70,7 +70,7 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// Regions and languages section
         /// </summary>
-        [JsonProperty(PropertyName = "disc_identity", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "regions_and_languages", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public RegionsAndLanguagesSection RegionsAndLanguages { get; set; } = new RegionsAndLanguagesSection();
 
         /// <summary>
