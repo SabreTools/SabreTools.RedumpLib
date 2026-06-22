@@ -305,7 +305,8 @@ namespace SabreTools.RedumpLib.Tools
             AddIfExists(output, Template.VersionField, section.Version, 1);
             AddIfExists(output, Template.ErrorCountField, section.ErrorCount, 1);
             AddIfExists(output, Template.EXEDate, section.EXEDate, 1);
-            AddIfExists(output, Template.EDCField, section.EDC.LongName(), 1);
+            if (section.EDC != YesNo.NULL)
+                AddIfExists(output, Template.EDCField, section.EDC.LongName(), 1);
             AddIfExists(output, Template.LayerbreakField, section.Layerbreak, 1);
             AddIfExists(output, $"{Template.LayerbreakField} 2", section.Layerbreak2, 1);
             AddIfExists(output, $"{Template.LayerbreakField} 3", section.Layerbreak3, 1);
