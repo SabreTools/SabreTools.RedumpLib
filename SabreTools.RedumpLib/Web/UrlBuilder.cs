@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using SabreTools.RedumpLib.Data;
 
-namespace SabreTools.RedumpLib.RedumpInfo
+namespace SabreTools.RedumpLib.Web
 {
     /// <summary>
     /// URL builder helper
