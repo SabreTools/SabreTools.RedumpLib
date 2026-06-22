@@ -277,7 +277,7 @@ namespace SabreTools.RedumpLib.Tools
             AddIfExists(output, Template.DiscTitleField, section.DiscTitle, 1);
             AddIfExists(output, Template.FilenameSuffixField, section.FilenameSuffix, 1);
 
-            AddIfExists(output, Template.FullyMatchingIDsField, fullyMatchedIDs?.ToString(), 1);
+            AddIfExists(output, Template.FullyMatchingIDsField, fullyMatchedIDs, 1);
             AddIfExists(output, Template.PartiallyMatchingIDsField, partiallyMatchedIDs, 1);
         }
 
