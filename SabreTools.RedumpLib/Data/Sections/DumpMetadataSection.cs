@@ -27,6 +27,7 @@ namespace SabreTools.RedumpLib.Data.Sections
         [JsonIgnore]
         public Dictionary<SiteCode, string> ContentsSpecialFields { get; set; } = [];
 
+        // TODO: Add back Dictionary<string, List<string>?> FullProtections
         [JsonProperty(PropertyName = "protection", NullValueHandling = NullValueHandling.Ignore)]
         public string? Protection { get; set; }
 
