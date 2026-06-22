@@ -10,16 +10,6 @@ namespace SabreTools.RedumpLib.Data
     /// </summary>
     /// TODO: Fill section files for each of the following structures
     ///
-    /// Disc identity:
-    ///     - System [system_code]
-    ///     - Media [system_code]
-    ///     - Category [category]
-    ///     - Title [title]
-    ///     - Foreign Title [title_foreign]
-    ///     - Disc Number [disc_number]
-    ///     - Disc Title [disc_title]
-    ///     - Filename Suffix [filename_suffix] (may be removed in the future)
-    ///
     /// Regions and languages:
     ///     - Regions [regions] (need to make this multi-select)
     ///     - Languages [languages]
@@ -111,6 +101,12 @@ namespace SabreTools.RedumpLib.Data
 
         #region Submission Form
 
+        /// <summary>
+        /// Disc identity section
+        /// </summary>
+        [JsonProperty(PropertyName = "disc_identity", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public DiscIdentitySection DiscIdentity { get; set; } = new DiscIdentitySection();
+
         // TODO: To be filled out when sections are added
 
         #endregion
@@ -149,6 +145,7 @@ namespace SabreTools.RedumpLib.Data
                 Added = this.Added,
                 LastModified = this.LastModified,
 
+                DiscIdentity = this.DiscIdentity?.Clone() as DiscIdentitySection ?? new DiscIdentitySection(),
                 // TODO: Add cloning for all submission form sections
 
                 DumpingInfo = this.DumpingInfo?.Clone() as DumpingInfoSection ?? new DumpingInfoSection(),
