@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using SabreTools.RedumpLib.Converters;
 using SabreTools.RedumpLib.Data;
-using SabreTools.RedumpLib.RedumpOrg.Converters;
 
 namespace SabreTools.RedumpLib.RedumpOrg.Sections
 {
@@ -14,7 +13,7 @@ namespace SabreTools.RedumpLib.RedumpOrg.Sections
     {
         // Name not defined by Redump
         [JsonProperty(PropertyName = "d_system", DefaultValueHandling = DefaultValueHandling.Include)]
-        [JsonConverter(typeof(PhysicalSystemConverter))]
+        [JsonConverter(typeof(Converters.PhysicalSystemConverter))]
         public PhysicalSystem? System { get; set; }
 
         // Name not defined by Redump
@@ -39,7 +38,7 @@ namespace SabreTools.RedumpLib.RedumpOrg.Sections
         public DiscCategory? Category { get; set; }
 
         [JsonProperty(PropertyName = "d_region", DefaultValueHandling = DefaultValueHandling.Include)]
-        [JsonConverter(typeof(RegionConverter))]
+        [JsonConverter(typeof(Converters.RegionConverter))]
         public Region? Region { get; set; }
 
         [JsonProperty(PropertyName = "d_languages", DefaultValueHandling = DefaultValueHandling.Include)]

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SabreTools.RedumpLib.Data;
 
-namespace SabreTools.RedumpLib.RedumpInfo.Converters
+namespace SabreTools.RedumpLib.Converters
 {
     /// <summary>
     /// Serialize Region enum values
