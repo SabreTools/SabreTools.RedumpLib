@@ -10,6 +10,8 @@ namespace SabreTools.RedumpLib.Data
     /// </summary>
     /// TODO: Ensure all below information before creating
     ///
+    /// See https://github.com/superg/vgindex/blob/main/templates/disc_edit.html
+    ///
     /// Section (Name to be determined):
     ///     - System
     ///     - Media
