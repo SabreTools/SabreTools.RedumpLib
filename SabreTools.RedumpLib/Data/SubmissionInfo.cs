@@ -8,7 +8,55 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// redump.info submission page information
     /// </summary>
-    /// TODO: Fill in specific details from redump.info
+    /// TODO: Ensure all below information before creating
+    ///
+    /// Section (Name to be determined):
+    ///     - System
+    ///     - Media
+    ///     - Category
+    ///     - Title
+    ///     - Foreign Title
+    ///     - Disc Number
+    ///     - Disc Title
+    ///     - Filename Suffix (may be removed in the future)
+    ///
+    /// Section (Name to be determined):
+    ///     - Regions
+    ///     - Languages
+    ///
+    /// Section (Name to be determined) (Internal order to be determined):
+    ///     - Disc Serials
+    ///     - Editions
+    ///     - Barcodes
+    ///     - Version
+    ///     - Error Count
+    ///     - Universal Hash
+    ///     - Layerbreaks
+    ///     - EXE Date (YYYY-MM-DD)
+    ///     - EDC (Yes/No)
+    ///     - Disc ID
+    ///     - Disc Key
+    ///
+    /// Section (Name to be determined):
+    ///     Ring Codes
+    ///
+    /// Section (Name to be determined) (Internal order to be determined):
+    ///     - Comments
+    ///     - Contents
+    ///     - Protection (Includes LibCrypt detection)
+    ///     - SBI
+    ///     - Sector Ranges
+    ///     - PVD
+    ///     - PIC
+    ///     - Header
+    ///     - Cuesheet
+    ///     - Dat
+    ///
+    /// Section (Name to be determined):
+    ///     - Dump Log
+    ///     - Logs Archive URL
+    ///     - Submission Comment
+    ///     - Submit As
     public class SubmissionInfo : ICloneable
     {
         /// <summary>
