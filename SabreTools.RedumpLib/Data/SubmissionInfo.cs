@@ -8,14 +8,6 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// redump.info submission page information
     /// </summary>
-    /// TODO: Fill section files for each of the following structures
-    ///
-    /// Submission controls:
-    ///     - Dump Log [dump_log]
-    ///     - Logs Archive URL [extra_upload_url]
-    ///     - Review Comment [review_comment] (Hidden from submission)
-    ///     - Submission Comment [submission_comment]
-    ///     - Submit As [submit_as]
     public class SubmissionInfo : ICloneable
     {
         #region Model Information
@@ -67,7 +59,7 @@ namespace SabreTools.RedumpLib.Data
 
         #endregion
 
-        #region Submission Form
+        #region Edit Form
 
         /// <summary>
         /// Disc identity section
@@ -99,7 +91,11 @@ namespace SabreTools.RedumpLib.Data
         [JsonProperty(PropertyName = "dump_metadata", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DumpMetadataSection DumpMetadata { get; set; } = new DumpMetadataSection();
 
-        // TODO: To be filled out when sections are added
+        /// <summary>
+        /// Dump metadata section
+        /// </summary>
+        [JsonProperty(PropertyName = "submission_controls", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public SubmissionControlsSection SubmissionControls { get; set; } = new SubmissionControlsSection();
 
         #endregion
 
@@ -142,7 +138,7 @@ namespace SabreTools.RedumpLib.Data
                 DiscIdentifiers = this.DiscIdentifiers?.Clone() as DiscIdentifiersSection ?? new DiscIdentifiersSection(),
                 RingCodes = this.RingCodes?.Clone() as RingCodesSection ?? new RingCodesSection(),
                 DumpMetadata = this.DumpMetadata?.Clone() as DumpMetadataSection ?? new DumpMetadataSection(),
-                // TODO: Add cloning for all submission form sections
+                SubmissionControls = this.SubmissionControls?.Clone() as SubmissionControlsSection ?? new SubmissionControlsSection(),
 
                 DumpingInfo = this.DumpingInfo?.Clone() as DumpingInfoSection ?? new DumpingInfoSection(),
                 Artifacts = artifacts,
