@@ -254,8 +254,6 @@ namespace SabreTools.RedumpLib.Tools
             List<int>? fullyMatchedIDs,
             List<int>? partiallyMatchedIDs)
         {
-            output.AppendLine("Disc Identity:");
-
             // Extract the size from the hashes
             long size = Extensions.ExtractSizeFromHashData(dumpMetadata.Dat);
 
