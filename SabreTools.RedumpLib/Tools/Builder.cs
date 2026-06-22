@@ -14,7 +14,7 @@ using CommonDiscInfoSection = SabreTools.RedumpLib.RedumpOrg.Sections.CommonDisc
 using SubmissionInfo = SabreTools.RedumpLib.RedumpOrg.SubmissionInfo;
 using VersionAndEditionsSection = SabreTools.RedumpLib.RedumpOrg.Sections.VersionAndEditionsSection;
 
-namespace SabreTools.RedumpLib
+namespace SabreTools.RedumpLib.Tools
 {
     // TODO: Remove all references to redump.org submission information
     public static class Builder

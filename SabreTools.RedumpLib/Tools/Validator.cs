@@ -4,7 +4,7 @@ using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Web;
 using SubmissionInfo = SabreTools.RedumpLib.RedumpOrg.SubmissionInfo;
 
-namespace SabreTools.RedumpLib.RedumpInfo
+namespace SabreTools.RedumpLib.Tools
 {
     public static class Validator
     {

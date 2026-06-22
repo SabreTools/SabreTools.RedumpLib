@@ -1,9 +1,10 @@
 using System;
 using System.IO;
+using SabreTools.RedumpLib.Tools;
 using Xunit;
 using SubmissionInfo = SabreTools.RedumpLib.RedumpOrg.SubmissionInfo;
 
-namespace SabreTools.RedumpLib.Test
+namespace SabreTools.RedumpLib.Test.Tools
 {
     // TODO: Remove all references to redump.org submission information
     public class BuilderTests

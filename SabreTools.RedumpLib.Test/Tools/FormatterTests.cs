@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SabreTools.RedumpLib.Data;
-using SabreTools.RedumpLib.RedumpInfo;
+using SabreTools.RedumpLib.Tools;
 using Xunit;
 using CommonDiscInfoSection = SabreTools.RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection;
 using CopyProtectionSection = SabreTools.RedumpLib.RedumpOrg.Sections.CopyProtectionSection;
@@ -14,7 +14,7 @@ using SizeAndChecksumsSection = SabreTools.RedumpLib.RedumpOrg.Sections.SizeAndC
 using TracksAndWriteOffsetsSection = SabreTools.RedumpLib.RedumpOrg.Sections.TracksAndWriteOffsetsSection;
 using VersionAndEditionsSection = SabreTools.RedumpLib.RedumpOrg.Sections.VersionAndEditionsSection;
 
-namespace SabreTools.RedumpLib.Test.RedumpInfo
+namespace SabreTools.RedumpLib.Test.Tools
 {
     public class FormatterTests
     {

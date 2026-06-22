@@ -13,7 +13,7 @@ using SubmissionInfo = SabreTools.RedumpLib.RedumpOrg.SubmissionInfo;
 using TracksAndWriteOffsetsSection = SabreTools.RedumpLib.RedumpOrg.Sections.TracksAndWriteOffsetsSection;
 using VersionAndEditionsSection = SabreTools.RedumpLib.RedumpOrg.Sections.VersionAndEditionsSection;
 
-namespace SabreTools.RedumpLib.RedumpInfo
+namespace SabreTools.RedumpLib.Tools
 {
     // TODO: Remove all references to redump.org submission information
     public static class Formatter
