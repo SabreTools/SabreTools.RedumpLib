@@ -40,6 +40,78 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <returns>Corrected disc type, if possible</returns>
+        public static void NormalizeDiscType(this SubmissionInfo info)
+        {
+            // If we have nothing valid, do nothing
+            if (info.DiscIdentity.Media is null)
+                return;
+
+#pragma warning disable IDE0010
+            switch (info.DiscIdentity.Media)
+            {
+                case MediaType.DVD5:
+                case MediaType.DVD9:
+                    if (info.DiscIdentifiers.Layerbreak != default)
+                        info.DiscIdentity.Media = MediaType.DVD9;
+                    else
+                        info.DiscIdentity.Media = MediaType.DVD5;
+                    break;
+
+                case MediaType.BD25:
+                case MediaType.BD33:
+                case MediaType.BD50:
+                case MediaType.BD66:
+                case MediaType.BD100:
+                case MediaType.BD128:
+                    // Extract the size from the hashes
+                    long size = ExtractSizeFromHashData(info.DumpMetadata.Dat);
+
+                    if (info.DiscIdentifiers.Layerbreak3 != default)
+                        info.DiscIdentity.Media = MediaType.BD128;
+                    else if (info.DiscIdentifiers.Layerbreak2 != default)
+                        info.DiscIdentity.Media = MediaType.BD100;
+                    else if (info.DiscIdentifiers.Layerbreak != default && info.DumpMetadata.PICIdentifier == "BDU")
+                        info.DiscIdentity.Media = MediaType.BD66;
+                    else if (info.DiscIdentifiers.Layerbreak != default && size > 50_050_629_632)
+                        info.DiscIdentity.Media = MediaType.BD66;
+                    else if (info.DiscIdentifiers.Layerbreak != default)
+                        info.DiscIdentity.Media = MediaType.BD50;
+                    else if (info.DumpMetadata.PICIdentifier == "BDU")
+                        info.DiscIdentity.Media = MediaType.BD33;
+                    else if (size > 25_025_314_816)
+                        info.DiscIdentity.Media = MediaType.BD33;
+                    else
+                        info.DiscIdentity.Media = MediaType.BD25;
+                    break;
+
+                case MediaType.HDDVDSL:
+                case MediaType.HDDVDDL:
+                    if (info.DiscIdentifiers.Layerbreak != default)
+                        info.DiscIdentity.Media = MediaType.HDDVDDL;
+                    else
+                        info.DiscIdentity.Media = MediaType.HDDVDSL;
+                    break;
+
+                case MediaType.UMDSL:
+                case MediaType.UMDDL:
+                    if (info.DiscIdentifiers.Layerbreak != default)
+                        info.DiscIdentity.Media = MediaType.UMDDL;
+                    else
+                        info.DiscIdentity.Media = MediaType.UMDSL;
+                    break;
+
+                // All other disc types are not processed
+                default:
+                    break;
+            }
+#pragma warning restore IDE0010
+        }
+
+        /// <summary>
+        /// Adjust the disc type based on size and layerbreak information
+        /// </summary>
+        /// <param name="info">Existing SubmissionInfo object to fill</param>
+        /// <returns>Corrected disc type, if possible</returns>
         public static void NormalizeDiscType(this RedumpOrg.SubmissionInfo info)
         {
             // If we have nothing valid, do nothing
@@ -106,7 +178,8 @@ namespace SabreTools.RedumpLib.Data
             }
 #pragma warning restore IDE0010
         }
-    #endregion
+
+        #endregion
 
         #region Cross-Enumeration
 

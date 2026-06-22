@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Web;
-using SubmissionInfo = SabreTools.RedumpLib.RedumpOrg.SubmissionInfo;
 
 namespace SabreTools.RedumpLib.Tools
 {
@@ -46,11 +45,11 @@ namespace SabreTools.RedumpLib.Tools
         public static async Task<List<int>?> ValidateUniversalHash(Client client, SubmissionInfo info)
         {
             // If we don't have special fields
-            if (info.CommonDiscInfo.CommentsSpecialFields is null)
+            if (info.DumpMetadata.CommentsSpecialFields is null)
                 return null;
 
             // If we don't have a universal hash
-            string? universalHash = info.CommonDiscInfo.CommentsSpecialFields[SiteCode.UniversalHash];
+            string? universalHash = info.DiscIdentifiers.UniversalHash;
             if (string.IsNullOrEmpty(universalHash))
                 return null;
 

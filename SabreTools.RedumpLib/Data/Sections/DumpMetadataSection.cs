@@ -27,9 +27,12 @@ namespace SabreTools.RedumpLib.Data.Sections
         [JsonIgnore]
         public Dictionary<SiteCode, string> ContentsSpecialFields { get; set; } = [];
 
-        // TODO: Add back Dictionary<string, List<string>?> FullProtections
         [JsonProperty(PropertyName = "protection", NullValueHandling = NullValueHandling.Ignore)]
         public string? Protection { get; set; }
+
+        /// <remarks>This is a non-standard field</remarks>
+        [JsonIgnore]
+        public Dictionary<string, List<string>?>? FullProtections { get; set; }
 
         [JsonProperty(PropertyName = "sector_ranges", NullValueHandling = NullValueHandling.Ignore)]
         public string? SectorRanges { get; set; }
@@ -48,6 +51,10 @@ namespace SabreTools.RedumpLib.Data.Sections
 
         [JsonProperty(PropertyName = "pic", NullValueHandling = NullValueHandling.Ignore)]
         public string? PIC { get; set; }
+
+        /// <remarks>This is a non-standard field</remarks>
+        [JsonProperty(PropertyName = "pic_identifier", NullValueHandling = NullValueHandling.Ignore)]
+        public string? PICIdentifier { get; set; }
 
         [JsonProperty(PropertyName = "cue", NullValueHandling = NullValueHandling.Ignore)]
         public string? Cuesheet { get; set; }
