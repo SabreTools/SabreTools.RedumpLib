@@ -1,8 +1,9 @@
 using System;
 using Newtonsoft.Json;
 using SabreTools.RedumpLib.Converters;
+using SabreTools.RedumpLib.Data;
 
-namespace SabreTools.RedumpLib.Data.Sections
+namespace SabreTools.RedumpLib.RedumpOrg.Sections
 {
     /// <summary>
     /// EDC section of New Disc form (PSX only)

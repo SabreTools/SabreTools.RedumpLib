@@ -10,10 +10,13 @@ using System.Threading.Tasks;
 using System.Xml;
 using Newtonsoft.Json;
 using SabreTools.RedumpLib.Data;
-using SabreTools.RedumpLib.Data.Sections;
+using CommonDiscInfoSection = SabreTools.RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection;
+using SubmissionInfo = SabreTools.RedumpLib.RedumpOrg.SubmissionInfo;
+using VersionAndEditionsSection = SabreTools.RedumpLib.RedumpOrg.Sections.VersionAndEditionsSection;
 
 namespace SabreTools.RedumpLib
 {
+    // TODO: Remove all references to redump.org submission information
     public static class Builder
     {
         #region Creation

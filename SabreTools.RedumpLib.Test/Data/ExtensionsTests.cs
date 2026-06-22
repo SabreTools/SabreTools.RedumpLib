@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using SabreTools.RedumpLib.Data;
-using SabreTools.RedumpLib.Data.Sections;
 using Xunit;
+using CommonDiscInfoSection = SabreTools.RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection;
+using SizeAndChecksumsSection = SabreTools.RedumpLib.RedumpOrg.Sections.SizeAndChecksumsSection;
+using SubmissionInfo = SabreTools.RedumpLib.RedumpOrg.SubmissionInfo;
+using TracksAndWriteOffsetsSection = SabreTools.RedumpLib.RedumpOrg.Sections.TracksAndWriteOffsetsSection;
 
 namespace SabreTools.RedumpLib.Test.Data
 {
@@ -12,7 +15,7 @@ namespace SabreTools.RedumpLib.Test.Data
     {
         #region Non-Enumerable
 
-#region NormalizeDiscType
+        #region NormalizeDiscType
 
         [Fact]
         public void NormalizeDiscType_InvalidMedia_Untouched()

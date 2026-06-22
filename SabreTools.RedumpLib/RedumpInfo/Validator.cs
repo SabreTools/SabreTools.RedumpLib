@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
+using SubmissionInfo = SabreTools.RedumpLib.RedumpOrg.SubmissionInfo;
 
 namespace SabreTools.RedumpLib.RedumpInfo
 {

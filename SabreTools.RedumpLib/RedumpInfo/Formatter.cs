@@ -3,10 +3,19 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using SabreTools.RedumpLib.Data;
-using SabreTools.RedumpLib.Data.Sections;
+using CommonDiscInfoSection = SabreTools.RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection;
+using CopyProtectionSection = SabreTools.RedumpLib.RedumpOrg.Sections.CopyProtectionSection;
+using DumpingInfoSection = SabreTools.RedumpLib.RedumpOrg.Sections.DumpingInfoSection;
+using EDCSection = SabreTools.RedumpLib.RedumpOrg.Sections.EDCSection;
+using ExtrasSection = SabreTools.RedumpLib.RedumpOrg.Sections.ExtrasSection;
+using SizeAndChecksumsSection = SabreTools.RedumpLib.RedumpOrg.Sections.SizeAndChecksumsSection;
+using SubmissionInfo = SabreTools.RedumpLib.RedumpOrg.SubmissionInfo;
+using TracksAndWriteOffsetsSection = SabreTools.RedumpLib.RedumpOrg.Sections.TracksAndWriteOffsetsSection;
+using VersionAndEditionsSection = SabreTools.RedumpLib.RedumpOrg.Sections.VersionAndEditionsSection;
 
 namespace SabreTools.RedumpLib.RedumpInfo
 {
+    // TODO: Remove all references to redump.org submission information
     public static class Formatter
     {
         /// <summary>

@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using SabreTools.RedumpLib.Converters;
+using SabreTools.RedumpLib.Data;
 
-namespace SabreTools.RedumpLib.Data.Sections
+namespace SabreTools.RedumpLib.RedumpOrg.Sections
 {
     /// <summary>
     /// Copy protection section of New Disc form

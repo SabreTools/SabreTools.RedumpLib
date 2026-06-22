@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using SabreTools.RedumpLib.Converters;
+using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.RedumpOrg.Converters;
 
-namespace SabreTools.RedumpLib.Data.Sections
+namespace SabreTools.RedumpLib.RedumpOrg.Sections
 {
     /// <summary>
     /// Common disc info section of New Disc Form

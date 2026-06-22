@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace SabreTools.RedumpLib.Data.Sections
+namespace SabreTools.RedumpLib.RedumpOrg.Sections
 {
     /// <summary>
     /// Version and editions section of New Disc form

@@ -8,6 +8,7 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// Information pertaining to Redump systems
     /// </summary>
+    /// TODO: Remove all references to redump.org submission information
     public static class Extensions
     {
         #region Non-Enumerable
@@ -39,7 +40,7 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <returns>Corrected disc type, if possible</returns>
-        public static void NormalizeDiscType(this SubmissionInfo info)
+        public static void NormalizeDiscType(this RedumpOrg.SubmissionInfo info)
         {
             // If we have nothing valid, do nothing
             if (info.CommonDiscInfo.Media is null || info.SizeAndChecksums == default)
