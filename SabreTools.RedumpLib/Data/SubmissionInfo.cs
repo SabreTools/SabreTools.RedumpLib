@@ -8,7 +8,7 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// redump.info submission page information
     /// </summary>
-    /// TODO: Create section files for each of the following structures
+    /// TODO: Fill section files for each of the following structures
     ///
     /// Disc identity:
     ///     - System [system_code]
