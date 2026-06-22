@@ -10,22 +10,6 @@ namespace SabreTools.RedumpLib.Data
     /// </summary>
     /// TODO: Fill section files for each of the following structures
     ///
-    /// Disc identifiers:
-    ///     - Disc Serials [serial]
-    ///     - Editions [edition]
-    ///     - Barcodes [barcode]
-    ///     - Version [version]
-    ///     - Error Count [error_count]
-    ///     - EXE Date (YYYY-MM-DD) [exe_date]
-    ///     - EDC (Yes/No) [edc]
-    ///     - Layerbreaks [layerbreaks]
-    ///     - Disc ID [disc_id]
-    ///     - Disc Key [disc_key]
-    ///     - Universal Hash [universal_hash]
-    ///
-    /// Ring codes:
-    ///     Ring Codes [ring_codes]
-    ///
     /// Dump metadata:
     ///     - Comments [comments]
     ///     - Contents [contents]
@@ -116,6 +100,12 @@ namespace SabreTools.RedumpLib.Data
         [JsonProperty(PropertyName = "disc_identifiers", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DiscIdentifiersSection DiscIdentifiers { get; set; } = new DiscIdentifiersSection();
 
+        /// <summary>
+        /// Ring codes section
+        /// </summary>
+        [JsonProperty(PropertyName = "ring_codes", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public RingCodesSection RingCodes { get; set; } = new RingCodesSection();
+
         // TODO: To be filled out when sections are added
 
         #endregion
@@ -157,6 +147,7 @@ namespace SabreTools.RedumpLib.Data
                 DiscIdentity = this.DiscIdentity?.Clone() as DiscIdentitySection ?? new DiscIdentitySection(),
                 RegionsAndLanguages = this.RegionsAndLanguages?.Clone() as RegionsAndLanguagesSection ?? new RegionsAndLanguagesSection(),
                 DiscIdentifiers = this.DiscIdentifiers?.Clone() as DiscIdentifiersSection ?? new DiscIdentifiersSection(),
+                RingCodes = this.RingCodes?.Clone() as RingCodesSection ?? new RingCodesSection(),
                 // TODO: Add cloning for all submission form sections
 
                 DumpingInfo = this.DumpingInfo?.Clone() as DumpingInfoSection ?? new DumpingInfoSection(),
