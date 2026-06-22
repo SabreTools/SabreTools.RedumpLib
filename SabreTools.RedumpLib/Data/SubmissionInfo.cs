@@ -10,19 +10,6 @@ namespace SabreTools.RedumpLib.Data
     /// </summary>
     /// TODO: Fill section files for each of the following structures
     ///
-    /// Dump metadata:
-    ///     - Comments [comments]
-    ///     - Contents [contents]
-    ///     - Protection (Includes LibCrypt detection) [protection]
-    ///     - Sector Ranges [sector_ranges]
-    ///     - SBI [sbi]
-    ///     - PVD [pvd]
-    ///     - Header [header]
-    ///     - BCA [bca]
-    ///     - PIC [pic]
-    ///     - Cuesheet [cue]
-    ///     - Dat [files_xml]
-    ///
     /// Submission controls:
     ///     - Dump Log [dump_log]
     ///     - Logs Archive URL [extra_upload_url]
@@ -106,6 +93,12 @@ namespace SabreTools.RedumpLib.Data
         [JsonProperty(PropertyName = "ring_codes", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public RingCodesSection RingCodes { get; set; } = new RingCodesSection();
 
+        /// <summary>
+        /// Dump metadata section
+        /// </summary>
+        [JsonProperty(PropertyName = "dump_metadata", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public DumpMetadataSection DumpMetadata { get; set; } = new DumpMetadataSection();
+
         // TODO: To be filled out when sections are added
 
         #endregion
@@ -148,6 +141,7 @@ namespace SabreTools.RedumpLib.Data
                 RegionsAndLanguages = this.RegionsAndLanguages?.Clone() as RegionsAndLanguagesSection ?? new RegionsAndLanguagesSection(),
                 DiscIdentifiers = this.DiscIdentifiers?.Clone() as DiscIdentifiersSection ?? new DiscIdentifiersSection(),
                 RingCodes = this.RingCodes?.Clone() as RingCodesSection ?? new RingCodesSection(),
+                DumpMetadata = this.DumpMetadata?.Clone() as DumpMetadataSection ?? new DumpMetadataSection(),
                 // TODO: Add cloning for all submission form sections
 
                 DumpingInfo = this.DumpingInfo?.Clone() as DumpingInfoSection ?? new DumpingInfoSection(),
