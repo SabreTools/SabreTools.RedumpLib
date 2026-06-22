@@ -61,11 +61,17 @@ namespace SabreTools.RedumpLib.Data
     ///     - Submit As [submit_as]
     public class SubmissionInfo : ICloneable
     {
+        #region Model Information
+
         /// <summary>
         /// Version of the current schema
         /// </summary>
         [JsonProperty(PropertyName = "schema_version", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int SchemaVersion { get; set; } = 1;
+
+        #endregion
+
+        #region Matching Information
 
         /// <summary>
         /// List of fully-matched Redump IDs
@@ -101,6 +107,16 @@ namespace SabreTools.RedumpLib.Data
         [JsonIgnore]
         public DateTime? LastModified { get; set; }
 
+        #endregion
+
+        #region Submission Form
+
+        // TODO: To be filled out when sections are added
+
+        #endregion
+
+        #region Moderator Information
+
         /// <summary>
         /// Dumping info section for moderation
         /// </summary>
@@ -113,6 +129,9 @@ namespace SabreTools.RedumpLib.Data
         [JsonProperty(PropertyName = "artifacts", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Dictionary<string, string> Artifacts { get; set; } = [];
 
+        #endregion
+
+        /// <inheritdoc/>
         public object Clone()
         {
             Dictionary<string, string> artifacts = [];
@@ -124,10 +143,14 @@ namespace SabreTools.RedumpLib.Data
             return new SubmissionInfo
             {
                 SchemaVersion = this.SchemaVersion,
+
                 FullyMatchedIDs = this.FullyMatchedIDs,
                 PartiallyMatchedIDs = this.PartiallyMatchedIDs,
                 Added = this.Added,
                 LastModified = this.LastModified,
+
+                // TODO: Add cloning for all submission form sections
+
                 DumpingInfo = this.DumpingInfo?.Clone() as DumpingInfoSection ?? new DumpingInfoSection(),
                 Artifacts = artifacts,
             };
