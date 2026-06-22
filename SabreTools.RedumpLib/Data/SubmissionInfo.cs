@@ -16,7 +16,7 @@ namespace SabreTools.RedumpLib.Data
     ///     - Barcodes [barcode]
     ///     - Version [version]
     ///     - Error Count [error_count]
-    ///     - EXE Date (YYYY-MM-DD) [error_count]
+    ///     - EXE Date (YYYY-MM-DD) [exe_date]
     ///     - EDC (Yes/No) [edc]
     ///     - Layerbreaks [layerbreaks]
     ///     - Disc ID [disc_id]
@@ -110,6 +110,12 @@ namespace SabreTools.RedumpLib.Data
         [JsonProperty(PropertyName = "disc_identity", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public RegionsAndLanguagesSection RegionsAndLanguages { get; set; } = new RegionsAndLanguagesSection();
 
+        /// <summary>
+        /// Disc identifiers section
+        /// </summary>
+        [JsonProperty(PropertyName = "disc_identifiers", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public DiscIdentifiersSection DiscIdentifiers { get; set; } = new DiscIdentifiersSection();
+
         // TODO: To be filled out when sections are added
 
         #endregion
@@ -150,6 +156,7 @@ namespace SabreTools.RedumpLib.Data
 
                 DiscIdentity = this.DiscIdentity?.Clone() as DiscIdentitySection ?? new DiscIdentitySection(),
                 RegionsAndLanguages = this.RegionsAndLanguages?.Clone() as RegionsAndLanguagesSection ?? new RegionsAndLanguagesSection(),
+                DiscIdentifiers = this.DiscIdentifiers?.Clone() as DiscIdentifiersSection ?? new DiscIdentifiersSection(),
                 // TODO: Add cloning for all submission form sections
 
                 DumpingInfo = this.DumpingInfo?.Clone() as DumpingInfoSection ?? new DumpingInfoSection(),
