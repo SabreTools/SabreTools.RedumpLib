@@ -10,13 +10,9 @@ using System.Threading.Tasks;
 using System.Xml;
 using Newtonsoft.Json;
 using SabreTools.RedumpLib.Data;
-using CommonDiscInfoSection = SabreTools.RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection;
-using SubmissionInfo = SabreTools.RedumpLib.RedumpOrg.SubmissionInfo;
-using VersionAndEditionsSection = SabreTools.RedumpLib.RedumpOrg.Sections.VersionAndEditionsSection;
 
 namespace SabreTools.RedumpLib.Tools
 {
-    // TODO: Remove all references to redump.org submission information
     public static class Builder
     {
         #region Creation
@@ -59,11 +55,7 @@ namespace SabreTools.RedumpLib.Tools
 #pragma warning disable IDE0051
         private static SubmissionInfo? CreateFromID(string discData)
         {
-            var info = new SubmissionInfo()
-            {
-                CommonDiscInfo = new CommonDiscInfoSection(),
-                VersionAndEditions = new VersionAndEditionsSection(),
-            };
+            var info = new SubmissionInfo();
 
             // No disc data means we can't parse it
             if (string.IsNullOrEmpty(discData))
@@ -121,7 +113,7 @@ namespace SabreTools.RedumpLib.Tools
 
                     // The title is the only thing in h1 tags
                     if (string.Equals(childNode.Name, "h1", StringComparison.OrdinalIgnoreCase))
-                        info.CommonDiscInfo.Title = childNode.InnerText;
+                        info.DiscIdentity.Title = childNode.InnerText;
 
                     // Most things are div elements but can be hard to parse out
                     else if (!string.Equals(childNode.Name, "div", StringComparison.OrdinalIgnoreCase))
@@ -181,15 +173,15 @@ namespace SabreTools.RedumpLib.Tools
                                         }
                                         else if (string.Equals(gameInfoNodeHeader.InnerText, "System", StringComparison.OrdinalIgnoreCase))
                                         {
-                                            info.CommonDiscInfo.System = (gameInfoNodeData["a"]?.InnerText ?? string.Empty).ToPhysicalSystem();
+                                            info.DiscIdentity.System = (gameInfoNodeData["a"]?.InnerText ?? string.Empty).ToPhysicalSystem();
                                         }
                                         else if (string.Equals(gameInfoNodeHeader.InnerText, "Media", StringComparison.OrdinalIgnoreCase))
                                         {
-                                            info.CommonDiscInfo.Media = gameInfoNodeData.InnerText.ToMediaType();
+                                            info.DiscIdentity.Media = gameInfoNodeData.InnerText.ToMediaType();
                                         }
                                         else if (string.Equals(gameInfoNodeHeader.InnerText, "Category", StringComparison.OrdinalIgnoreCase))
                                         {
-                                            info.CommonDiscInfo.Category = gameInfoNodeData.InnerText.ToDiscCategory();
+                                            info.DiscIdentity.Category = gameInfoNodeData.InnerText.ToDiscCategory();
                                         }
                                         else if (string.Equals(gameInfoNodeHeader.InnerText, "Region", StringComparison.OrdinalIgnoreCase))
                                         {
@@ -201,7 +193,7 @@ namespace SabreTools.RedumpLib.Tools
                                         }
                                         else if (string.Equals(gameInfoNodeHeader.InnerText, "Edition", StringComparison.OrdinalIgnoreCase))
                                         {
-                                            info.VersionAndEditions.OtherEditions = gameInfoNodeData.InnerText;
+                                            info.DiscIdentifiers.Editions = gameInfoNodeData.InnerText;
                                         }
                                         else if (string.Equals(gameInfoNodeHeader.InnerText, "Added", StringComparison.OrdinalIgnoreCase))
                                         {
@@ -267,85 +259,56 @@ namespace SabreTools.RedumpLib.Tools
             var match = Constants.TitleRegex.Match(discData);
             if (match.Success)
             {
-                string? title = WebUtility.HtmlDecode(match.Groups[1].Value);
-
-                // If we have parenthesis, title is everything before the first one
-                int firstParenLocation = title?.IndexOf(" (") ?? -1;
-                if (title is not null && firstParenLocation >= 0)
-                {
-#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
-                    info.CommonDiscInfo!.Title = title[..firstParenLocation];
-#else
-                    info.CommonDiscInfo!.Title = title.Substring(0, firstParenLocation);
-#endif
-                    var submatches = Constants.DiscNumberLetterRegex.Matches(title);
-                    foreach (Match? submatch in submatches)
-                    {
-                        if (submatch is null)
-                            continue;
-
-                        var submatchValue = submatch.Groups[1].Value;
-
-                        // Disc number or letter
-                        if (submatchValue.StartsWith("Disc"))
-#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
-                            info.CommonDiscInfo.DiscNumberLetter = submatchValue["Disc ".Length..];
-#else
-                            info.CommonDiscInfo.DiscNumberLetter = submatchValue.Remove(0, "Disc ".Length);
-#endif
-
-                        // Issue number
-                        else if (ulong.TryParse(submatchValue, out _))
-                            info.CommonDiscInfo.Title += $" ({submatchValue})";
-
-                        // Disc title
-                        else
-                            info.CommonDiscInfo.DiscTitle = submatchValue;
-                    }
-                }
-                // Otherwise, leave the title as-is
-                else
-                {
-                    info.CommonDiscInfo!.Title = title;
-                }
+                // TODO: Add back title splitting later
+                info.DiscIdentity.Title = WebUtility.HtmlDecode(match.Groups[1].Value);
             }
 
             // Foreign Title
             match = Constants.ForeignTitleRegex.Match(discData);
             if (match.Success)
-                info.CommonDiscInfo!.ForeignTitleNonLatin = WebUtility.HtmlDecode(match.Groups[1].Value);
+                info.DiscIdentity.ForeignTitle = WebUtility.HtmlDecode(match.Groups[1].Value);
 
             // Category
             match = Constants.CategoryRegex.Match(discData);
             if (match.Success)
-                info.CommonDiscInfo!.Category = match.Groups[1].Value.ToDiscCategory();
+                info.DiscIdentity.Category = match.Groups[1].Value.ToDiscCategory();
             else
-                info.CommonDiscInfo!.Category = DiscCategory.Games;
+                info.DiscIdentity.Category = DiscCategory.Games;
 
             // Region
-            if (info.CommonDiscInfo.Region is null)
+            var regionMatches = Constants.RegionRegex.Matches(discData);
+            if (regionMatches.Count > 0)
             {
-                match = Constants.RegionRegex.Match(discData);
-                if (match.Success)
-                    info.CommonDiscInfo.Region = match.Groups[1].Value.ToRegion();
+                var tempRegions = new List<Region?>();
+                foreach (Match? regionMatch in regionMatches)
+                {
+                    if (regionMatch is null)
+                        continue;
+
+                    var region = regionMatch.Groups[1].Value.ToRegion();
+                    if (region is not null)
+                        tempRegions.Add(region);
+                }
+
+                info.RegionsAndLanguages.Regions = [.. tempRegions];
             }
 
             // Languages
-            var matches = Constants.LanguagesRegex.Matches(discData);
-            if (matches.Count > 0)
+            var languageMatches = Constants.LanguagesRegex.Matches(discData);
+            if (languageMatches.Count > 0)
             {
                 var tempLanguages = new List<Language?>();
-                foreach (Match? submatch in matches)
+                foreach (Match? languageMatch in languageMatches)
                 {
-                    if (submatch is null)
+                    if (languageMatch is null)
                         continue;
 
-                    var language = submatch.Groups[1].Value.ToLanguage();
+                    var language = languageMatch.Groups[1].Value.ToLanguage();
                     if (language is not null)
                         tempLanguages.Add(language);
                 }
 
-                info.CommonDiscInfo.Languages = [.. tempLanguages];
+                info.RegionsAndLanguages.Languages = [.. tempLanguages];
             }
 
             // Serial
@@ -358,53 +321,28 @@ namespace SabreTools.RedumpLib.Tools
             }
 
             // Error count
-            if (string.IsNullOrEmpty(info.CommonDiscInfo.ErrorsCount))
+            if (string.IsNullOrEmpty(info.DiscIdentifiers.ErrorCount))
             {
                 match = Constants.ErrorCountRegex.Match(discData);
                 if (match.Success)
-                    info.CommonDiscInfo.ErrorsCount = match.Groups[1].Value;
+                    info.DiscIdentifiers.ErrorCount = match.Groups[1].Value;
             }
 
             // Version
-            if (info.VersionAndEditions!.Version is null)
+            if (info.DiscIdentifiers.Version is null)
             {
                 match = Constants.VersionRegex.Match(discData);
                 if (match.Success)
-                    info.VersionAndEditions.Version = $"(VERIFY THIS) {WebUtility.HtmlDecode(match.Groups[1].Value)}";
-            }
-
-            // Dumpers
-            matches = Constants.DumpersRegex.Matches(discData);
-            if (matches.Count > 0)
-            {
-                // Start with any currently listed dumpers
-                var tempDumpers = new List<string>();
-                if (info.DumpersAndStatus!.Dumpers is not null && info.DumpersAndStatus.Dumpers.Length > 0)
-                {
-                    foreach (string dumper in info.DumpersAndStatus.Dumpers)
-                        tempDumpers.Add(dumper);
-                }
-
-                foreach (Match? submatch in matches)
-                {
-                    if (submatch is null)
-                        continue;
-
-                    string? dumper = WebUtility.HtmlDecode(submatch.Groups[1].Value);
-                    if (dumper is not null)
-                        tempDumpers.Add(dumper);
-                }
-
-                info.DumpersAndStatus.Dumpers = [.. tempDumpers];
+                    info.DiscIdentifiers.Version = $"(VERIFY THIS) {WebUtility.HtmlDecode(match.Groups[1].Value)}";
             }
 
             // PS3 DiscKey
-            if (string.IsNullOrEmpty(info.Extras!.DiscKey))
+            if (string.IsNullOrEmpty(info.DiscIdentifiers.DiscKey))
             {
                 // Validate key is not NULL
                 match = Constants.PS3DiscKey.Match(discData);
                 if (match.Success && match.Groups[1].Value != "<span class=\"null\">NULL</span>")
-                    info.Extras.DiscKey = match.Groups[1].Value;
+                    info.DiscIdentifiers.DiscKey = match.Groups[1].Value;
             }
 
             // TODO: Unify handling of fields that can include site codes (Comments/Contents)
@@ -416,8 +354,8 @@ namespace SabreTools.RedumpLib.Tools
                 if (match.Success)
                 {
                     // Process the old comments block
-                    string oldComments = info.CommonDiscInfo.Comments
-                        + (string.IsNullOrEmpty(info.CommonDiscInfo.Comments) ? string.Empty : "\n")
+                    string oldComments = info.DumpMetadata.Comments
+                        + (string.IsNullOrEmpty(info.DumpMetadata.Comments) ? string.Empty : "\n")
                         + (WebUtility.HtmlDecode(match.Groups[1].Value) ?? string.Empty)
                             .Replace("\r\n", "\n")
                             .Replace("<br />\n", "\n")
@@ -474,12 +412,12 @@ namespace SabreTools.RedumpLib.Tools
                                 continue;
 
                             // If we don't already have this site code, add it to the dictionary
-                            if (!info.CommonDiscInfo.CommentsSpecialFields!.ContainsKey(siteCode.Value))
-                                info.CommonDiscInfo.CommentsSpecialFields[siteCode.Value] = $"(VERIFY THIS) {commentLine.Replace(shortName, string.Empty).Trim()}";
+                            if (!info.DumpMetadata.CommentsSpecialFields.ContainsKey(siteCode.Value))
+                                info.DumpMetadata.CommentsSpecialFields[siteCode.Value] = $"(VERIFY THIS) {commentLine.Replace(shortName, string.Empty).Trim()}";
 
                             // Otherwise, append the value to the existing key
                             else
-                                info.CommonDiscInfo.CommentsSpecialFields[siteCode.Value] += $", {commentLine.Replace(shortName, string.Empty).Trim()}";
+                                info.DumpMetadata.CommentsSpecialFields[siteCode.Value] += $", {commentLine.Replace(shortName, string.Empty).Trim()}";
 
                             break;
                         }
@@ -489,10 +427,10 @@ namespace SabreTools.RedumpLib.Tools
                         {
                             if (addToLast && lastSiteCode is not null && !ShouldSkipSiteCode(lastSiteCode))
                             {
-                                if (!string.IsNullOrEmpty(info.CommonDiscInfo.CommentsSpecialFields![lastSiteCode.Value]))
-                                    info.CommonDiscInfo.CommentsSpecialFields[lastSiteCode.Value] += "\n";
+                                if (!string.IsNullOrEmpty(info.DumpMetadata.CommentsSpecialFields![lastSiteCode.Value]))
+                                    info.DumpMetadata.CommentsSpecialFields[lastSiteCode.Value] += "\n";
 
-                                info.CommonDiscInfo.CommentsSpecialFields[lastSiteCode.Value] += commentLine;
+                                info.DumpMetadata.CommentsSpecialFields[lastSiteCode.Value] += commentLine;
                             }
                             else if (!addToLast || lastSiteCode is null)
                             {
@@ -502,7 +440,7 @@ namespace SabreTools.RedumpLib.Tools
                     }
 
                     // Set the new comments field
-                    info.CommonDiscInfo.Comments = newComments;
+                    info.DumpMetadata.Comments = newComments;
                 }
             }
 
@@ -513,8 +451,8 @@ namespace SabreTools.RedumpLib.Tools
                 if (match.Success)
                 {
                     // Process the old contents block
-                    string oldContents = info.CommonDiscInfo.Contents
-                        + (string.IsNullOrEmpty(info.CommonDiscInfo.Contents) ? string.Empty : "\n")
+                    string oldContents = info.DumpMetadata.Contents
+                        + (string.IsNullOrEmpty(info.DumpMetadata.Contents) ? string.Empty : "\n")
                         + (WebUtility.HtmlDecode(match.Groups[1].Value) ?? string.Empty)
                             .Replace("\r\n", "\n")
                             .Replace("<br />\n", "\n")
@@ -561,8 +499,8 @@ namespace SabreTools.RedumpLib.Tools
                             lastSiteCode = siteCode;
 
                             // If we don't already have this site code, add it to the dictionary
-                            if (!info.CommonDiscInfo.ContentsSpecialFields!.ContainsKey(siteCode.Value))
-                                info.CommonDiscInfo.ContentsSpecialFields[siteCode.Value] = $"(VERIFY THIS) {contentLine.Replace(shortName, string.Empty).Trim()}";
+                            if (!info.DumpMetadata.ContentsSpecialFields.ContainsKey(siteCode.Value))
+                                info.DumpMetadata.ContentsSpecialFields[siteCode.Value] = $"(VERIFY THIS) {contentLine.Replace(shortName, string.Empty).Trim()}";
 
                             // A subset of tags can be multiline
                             addToLast = siteCode.IsMultiLine();
@@ -577,10 +515,10 @@ namespace SabreTools.RedumpLib.Tools
                         {
                             if (addToLast && lastSiteCode is not null && !ShouldSkipSiteCode(lastSiteCode))
                             {
-                                if (!string.IsNullOrEmpty(info.CommonDiscInfo.ContentsSpecialFields![lastSiteCode.Value]))
-                                    info.CommonDiscInfo.ContentsSpecialFields[lastSiteCode.Value] += "\n";
+                                if (!string.IsNullOrEmpty(info.DumpMetadata.ContentsSpecialFields![lastSiteCode.Value]))
+                                    info.DumpMetadata.ContentsSpecialFields[lastSiteCode.Value] += "\n";
 
-                                info.CommonDiscInfo.ContentsSpecialFields[lastSiteCode.Value] += contentLine;
+                                info.DumpMetadata.ContentsSpecialFields[lastSiteCode.Value] += contentLine;
                             }
                             else if (!addToLast || lastSiteCode is null)
                             {
@@ -590,7 +528,7 @@ namespace SabreTools.RedumpLib.Tools
                     }
 
                     // Set the new contents field
-                    info.CommonDiscInfo.Contents = newContents;
+                    info.DumpMetadata.Contents = newContents;
                 }
             }
 
@@ -624,7 +562,7 @@ namespace SabreTools.RedumpLib.Tools
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <param name="includeAllData">True to include all pullable information, false to do bare minimum</param>
-        public static async Task<bool> FillFromId(RedumpOrg.Client client, SubmissionInfo info, int id, bool includeAllData)
+        public static async Task<bool> FillFromId(RedumpOrg.Client client, RedumpOrg.SubmissionInfo info, int id, bool includeAllData)
         {
             var discData = await client.DownloadSingleDiscPage(id);
             if (string.IsNullOrEmpty(discData))
@@ -641,9 +579,9 @@ namespace SabreTools.RedumpLib.Tools
                 if (title is not null && firstParenLocation >= 0)
                 {
 #if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
-                    info.CommonDiscInfo!.Title = title[..firstParenLocation];
+                    info.CommonDiscInfo.Title = title[..firstParenLocation];
 #else
-                    info.CommonDiscInfo!.Title = title.Substring(0, firstParenLocation);
+                    info.CommonDiscInfo.Title = title.Substring(0, firstParenLocation);
 #endif
                     var submatches = RedumpOrg.Constants.DiscNumberLetterRegex.Matches(title);
                     foreach (Match? submatch in submatches)
@@ -673,21 +611,21 @@ namespace SabreTools.RedumpLib.Tools
                 // Otherwise, leave the title as-is
                 else
                 {
-                    info.CommonDiscInfo!.Title = title;
+                    info.CommonDiscInfo.Title = title;
                 }
             }
 
             // Foreign Title
             match = RedumpOrg.Constants.ForeignTitleRegex.Match(discData);
             if (match.Success)
-                info.CommonDiscInfo!.ForeignTitleNonLatin = WebUtility.HtmlDecode(match.Groups[1].Value);
+                info.CommonDiscInfo.ForeignTitleNonLatin = WebUtility.HtmlDecode(match.Groups[1].Value);
 
             // Category
             match = RedumpOrg.Constants.CategoryRegex.Match(discData);
             if (match.Success)
-                info.CommonDiscInfo!.Category = match.Groups[1].Value.ToDiscCategory();
+                info.CommonDiscInfo.Category = match.Groups[1].Value.ToDiscCategory();
             else
-                info.CommonDiscInfo!.Category = DiscCategory.Games;
+                info.CommonDiscInfo.Category = DiscCategory.Games;
 
             // Region
             if (info.CommonDiscInfo.Region is null)
@@ -733,7 +671,7 @@ namespace SabreTools.RedumpLib.Tools
             }
 
             // Version
-            if (info.VersionAndEditions!.Version is null)
+            if (info.VersionAndEditions.Version is null)
             {
                 match = RedumpOrg.Constants.VersionRegex.Match(discData);
                 if (match.Success)
@@ -746,7 +684,7 @@ namespace SabreTools.RedumpLib.Tools
             {
                 // Start with any currently listed dumpers
                 var tempDumpers = new List<string>();
-                if (info.DumpersAndStatus!.Dumpers is not null && info.DumpersAndStatus.Dumpers.Length > 0)
+                if (info.DumpersAndStatus.Dumpers is not null && info.DumpersAndStatus.Dumpers.Length > 0)
                 {
                     foreach (string dumper in info.DumpersAndStatus.Dumpers)
                         tempDumpers.Add(dumper);
@@ -766,7 +704,7 @@ namespace SabreTools.RedumpLib.Tools
             }
 
             // PS3 DiscKey
-            if (string.IsNullOrEmpty(info.Extras!.DiscKey))
+            if (string.IsNullOrEmpty(info.Extras.DiscKey))
             {
                 // Validate key is not NULL
                 match = RedumpOrg.Constants.PS3DiscKey.Match(discData);
@@ -841,7 +779,7 @@ namespace SabreTools.RedumpLib.Tools
                                 continue;
 
                             // If we don't already have this site code, add it to the dictionary
-                            if (!info.CommonDiscInfo.CommentsSpecialFields!.ContainsKey(siteCode.Value))
+                            if (!info.CommonDiscInfo.CommentsSpecialFields.ContainsKey(siteCode.Value))
                                 info.CommonDiscInfo.CommentsSpecialFields[siteCode.Value] = $"(VERIFY THIS) {commentLine.Replace(shortName, string.Empty).Trim()}";
 
                             // Otherwise, append the value to the existing key
@@ -928,7 +866,7 @@ namespace SabreTools.RedumpLib.Tools
                             lastSiteCode = siteCode;
 
                             // If we don't already have this site code, add it to the dictionary
-                            if (!info.CommonDiscInfo.ContentsSpecialFields!.ContainsKey(siteCode.Value))
+                            if (!info.CommonDiscInfo.ContentsSpecialFields.ContainsKey(siteCode.Value))
                                 info.CommonDiscInfo.ContentsSpecialFields[siteCode.Value] = $"(VERIFY THIS) {contentLine.Replace(shortName, string.Empty).Trim()}";
 
                             // A subset of tags can be multiline
@@ -999,48 +937,51 @@ namespace SabreTools.RedumpLib.Tools
             info ??= new SubmissionInfo();
 
             // Info that only overwrites if supplied
-            if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Title)) info.CommonDiscInfo.Title = seed.CommonDiscInfo.Title;
-            if (!string.IsNullOrEmpty(seed.CommonDiscInfo.ForeignTitleNonLatin)) info.CommonDiscInfo.ForeignTitleNonLatin = seed.CommonDiscInfo.ForeignTitleNonLatin;
-            if (!string.IsNullOrEmpty(seed.CommonDiscInfo.DiscNumberLetter)) info.CommonDiscInfo.DiscNumberLetter = seed.CommonDiscInfo.DiscNumberLetter;
-            if (!string.IsNullOrEmpty(seed.CommonDiscInfo.DiscTitle)) info.CommonDiscInfo.DiscTitle = seed.CommonDiscInfo.DiscTitle;
-            if (seed.CommonDiscInfo.Category is not null) info.CommonDiscInfo.Category = seed.CommonDiscInfo.Category;
-            if (seed.CommonDiscInfo.Region is not null) info.CommonDiscInfo.Region = seed.CommonDiscInfo.Region;
-            if (seed.CommonDiscInfo.Languages is not null) info.CommonDiscInfo.Languages = seed.CommonDiscInfo.Languages;
-            if (seed.CommonDiscInfo.LanguageSelection is not null) info.CommonDiscInfo.LanguageSelection = seed.CommonDiscInfo.LanguageSelection;
-            if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Serial)) info.CommonDiscInfo.Serial = seed.CommonDiscInfo.Serial;
-            if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Barcode)) info.CommonDiscInfo.Barcode = seed.CommonDiscInfo.Barcode;
-            if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Comments)) info.CommonDiscInfo.Comments = seed.CommonDiscInfo.Comments;
-            if (seed.CommonDiscInfo.CommentsSpecialFields is not null) info.CommonDiscInfo.CommentsSpecialFields = seed.CommonDiscInfo.CommentsSpecialFields;
-            if (!string.IsNullOrEmpty(seed.CommonDiscInfo.Contents)) info.CommonDiscInfo.Contents = seed.CommonDiscInfo.Contents;
-            if (seed.CommonDiscInfo.ContentsSpecialFields is not null) info.CommonDiscInfo.ContentsSpecialFields = seed.CommonDiscInfo.ContentsSpecialFields;
+            if (seed.DiscIdentity.Category is not null) info.DiscIdentity.Category = seed.DiscIdentity.Category;
+            if (!string.IsNullOrEmpty(seed.DiscIdentity.Title)) info.DiscIdentity.Title = seed.DiscIdentity.Title;
+            if (!string.IsNullOrEmpty(seed.DiscIdentity.ForeignTitle)) info.DiscIdentity.ForeignTitle = seed.DiscIdentity.ForeignTitle;
+            if (!string.IsNullOrEmpty(seed.DiscIdentity.DiscNumber)) info.DiscIdentity.DiscNumber = seed.DiscIdentity.DiscNumber;
+            if (!string.IsNullOrEmpty(seed.DiscIdentity.DiscTitle)) info.DiscIdentity.DiscTitle = seed.DiscIdentity.DiscTitle;
+
+            if (seed.RegionsAndLanguages.Regions is not null) info.RegionsAndLanguages.Regions = seed.RegionsAndLanguages.Regions;
+            if (seed.RegionsAndLanguages.Languages is not null) info.RegionsAndLanguages.Languages = seed.RegionsAndLanguages.Languages;
+
+            if (!string.IsNullOrEmpty(seed.DiscIdentifiers.DiscSerials)) info.DiscIdentifiers.DiscSerials = seed.DiscIdentifiers.DiscSerials;
+            if (!string.IsNullOrEmpty(seed.DiscIdentifiers.Editions)) info.DiscIdentifiers.Editions = seed.DiscIdentifiers.Editions;
+            if (!string.IsNullOrEmpty(seed.DiscIdentifiers.Barcodes)) info.DiscIdentifiers.Barcodes = seed.DiscIdentifiers.Barcodes;
+            if (!string.IsNullOrEmpty(seed.DiscIdentifiers.Version)) info.DiscIdentifiers.Version = seed.DiscIdentifiers.Version;
+            if (!string.IsNullOrEmpty(seed.DiscIdentifiers.DiscID)) info.DiscIdentifiers.DiscID = seed.DiscIdentifiers.DiscID;
+            if (!string.IsNullOrEmpty(seed.DiscIdentifiers.DiscKey)) info.DiscIdentifiers.DiscKey = seed.DiscIdentifiers.DiscKey;
+
+            if (!string.IsNullOrEmpty(seed.DumpMetadata.Comments)) info.DumpMetadata.Comments = seed.DumpMetadata.Comments;
+            if (seed.DumpMetadata.CommentsSpecialFields.Count > 0) info.DumpMetadata.CommentsSpecialFields = seed.DumpMetadata.CommentsSpecialFields;
+            if (!string.IsNullOrEmpty(seed.DumpMetadata.Contents)) info.DumpMetadata.Contents = seed.DumpMetadata.Contents;
+            if (seed.DumpMetadata.ContentsSpecialFields.Count > 0) info.DumpMetadata.ContentsSpecialFields = seed.DumpMetadata.ContentsSpecialFields;
+
+            if (!string.IsNullOrEmpty(seed.SubmissionControls.LogsArchiveURL)) info.SubmissionControls.LogsArchiveURL = seed.SubmissionControls.LogsArchiveURL;
+            if (!string.IsNullOrEmpty(seed.SubmissionControls.ReviewComment)) info.SubmissionControls.ReviewComment = seed.SubmissionControls.ReviewComment;
+            if (!string.IsNullOrEmpty(seed.SubmissionControls.SubmissionComment)) info.SubmissionControls.SubmissionComment = seed.SubmissionControls.SubmissionComment;
 
             // Info that always overwrites
-            info.CommonDiscInfo.Layer0MasteringRing = seed.CommonDiscInfo.Layer0MasteringRing;
-            info.CommonDiscInfo.Layer0MasteringSID = seed.CommonDiscInfo.Layer0MasteringSID;
-            info.CommonDiscInfo.Layer0ToolstampMasteringCode = seed.CommonDiscInfo.Layer0ToolstampMasteringCode;
-            info.CommonDiscInfo.Layer0MouldSID = seed.CommonDiscInfo.Layer0MouldSID;
-            info.CommonDiscInfo.Layer0AdditionalMould = seed.CommonDiscInfo.Layer0AdditionalMould;
+            info.RingCodes.Layer0MasteringCode = seed.RingCodes.Layer0MasteringCode;
+            info.RingCodes.Layer0MasteringSID = seed.RingCodes.Layer0MasteringSID;
+            info.RingCodes.Layer0Toolstamps = seed.RingCodes.Layer0Toolstamps;
+            info.RingCodes.Layer0MouldSIDs = seed.RingCodes.Layer0MouldSIDs;
+            info.RingCodes.Layer0AdditionalMoulds = seed.RingCodes.Layer0AdditionalMoulds;
 
-            info.CommonDiscInfo.Layer1MasteringRing = seed.CommonDiscInfo.Layer1MasteringRing;
-            info.CommonDiscInfo.Layer1MasteringSID = seed.CommonDiscInfo.Layer1MasteringSID;
-            info.CommonDiscInfo.Layer1ToolstampMasteringCode = seed.CommonDiscInfo.Layer1ToolstampMasteringCode;
-            info.CommonDiscInfo.Layer1MouldSID = seed.CommonDiscInfo.Layer1MouldSID;
-            info.CommonDiscInfo.Layer1AdditionalMould = seed.CommonDiscInfo.Layer1AdditionalMould;
+            info.RingCodes.Layer1MasteringCode = seed.RingCodes.Layer1MasteringCode;
+            info.RingCodes.Layer1MasteringSID = seed.RingCodes.Layer1MasteringSID;
+            info.RingCodes.Layer1Toolstamps = seed.RingCodes.Layer1Toolstamps;
+            info.RingCodes.Layer1MouldSIDs = seed.RingCodes.Layer1MouldSIDs;
+            info.RingCodes.Layer1AdditionalMoulds = seed.RingCodes.Layer1AdditionalMoulds;
 
-            info.CommonDiscInfo.Layer2MasteringRing = seed.CommonDiscInfo.Layer2MasteringRing;
-            info.CommonDiscInfo.Layer2MasteringSID = seed.CommonDiscInfo.Layer2MasteringSID;
-            info.CommonDiscInfo.Layer2ToolstampMasteringCode = seed.CommonDiscInfo.Layer2ToolstampMasteringCode;
+            info.RingCodes.Layer2MasteringCode = seed.RingCodes.Layer2MasteringCode;
+            info.RingCodes.Layer2MasteringSID = seed.RingCodes.Layer2MasteringSID;
+            info.RingCodes.Layer2Toolstamps = seed.RingCodes.Layer2Toolstamps;
 
-            info.CommonDiscInfo.Layer3MasteringRing = seed.CommonDiscInfo.Layer3MasteringRing;
-            info.CommonDiscInfo.Layer3MasteringSID = seed.CommonDiscInfo.Layer3MasteringSID;
-            info.CommonDiscInfo.Layer3ToolstampMasteringCode = seed.CommonDiscInfo.Layer3ToolstampMasteringCode;
-
-            // Info that only overwrites if supplied
-            if (!string.IsNullOrEmpty(seed.VersionAndEditions.Version)) info.VersionAndEditions.Version = seed.VersionAndEditions.Version;
-            if (!string.IsNullOrEmpty(seed.VersionAndEditions.OtherEditions)) info.VersionAndEditions.OtherEditions = seed.VersionAndEditions.OtherEditions;
-
-            // Info that only overwrites if supplied
-            if (!string.IsNullOrEmpty(seed.CopyProtection.Protection)) info.CopyProtection.Protection = seed.CopyProtection.Protection;
+            info.RingCodes.Layer3MasteringCode = seed.RingCodes.Layer3MasteringCode;
+            info.RingCodes.Layer3MasteringSID = seed.RingCodes.Layer3MasteringSID;
+            info.RingCodes.Layer3Toolstamps = seed.RingCodes.Layer3Toolstamps;
 
             return info;
         }

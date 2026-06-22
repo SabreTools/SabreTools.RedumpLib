@@ -13,7 +13,7 @@ namespace SabreTools.RedumpLib.Data.Sections
         public string? DiscSerials { get; set; }
 
         [JsonProperty(PropertyName = "edition", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Editions { get; private set; }
+        public string? Editions { get; set; }
 
         [JsonProperty(PropertyName = "barcode", NullValueHandling = NullValueHandling.Ignore)]
         public string? Barcodes { get; set; }

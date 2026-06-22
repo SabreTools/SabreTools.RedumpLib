@@ -1,8 +1,8 @@
 using System;
 using System.IO;
+using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Tools;
 using Xunit;
-using SubmissionInfo = SabreTools.RedumpLib.RedumpOrg.SubmissionInfo;
 
 namespace SabreTools.RedumpLib.Test.Tools
 {
