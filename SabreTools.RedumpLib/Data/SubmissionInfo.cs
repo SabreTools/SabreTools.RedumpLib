@@ -8,57 +8,57 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// redump.info submission page information
     /// </summary>
-    /// TODO: Ensure all below information before creating
+    /// TODO: Create section files for each of the following structures
     ///
-    /// See https://github.com/superg/vgindex/blob/main/templates/disc_edit.html
+    /// Disc identity:
+    ///     - System [system_code]
+    ///     - Media [system_code]
+    ///     - Category [category]
+    ///     - Title [title]
+    ///     - Foreign Title [title_foreign]
+    ///     - Disc Number [disc_number]
+    ///     - Disc Title [disc_title]
+    ///     - Filename Suffix [filename_suffix] (may be removed in the future)
     ///
-    /// Section (Name to be determined):
-    ///     - System
-    ///     - Media
-    ///     - Category
-    ///     - Title
-    ///     - Foreign Title
-    ///     - Disc Number
-    ///     - Disc Title
-    ///     - Filename Suffix (may be removed in the future)
+    /// Regions and languages:
+    ///     - Regions [regions] (need to make this multi-select)
+    ///     - Languages [languages]
     ///
-    /// Section (Name to be determined):
-    ///     - Regions
-    ///     - Languages
+    /// Disc identifiers:
+    ///     - Disc Serials [serial]
+    ///     - Editions [edition]
+    ///     - Barcodes [barcode]
+    ///     - Version [version]
+    ///     - Error Count [error_count]
+    ///     - EXE Date (YYYY-MM-DD) [error_count]
+    ///     - EDC (Yes/No) [edc]
+    ///     - Layerbreaks [layerbreaks]
+    ///     - Disc ID [disc_id]
+    ///     - Disc Key [disc_key]
+    ///     - Universal Hash [universal_hash]
     ///
-    /// Section (Name to be determined) (Internal order to be determined):
-    ///     - Disc Serials
-    ///     - Editions
-    ///     - Barcodes
-    ///     - Version
-    ///     - Error Count
-    ///     - Universal Hash
-    ///     - Layerbreaks
-    ///     - EXE Date (YYYY-MM-DD)
-    ///     - EDC (Yes/No)
-    ///     - Disc ID
-    ///     - Disc Key
+    /// Ring codes:
+    ///     Ring Codes [ring_codes]
     ///
-    /// Section (Name to be determined):
-    ///     Ring Codes
+    /// Dump metadata:
+    ///     - Comments [comments]
+    ///     - Contents [contents]
+    ///     - Protection (Includes LibCrypt detection) [protection]
+    ///     - Sector Ranges [sector_ranges]
+    ///     - SBI [sbi]
+    ///     - PVD [pvd]
+    ///     - Header [header]
+    ///     - BCA [bca]
+    ///     - PIC [pic]
+    ///     - Cuesheet [cue]
+    ///     - Dat [files_xml]
     ///
-    /// Section (Name to be determined) (Internal order to be determined):
-    ///     - Comments
-    ///     - Contents
-    ///     - Protection (Includes LibCrypt detection)
-    ///     - SBI
-    ///     - Sector Ranges
-    ///     - PVD
-    ///     - PIC
-    ///     - Header
-    ///     - Cuesheet
-    ///     - Dat
-    ///
-    /// Section (Name to be determined):
-    ///     - Dump Log
-    ///     - Logs Archive URL
-    ///     - Submission Comment
-    ///     - Submit As
+    /// Submission controls:
+    ///     - Dump Log [dump_log]
+    ///     - Logs Archive URL [extra_upload_url]
+    ///     - Review Comment [review_comment] (Hidden from submission)
+    ///     - Submission Comment [submission_comment]
+    ///     - Submit As [submit_as]
     public class SubmissionInfo : ICloneable
     {
         /// <summary>
