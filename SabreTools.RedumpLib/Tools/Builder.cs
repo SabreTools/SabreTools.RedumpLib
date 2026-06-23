@@ -172,7 +172,7 @@ namespace SabreTools.RedumpLib.Tools
             }
 
             // Version
-            if (info.DiscIdentifiers.Version is null)
+            if (string.IsNullOrEmpty(info.DiscIdentifiers.Version))
             {
                 match = Constants.VersionRegex.Match(discData);
                 if (match.Success)
