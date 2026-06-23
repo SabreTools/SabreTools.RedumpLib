@@ -75,11 +75,6 @@ namespace SabreTools.RedumpLib.Data
         public static readonly Regex LanguagesRegex = new(@"<img class=""flag-icon"" src=""/static/flags/(.*?)\.svg"" title="".*?"" alt="".*?"" />\s*", RegexOptions.Compiled);
 
         /// <summary>
-        /// Regex matching the last modified field on a disc page
-        /// </summary>
-        public static readonly Regex LastModifiedRegex = new(@"<tr><td><strong>Modified</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
-
-        /// <summary>
         /// Regex matching the current creation time for login
         /// </summary>
         public static readonly Regex LoginCreationTimeRegex = new(@"<input type=""hidden"" name=""form_token"" value=""(.*?)"" />", RegexOptions.Compiled);
@@ -93,6 +88,11 @@ namespace SabreTools.RedumpLib.Data
         /// Regex matching the media field on a disc page
         /// </summary>
         public static readonly Regex MediaRegex = new(@"<tr><td><strong>Media</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Regex matching the last modified field on a disc page
+        /// </summary>
+        public static readonly Regex ModifiedRegex = new(@"<tr><td><strong>Modified</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching individual WIP disc links on a results page

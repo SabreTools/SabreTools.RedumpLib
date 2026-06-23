@@ -1012,8 +1012,8 @@ namespace SabreTools.RedumpLib.Web
                     var oldDiscPage = File.ReadAllText(Path.Combine(paddedIdDir, "disc.html"));
 
                     // Check for the last modified date in both pages
-                    var oldResult = Constants.LastModifiedRegex.Match(oldDiscPage);
-                    var newResult = Constants.LastModifiedRegex.Match(discPage);
+                    var oldResult = Constants.ModifiedRegex.Match(oldDiscPage);
+                    var newResult = Constants.ModifiedRegex.Match(discPage);
 
                     // If both pages contain the same modified date, skip it
                     if (oldResult.Success && newResult.Success && oldResult.Groups[1].Value == newResult.Groups[1].Value)
@@ -1032,7 +1032,7 @@ namespace SabreTools.RedumpLib.Web
 
                 // If the downloaded data is invalid or otherwise empty, skip it
                 var hasAddedDate = Constants.AddedRegex.Match(discPage);
-                var hasModifiedDate = Constants.LastModifiedRegex.Match(discPage);
+                var hasModifiedDate = Constants.ModifiedRegex.Match(discPage);
                 if (!hasAddedDate.Success && !hasModifiedDate.Success)
                 {
                     Console.WriteLine($"ID {paddedId} retieved an empty page, skipping...");

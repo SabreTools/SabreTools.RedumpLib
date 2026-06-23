@@ -386,7 +386,7 @@ namespace SabreTools.RedumpLib.Tools
             }
 
             // Last Modified
-            match = Constants.LastModifiedRegex.Match(discData);
+            match = Constants.ModifiedRegex.Match(discData);
             if (match.Success)
             {
                 if (DateTime.TryParse(match.Groups[1].Value, out DateTime lastModified))
