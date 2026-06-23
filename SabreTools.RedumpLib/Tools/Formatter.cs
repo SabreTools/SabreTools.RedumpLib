@@ -407,6 +407,7 @@ namespace SabreTools.RedumpLib.Tools
                 offset = i.ToString("+#;-#;0");
 
             AddIfExists(output, Template.WriteOffsetField, offset, 0);
+            AddIfExists(output, Template.SampleStartField, section.SampleStart, 0);
             output.AppendLine();
         }
 

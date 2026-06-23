@@ -56,6 +56,7 @@
         public const string MouldSIDsField = "Mould SIDs";
         public const string AdditionalMouldsField = "Additional Moulds";
         public const string WriteOffsetField = "Write Offset";
+        public const string SampleStartField = "Sample Start";
 
         #endregion
 

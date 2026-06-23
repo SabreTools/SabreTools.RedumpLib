@@ -60,6 +60,9 @@ namespace SabreTools.RedumpLib.Data.Sections
         [JsonProperty(PropertyName = "write_offset", NullValueHandling = NullValueHandling.Ignore)]
         public string? WriteOffset { get; set; }
 
+        [JsonProperty(PropertyName = "sample_start", NullValueHandling = NullValueHandling.Ignore)]
+        public string? SampleStart { get; set; }
+
         public object Clone()
         {
             return new RingCodesSection
@@ -81,6 +84,7 @@ namespace SabreTools.RedumpLib.Data.Sections
                 Layer3MasteringSID = this.Layer3MasteringSID,
                 Layer3Toolstamps = this.Layer3Toolstamps,
                 WriteOffset = this.WriteOffset,
+                SampleStart = this.SampleStart,
             };
         }
     }
