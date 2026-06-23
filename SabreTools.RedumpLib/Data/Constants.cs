@@ -50,9 +50,9 @@ namespace SabreTools.RedumpLib.Data
         public static readonly Regex DiscRegex = new(@"<a href=""/disc/(\d+)"">", RegexOptions.Compiled);
 
         /// <summary>
-        /// Regex matching the disc number or letter field on a disc page
+        /// Regex matching the disc number field on a disc page
         /// </summary>
-        public static readonly Regex DiscNumberLetterRegex = new(@"\((.*?)\)", RegexOptions.Compiled);
+        public static readonly Regex DiscNumberRegex = new(@"\((.*?)\)", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching the dumpers on a disc page

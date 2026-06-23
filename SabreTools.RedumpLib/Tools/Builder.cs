@@ -63,8 +63,47 @@ namespace SabreTools.RedumpLib.Tools
             var match = Constants.TitleRegex.Match(discData);
             if (match.Success)
             {
-                // TODO: Add back title splitting later
-                info.DiscIdentity.Title = WebUtility.HtmlDecode(match.Groups[1].Value);
+                string? title = WebUtility.HtmlDecode(match.Groups[1].Value);
+
+                // If we have parenthesis, title is everything before the first one
+                int firstParenLocation = title?.IndexOf(" (") ?? -1;
+                if (title is not null && firstParenLocation >= 0)
+                {
+#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
+                    info.DiscIdentity.Title = title[..firstParenLocation];
+#else
+                    info.DiscIdentity.Title = title.Substring(0, firstParenLocation);
+#endif
+                    var submatches = Constants.DiscNumberRegex.Matches(title);
+                    foreach (Match? submatch in submatches)
+                    {
+                        if (submatch is null)
+                            continue;
+
+                        var submatchValue = submatch.Groups[1].Value;
+
+                        // Disc number or letter
+                        if (submatchValue.StartsWith("Disc"))
+                        {
+#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
+                            info.DiscIdentity.DiscNumber = submatchValue["Disc ".Length..];
+#else
+                            info.DiscIdentity.DiscNumber = submatchValue.Remove(0, "Disc ".Length);
+#endif
+                        }
+
+                        // TODO: Figure out how to determine disc title vs. version (e.g. Alt)
+                        // At the moment, if the original splitting logic is used, then things like
+                        // "(Alt)" would be marked as the disc title instead of it properly going into the
+                        // filename suffix. There may not be a reasonable way of splitting this, so
+                        // only the disc number is being populated for now.
+                    }
+                }
+                // Otherwise, leave the title as-is
+                else
+                {
+                    info.DiscIdentity.Title = title;
+                }
             }
 
             // Foreign Title
