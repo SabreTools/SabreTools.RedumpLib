@@ -154,16 +154,15 @@ namespace SabreTools.RedumpLib.Tools
                 info.RegionsAndLanguages.Languages = [.. tempLanguages];
             }
 
-            // Serial
-            if (includeAllData)
+            // Disc Serials
+            if (includeAllData && string.IsNullOrEmpty(info.DiscIdentifiers.DiscSerials))
             {
-                // TODO: Re-enable if there's a way of verifying against a disc
-                //match = Data.Constants.SerialRegex.Match(discData);
-                //if (match.Success)
-                //    info.CommonDiscInfo.Serial = $"(VERIFY THIS) {WebUtility.HtmlDecode(match.Groups[1].Value)}";
+                match = Constants.SerialRegex.Match(discData);
+                if (match.Success)
+                   info.DiscIdentifiers.DiscSerials = $"(VERIFY THIS) {WebUtility.HtmlDecode(match.Groups[1].Value)}";
             }
 
-            // Error count
+            // Error Count
             if (string.IsNullOrEmpty(info.DiscIdentifiers.ErrorCount))
             {
                 match = Constants.ErrorCountRegex.Match(discData);
