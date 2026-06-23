@@ -55,14 +55,9 @@ namespace SabreTools.RedumpLib.Data
         public static readonly Regex DiscNumberRegex = new(@"\((.*?)\)", RegexOptions.Compiled);
 
         /// <summary>
-        /// Regex matching the dumpers on a disc page
-        /// </summary>
-        public static readonly Regex DumpersRegex = new(@"<a href=""/discs/?dumper=(.*?)/"">", RegexOptions.Compiled);
-
-        /// <summary>
         /// Regex matching the edition field on a disc page
         /// </summary>
-        public static readonly Regex EditionRegex = new(@"<tr><td><strong>Edition</strong></td><td class=""disc-edition-cell""><span class=""disc-edition-value"">(.*?)</span></td></tr>", RegexOptions.Compiled);
+        public static readonly Regex EditionRegex = new(@"<span class=""disc-edition-value"">(.*?)</span></td></tr>", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching the error count field on a disc page
@@ -73,12 +68,6 @@ namespace SabreTools.RedumpLib.Data
         /// Regex matching the foreign title field on a disc page
         /// </summary>
         public static readonly Regex ForeignTitleRegex = new(@"<h2 class=""foreign-title"">(.*?)</h2>", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Regex matching the "full match" ID list from a WIP disc page
-        /// </summary>
-        /// TODO: Determine if this has a parallel in redump.info
-        public static readonly Regex FullMatchRegex = new(@"<td class=""static"">full match ids: (.*?)</td>", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching the languages field on a disc page
@@ -112,46 +101,14 @@ namespace SabreTools.RedumpLib.Data
         public static readonly Regex NewDiscRegex = new(@"<a (style=.*)?href=""/newdisc/(\d+)/"">", RegexOptions.Compiled);
 
         /// <summary>
-        /// Regex matching the "partial match" ID list from a WIP disc page
-        /// </summary>
-        /// TODO: Determine if this has a parallel in redump.info
-        public static readonly Regex PartialMatchRegex = new(@"<td class=""static"">partial match ids: (.*?)</td>", RegexOptions.Compiled);
-
-        /// <summary>
         /// Regex matching the disc key on a PS3 disc page
         /// </summary>
         public static readonly Regex PS3DiscKey = new(@"<tr><td><strong>Disc Key</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
 
         /// <summary>
-        /// Regex matching the PVD field on a disc page
-        /// </summary>
-        public static readonly Regex PvdRegex = new("<h3>PVD</h3>"
-            + @"<div class=""table-scroll table-scroll-compact"">"
-            + @"<table class=""table-nowrap binary-table"">"
-            + "<thead><tr><th></th><th>Contents</th><th>Date</th><th>Time</th><th>GMT</th></tr></thead>"
-            + "<tbody>"
-            + "<tr><td>Creation</td><td><code>(?<creationbytes>.*?)</code></td><td><code>(?<creationdate>.*?)</code></td><td><code>(?<creationtime>.*?)</code></td><td><code>(?<creationtimezone>.*?)</code></td></tr>"
-            + "<tr><td>Modification</td><td><code>(?<modificationbytes>.*?)</code></td><td><code>(?<modificationdate>.*?)</code></td><td><code>(?<modificationtime>.*?)</code></td><td><code>(?<modificationtimezone>.*?)</code></td></tr>"
-            + "<tr><td>Expiration</td><td><code>(?<expirationbytes>.*?)</code></td><td><code>(?<expirationdate>.*?)</code></td><td><code>(?<expirationtime>.*?)</code></td><td><code>(?<expirationtimezone>.*?)</code></td></tr>"
-            + "<tr><td>Effective</td><td><code>(?<effectivebytes>.*?)</code></td><td><code>(?<effectivedate>.*?)</code></td><td><code>(?<effectivetime>.*?)</code></td><td><code>(?<effectivetimezone>.*?)</code></td></tr>", RegexOptions.Compiled | RegexOptions.Singleline);
-
-        /// <summary>
         /// Regex matching the region field on a disc page
         /// </summary>
-        public static readonly Regex RegionRegex = new(@"<tr><td><strong>Region</strong></td><td class=""flags-inline flags-region"">"
-            + @"<a href=""/discs/?region=(.*?)"">", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Regex matching a double-layer disc ringcode information
-        /// </summary>
-        /// TODO: Determine if this has a parallel in redump.info, maybe the queue page?
-        public static readonly Regex RingCodeDoubleRegex = new(@"", RegexOptions.Compiled | RegexOptions.Singleline); // Varies based on available fields, like Addtional Mould
-
-        /// <summary>
-        /// Regex matching a single-layer disc ringcode information
-        /// </summary>
-        /// TODO: Determine if this has a parallel in redump.info, maybe the queue page?
-        public static readonly Regex RingCodeSingleRegex = new(@"", RegexOptions.Compiled | RegexOptions.Singleline); // Varies based on available fields, like Addtional Mould
+        public static readonly Regex RegionRegex = new(@"<a href=""/discs?region=(.*?)"">", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching the serial field on a disc page
@@ -161,7 +118,7 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// Regex matching the system field on a disc page
         /// </summary>
-        public static readonly Regex SystemRegex = new(@"<tr><td><strong>System</strong></td><td><a href=""/discs/?system=(.*?)"">", RegexOptions.Compiled);
+        public static readonly Regex SystemRegex = new(@"<a href=""/discs?system=(.*?)"">", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching the title field on a disc page
@@ -169,21 +126,9 @@ namespace SabreTools.RedumpLib.Data
         public static readonly Regex TitleRegex = new(@"<h2>(.*?)</h2>", RegexOptions.Compiled);
 
         /// <summary>
-        /// Regex matching a single track on a disc page
-        /// </summary>
-        /// TODO: Figure out how to translate the new page to this
-        public static readonly Regex TrackRegex = new(@"<tr><td>(?<number>.*?)</td><td>(?<type>.*?)</td><td>(?<pregap>.*?)</td><td>(?<length>.*?)</td><td>(?<sectors>.*?)</td><td>(?<size>.*?)</td><td>(?<crc32>.*?)</td><td>(?<md5>.*?)</td><td>(?<sha1>.*?)</td></tr>", RegexOptions.Compiled | RegexOptions.Singleline);
-
-        /// <summary>
         /// Regex matching the version field on a disc page
         /// </summary>
         public static readonly Regex VersionRegex = new(@"<tr><td><strong>Version</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Regex matching the write offset field on a disc page
-        /// </summary>
-        /// TODO: There doesn't seem to be a write offset anymore
-        public static readonly Regex WriteOffsetRegex = new(@"<tr><th>Write offset</th><td>(.*?)</td></tr>", RegexOptions.Compiled);
 
         #endregion
 

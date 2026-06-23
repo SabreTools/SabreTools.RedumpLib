@@ -1217,27 +1217,29 @@ namespace SabreTools.RedumpLib.Web
                     // Read in the cached file
                     var oldDiscPage = File.ReadAllText(Path.Combine(paddedIdDir, "disc.html"));
 
-                    // Check for the full match ID in both pages
-                    var oldResult = Constants.FullMatchRegex.Match(oldDiscPage);
-                    var newResult = Constants.FullMatchRegex.Match(discPage);
+                    // Figure out how to reenable this check for a queue page
 
-                    // If both pages contain the same ID, skip it
-                    if (oldResult.Success && newResult.Success && oldResult.Groups[1].Value == newResult.Groups[1].Value)
-                    {
-                        Console.WriteLine($"ID {paddedId} has not been changed since last download, skipping...");
-                        return false;
-                    }
+                    // // Check for the last modified date in both pages
+                    // var oldResult = Constants.LastModifiedRegex.Match(oldDiscPage);
+                    // var newResult = Constants.LastModifiedRegex.Match(discPage);
 
-                    // If neither page contains an ID, skip it
-                    else if (!oldResult.Success && !newResult.Success)
-                    {
-                        Console.WriteLine($"ID {paddedId} has not been changed since last download, skipping...");
-                        return false;
-                    }
+                    // // If both pages contain the same ID, skip it
+                    // if (oldResult.Success && newResult.Success && oldResult.Groups[1].Value == newResult.Groups[1].Value)
+                    // {
+                    //     Console.WriteLine($"ID {paddedId} has not been changed since last download, skipping...");
+                    //     return false;
+                    // }
+
+                    // // If neither page contains an ID, skip it
+                    // else if (!oldResult.Success && !newResult.Success)
+                    // {
+                    //     Console.WriteLine($"ID {paddedId} has not been changed since last download, skipping...");
+                    //     return false;
+                    // }
 
                     // Check the added date as a backup
-                    oldResult = Constants.AddedRegex.Match(oldDiscPage);
-                    newResult = Constants.AddedRegex.Match(discPage);
+                    var oldResult = Constants.AddedRegex.Match(oldDiscPage);
+                    var newResult = Constants.AddedRegex.Match(discPage);
 
                     // If the downloaded data is invalid or otherwise empty, skip it
                     if (oldResult.Success && !newResult.Success)
