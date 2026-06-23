@@ -179,7 +179,7 @@ namespace SabreTools.RedumpLib.Tools
                     info.DiscIdentifiers.Version = $"(VERIFY THIS) {WebUtility.HtmlDecode(match.Groups[1].Value)}";
             }
 
-            // PS3 DiscKey
+            // Disc Key
             if (string.IsNullOrEmpty(info.DiscIdentifiers.DiscKey))
             {
                 // Validate key is not NULL
