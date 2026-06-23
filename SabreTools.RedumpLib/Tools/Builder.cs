@@ -183,7 +183,7 @@ namespace SabreTools.RedumpLib.Tools
             if (string.IsNullOrEmpty(info.DiscIdentifiers.DiscKey))
             {
                 // Validate key is not NULL
-                match = Constants.PS3DiscKey.Match(discData);
+                match = Constants.DiscKeyRegex.Match(discData);
                 if (match.Success && match.Groups[1].Value != "<span class=\"null\">NULL</span>")
                     info.DiscIdentifiers.DiscKey = match.Groups[1].Value;
             }

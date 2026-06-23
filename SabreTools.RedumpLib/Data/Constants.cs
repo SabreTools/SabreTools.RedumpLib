@@ -50,6 +50,11 @@ namespace SabreTools.RedumpLib.Data
         public static readonly Regex DiscRegex = new(@"<a href=""/disc/(\d+)"">", RegexOptions.Compiled);
 
         /// <summary>
+        /// Regex matching the disc key on a PS3 or Wii U disc page
+        /// </summary>
+        public static readonly Regex DiscKeyRegex = new(@"<tr><td><strong>Disc Key</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
+
+        /// <summary>
         /// Regex matching the disc number field on a disc page
         /// </summary>
         public static readonly Regex DiscNumberRegex = new(@"\((.*?)\)", RegexOptions.Compiled);
@@ -99,11 +104,6 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         /// TODO: Determine if this has a parallel in redump.info, maybe the queue page?
         public static readonly Regex NewDiscRegex = new(@"<a (style=.*)?href=""/newdisc/(\d+)/"">", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Regex matching the disc key on a PS3 disc page
-        /// </summary>
-        public static readonly Regex PS3DiscKey = new(@"<tr><td><strong>Disc Key</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching the region field on a disc page
