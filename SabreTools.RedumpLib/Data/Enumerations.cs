@@ -2450,7 +2450,8 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Merit Industries MegaTouch XL")]
         MeritIndustriesMegaTouchXL,
 
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Namco Purikura")]
+        // Short name currently undefined
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Namco Purikura", ShortName = "NAM-PURI")]
         NamcoPurikura,
 
         [System(Category = SystemCategory.Arcade, LongName = "Namco · Sega · Nintendo Triforce", ShortName = "TRF", RedumpOrgCode = "trf", HasCues = true, HasDat = true, HasGdi = true)]
