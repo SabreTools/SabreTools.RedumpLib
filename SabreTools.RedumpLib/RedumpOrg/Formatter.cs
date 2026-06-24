@@ -272,10 +272,6 @@ namespace SabreTools.RedumpLib.RedumpOrg
             int? fullyMatchedID,
             List<int>? partiallyMatchedIDs)
         {
-            // Sony-printed discs have layers in the opposite order
-            var system = section?.System;
-            bool reverseOrder = system.HasReversedRingcodes();
-
             // Extract the size from the hashes
             long size = Extensions.ExtractSizeFromHashData(tawo?.ClrMameProData);
 
@@ -312,9 +308,9 @@ namespace SabreTools.RedumpLib.RedumpOrg
             // If we have a triple-layer disc
             if (sac?.Layerbreak3 != default && sac?.Layerbreak3 != default(long))
             {
-                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringCodeField, section?.Layer0MasteringRing, 0);
-                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringSIDField, section?.Layer0MasteringSID, 0);
-                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.ToolstampsField, section?.Layer0ToolstampMasteringCode, 0);
+                AddIfExists(output, "Layer 0 " + Template.MasteringCodeField, section?.Layer0MasteringRing, 0);
+                AddIfExists(output, "Layer 0 " + Template.MasteringSIDField, section?.Layer0MasteringSID, 0);
+                AddIfExists(output, "Layer 0 " + Template.ToolstampsField, section?.Layer0ToolstampMasteringCode, 0);
                 AddIfExists(output, "Data Side " + Template.MouldSIDsField, section?.Layer0MouldSID, 0);
                 AddIfExists(output, "Data Side " + Template.AdditionalMouldsField, section?.Layer0AdditionalMould, 0);
 
@@ -328,16 +324,16 @@ namespace SabreTools.RedumpLib.RedumpOrg
                 AddIfExists(output, "Layer 2 " + Template.MasteringSIDField, section?.Layer2MasteringSID, 0);
                 AddIfExists(output, "Layer 2 " + Template.ToolstampsField, section?.Layer2ToolstampMasteringCode, 0);
 
-                AddIfExists(output, (reverseOrder ? "Layer 3 (Inner) " : "Layer 3 (Outer) ") + Template.MasteringCodeField, section?.Layer3MasteringRing, 0);
-                AddIfExists(output, (reverseOrder ? "Layer 3 (Inner) " : "Layer 3 (Outer) ") + Template.MasteringSIDField, section?.Layer3MasteringSID, 0);
-                AddIfExists(output, (reverseOrder ? "Layer 3 (Inner) " : "Layer 3 (Outer) ") + Template.ToolstampsField, section?.Layer3ToolstampMasteringCode, 0);
+                AddIfExists(output, "Layer 3 " + Template.MasteringCodeField, section?.Layer3MasteringRing, 0);
+                AddIfExists(output, "Layer 3 " + Template.MasteringSIDField, section?.Layer3MasteringSID, 0);
+                AddIfExists(output, "Layer 3 " + Template.ToolstampsField, section?.Layer3ToolstampMasteringCode, 0);
             }
             // If we have a triple-layer disc
             else if (sac?.Layerbreak2 != default && sac?.Layerbreak2 != default(long))
             {
-                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringCodeField, section?.Layer0MasteringRing, 0);
-                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringSIDField, section?.Layer0MasteringSID, 0);
-                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.ToolstampsField, section?.Layer0ToolstampMasteringCode, 0);
+                AddIfExists(output, "Layer 0 " + Template.MasteringCodeField, section?.Layer0MasteringRing, 0);
+                AddIfExists(output, "Layer 0 " + Template.MasteringSIDField, section?.Layer0MasteringSID, 0);
+                AddIfExists(output, "Layer 0 " + Template.ToolstampsField, section?.Layer0ToolstampMasteringCode, 0);
                 AddIfExists(output, "Data Side " + Template.MouldSIDsField, section?.Layer0MouldSID, 0);
                 AddIfExists(output, "Data Side " + Template.AdditionalMouldsField, section?.Layer0AdditionalMould, 0);
 
@@ -347,22 +343,22 @@ namespace SabreTools.RedumpLib.RedumpOrg
                 AddIfExists(output, "Label Side " + Template.MouldSIDsField, section?.Layer1MouldSID, 0);
                 AddIfExists(output, "Label Side " + Template.AdditionalMouldsField, section?.Layer1AdditionalMould, 0);
 
-                AddIfExists(output, (reverseOrder ? "Layer 2 (Inner) " : "Layer 2 (Outer) ") + Template.MasteringCodeField, section?.Layer2MasteringRing, 0);
-                AddIfExists(output, (reverseOrder ? "Layer 2 (Inner) " : "Layer 2 (Outer) ") + Template.MasteringSIDField, section?.Layer2MasteringSID, 0);
-                AddIfExists(output, (reverseOrder ? "Layer 2 (Inner) " : "Layer 2 (Outer) ") + Template.ToolstampsField, section?.Layer2ToolstampMasteringCode, 0);
+                AddIfExists(output, "Layer 2 " + Template.MasteringCodeField, section?.Layer2MasteringRing, 0);
+                AddIfExists(output, "Layer 2 " + Template.MasteringSIDField, section?.Layer2MasteringSID, 0);
+                AddIfExists(output, "Layer 2 " + Template.ToolstampsField, section?.Layer2ToolstampMasteringCode, 0);
             }
             // If we have a dual-layer disc
             else if (sac?.Layerbreak != default && sac?.Layerbreak != default(long))
             {
-                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringCodeField, section?.Layer0MasteringRing, 0);
-                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.MasteringSIDField, section?.Layer0MasteringSID, 0);
-                AddIfExists(output, (reverseOrder ? "Layer 0 (Outer) " : "Layer 0 (Inner) ") + Template.ToolstampsField, section?.Layer0ToolstampMasteringCode, 0);
+                AddIfExists(output, "Layer 0 " + Template.MasteringCodeField, section?.Layer0MasteringRing, 0);
+                AddIfExists(output, "Layer 0 " + Template.MasteringSIDField, section?.Layer0MasteringSID, 0);
+                AddIfExists(output, "Layer 0 " + Template.ToolstampsField, section?.Layer0ToolstampMasteringCode, 0);
                 AddIfExists(output, "Data Side " + Template.MouldSIDsField, section?.Layer0MouldSID, 0);
                 AddIfExists(output, "Data Side " + Template.AdditionalMouldsField, section?.Layer0AdditionalMould, 0);
 
-                AddIfExists(output, (reverseOrder ? "Layer 1 (Inner) " : "Layer 1 (Outer) ") + Template.MasteringCodeField, section?.Layer1MasteringRing, 0);
-                AddIfExists(output, (reverseOrder ? "Layer 1 (Inner) " : "Layer 1 (Outer) ") + Template.MasteringSIDField, section?.Layer1MasteringSID, 0);
-                AddIfExists(output, (reverseOrder ? "Layer 1 (Inner) " : "Layer 1 (Outer) ") + Template.ToolstampsField, section?.Layer1ToolstampMasteringCode, 0);
+                AddIfExists(output, "Layer 1 " + Template.MasteringCodeField, section?.Layer1MasteringRing, 0);
+                AddIfExists(output, "Layer 1 " + Template.MasteringSIDField, section?.Layer1MasteringSID, 0);
+                AddIfExists(output, "Layer 1 " + Template.ToolstampsField, section?.Layer1ToolstampMasteringCode, 0);
                 AddIfExists(output, "Label Side " + Template.MouldSIDsField, section?.Layer1MouldSID, 0);
                 AddIfExists(output, "Label Side " + Template.AdditionalMouldsField, section?.Layer1AdditionalMould, 0);
             }
