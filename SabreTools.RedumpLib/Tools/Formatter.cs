@@ -323,7 +323,7 @@ namespace SabreTools.RedumpLib.Tools
             output.AppendLine();
 
             // If we have a quad-layer disc
-            if (discIdentifiers.Layerbreak3 != default && discIdentifiers.Layerbreak3 != default)
+            if (discIdentifiers.Layerbreak3 != default)
             {
                 AddIfExists(output, $"Layer 0 {Template.MasteringCodeField}", section.Layer0MasteringCode, 0);
                 AddIfExists(output, $"Layer 0 {Template.MasteringSIDField}", section.Layer0MasteringSID, 0);
@@ -351,7 +351,7 @@ namespace SabreTools.RedumpLib.Tools
             }
 
             // If we have a triple-layer disc
-            else if (discIdentifiers?.Layerbreak2 != default && discIdentifiers?.Layerbreak2 != default(long))
+            else if (discIdentifiers.Layerbreak2 != default)
             {
                 AddIfExists(output, $"Layer 0 {Template.MasteringCodeField}", section.Layer0MasteringCode, 0);
                 AddIfExists(output, $"Layer 0 {Template.MasteringSIDField}", section.Layer0MasteringSID, 0);
@@ -373,7 +373,7 @@ namespace SabreTools.RedumpLib.Tools
             }
 
             // If we have a dual-layer disc
-            else if (discIdentifiers?.Layerbreak != default && discIdentifiers?.Layerbreak != default(long))
+            else if (discIdentifiers.Layerbreak != default)
             {
                 AddIfExists(output, $"Layer 0 {Template.MasteringCodeField}", section.Layer0MasteringCode, 0);
                 AddIfExists(output, $"Layer 0 {Template.MasteringSIDField}", section.Layer0MasteringSID, 0);
