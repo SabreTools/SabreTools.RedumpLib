@@ -2381,7 +2381,7 @@ namespace SabreTools.RedumpLib.Data
         FunworldPhotoPlay,
 
         // Short name currently undefined
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "FuRyu & Omron Purikura", ShortName = "FROPURI")]
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "FuRyu & Omron Purikura", ShortName = "FRO-PURI")]
         FuRyuOmronPurikura,
 
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Global VR PC-based Systems")]
@@ -2464,7 +2464,7 @@ namespace SabreTools.RedumpLib.Data
         NamcoSystem246256,
 
         // Short name currently undefined
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "New Jatre CD-i", ShortName = "NJCDI")]
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "New Jatre CD-i", ShortName = "NJ-CDI")]
         NewJatreCDi,
 
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Nichibutsu High Rate System")]
