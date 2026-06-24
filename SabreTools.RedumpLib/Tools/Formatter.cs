@@ -328,22 +328,26 @@ namespace SabreTools.RedumpLib.Tools
                 AddIfExists(output, $"Layer 0 {Template.MasteringCodeField}", section.Layer0MasteringCode, 0);
                 AddIfExists(output, $"Layer 0 {Template.MasteringSIDField}", section.Layer0MasteringSID, 0);
                 AddIfExists(output, $"Layer 0 {Template.ToolstampsField}", section.Layer0Toolstamps, 0);
-                AddIfExists(output, $"Data Side {Template.MouldSIDsField}", section.Layer0MouldSIDs, 0);
-                AddIfExists(output, $"Data Side {Template.AdditionalMouldsField}", section.Layer0AdditionalMoulds, 0);
+                AddIfExists(output, $"Layer 0 {Template.MouldSIDsField}", section.Layer0MouldSIDs, 0);
+                AddIfExists(output, $"Layer 0 {Template.AdditionalMouldsField}", section.Layer0AdditionalMoulds, 0);
 
                 AddIfExists(output, $"Layer 1 {Template.MasteringCodeField}", section.Layer1MasteringCode, 0);
                 AddIfExists(output, $"Layer 1 {Template.MasteringSIDField}", section.Layer1MasteringSID, 0);
-                AddIfExists(output, "Layer 1 " + Template.ToolstampsField, section.Layer1Toolstamps, 0);
-                AddIfExists(output, $"Label Side {Template.MouldSIDsField}", section.Layer1MouldSIDs, 0);
-                AddIfExists(output, $"Label Side {Template.AdditionalMouldsField}", section.Layer1AdditionalMoulds, 0);
+                AddIfExists(output, $"Layer 1 {Template.ToolstampsField}", section.Layer1Toolstamps, 0);
+                AddIfExists(output, $"Layer 1 {Template.MouldSIDsField}", section.Layer1MouldSIDs, 0);
+                AddIfExists(output, $"Layer 1 {Template.AdditionalMouldsField}", section.Layer1AdditionalMoulds, 0);
 
                 AddIfExists(output, $"Layer 2 {Template.MasteringCodeField}", section.Layer2MasteringCode, 0);
                 AddIfExists(output, $"Layer 2 {Template.MasteringSIDField}", section.Layer2MasteringSID, 0);
                 AddIfExists(output, $"Layer 2 {Template.ToolstampsField}", section.Layer2Toolstamps, 0);
+                AddIfExists(output, $"Layer 2 {Template.MouldSIDsField}", section.Layer2MouldSIDs, 0);
+                AddIfExists(output, $"Layer 2 {Template.AdditionalMouldsField}", section.Layer2AdditionalMoulds, 0);
 
                 AddIfExists(output, $"Layer 3 {Template.MasteringCodeField}", section.Layer3MasteringCode, 0);
                 AddIfExists(output, $"Layer 3 {Template.MasteringSIDField}", section.Layer3MasteringSID, 0);
                 AddIfExists(output, $"Layer 3 {Template.ToolstampsField}", section.Layer3Toolstamps, 0);
+                AddIfExists(output, $"Layer 3 {Template.MouldSIDsField}", section.Layer3MouldSIDs, 0);
+                AddIfExists(output, $"Layer 3 {Template.AdditionalMouldsField}", section.Layer3AdditionalMoulds, 0);
             }
 
             // If we have a triple-layer disc
@@ -352,18 +356,20 @@ namespace SabreTools.RedumpLib.Tools
                 AddIfExists(output, $"Layer 0 {Template.MasteringCodeField}", section.Layer0MasteringCode, 0);
                 AddIfExists(output, $"Layer 0 {Template.MasteringSIDField}", section.Layer0MasteringSID, 0);
                 AddIfExists(output, $"Layer 0 {Template.ToolstampsField}", section.Layer0Toolstamps, 0);
-                AddIfExists(output, $"Data Side {Template.MouldSIDsField}", section.Layer0MouldSIDs, 0);
-                AddIfExists(output, $"Data Side {Template.AdditionalMouldsField}", section.Layer0AdditionalMoulds, 0);
+                AddIfExists(output, $"Layer 0 {Template.MouldSIDsField}", section.Layer0MouldSIDs, 0);
+                AddIfExists(output, $"Layer 0 {Template.AdditionalMouldsField}", section.Layer0AdditionalMoulds, 0);
 
                 AddIfExists(output, $"Layer 1 {Template.MasteringCodeField}", section.Layer1MasteringCode, 0);
                 AddIfExists(output, $"Layer 1 {Template.MasteringSIDField}", section.Layer1MasteringSID, 0);
                 AddIfExists(output, $"Layer 1 {Template.ToolstampsField}", section.Layer1Toolstamps, 0);
-                AddIfExists(output, $"Label Side {Template.MouldSIDsField}", section.Layer1MouldSIDs, 0);
-                AddIfExists(output, $"Label Side {Template.AdditionalMouldsField}", section.Layer1AdditionalMoulds, 0);
+                AddIfExists(output, $"Layer 1 {Template.MouldSIDsField}", section.Layer1MouldSIDs, 0);
+                AddIfExists(output, $"Layer 1 {Template.AdditionalMouldsField}", section.Layer1AdditionalMoulds, 0);
 
                 AddIfExists(output, $"Layer 2 {Template.MasteringCodeField}", section.Layer2MasteringCode, 0);
                 AddIfExists(output, $"Layer 2 {Template.MasteringSIDField}", section.Layer2MasteringSID, 0);
                 AddIfExists(output, $"Layer 2 {Template.ToolstampsField}", section.Layer2Toolstamps, 0);
+                AddIfExists(output, $"Layer 2 {Template.MouldSIDsField}", section.Layer2MouldSIDs, 0);
+                AddIfExists(output, $"Layer 2 {Template.AdditionalMouldsField}", section.Layer2AdditionalMoulds, 0);
             }
 
             // If we have a dual-layer disc
@@ -372,31 +378,32 @@ namespace SabreTools.RedumpLib.Tools
                 AddIfExists(output, $"Layer 0 {Template.MasteringCodeField}", section.Layer0MasteringCode, 0);
                 AddIfExists(output, $"Layer 0 {Template.MasteringSIDField}", section.Layer0MasteringSID, 0);
                 AddIfExists(output, $"Layer 0 {Template.ToolstampsField}", section.Layer0Toolstamps, 0);
-                AddIfExists(output, $"Data Side {Template.MouldSIDsField}", section.Layer0MouldSIDs, 0);
-                AddIfExists(output, $"Data Side {Template.AdditionalMouldsField}", section.Layer0AdditionalMoulds, 0);
+                AddIfExists(output, $"Layer 0 {Template.MouldSIDsField}", section.Layer0MouldSIDs, 0);
+                AddIfExists(output, $"Layer 0 {Template.AdditionalMouldsField}", section.Layer0AdditionalMoulds, 0);
 
                 AddIfExists(output, $"Layer 1 {Template.MasteringCodeField}", section.Layer1MasteringCode, 0);
                 AddIfExists(output, $"Layer 1 {Template.MasteringSIDField}", section.Layer1MasteringSID, 0);
                 AddIfExists(output, $"Layer 1 {Template.ToolstampsField}", section.Layer1Toolstamps, 0);
-                AddIfExists(output, $"Label Side {Template.MouldSIDsField}", section.Layer1MouldSIDs, 0);
-                AddIfExists(output, $"Label Side {Template.AdditionalMouldsField}", section.Layer1AdditionalMoulds, 0);
+                AddIfExists(output, $"Layer 1 {Template.MouldSIDsField}", section.Layer1MouldSIDs, 0);
+                AddIfExists(output, $"Layer 1 {Template.AdditionalMouldsField}", section.Layer1AdditionalMoulds, 0);
             }
 
             // If we have a single-layer disc
             else
             {
-                AddIfExists(output, $"Data Side {Template.MasteringCodeField}", section.Layer0MasteringCode, 0);
-                AddIfExists(output, $"Data Side {Template.MasteringSIDField}", section.Layer0MasteringSID, 0);
-                AddIfExists(output, $"Data Side {Template.ToolstampsField}", section.Layer0Toolstamps, 0);
-                AddIfExists(output, $"Data Side {Template.MouldSIDsField}", section.Layer0MouldSIDs, 0);
-                AddIfExists(output, $"Data Side {Template.AdditionalMouldsField}", section.Layer0AdditionalMoulds, 0);
-
-                AddIfExists(output, $"Label Side {Template.MasteringCodeField}", section.Layer1MasteringCode, 0);
-                AddIfExists(output, $"Label Side {Template.MasteringSIDField}", section.Layer1MasteringSID, 0);
-                AddIfExists(output, $"Label Side {Template.ToolstampsField}", section.Layer1Toolstamps, 0);
-                AddIfExists(output, $"Label Side {Template.MouldSIDsField}", section.Layer1MouldSIDs, 0);
-                AddIfExists(output, $"Label Side {Template.AdditionalMouldsField}", section.Layer1AdditionalMoulds, 0);
+                AddIfExists(output, $"Layer 0 {Template.MasteringCodeField}", section.Layer0MasteringCode, 0);
+                AddIfExists(output, $"Layer 0 {Template.MasteringSIDField}", section.Layer0MasteringSID, 0);
+                AddIfExists(output, $"Layer 0 {Template.ToolstampsField}", section.Layer0Toolstamps, 0);
+                AddIfExists(output, $"Layer 0 {Template.MouldSIDsField}", section.Layer0MouldSIDs, 0);
+                AddIfExists(output, $"Layer 0 {Template.AdditionalMouldsField}", section.Layer0AdditionalMoulds, 0);
             }
+
+            // Label Side
+            AddIfExists(output, $"Label Side {Template.MasteringCodeField}", section.LabelSideMasteringCode, 0);
+            AddIfExists(output, $"Label Side {Template.MasteringSIDField}", section.LabelSideMasteringSID, 0);
+            AddIfExists(output, $"Label Side {Template.ToolstampsField}", section.LabelSideToolstamps, 0);
+            AddIfExists(output, $"Label Side {Template.MouldSIDsField}", section.LabelSideMouldSIDs, 0);
+            AddIfExists(output, $"Label Side {Template.AdditionalMouldsField}", section.LabelSideAdditionalMoulds, 0);
 
             var offset = section.WriteOffset;
             if (int.TryParse(offset, out int i))
