@@ -438,6 +438,16 @@ namespace SabreTools.RedumpLib.Data
                     types.Add(PhysicalMediaType.HardDisk);
                     break;
 
+                // https://en.wikipedia.org/wiki/Atari_ST
+                case PhysicalSystem.AtariST:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Commodore_64
+                case PhysicalSystem.Commodore64:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
                 // https://en.wikipedia.org/wiki/Amiga
                 case PhysicalSystem.CommodoreAmigaCD:
                     types.Add(PhysicalMediaType.CDROM);
@@ -460,6 +470,11 @@ namespace SabreTools.RedumpLib.Data
                     types.Add(PhysicalMediaType.DataCartridge);
                     break;
 
+                // https://en.wikipedia.org/wiki/MSX
+                case PhysicalSystem.MicrosoftMSX:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
                 // https://en.wikipedia.org/wiki/PC-8800_series
                 case PhysicalSystem.NECPC88series:
                     types.Add(PhysicalMediaType.CDROM);
@@ -479,14 +494,14 @@ namespace SabreTools.RedumpLib.Data
                     types.Add(PhysicalMediaType.FloppyDisk);
                     break;
 
+                // https://en.wikipedia.org/wiki/ZX_Spectrum
+                case PhysicalSystem.SinclairZXSpectrum:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
                 #endregion
 
                 #region Arcade
-
-                // https://www.bigbookofamigahardware.com/bboah/product.aspx?id=36
-                case PhysicalSystem.AmigaCUBOCD32:
-                    types.Add(PhysicalMediaType.CDROM);
-                    break;
 
                 // https://en.wikipedia.org/wiki/Orbatak
                 case PhysicalSystem.AmericanLaserGames3DO:
@@ -517,6 +532,12 @@ namespace SabreTools.RedumpLib.Data
 
                 // https://en.wikipedia.org/wiki/CP_System_III
                 case PhysicalSystem.CapcomCPSystemIII:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://www.bigbookofamigahardware.com/bboah/product.aspx?id=36
+                // https://amiga.resource.cx/exp/cubo
+                case PhysicalSystem.CDExpressCuboCD32:
                     types.Add(PhysicalMediaType.CDROM);
                     break;
 

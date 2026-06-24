@@ -1448,22 +1448,26 @@ namespace SabreTools.RedumpLib.Test.Data
             // Computers
             [PhysicalSystem.AcornArchimedesAndRiscPC] = SystemCategory.Computer,
             [PhysicalSystem.AppleMacintosh] = SystemCategory.Computer,
+            [PhysicalSystem.AtariST] = SystemCategory.Computer,
+            [PhysicalSystem.Commodore64] = SystemCategory.Computer,
             [PhysicalSystem.CommodoreAmigaCD] = SystemCategory.Computer,
             [PhysicalSystem.FujitsuFMTownsseries] = SystemCategory.Computer,
             [PhysicalSystem.IBMPCcompatible] = SystemCategory.Computer,
+            [PhysicalSystem.MicrosoftMSX] = SystemCategory.Computer,
             [PhysicalSystem.NECPC88series] = SystemCategory.Computer,
             [PhysicalSystem.NECPC98series] = SystemCategory.Computer,
             [PhysicalSystem.SharpX68000] = SystemCategory.Computer,
+            [PhysicalSystem.SinclairZXSpectrum] = SystemCategory.Computer,
             [PhysicalSystem.MarkerComputerEnd] = SystemCategory.NONE,
 
             // Arcade
-            [PhysicalSystem.AmigaCUBOCD32] = SystemCategory.Arcade,
             [PhysicalSystem.AmericanLaserGames3DO] = SystemCategory.Arcade,
             [PhysicalSystem.Atari3DO] = SystemCategory.Arcade,
             [PhysicalSystem.Atronic] = SystemCategory.Arcade,
             [PhysicalSystem.AUSCOMSystem1] = SystemCategory.Arcade,
             [PhysicalSystem.BallyGameMagic] = SystemCategory.Arcade,
             [PhysicalSystem.CapcomCPSystemIII] = SystemCategory.Arcade,
+            [PhysicalSystem.CDExpressCuboCD32] = SystemCategory.Arcade,
             [PhysicalSystem.FunworldPhotoPlay] = SystemCategory.Arcade,
             [PhysicalSystem.FuRyuOmronPurikura] = SystemCategory.Arcade,
             [PhysicalSystem.GlobalVRVarious] = SystemCategory.Arcade,
@@ -1804,19 +1808,23 @@ namespace SabreTools.RedumpLib.Test.Data
 
             // Computers
             PhysicalSystem.AcornArchimedesAndRiscPC,
+            PhysicalSystem.AtariST, // TODO: Confirm this is Windows-readable
+            PhysicalSystem.Commodore64, // TODO: Confirm this is Windows-readable
             PhysicalSystem.CommodoreAmigaCD,
             PhysicalSystem.FujitsuFMTownsseries,
             PhysicalSystem.IBMPCcompatible,
+            PhysicalSystem.MicrosoftMSX, // TODO: Confirm this is Windows-readable
             PhysicalSystem.NECPC88series,
             PhysicalSystem.NECPC98series,
             PhysicalSystem.SharpX68000,
+            PhysicalSystem.SinclairZXSpectrum, // TODO: Confirm this is Windows-readable
 
             // Arcade
-            PhysicalSystem.AmigaCUBOCD32,
             PhysicalSystem.Atronic,
             PhysicalSystem.AUSCOMSystem1,
             PhysicalSystem.BallyGameMagic,
             PhysicalSystem.CapcomCPSystemIII,
+            PhysicalSystem.CDExpressCuboCD32,
             PhysicalSystem.FunworldPhotoPlay,
             PhysicalSystem.FuRyuOmronPurikura,
             PhysicalSystem.GlobalVRVarious,
