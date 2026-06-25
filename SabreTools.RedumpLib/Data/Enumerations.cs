@@ -2457,8 +2457,12 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "Namco · Sega · Nintendo Triforce", ShortName = "TRF", RedumpOrgCode = "trf", HasCues = true, HasDat = true, HasGdi = true)]
         NamcoSegaNintendoTriforce,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Namco System 12", ShortName = "ns12", RedumpOrgCode = "ns12")]
+        [System(Category = SystemCategory.Arcade, LongName = "Namco System 12", ShortName = "NS12", RedumpOrgCode = "ns12")]
         NamcoSystem12,
+
+        // Short name currently undefined
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Namco System 22", ShortName = "NS22")]
+        NamcoSystem22,
 
         // TODO: Split if/when separate 246 and 256 are defined
         [System(Category = SystemCategory.Arcade, LongName = "Namco System 246 / System 256", ShortName = "NS246", RedumpOrgCode = "ns246", HasCues = true, HasDat = true)]

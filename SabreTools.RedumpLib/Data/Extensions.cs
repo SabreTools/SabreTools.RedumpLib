@@ -702,6 +702,11 @@ namespace SabreTools.RedumpLib.Data
                     types.Add(PhysicalMediaType.CDROM);
                     break;
 
+                // https://system16.com/hardware.php?id=537
+                case PhysicalSystem.NamcoSystem22:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
                 // https://www.arcade-history.com/?n=the-yakyuuken-part-1&page=detail&id=33049
                 case PhysicalSystem.NewJatreCDi:
                     types.Add(PhysicalMediaType.CDROM);
