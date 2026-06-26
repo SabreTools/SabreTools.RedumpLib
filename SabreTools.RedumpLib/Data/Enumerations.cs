@@ -2433,7 +2433,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "Konami System GV", ShortName = "KSGV", RedumpOrgCode = "ksgv", HasCues = true, HasDat = true)]
         KonamiSystemGV,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Konami Twinkle", ShortName = "kt", RedumpOrgCode = "kt")]
+        [System(Category = SystemCategory.Arcade, LongName = "Konami Twinkle", ShortName = "KT", RedumpOrgCode = "kt")]
         KonamiTwinkle,
 
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Konami PC-based Systems")]
