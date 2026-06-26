@@ -2040,7 +2040,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Fujitsu FM Towns Marty")]
         FujitsuFMTownsMarty,
 
-        [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Hasbro iON Educational Gaming System", ShortName = "ION")]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Hasbro iON Educational Gaming System", ShortName = "ION", HasCues = true, HasDat = true)]
         HasbroiONEducationalGamingSystem,
 
         [System(Category = SystemCategory.DiscBasedConsole, LongName = "Hasbro VideoNow", ShortName = "HVN", RedumpOrgCode = "hvn", IsBanned = true, HasCues = true, HasDat = true)]
@@ -2100,7 +2100,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.DiscBasedConsole, LongName = "Philips CD-i", ShortName = "CDI", RedumpOrgCode = "cdi", HasCues = true, HasDat = true)]
         PhilipsCDi,
 
-        [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Playmaji Polymega", ShortName = "POLYMEGA")]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Playmaji Polymega", ShortName = "POLYMEGA", HasDat = true)]
         PlaymajiPolymega,
 
         [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Pioneer LaserActive")]
@@ -2372,7 +2372,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Bally Game Magic")]
         BallyGameMagic,
 
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Capcom Play System III", ShortName = "CPS3")]
+        [System(Category = SystemCategory.Arcade, LongName = "Capcom Play System III", ShortName = "CPS3", HasCues = true, HasDat = true)]
         CapcomPlaySystemIII,
 
         // Short name currently undefined
@@ -2420,7 +2420,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Konami Python")]
         KonamiPython,
 
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Konami Python 2", ShortName = "KP2")]
+        [System(Category = SystemCategory.Arcade, LongName = "Konami Python 2", ShortName = "KP2", HasDat = true)]
         KonamiPython2,
 
         [System(Category = SystemCategory.Arcade, LongName = "Konami System 573", ShortName = "KS573", RedumpOrgCode = "ks573", HasCues = true, HasDat = true)]
@@ -2442,7 +2442,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Merit Industries MegaTouch Force")]
         MeritIndustriesMegaTouchForce,
 
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Merit Industries MegaTouch ION")]
+        [System(Category = SystemCategory.Arcade, LongName = "Merit Industries MegaTouch ION", ShortName = "MION", HasDat = true)]
         MeritIndustriesMegaTouchION,
 
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Merit Industries MegaTouch Maxx")]
@@ -2461,12 +2461,14 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "Namco System 12", ShortName = "NS12", RedumpOrgCode = "ns12")]
         NamcoSystem12,
 
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Namco System 22", ShortName = "NS22")]
+        [System(Category = SystemCategory.Arcade, LongName = "Namco System 22", ShortName = "NS22", HasCues = true, HasDat = true)]
         NamcoSystem22,
 
-        // TODO: Split if/when separate 246 and 256 are defined
-        [System(Category = SystemCategory.Arcade, LongName = "Namco System 246 / System 256", ShortName = "NS246", RedumpOrgCode = "ns246", HasCues = true, HasDat = true)]
-        NamcoSystem246256,
+        [System(Category = SystemCategory.Arcade, LongName = "Namco System 246", ShortName = "NS246", RedumpOrgCode = "ns246", HasCues = true, HasDat = true)]
+        NamcoSystem246,
+
+        [System(Category = SystemCategory.Arcade, LongName = "Namco System 256", ShortName = "NS256", HasCues = true, HasDat = true)]
+        NamcoSystem256,
 
         // Short name currently undefined
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "New Jatre CD-i", ShortName = "NJ-CDI")]
@@ -2490,7 +2492,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Raw Thrills PC-based Systems")]
         RawThrillsVarious,
 
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega ALLS", ShortName = "ALLS")]
+        [System(Category = SystemCategory.Arcade, LongName = "Sega ALLS", ShortName = "ALLS", HasDat = true)]
         SegaALLS,
 
         [System(Category = SystemCategory.Arcade, LongName = "Sega Chihiro", ShortName = "CHIHIRO", RedumpOrgCode = "chihiro", HasCues = true, HasDat = true, HasGdi = true)]
@@ -2579,7 +2581,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Other, LongName = "DVD-Video", ShortName = "DVD-VIDEO", RedumpOrgCode = "dvd-video", IsBanned = true, HasDat = true)]
         DVDVideo,
 
-        [System(Category = SystemCategory.Other, LongName = "Enhanced CD", ShortName = "ENHANCED-CD", RedumpOrgCode = "enhanced-cd", IsBanned = true)]
+        [System(Category = SystemCategory.Other, LongName = "Enhanced CD", ShortName = "ENHANCED-CD", RedumpOrgCode = "enhanced-cd", IsBanned = true, HasCues = true, HasDat = true)]
         EnhancedCD,
 
         [System(Category = SystemCategory.Other, LongName = "HD DVD-Video", ShortName = "HDDVD-VIDEO", RedumpOrgCode = "hddvd-video", IsBanned = true, HasDat = true)]
@@ -2597,7 +2599,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Other, LongName = "Microsoft Pocket PC", ShortName = "PPC", RedumpOrgCode = "ppc", HasCues = true, HasDat = true)]
         MicrosoftPocketPC,
 
-        [System(Category = SystemCategory.Other, Available = false, LongName = "Psion", ShortName = "PSION")]
+        [System(Category = SystemCategory.Other, LongName = "Psion", ShortName = "PSION", HasCues = true, HasDat = true)]
         Psion,
 
         [System(Category = SystemCategory.Other, Available = false, LongName = "Rainbow Disc")]
@@ -2606,7 +2608,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Other, LongName = "Sega Prologue 21 Multimedia Karaoke System", ShortName = "SP21", RedumpOrgCode = "sp21", HasCues = true, HasDat = true)]
         SegaPrologue21MultimediaKaraokeSystem,
 
-        [System(Category = SystemCategory.Other, Available = false, LongName = "Sharp Zaurus", ShortName = "ZAURUS")]
+        [System(Category = SystemCategory.Other, LongName = "Sharp Zaurus", ShortName = "ZAURUS", HasCues = true, HasDat = true)]
         SharpZaurus,
 
         // Short name currently undefined

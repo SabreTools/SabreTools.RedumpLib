@@ -20,6 +20,7 @@ namespace SabreTools.RedumpLib.Attributes
         /// <summary>
         /// System is restricted to dumpers
         /// </summary>
+        /// <remarks>redump.org only</remarks>
         public bool IsBanned { get; set; } = false;
 
         /// <summary>

@@ -690,9 +690,14 @@ namespace SabreTools.RedumpLib.Data
                     break;
 
                 // http://system16.com/hardware.php?id=543
+                case PhysicalSystem.NamcoSystem246:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
                 // http://system16.com/hardware.php?id=546
                 // http://system16.com/hardware.php?id=872
-                case PhysicalSystem.NamcoSystem246256:
+                case PhysicalSystem.NamcoSystem256:
                     types.Add(PhysicalMediaType.CDROM);
                     types.Add(PhysicalMediaType.DVD);
                     break;
