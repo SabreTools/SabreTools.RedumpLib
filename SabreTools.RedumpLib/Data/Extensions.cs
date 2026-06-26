@@ -491,6 +491,7 @@ namespace SabreTools.RedumpLib.Data
                 // https://en.wikipedia.org/wiki/X68000
                 case PhysicalSystem.SharpX68000:
                     types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
                     types.Add(PhysicalMediaType.FloppyDisk);
                     break;
 
