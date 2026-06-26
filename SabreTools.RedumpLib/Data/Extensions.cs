@@ -499,6 +499,11 @@ namespace SabreTools.RedumpLib.Data
                     types.Add(PhysicalMediaType.CDROM);
                     break;
 
+                // https://en.wikipedia.org/wiki/Sun_Microsystems
+                case PhysicalSystem.SunMicrosystemsWorkstation:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
                 #endregion
 
                 #region Arcade

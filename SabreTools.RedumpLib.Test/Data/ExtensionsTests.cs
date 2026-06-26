@@ -1458,6 +1458,7 @@ namespace SabreTools.RedumpLib.Test.Data
             [PhysicalSystem.NECPC98series] = SystemCategory.Computer,
             [PhysicalSystem.SharpX68000] = SystemCategory.Computer,
             [PhysicalSystem.SinclairZXSpectrum] = SystemCategory.Computer,
+            [PhysicalSystem.SunMicrosystemsWorkstation] = SystemCategory.Computer,
             [PhysicalSystem.MarkerComputerEnd] = SystemCategory.NONE,
 
             // Arcade
@@ -1819,6 +1820,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.NECPC98series,
             PhysicalSystem.SharpX68000,
             PhysicalSystem.SinclairZXSpectrum, // TODO: Confirm this is Windows-readable
+            PhysicalSystem.SunMicrosystemsWorkstation, // TODO: Confirm this is Windows-readable
 
             // Arcade
             PhysicalSystem.Atronic,

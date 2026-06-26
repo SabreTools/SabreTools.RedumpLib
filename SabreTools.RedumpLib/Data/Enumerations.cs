@@ -2347,6 +2347,11 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Computer, Available = false, LongName = "Sinclair ZX Spectrum", ShortName = "ZX-SPECTRUM")]
         SinclairZXSpectrum,
 
+        // Short name currently undefined
+        // May be renamed to something with "SPARC" in the title later
+        [System(Category = SystemCategory.Computer, Available = false, LongName = "Sun Microsystems Workstation", ShortName = "SUN")]
+        SunMicrosystemsWorkstation,
+
         // End of computer section delimiter
         MarkerComputerEnd,
 
