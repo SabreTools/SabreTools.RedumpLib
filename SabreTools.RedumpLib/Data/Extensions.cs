@@ -536,7 +536,7 @@ namespace SabreTools.RedumpLib.Data
                     break;
 
                 // https://en.wikipedia.org/wiki/CP_System_III
-                case PhysicalSystem.CapcomCPSystemIII:
+                case PhysicalSystem.CapcomPlaySystemIII:
                     types.Add(PhysicalMediaType.CDROM);
                     break;
 

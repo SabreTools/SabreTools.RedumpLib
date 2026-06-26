@@ -2040,7 +2040,6 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Fujitsu FM Towns Marty")]
         FujitsuFMTownsMarty,
 
-        // Short name currently undefined
         [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Hasbro iON Educational Gaming System", ShortName = "ION")]
         HasbroiONEducationalGamingSystem,
 
@@ -2101,7 +2100,6 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.DiscBasedConsole, LongName = "Philips CD-i", ShortName = "CDI", RedumpOrgCode = "cdi", HasCues = true, HasDat = true)]
         PhilipsCDi,
 
-        // Short name currently undefined
         [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Playmaji Polymega", ShortName = "POLYMEGA")]
         PlaymajiPolymega,
 
@@ -2374,9 +2372,8 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Bally Game Magic")]
         BallyGameMagic,
 
-        // Short name currently undefined
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Capcom CP System III", ShortName = "CPS3")]
-        CapcomCPSystemIII,
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Capcom Play System III", ShortName = "CPS3")]
+        CapcomPlaySystemIII,
 
         // Short name currently undefined
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "C.D. Express Cubo CD32", ShortName = "CUBO")]
@@ -2423,8 +2420,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Konami Python")]
         KonamiPython,
 
-        // Short name currently undefined
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Konami Python 2", ShortName = "PYTHON2")]
+        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Konami Python 2", ShortName = "KP2")]
         KonamiPython2,
 
         [System(Category = SystemCategory.Arcade, LongName = "Konami System 573", ShortName = "KS573", RedumpOrgCode = "ks573", HasCues = true, HasDat = true)]
@@ -2465,7 +2461,6 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "Namco System 12", ShortName = "NS12", RedumpOrgCode = "ns12")]
         NamcoSystem12,
 
-        // Short name currently undefined
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Namco System 22", ShortName = "NS22")]
         NamcoSystem22,
 
@@ -2495,7 +2490,6 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Raw Thrills PC-based Systems")]
         RawThrillsVarious,
 
-        // Short name currently undefined
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega ALLS", ShortName = "ALLS")]
         SegaALLS,
 
@@ -2603,7 +2597,6 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Other, LongName = "Microsoft Pocket PC", ShortName = "PPC", RedumpOrgCode = "ppc", HasCues = true, HasDat = true)]
         MicrosoftPocketPC,
 
-        // Short name currently undefined
         [System(Category = SystemCategory.Other, Available = false, LongName = "Psion", ShortName = "PSION")]
         Psion,
 
@@ -2613,7 +2606,6 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Other, LongName = "Sega Prologue 21 Multimedia Karaoke System", ShortName = "SP21", RedumpOrgCode = "sp21", HasCues = true, HasDat = true)]
         SegaPrologue21MultimediaKaraokeSystem,
 
-        // Short name currently undefined
         [System(Category = SystemCategory.Other, Available = false, LongName = "Sharp Zaurus", ShortName = "ZAURUS")]
         SharpZaurus,
 
