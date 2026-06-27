@@ -2515,8 +2515,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega NAOMI Satellite Terminal PC", ShortName = "NAOMI-STPC")]
         SegaNaomiSatelliteTerminalPC,
 
-        // Short name currently undefined
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Nu", ShortName = "NU")]
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Nu", ShortName = "NU", HasDat = true)]
         SegaNu,
 
         // Short name currently undefined
