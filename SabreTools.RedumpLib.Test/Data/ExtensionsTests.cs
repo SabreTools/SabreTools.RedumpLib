@@ -1325,6 +1325,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SegaNu,
             PhysicalSystem.SegaRingEdge,
             PhysicalSystem.SegaRingEdge2,
+            PhysicalSystem.SegaRingWide,
             PhysicalSystem.SegaTitanVideo,
             PhysicalSystem.TABAustriaQuizard,
 
@@ -1725,6 +1726,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SegaNu,
             PhysicalSystem.SegaRingEdge,
             PhysicalSystem.SegaRingEdge2,
+            PhysicalSystem.SegaRingWide,
             PhysicalSystem.TABAustriaQuizard,
 
             // Other

@@ -2536,8 +2536,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "Sega RingEdge 2", ShortName = "SRE2", RedumpOrgCode = "sre2", HasDat = true)]
         SegaRingEdge2,
 
-        // Short name currently undefined
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega RingWide", ShortName = "SRW")]
+        [System(Category = SystemCategory.Arcade, LongName = "Sega RingWide", ShortName = "SRW", HasDat = true)]
         SegaRingWide,
 
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega System 32")]
