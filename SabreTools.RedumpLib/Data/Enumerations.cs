@@ -2380,8 +2380,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "Funworld Photo Play", ShortName = "FPP", RedumpOrgCode = "fpp", HasCues = true, HasDat = true)]
         FunworldPhotoPlay,
 
-        // Short name currently undefined
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "FuRyu & Omron Purikura", ShortName = "FRO-PURI")]
+        [System(Category = SystemCategory.Arcade, LongName = "FuRyu & Omron Purikura", ShortName = "FPURI", HasDat = true)]
         FuRyuOmronPurikura,
 
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Global VR PC-based Systems")]
@@ -2449,8 +2448,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Merit Industries MegaTouch XL")]
         MeritIndustriesMegaTouchXL,
 
-        // Short name currently undefined
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Namco Purikura", ShortName = "NAM-PURI")]
+        [System(Category = SystemCategory.Arcade, LongName = "Namco Purikura", ShortName = "NPURI", HasDat = true)]
         NamcoPurikura,
 
         [System(Category = SystemCategory.Arcade, LongName = "Namco · Sega · Nintendo Triforce", ShortName = "TRF", RedumpOrgCode = "trf", HasCues = true, HasDat = true, HasGdi = true)]

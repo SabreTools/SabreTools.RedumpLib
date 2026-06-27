@@ -1302,6 +1302,7 @@ namespace SabreTools.RedumpLib.Test.Data
             // Arcade
             PhysicalSystem.CapcomPlaySystemIII,
             PhysicalSystem.FunworldPhotoPlay,
+            PhysicalSystem.FuRyuOmronPurikura,
             PhysicalSystem.IncredibleTechnologiesEagle,
             PhysicalSystem.KonamieAmusement,
             PhysicalSystem.KonamiFireBeat,
@@ -1311,6 +1312,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.KonamiSystemGV,
             PhysicalSystem.KonamiTwinkle,
             PhysicalSystem.MeritIndustriesMegaTouchION,
+            PhysicalSystem.NamcoPurikura,
             PhysicalSystem.NamcoSegaNintendoTriforce,
             PhysicalSystem.NamcoSystem12,
             PhysicalSystem.NamcoSystem22,
@@ -1708,6 +1710,7 @@ namespace SabreTools.RedumpLib.Test.Data
             // Arcade
             PhysicalSystem.CapcomPlaySystemIII,
             PhysicalSystem.FunworldPhotoPlay,
+            PhysicalSystem.FuRyuOmronPurikura,
             PhysicalSystem.IncredibleTechnologiesEagle,
             PhysicalSystem.KonamieAmusement,
             PhysicalSystem.KonamiFireBeat,
@@ -1716,6 +1719,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.KonamiSystem573,
             PhysicalSystem.KonamiSystemGV,
             PhysicalSystem.MeritIndustriesMegaTouchION,
+            PhysicalSystem.NamcoPurikura,
             PhysicalSystem.NamcoSegaNintendoTriforce,
             PhysicalSystem.NamcoSystem22,
             PhysicalSystem.NamcoSystem246,
