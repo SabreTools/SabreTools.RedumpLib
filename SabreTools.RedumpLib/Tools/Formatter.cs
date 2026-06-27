@@ -168,7 +168,10 @@ namespace SabreTools.RedumpLib.Tools
                 output.AppendLine();
 
                 // Ring Codes section
-                FormatOutputData(output, info.RingCodes, info.DiscIdentifiers);
+                FormatOutputData(output,
+                    info.RingCodes,
+                    info.DiscIdentifiers,
+                    info.DiscIdentity.Media.ToPhysicalMediaType());
                 output.AppendLine();
 
                 // Dump Metadata section
@@ -317,7 +320,8 @@ namespace SabreTools.RedumpLib.Tools
         /// </summary>
         internal static void FormatOutputData(StringBuilder output,
             RingCodesSection section,
-            DiscIdentifiersSection discIdentifiers)
+            DiscIdentifiersSection discIdentifiers,
+            PhysicalMediaType? mediaType)
         {
             output.AppendLine("Ring Codes:");
             output.AppendLine();
@@ -372,8 +376,8 @@ namespace SabreTools.RedumpLib.Tools
                 AddIfExists(output, $"Layer 2 {Template.AdditionalMouldsField}", section.Layer2AdditionalMoulds, 0);
             }
 
-            // If we have a dual-layer disc
-            else if (discIdentifiers.Layerbreak != default)
+            // If we have a dual-layer disc or a UMD
+            else if (discIdentifiers.Layerbreak != default || mediaType == PhysicalMediaType.UMD)
             {
                 AddIfExists(output, $"Layer 0 {Template.MasteringCodeField}", section.Layer0MasteringCode, 0);
                 AddIfExists(output, $"Layer 0 {Template.MasteringSIDField}", section.Layer0MasteringSID, 0);
