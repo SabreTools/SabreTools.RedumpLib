@@ -2518,16 +2518,13 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "Sega Nu", ShortName = "NU", HasDat = true)]
         SegaNu,
 
-        // Short name currently undefined
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Nu 1.1", ShortName = "NU11")]
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Nu 1.1", ShortName = "NU11", HasDat = true)]
         SegaNu11,
 
-        // Short name currently undefined
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Nu 2", ShortName = "NU2")]
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Nu 2", ShortName = "NU2", HasDat = true)]
         SegaNu2,
 
-        // Short name currently undefined
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Nu SX", ShortName = "NUSX")]
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Nu SX", ShortName = "NUSX", HasDat = true)]
         SegaNuSX,
 
         [System(Category = SystemCategory.Arcade, LongName = "Sega RingEdge", ShortName = "SRE", RedumpOrgCode = "sre", HasDat = true)]
