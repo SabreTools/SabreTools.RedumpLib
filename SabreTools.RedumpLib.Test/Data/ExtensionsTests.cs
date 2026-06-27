@@ -1348,6 +1348,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.Psion,
             PhysicalSystem.SegaPrologue21MultimediaKaraokeSystem,
             PhysicalSystem.SharpZaurus,
+            PhysicalSystem.SonyElectronicBook,
             PhysicalSystem.TaoiKTV,
             PhysicalSystem.TomyKissSite,
             PhysicalSystem.VideoCD,
@@ -1642,6 +1643,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.Psion,
             PhysicalSystem.SegaPrologue21MultimediaKaraokeSystem,
             PhysicalSystem.SharpZaurus,
+            PhysicalSystem.SonyElectronicBook,
             PhysicalSystem.TomyKissSite,
             PhysicalSystem.VideoCD,
         ];
@@ -1753,6 +1755,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.Psion,
             PhysicalSystem.SegaPrologue21MultimediaKaraokeSystem,
             PhysicalSystem.SharpZaurus,
+            PhysicalSystem.SonyElectronicBook,
             PhysicalSystem.TomyKissSite,
             PhysicalSystem.VideoCD,
         ];

@@ -2602,8 +2602,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Other, LongName = "Sharp Zaurus", ShortName = "ZAURUS", HasCues = true, HasDat = true)]
         SharpZaurus,
 
-        // Short name currently undefined
-        [System(Category = SystemCategory.Other, Available = false, LongName = "Sony Electronic Book", ShortName = "SONYEB")]
+        [System(Category = SystemCategory.Other, LongName = "Sony Electronic Book", ShortName = "SEB", HasCues = true, HasDat = true)]
         SonyElectronicBook,
 
         [System(Category = SystemCategory.Other, Available = false, LongName = "Super Audio CD")]
