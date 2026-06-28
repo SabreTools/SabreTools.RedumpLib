@@ -96,6 +96,8 @@ namespace SabreTools.RedumpLib.Data
                         info.DiscIdentity.Media = MediaType.BD33;
                     else if (size > 25_025_314_816)
                         info.DiscIdentity.Media = MediaType.BD33;
+                    else if (system == PhysicalSystem.SonyPlayStation5)
+                        info.DiscIdentity.Media = MediaType.BD33;
                     else
                         info.DiscIdentity.Media = MediaType.BD25;
                     break;

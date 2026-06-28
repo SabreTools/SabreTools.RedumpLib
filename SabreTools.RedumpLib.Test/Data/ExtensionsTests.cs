@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using SabreTools.RedumpLib.Data;
+using SabreTools.RedumpLib.Data.Sections;
 using Xunit;
-using CommonDiscInfoSection = SabreTools.RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection;
-using SizeAndChecksumsSection = SabreTools.RedumpLib.RedumpOrg.Sections.SizeAndChecksumsSection;
-using SubmissionInfo = SabreTools.RedumpLib.RedumpOrg.SubmissionInfo;
-using TracksAndWriteOffsetsSection = SabreTools.RedumpLib.RedumpOrg.Sections.TracksAndWriteOffsetsSection;
 
 namespace SabreTools.RedumpLib.Test.Data
 {
@@ -15,34 +12,19 @@ namespace SabreTools.RedumpLib.Test.Data
     {
         #region Non-Enumerable
 
-        #region NormalizeDiscType
+        #region NormalizeDiscType (redump.info)
 
         [Fact]
         public void NormalizeDiscType_InvalidMedia_Untouched()
         {
             var si = new SubmissionInfo
             {
-                CommonDiscInfo = new CommonDiscInfoSection { Media = null }
+                DiscIdentity = new DiscIdentitySection { Media = null }
             };
 
             si.NormalizeDiscType();
 
-            Assert.Null(si.CommonDiscInfo.Media);
-        }
-
-        [Fact]
-        public void NormalizeDiscType_InvalidSizeChecksums_Untouched()
-        {
-            MediaType expected = MediaType.CD;
-            var si = new SubmissionInfo
-            {
-                CommonDiscInfo = new CommonDiscInfoSection { Media = MediaType.CD },
-                SizeAndChecksums = new(),
-            };
-
-            si.NormalizeDiscType();
-
-            Assert.Equal(expected, si.CommonDiscInfo.Media);
+            Assert.Null(si.DiscIdentity.Media);
         }
 
         [Fact]
@@ -51,13 +33,12 @@ namespace SabreTools.RedumpLib.Test.Data
             MediaType expected = MediaType.CD;
             var si = new SubmissionInfo
             {
-                CommonDiscInfo = new CommonDiscInfoSection { Media = MediaType.CD },
-                SizeAndChecksums = new SizeAndChecksumsSection(),
+                DiscIdentity = new DiscIdentitySection { Media = MediaType.CD },
             };
 
             si.NormalizeDiscType();
 
-            Assert.Equal(expected, si.CommonDiscInfo.Media);
+            Assert.Equal(expected, si.DiscIdentity.Media);
         }
 
         [Theory]
@@ -68,13 +49,13 @@ namespace SabreTools.RedumpLib.Test.Data
             MediaType expected = MediaType.DVD9;
             var si = new SubmissionInfo
             {
-                CommonDiscInfo = new CommonDiscInfoSection { Media = type },
-                SizeAndChecksums = new SizeAndChecksumsSection { Layerbreak = 12345 },
+                DiscIdentity = new DiscIdentitySection { Media = type },
+                DiscIdentifiers = new DiscIdentifiersSection { Layerbreak = 12345 },
             };
 
             si.NormalizeDiscType();
 
-            Assert.Equal(expected, si.CommonDiscInfo.Media);
+            Assert.Equal(expected, si.DiscIdentity.Media);
         }
 
         [Theory]
@@ -85,13 +66,12 @@ namespace SabreTools.RedumpLib.Test.Data
             MediaType expected = MediaType.DVD5;
             var si = new SubmissionInfo
             {
-                CommonDiscInfo = new CommonDiscInfoSection { Media = type },
-                SizeAndChecksums = new SizeAndChecksumsSection(),
+                DiscIdentity = new DiscIdentitySection { Media = type },
             };
 
             si.NormalizeDiscType();
 
-            Assert.Equal(expected, si.CommonDiscInfo.Media);
+            Assert.Equal(expected, si.DiscIdentity.Media);
         }
 
         [Theory]
@@ -106,13 +86,13 @@ namespace SabreTools.RedumpLib.Test.Data
             MediaType expected = MediaType.BD128;
             var si = new SubmissionInfo
             {
-                CommonDiscInfo = new CommonDiscInfoSection { Media = type },
-                SizeAndChecksums = new SizeAndChecksumsSection { Layerbreak3 = 12345 },
+                DiscIdentity = new DiscIdentitySection { Media = type },
+                DiscIdentifiers = new DiscIdentifiersSection { Layerbreak3 = 12345 },
             };
 
             si.NormalizeDiscType();
 
-            Assert.Equal(expected, si.CommonDiscInfo.Media);
+            Assert.Equal(expected, si.DiscIdentity.Media);
         }
 
         [Theory]
@@ -127,13 +107,13 @@ namespace SabreTools.RedumpLib.Test.Data
             MediaType expected = MediaType.BD100;
             var si = new SubmissionInfo
             {
-                CommonDiscInfo = new CommonDiscInfoSection { Media = type },
-                SizeAndChecksums = new SizeAndChecksumsSection { Layerbreak2 = 12345 },
+                DiscIdentity = new DiscIdentitySection { Media = type },
+                DiscIdentifiers = new DiscIdentifiersSection { Layerbreak2 = 12345 },
             };
 
             si.NormalizeDiscType();
 
-            Assert.Equal(expected, si.CommonDiscInfo.Media);
+            Assert.Equal(expected, si.DiscIdentity.Media);
         }
 
         [Theory]
@@ -148,17 +128,14 @@ namespace SabreTools.RedumpLib.Test.Data
             MediaType expected = MediaType.BD66;
             var si = new SubmissionInfo
             {
-                CommonDiscInfo = new CommonDiscInfoSection { Media = type },
-                SizeAndChecksums = new SizeAndChecksumsSection
-                {
-                    Layerbreak = 12345,
-                    PICIdentifier = "BDU",
-                },
+                DiscIdentity = new DiscIdentitySection { Media = type },
+                DiscIdentifiers = new DiscIdentifiersSection { Layerbreak = 12345 },
+                DumpMetadata = new DumpMetadataSection { PICIdentifier = "BDU" },
             };
 
             si.NormalizeDiscType();
 
-            Assert.Equal(expected, si.CommonDiscInfo.Media);
+            Assert.Equal(expected, si.DiscIdentity.Media);
         }
 
         [Theory]
@@ -173,12 +150,386 @@ namespace SabreTools.RedumpLib.Test.Data
             MediaType expected = MediaType.BD66;
             var si = new SubmissionInfo
             {
-                CommonDiscInfo = new CommonDiscInfoSection { Media = type },
-                TracksAndWriteOffsets = new TracksAndWriteOffsetsSection
+                DiscIdentity = new DiscIdentitySection { Media = type },
+                DiscIdentifiers = new DiscIdentifiersSection { Layerbreak = 12345 },
+                DumpMetadata = new DumpMetadataSection
+                {
+                    Dat = "<rom name=\"X\" size=\"50050629633\" crc=\"X\" md5=\"X\" sha1=\"X\" />",
+                },
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.DiscIdentity.Media);
+        }
+
+        [Theory]
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscType_BD66PS5_Fixed(MediaType type)
+        {
+            MediaType expected = MediaType.BD66;
+            var si = new SubmissionInfo
+            {
+                DiscIdentity = new DiscIdentitySection
+                {
+                    System = PhysicalSystem.SonyPlayStation5,
+                    Media = type
+                },
+                DiscIdentifiers = new DiscIdentifiersSection { Layerbreak = 12345 },
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.DiscIdentity.Media);
+        }
+
+        [Theory]
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscType_BD50_Fixed(MediaType type)
+        {
+            MediaType expected = MediaType.BD50;
+            var si = new SubmissionInfo
+            {
+                DiscIdentity = new DiscIdentitySection { Media = type },
+                DiscIdentifiers = new DiscIdentifiersSection { Layerbreak = 12345 },
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.DiscIdentity.Media);
+        }
+
+        [Theory]
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscType_BD33PIC_Fixed(MediaType type)
+        {
+            MediaType expected = MediaType.BD33;
+            var si = new SubmissionInfo
+            {
+                DiscIdentity = new DiscIdentitySection { Media = type },
+                DumpMetadata = new DumpMetadataSection { PICIdentifier = "BDU" },
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.DiscIdentity.Media);
+        }
+
+        [Theory]
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscType_BD33Size_Fixed(MediaType type)
+        {
+            MediaType expected = MediaType.BD33;
+            var si = new SubmissionInfo
+            {
+                DiscIdentity = new DiscIdentitySection { Media = type },
+                DumpMetadata = new DumpMetadataSection
+                {
+                    Dat = "<rom name=\"X\" size=\"25025314817\" crc=\"X\" md5=\"X\" sha1=\"X\" />",
+                },
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.DiscIdentity.Media);
+        }
+
+        [Theory]
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscType_BD33PS5_Fixed(MediaType type)
+        {
+            MediaType expected = MediaType.BD33;
+            var si = new SubmissionInfo
+            {
+                DiscIdentity = new DiscIdentitySection
+                {
+                    System = PhysicalSystem.SonyPlayStation5,
+                    Media = type,
+                },
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.DiscIdentity.Media);
+        }
+
+        [Theory]
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscType_BD25_Fixed(MediaType type)
+        {
+            MediaType expected = MediaType.BD25;
+            var si = new SubmissionInfo
+            {
+                DiscIdentity = new DiscIdentitySection { Media = type },
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.DiscIdentity.Media);
+        }
+
+        [Theory]
+        [InlineData(MediaType.HDDVDSL)]
+        [InlineData(MediaType.HDDVDDL)]
+        public void NormalizeDiscType_HDDVDDL_Fixed(MediaType type)
+        {
+            MediaType expected = MediaType.HDDVDDL;
+            var si = new SubmissionInfo
+            {
+                DiscIdentity = new DiscIdentitySection { Media = type },
+                DiscIdentifiers = new DiscIdentifiersSection { Layerbreak = 12345 },
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.DiscIdentity.Media);
+        }
+
+        [Theory]
+        [InlineData(MediaType.HDDVDSL)]
+        [InlineData(MediaType.HDDVDDL)]
+        public void NormalizeDiscType_HDDVDSL_Fixed(MediaType type)
+        {
+            MediaType expected = MediaType.HDDVDSL;
+            var si = new SubmissionInfo
+            {
+                DiscIdentity = new DiscIdentitySection { Media = type },
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.DiscIdentity.Media);
+        }
+
+        [Theory]
+        [InlineData(MediaType.UMDSL)]
+        [InlineData(MediaType.UMDDL)]
+        public void NormalizeDiscType_UMDDL_Fixed(MediaType type)
+        {
+            MediaType expected = MediaType.UMDDL;
+            var si = new SubmissionInfo
+            {
+                DiscIdentity = new DiscIdentitySection { Media = type },
+                DiscIdentifiers = new DiscIdentifiersSection { Layerbreak = 12345 },
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.DiscIdentity.Media);
+        }
+
+        [Theory]
+        [InlineData(MediaType.UMDSL)]
+        [InlineData(MediaType.UMDDL)]
+        public void NormalizeDiscType_UMDSL_Fixed(MediaType type)
+        {
+            MediaType expected = MediaType.UMDSL;
+            var si = new SubmissionInfo
+            {
+                DiscIdentity = new DiscIdentitySection { Media = type },
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.DiscIdentity.Media);
+        }
+
+        #endregion
+
+        #region NormalizeDiscType (redump.org)
+
+        [Fact]
+        public void NormalizeDiscTypeOrg_InvalidMedia_Untouched()
+        {
+            var si = new RedumpLib.RedumpOrg.SubmissionInfo
+            {
+                CommonDiscInfo = new RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection { Media = null }
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Null(si.CommonDiscInfo.Media);
+        }
+
+        [Fact]
+        public void NormalizeDiscTypeOrg_InvalidSizeChecksums_Untouched()
+        {
+            MediaType expected = MediaType.CD;
+            var si = new RedumpLib.RedumpOrg.SubmissionInfo
+            {
+                CommonDiscInfo = new RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection { Media = MediaType.CD },
+                SizeAndChecksums = new(),
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.CommonDiscInfo.Media);
+        }
+
+        [Fact]
+        public void NormalizeDiscTypeOrg_UnformattedType_Fixed()
+        {
+            MediaType expected = MediaType.CD;
+            var si = new RedumpLib.RedumpOrg.SubmissionInfo
+            {
+                CommonDiscInfo = new RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection { Media = MediaType.CD },
+                SizeAndChecksums = new RedumpLib.RedumpOrg.Sections.SizeAndChecksumsSection(),
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.CommonDiscInfo.Media);
+        }
+
+        [Theory]
+        [InlineData(MediaType.DVD5)]
+        [InlineData(MediaType.DVD9)]
+        public void NormalizeDiscTypeOrg_DVD9_Fixed(MediaType type)
+        {
+            MediaType expected = MediaType.DVD9;
+            var si = new RedumpLib.RedumpOrg.SubmissionInfo
+            {
+                CommonDiscInfo = new RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection { Media = type },
+                SizeAndChecksums = new RedumpLib.RedumpOrg.Sections.SizeAndChecksumsSection { Layerbreak = 12345 },
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.CommonDiscInfo.Media);
+        }
+
+        [Theory]
+        [InlineData(MediaType.DVD5)]
+        [InlineData(MediaType.DVD9)]
+        public void NormalizeDiscTypeOrg_DVD5_Fixed(MediaType type)
+        {
+            MediaType expected = MediaType.DVD5;
+            var si = new RedumpLib.RedumpOrg.SubmissionInfo
+            {
+                CommonDiscInfo = new RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection { Media = type },
+                SizeAndChecksums = new RedumpLib.RedumpOrg.Sections.SizeAndChecksumsSection(),
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.CommonDiscInfo.Media);
+        }
+
+        [Theory]
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscTypeOrg_BD128_Fixed(MediaType type)
+        {
+            MediaType expected = MediaType.BD128;
+            var si = new RedumpLib.RedumpOrg.SubmissionInfo
+            {
+                CommonDiscInfo = new RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection { Media = type },
+                SizeAndChecksums = new RedumpLib.RedumpOrg.Sections.SizeAndChecksumsSection { Layerbreak3 = 12345 },
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.CommonDiscInfo.Media);
+        }
+
+        [Theory]
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscTypeOrg_BD100_Fixed(MediaType type)
+        {
+            MediaType expected = MediaType.BD100;
+            var si = new RedumpLib.RedumpOrg.SubmissionInfo
+            {
+                CommonDiscInfo = new RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection { Media = type },
+                SizeAndChecksums = new RedumpLib.RedumpOrg.Sections.SizeAndChecksumsSection { Layerbreak2 = 12345 },
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.CommonDiscInfo.Media);
+        }
+
+        [Theory]
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscTypeOrg_BD66PIC_Fixed(MediaType type)
+        {
+            MediaType expected = MediaType.BD66;
+            var si = new RedumpLib.RedumpOrg.SubmissionInfo
+            {
+                CommonDiscInfo = new RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection { Media = type },
+                SizeAndChecksums = new RedumpLib.RedumpOrg.Sections.SizeAndChecksumsSection
+                {
+                    Layerbreak = 12345,
+                    PICIdentifier = "BDU",
+                },
+            };
+
+            si.NormalizeDiscType();
+
+            Assert.Equal(expected, si.CommonDiscInfo.Media);
+        }
+
+        [Theory]
+        [InlineData(MediaType.BD25)]
+        [InlineData(MediaType.BD33)]
+        [InlineData(MediaType.BD50)]
+        [InlineData(MediaType.BD66)]
+        [InlineData(MediaType.BD100)]
+        [InlineData(MediaType.BD128)]
+        public void NormalizeDiscTypeOrg_BD66Size_Fixed(MediaType type)
+        {
+            MediaType expected = MediaType.BD66;
+            var si = new RedumpLib.RedumpOrg.SubmissionInfo
+            {
+                CommonDiscInfo = new RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection { Media = type },
+                TracksAndWriteOffsets = new RedumpLib.RedumpOrg.Sections.TracksAndWriteOffsetsSection
                 {
                     ClrMameProData = "<rom name=\"X\" size=\"50050629633\" crc=\"X\" md5=\"X\" sha1=\"X\" />",
                 },
-                SizeAndChecksums = new SizeAndChecksumsSection
+                SizeAndChecksums = new RedumpLib.RedumpOrg.Sections.SizeAndChecksumsSection
                 {
                     Layerbreak = 12345,
                 },
@@ -196,13 +547,13 @@ namespace SabreTools.RedumpLib.Test.Data
         [InlineData(MediaType.BD66)]
         [InlineData(MediaType.BD100)]
         [InlineData(MediaType.BD128)]
-        public void NormalizeDiscType_BD50_Fixed(MediaType type)
+        public void NormalizeDiscTypeOrg_BD50_Fixed(MediaType type)
         {
             MediaType expected = MediaType.BD50;
-            var si = new SubmissionInfo
+            var si = new RedumpLib.RedumpOrg.SubmissionInfo
             {
-                CommonDiscInfo = new CommonDiscInfoSection { Media = type },
-                SizeAndChecksums = new SizeAndChecksumsSection { Layerbreak = 12345 },
+                CommonDiscInfo = new RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection { Media = type },
+                SizeAndChecksums = new RedumpLib.RedumpOrg.Sections.SizeAndChecksumsSection { Layerbreak = 12345 },
             };
 
             si.NormalizeDiscType();
@@ -217,13 +568,13 @@ namespace SabreTools.RedumpLib.Test.Data
         [InlineData(MediaType.BD66)]
         [InlineData(MediaType.BD100)]
         [InlineData(MediaType.BD128)]
-        public void NormalizeDiscType_BD33PIC_Fixed(MediaType type)
+        public void NormalizeDiscTypeOrg_BD33PIC_Fixed(MediaType type)
         {
             MediaType expected = MediaType.BD33;
-            var si = new SubmissionInfo
+            var si = new RedumpLib.RedumpOrg.SubmissionInfo
             {
-                CommonDiscInfo = new CommonDiscInfoSection { Media = type },
-                SizeAndChecksums = new SizeAndChecksumsSection
+                CommonDiscInfo = new RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection { Media = type },
+                SizeAndChecksums = new RedumpLib.RedumpOrg.Sections.SizeAndChecksumsSection
                 {
                     PICIdentifier = "BDU",
                 },
@@ -241,13 +592,13 @@ namespace SabreTools.RedumpLib.Test.Data
         [InlineData(MediaType.BD66)]
         [InlineData(MediaType.BD100)]
         [InlineData(MediaType.BD128)]
-        public void NormalizeDiscType_BD33Size_Fixed(MediaType type)
+        public void NormalizeDiscTypeOrg_BD33Size_Fixed(MediaType type)
         {
             MediaType expected = MediaType.BD33;
-            var si = new SubmissionInfo
+            var si = new RedumpLib.RedumpOrg.SubmissionInfo
             {
-                CommonDiscInfo = new CommonDiscInfoSection { Media = type },
-                TracksAndWriteOffsets = new TracksAndWriteOffsetsSection
+                CommonDiscInfo = new RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection { Media = type },
+                TracksAndWriteOffsets = new RedumpLib.RedumpOrg.Sections.TracksAndWriteOffsetsSection
                 {
                     ClrMameProData = "<rom name=\"X\" size=\"25025314817\" crc=\"X\" md5=\"X\" sha1=\"X\" />",
                 },
@@ -265,13 +616,13 @@ namespace SabreTools.RedumpLib.Test.Data
         [InlineData(MediaType.BD66)]
         [InlineData(MediaType.BD100)]
         [InlineData(MediaType.BD128)]
-        public void NormalizeDiscType_BD25_Fixed(MediaType type)
+        public void NormalizeDiscTypeOrg_BD25_Fixed(MediaType type)
         {
             MediaType expected = MediaType.BD25;
-            var si = new SubmissionInfo
+            var si = new RedumpLib.RedumpOrg.SubmissionInfo
             {
-                CommonDiscInfo = new CommonDiscInfoSection { Media = type },
-                SizeAndChecksums = new SizeAndChecksumsSection(),
+                CommonDiscInfo = new RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection { Media = type },
+                SizeAndChecksums = new RedumpLib.RedumpOrg.Sections.SizeAndChecksumsSection(),
             };
 
             si.NormalizeDiscType();
@@ -282,13 +633,13 @@ namespace SabreTools.RedumpLib.Test.Data
         [Theory]
         [InlineData(MediaType.UMDSL)]
         [InlineData(MediaType.UMDDL)]
-        public void NormalizeDiscType_UMDDL_Fixed(MediaType type)
+        public void NormalizeDiscTypeOrg_UMDDL_Fixed(MediaType type)
         {
             MediaType expected = MediaType.UMDDL;
-            var si = new SubmissionInfo
+            var si = new RedumpLib.RedumpOrg.SubmissionInfo
             {
-                CommonDiscInfo = new CommonDiscInfoSection { Media = type },
-                SizeAndChecksums = new SizeAndChecksumsSection { Layerbreak = 12345 },
+                CommonDiscInfo = new RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection { Media = type },
+                SizeAndChecksums = new RedumpLib.RedumpOrg.Sections.SizeAndChecksumsSection { Layerbreak = 12345 },
             };
 
             si.NormalizeDiscType();
@@ -299,13 +650,13 @@ namespace SabreTools.RedumpLib.Test.Data
         [Theory]
         [InlineData(MediaType.UMDSL)]
         [InlineData(MediaType.UMDDL)]
-        public void NormalizeDiscType_UMDSL_Fixed(MediaType type)
+        public void NormalizeDiscTypeOrg_UMDSL_Fixed(MediaType type)
         {
             MediaType expected = MediaType.UMDSL;
-            var si = new SubmissionInfo
+            var si = new RedumpLib.RedumpOrg.SubmissionInfo
             {
-                CommonDiscInfo = new CommonDiscInfoSection { Media = type },
-                SizeAndChecksums = new SizeAndChecksumsSection(),
+                CommonDiscInfo = new RedumpLib.RedumpOrg.Sections.CommonDiscInfoSection { Media = type },
+                SizeAndChecksums = new RedumpLib.RedumpOrg.Sections.SizeAndChecksumsSection(),
             };
 
             si.NormalizeDiscType();
