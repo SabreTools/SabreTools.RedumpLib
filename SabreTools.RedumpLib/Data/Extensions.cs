@@ -744,6 +744,12 @@ namespace SabreTools.RedumpLib.Data
                     types.Add(PhysicalMediaType.DVD);
                     break;
 
+                // UNKNOWN
+                case PhysicalSystem.PCBasedArcade:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
                 // https://github.com/mamedev/mame/blob/master/src/mame/drivers/photoply.cpp
                 case PhysicalSystem.PhotoPlayVarious:
                     types.Add(PhysicalMediaType.CDROM);
@@ -917,7 +923,7 @@ namespace SabreTools.RedumpLib.Data
                     types.Add(PhysicalMediaType.DVD);
                     break;
 
-                // UNKNOWN
+                // https://en.wikipedia.org/wiki/Compressed_audio_optical_disc
                 case PhysicalSystem.MP3AudioDisc:
                     types.Add(PhysicalMediaType.CDROM);
                     break;

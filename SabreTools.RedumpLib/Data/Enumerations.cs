@@ -2480,6 +2480,11 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "Panasonic M2", ShortName = "M2", RedumpOrgCode = "m2", IsBanned = true, HasCues = true, HasDat = true)]
         PanasonicM2,
 
+        // TODO: Investigate whether the various PC-based systems listed would wrap into this instead
+        // If they wrap in, maybe make a note about what they used to be
+        [System(Category = SystemCategory.Arcade, LongName = "PC-Based Arcade", ShortName = "PCARCADE", HasCues = true, HasDat = true)]
+        PCBasedArcade,
+
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "PhotoPlay PC-based Systems")]
         PhotoPlayVarious,
 
