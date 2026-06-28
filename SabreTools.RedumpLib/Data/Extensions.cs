@@ -918,6 +918,11 @@ namespace SabreTools.RedumpLib.Data
                     break;
 
                 // UNKNOWN
+                case PhysicalSystem.MP3AudioDisc:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // UNKNOWN
                 case PhysicalSystem.NavisoftNaviken:
                     types.Add(PhysicalMediaType.CDROM);
                     break;

@@ -2587,6 +2587,9 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Other, LongName = "Microsoft Pocket PC", ShortName = "PPC", RedumpOrgCode = "ppc", HasCues = true, HasDat = true)]
         MicrosoftPocketPC,
 
+        [System(Category = SystemCategory.Other, LongName = "MP3 Audio Disc", ShortName = "MP3", HasCues = true, HasDat = true)]
+        MP3AudioDisc,
+
         [System(Category = SystemCategory.Other, LongName = "Psion", ShortName = "PSION", HasCues = true, HasDat = true)]
         Psion,
 
