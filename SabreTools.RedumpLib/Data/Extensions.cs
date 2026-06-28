@@ -46,15 +46,22 @@ namespace SabreTools.RedumpLib.Data
             if (info.DiscIdentity.Media is null)
                 return;
 
+            // Some systems have limitations on media type when there's ambiguity
+            var system = info.DiscIdentity.System;
+
 #pragma warning disable IDE0010
             switch (info.DiscIdentity.Media)
             {
                 case MediaType.DVD5:
                 case MediaType.DVD9:
+                    // 2-layer
                     if (info.DiscIdentifiers.Layerbreak != default)
                         info.DiscIdentity.Media = MediaType.DVD9;
+
+                    // 1-layer
                     else
                         info.DiscIdentity.Media = MediaType.DVD5;
+
                     break;
 
                 case MediaType.BD25:
@@ -66,16 +73,25 @@ namespace SabreTools.RedumpLib.Data
                     // Extract the size from the hashes
                     long size = ExtractSizeFromHashData(info.DumpMetadata.Dat);
 
+                    // 4-layer
                     if (info.DiscIdentifiers.Layerbreak3 != default)
                         info.DiscIdentity.Media = MediaType.BD128;
+
+                    // 3-layer
                     else if (info.DiscIdentifiers.Layerbreak2 != default)
                         info.DiscIdentity.Media = MediaType.BD100;
+
+                    // 2-layer
                     else if (info.DiscIdentifiers.Layerbreak != default && info.DumpMetadata.PICIdentifier == "BDU")
                         info.DiscIdentity.Media = MediaType.BD66;
                     else if (info.DiscIdentifiers.Layerbreak != default && size > 50_050_629_632)
                         info.DiscIdentity.Media = MediaType.BD66;
+                    else if (info.DiscIdentifiers.Layerbreak != default && system == PhysicalSystem.SonyPlayStation5)
+                        info.DiscIdentity.Media = MediaType.BD66;
                     else if (info.DiscIdentifiers.Layerbreak != default)
                         info.DiscIdentity.Media = MediaType.BD50;
+
+                    // 1-layer
                     else if (info.DumpMetadata.PICIdentifier == "BDU")
                         info.DiscIdentity.Media = MediaType.BD33;
                     else if (size > 25_025_314_816)
@@ -86,18 +102,25 @@ namespace SabreTools.RedumpLib.Data
 
                 case MediaType.HDDVDSL:
                 case MediaType.HDDVDDL:
+                    // 2-layer
                     if (info.DiscIdentifiers.Layerbreak != default)
                         info.DiscIdentity.Media = MediaType.HDDVDDL;
+
+                    // 1-layer
                     else
                         info.DiscIdentity.Media = MediaType.HDDVDSL;
                     break;
 
                 case MediaType.UMDSL:
                 case MediaType.UMDDL:
+                    // 2-layer
                     if (info.DiscIdentifiers.Layerbreak != default)
                         info.DiscIdentity.Media = MediaType.UMDDL;
+
+                    // 1-layer
                     else
                         info.DiscIdentity.Media = MediaType.UMDSL;
+
                     break;
 
                 // All other disc types are not processed
