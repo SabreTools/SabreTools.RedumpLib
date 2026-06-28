@@ -501,7 +501,7 @@ namespace SabreTools.RedumpLib.Data
                     break;
 
                 // https://en.wikipedia.org/wiki/Sun_Microsystems
-                case PhysicalSystem.SunMicrosystemsWorkstation:
+                case PhysicalSystem.SunMicrosystemsUltra:
                     types.Add(PhysicalMediaType.CDROM);
                     break;
 

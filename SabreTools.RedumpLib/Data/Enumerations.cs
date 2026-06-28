@@ -2343,10 +2343,8 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Computer, Available = false, LongName = "Sinclair ZX Spectrum", ShortName = "ZX-SPECTRUM")]
         SinclairZXSpectrum,
 
-        // Short name currently undefined
-        // May be renamed to something with "SPARC" in the title later
-        [System(Category = SystemCategory.Computer, Available = false, LongName = "Sun Microsystems Workstation", ShortName = "SUN")]
-        SunMicrosystemsWorkstation,
+        [System(Category = SystemCategory.Computer, LongName = "Sun Microsystems Ultra", ShortName = "ULTRA", HasCues = true, HasDat = true)]
+        SunMicrosystemsUltra,
 
         // End of computer section delimiter
         MarkerComputerEnd,
@@ -2507,8 +2505,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "Sega Naomi 2", ShortName = "NAOMI2", RedumpOrgCode = "naomi2", HasCues = true, HasDat = true, HasGdi = true)]
         SegaNaomi2,
 
-        // Short name currently undefined
-        [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega NAOMI Satellite Terminal PC", ShortName = "NAOMI-STPC")]
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Naomi Satellite Terminal PC", ShortName = "NAOMIPC", HasCues = true, HasDat = true)]
         SegaNaomiSatelliteTerminalPC,
 
         [System(Category = SystemCategory.Arcade, LongName = "Sega Nu", ShortName = "NU", HasDat = true)]

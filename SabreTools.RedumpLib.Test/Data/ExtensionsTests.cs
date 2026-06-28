@@ -1298,6 +1298,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.NECPC88series,
             PhysicalSystem.NECPC98series,
             PhysicalSystem.SharpX68000,
+            PhysicalSystem.SunMicrosystemsUltra,
 
             // Arcade
             PhysicalSystem.CapcomPlaySystemIII,
@@ -1324,6 +1325,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SegaLindbergh,
             PhysicalSystem.SegaNaomi,
             PhysicalSystem.SegaNaomi2,
+            PhysicalSystem.SegaNaomiSatelliteTerminalPC,
             PhysicalSystem.SegaNu,
             PhysicalSystem.SegaNu11,
             PhysicalSystem.SegaNu2,
@@ -1476,7 +1478,7 @@ namespace SabreTools.RedumpLib.Test.Data
             [PhysicalSystem.NECPC98series] = SystemCategory.Computer,
             [PhysicalSystem.SharpX68000] = SystemCategory.Computer,
             [PhysicalSystem.SinclairZXSpectrum] = SystemCategory.Computer,
-            [PhysicalSystem.SunMicrosystemsWorkstation] = SystemCategory.Computer,
+            [PhysicalSystem.SunMicrosystemsUltra] = SystemCategory.Computer,
             [PhysicalSystem.MarkerComputerEnd] = SystemCategory.NONE,
 
             // Arcade
@@ -1612,6 +1614,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.NECPC88series,
             PhysicalSystem.NECPC98series,
             PhysicalSystem.SharpX68000,
+            PhysicalSystem.SunMicrosystemsUltra,
 
             // Arcade
             PhysicalSystem.CapcomPlaySystemIII,
@@ -1630,6 +1633,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SegaChihiro,
             PhysicalSystem.SegaNaomi,
             PhysicalSystem.SegaNaomi2,
+            PhysicalSystem.SegaNaomiSatelliteTerminalPC,
             PhysicalSystem.TABAustriaQuizard,
 
             // Other
@@ -1708,6 +1712,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.NECPC88series,
             PhysicalSystem.NECPC98series,
             PhysicalSystem.SharpX68000,
+            PhysicalSystem.SunMicrosystemsUltra,
 
             // Arcade
             PhysicalSystem.CapcomPlaySystemIII,
@@ -1732,6 +1737,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SegaLindbergh,
             PhysicalSystem.SegaNaomi,
             PhysicalSystem.SegaNaomi2,
+            PhysicalSystem.SegaNaomiSatelliteTerminalPC,
             PhysicalSystem.SegaNu,
             PhysicalSystem.SegaNu11,
             PhysicalSystem.SegaNu2,
@@ -1866,7 +1872,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.NECPC98series,
             PhysicalSystem.SharpX68000,
             PhysicalSystem.SinclairZXSpectrum, // TODO: Confirm this is Windows-readable
-            PhysicalSystem.SunMicrosystemsWorkstation, // TODO: Confirm this is Windows-readable
+            PhysicalSystem.SunMicrosystemsUltra, // TODO: Confirm this is Windows-readable
 
             // Arcade
             PhysicalSystem.Atronic,
