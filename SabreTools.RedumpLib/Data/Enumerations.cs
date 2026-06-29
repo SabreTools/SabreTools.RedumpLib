@@ -2309,9 +2309,8 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Computer, LongName = "Apple Macintosh", ShortName = "MAC", RedumpOrgCode = "mac", HasCues = true, HasDat = true, HasLsd = true, HasSbi = true)]
         AppleMacintosh,
 
-        // Short name currently undefined
-        [System(Category = SystemCategory.Computer, Available = false, LongName = "Atari ST", ShortName = "AST")]
-        AtariST,
+        [System(Category = SystemCategory.Computer, LongName = "Atari ST series", ShortName = "ATARIST", HasCues = true, HasDat = true)]
+        AtariSTSeries,
 
         // Short name currently undefined
         [System(Category = SystemCategory.Computer, Available = false, LongName = "Commodore 64", ShortName = "C64")]
@@ -2321,7 +2320,7 @@ namespace SabreTools.RedumpLib.Data
         CommodoreAmigaCD,
 
         [System(Category = SystemCategory.Computer, LongName = "Fujitsu FM Towns series", ShortName = "FMT", RedumpOrgCode = "fmt", HasCues = true, HasDat = true)]
-        FujitsuFMTownsseries,
+        FujitsuFMTownsSeries,
 
         [System(Category = SystemCategory.Computer, LongName = "IBM PC compatible", ShortName = "PC", RedumpOrgCode = "pc", HasCues = true, HasDat = true, HasLsd = true, HasSbi = true)]
         IBMPCcompatible,
@@ -2331,10 +2330,10 @@ namespace SabreTools.RedumpLib.Data
         MicrosoftMSX,
 
         [System(Category = SystemCategory.Computer, LongName = "NEC PC-88 series", ShortName = "PC-88", RedumpOrgCode = "pc-88", HasCues = true, HasDat = true)]
-        NECPC88series,
+        NECPC88Series,
 
         [System(Category = SystemCategory.Computer, LongName = "NEC PC-98 series", ShortName = "PC-98", RedumpOrgCode = "pc-98", HasCues = true, HasDat = true)]
-        NECPC98series,
+        NECPC98Series,
 
         [System(Category = SystemCategory.Computer, LongName = "Sharp X68000", ShortName = "X68K", RedumpOrgCode = "x68k", HasCues = true, HasDat = true)]
         SharpX68000,

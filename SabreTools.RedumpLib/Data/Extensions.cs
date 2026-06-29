@@ -464,7 +464,7 @@ namespace SabreTools.RedumpLib.Data
                     break;
 
                 // https://en.wikipedia.org/wiki/Atari_ST
-                case PhysicalSystem.AtariST:
+                case PhysicalSystem.AtariSTSeries:
                     types.Add(PhysicalMediaType.CDROM);
                     break;
 
@@ -481,7 +481,7 @@ namespace SabreTools.RedumpLib.Data
                     break;
 
                 // https://en.wikipedia.org/wiki/FM_Towns
-                case PhysicalSystem.FujitsuFMTownsseries:
+                case PhysicalSystem.FujitsuFMTownsSeries:
                     types.Add(PhysicalMediaType.CDROM);
                     break;
 
@@ -501,13 +501,13 @@ namespace SabreTools.RedumpLib.Data
                     break;
 
                 // https://en.wikipedia.org/wiki/PC-8800_series
-                case PhysicalSystem.NECPC88series:
+                case PhysicalSystem.NECPC88Series:
                     types.Add(PhysicalMediaType.CDROM);
                     types.Add(PhysicalMediaType.FloppyDisk);
                     break;
 
                 // https://en.wikipedia.org/wiki/PC-9800_series
-                case PhysicalSystem.NECPC98series:
+                case PhysicalSystem.NECPC98Series:
                     types.Add(PhysicalMediaType.CDROM);
                     types.Add(PhysicalMediaType.DVD);
                     types.Add(PhysicalMediaType.FloppyDisk);

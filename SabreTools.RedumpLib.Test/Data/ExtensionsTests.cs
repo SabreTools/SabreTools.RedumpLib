@@ -1643,11 +1643,12 @@ namespace SabreTools.RedumpLib.Test.Data
             // Computers
             PhysicalSystem.AcornArchimedesAndRiscPC,
             PhysicalSystem.AppleMacintosh,
+            PhysicalSystem.AtariSTSeries,
             PhysicalSystem.CommodoreAmigaCD,
-            PhysicalSystem.FujitsuFMTownsseries,
+            PhysicalSystem.FujitsuFMTownsSeries,
             PhysicalSystem.IBMPCcompatible,
-            PhysicalSystem.NECPC88series,
-            PhysicalSystem.NECPC98series,
+            PhysicalSystem.NECPC88Series,
+            PhysicalSystem.NECPC98Series,
             PhysicalSystem.SharpX68000,
             PhysicalSystem.SunMicrosystemsUltra,
 
@@ -1821,14 +1822,14 @@ namespace SabreTools.RedumpLib.Test.Data
             // Computers
             [PhysicalSystem.AcornArchimedesAndRiscPC] = SystemCategory.Computer,
             [PhysicalSystem.AppleMacintosh] = SystemCategory.Computer,
-            [PhysicalSystem.AtariST] = SystemCategory.Computer,
+            [PhysicalSystem.AtariSTSeries] = SystemCategory.Computer,
             [PhysicalSystem.Commodore64] = SystemCategory.Computer,
             [PhysicalSystem.CommodoreAmigaCD] = SystemCategory.Computer,
-            [PhysicalSystem.FujitsuFMTownsseries] = SystemCategory.Computer,
+            [PhysicalSystem.FujitsuFMTownsSeries] = SystemCategory.Computer,
             [PhysicalSystem.IBMPCcompatible] = SystemCategory.Computer,
             [PhysicalSystem.MicrosoftMSX] = SystemCategory.Computer,
-            [PhysicalSystem.NECPC88series] = SystemCategory.Computer,
-            [PhysicalSystem.NECPC98series] = SystemCategory.Computer,
+            [PhysicalSystem.NECPC88Series] = SystemCategory.Computer,
+            [PhysicalSystem.NECPC98Series] = SystemCategory.Computer,
             [PhysicalSystem.SharpX68000] = SystemCategory.Computer,
             [PhysicalSystem.SinclairZXSpectrum] = SystemCategory.Computer,
             [PhysicalSystem.SunMicrosystemsUltra] = SystemCategory.Computer,
@@ -1963,11 +1964,12 @@ namespace SabreTools.RedumpLib.Test.Data
             // Computers
             PhysicalSystem.AcornArchimedesAndRiscPC,
             PhysicalSystem.AppleMacintosh,
+            PhysicalSystem.AtariSTSeries,
             PhysicalSystem.CommodoreAmigaCD,
-            PhysicalSystem.FujitsuFMTownsseries,
+            PhysicalSystem.FujitsuFMTownsSeries,
             PhysicalSystem.IBMPCcompatible,
-            PhysicalSystem.NECPC88series,
-            PhysicalSystem.NECPC98series,
+            PhysicalSystem.NECPC88Series,
+            PhysicalSystem.NECPC98Series,
             PhysicalSystem.SharpX68000,
             PhysicalSystem.SunMicrosystemsUltra,
 
@@ -2063,11 +2065,12 @@ namespace SabreTools.RedumpLib.Test.Data
             // Computers
             PhysicalSystem.AcornArchimedesAndRiscPC,
             PhysicalSystem.AppleMacintosh,
+            PhysicalSystem.AtariSTSeries,
             PhysicalSystem.CommodoreAmigaCD,
-            PhysicalSystem.FujitsuFMTownsseries,
+            PhysicalSystem.FujitsuFMTownsSeries,
             PhysicalSystem.IBMPCcompatible,
-            PhysicalSystem.NECPC88series,
-            PhysicalSystem.NECPC98series,
+            PhysicalSystem.NECPC88Series,
+            PhysicalSystem.NECPC98Series,
             PhysicalSystem.SharpX68000,
             PhysicalSystem.SunMicrosystemsUltra,
 
@@ -2221,14 +2224,14 @@ namespace SabreTools.RedumpLib.Test.Data
 
             // Computers
             PhysicalSystem.AcornArchimedesAndRiscPC,
-            PhysicalSystem.AtariST, // TODO: Confirm this is Windows-readable
+            PhysicalSystem.AtariSTSeries, // TODO: Confirm this is Windows-readable
             PhysicalSystem.Commodore64, // TODO: Confirm this is Windows-readable
             PhysicalSystem.CommodoreAmigaCD,
-            PhysicalSystem.FujitsuFMTownsseries,
+            PhysicalSystem.FujitsuFMTownsSeries,
             PhysicalSystem.IBMPCcompatible,
             PhysicalSystem.MicrosoftMSX, // TODO: Confirm this is Windows-readable
-            PhysicalSystem.NECPC88series,
-            PhysicalSystem.NECPC98series,
+            PhysicalSystem.NECPC88Series,
+            PhysicalSystem.NECPC98Series,
             PhysicalSystem.SharpX68000,
             PhysicalSystem.SinclairZXSpectrum, // TODO: Confirm this is Windows-readable
             PhysicalSystem.SunMicrosystemsUltra, // TODO: Confirm this is Windows-readable
