@@ -77,6 +77,16 @@ namespace SabreTools.RedumpLib.Data.Sections
                 contentsSpecialFields[kvp.Key] = kvp.Value;
             }
 
+            Dictionary<string, List<string>?>? fullProtections = null;
+            if (this.FullProtections is not null)
+            {
+                fullProtections = [];
+                foreach (var kvp in this.FullProtections)
+                {
+                    fullProtections[kvp.Key] = kvp.Value;
+                }
+            }
+
             return new DumpMetadataSection
             {
                 Comments = this.Comments,
@@ -84,12 +94,14 @@ namespace SabreTools.RedumpLib.Data.Sections
                 Contents = this.Contents,
                 ContentsSpecialFields = contentsSpecialFields,
                 Protection = this.Protection,
+                FullProtections = fullProtections,
                 SectorRanges = this.SectorRanges,
                 SBI = this.SBI,
                 PVD = this.PVD,
                 Header = this.Header,
                 BCA = this.BCA,
                 PIC = this.PIC,
+                PICIdentifier = this.PICIdentifier,
                 Cuesheet = this.Cuesheet,
                 Dat = this.Dat,
             };
