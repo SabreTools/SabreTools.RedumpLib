@@ -435,7 +435,7 @@ namespace SabreTools.RedumpLib.Tools
             AddIfExists(output, Template.BCAField, section.BCA, 1);
             AddIfExists(output, Template.PICField, section.PIC, 1);
             AddIfExists(output, Template.CuesheetField, section.Cuesheet, 1);
-            AddIfExists(output, Template.DatField, section.Dat, 1);
+            AddIfExists(output, Template.DatField, section.Dat + "\n", 1);
         }
 
         /// <summary>
