@@ -65,7 +65,7 @@ namespace SabreTools.RedumpLib.Test.Web
             Assert.Equal(expected, actual);
         }
 
-        // TODO: Implement more extensive tests
+        // TODO: Implement more extensive discs tests
 
         #endregion
 
@@ -83,10 +83,10 @@ namespace SabreTools.RedumpLib.Test.Web
         #region BuildPackUrl
 
         [Theory]
-        [InlineData(PackType.Cuesheets, "https://redump.info/cues/ARCH/")]
-        [InlineData(PackType.Datfile, "https://redump.info/datfile/ARCH/")]
-        [InlineData(PackType.Keys, "https://redump.info/keys/ARCH/")]
-        [InlineData(PackType.Sbis, "https://redump.info/sbi/ARCH/")]
+        [InlineData(PackType.Cuesheets, "https://redump.info/cues/ARCH")]
+        [InlineData(PackType.Datfile, "https://redump.info/datfile/ARCH")]
+        [InlineData(PackType.Keys, "https://redump.info/keys/ARCH")]
+        [InlineData(PackType.Sbis, "https://redump.info/sbi/ARCH")]
         public void BuildPackUrl_ValidPackType_ValidSystem_Builds(PackType packType, string expected)
         {
             string actual = UrlBuilder.BuildPackUrl(packType, PhysicalSystem.AcornArchimedesAndRiscPC);
@@ -103,10 +103,12 @@ namespace SabreTools.RedumpLib.Test.Web
         public void BuildPackUrl_InvalidSystem_Builds()
         {
             string actual = UrlBuilder.BuildPackUrl(PackType.Datfile, PhysicalSystem.MarkerOtherEnd);
-            Assert.Equal("https://redump.info/datfile//", actual);
+            Assert.Equal("https://redump.info/datfile/", actual);
         }
 
         #endregion
+
+        // TODO: Implement more extensive queue tests
 
         #region BuildQueueUrl
 
@@ -114,7 +116,7 @@ namespace SabreTools.RedumpLib.Test.Web
         public void BuildQueueUrl_Constant()
         {
             string actual = UrlBuilder.BuildQueueUrl();
-            Assert.Equal("https://redump.info/queue/", actual);
+            Assert.Equal("https://redump.info/queue/?", actual);
         }
 
         #endregion
