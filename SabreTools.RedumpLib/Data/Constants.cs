@@ -142,6 +142,7 @@ namespace SabreTools.RedumpLib.Data
             DiscSubpath.Cuesheet,
             DiscSubpath.Edit,
             DiscSubpath.History,
+            DiscSubpath.SBI,
         ];
 
         #endregion

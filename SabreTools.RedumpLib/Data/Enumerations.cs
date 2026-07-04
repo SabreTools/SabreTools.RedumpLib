@@ -77,7 +77,6 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(LongName = "MD5", ShortName = "md5")]
         MD5,
 
-        /// <remarks>Only in redump.org</remarks>
         [HumanReadable(LongName = "SBI", ShortName = "sbi")]
         SBI,
 
@@ -3994,6 +3993,21 @@ namespace SabreTools.RedumpLib.Data
 
         [HumanReadable(LongName = "Descending", ShortName = "desc")]
         Descending,
+    }
+
+    /// <summary>
+    /// List of all recognized submission display kinds
+    /// </summary>
+    public enum SubmissionType
+    {
+        [HumanReadable(LongName = "Edit", ShortName = "Edit")]
+        Edit,
+
+        [HumanReadable(LongName = "New Disc", ShortName = "New+Disc")]
+        NewDisc,
+
+        [HumanReadable(LongName = "Verification", ShortName = "Verification")]
+        Verification
     }
 
     /// <summary>

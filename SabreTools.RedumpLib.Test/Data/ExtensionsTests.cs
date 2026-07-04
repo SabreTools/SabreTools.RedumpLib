@@ -3622,6 +3622,113 @@ namespace SabreTools.RedumpLib.Test.Data
 
         #endregion
 
+        #region Submission Type
+
+        /// <summary>
+        /// Check that every SubmissionType has a long name provided
+        /// </summary>
+        /// <param name="sortDirection">SubmissionType value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateSubmissionTypeTestData))]
+        public void SubmissionType_LongName(SubmissionType? sortDirection, bool expectNull)
+        {
+            var actual = sortDirection.LongName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Check that every SubmissionType has a short name provided
+        /// </summary>
+        /// <param name="sortDirection">SubmissionType value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateSubmissionTypeTestData))]
+        public void SubmissionType_ShortName(SubmissionType? sortDirection, bool expectNull)
+        {
+            var actual = sortDirection.ShortName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Ensure that every SubmissionType that has a short name that is unique
+        /// </summary>
+        [Fact]
+        public void SubmissionType_ShortName_NoDuplicates()
+        {
+            var fullSubmissionTypes = Enum.GetValues<SubmissionType>().Cast<SubmissionType>().ToList();
+            var filteredSubmissionTypes = new Dictionary<string, SubmissionType?>();
+
+            int totalCount = 0;
+            foreach (SubmissionType? sortDirection in fullSubmissionTypes)
+            {
+                var code = sortDirection.ShortName();
+                if (string.IsNullOrEmpty(code))
+                    continue;
+
+                // Throw if the code already exists
+                if (filteredSubmissionTypes.ContainsKey(code))
+                    throw new DuplicateNameException($"Code {code} already in dictionary");
+
+                filteredSubmissionTypes[code] = sortDirection;
+                totalCount++;
+            }
+
+            Assert.Equal(totalCount, filteredSubmissionTypes.Count);
+        }
+
+        /// <summary>
+        /// Check that every SubmissionType can be mapped from a string
+        /// </summary>
+        /// <param name="sortDirection">SubmissionType value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateSubmissionTypeTestData))]
+        public void SubmissionType_ToSubmissionType(SubmissionType? sortDirection, bool expectNull)
+        {
+            string? longName = sortDirection.LongName();
+            string? longNameSpaceless = longName?.Replace(" ", string.Empty);
+
+            var actualNormal = longName.ToSubmissionType();
+            var actualSpaceless = longNameSpaceless.ToSubmissionType();
+
+            if (expectNull)
+            {
+                Assert.Null(actualNormal);
+                Assert.Null(actualSpaceless);
+            }
+            else
+            {
+                Assert.Equal(sortDirection, actualNormal);
+                Assert.Equal(sortDirection, actualSpaceless);
+            }
+        }
+
+        /// <summary>
+        /// Generate a test set of SubmissionType values
+        /// </summary>
+        /// <returns>MemberData-compatible list of SubmissionType values</returns>
+        public static TheoryData<SubmissionType?, bool> GenerateSubmissionTypeTestData()
+        {
+            var testData = new TheoryData<SubmissionType?, bool>() { { null, true } };
+            foreach (SubmissionType? sortDirection in Enum.GetValues<SubmissionType>().Cast<SubmissionType?>())
+            {
+                testData.Add(sortDirection, false);
+            }
+
+            return testData;
+        }
+
+        #endregion
+
         #region System Category
 
         /// <summary>

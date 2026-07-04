@@ -19,6 +19,11 @@ namespace SabreTools.RedumpLib.Web
         #region Top-Level Paths
 
         /// <summary>
+        /// Path for about page
+        /// </summary>
+        private const string AboutPath = "about/";
+
+        /// <summary>
         /// Path for BIOS datfile downloads
         /// </summary>
         private const string BiosPath = @"static/bios/{0}/";
@@ -26,12 +31,12 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Path for cuesheet pack downloads
         /// </summary>
-        private const string CuesPath = @"cues/{0}/";
+        private const string CuesPath = @"cues/{0}";
 
         /// <summary>
         /// Path for datfile downloads
         /// </summary>
-        private const string DatfilePath = @"datfile/{0}/";
+        private const string DatfilePath = @"datfile/{0}";
 
         /// <summary>
         /// Path for individual disc pages
@@ -51,7 +56,7 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Path for key pack downloads
         /// </summary>
-        private const string KeysPath = @"keys/{0}/";
+        private const string KeysPath = @"keys/{0}";
 
         /// <summary>
         /// Path for discs queue
@@ -66,13 +71,26 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Path for SBI pack downloads
         /// </summary>
-        private const string SbiPath = @"sbi/{0}/";
+        private const string SbiPath = @"sbi/{0}";
 
         #endregion
 
         // TODO: Add filter statements for discs
 
         #endregion
+
+        /// <summary>
+        /// Build a /about/ path URL
+        /// </summary>
+        public static string BuildAboutUrl()
+        {
+            var sb = new StringBuilder();
+
+            sb.Append(SiteBaseUrl);
+            sb.Append(AboutPath);
+
+            return sb.ToString();
+        }
 
         /// <summary>
         /// Build a /static/bios/ path URL
@@ -365,12 +383,16 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Build a /downloads/ path URL
         /// </summary>
-        public static string BuildDownloadsUrl()
+        /// <param name="database">Target database download</param>
+        public static string BuildDownloadsUrl(bool? database = null)
         {
             var sb = new StringBuilder();
 
             sb.Append(SiteBaseUrl);
             sb.Append(DownloadsPath);
+
+            if (database == true)
+                sb.Append("database");
 
             return sb.ToString();
         }
@@ -381,6 +403,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="packType">Pack type</param>
         /// <param name="system">System for download</param>
         /// <remarks>Does not check for invalid systems</remarks>
+        /// TODO: Handle download_dat_variant?
         public static string BuildPackUrl(PackType packType, PhysicalSystem system)
         {
             var sb = new StringBuilder();
@@ -408,12 +431,94 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Build a /queue/ path URL
         /// </summary>
-        public static string BuildQueueUrl()
+        /// <param name="discId">Add disc ID to filter, null to omit</param>
+        /// <param name="isDiscHistory">Set disc history status, null to omit</param>
+        /// <param name="order">Add sorting direction, null to omit</param>
+        /// <param name="page">Page number, null to omit</param>
+        /// <param name="sort">Add sorting type, null to omit</param>
+        /// <param name="status">Add status to filter, null to omit</param>
+        /// <param name="submitter">Add submitter name to filter, null to omit</param>
+        /// <param name="subType">Add submission type to filter, null to omit</param>
+        /// <param name="system">Add system to filter, null to omit</param>
+        /// <remarks>Ordered according to site source code</remarks>
+        public static string BuildQueueUrl(
+            long? discId = null,
+            bool? isDiscHistory = null,
+            SortDirection? order = null,
+            long? page = null,
+            SortCategory? sort = null,
+            DumpStatus? status = null,
+            string? submitter = null,
+            SubmissionType? subType = null,
+            PhysicalSystem? system = null)
         {
             var sb = new StringBuilder();
 
             sb.Append(SiteBaseUrl);
             sb.Append(QueuePath);
+            sb.Append('?');
+
+            // Status
+            string? statusName = status.LongName();
+            if (statusName is not null)
+                sb.Append($"status={statusName}&");
+
+            // Submission Type
+            string? subTypeName = subType.ShortName();
+            if (subTypeName is not null)
+                sb.Append($"sub_type={subTypeName}&");
+
+            // System
+            string? systemName = system.ShortName();
+            if (systemName is not null)
+                sb.Append($"system={systemName}&");
+
+            // Submitter
+            if (submitter is not null)
+                sb.Append($"submitter={submitter}&");
+
+            // Disc ID
+            if (discId is not null)
+                sb.Append($"disc_id={discId}&");
+
+            // Sorting
+            switch (sort)
+            {
+                case SortCategory.Title:
+                case SortCategory.Added:
+                case SortCategory.Region:
+                case SortCategory.System:
+                case SortCategory.Version:
+                case SortCategory.Edition:
+                case SortCategory.Language:
+                case SortCategory.Languages:
+                case SortCategory.Serial:
+                case SortCategory.Status:
+                case SortCategory.Modified:
+                    sb.Append($"sort={sort.ShortName()}&");
+                    break;
+
+                default: break;
+            }
+
+            // Sort Direction
+            switch (order)
+            {
+                case SortDirection.Ascending:
+                case SortDirection.Descending:
+                    sb.Append($"order={order.ShortName()}&");
+                    break;
+
+                default: break;
+            }
+
+            // Page Number
+            if (page is not null)
+                sb.Append($"page={page}");
+
+            // Is Disc History
+            if (isDiscHistory is not null)
+                sb.Append($"is_disc_history={isDiscHistory.ToYesNo().LongName()}&");
 
             return sb.ToString();
         }
