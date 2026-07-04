@@ -2503,6 +2503,9 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "Sega Lindbergh", ShortName = "LINDBERGH", RedumpOrgCode = "lindbergh", HasDat = true)]
         SegaLindbergh,
 
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Lindbergh Satellite Terminal PC", ShortName = "LINDPC", HasDat = true)]
+        SegaLindberghSatelliteTerminalPC,
+
         [System(Category = SystemCategory.Arcade, LongName = "Sega Naomi", ShortName = "NAOMI", RedumpOrgCode = "naomi", HasCues = true, HasDat = true, HasGdi = true)]
         SegaNaomi,
 

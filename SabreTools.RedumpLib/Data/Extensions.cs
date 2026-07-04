@@ -809,6 +809,11 @@ namespace SabreTools.RedumpLib.Data
                     types.Add(PhysicalMediaType.DVD);
                     break;
 
+                // UNKNOWN
+                case PhysicalSystem.SegaLindberghSatelliteTerminalPC:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
                 // http://system16.com/hardware.php?id=721
                 // http://system16.com/hardware.php?id=723
                 // http://system16.com/hardware.php?id=906
