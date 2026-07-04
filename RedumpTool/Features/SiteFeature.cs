@@ -8,6 +8,7 @@ using SabreTools.RedumpLib.Web;
 
 namespace RedumpTool.Features
 {
+    // TODO: Add back every single URL parameter to here
     internal sealed class SiteFeature : BaseFeature
     {
         #region Feature Definition
@@ -264,17 +265,17 @@ namespace RedumpTool.Features
                 else
                 {
                     processingTask = _client.DownloadDiscsResults(outDir,
-                        comments ? quicksearch : null,
-                        dumper,
-                        edition,
-                        letter,
-                        comments ? null : quicksearch,
-                        region,
-                        sort,
-                        sortDir,
-                        status,
-                        system,
-                        limit,
+                        comments: comments ? quicksearch : null,
+                        dumper: dumper,
+                        edition: edition,
+                        letter: letter,
+                        order: sortDir,
+                        query: comments ? null : quicksearch,
+                        region: region,
+                        sort: sort,
+                        status: status,
+                        system: system,
+                        limit: limit,
                         discSubpaths: discSubpaths);
                 }
 

@@ -17,7 +17,7 @@ namespace SabreTools.RedumpLib.Tools
         public static async Task<List<int>?> ValidateSingleTrack(Client client, SubmissionInfo info, string? sha1)
         {
             // Get all matching IDs for the trackClient
-            var newIds = await client.ListDiscsResults(quicksearch: sha1);
+            var newIds = await client.ListDiscsResults(query: sha1);
 
             // If we got null back, there was an error
             if (newIds is null)

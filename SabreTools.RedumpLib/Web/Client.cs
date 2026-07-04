@@ -109,6 +109,7 @@ namespace SabreTools.RedumpLib.Web
             Timeout = TimeSpan.FromSeconds(30);
         }
 
+        // TODO: Validate and fix login mechanic
         #region Credentials
 
         /// <summary>
@@ -446,45 +447,113 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Process a Redump discs page as a list of possible IDs or disc page
         /// </summary>
+        /// <param name="advanced">Set advanced search status, null to omit</param>
+        /// <param name="barcode">Add barcode to filter, null to omit</param>
+        /// <param name="barcodeExact">Set exact barcode handling, null to omit</param>
+        /// <param name="category">Add category to filter, null to omit</param>
         /// <param name="comments">Add comments to filter, null to omit</param>
+        /// <param name="contents">Add contents to filter, null to omit</param>
         /// <param name="dumper">Add dumper name to filter, null to omit</param>
+        /// <param name="edc">Add EDC status to filter, null to omit</param>
         /// <param name="edition">Add edition to filter, null to omit</param>
+        /// <param name="editionExact">Set exact edition handling, null to omit</param>
+        /// <param name="errorsMax">Add maximum error count to filter, null to omit</param>
+        /// <param name="errorsMin">Add minimum error count to filter, null to omit</param>
+        /// <param name="language">Add language to filter, null to omit</param>
         /// <param name="letter">Starts with upper-case letter or '#' for numbers, null to omit</param>
-        /// <param name="quicksearch">Generic text search to filter, null to omit</param>
+        /// <param name="media">Add media type to filter, null to omit</param>
+        /// <param name="offset">Add offset to filter, null to omit</param>
+        /// <param name="order">Add sorting direction, null to omit</param>
+        /// <param name="page">Page number, null to omit</param>
+        /// <param name="protection">Add protection to filter, null to omit</param>
+        /// <param name="query">Generic text query to filter, null to omit</param>
         /// <param name="region">Add region to filter, null to omit</param>
+        /// <param name="ringcode">Add ringcode to filter, null to omit</param>
+        /// <param name="serial">Add serial to filter, null to omit</param>
+        /// <param name="serialExact">Set exact serial handling, null to omit</param>
         /// <param name="sort">Add sorting type, null to omit</param>
-        /// <param name="sortDir">Add sorting direction, null to omit</param>
         /// <param name="status">Add status to filter, null to omit</param>
         /// <param name="system">Add system to filter, null to omit</param>
-        /// <param name="page">Page number, null to omit</param>
+        /// <param name="title">Add title to filter, null to omit</param>
+        /// <param name="titleExact">Set exact title handling, null to omit</param>
+        /// <param name="titleForeign">Add foreign title to filter, null to omit</param>
+        /// <param name="titleForeignExact">Set exact foreign title handling, null to omit</param>
+        /// <param name="tracksMax">Add maximum track count to filter, null to omit</param>
+        /// <param name="tracksMin">Add minimum track count to filter, null to omit</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleDiscsPage(string? comments = null,
+        public async Task<List<int>?> CheckSingleDiscsPage(
+            bool? advanced = null,
+            string? barcode = null,
+            bool? barcodeExact = null,
+            DiscCategory? category = null,
+            string? comments = null,
+            string? contents = null,
             string? dumper = null,
+            YesNo? edc = null,
             string? edition = null,
+            bool? editionExact = null,
+            long? errorsMax = null,
+            long? errorsMin = null,
+            Language? language = null,
             char? letter = null,
-            string? quicksearch = null,
+            MediaType? media = null,
+            long? offset = null,
+            SortDirection? order = null,
+            long? page = null,
+            string? protection = null,
+            string? query = null,
             Region? region = null,
+            string? ringcode = null,
+            string? serial = null,
+            bool? serialExact = null,
             SortCategory? sort = null,
-            SortDirection? sortDir = null,
             DumpStatus? status = null,
             PhysicalSystem? system = null,
-            int? page = null)
+            string? title = null,
+            bool? titleExact = null,
+            string? titleForeign = null,
+            bool? titleForeignExact = null,
+            long? tracksMax = null,
+            long? tracksMin = null)
         {
             // Normalize the search query, if needed
-            if (quicksearch is not null)
-                quicksearch = NormalizeQuery(quicksearch);
+            if (query is not null)
+                query = NormalizeQuery(query);
 
-            string url = UrlBuilder.BuildDiscsUrl(comments,
+            string url = UrlBuilder.BuildDiscsUrl(
+                advanced,
+                barcode,
+                barcodeExact,
+                category,
+                comments,
+                contents,
                 dumper,
+                edc,
                 edition,
+                editionExact,
+                errorsMax,
+                errorsMin,
+                language,
                 letter,
-                quicksearch,
+                media,
+                offset,
+                order,
+                page,
+                protection,
+                query,
                 region,
+                ringcode,
+                serial,
+                serialExact,
                 sort,
-                sortDir,
                 status,
                 system,
-                page);
+                title,
+                titleExact,
+                titleForeign,
+                titleForeignExact,
+                tracksMax,
+                tracksMin);
 
             List<int> ids = [];
 
@@ -546,45 +615,113 @@ namespace SabreTools.RedumpLib.Web
         /// Process a Redump discs page as a list of possible IDs or disc page
         /// </summary>
         /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="advanced">Set advanced search status, null to omit</param>
+        /// <param name="barcode">Add barcode to filter, null to omit</param>
+        /// <param name="barcodeExact">Set exact barcode handling, null to omit</param>
+        /// <param name="category">Add category to filter, null to omit</param>
         /// <param name="comments">Add comments to filter, null to omit</param>
+        /// <param name="contents">Add contents to filter, null to omit</param>
         /// <param name="dumper">Add dumper name to filter, null to omit</param>
+        /// <param name="edc">Add EDC status to filter, null to omit</param>
         /// <param name="edition">Add edition to filter, null to omit</param>
+        /// <param name="editionExact">Set exact edition handling, null to omit</param>
+        /// <param name="errorsMax">Add maximum error count to filter, null to omit</param>
+        /// <param name="errorsMin">Add minimum error count to filter, null to omit</param>
+        /// <param name="language">Add language to filter, null to omit</param>
         /// <param name="letter">Starts with upper-case letter or '#' for numbers, null to omit</param>
-        /// <param name="quicksearch">Generic text search to filter, null to omit</param>
+        /// <param name="media">Add media type to filter, null to omit</param>
+        /// <param name="offset">Add offset to filter, null to omit</param>
+        /// <param name="order">Add sorting direction, null to omit</param>
+        /// <param name="page">Page number, null to omit</param>
+        /// <param name="protection">Add protection to filter, null to omit</param>
+        /// <param name="query">Generic text query to filter, null to omit</param>
         /// <param name="region">Add region to filter, null to omit</param>
+        /// <param name="ringcode">Add ringcode to filter, null to omit</param>
+        /// <param name="serial">Add serial to filter, null to omit</param>
+        /// <param name="serialExact">Set exact serial handling, null to omit</param>
         /// <param name="sort">Add sorting type, null to omit</param>
-        /// <param name="sortDir">Add sorting direction, null to omit</param>
         /// <param name="status">Add status to filter, null to omit</param>
         /// <param name="system">Add system to filter, null to omit</param>
-        /// <param name="page">Page number, null to omit</param>
+        /// <param name="title">Add title to filter, null to omit</param>
+        /// <param name="titleExact">Set exact title handling, null to omit</param>
+        /// <param name="titleForeign">Add foreign title to filter, null to omit</param>
+        /// <param name="titleForeignExact">Set exact foreign title handling, null to omit</param>
+        /// <param name="tracksMax">Add maximum track count to filter, null to omit</param>
+        /// <param name="tracksMin">Add minimum track count to filter, null to omit</param>
         /// <param name="discSubpaths">Set of subpaths to download if available, null for all</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleDiscsPage(string? outDir,
+        public async Task<List<int>?> CheckSingleDiscsPage(
+            string? outDir,
+            bool? advanced = null,
+            string? barcode = null,
+            bool? barcodeExact = null,
+            DiscCategory? category = null,
             string? comments = null,
+            string? contents = null,
             string? dumper = null,
+            YesNo? edc = null,
             string? edition = null,
+            bool? editionExact = null,
+            long? errorsMax = null,
+            long? errorsMin = null,
+            Language? language = null,
             char? letter = null,
-            string? quicksearch = null,
+            MediaType? media = null,
+            long? offset = null,
+            SortDirection? order = null,
+            long? page = null,
+            string? protection = null,
+            string? query = null,
             Region? region = null,
+            string? ringcode = null,
+            string? serial = null,
+            bool? serialExact = null,
             SortCategory? sort = null,
-            SortDirection? sortDir = null,
             DumpStatus? status = null,
             PhysicalSystem? system = null,
-            int? page = null,
+            string? title = null,
+            bool? titleExact = null,
+            string? titleForeign = null,
+            bool? titleForeignExact = null,
+            long? tracksMax = null,
+            long? tracksMin = null,
             DiscSubpath[]? discSubpaths = null)
         {
             // Get all IDs from the page
-            List<int>? ids = await CheckSingleDiscsPage(comments,
+            List<int>? ids = await CheckSingleDiscsPage(
+                advanced,
+                barcode,
+                barcodeExact,
+                category,
+                comments,
+                contents,
                 dumper,
+                edc,
                 edition,
+                editionExact,
+                errorsMax,
+                errorsMin,
+                language,
                 letter,
-                quicksearch,
+                media,
+                offset,
+                order,
+                page,
+                protection,
+                query,
                 region,
+                ringcode,
+                serial,
+                serialExact,
                 sort,
-                sortDir,
                 status,
                 system,
-                page);
+                title,
+                titleExact,
+                titleForeign,
+                titleForeignExact,
+                tracksMax,
+                tracksMin);
             if (ids is null)
             {
                 if (Debug) Console.WriteLine($"DEBUG: CheckSingleDiscsPage(\"{outDir}\") - Client failure");

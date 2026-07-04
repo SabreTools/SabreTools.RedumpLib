@@ -155,9 +155,9 @@ namespace RedumpTool.Features
                 // Start the processing
                 Task<List<int>> processingTask;
                 if (onlyList)
-                    processingTask = _client.ListDiscsResults(quicksearch: query, limit: limit);
+                    processingTask = _client.ListDiscsResults(query: query, limit: limit);
                 else
-                    processingTask = _client.DownloadDiscsResults(outDir, quicksearch: query, limit: limit, discSubpaths: discSubpaths);
+                    processingTask = _client.DownloadDiscsResults(outDir, query: query, limit: limit, discSubpaths: discSubpaths);
 
                 // Retrieve the result
                 processingTask.Wait();

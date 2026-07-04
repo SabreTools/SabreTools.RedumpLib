@@ -42,14 +42,14 @@ namespace SabreTools.RedumpLib.Test.Web
         [Fact]
         public void BuildDiscsUrl_DumperLastModifiedWithPages_Builds()
         {
-            string actual = UrlBuilder.BuildDiscsUrl(dumper: "user", sort: SortCategory.Modified, sortDir: SortDirection.Descending, page: 3);
+            string actual = UrlBuilder.BuildDiscsUrl(dumper: "user", sort: SortCategory.Modified, order: SortDirection.Descending, page: 3);
             Assert.Equal("https://redump.info/discs/?dumper=user&sort=modified&order=desc&page=3", actual);
         }
 
         [Fact]
         public void BuildDiscsUrl_LastModifiedWithPages_Builds()
         {
-            string actual = UrlBuilder.BuildDiscsUrl(sort: SortCategory.Modified, sortDir: SortDirection.Descending, page: 3);
+            string actual = UrlBuilder.BuildDiscsUrl(sort: SortCategory.Modified, order: SortDirection.Descending, page: 3);
             Assert.Equal("https://redump.info/discs/?sort=modified&order=desc&page=3", actual);
         }
 
@@ -61,7 +61,7 @@ namespace SabreTools.RedumpLib.Test.Web
         [InlineData("extra/path", "https://redump.info/discs/?q=extra/path&page=3")]
         public void BuildDiscsUrl_QuicksearchWithPages_Builds(string query, string expected)
         {
-            string actual = UrlBuilder.BuildDiscsUrl(quicksearch: query, page: 3);
+            string actual = UrlBuilder.BuildDiscsUrl(query: query, page: 3);
             Assert.Equal(expected, actual);
         }
 

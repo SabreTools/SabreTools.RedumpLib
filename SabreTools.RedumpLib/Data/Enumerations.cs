@@ -100,13 +100,11 @@ namespace SabreTools.RedumpLib.Data
     /// </summary>
     public enum DumpStatus
     {
-        // TODO: Verify new naming
         [HumanReadable(LongName = "Unknown", ShortName = "grey")]
         UnknownGrey = 1,
 
-        // TODO: Verify new naming
-        [HumanReadable(LongName = "Bad Dump", ShortName = "red")]
-        BadDumpRed = 2,
+        [HumanReadable(LongName = "Disabled", ShortName = "red")]
+        DisabledRed = 2,
 
         // Known as "Possible Bad Dump" on redump.org
         [HumanReadable(LongName = "Questionable", ShortName = "yellow")]
