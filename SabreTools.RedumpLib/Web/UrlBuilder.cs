@@ -75,6 +75,30 @@ namespace SabreTools.RedumpLib.Web
 
         #endregion
 
+        #region BIOS File Names
+
+        /// <summary>
+        /// Microsoft XBOX BIOS datfile filename
+        /// </summary>
+        public const string MicrosoftXboxBIOSFilename = "Microsoft%20-%20Xbox%20-%20BIOS%20Images%20%289%29%20%282026-06-16%29.dat";
+
+        /// <summary>
+        /// Nintendo GameCube BIOS datfile filename
+        /// </summary>
+        public const string NintendoGameCubeBIOSFilename = "Nintendo%20-%20GameCube%20-%20BIOS%20Images%20%2817%29%20%282026-06-16%29.dat";
+
+        /// <summary>
+        /// Sony PlayStation BIOS datfile filename
+        /// </summary>
+        public const string SonyPlayStationBIOSFilename = "Sony%20-%20PlayStation%20-%20BIOS%20Images%20%2824%29%20%282026-06-16%29.dat";
+
+        /// <summary>
+        /// Sony PlayStation 2 BIOS datfile filename
+        /// </summary>
+        public const string SonyPlayStation2BIOSFilename = "Sony%20-%20PlayStation%202%20-%20BIOS%20Datfile%20%28140%29%20%282026-06-16%29.dat";
+
+        #endregion
+
         // TODO: Add filter statements for discs
 
         #endregion
@@ -95,10 +119,34 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Build a /static/bios/ path URL
         /// </summary>
-        /// <param name="filename">BIOS datfile filename, required</param>
-        public static string BuildBiosUrl(string filename)
+        /// <param name="system">System to retrieve static BIOS datfile for, required</param>
+        /// <remarks>Handles the non-BIOS variants of systems for compatibility</remarks>
+        public static string BuildBiosUrl(PhysicalSystem system)
         {
             var sb = new StringBuilder();
+
+#pragma warning disable IDE0072 // Add missing cases
+            string? filename = system switch
+            {
+                PhysicalSystem.MicrosoftXbox => MicrosoftXboxBIOSFilename,
+                PhysicalSystem.MicrosoftXboxBIOS => MicrosoftXboxBIOSFilename,
+
+                PhysicalSystem.NintendoGameCube => NintendoGameCubeBIOSFilename,
+                PhysicalSystem.NintendoGameCubeBIOS => NintendoGameCubeBIOSFilename,
+
+                PhysicalSystem.SonyPlayStation => SonyPlayStationBIOSFilename,
+                PhysicalSystem.SonyPlayStationBIOS => SonyPlayStationBIOSFilename,
+
+                PhysicalSystem.SonyPlayStation2 => SonyPlayStation2BIOSFilename,
+                PhysicalSystem.SonyPlayStation2BIOS => SonyPlayStation2BIOSFilename,
+
+                _ => null,
+            };
+#pragma warning restore IDE0072 // Add missing cases
+
+            // Ignore invalid BIOS systems
+            if (filename is null)
+                return string.Empty;
 
             sb.Append(SiteBaseUrl);
             sb.AppendFormat(BiosPath, filename);
@@ -406,11 +454,20 @@ namespace SabreTools.RedumpLib.Web
         /// TODO: Handle download_dat_variant?
         public static string BuildPackUrl(PackType packType, PhysicalSystem system)
         {
+            // Hack to support the static BIOS sets
+            if (packType == PackType.Datfile
+                && (system == PhysicalSystem.MicrosoftXboxBIOS
+                    || system == PhysicalSystem.NintendoGameCubeBIOS
+                    || system == PhysicalSystem.SonyPlayStationBIOS
+                    || system == PhysicalSystem.SonyPlayStation2BIOS))
+            {
+                return BuildBiosUrl(system);
+            }
+
             var sb = new StringBuilder();
 
             sb.Append(SiteBaseUrl);
 
-            // TODO: Handle BIOS DAT links somehow
             string systemName = system.ShortName() ?? string.Empty;
             switch (packType)
             {
