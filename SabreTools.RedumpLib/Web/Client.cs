@@ -83,7 +83,9 @@ namespace SabreTools.RedumpLib.Web
         /// Indicates if the user is a staff member
         /// </summary>
         /// <remarks>Modifying to set as true does not change actual staff status</remarks>
+#pragma warning disable IDE0052 // Remove unread private members
         private bool _staffMember = false;
+#pragma warning restore IDE0052 // Remove unread private members
 
         #endregion
 
@@ -753,21 +755,40 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Process a Redump queue page as a list of possible IDs or disc page
         /// </summary>
+        /// <param name="discId">Add disc ID to filter, null to omit</param>
+        /// <param name="isDiscHistory">Set disc history status, null to omit</param>
+        /// <param name="order">Add sorting direction, null to omit</param>
+        /// <param name="page">Page number, null to omit</param>
+        /// <param name="sort">Add sorting type, null to omit</param>
+        /// <param name="status">Add status to filter, null to omit</param>
+        /// <param name="submitter">Add submitter name to filter, null to omit</param>
+        /// <param name="subType">Add submission type to filter, null to omit</param>
+        /// <param name="system">Add system to filter, null to omit</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        /// <remarks>Limited to moderators and staff</remarks>
-        public async Task<List<int>?> CheckSingleQueuePage()
+        public async Task<List<int>?> CheckSingleQueuePage(
+            long? discId = null,
+            bool? isDiscHistory = null,
+            SortDirection? order = null,
+            long? page = null,
+            SortCategory? sort = null,
+            DumpStatus? status = null,
+            string? submitter = null,
+            SubmissionType? subType = null,
+            PhysicalSystem? system = null)
         {
             List<int> ids = [];
 
-            // If the user is not a moderator
-            if (!_loggedIn || !_staffMember)
-            {
-                Console.Error.WriteLine("Queue download functionality is only available to Redump moderators");
-                return null;
-            }
-
             // Try to retrieve the data
-            string url = UrlBuilder.BuildQueueUrl();
+            string url = UrlBuilder.BuildQueueUrl(
+                discId,
+                isDiscHistory,
+                order,
+                page,
+                sort,
+                status,
+                submitter,
+                subType,
+                system);
             string? dumpsPage = await DownloadString(url);
 
             // If the web client failed, return null
@@ -810,12 +831,39 @@ namespace SabreTools.RedumpLib.Web
         /// Process a Redump queue page as a list of possible IDs or disc page
         /// </summary>
         /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="discId">Add disc ID to filter, null to omit</param>
+        /// <param name="isDiscHistory">Set disc history status, null to omit</param>
+        /// <param name="order">Add sorting direction, null to omit</param>
+        /// <param name="page">Page number, null to omit</param>
+        /// <param name="sort">Add sorting type, null to omit</param>
+        /// <param name="status">Add status to filter, null to omit</param>
+        /// <param name="submitter">Add submitter name to filter, null to omit</param>
+        /// <param name="subType">Add submission type to filter, null to omit</param>
+        /// <param name="system">Add system to filter, null to omit</param>
         /// <returns>List of IDs that were found on success, empty on error</returns>
-        /// <remarks>Limited to moderators and staff</remarks>
-        public async Task<List<int>?> CheckSingleQueuePage(string? outDir)
+        public async Task<List<int>?> CheckSingleQueuePage(
+            string? outDir,
+            long? discId = null,
+            bool? isDiscHistory = null,
+            SortDirection? order = null,
+            long? page = null,
+            SortCategory? sort = null,
+            DumpStatus? status = null,
+            string? submitter = null,
+            SubmissionType? subType = null,
+            PhysicalSystem? system = null)
         {
             // Get all IDs from the page
-            List<int>? ids = await CheckSingleQueuePage();
+            List<int>? ids = await CheckSingleQueuePage(
+                discId,
+                isDiscHistory,
+                order,
+                page,
+                sort,
+                status,
+                submitter,
+                subType,
+                system);
             if (ids is null)
             {
                 if (Debug) Console.WriteLine($"DEBUG: CheckSingleQueuePage(\"{outDir}\") - Client failure");
@@ -881,24 +929,17 @@ namespace SabreTools.RedumpLib.Web
                 if (Debug) Console.WriteLine($"DEBUG: DownloadSinglePack(\"{packType}\", {system})");
 
                 // If the system is invalid, we can't do anything
-                if (system is null || !system.IsAvailable())
+                string? shortName = system.ShortName();
+                if (system is null || !system.IsAvailable() || string.IsNullOrEmpty(shortName))
                 {
                     if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
                     return null;
                 }
 
                 // If we didn't have credentials
-                if (!_loggedIn && system.IsBanned())
+                if (!_loggedIn && packType == PackType.Keys)
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access, skipping...");
-                    return null;
-                }
-
-                // If the system is unknown, we can't do anything
-                string? shortName = system.ShortName();
-                if (string.IsNullOrEmpty(shortName))
-                {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} is not a recognized system, skipping...");
+                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access keys, skipping...");
                     return null;
                 }
 
@@ -926,99 +967,28 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="packType">Pack type to use to determine the download URL</param>
         /// <param name="system">System to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
-        public async Task<bool> DownloadSinglePack(PackType packType, PhysicalSystem? system, string? outDir)
+        /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
+        public async Task<bool> DownloadSinglePack(PackType packType,
+            PhysicalSystem? system,
+            string? outDir,
+            string? subfolder = null)
         {
             try
             {
                 if (Debug) Console.WriteLine($"DEBUG: DownloadSinglePack(\"{packType}\", {system}, \"{outDir}\")");
 
                 // If the system is invalid, we can't do anything
-                if (system is null || !system.IsAvailable())
+                string? shortName = system.ShortName();
+                if (system is null || !system.IsAvailable() || string.IsNullOrEmpty(shortName))
                 {
                     if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
                     return false;
                 }
 
                 // If we didn't have credentials
-                if (!_loggedIn && system.IsBanned())
+                if (!_loggedIn && packType == PackType.Keys)
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access, skipping...");
-                    return false;
-                }
-
-                // If the system is unknown, we can't do anything
-                string? shortName = system.ShortName();
-                if (string.IsNullOrEmpty(shortName))
-                {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} is not a recognized system, skipping...");
-                    return false;
-                }
-
-                // If the pack is not supported for the system
-                if (!PackTypeToAvailable(packType, system.Value))
-                {
-                    if (Debug) Console.WriteLine($"DEBUG: {packType} is not available for {system}, skipping...");
-                    return false;
-                }
-
-                // Determine the pack URL
-                string packUri = UrlBuilder.BuildPackUrl(packType, system.Value);
-
-                // If no output directory is defined, use the current directory instead
-                if (string.IsNullOrEmpty(outDir))
-                {
-                    if (Debug) Console.WriteLine("DEBUG: Output directory was not provided, setting to current directory");
-                    outDir = Environment.CurrentDirectory;
-                }
-
-                // Make the call to get the pack
-                string tempfile = Path.Combine(outDir, "tmp" + Guid.NewGuid().ToString());
-                string? remoteFileName = await DownloadFile(packUri, tempfile);
-                if (remoteFileName is null)
-                    return false;
-
-                MoveOrDelete(tempfile, remoteFileName, outDir!);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine($"An exception has occurred: {ex}");
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Download a single pack
-        /// </summary>
-        /// <param name="packType">Pack type to use to determine the download URL</param>
-        /// <param name="system">System to download packs for</param>
-        /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
-        public async Task<bool> DownloadSinglePack(PackType packType, PhysicalSystem? system, string? outDir, string? subfolder)
-        {
-            try
-            {
-                if (Debug) Console.WriteLine($"DEBUG: DownloadSinglePack(\"{packType}\", {system}, \"{outDir}\", \"{subfolder}\")");
-
-                // If the system is invalid, we can't do anything
-                if (system is null || !system.IsAvailable())
-                {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
-                    return false;
-                }
-
-                // If we didn't have credentials
-                if (!_loggedIn && system.IsBanned())
-                {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access, skipping...");
-                    return false;
-                }
-
-                // If the system is unknown, we can't do anything
-                string? shortName = system.ShortName();
-                if (string.IsNullOrEmpty(shortName))
-                {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} is not a recognized system, skipping...");
+                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access keys, skipping...");
                     return false;
                 }
 
@@ -1218,13 +1188,25 @@ namespace SabreTools.RedumpLib.Web
                 #region Files
 
                 // CUE
-                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.Cuesheet)) && discPage.Contains($"<a href=\"/disc/{id}/cue/\""))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.Cuesheet)) && discPage.Contains($"<a href=\"/disc/{id}/cue\""))
                 {
                     string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Cuesheet);
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.cue"));
                     if (!IgnoreErrors && remoteName is null)
                     {
                         if (Debug) Console.Error.WriteLine($"DEBUG: Downloading cuesheet for {id} failed!");
+                        return false;
+                    }
+                }
+
+                // SBI
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.SBI)) && discPage.Contains($"<a href=\"/disc/{id}/sbi\""))
+                {
+                    string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.SBI);
+                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sbi"));
+                    if (!IgnoreErrors && remoteName is null)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading SBI for {id} failed!");
                         return false;
                     }
                 }
@@ -1253,16 +1235,8 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="id">Redump queue disc ID to retrieve</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
-        /// <remarks>Limited to moderators and staff</remarks>
         public async Task<string?> DownloadSingleQueuePage(int id)
         {
-            // If the user is not a moderator
-            if (!_loggedIn || !_staffMember)
-            {
-                Console.Error.WriteLine("Queue download functionality is only available to Redump moderators");
-                return null;
-            }
-
             string paddedId = id.ToString().PadLeft(6, '0');
             Console.WriteLine($"Processing queue ID: {paddedId}");
             try
@@ -1299,16 +1273,8 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
-        /// <remarks>Limited to moderators and staff</remarks>
         public async Task<bool> DownloadSingleQueuePage(int id, string? outDir, bool rename)
         {
-            // If the user is not a moderator
-            if (!_loggedIn || !_staffMember)
-            {
-                Console.Error.WriteLine("Queue download functionality is only available to Redump moderators");
-                return false;
-            }
-
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrEmpty(outDir))
             {
@@ -1545,28 +1511,6 @@ namespace SabreTools.RedumpLib.Web
 
             Console.WriteLine();
             return true;
-        }
-
-        /// <summary>
-        /// Move a tempfile to a new name unless it aleady exists, in which case, delete the tempfile
-        /// </summary>
-        /// <param name="tempfile">Path to existing temporary file</param>
-        /// <param name="newfile">Path to new output file</param>
-        /// <param name="outDir">Output directory to save data to</param>
-        private static void MoveOrDelete(string tempfile, string? newfile, string outDir)
-        {
-            // If we don't have a file to move to, just delete the temp file
-            if (string.IsNullOrEmpty(newfile))
-            {
-                File.Delete(tempfile);
-                return;
-            }
-
-            // If the file already exists, don't overwrite it
-            if (File.Exists(Path.Combine(outDir, newfile)))
-                File.Delete(tempfile);
-            else
-                File.Move(tempfile, Path.Combine(outDir, newfile));
         }
 
         /// <summary>
