@@ -372,6 +372,8 @@ namespace SabreTools.RedumpLib.Web
             return ub.ToString();
         }
 
+        #region Query String Builders
+
         /// <summary>
         /// Build a /discs/ path query
         /// </summary>
@@ -640,5 +642,7 @@ namespace SabreTools.RedumpLib.Web
 
             return sb.ToString();
         }
+
+        #endregion
     }
 }
