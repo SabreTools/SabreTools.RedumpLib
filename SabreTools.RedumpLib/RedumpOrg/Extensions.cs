@@ -11,6 +11,82 @@ namespace SabreTools.RedumpLib.RedumpOrg
     /// </summary>
     public static class Extensions
     {
+        #region Non-Enumerable
+
+        /// <summary>
+        /// Adjust the disc type based on size and layerbreak information
+        /// </summary>
+        /// <param name="info">Existing SubmissionInfo object to fill</param>
+        /// <returns>Corrected disc type, if possible</returns>
+        public static void NormalizeDiscType(this SubmissionInfo info)
+        {
+            // If we have nothing valid, do nothing
+            if (info.CommonDiscInfo.Media is null || info.SizeAndChecksums == default)
+                return;
+
+#pragma warning disable IDE0010
+            switch (info.CommonDiscInfo.Media)
+            {
+                case MediaType.DVD5:
+                case MediaType.DVD9:
+                    if (info.SizeAndChecksums.Layerbreak != default)
+                        info.CommonDiscInfo.Media = MediaType.DVD9;
+                    else
+                        info.CommonDiscInfo.Media = MediaType.DVD5;
+                    break;
+
+                case MediaType.BD25:
+                case MediaType.BD33:
+                case MediaType.BD50:
+                case MediaType.BD66:
+                case MediaType.BD100:
+                case MediaType.BD128:
+                    // Extract the size from the hashes
+                    long size = Data.Extensions.ExtractSizeFromHashData(info.TracksAndWriteOffsets.ClrMameProData);
+
+                    if (info.SizeAndChecksums.Layerbreak3 != default)
+                        info.CommonDiscInfo.Media = MediaType.BD128;
+                    else if (info.SizeAndChecksums.Layerbreak2 != default)
+                        info.CommonDiscInfo.Media = MediaType.BD100;
+                    else if (info.SizeAndChecksums.Layerbreak != default && info.SizeAndChecksums.PICIdentifier == "BDU")
+                        info.CommonDiscInfo.Media = MediaType.BD66;
+                    else if (info.SizeAndChecksums.Layerbreak != default && size > 50_050_629_632)
+                        info.CommonDiscInfo.Media = MediaType.BD66;
+                    else if (info.SizeAndChecksums.Layerbreak != default)
+                        info.CommonDiscInfo.Media = MediaType.BD50;
+                    else if (info.SizeAndChecksums.PICIdentifier == "BDU")
+                        info.CommonDiscInfo.Media = MediaType.BD33;
+                    else if (size > 25_025_314_816)
+                        info.CommonDiscInfo.Media = MediaType.BD33;
+                    else
+                        info.CommonDiscInfo.Media = MediaType.BD25;
+                    break;
+
+                case MediaType.HDDVDSL:
+                case MediaType.HDDVDDL:
+                    if (info.SizeAndChecksums.Layerbreak != default)
+                        info.CommonDiscInfo.Media = MediaType.HDDVDDL;
+                    else
+                        info.CommonDiscInfo.Media = MediaType.HDDVDSL;
+                    break;
+
+                case MediaType.UMDSL:
+                case MediaType.UMDDL:
+                    if (info.SizeAndChecksums.Layerbreak != default)
+                        info.CommonDiscInfo.Media = MediaType.UMDDL;
+                    else
+                        info.CommonDiscInfo.Media = MediaType.UMDSL;
+                    break;
+
+                // All other disc types are not processed
+                default:
+                    break;
+            }
+#pragma warning restore IDE0010
+        }
+
+        #endregion
+
         #region Disc Subpath
 
         /// <summary>
