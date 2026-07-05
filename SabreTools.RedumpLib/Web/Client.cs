@@ -4,9 +4,9 @@ using System.IO;
 using System.Net;
 #if NETCOREAPP
 using System.Net.Http;
-using System.Net.Http.Headers;
-#endif
+#else
 using System.Text;
+#endif
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
@@ -186,29 +186,43 @@ namespace SabreTools.RedumpLib.Web
 
                     // TODO: Determine which of the redirect items is needed, if either
 
-                    // Generate the fields that are needed
-                    var postFields = new StringBuilder();
-                    postFields.Append($"username={username}&");
-                    postFields.Append($"password={password}&");
-                    // postFields.Append("autologin=&"); // Ignore parameter as it is unneeded
-                    // postFields.Append("viewonline=&"); // Ignore parameter as it is unneeded
-                    postFields.Append("redirect=./ucp.php?mode=login&amp;redirect=index.php&");
-                    postFields.Append($"creation_time={creationTime}&");
-                    postFields.Append($"form_token={formToken}&");
-                    postFields.Append($"sid={sessionId}&");
-                    postFields.Append("redirect=index.php&");
-
 #if NETCOREAPP
                     // Construct the login request
-                    var postContent = new StringContent(postFields.ToString(), Encoding.UTF8);
-                    postContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
+#if NET5_0
+                    var postContent = new FormUrlEncodedContent(new List<KeyValuePair<string?, string?>>
+#else
+                    var postContent = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
+#endif
+                    {
+                        new("username", username),
+                        new("password", password!),
+                        // new("autologin", null), // Ignore parameter as it is unneeded
+                        // new("viewonline", null), // Ignore parameter as it is unneeded
+                        new("redirect", "./ucp.php?mode=login&amp;redirect=index.php"),
+                        new("creation_time", creationTime),
+                        new("form_token", formToken),
+                        new("sid", sessionId),
+                        new("redirect", "index.php"),
+                        new("login", "Login"),
+                    });
 
                     // Send the login request and get the result
                     var response = await _internalClient.PostAsync(LoginUrl, postContent);
-                    string? responseContent = null;
-                    if (response?.Content is not null)
-                        responseContent = await response.Content.ReadAsStringAsync();
+                    string? responseContent = await response.Content.ReadAsStringAsync();
 #else
+                    // Generate the fields that are needed
+                    var postFields = new StringBuilder();
+                    postFields.Append($"username={username}");
+                    postFields.Append($"&password={password}");
+                    // postFields.Append("&autologin="); // Ignore parameter as it is unneeded
+                    // postFields.Append("&viewonline="); // Ignore parameter as it is unneeded
+                    postFields.Append("&redirect=./ucp.php?mode=login&amp;redirect=index.php");
+                    postFields.Append($"&creation_time={creationTime}");
+                    postFields.Append($"&form_token={formToken}");
+                    postFields.Append($"&sid={sessionId}");
+                    postFields.Append("&redirect=index.php");
+                    postFields.Append("&login=Login");
+
                     // Construct the login request
                     _internalClient.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
                     _internalClient.Encoding = Encoding.UTF8;
@@ -224,8 +238,8 @@ namespace SabreTools.RedumpLib.Web
                         continue;
                     }
 
-                    // Explcit confirmation the login was wrong
-                    if (responseContent.Contains("Incorrect username and/or password."))
+                    // "Your posts" indicates login was successful
+                    if (!responseContent.Contains(@"<a href=""./search.php?search_id=egosearch"" role=""menuitem"">"))
                     {
                         Console.Error.WriteLine("Invalid credentials entered, continuing without logging in...");
                         return false;
