@@ -13,7 +13,6 @@ using SabreTools.RedumpLib.Data;
 
 namespace SabreTools.RedumpLib.Web
 {
-    // TODO: Nearly every method here needs to be validated
 #pragma warning disable SYSLIB1045 // Convert to 'GeneratedRegexAttribute'.
     public class Client
     {
@@ -113,7 +112,6 @@ namespace SabreTools.RedumpLib.Web
             Timeout = TimeSpan.FromSeconds(30);
         }
 
-        // TODO: Validate and fix login mechanic
         #region Credentials
 
         /// <summary>
