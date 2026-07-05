@@ -75,6 +75,11 @@ namespace SabreTools.RedumpLib.Data
         public static readonly Regex ForeignTitleRegex = new(@"<h2 class=""foreign-title"">(.*?)</h2>", RegexOptions.Compiled);
 
         /// <summary>
+        /// Regex matching the current nonce token for login
+        /// </summary>
+        public static readonly Regex FormTokenRegex = new(@"<input type=""hidden"" name=""form_token"" value=""(.*?)"" />", RegexOptions.Compiled);
+
+        /// <summary>
         /// Regex matching the languages field on a disc page
         /// </summary>
         public static readonly Regex LanguagesRegex = new(@"<img class=""flag-icon"" src=""/static/flags/(.*?)\.svg"" title="".*?"" alt="".*?"" />\s*", RegexOptions.Compiled);
@@ -83,11 +88,6 @@ namespace SabreTools.RedumpLib.Data
         /// Regex matching the current creation time for login
         /// </summary>
         public static readonly Regex LoginCreationTimeRegex = new(@"<input type=""hidden"" name=""form_token"" value=""(.*?)"" />", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Regex matching the current nonce token for login
-        /// </summary>
-        public static readonly Regex LoginTokenRegex = new(@"<input type=""hidden"" name=""form_token"" value=""(.*?)"" />", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching the media field on a disc page
@@ -114,6 +114,11 @@ namespace SabreTools.RedumpLib.Data
         /// Regex matching the serial field on a disc page
         /// </summary>
         public static readonly Regex SerialRegex = new(@"<<tr><td><strong>Disc Serial</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Regex matching the current session ID for login
+        /// </summary>
+        public static readonly Regex SessionIDRegex = new(@"<input type=""hidden"" name=""sid"" value=""(.*?)"" />", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching the system field on a disc page

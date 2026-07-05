@@ -176,14 +176,29 @@ namespace SabreTools.RedumpLib.Web
                 {
                     Console.WriteLine($"Login attempt {i + 1} of {AttemptCount}");
 
-                    // Get the current token from the login page
+                    // Get the current information from the login page
                     var loginPage = await DownloadString(LoginUrl);
                     string creationTime = Constants.LoginCreationTimeRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
-                    string token = Constants.LoginTokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
+                    string formToken = Constants.FormTokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
+                    string sessionId = Constants.SessionIDRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
+
+                    // TODO: Determine which of the redirect items is needed, if either
+
+                    // Generate the fields that are needed
+                    var postFields = new StringBuilder();
+                    postFields.Append($"username={username}&");
+                    postFields.Append($"password={password}&");
+                    // postFields.Append("autologin=&"); // Ignore parameter as it is unneeded
+                    // postFields.Append("viewonline=&"); // Ignore parameter as it is unneeded
+                    postFields.Append("redirect=./ucp.php?mode=login&amp;redirect=index.php&");
+                    postFields.Append($"creation_time={creationTime}&");
+                    postFields.Append($"form_token={formToken}&");
+                    postFields.Append($"sid={sessionId}&");
+                    postFields.Append("redirect=index.php&");
 
 #if NETCOREAPP
                     // Construct the login request
-                    var postContent = new StringContent($"username={username}&password={password}&autologin=&viewonline=&redirect=&creation_time={creationTime}&form_token={token}", Encoding.UTF8);
+                    var postContent = new StringContent(postFields.ToString(), Encoding.UTF8);
                     postContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
 
                     // Send the login request and get the result
@@ -197,7 +212,7 @@ namespace SabreTools.RedumpLib.Web
                     _internalClient.Encoding = Encoding.UTF8;
 
                     // Send the login request and get the result
-                    string? responseContent = _internalClient.UploadString(LoginUrl, $"username={username}&password={password}&autologin=&viewonline=&redirect=&creation_time={creationTime}&form_token={token}");
+                    string? responseContent = _internalClient.UploadString(LoginUrl, postFields.ToString());
 #endif
 
                     // An empty response indicates an error
