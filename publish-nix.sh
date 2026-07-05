@@ -71,6 +71,7 @@ then
 
     # Create Nuget Package
     dotnet pack SabreTools.RedumpLib/SabreTools.RedumpLib.csproj --output $BUILD_FOLDER
+    dotnet pack SabreTools.RedumpLib.Legacy/SabreTools.RedumpLib.Legacy.csproj --output $BUILD_FOLDER
 
     # Build Tool
     for FRAMEWORK in "${FRAMEWORKS[@]}"; do

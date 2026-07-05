@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <!-- Assembly Properties -->
@@ -12,7 +12,7 @@
 
         <!-- Package Properties -->
         <Authors>Matt Nadareski</Authors>
-        <Description>Code to interact with redump.info</Description>
+        <Description>Code to interact with redump.org</Description>
         <Copyright>Copyright (c) Matt Nadareski 2020-2026</Copyright>
         <PackageProjectUrl>https://github.com/SabreTools/</PackageProjectUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -23,12 +23,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="SabreTools.RedumpLib.Legacy" />
         <InternalsVisibleTo Include="SabreTools.RedumpLib.Test" />
     </ItemGroup>
 
     <ItemGroup>
         <None Include="../README.md" Pack="true" PackagePath="" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\SabreTools.RedumpLib\SabreTools.RedumpLib.csproj" />
     </ItemGroup>
 
     <ItemGroup>

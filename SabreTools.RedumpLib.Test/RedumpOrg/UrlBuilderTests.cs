@@ -1,10 +1,10 @@
 using System;
 using SabreTools.RedumpLib.Data;
-using SabreTools.RedumpLib.RedumpOrg;
+using SabreTools.RedumpLib.Legacy.Web;
 using Xunit;
-using DiscSubpath = SabreTools.RedumpLib.RedumpOrg.Data.DiscSubpath;
-using PackType = SabreTools.RedumpLib.RedumpOrg.Data.PackType;
-using PhysicalSystem = SabreTools.RedumpLib.RedumpOrg.Data.PhysicalSystem;
+using DiscSubpath = SabreTools.RedumpLib.Legacy.Data.DiscSubpath;
+using PackType = SabreTools.RedumpLib.Legacy.Data.PackType;
+using PhysicalSystem = SabreTools.RedumpLib.Legacy.Data.PhysicalSystem;
 
 namespace SabreTools.RedumpLib.Test.RedumpOrg
 {

@@ -11,6 +11,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\SabreTools.RedumpLib\SabreTools.RedumpLib.csproj" />
+        <ProjectReference Include="..\SabreTools.RedumpLib.Legacy\SabreTools.RedumpLib.Legacy.csproj" />
     </ItemGroup>
 
     <ItemGroup>

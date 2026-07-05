@@ -62,6 +62,7 @@ if (!$NO_BUILD.IsPresent)
 
     # Create Nuget Package
     dotnet pack SabreTools.RedumpLib\SabreTools.RedumpLib.csproj --output $BUILD_FOLDER
+    dotnet pack SabreTools.RedumpLib.Legacy\SabreTools.RedumpLib.Legacy.csproj --output $BUILD_FOLDER
 
     # Build Tool
     foreach ($FRAMEWORK in $FRAMEWORKS) {
