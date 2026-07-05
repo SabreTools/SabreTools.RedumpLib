@@ -561,35 +561,12 @@ namespace SabreTools.RedumpLib.Web
                 sb.Append($"q={query}&");
 
             // Sorting
-            switch (sort)
-            {
-                case SortCategory.Title:
-                case SortCategory.Added:
-                case SortCategory.Region:
-                case SortCategory.System:
-                case SortCategory.Version:
-                case SortCategory.Edition:
-                case SortCategory.Language:
-                case SortCategory.Languages:
-                case SortCategory.Serial:
-                case SortCategory.Status:
-                case SortCategory.Modified:
-                    sb.Append($"sort={sort.ShortName()}&");
-                    break;
-
-                default: break;
-            }
+            if (sort is not null && Enum.IsDefined(typeof(SortCategory), sort))
+                sb.Append($"sort={sort.ShortName()}&");
 
             // Sort Direction
-            switch (order)
-            {
-                case SortDirection.Ascending:
-                case SortDirection.Descending:
-                    sb.Append($"order={order.ShortName()}&");
-                    break;
-
-                default: break;
-            }
+            if (order is not null && Enum.IsDefined(typeof(SortDirection), order))
+                sb.Append($"order={order.ShortName()}&");
 
             // Page Number
             if (page is not null)
@@ -652,35 +629,12 @@ namespace SabreTools.RedumpLib.Web
                 sb.Append($"disc_id={discId}&");
 
             // Sorting
-            switch (sort)
-            {
-                case SortCategory.Title:
-                case SortCategory.Added:
-                case SortCategory.Region:
-                case SortCategory.System:
-                case SortCategory.Version:
-                case SortCategory.Edition:
-                case SortCategory.Language:
-                case SortCategory.Languages:
-                case SortCategory.Serial:
-                case SortCategory.Status:
-                case SortCategory.Modified:
-                    sb.Append($"sort={sort.ShortName()}&");
-                    break;
-
-                default: break;
-            }
+            if (sort is not null && Enum.IsDefined(typeof(SortCategory), sort))
+                sb.Append($"sort={sort.ShortName()}&");
 
             // Sort Direction
-            switch (order)
-            {
-                case SortDirection.Ascending:
-                case SortDirection.Descending:
-                    sb.Append($"order={order.ShortName()}&");
-                    break;
-
-                default: break;
-            }
+            if (order is not null && Enum.IsDefined(typeof(SortDirection), order))
+                sb.Append($"order={order.ShortName()}&");
 
             // Page Number
             if (page is not null)
