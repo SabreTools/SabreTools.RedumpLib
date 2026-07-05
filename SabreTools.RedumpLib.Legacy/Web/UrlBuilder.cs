@@ -1,12 +1,6 @@
 using System;
 using System.Text;
-using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Legacy.Data;
-using DiscSubpath = SabreTools.RedumpLib.Legacy.Data.DiscSubpath;
-using Language = SabreTools.RedumpLib.Legacy.Data.Language;
-using PackType = SabreTools.RedumpLib.Legacy.Data.PackType;
-using PhysicalSystem = SabreTools.RedumpLib.Legacy.Data.PhysicalSystem;
-using Region = SabreTools.RedumpLib.Legacy.Data.Region;
 
 // TODO: Errors should validate number or number range (# or #-#)
 
@@ -176,7 +170,7 @@ namespace SabreTools.RedumpLib.Legacy.Web
         public static string BuildDiscsUrl(bool? antimodchip = null,
             bool barcode = false,
             DiscCategory? category = null,
-            MediaType? discType = null,
+            DiscType? discType = null,
             string? dumper = null,
             YesNo? edc = null,
             string? edition = null,
@@ -304,7 +298,6 @@ namespace SabreTools.RedumpLib.Legacy.Web
                 case SortCategory.System:
                 case SortCategory.Version:
                 case SortCategory.Edition:
-                case SortCategory.Language:
                 case SortCategory.Languages:
                 case SortCategory.Serial:
                 case SortCategory.Status:
@@ -327,7 +320,7 @@ namespace SabreTools.RedumpLib.Legacy.Web
             }
 
             // Status
-            if (status is not null && status >= DumpStatus.UnknownGrey && status <= DumpStatus.VerifiedGreen)
+            if (status is not null && status >= DumpStatus.UnknownGrey && status <= DumpStatus.TwoOrMoreGreen)
                 sb.Append($"status/{(int)status}/");
 
             // System / Disc Type Search

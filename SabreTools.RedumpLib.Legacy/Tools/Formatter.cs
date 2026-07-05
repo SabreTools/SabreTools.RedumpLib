@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Legacy.Data;
 using SabreTools.RedumpLib.Legacy.Data.Sections;
-using PhysicalSystem = SabreTools.RedumpLib.Legacy.Data.PhysicalSystem;
-using SubmissionInfo = SabreTools.RedumpLib.Legacy.Data.SubmissionInfo;
 
 namespace SabreTools.RedumpLib.Legacy.Tools
 {
@@ -276,13 +273,13 @@ namespace SabreTools.RedumpLib.Legacy.Tools
             List<int>? partiallyMatchedIDs)
         {
             // Extract the size from the hashes
-            long size = RedumpLib.Data.Extensions.ExtractSizeFromHashData(tawo?.ClrMameProData);
+            long size = Extensions.ExtractSizeFromHashData(tawo?.ClrMameProData);
 
             output.AppendLine("Common Disc Info:");
 
             AddIfExists(output, Template.TitleField, section?.Title, 1);
-            AddIfExists(output, Template.ForeignTitleField, section?.ForeignTitleNonLatin, 1);
-            AddIfExists(output, Template.DiscNumberField, section?.DiscNumberLetter, 1);
+            AddIfExists(output, Template.ForeignTitleNonLatinField, section?.ForeignTitleNonLatin, 1);
+            AddIfExists(output, Template.DiscNumberLetterField, section?.DiscNumberLetter, 1);
             AddIfExists(output, Template.DiscTitleField, section?.DiscTitle, 1);
             AddIfExists(output, Template.SystemField, section?.System.LongName(), 1);
             AddIfExists(output, Template.MediaTypeField, GetFixedMediaType(
@@ -294,14 +291,14 @@ namespace SabreTools.RedumpLib.Legacy.Tools
                     sac?.Layerbreak3),
                 1);
             AddIfExists(output, Template.CategoryField, section?.Category.LongName(), 1);
-            AddIfExists(output, Template.FullyMatchingIDsField, fullyMatchedID?.ToString(), 1);
+            AddIfExists(output, Template.FullyMatchingIDField, fullyMatchedID?.ToString(), 1);
             AddIfExists(output, Template.PartiallyMatchingIDsField, partiallyMatchedIDs, 1);
-            AddIfExists(output, Template.RegionsField, section?.Region.LongName() ?? "SPACE! (CHANGE THIS)", 1);
+            AddIfExists(output, Template.RegionField, section?.Region.LongName() ?? "SPACE! (CHANGE THIS)", 1);
             AddIfExists(output, Template.LanguagesField,
                 Array.ConvertAll(section?.Languages ?? [null], l => l.LongName() ?? "ADD LANGUAGES HERE (ONLY IF YOU TESTED)"), 1);
             AddIfExists(output, Template.PlaystationLanguageSelectionViaField,
                 Array.ConvertAll(section?.LanguageSelection ?? [], l => l.LongName()), 1);
-            AddIfExists(output, Template.DiscSerialsField, section?.Serial, 1);
+            AddIfExists(output, Template.SerialField, section?.Serial, 1);
             output.AppendLine();
 
             // All ringcode information goes in an indented area
@@ -311,74 +308,74 @@ namespace SabreTools.RedumpLib.Legacy.Tools
             // If we have a triple-layer disc
             if (sac?.Layerbreak3 != default && sac?.Layerbreak3 != default(long))
             {
-                AddIfExists(output, "Layer 0 " + Template.MasteringCodeField, section?.Layer0MasteringRing, 0);
+                AddIfExists(output, "Layer 0 " + Template.MasteringRingField, section?.Layer0MasteringRing, 0);
                 AddIfExists(output, "Layer 0 " + Template.MasteringSIDField, section?.Layer0MasteringSID, 0);
-                AddIfExists(output, "Layer 0 " + Template.ToolstampsField, section?.Layer0ToolstampMasteringCode, 0);
-                AddIfExists(output, "Data Side " + Template.MouldSIDsField, section?.Layer0MouldSID, 0);
-                AddIfExists(output, "Data Side " + Template.AdditionalMouldsField, section?.Layer0AdditionalMould, 0);
+                AddIfExists(output, "Layer 0 " + Template.ToolstampMasteringCodeField, section?.Layer0ToolstampMasteringCode, 0);
+                AddIfExists(output, "Data Side " + Template.MouldSIDField, section?.Layer0MouldSID, 0);
+                AddIfExists(output, "Data Side " + Template.AdditionalMouldField, section?.Layer0AdditionalMould, 0);
 
-                AddIfExists(output, "Layer 1 " + Template.MasteringCodeField, section?.Layer1MasteringRing, 0);
+                AddIfExists(output, "Layer 1 " + Template.MasteringRingField, section?.Layer1MasteringRing, 0);
                 AddIfExists(output, "Layer 1 " + Template.MasteringSIDField, section?.Layer1MasteringSID, 0);
-                AddIfExists(output, "Layer 1 " + Template.ToolstampsField, section?.Layer1ToolstampMasteringCode, 0);
-                AddIfExists(output, "Label Side " + Template.MouldSIDsField, section?.Layer1MouldSID, 0);
-                AddIfExists(output, "Label Side " + Template.AdditionalMouldsField, section?.Layer1AdditionalMould, 0);
+                AddIfExists(output, "Layer 1 " + Template.ToolstampMasteringCodeField, section?.Layer1ToolstampMasteringCode, 0);
+                AddIfExists(output, "Label Side " + Template.MouldSIDField, section?.Layer1MouldSID, 0);
+                AddIfExists(output, "Label Side " + Template.AdditionalMouldField, section?.Layer1AdditionalMould, 0);
 
-                AddIfExists(output, "Layer 2 " + Template.MasteringCodeField, section?.Layer2MasteringRing, 0);
+                AddIfExists(output, "Layer 2 " + Template.MasteringRingField, section?.Layer2MasteringRing, 0);
                 AddIfExists(output, "Layer 2 " + Template.MasteringSIDField, section?.Layer2MasteringSID, 0);
-                AddIfExists(output, "Layer 2 " + Template.ToolstampsField, section?.Layer2ToolstampMasteringCode, 0);
+                AddIfExists(output, "Layer 2 " + Template.ToolstampMasteringCodeField, section?.Layer2ToolstampMasteringCode, 0);
 
-                AddIfExists(output, "Layer 3 " + Template.MasteringCodeField, section?.Layer3MasteringRing, 0);
+                AddIfExists(output, "Layer 3 " + Template.MasteringRingField, section?.Layer3MasteringRing, 0);
                 AddIfExists(output, "Layer 3 " + Template.MasteringSIDField, section?.Layer3MasteringSID, 0);
-                AddIfExists(output, "Layer 3 " + Template.ToolstampsField, section?.Layer3ToolstampMasteringCode, 0);
+                AddIfExists(output, "Layer 3 " + Template.ToolstampMasteringCodeField, section?.Layer3ToolstampMasteringCode, 0);
             }
             // If we have a triple-layer disc
             else if (sac?.Layerbreak2 != default && sac?.Layerbreak2 != default(long))
             {
-                AddIfExists(output, "Layer 0 " + Template.MasteringCodeField, section?.Layer0MasteringRing, 0);
+                AddIfExists(output, "Layer 0 " + Template.MasteringRingField, section?.Layer0MasteringRing, 0);
                 AddIfExists(output, "Layer 0 " + Template.MasteringSIDField, section?.Layer0MasteringSID, 0);
-                AddIfExists(output, "Layer 0 " + Template.ToolstampsField, section?.Layer0ToolstampMasteringCode, 0);
-                AddIfExists(output, "Data Side " + Template.MouldSIDsField, section?.Layer0MouldSID, 0);
-                AddIfExists(output, "Data Side " + Template.AdditionalMouldsField, section?.Layer0AdditionalMould, 0);
+                AddIfExists(output, "Layer 0 " + Template.ToolstampMasteringCodeField, section?.Layer0ToolstampMasteringCode, 0);
+                AddIfExists(output, "Data Side " + Template.MouldSIDField, section?.Layer0MouldSID, 0);
+                AddIfExists(output, "Data Side " + Template.AdditionalMouldField, section?.Layer0AdditionalMould, 0);
 
-                AddIfExists(output, "Layer 1 " + Template.MasteringCodeField, section?.Layer1MasteringRing, 0);
+                AddIfExists(output, "Layer 1 " + Template.MasteringRingField, section?.Layer1MasteringRing, 0);
                 AddIfExists(output, "Layer 1 " + Template.MasteringSIDField, section?.Layer1MasteringSID, 0);
-                AddIfExists(output, "Layer 1 " + Template.ToolstampsField, section?.Layer1ToolstampMasteringCode, 0);
-                AddIfExists(output, "Label Side " + Template.MouldSIDsField, section?.Layer1MouldSID, 0);
-                AddIfExists(output, "Label Side " + Template.AdditionalMouldsField, section?.Layer1AdditionalMould, 0);
+                AddIfExists(output, "Layer 1 " + Template.ToolstampMasteringCodeField, section?.Layer1ToolstampMasteringCode, 0);
+                AddIfExists(output, "Label Side " + Template.MouldSIDField, section?.Layer1MouldSID, 0);
+                AddIfExists(output, "Label Side " + Template.AdditionalMouldField, section?.Layer1AdditionalMould, 0);
 
-                AddIfExists(output, "Layer 2 " + Template.MasteringCodeField, section?.Layer2MasteringRing, 0);
+                AddIfExists(output, "Layer 2 " + Template.MasteringRingField, section?.Layer2MasteringRing, 0);
                 AddIfExists(output, "Layer 2 " + Template.MasteringSIDField, section?.Layer2MasteringSID, 0);
-                AddIfExists(output, "Layer 2 " + Template.ToolstampsField, section?.Layer2ToolstampMasteringCode, 0);
+                AddIfExists(output, "Layer 2 " + Template.ToolstampMasteringCodeField, section?.Layer2ToolstampMasteringCode, 0);
             }
             // If we have a dual-layer disc
             else if (sac?.Layerbreak != default && sac?.Layerbreak != default(long))
             {
-                AddIfExists(output, "Layer 0 " + Template.MasteringCodeField, section?.Layer0MasteringRing, 0);
+                AddIfExists(output, "Layer 0 " + Template.MasteringRingField, section?.Layer0MasteringRing, 0);
                 AddIfExists(output, "Layer 0 " + Template.MasteringSIDField, section?.Layer0MasteringSID, 0);
-                AddIfExists(output, "Layer 0 " + Template.ToolstampsField, section?.Layer0ToolstampMasteringCode, 0);
-                AddIfExists(output, "Data Side " + Template.MouldSIDsField, section?.Layer0MouldSID, 0);
-                AddIfExists(output, "Data Side " + Template.AdditionalMouldsField, section?.Layer0AdditionalMould, 0);
+                AddIfExists(output, "Layer 0 " + Template.ToolstampMasteringCodeField, section?.Layer0ToolstampMasteringCode, 0);
+                AddIfExists(output, "Data Side " + Template.MouldSIDField, section?.Layer0MouldSID, 0);
+                AddIfExists(output, "Data Side " + Template.AdditionalMouldField, section?.Layer0AdditionalMould, 0);
 
-                AddIfExists(output, "Layer 1 " + Template.MasteringCodeField, section?.Layer1MasteringRing, 0);
+                AddIfExists(output, "Layer 1 " + Template.MasteringRingField, section?.Layer1MasteringRing, 0);
                 AddIfExists(output, "Layer 1 " + Template.MasteringSIDField, section?.Layer1MasteringSID, 0);
-                AddIfExists(output, "Layer 1 " + Template.ToolstampsField, section?.Layer1ToolstampMasteringCode, 0);
-                AddIfExists(output, "Label Side " + Template.MouldSIDsField, section?.Layer1MouldSID, 0);
-                AddIfExists(output, "Label Side " + Template.AdditionalMouldsField, section?.Layer1AdditionalMould, 0);
+                AddIfExists(output, "Layer 1 " + Template.ToolstampMasteringCodeField, section?.Layer1ToolstampMasteringCode, 0);
+                AddIfExists(output, "Label Side " + Template.MouldSIDField, section?.Layer1MouldSID, 0);
+                AddIfExists(output, "Label Side " + Template.AdditionalMouldField, section?.Layer1AdditionalMould, 0);
             }
             // If we have a single-layer disc
             else
             {
-                AddIfExists(output, "Data Side " + Template.MasteringCodeField, section?.Layer0MasteringRing, 0);
+                AddIfExists(output, "Data Side " + Template.MasteringRingField, section?.Layer0MasteringRing, 0);
                 AddIfExists(output, "Data Side " + Template.MasteringSIDField, section?.Layer0MasteringSID, 0);
-                AddIfExists(output, "Data Side " + Template.ToolstampsField, section?.Layer0ToolstampMasteringCode, 0);
-                AddIfExists(output, "Data Side " + Template.MouldSIDsField, section?.Layer0MouldSID, 0);
-                AddIfExists(output, "Data Side " + Template.AdditionalMouldsField, section?.Layer0AdditionalMould, 0);
+                AddIfExists(output, "Data Side " + Template.ToolstampMasteringCodeField, section?.Layer0ToolstampMasteringCode, 0);
+                AddIfExists(output, "Data Side " + Template.MouldSIDField, section?.Layer0MouldSID, 0);
+                AddIfExists(output, "Data Side " + Template.AdditionalMouldField, section?.Layer0AdditionalMould, 0);
 
-                AddIfExists(output, "Label Side " + Template.MasteringCodeField, section?.Layer1MasteringRing, 0);
+                AddIfExists(output, "Label Side " + Template.MasteringRingField, section?.Layer1MasteringRing, 0);
                 AddIfExists(output, "Label Side " + Template.MasteringSIDField, section?.Layer1MasteringSID, 0);
-                AddIfExists(output, "Label Side " + Template.ToolstampsField, section?.Layer1ToolstampMasteringCode, 0);
-                AddIfExists(output, "Label Side " + Template.MouldSIDsField, section?.Layer1MouldSID, 0);
-                AddIfExists(output, "Label Side " + Template.AdditionalMouldsField, section?.Layer1AdditionalMould, 0);
+                AddIfExists(output, "Label Side " + Template.ToolstampMasteringCodeField, section?.Layer1ToolstampMasteringCode, 0);
+                AddIfExists(output, "Label Side " + Template.MouldSIDField, section?.Layer1MouldSID, 0);
+                AddIfExists(output, "Label Side " + Template.AdditionalMouldField, section?.Layer1AdditionalMould, 0);
             }
 
             var offset = tawo?.OtherWriteOffsets;
@@ -388,9 +385,9 @@ namespace SabreTools.RedumpLib.Legacy.Tools
             AddIfExists(output, Template.WriteOffsetField, offset, 0);
             output.AppendLine();
 
-            AddIfExists(output, Template.BarcodesField, section?.Barcode, 1);
-            AddIfExists(output, Template.EXEDate, section?.EXEDateBuildDate, 1);
-            AddIfExists(output, Template.ErrorCountField, section?.ErrorsCount, 1);
+            AddIfExists(output, Template.BarcodeField, section?.Barcode, 1);
+            AddIfExists(output, Template.EXEDateBuildDate, section?.EXEDateBuildDate, 1);
+            AddIfExists(output, Template.ErrorsCountField, section?.ErrorsCount, 1);
             AddIfExists(output, Template.CommentsField, section?.Comments?.Trim(), 1);
             AddIfExists(output, Template.ContentsField, section?.Contents?.Trim(), 1);
         }
@@ -446,11 +443,11 @@ namespace SabreTools.RedumpLib.Legacy.Tools
             AddIfExists(output, Template.PICField, section.PIC, 1);
             AddIfExists(output, Template.HeaderField, section.Header, 1);
             AddIfExists(output, Template.BCAField, section.BCA, 1);
-            AddIfExists(output, Template.SectorRangesField, section.SecuritySectorRanges, 1);
+            AddIfExists(output, Template.SecuritySectorRangesField, section.SecuritySectorRanges, 1);
         }
 
         /// <summary>
-        /// Format a ExtrasSection
+        /// Format a CopyProtectionSection
         /// </summary>
         internal static void FormatOutputData(StringBuilder output,
             CopyProtectionSection? section,
@@ -476,11 +473,11 @@ namespace SabreTools.RedumpLib.Legacy.Tools
             {
                 AddIfExists(output, Template.PlayStationAntiModchipField, section.AntiModchip.LongName(), 1);
                 AddIfExists(output, Template.PlayStationLibCryptField, section.LibCrypt.LongName(), 1);
-                AddIfExists(output, Template.SBIField, section.LibCryptData, 1);
+                AddIfExists(output, Template.LibCryptDataField, section.LibCryptData, 1);
             }
 
             AddIfExists(output, Template.ProtectionField, section.Protection, 1);
-            AddIfExists(output, Template.SBIField, section.SecuROMData, 1);
+            AddIfExists(output, Template.SecuROMDataField, section.SecuROMData, 1);
         }
 
         /// <summary>
@@ -490,7 +487,7 @@ namespace SabreTools.RedumpLib.Legacy.Tools
         {
             output.AppendLine("Tracks and Write Offsets:");
 
-            AddIfExists(output, Template.DatField, section.ClrMameProData + "\n", 1);
+            AddIfExists(output, Template.ClrMameProDataField, section.ClrMameProData + "\n", 1);
             AddIfExists(output, Template.CuesheetField, section.Cuesheet, 1);
             // TODO: Figure out how to emit raw cuesheet field instead of normal cuesheet
             var offset = section.OtherWriteOffsets;

@@ -23,7 +23,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="SabreTools.RedumpLib.Legacy" />
         <InternalsVisibleTo Include="SabreTools.RedumpLib.Test" />
     </ItemGroup>
 

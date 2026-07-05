@@ -1,0 +1,26 @@
+namespace SabreTools.RedumpLib.Legacy.Attributes
+{
+    /// <summary>
+    /// Attribute specifc to Language values
+    /// </summary>
+    /// <remarks>
+    /// Some languages have multiple proper names. Should all be supported?
+    /// </remarks>
+    public class LanguageCodeAttribute : HumanReadableAttribute
+    {
+        /// <summary>
+        /// ISO 639-1 Code
+        /// </summary>
+        public string? TwoLetterCode { get; set; }
+
+        /// <summary>
+        /// ISO 639-2 Code (Standard or Bibliographic)
+        /// </summary>
+        public string? ThreeLetterCode { get; set; }
+
+        /// <summary>
+        /// ISO 639-2 Code (Terminology)
+        /// </summary>
+        public string? ThreeLetterCodeAlt { get; set; }
+    }
+}

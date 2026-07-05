@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SabreTools.RedumpLib.Data;
+using SabreTools.RedumpLib.Legacy.Data;
 using SabreTools.RedumpLib.Legacy.Web;
-using Constants = SabreTools.RedumpLib.Legacy.Data.Constants;
-using SubmissionInfo = SabreTools.RedumpLib.Legacy.Data.SubmissionInfo;
 
 namespace SabreTools.RedumpLib.Legacy.Tools
 {

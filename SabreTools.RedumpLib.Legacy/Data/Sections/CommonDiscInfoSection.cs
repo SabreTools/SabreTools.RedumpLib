@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using SabreTools.RedumpLib.Converters;
-using DiscCategory = SabreTools.RedumpLib.Data.DiscCategory;
-using MediaType = SabreTools.RedumpLib.Data.MediaType;
-using SiteCode = SabreTools.RedumpLib.Data.SiteCode;
+using SabreTools.RedumpLib.Legacy.Converters;
 
 namespace SabreTools.RedumpLib.Legacy.Data.Sections
 {
@@ -15,13 +12,13 @@ namespace SabreTools.RedumpLib.Legacy.Data.Sections
     {
         // Name not defined by Redump
         [JsonProperty(PropertyName = "d_system", DefaultValueHandling = DefaultValueHandling.Include)]
-        [JsonConverter(typeof(Converters.PhysicalSystemConverter))]
+        [JsonConverter(typeof(PhysicalSystemConverter))]
         public PhysicalSystem? System { get; set; }
 
         // Name not defined by Redump
         [JsonProperty(PropertyName = "d_media", DefaultValueHandling = DefaultValueHandling.Include)]
-        [JsonConverter(typeof(MediaTypeConverter))]
-        public MediaType? Media { get; set; }
+        [JsonConverter(typeof(DiscTypeConverter))]
+        public DiscType? Media { get; set; }
 
         [JsonProperty(PropertyName = "d_title", DefaultValueHandling = DefaultValueHandling.Include)]
         public string? Title { get; set; }
@@ -40,7 +37,7 @@ namespace SabreTools.RedumpLib.Legacy.Data.Sections
         public DiscCategory? Category { get; set; }
 
         [JsonProperty(PropertyName = "d_region", DefaultValueHandling = DefaultValueHandling.Include)]
-        [JsonConverter(typeof(Converters.RegionConverter))]
+        [JsonConverter(typeof(RegionConverter))]
         public Region? Region { get; set; }
 
         [JsonProperty(PropertyName = "d_languages", DefaultValueHandling = DefaultValueHandling.Include)]
@@ -48,7 +45,7 @@ namespace SabreTools.RedumpLib.Legacy.Data.Sections
         public Language?[]? Languages { get; set; }
 
         [JsonProperty(PropertyName = "d_languages_selection", NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonConverter(typeof(Converters.LanguageSelectionConverter))]
+        [JsonConverter(typeof(LanguageSelectionConverter))]
         public LanguageSelection?[]? LanguageSelection { get; set; }
 
         [JsonProperty(PropertyName = "d_serial", NullValueHandling = NullValueHandling.Ignore)]

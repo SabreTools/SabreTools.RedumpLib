@@ -71,15 +71,12 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(LongName = "Disabled", ShortName = "red")]
         DisabledRed = 2,
 
-        // Known as "Possible Bad Dump" on redump.org
         [HumanReadable(LongName = "Questionable", ShortName = "yellow")]
         QuestionableYellow = 3,
 
-        // Known as "Original Media" on redump.org
         [HumanReadable(LongName = "Unverified", ShortName = "blue")]
         UnverifiedBlue = 4,
 
-        // Known as "Two or More" on redump.org
         [HumanReadable(LongName = "Verified", ShortName = "green")]
         VerifiedGreen = 5,
     }
@@ -1931,7 +1928,6 @@ namespace SabreTools.RedumpLib.Data
     /// List of all known systems not bound to specific site limitations
     /// </summary>
     /// TODO: Remove marker items
-    /// TODO: Does "Banned" now only mean that things like keys can't be downloaded?
     public enum PhysicalSystem
     {
         #region BIOS Sets
@@ -3820,13 +3816,8 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(LongName = "Edition", ShortName = "edition")]
         Edition,
 
-        /// <remarks>redump.info only</remarks>
         [HumanReadable(LongName = "Language", ShortName = "language")]
         Language,
-
-        /// <remarks>redump.org only</remarks>
-        [HumanReadable(LongName = "Languages", ShortName = "languages")]
-        Languages,
 
         [HumanReadable(LongName = "Serial", ShortName = "serial")]
         Serial,

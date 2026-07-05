@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using PackType = SabreTools.RedumpLib.Legacy.Data.PackType;
-using PhysicalSystem = SabreTools.RedumpLib.Legacy.Data.PhysicalSystem;
+using SabreTools.RedumpLib.Legacy.Data;
 
 namespace SabreTools.RedumpLib.Legacy.Web
 {

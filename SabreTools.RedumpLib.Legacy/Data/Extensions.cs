@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using SabreTools.RedumpLib.Attributes;
-using MediaType = SabreTools.RedumpLib.Data.MediaType;
-using SystemAttribute = SabreTools.RedumpLib.Legacy.Attributes.SystemAttribute;
-using SystemCategory = SabreTools.RedumpLib.Data.SystemCategory;
+using System.Text.RegularExpressions;
+using SabreTools.RedumpLib.Legacy.Attributes;
 
 namespace SabreTools.RedumpLib.Legacy.Data
 {
@@ -13,6 +11,28 @@ namespace SabreTools.RedumpLib.Legacy.Data
     public static class Extensions
     {
         #region Non-Enumerable
+
+        /// <summary>
+        /// Extract the size from XML hash data
+        /// </summary>
+        /// <param name="hashData">String representing the combined hash data</param>
+        /// <returns>Extracted size on success, -1 on error</returns>
+        public static long ExtractSizeFromHashData(string? hashData)
+        {
+            if (string.IsNullOrEmpty(hashData))
+                return -1;
+
+            var hashreg = new Regex(@"<rom name="".*?"" size=""(.*?)"" crc=""(.*?)"" md5=""(.*?)"" sha1=""(.*?)""", RegexOptions.Compiled);
+            Match m = hashreg.Match(hashData);
+            if (m.Success)
+            {
+                if (long.TryParse(m.Groups[1].Value, out long size))
+                    return size;
+            }
+
+            // Everything else is a failure case
+            return -1;
+        }
 
         /// <summary>
         /// Adjust the disc type based on size and layerbreak information
@@ -28,55 +48,55 @@ namespace SabreTools.RedumpLib.Legacy.Data
 #pragma warning disable IDE0010
             switch (info.CommonDiscInfo.Media)
             {
-                case MediaType.DVD5:
-                case MediaType.DVD9:
+                case DiscType.DVD5:
+                case DiscType.DVD9:
                     if (info.SizeAndChecksums.Layerbreak != default)
-                        info.CommonDiscInfo.Media = MediaType.DVD9;
+                        info.CommonDiscInfo.Media = DiscType.DVD9;
                     else
-                        info.CommonDiscInfo.Media = MediaType.DVD5;
+                        info.CommonDiscInfo.Media = DiscType.DVD5;
                     break;
 
-                case MediaType.BD25:
-                case MediaType.BD33:
-                case MediaType.BD50:
-                case MediaType.BD66:
-                case MediaType.BD100:
-                case MediaType.BD128:
+                case DiscType.BD25:
+                case DiscType.BD33:
+                case DiscType.BD50:
+                case DiscType.BD66:
+                case DiscType.BD100:
+                case DiscType.BD128:
                     // Extract the size from the hashes
-                    long size = RedumpLib.Data.Extensions.ExtractSizeFromHashData(info.TracksAndWriteOffsets.ClrMameProData);
+                    long size = ExtractSizeFromHashData(info.TracksAndWriteOffsets.ClrMameProData);
 
                     if (info.SizeAndChecksums.Layerbreak3 != default)
-                        info.CommonDiscInfo.Media = MediaType.BD128;
+                        info.CommonDiscInfo.Media = DiscType.BD128;
                     else if (info.SizeAndChecksums.Layerbreak2 != default)
-                        info.CommonDiscInfo.Media = MediaType.BD100;
+                        info.CommonDiscInfo.Media = DiscType.BD100;
                     else if (info.SizeAndChecksums.Layerbreak != default && info.SizeAndChecksums.PICIdentifier == "BDU")
-                        info.CommonDiscInfo.Media = MediaType.BD66;
+                        info.CommonDiscInfo.Media = DiscType.BD66;
                     else if (info.SizeAndChecksums.Layerbreak != default && size > 50_050_629_632)
-                        info.CommonDiscInfo.Media = MediaType.BD66;
+                        info.CommonDiscInfo.Media = DiscType.BD66;
                     else if (info.SizeAndChecksums.Layerbreak != default)
-                        info.CommonDiscInfo.Media = MediaType.BD50;
+                        info.CommonDiscInfo.Media = DiscType.BD50;
                     else if (info.SizeAndChecksums.PICIdentifier == "BDU")
-                        info.CommonDiscInfo.Media = MediaType.BD33;
+                        info.CommonDiscInfo.Media = DiscType.BD33;
                     else if (size > 25_025_314_816)
-                        info.CommonDiscInfo.Media = MediaType.BD33;
+                        info.CommonDiscInfo.Media = DiscType.BD33;
                     else
-                        info.CommonDiscInfo.Media = MediaType.BD25;
+                        info.CommonDiscInfo.Media = DiscType.BD25;
                     break;
 
-                case MediaType.HDDVDSL:
-                case MediaType.HDDVDDL:
+                case DiscType.HDDVDSL:
+                case DiscType.HDDVDDL:
                     if (info.SizeAndChecksums.Layerbreak != default)
-                        info.CommonDiscInfo.Media = MediaType.HDDVDDL;
+                        info.CommonDiscInfo.Media = DiscType.HDDVDDL;
                     else
-                        info.CommonDiscInfo.Media = MediaType.HDDVDSL;
+                        info.CommonDiscInfo.Media = DiscType.HDDVDSL;
                     break;
 
-                case MediaType.UMDSL:
-                case MediaType.UMDDL:
+                case DiscType.UMDSL:
+                case DiscType.UMDDL:
                     if (info.SizeAndChecksums.Layerbreak != default)
-                        info.CommonDiscInfo.Media = MediaType.UMDDL;
+                        info.CommonDiscInfo.Media = DiscType.UMDDL;
                     else
-                        info.CommonDiscInfo.Media = MediaType.UMDSL;
+                        info.CommonDiscInfo.Media = DiscType.UMDSL;
                     break;
 
                 // All other disc types are not processed
@@ -84,6 +104,594 @@ namespace SabreTools.RedumpLib.Legacy.Data
                     break;
             }
 #pragma warning restore IDE0010
+        }
+
+        #endregion
+
+        #region Cross-Enumeration
+
+        /// <summary>
+        /// Get a list of valid MediaTypes for a given PhysicalSystem
+        /// </summary>
+        /// <param name="system">PhysicalSystem value to check</param>
+        /// <returns>MediaTypes, if possible</returns>
+        public static List<PhysicalMediaType?> MediaTypes(this PhysicalSystem? system)
+        {
+            var types = new List<PhysicalMediaType?>();
+
+            switch (system)
+            {
+                #region Consoles
+
+                // https://en.wikipedia.org/wiki/Apple_Bandai_Pippin
+                case PhysicalSystem.AppleBandaiPippin:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Atari_Jaguar_CD
+                case PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Playdia
+                case PhysicalSystem.BandaiPlaydiaQuickInteractiveSystem:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Amiga_CD32
+                case PhysicalSystem.CommodoreAmigaCD32:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Commodore_CDTV
+                case PhysicalSystem.CommodoreAmigaCDTV:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/VideoNow
+                case PhysicalSystem.HasbroVideoNow:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/VideoNow
+                case PhysicalSystem.HasbroVideoNowColor:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/VideoNow
+                case PhysicalSystem.HasbroVideoNowJr:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/VideoNow
+                case PhysicalSystem.HasbroVideoNowXP:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                case PhysicalSystem.MattelFisherPriceiXL:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/HyperScan
+                case PhysicalSystem.MattelHyperScan:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Xbox_(console)
+                case PhysicalSystem.MicrosoftXbox:
+                    types.Add(PhysicalMediaType.DVD);
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Xbox_360
+                case PhysicalSystem.MicrosoftXbox360:
+                    types.Add(PhysicalMediaType.DVD);
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Xbox_One
+                case PhysicalSystem.MicrosoftXboxOne:
+                    types.Add(PhysicalMediaType.BluRay);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Xbox_Series_X_and_Series_S
+                case PhysicalSystem.MicrosoftXboxSeriesXS:
+                    types.Add(PhysicalMediaType.BluRay);
+                    break;
+
+                // https://en.wikipedia.org/wiki/TurboGrafx-16
+                case PhysicalSystem.NECPCEngineCDTurboGrafxCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PC-FX
+                case PhysicalSystem.NECPCFXPCFXGA:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/GameCube
+                case PhysicalSystem.NintendoGameCube:
+                    types.Add(PhysicalMediaType.DVD); // Only added here to help users; not strictly correct
+                    types.Add(PhysicalMediaType.NintendoGameCubeGameDisc);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Wii
+                case PhysicalSystem.NintendoWii:
+                    types.Add(PhysicalMediaType.DVD); // Only added here to help users; not strictly correct
+                    types.Add(PhysicalMediaType.NintendoWiiOpticalDisc);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Wii_U
+                case PhysicalSystem.NintendoWiiU:
+                    types.Add(PhysicalMediaType.NintendoWiiUOpticalDisc);
+                    break;
+
+                // https://en.wikipedia.org/wiki/3DO_Interactive_Multiplayer
+                case PhysicalSystem.Panasonic3DOInteractiveMultiplayer:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Philips_CD-i
+                case PhysicalSystem.PhilipsCDi:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Sega_CD
+                case PhysicalSystem.SegaMegaCDSegaCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Dreamcast
+                case PhysicalSystem.SegaDreamcast:
+                    types.Add(PhysicalMediaType.CDROM); // Low density partition, MIL-CD
+                    types.Add(PhysicalMediaType.GDROM); // High density partition
+                    break;
+
+                // https://en.wikipedia.org/wiki/Sega_Saturn
+                case PhysicalSystem.SegaSaturn:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Neo_Geo_CD
+                case PhysicalSystem.SNKNeoGeoCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PlayStation_(console)
+                case PhysicalSystem.SonyPlayStation:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PlayStation_2
+                case PhysicalSystem.SonyPlayStation2:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PlayStation_3
+                case PhysicalSystem.SonyPlayStation3:
+                    types.Add(PhysicalMediaType.BluRay);
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PlayStation_4
+                case PhysicalSystem.SonyPlayStation4:
+                    types.Add(PhysicalMediaType.BluRay);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PlayStation_5
+                case PhysicalSystem.SonyPlayStation5:
+                    types.Add(PhysicalMediaType.BluRay);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PlayStation_Portable
+                case PhysicalSystem.SonyPlayStationPortable:
+                    types.Add(PhysicalMediaType.UMD);
+                    types.Add(PhysicalMediaType.CDROM); // Development discs only
+                    types.Add(PhysicalMediaType.DVD); // Development discs only
+                    break;
+
+                // https://en.wikipedia.org/wiki/Tandy_Video_Information_System
+                case PhysicalSystem.MemorexVisualInformationSystem:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Nuon_(DVD_technology)
+                case PhysicalSystem.VMLabsNUON:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/V.Flash
+                case PhysicalSystem.VTechVFlashVSmilePro:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Game_Wave_Family_Entertainment_System
+                case PhysicalSystem.ZAPiTGamesGameWaveFamilyEntertainmentSystem:
+                    types.Add(PhysicalMediaType.CDROM); // Firmware discs only(?)
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                #endregion
+
+                #region Computers
+
+                // https://en.wikipedia.org/wiki/Acorn_Archimedes
+                case PhysicalSystem.AcornArchimedesAndRiscPC:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Macintosh
+                case PhysicalSystem.AppleMacintosh:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Amiga
+                case PhysicalSystem.CommodoreAmigaCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/FM_Towns
+                case PhysicalSystem.FujitsuFMTownsSeries:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/IBM_PC_compatible
+                case PhysicalSystem.IBMPCcompatible:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    types.Add(PhysicalMediaType.BluRay);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PC-8800_series
+                case PhysicalSystem.NECPC88Series:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/PC-9800_series
+                case PhysicalSystem.NECPC98Series:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/X68000
+                case PhysicalSystem.SharpX68000:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                #endregion
+
+                #region Arcade
+
+                // UNKNOWN
+                case PhysicalSystem.FunworldPhotoPlay:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://github.com/mamedev/mame/blob/master/src/mame/drivers/iteagle.cpp
+                case PhysicalSystem.IncredibleTechnologiesEagle:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/E-Amusement
+                case PhysicalSystem.KonamieAmusement:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=828
+                case PhysicalSystem.KonamiFireBeat:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=577
+                case PhysicalSystem.KonamiSystemGV:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // http://system16.com/hardware.php?id=575
+                case PhysicalSystem.KonamiM2:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // http://system16.com/hardware.php?id=582
+                // http://system16.com/hardware.php?id=822
+                // http://system16.com/hardware.php?id=823
+                case PhysicalSystem.KonamiSystem573:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // http://system16.com/hardware.php?id=827
+                case PhysicalSystem.KonamiTwinkle:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // http://system16.com/hardware.php?id=543
+                case PhysicalSystem.NamcoSystem246256:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=545
+                case PhysicalSystem.NamcoSegaNintendoTriforce:
+                    types.Add(PhysicalMediaType.CDROM); // Low density partition
+                    types.Add(PhysicalMediaType.GDROM); // High density partition
+                    break;
+
+                // http://system16.com/hardware.php?id=535
+                case PhysicalSystem.NamcoSystem12:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Panasonic_M2
+                case PhysicalSystem.PanasonicM2:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=729
+                case PhysicalSystem.SegaChihiro:
+                    types.Add(PhysicalMediaType.CDROM); // Low density partition
+                    types.Add(PhysicalMediaType.GDROM); // High density partition
+                    break;
+
+                // http://system16.com/hardware.php?id=985
+                // http://system16.com/hardware.php?id=731
+                // http://system16.com/hardware.php?id=984
+                // http://system16.com/hardware.php?id=986
+                case PhysicalSystem.SegaLindbergh:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=721
+                // http://system16.com/hardware.php?id=723
+                // http://system16.com/hardware.php?id=906
+                // http://system16.com/hardware.php?id=722
+                case PhysicalSystem.SegaNaomi:
+                    types.Add(PhysicalMediaType.CDROM); // Low density partition
+                    types.Add(PhysicalMediaType.GDROM); // High density partition
+                    break;
+
+                // http://system16.com/hardware.php?id=725
+                // http://system16.com/hardware.php?id=726
+                // http://system16.com/hardware.php?id=727
+                case PhysicalSystem.SegaNaomi2:
+                    types.Add(PhysicalMediaType.CDROM); // Low density partition
+                    types.Add(PhysicalMediaType.GDROM); // High density partition
+                    break;
+
+                // http://system16.com/hardware.php?id=910
+                // https://en.wikipedia.org/wiki/List_of_Sega_arcade_system_boards#Sega_Ring_series
+                case PhysicalSystem.SegaRingEdge:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=982
+                // https://en.wikipedia.org/wiki/List_of_Sega_arcade_system_boards#Sega_Ring_series
+                case PhysicalSystem.SegaRingEdge2:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // http://system16.com/hardware.php?id=711
+                case PhysicalSystem.SegaTitanVideo:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://www.tab.at/en/support/support/downloads
+                case PhysicalSystem.TABAustriaQuizard:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                #endregion
+
+                #region Others
+
+                // https://en.wikipedia.org/wiki/Audio_CD
+                case PhysicalSystem.AudioCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Blu-ray#Player_profiles
+                case PhysicalSystem.BDVideo:
+                    types.Add(PhysicalMediaType.BluRay);
+                    break;
+
+                // https://en.wikipedia.org/wiki/DVD-Video
+                case PhysicalSystem.DVDVideo:
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Blue_Book_(CD_standard)
+                case PhysicalSystem.EnhancedCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/HD_DVD
+                case PhysicalSystem.HDDVDVideo:
+                    types.Add(PhysicalMediaType.HDDVD);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.NavisoftNaviken:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.PalmOS:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Photo_CD
+                case PhysicalSystem.PhotoCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.PlayStationGameSharkUpdates:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // UNKNOWN
+                case PhysicalSystem.PocketPC:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
+                // https://segaretro.org/Prologue_21
+                case PhysicalSystem.SegaPrologue21MultimediaKaraokeSystem:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://www.cnet.com/products/tao-music-iktv-karaoke-station-karaoke-system-series/
+                case PhysicalSystem.TaoiKTV:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // http://ultimateconsoledatabase.com/golden/kiss_site.htm
+                case PhysicalSystem.TomyKissSite:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                // https://en.wikipedia.org/wiki/Video_CD
+                case PhysicalSystem.VideoCD:
+                    types.Add(PhysicalMediaType.CDROM);
+                    break;
+
+                #endregion
+
+                // BIOS systems can't have a media type
+                case PhysicalSystem.MicrosoftXboxBIOS:
+                case PhysicalSystem.NintendoGameCubeBIOS:
+                case PhysicalSystem.SonyPlayStationBIOS:
+                case PhysicalSystem.SonyPlayStation2BIOS:
+                    types.Add(PhysicalMediaType.NONE);
+                    break;
+
+                // Marker systems can't have a media type
+                case PhysicalSystem.MarkerDiscBasedConsoleEnd:
+                case PhysicalSystem.MarkerComputerEnd:
+                case PhysicalSystem.MarkerArcadeEnd:
+                case PhysicalSystem.MarkerOtherEnd:
+                    types.Add(PhysicalMediaType.NONE);
+                    break;
+
+                case null:
+                default:
+                    types.Add(PhysicalMediaType.NONE);
+                    break;
+            }
+
+            return types;
+        }
+
+        /// <summary>
+        /// Convert master list of all media types to currently known Redump disc types
+        /// </summary>
+        /// <param name="discType">MediaType value to check</param>
+        /// <returns>DiscType if possible, null on error</returns>
+        public static DiscType? ToMediaType(this PhysicalMediaType? discType)
+        {
+            return discType switch
+            {
+                PhysicalMediaType.BluRay => DiscType.BD50,
+                PhysicalMediaType.CDROM => DiscType.CD,
+                PhysicalMediaType.DVD => DiscType.DVD9,
+                PhysicalMediaType.GDROM => DiscType.GDROM,
+                PhysicalMediaType.HDDVD => DiscType.HDDVDSL,
+                // PhysicalMediaType.MILCD => MediaType.MILCD, // TODO: Support this?
+                PhysicalMediaType.NintendoGameCubeGameDisc => DiscType.NintendoGameCubeGameDisc,
+                PhysicalMediaType.NintendoWiiOpticalDisc => DiscType.NintendoWiiOpticalDiscDL,
+                PhysicalMediaType.NintendoWiiUOpticalDisc => DiscType.NintendoWiiUOpticalDiscSL,
+                PhysicalMediaType.UMD => DiscType.UMDDL,
+
+                // Invalid cases for conversion
+                PhysicalMediaType.NONE => null,
+                null => null,
+                _ => null,
+            };
+        }
+
+        /// <summary>
+        /// Convert currently known Redump disc types to master list of all media types
+        /// </summary>
+        /// <param name="discType">DiscType value to check</param>
+        /// <returns>MediaType if possible, null on error</returns>
+        public static PhysicalMediaType? ToPhysicalMediaType(this DiscType? discType)
+        {
+            return discType switch
+            {
+                DiscType.BD25
+                    or DiscType.BD33
+                    or DiscType.BD50
+                    or DiscType.BD66
+                    or DiscType.BD100
+                    or DiscType.BD128 => PhysicalMediaType.BluRay,
+                DiscType.CD => PhysicalMediaType.CDROM,
+                DiscType.DVD5
+                    or DiscType.DVD9 => PhysicalMediaType.DVD,
+                DiscType.GDROM => PhysicalMediaType.GDROM,
+                DiscType.HDDVDSL
+                    or DiscType.HDDVDDL => PhysicalMediaType.HDDVD,
+                // MediaType.MILCD => PhysicalMediaType.MILCD, // TODO: Support this?
+                DiscType.NintendoGameCubeGameDisc => PhysicalMediaType.NintendoGameCubeGameDisc,
+                DiscType.NintendoWiiOpticalDiscSL
+                    or DiscType.NintendoWiiOpticalDiscDL => PhysicalMediaType.NintendoWiiOpticalDisc,
+                DiscType.NintendoWiiUOpticalDiscSL => PhysicalMediaType.NintendoWiiUOpticalDisc,
+                DiscType.UMDSL
+                    or DiscType.UMDDL => PhysicalMediaType.UMD,
+
+                // Invalid cases for conversion
+                DiscType.NONE => null,
+                DiscType.MILCD => null,
+                null => null,
+                _ => null,
+            };
+        }
+
+        #endregion
+
+        #region Disc Category
+
+        /// <summary>
+        /// Get the Redump longnames for each known category
+        /// </summary>
+        public static string? LongName(this DiscCategory category)
+            => ((DiscCategory?)category).LongName();
+
+        /// <summary>
+        /// Get the Redump longnames for each known category
+        /// </summary>
+        public static string? LongName(this DiscCategory? category)
+            => AttributeHelper<DiscCategory?>.GetHumanReadableAttribute(category)?.LongName;
+
+        /// <summary>
+        /// Get the Category enum value for a given string
+        /// </summary>
+        /// <param name="category">String value to convert</param>
+        /// <returns>Category represented by the string, if possible</returns>
+        public static DiscCategory? ToDiscCategory(this string? category)
+        {
+            // No value means no match
+            if (category is null || category.Length == 0)
+                return null;
+
+            category = category?.ToLowerInvariant();
+            var categories = (DiscCategory[])Enum.GetValues(typeof(DiscCategory));
+
+            // Check long names
+            int index = Array.FindIndex(categories, c => category == c.LongName()?.ToLowerInvariant()
+                || category == c.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return categories[index];
+
+            return null;
         }
 
         #endregion
@@ -146,6 +754,167 @@ namespace SabreTools.RedumpLib.Legacy.Data
                 || discSubpath == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
             if (index > -1)
                 return discSubpaths[index];
+
+            return null;
+        }
+
+        #endregion
+
+        #region Disc Type
+
+        /// <summary>
+        /// Get the Redump longnames for each known disc type
+        /// </summary>
+        /// <param name="discType"></param>
+        /// <returns></returns>
+        public static string? LongName(this DiscType discType)
+            => ((DiscType?)discType).LongName();
+
+        /// <summary>
+        /// Get the Redump longnames for each known disc type
+        /// </summary>
+        /// <param name="discType"></param>
+        /// <returns></returns>
+        public static string? LongName(this DiscType? discType)
+            => AttributeHelper<DiscType?>.GetHumanReadableAttribute(discType)?.LongName;
+
+        /// <summary>
+        /// Get the Redump shortnames for each known disc type
+        /// </summary>
+        /// <param name="discType"></param>
+        /// <returns></returns>
+        public static string? ShortName(this DiscType discType)
+            => AttributeHelper<DiscType>.GetHumanReadableAttribute(discType)?.ShortName;
+
+        /// <summary>
+        /// Get the Redump shortnames for each known disc type
+        /// </summary>
+        /// <param name="discType"></param>
+        /// <returns></returns>
+        public static string? ShortName(this DiscType? discType)
+            => AttributeHelper<DiscType?>.GetHumanReadableAttribute(discType)?.ShortName;
+
+        /// <summary>
+        /// Get the DiscType enum value for a given string
+        /// </summary>
+        /// <param name="discType">String value to convert</param>
+        /// <returns>DiscType represented by the string, if possible</returns>
+        public static DiscType? ToDiscType(this string? discType)
+        {
+            // No value means no match
+            if (discType is null || discType.Length == 0)
+                return null;
+
+            discType = discType.ToLowerInvariant();
+            var discTypes = (DiscType[])Enum.GetValues(typeof(DiscType));
+
+            // Check short names
+            int index = Array.FindIndex(discTypes, s => discType == s.ShortName()?.ToLowerInvariant());
+            if (index > -1)
+                return discTypes[index];
+
+            // Check long names
+            index = Array.FindIndex(discTypes, s => discType == s.LongName()?.ToLowerInvariant()
+                || discType == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant()
+                || discType == s.LongName()?.Replace("-", string.Empty)?.ToLowerInvariant()
+                || discType == s.LongName()?
+                    .Replace(" ", string.Empty)?
+                    .Replace("-", string.Empty)?
+                    .ToLowerInvariant());
+            if (index > -1)
+                return discTypes[index];
+
+            // Check numeric values
+            if (int.TryParse(discType, out int discTypeInt) && Enum.IsDefined(typeof(DiscType), discTypeInt))
+                return (DiscType)discTypeInt;
+
+            // Special cases
+            return (discType?.ToLowerInvariant()) switch
+            {
+                "bd"
+                    or "bdrom"
+                    or "bd-rom"
+                    or "bluray"
+                    or "blu-ray" => DiscType.BD25,
+                "cdrom"
+                    or "cd-rom" => DiscType.CD,
+                "dvd"
+                    or "dvd-rom" => DiscType.DVD5,
+                "gc" => DiscType.NintendoGameCubeGameDisc,
+                "gd" => DiscType.GDROM,
+                "hddvd"
+                    or "hd-dvd" => DiscType.HDDVDSL,
+                "umd" => DiscType.UMDSL,
+                "wii" => DiscType.NintendoWiiOpticalDiscSL,
+
+                _ => null,
+            };
+        }
+
+        #endregion
+
+        #region Dump Status
+
+        /// <summary>
+        /// Get the human readable name for a DumpStatus
+        /// </summary>
+        /// <param name="dumpStatus"></param>
+        /// <returns></returns>
+        public static string? LongName(this DumpStatus dumpStatus)
+            => AttributeHelper<DumpStatus>.GetHumanReadableAttribute(dumpStatus)?.LongName;
+
+        /// <summary>
+        /// Get the human readable name for a DumpStatus
+        /// </summary>
+        /// <param name="dumpStatus"></param>
+        /// <returns></returns>
+        public static string? LongName(this DumpStatus? dumpStatus)
+            => AttributeHelper<DumpStatus?>.GetHumanReadableAttribute(dumpStatus)?.LongName;
+
+        /// <summary>
+        /// Get the URL path part for a DumpStatus
+        /// </summary>
+        /// <param name="dumpStatus"></param>
+        /// <returns></returns>
+        public static string? ShortName(this DumpStatus dumpStatus)
+            => AttributeHelper<DumpStatus>.GetHumanReadableAttribute(dumpStatus)?.ShortName;
+
+        /// <summary>
+        /// Get the URL path part for a DumpStatus
+        /// </summary>
+        /// <param name="dumpStatus"></param>
+        /// <returns></returns>
+        public static string? ShortName(this DumpStatus? dumpStatus)
+            => AttributeHelper<DumpStatus?>.GetHumanReadableAttribute(dumpStatus)?.ShortName;
+
+        /// <summary>
+        /// Get the Region enum value for a given string
+        /// </summary>
+        /// <param name="dumpStatus">String value to convert</param>
+        /// <returns>Region represented by the string, if possible</returns>
+        public static DumpStatus? ToDumpStatus(this string? dumpStatus)
+        {
+            // No value means no match
+            if (dumpStatus is null || dumpStatus.Length == 0)
+                return null;
+
+            dumpStatus = dumpStatus.ToLowerInvariant();
+            var dumpStatuses = (DumpStatus[])Enum.GetValues(typeof(DumpStatus));
+
+            // Check short names
+            int index = Array.FindIndex(dumpStatuses, s => dumpStatus == s.ShortName()?.ToLowerInvariant());
+            if (index > -1)
+                return dumpStatuses[index];
+
+            // Check long names
+            index = Array.FindIndex(dumpStatuses, s => dumpStatus == s.LongName()?.ToLowerInvariant()
+                || dumpStatus == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return dumpStatuses[index];
+
+            // Check numeric values
+            if (int.TryParse(dumpStatus, out int dumpStatusInt) && Enum.IsDefined(typeof(DumpStatus), dumpStatusInt))
+                return (DumpStatus)dumpStatusInt;
 
             return null;
         }
@@ -314,6 +1083,44 @@ namespace SabreTools.RedumpLib.Legacy.Data
 
             return null;
         }
+
+        #endregion
+
+        #region Physical Media Type
+
+        /// <summary>
+        /// List all media types with their short usable names
+        /// </summary>
+        public static List<string> ListMediaTypes()
+        {
+            var discTypes = new List<string>();
+
+            foreach (var val in Enum.GetValues(typeof(PhysicalMediaType)))
+            {
+                if (val is null || ((PhysicalMediaType)val) == PhysicalMediaType.NONE)
+                    continue;
+
+                discTypes.Add($"{((PhysicalMediaType?)val).ShortName()} - {((PhysicalMediaType?)val).LongName()}");
+            }
+
+            return discTypes;
+        }
+
+        /// <summary>
+        /// Get the longnames for each known media type
+        /// </summary>
+        /// <param name="discType"></param>
+        /// <returns></returns>
+        public static string? LongName(this PhysicalMediaType? discType)
+            => AttributeHelper<PhysicalMediaType?>.GetHumanReadableAttribute(discType)?.LongName;
+
+        /// <summary>
+        /// Get the shortnames for each known media type
+        /// </summary>
+        /// <param name="discType"></param>
+        /// <returns></returns>
+        public static string? ShortName(this PhysicalMediaType? discType)
+            => AttributeHelper<PhysicalMediaType?>.GetHumanReadableAttribute(discType)?.ShortName;
 
         #endregion
 
@@ -714,6 +1521,468 @@ namespace SabreTools.RedumpLib.Legacy.Data
                 return redumpSystems[index];
 
             return null;
+        }
+
+        #endregion
+
+        #region Site Code
+
+        /// <summary>
+        /// List all site codes with their short usable names
+        /// </summary>
+        public static List<string> ListSiteCodes()
+        {
+            var siteCodes = new List<string>();
+
+            foreach (var val in Enum.GetValues(typeof(SiteCode)))
+            {
+                string? shortName = ((SiteCode?)val).ShortName()?.TrimEnd(':');
+                string? longName = ((SiteCode?)val).LongName()?.TrimEnd(':');
+
+                bool isCommentCode = ((SiteCode?)val).IsCommentCode();
+                bool isContentCode = ((SiteCode?)val).IsContentCode();
+                bool isMultiline = ((SiteCode?)val).IsMultiLine();
+
+                // Invalid codes should be skipped
+                if (shortName is null || longName is null)
+                    continue;
+
+                // Handle site tags
+                string siteCode;
+                if (shortName == longName)
+                    siteCode = "***".PadRight(16, ' ');
+                else
+                    siteCode = shortName.PadRight(16, ' ');
+
+                // Handle expanded tags
+                siteCode += longName.PadRight(32, ' ');
+
+                // Include special indicators, if necessary
+                var additionalInfo = new List<string>();
+                if (isCommentCode)
+                    additionalInfo.Add("Comment Field");
+                if (isContentCode)
+                    additionalInfo.Add("Content Field");
+                if (isMultiline)
+                    additionalInfo.Add("Multiline");
+                if (additionalInfo.Count > 0)
+                    siteCode += $"[{string.Join(", ", [.. additionalInfo])}]";
+
+                // Add the formatted site code
+                siteCodes.Add(siteCode);
+            }
+
+            return siteCodes;
+        }
+
+        /// <summary>
+        /// Check if a site code is boolean or not
+        /// </summary>
+        /// <param name="siteCode">SiteCode to check</param>
+        /// <returns>True if the code field is a flag with no value, false otherwise</returns>
+        public static bool IsBoolean(this SiteCode siteCode)
+            => ((SiteCode?)siteCode).IsBoolean();
+
+        /// <summary>
+        /// Check if a site code is boolean or not
+        /// </summary>
+        /// <param name="siteCode">SiteCode to check</param>
+        /// <returns>True if the code field is a flag with no value, false otherwise</returns>
+        public static bool IsBoolean(this SiteCode? siteCode)
+        {
+#pragma warning disable IDE0072 // Add missing cases
+            return siteCode switch
+            {
+                SiteCode.PCMacHybrid => true,
+                SiteCode.PostgapType => true,
+                SiteCode.VCD => true,
+                _ => false,
+            };
+#pragma warning restore IDE0072 // Add missing cases
+        }
+
+        /// <summary>
+        /// Check if a site code should live in the comments section
+        /// </summary>
+        /// <returns>True if the code field is in comments by default, false otherwise</returns>
+        public static bool IsCommentCode(this SiteCode siteCode)
+            => ((SiteCode?)siteCode).IsCommentCode();
+
+        /// <summary>
+        /// Check if a site code should live in the comments section
+        /// </summary>
+        /// <returns>True if the code field is in comments by default, false otherwise</returns>
+        public static bool IsCommentCode(this SiteCode? siteCode)
+        {
+#pragma warning disable IDE0072 // Add missing cases
+            return siteCode switch
+            {
+                // Identifying Info
+                SiteCode.AdditionalBCAData => true,
+                SiteCode.AlternativeTitle => true,
+                SiteCode.AlternativeForeignTitle => true,
+                SiteCode.BBFCRegistrationNumber => true,
+                SiteCode.CompatibleOS => true,
+                SiteCode.CoverID => true,
+                SiteCode.DiscHologramID => true,
+                SiteCode.DiscID => true,
+                SiteCode.DiscTitleNonLatin => true,
+                SiteCode.DMIHash => true,
+                SiteCode.DNASDiscID => true,
+                SiteCode.EditionNonLatin => true,
+                SiteCode.Filename => true,
+                SiteCode.Genre => true,
+                SiteCode.HighSierraVolumeDescriptor => true,
+                SiteCode.InternalName => true,
+                SiteCode.InternalSerialName => true,
+                SiteCode.ISBN => true,
+                SiteCode.ISSN => true,
+                SiteCode.LogsLink => true,
+                SiteCode.Multisession => true,
+                SiteCode.PCMacHybrid => true,
+                SiteCode.PFIHash => true,
+                SiteCode.PostgapType => true,
+                SiteCode.PPN => true,
+                SiteCode.Protection => true,
+                SiteCode.RingNonZeroDataStart => true,
+                SiteCode.RingPerfectAudioOffset => true,
+                SiteCode.Series => true,
+                SiteCode.SSHash => true,
+                SiteCode.SSVersion => true,
+                SiteCode.SteamAppID => true,
+                SiteCode.TitleID => true,
+                SiteCode.UniversalHash => true,
+                SiteCode.VCD => true,
+                SiteCode.VFCCode => true,
+                SiteCode.VolumeLabel => true,
+                SiteCode.XeMID => true,
+                SiteCode.XMID => true,
+
+                // Publisher / Company IDs
+                SiteCode.TwoKGamesID => true,
+                SiteCode.AcclaimID => true,
+                SiteCode.AccoladeID => true,
+                SiteCode.ActivisionID => true,
+                SiteCode.BandaiID => true,
+                SiteCode.BethesdaID => true,
+                SiteCode.CDProjektID => true,
+                SiteCode.DisneyInteractiveID => true,
+                SiteCode.EidosID => true,
+                SiteCode.ElectronicArtsID => true,
+                SiteCode.FoxInteractiveID => true,
+                SiteCode.GTInteractiveID => true,
+                SiteCode.InterplayID => true,
+                SiteCode.JASRACID => true,
+                SiteCode.KingRecordsID => true,
+                SiteCode.KoeiID => true,
+                SiteCode.KonamiID => true,
+                SiteCode.LucasArtsID => true,
+                SiteCode.MicrosoftID => true,
+                SiteCode.NaganoID => true,
+                SiteCode.NamcoID => true,
+                SiteCode.NipponIchiSoftwareID => true,
+                SiteCode.OriginID => true,
+                SiteCode.PonyCanyonID => true,
+                SiteCode.SegaID => true,
+                SiteCode.SelenID => true,
+                SiteCode.SierraID => true,
+                SiteCode.TaitoID => true,
+                SiteCode.UbisoftID => true,
+                SiteCode.ValveID => true,
+
+                _ => false,
+            };
+#pragma warning restore IDE0072 // Add missing cases
+        }
+
+        /// <summary>
+        /// Check if a site code should live in the contents section
+        /// </summary>
+        /// <returns>True if the code field is in contents by default, false otherwise</returns>
+        public static bool IsContentCode(this SiteCode siteCode)
+            => ((SiteCode?)siteCode).IsContentCode();
+
+        /// <summary>
+        /// Check if a site code should live in the contents section
+        /// </summary>
+        /// <returns>True if the code field is in contents by default, false otherwise</returns>
+        public static bool IsContentCode(this SiteCode? siteCode)
+        {
+#pragma warning disable IDE0072 // Add missing cases
+            return siteCode switch
+            {
+                SiteCode.Applications => true,
+                SiteCode.Extras => true,
+                SiteCode.GameFootage => true,
+                SiteCode.Games => true,
+                SiteCode.NetYarozeGames => true,
+                SiteCode.Patches => true,
+                SiteCode.PlayableDemos => true,
+                SiteCode.RollingDemos => true,
+                SiteCode.Savegames => true,
+                SiteCode.SteamSimSidDepotID => true,
+                SiteCode.SteamCsmCsdDepotID => true,
+                SiteCode.TechDemos => true,
+                SiteCode.Videos => true,
+                _ => false,
+            };
+#pragma warning restore IDE0072 // Add missing cases
+        }
+
+        /// <summary>
+        /// Check if a site code is multi-line or not
+        /// </summary>
+        /// <returns>True if the code field is multiline by default, false otherwise</returns>
+        public static bool IsMultiLine(this SiteCode siteCode)
+            => ((SiteCode?)siteCode).IsMultiLine();
+
+        /// <summary>
+        /// Check if a site code is multi-line or not
+        /// </summary>
+        /// <returns>True if the code field is multiline by default, false otherwise</returns>
+        public static bool IsMultiLine(this SiteCode? siteCode)
+        {
+#pragma warning disable IDE0072 // Add missing cases
+            return siteCode switch
+            {
+                SiteCode.Extras => true,
+                SiteCode.Filename => true,
+                SiteCode.Games => true,
+                SiteCode.GameFootage => true,
+                SiteCode.HighSierraVolumeDescriptor => true,
+                SiteCode.Multisession => true,
+                SiteCode.NetYarozeGames => true,
+                SiteCode.Patches => true,
+                SiteCode.PlayableDemos => true,
+                SiteCode.RollingDemos => true,
+                SiteCode.Savegames => true,
+                SiteCode.SteamSimSidDepotID => true,
+                SiteCode.SteamCsmCsdDepotID => true,
+                SiteCode.TechDemos => true,
+                SiteCode.Videos => true,
+                _ => false,
+            };
+#pragma warning restore IDE0072 // Add missing cases
+        }
+
+        /// <summary>
+        /// Get the HTML version for each known site code
+        /// </summary>
+        public static string? LongName(this SiteCode siteCode)
+            => AttributeHelper<SiteCode>.GetHumanReadableAttribute(siteCode)?.LongName;
+
+        /// <summary>
+        /// Get the HTML version for each known site code
+        /// </summary>
+        public static string? LongName(this SiteCode? siteCode)
+            => AttributeHelper<SiteCode?>.GetHumanReadableAttribute(siteCode)?.LongName;
+
+        /// <summary>
+        /// Get the short tag for each known site code
+        /// </summary>
+        public static string? ShortName(this SiteCode siteCode)
+            => AttributeHelper<SiteCode>.GetHumanReadableAttribute(siteCode)?.ShortName;
+
+        /// <summary>
+        /// Get the short tag for each known site code
+        /// </summary>
+        public static string? ShortName(this SiteCode? siteCode)
+            => AttributeHelper<SiteCode?>.GetHumanReadableAttribute(siteCode)?.ShortName;
+
+        #endregion
+
+        #region Sort Category
+
+        /// <summary>
+        /// Get the human readable name for a SortCategory
+        /// </summary>
+        /// <param name="sortCategory"></param>
+        /// <returns></returns>
+        public static string? LongName(this SortCategory sortCategory)
+            => AttributeHelper<SortCategory>.GetHumanReadableAttribute(sortCategory)?.LongName;
+
+        /// <summary>
+        /// Get the human readable name for a SortCategory
+        /// </summary>
+        /// <param name="sortCategory"></param>
+        /// <returns></returns>
+        public static string? LongName(this SortCategory? sortCategory)
+            => AttributeHelper<SortCategory?>.GetHumanReadableAttribute(sortCategory)?.LongName;
+
+        /// <summary>
+        /// Get the URL path part for a SortCategory
+        /// </summary>
+        /// <param name="sortCategory"></param>
+        /// <returns></returns>
+        public static string? ShortName(this SortCategory sortCategory)
+            => AttributeHelper<SortCategory>.GetHumanReadableAttribute(sortCategory)?.ShortName;
+
+        /// <summary>
+        /// Get the URL path part for a SortCategory
+        /// </summary>
+        /// <param name="sortCategory"></param>
+        /// <returns></returns>
+        public static string? ShortName(this SortCategory? sortCategory)
+            => AttributeHelper<SortCategory?>.GetHumanReadableAttribute(sortCategory)?.ShortName;
+
+        /// <summary>
+        /// Get the Region enum value for a given string
+        /// </summary>
+        /// <param name="sortCategory">String value to convert</param>
+        /// <returns>Region represented by the string, if possible</returns>
+        public static SortCategory? ToSortCategory(this string? sortCategory)
+        {
+            // No value means no match
+            if (sortCategory is null || sortCategory.Length == 0)
+                return null;
+
+            sortCategory = sortCategory.ToLowerInvariant();
+            var sortCategories = (SortCategory[])Enum.GetValues(typeof(SortCategory));
+
+            // Check short names
+            int index = Array.FindIndex(sortCategories, s => sortCategory == s.ShortName()?.ToLowerInvariant());
+            if (index > -1)
+                return sortCategories[index];
+
+            // Check long names
+            index = Array.FindIndex(sortCategories, s => sortCategory == s.LongName()?.ToLowerInvariant()
+                || sortCategory == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return sortCategories[index];
+
+            return null;
+        }
+
+        #endregion
+
+        #region Sort Direction
+
+        /// <summary>
+        /// Get the human readable name for a SortDirection
+        /// </summary>
+        /// <param name="sortDirection"></param>
+        /// <returns></returns>
+        public static string? LongName(this SortDirection sortDirection)
+            => AttributeHelper<SortDirection>.GetHumanReadableAttribute(sortDirection)?.LongName;
+
+        /// <summary>
+        /// Get the human readable name for a SortDirection
+        /// </summary>
+        /// <param name="sortDirection"></param>
+        /// <returns></returns>
+        public static string? LongName(this SortDirection? sortDirection)
+            => AttributeHelper<SortDirection?>.GetHumanReadableAttribute(sortDirection)?.LongName;
+
+        /// <summary>
+        /// Get the URL path part for a SortDirection
+        /// </summary>
+        /// <param name="sortDirection"></param>
+        /// <returns></returns>
+        public static string? ShortName(this SortDirection sortDirection)
+            => AttributeHelper<SortDirection>.GetHumanReadableAttribute(sortDirection)?.ShortName;
+
+        /// <summary>
+        /// Get the URL path part for a SortDirection
+        /// </summary>
+        /// <param name="sortDirection"></param>
+        /// <returns></returns>
+        public static string? ShortName(this SortDirection? sortDirection)
+            => AttributeHelper<SortDirection?>.GetHumanReadableAttribute(sortDirection)?.ShortName;
+
+        /// <summary>
+        /// Get the Region enum value for a given string
+        /// </summary>
+        /// <param name="sortDirection">String value to convert</param>
+        /// <returns>Region represented by the string, if possible</returns>
+        public static SortDirection? ToSortDirection(this string? sortDirection)
+        {
+            // No value means no match
+            if (sortDirection is null || sortDirection.Length == 0)
+                return null;
+
+            sortDirection = sortDirection.ToLowerInvariant();
+            var sortCategories = (SortDirection[])Enum.GetValues(typeof(SortDirection));
+
+            // Check short names
+            int index = Array.FindIndex(sortCategories, s => sortDirection == s.ShortName()?.ToLowerInvariant());
+            if (index > -1)
+                return sortCategories[index];
+
+            // Check long names
+            index = Array.FindIndex(sortCategories, s => sortDirection == s.LongName()?.ToLowerInvariant()
+                || sortDirection == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return sortCategories[index];
+
+            return null;
+        }
+
+        #endregion
+
+        #region System Category
+
+        /// <summary>
+        /// Get the string representation of the system category
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        public static string? LongName(this SystemCategory? category)
+            => AttributeHelper<SystemCategory?>.GetHumanReadableAttribute(category)?.LongName;
+
+        #endregion
+
+        #region Yes/No
+
+        /// <summary>
+        /// Get the string representation of the YesNo value
+        /// </summary>
+        /// <param name="yesno"></param>
+        /// <returns></returns>
+        public static string LongName(this YesNo? yesno)
+            => AttributeHelper<YesNo?>.GetHumanReadableAttribute(yesno)?.LongName ?? "Yes/No";
+
+        /// <summary>
+        /// Get the YesNo enum value for a given nullable boolean
+        /// </summary>
+        /// <param name="yesno">Nullable boolean value to convert</param>
+        /// <returns>YesNo represented by the nullable boolean, if possible</returns>
+        public static YesNo ToYesNo(this bool yesno)
+        {
+            return yesno switch
+            {
+                false => YesNo.No,
+                true => YesNo.Yes,
+            };
+        }
+
+        /// <summary>
+        /// Get the YesNo enum value for a given nullable boolean
+        /// </summary>
+        /// <param name="yesno">Nullable boolean value to convert</param>
+        /// <returns>YesNo represented by the nullable boolean, if possible</returns>
+        public static YesNo? ToYesNo(this bool? yesno)
+        {
+            return yesno switch
+            {
+                false => YesNo.No,
+                true => YesNo.Yes,
+                _ => YesNo.NULL,
+            };
+        }
+
+        /// <summary>
+        /// Get the YesNo enum value for a given string
+        /// </summary>
+        /// <param name="yesno">String value to convert</param>
+        /// <returns>YesNo represented by the string, if possible</returns>
+        public static YesNo? ToYesNo(this string? yesno)
+        {
+            return (yesno?.ToLowerInvariant()) switch
+            {
+                "no" or "false" => YesNo.No,
+                "yes" or "true" => YesNo.Yes,
+                _ => YesNo.NULL,
+            };
         }
 
         #endregion

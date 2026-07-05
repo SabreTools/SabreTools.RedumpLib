@@ -9,15 +9,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Legacy.Data;
-using SabreTools.RedumpLib.Web;
-using Constants = SabreTools.RedumpLib.Legacy.Data.Constants;
-using DiscSubpath = SabreTools.RedumpLib.Legacy.Data.DiscSubpath;
-using Language = SabreTools.RedumpLib.Legacy.Data.Language;
-using PackType = SabreTools.RedumpLib.Legacy.Data.PackType;
-using PhysicalSystem = SabreTools.RedumpLib.Legacy.Data.PhysicalSystem;
-using Region = SabreTools.RedumpLib.Legacy.Data.Region;
 
 namespace SabreTools.RedumpLib.Legacy.Web
 {
@@ -419,7 +411,7 @@ namespace SabreTools.RedumpLib.Legacy.Web
         public async Task<List<int>?> CheckSingleDiscsPage(bool? antimodchip = null,
             bool barcode = false,
             DiscCategory? category = null,
-            MediaType? discType = null,
+            DiscType? discType = null,
             string? dumper = null,
             YesNo? edc = null,
             string? edition = null,
@@ -559,7 +551,7 @@ namespace SabreTools.RedumpLib.Legacy.Web
             bool? antimodchip = null,
             bool barcode = false,
             DiscCategory? category = null,
-            MediaType? discType = null,
+            DiscType? discType = null,
             string? dumper = null,
             YesNo? edc = null,
             string? edition = null,

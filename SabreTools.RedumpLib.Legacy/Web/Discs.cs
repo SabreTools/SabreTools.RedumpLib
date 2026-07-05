@@ -1,12 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SabreTools.RedumpLib.Data;
-using SabreTools.RedumpLib.Web;
-using DiscSubpath = SabreTools.RedumpLib.Legacy.Data.DiscSubpath;
-using Language = SabreTools.RedumpLib.Legacy.Data.Language;
-using PhysicalSystem = SabreTools.RedumpLib.Legacy.Data.PhysicalSystem;
-using Region = SabreTools.RedumpLib.Legacy.Data.Region;
+using SabreTools.RedumpLib.Legacy.Data;
 
 namespace SabreTools.RedumpLib.Legacy.Web
 {
@@ -52,7 +47,7 @@ namespace SabreTools.RedumpLib.Legacy.Web
             bool? antimodchip = null,
             bool barcode = false,
             DiscCategory? category = null,
-            MediaType? discType = null,
+            DiscType? discType = null,
             string? dumper = null,
             YesNo? edc = null,
             string? edition = null,
@@ -221,7 +216,7 @@ namespace SabreTools.RedumpLib.Legacy.Web
             bool? antimodchip = null,
             bool barcode = false,
             DiscCategory? category = null,
-            MediaType? discType = null,
+            DiscType? discType = null,
             string? dumper = null,
             YesNo? edc = null,
             string? edition = null,

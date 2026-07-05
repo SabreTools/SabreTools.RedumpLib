@@ -36,7 +36,7 @@
 
         public const string DiscSerialsField = "Disc Serials";
         public const string EditionsField = "Editions";
-        public const string BarcodesField = "Barcode";
+        public const string BarcodesField = "Barcodes";
         public const string VersionField = "Version";
         public const string ErrorCountField = "Error Count";
         public const string EXEDate = "EXE Date";
@@ -106,14 +106,6 @@
         public const string RequiredIfExistsValue = "(REQUIRED, IF EXISTS)";
         public const string OptionalValue = "(OPTIONAL)";
         public const string DiscNotDetected = "Disc Not Detected";
-
-        #endregion
-
-        #region Redump.org only
-
-        public const string PlayStationAntiModchipField = "Anti-modchip";
-        public const string PlaystationLanguageSelectionViaField = "Language Selection Via";
-        public const string PlayStationLibCryptField = "LibCrypt";
 
         #endregion
     }

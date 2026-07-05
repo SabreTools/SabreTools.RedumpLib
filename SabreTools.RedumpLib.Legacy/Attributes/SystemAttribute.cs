@@ -1,5 +1,4 @@
-using SabreTools.RedumpLib.Attributes;
-using SabreTools.RedumpLib.Data;
+using SabreTools.RedumpLib.Legacy.Data;
 
 namespace SabreTools.RedumpLib.Legacy.Attributes
 {

@@ -1,6 +1,5 @@
 using System;
 using Newtonsoft.Json;
-using SabreTools.RedumpLib.Data;
 
 namespace SabreTools.RedumpLib.Legacy.Data.Sections
 {

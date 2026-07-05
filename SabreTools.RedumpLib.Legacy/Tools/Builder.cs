@@ -5,11 +5,8 @@ using System.Net;
 #endif
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using SabreTools.RedumpLib.Data;
+using SabreTools.RedumpLib.Legacy.Data;
 using SabreTools.RedumpLib.Legacy.Web;
-using Constants = SabreTools.RedumpLib.Legacy.Data.Constants;
-using Language = SabreTools.RedumpLib.Legacy.Data.Language;
-using SubmissionInfo = SabreTools.RedumpLib.Legacy.Data.SubmissionInfo;
 
 namespace SabreTools.RedumpLib.Legacy.Tools
 {
@@ -94,7 +91,7 @@ namespace SabreTools.RedumpLib.Legacy.Tools
             {
                 match = Constants.RegionRegex.Match(discData);
                 if (match.Success)
-                    info.CommonDiscInfo.Region = Data.Extensions.ToRegion(match.Groups[1].Value);
+                    info.CommonDiscInfo.Region = match.Groups[1].Value.ToRegion();
             }
 
             // Languages
@@ -107,7 +104,7 @@ namespace SabreTools.RedumpLib.Legacy.Tools
                     if (submatch is null)
                         continue;
 
-                    var language = Data.Extensions.ToLanguage(submatch.Groups[1].Value);
+                    var language = submatch.Groups[1].Value.ToLanguage();
                     if (language is not null)
                         tempLanguages.Add(language);
                 }
@@ -449,20 +446,20 @@ namespace SabreTools.RedumpLib.Legacy.Tools
             }
 
             // For some outdated tags, we need to use alternate names
-            text = text.Replace("<b>Demos</b>:", ((SiteCode?)SiteCode.PlayableDemos).ShortName());
-            text = text.Replace("<b>Disney ID</b>:", ((SiteCode?)SiteCode.DisneyInteractiveID).ShortName());
-            text = text.Replace("DMI:", ((SiteCode?)SiteCode.DMIHash).ShortName());
-            text = text.Replace("<b>LucasArts ID</b>:", ((SiteCode?)SiteCode.LucasArtsID).ShortName());
-            text = text.Replace("PFI:", ((SiteCode?)SiteCode.PFIHash).ShortName());
-            text = text.Replace("SS:", ((SiteCode?)SiteCode.SSHash).ShortName());
-            text = text.Replace("SSv1:", ((SiteCode?)SiteCode.SSHash).ShortName());
-            text = text.Replace("<b>SSv1</b>:", ((SiteCode?)SiteCode.SSHash).ShortName());
-            text = text.Replace("SSv2:", ((SiteCode?)SiteCode.SSHash).ShortName());
-            text = text.Replace("<b>SSv2</b>:", ((SiteCode?)SiteCode.SSHash).ShortName());
-            text = text.Replace("SS version:", ((SiteCode?)SiteCode.SSVersion).ShortName());
-            text = text.Replace("Universal Hash (SHA-1):", ((SiteCode?)SiteCode.UniversalHash).ShortName());
-            text = text.Replace("XeMID:", ((SiteCode?)SiteCode.XeMID).ShortName());
-            text = text.Replace("XMID:", ((SiteCode?)SiteCode.XMID).ShortName());
+            text = text.Replace("<b>Demos</b>:", SiteCode.PlayableDemos.ShortName());
+            text = text.Replace("<b>Disney ID</b>:", SiteCode.DisneyInteractiveID.ShortName());
+            text = text.Replace("DMI:", SiteCode.DMIHash.ShortName());
+            text = text.Replace("<b>LucasArts ID</b>:", SiteCode.LucasArtsID.ShortName());
+            text = text.Replace("PFI:", SiteCode.PFIHash.ShortName());
+            text = text.Replace("SS:", SiteCode.SSHash.ShortName());
+            text = text.Replace("SSv1:", SiteCode.SSHash.ShortName());
+            text = text.Replace("<b>SSv1</b>:", SiteCode.SSHash.ShortName());
+            text = text.Replace("SSv2:", SiteCode.SSHash.ShortName());
+            text = text.Replace("<b>SSv2</b>:", SiteCode.SSHash.ShortName());
+            text = text.Replace("SS version:", SiteCode.SSVersion.ShortName());
+            text = text.Replace("Universal Hash (SHA-1):", SiteCode.UniversalHash.ShortName());
+            text = text.Replace("XeMID:", SiteCode.XeMID.ShortName());
+            text = text.Replace("XMID:", SiteCode.XMID.ShortName());
 
             return text;
         }
