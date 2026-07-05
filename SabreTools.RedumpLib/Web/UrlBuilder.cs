@@ -71,17 +71,6 @@ namespace SabreTools.RedumpLib.Web
                     ub.Path += $"/{subpath.ShortName()}";
                     break;
 
-                // redump.org subpaths that don't have equivilent paths
-                case DiscSubpath.Changes:
-                case DiscSubpath.GDI:
-                case DiscSubpath.Key:
-                case DiscSubpath.LSD:
-                case DiscSubpath.MD5:
-                case DiscSubpath.SFV:
-                case DiscSubpath.SHA1:
-                case DiscSubpath.WIP:
-                    break;
-
                 // History and null are invalid for a disc page
                 case DiscSubpath.History:
                 case null:
@@ -261,10 +250,7 @@ namespace SabreTools.RedumpLib.Web
                 case PackType.Keys: ub.Path = $"keys/{systemName}"; break;
                 case PackType.Sbis: ub.Path = $"sbi/{systemName}"; break;
 
-                // Unsupported
-                case PackType.DecryptedKeys: break;
-                case PackType.Gdis: break;
-                case PackType.Lsds: break;
+                // Invalid
                 default: throw new ArgumentOutOfRangeException(nameof(packType));
             }
 

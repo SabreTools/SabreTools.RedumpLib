@@ -1864,22 +1864,6 @@ namespace SabreTools.RedumpLib.Data
             => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.ShortName;
 
         /// <summary>
-        /// Get the Redump shortnames for each known system
-        /// </summary>
-        /// <param name="system"></param>
-        /// <returns></returns>
-        public static string? ShortNameAlt(this PhysicalSystem system)
-            => (AttributeHelper<PhysicalSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.RedumpOrgCode;
-
-        /// <summary>
-        /// Get the Redump shortnames for each known system
-        /// </summary>
-        /// <param name="system"></param>
-        /// <returns></returns>
-        public static string? ShortNameAlt(this PhysicalSystem? system)
-            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.RedumpOrgCode;
-
-        /// <summary>
         /// Determine the category of a system
         /// </summary>
         public static SystemCategory GetCategory(this PhysicalSystem system)
@@ -1902,18 +1886,6 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         public static bool IsAvailable(this PhysicalSystem? system)
             => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.Available ?? false;
-
-        /// <summary>
-        /// Determine if a system is restricted to dumpers
-        /// </summary>
-        public static bool IsBanned(this PhysicalSystem system)
-            => (AttributeHelper<PhysicalSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.IsBanned ?? false;
-
-        /// <summary>
-        /// Determine if a system is restricted to dumpers
-        /// </summary>
-        public static bool IsBanned(this PhysicalSystem? system)
-            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.IsBanned ?? false;
 
         /// <summary>
         /// Determine if a system has a CUE pack
@@ -1940,30 +1912,6 @@ namespace SabreTools.RedumpLib.Data
             => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasDat ?? false;
 
         /// <summary>
-        /// Determine if a system has a decrypted keys pack
-        /// </summary>
-        public static bool HasDkeys(this PhysicalSystem system)
-            => (AttributeHelper<PhysicalSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasDkeys ?? false;
-
-        /// <summary>
-        /// Determine if a system has a decrypted keys pack
-        /// </summary>
-        public static bool HasDkeys(this PhysicalSystem? system)
-            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasDkeys ?? false;
-
-        /// <summary>
-        /// Determine if a system has a GDI pack
-        /// </summary>
-        public static bool HasGdi(this PhysicalSystem system)
-            => (AttributeHelper<PhysicalSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasGdi ?? false;
-
-        /// <summary>
-        /// Determine if a system has a GDI pack
-        /// </summary>
-        public static bool HasGdi(this PhysicalSystem? system)
-            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasGdi ?? false;
-
-        /// <summary>
         /// Determine if a system has a keys pack
         /// </summary>
         public static bool HasKeys(this PhysicalSystem system)
@@ -1974,18 +1922,6 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         public static bool HasKeys(this PhysicalSystem? system)
             => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasKeys ?? false;
-
-        /// <summary>
-        /// Determine if a system has an LSD pack
-        /// </summary>
-        public static bool HasLsd(this PhysicalSystem system)
-            => (AttributeHelper<PhysicalSystem>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasLsd ?? false;
-
-        /// <summary>
-        /// Determine if a system has an LSD pack
-        /// </summary>
-        public static bool HasLsd(this PhysicalSystem? system)
-            => (AttributeHelper<PhysicalSystem?>.GetHumanReadableAttribute(system) as SystemAttribute)?.HasLsd ?? false;
 
         /// <summary>
         /// Determine if a system has an SBI pack
@@ -2015,11 +1951,6 @@ namespace SabreTools.RedumpLib.Data
 
             // Check short names
             int index = Array.FindIndex(redumpSystems, s => system == s.ShortName()?.ToLowerInvariant());
-            if (index > -1)
-                return redumpSystems[index];
-
-            // Check redump.org short names
-            index = Array.FindIndex(redumpSystems, s => system == s.ShortNameAlt()?.ToLowerInvariant());
             if (index > -1)
                 return redumpSystems[index];
 

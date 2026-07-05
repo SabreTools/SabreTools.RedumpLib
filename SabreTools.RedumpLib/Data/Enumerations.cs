@@ -46,52 +46,18 @@ namespace SabreTools.RedumpLib.Data
     /// </summary>
     public enum DiscSubpath
     {
-        /// <remarks>Only in redump.org</remarks>
-        [HumanReadable(LongName = "Changes", ShortName = "changes")]
-        Changes,
-
         [HumanReadable(LongName = "Cuesheet", ShortName = "cue")]
         Cuesheet,
 
         [HumanReadable(LongName = "Edit", ShortName = "edit")]
         Edit,
 
-        /// <remarks>Only in redump.org</remarks>
-        [HumanReadable(LongName = "GDI", ShortName = "gdi")]
-        GDI,
-
-        /// <remarks>Only in redump.info</remarks>
         // Placeholder for the linked queue history page, not an actual subpath
         [HumanReadable(LongName = "History", ShortName = "history")]
         History,
 
-        /// <remarks>Only in redump.org</remarks>
-        [HumanReadable(LongName = "Key", ShortName = "key")]
-        Key,
-
-        /// <remarks>Only in redump.org</remarks>
-        [HumanReadable(LongName = "LSD", ShortName = "lsd")]
-        LSD,
-
-        /// <remarks>Only in redump.org</remarks>
-        [HumanReadable(LongName = "MD5", ShortName = "md5")]
-        MD5,
-
         [HumanReadable(LongName = "SBI", ShortName = "sbi")]
         SBI,
-
-        /// <remarks>Only in redump.org</remarks>
-        [HumanReadable(LongName = "SFV", ShortName = "sfv")]
-        SFV,
-
-        /// <remarks>Only in redump.org</remarks>
-        [HumanReadable(LongName = "SHA-1", ShortName = "sha1")]
-        SHA1,
-
-        /// <remarks>Only in redump.org</remarks>
-        // Placeholder for the linked new disc page, not an actual subpath
-        [HumanReadable(Available = false, LongName = "WIP", ShortName = "wip")]
-        WIP,
     }
 
     /// <summary>
@@ -1846,20 +1812,8 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(LongName = "DAT", ShortName = "datfile")]
         Datfile,
 
-        /// <remarks>Only in redump.org</remarks>
-        [HumanReadable(LongName = "Decrypted KEYS", ShortName = "dkeys")]
-        DecryptedKeys,
-
-        /// <remarks>Only in redump.org</remarks>
-        [HumanReadable(LongName = "GDIs", ShortName = "gdi")]
-        Gdis,
-
         [HumanReadable(LongName = "KEYS", ShortName = "keys")]
         Keys,
-
-        /// <remarks>Only in redump.org</remarks>
-        [HumanReadable(LongName = "LSD", ShortName = "lsd")]
-        Lsds,
 
         [HumanReadable(LongName = "SBI", ShortName = "sbi")]
         Sbis,
@@ -2014,19 +1968,19 @@ namespace SabreTools.RedumpLib.Data
 
         #region Disc-Based Consoles
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Apple/Bandai Pippin", ShortName = "PIPPIN", RedumpOrgCode = "pippin", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Apple/Bandai Pippin", ShortName = "PIPPIN", HasCues = true, HasDat = true)]
         AppleBandaiPippin,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Atari Jaguar CD Interactive Multimedia System", ShortName = "AJCD", RedumpOrgCode = "ajcd", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Atari Jaguar CD Interactive Multimedia System", ShortName = "AJCD", HasCues = true, HasDat = true)]
         AtariJaguarCDInteractiveMultimediaSystem,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Bandai Playdia Quick Interactive System", RedumpOrgCode = "qis", ShortName = "QIS", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Bandai Playdia Quick Interactive System", ShortName = "QIS", HasCues = true, HasDat = true)]
         BandaiPlaydiaQuickInteractiveSystem,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Commodore Amiga CD32", ShortName = "CD32", RedumpOrgCode = "cd32", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Commodore Amiga CD32", ShortName = "CD32", HasCues = true, HasDat = true)]
         CommodoreAmigaCD32,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Commodore Amiga CDTV", ShortName = "CDTV", RedumpOrgCode = "cdtv", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Commodore Amiga CDTV", ShortName = "CDTV", HasCues = true, HasDat = true)]
         CommodoreAmigaCDTV,
 
         [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Envizions EVO Smart Console")]
@@ -2038,61 +1992,61 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.DiscBasedConsole, LongName = "Hasbro iON Educational Gaming System", ShortName = "ION", HasCues = true, HasDat = true)]
         HasbroiONEducationalGamingSystem,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Hasbro VideoNow", ShortName = "HVN", RedumpOrgCode = "hvn", IsBanned = true, HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Hasbro VideoNow", ShortName = "HVN", HasCues = true, HasDat = true)]
         HasbroVideoNow,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Hasbro VideoNow Color", ShortName = "HVNC", RedumpOrgCode = "hvnc", IsBanned = true, HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Hasbro VideoNow Color", ShortName = "HVNC", HasCues = true, HasDat = true)]
         HasbroVideoNowColor,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Hasbro VideoNow Jr.", ShortName = "HVNJR", RedumpOrgCode = "hvnjr", IsBanned = true, HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Hasbro VideoNow Jr.", ShortName = "HVNJR", HasCues = true, HasDat = true)]
         HasbroVideoNowJr,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Hasbro VideoNow XP", ShortName = "HVNXP", RedumpOrgCode = "hvnxp", IsBanned = true, HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Hasbro VideoNow XP", ShortName = "HVNXP", HasCues = true, HasDat = true)]
         HasbroVideoNowXP,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Mattel Fisher-Price iXL", ShortName = "IXL", RedumpOrgCode = "ixl", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Mattel Fisher-Price iXL", ShortName = "IXL", HasCues = true, HasDat = true)]
         MattelFisherPriceiXL,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Mattel HyperScan", ShortName = "HS", RedumpOrgCode = "hs", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Mattel HyperScan", ShortName = "HS", HasCues = true, HasDat = true)]
         MattelHyperScan,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Memorex Visual Information System", ShortName = "VIS", RedumpOrgCode = "vis", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Memorex Visual Information System", ShortName = "VIS", HasCues = true, HasDat = true)]
         MemorexVisualInformationSystem,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Microsoft Xbox", ShortName = "XBOX", RedumpOrgCode = "xbox", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Microsoft Xbox", ShortName = "XBOX", HasCues = true, HasDat = true)]
         MicrosoftXbox,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Microsoft Xbox 360", ShortName = "XBOX360", RedumpOrgCode = "xbox360", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Microsoft Xbox 360", ShortName = "XBOX360", HasCues = true, HasDat = true)]
         MicrosoftXbox360,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Microsoft Xbox One", ShortName = "XBOXONE", RedumpOrgCode = "xboxone", IsBanned = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Microsoft Xbox One", ShortName = "XBOXONE", HasDat = true)]
         MicrosoftXboxOne,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Microsoft Xbox Series X", ShortName = "XBOXSX", RedumpOrgCode = "xboxsx", IsBanned = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Microsoft Xbox Series X", ShortName = "XBOXSX", HasDat = true)]
         MicrosoftXboxSeriesXS,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "NEC PC Engine CD & TurboGrafx CD", ShortName = "PCE", RedumpOrgCode = "pce", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "NEC PC Engine CD & TurboGrafx CD", ShortName = "PCE", HasCues = true, HasDat = true)]
         NECPCEngineCDTurboGrafxCD,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "NEC PC-FX & PC-FXGA", ShortName = "PC-FX", RedumpOrgCode = "pc-fx", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "NEC PC-FX & PC-FXGA", ShortName = "PC-FX", HasCues = true, HasDat = true)]
         NECPCFXPCFXGA,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Nintendo GameCube", ShortName = "GC", RedumpOrgCode = "gc", HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Nintendo GameCube", ShortName = "GC", HasDat = true)]
         NintendoGameCube,
 
         [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Nintendo-Sony Super NES CD-ROM System")]
         NintendoSonySuperNESCDROMSystem,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Nintendo Wii", ShortName = "WII", RedumpOrgCode = "wii", HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Nintendo Wii", ShortName = "WII", HasDat = true)]
         NintendoWii,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Nintendo Wii U", ShortName = "WIIU", RedumpOrgCode = "wiiu", IsBanned = true, HasDat = true, HasKeys = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Nintendo Wii U", ShortName = "WIIU", HasDat = true, HasKeys = true)]
         NintendoWiiU,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "3DO Interactive Multiplayer", ShortName = "3DO", RedumpOrgCode = "3do", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "3DO Interactive Multiplayer", ShortName = "3DO", HasCues = true, HasDat = true)]
         Panasonic3DOInteractiveMultiplayer,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Philips CD-i", ShortName = "CDI", RedumpOrgCode = "cdi", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Philips CD-i", ShortName = "CDI", HasCues = true, HasDat = true)]
         PhilipsCDi,
 
         [System(Category = SystemCategory.DiscBasedConsole, LongName = "Playmaji Polymega", ShortName = "POLYMEGA", HasDat = true)]
@@ -2101,43 +2055,43 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.DiscBasedConsole, Available = false, LongName = "Pioneer LaserActive")]
         PioneerLaserActive,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sega Dreamcast", ShortName = "DC", RedumpOrgCode = "dc", HasCues = true, HasDat = true, HasGdi = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sega Dreamcast", ShortName = "DC", HasCues = true, HasDat = true)]
         SegaDreamcast,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sega Mega CD & Sega CD", ShortName = "MCD", RedumpOrgCode = "mcd", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sega Mega CD & Sega CD", ShortName = "MCD", HasCues = true, HasDat = true)]
         SegaMegaCDSegaCD,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sega Saturn", ShortName = "SS", RedumpOrgCode = "ss", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sega Saturn", ShortName = "SS", HasCues = true, HasDat = true)]
         SegaSaturn,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Neo Geo CD", ShortName = "NGCD", RedumpOrgCode = "ngcd", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Neo Geo CD", ShortName = "NGCD", HasCues = true, HasDat = true)]
         SNKNeoGeoCD,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation", ShortName = "PSX", RedumpOrgCode = "psx", HasCues = true, HasDat = true, HasLsd = true, HasSbi = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation", ShortName = "PSX", HasCues = true, HasDat = true, HasSbi = true)]
         SonyPlayStation,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation 2", ShortName = "PS2", RedumpOrgCode = "ps2", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation 2", ShortName = "PS2", HasCues = true, HasDat = true)]
         SonyPlayStation2,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation 3", ShortName = "PS3", RedumpOrgCode = "ps3", HasCues = true, HasDat = true, HasDkeys = true, HasKeys = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation 3", ShortName = "PS3", HasCues = true, HasDat = true, HasKeys = true)]
         SonyPlayStation3,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation 4", ShortName = "PS4", RedumpOrgCode = "ps4", IsBanned = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation 4", ShortName = "PS4", HasDat = true)]
         SonyPlayStation4,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation 5", ShortName = "PS5", RedumpOrgCode = "ps5", IsBanned = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation 5", ShortName = "PS5", HasDat = true)]
         SonyPlayStation5,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation Portable", ShortName = "PSP", RedumpOrgCode = "psp", HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "Sony PlayStation Portable", ShortName = "PSP", HasDat = true)]
         SonyPlayStationPortable,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "VM Labs NUON", ShortName = "NUON", RedumpOrgCode = "nuon", HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "VM Labs NUON", ShortName = "NUON", HasDat = true)]
         VMLabsNUON,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "VTech V.Flash & V.Smile Pro", ShortName = "VFLASH", RedumpOrgCode = "vflash", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "VTech V.Flash & V.Smile Pro", ShortName = "VFLASH", HasCues = true, HasDat = true)]
         VTechVFlashVSmilePro,
 
-        [System(Category = SystemCategory.DiscBasedConsole, LongName = "ZAPiT Games Game Wave Family Entertainment System", ShortName = "GAMEWAVE", RedumpOrgCode = "gamewave", HasDat = true)]
+        [System(Category = SystemCategory.DiscBasedConsole, LongName = "ZAPiT Games Game Wave Family Entertainment System", ShortName = "GAMEWAVE", HasDat = true)]
         ZAPiTGamesGameWaveFamilyEntertainmentSystem,
 
         // End of console section delimiter
@@ -2300,10 +2254,10 @@ namespace SabreTools.RedumpLib.Data
 
         #region Computers
 
-        [System(Category = SystemCategory.Computer, LongName = "Acorn Archimedes & Risc PC", ShortName = "ARCH", RedumpOrgCode = "arch", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Computer, LongName = "Acorn Archimedes & Risc PC", ShortName = "ARCH", HasCues = true, HasDat = true)]
         AcornArchimedesAndRiscPC,
 
-        [System(Category = SystemCategory.Computer, LongName = "Apple Macintosh", ShortName = "MAC", RedumpOrgCode = "mac", HasCues = true, HasDat = true, HasLsd = true, HasSbi = true)]
+        [System(Category = SystemCategory.Computer, LongName = "Apple Macintosh", ShortName = "MAC", HasCues = true, HasDat = true, HasSbi = true)]
         AppleMacintosh,
 
         [System(Category = SystemCategory.Computer, LongName = "Atari ST series", ShortName = "ATARIST", HasCues = true, HasDat = true)]
@@ -2313,26 +2267,26 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Computer, Available = false, LongName = "Commodore 64", ShortName = "C64")]
         Commodore64,
 
-        [System(Category = SystemCategory.Computer, LongName = "Commodore Amiga CD", ShortName = "ACD", RedumpOrgCode = "acd", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Computer, LongName = "Commodore Amiga CD", ShortName = "ACD", HasCues = true, HasDat = true)]
         CommodoreAmigaCD,
 
-        [System(Category = SystemCategory.Computer, LongName = "Fujitsu FM Towns series", ShortName = "FMT", RedumpOrgCode = "fmt", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Computer, LongName = "Fujitsu FM Towns series", ShortName = "FMT", HasCues = true, HasDat = true)]
         FujitsuFMTownsSeries,
 
-        [System(Category = SystemCategory.Computer, LongName = "IBM PC compatible", ShortName = "PC", RedumpOrgCode = "pc", HasCues = true, HasDat = true, HasLsd = true, HasSbi = true)]
+        [System(Category = SystemCategory.Computer, LongName = "IBM PC compatible", ShortName = "PC", HasCues = true, HasDat = true, HasSbi = true)]
         IBMPCcompatible,
 
         // Short name currently undefined
         [System(Category = SystemCategory.Computer, Available = false, LongName = "Microsoft MSX", ShortName = "MSX")]
         MicrosoftMSX,
 
-        [System(Category = SystemCategory.Computer, LongName = "NEC PC-88 series", ShortName = "PC-88", RedumpOrgCode = "pc-88", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Computer, LongName = "NEC PC-88 series", ShortName = "PC-88", HasCues = true, HasDat = true)]
         NECPC88Series,
 
-        [System(Category = SystemCategory.Computer, LongName = "NEC PC-98 series", ShortName = "PC-98", RedumpOrgCode = "pc-98", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Computer, LongName = "NEC PC-98 series", ShortName = "PC-98", HasCues = true, HasDat = true)]
         NECPC98Series,
 
-        [System(Category = SystemCategory.Computer, LongName = "Sharp X68000", ShortName = "X68K", RedumpOrgCode = "x68k", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Computer, LongName = "Sharp X68000", ShortName = "X68K", HasCues = true, HasDat = true)]
         SharpX68000,
 
         // Short name currently undefined
@@ -2371,7 +2325,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "C.D. Express Cubo CD32", ShortName = "CUBO")]
         CDExpressCuboCD32,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Funworld Photo Play", ShortName = "FPP", RedumpOrgCode = "fpp", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Funworld Photo Play", ShortName = "FPP", HasCues = true, HasDat = true)]
         FunworldPhotoPlay,
 
         [System(Category = SystemCategory.Arcade, LongName = "FuRyu & Omron Purikura", ShortName = "FPURI", HasDat = true)]
@@ -2389,7 +2343,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "ICE PC-based Hardware")]
         ICEPCHardware,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Incredible Technologies Eagle", ShortName = "ITE", RedumpOrgCode = "ite", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Incredible Technologies Eagle", ShortName = "ITE", HasCues = true, HasDat = true)]
         IncredibleTechnologiesEagle,
 
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Incredible Technologies PC-based Systems")]
@@ -2399,13 +2353,13 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "JVL iTouch", ShortName = "ITOUCH")]
         JVLiTouch,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Konami e-Amusement", ShortName = "KEA", RedumpOrgCode = "kea", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Konami e-Amusement", ShortName = "KEA", HasCues = true, HasDat = true)]
         KonamieAmusement,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Konami FireBeat", ShortName = "KFB", RedumpOrgCode = "kfb", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Konami FireBeat", ShortName = "KFB", HasCues = true, HasDat = true)]
         KonamiFireBeat,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Konami M2", ShortName = "KM2", RedumpOrgCode = "km2", IsBanned = true, HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Konami M2", ShortName = "KM2", HasCues = true, HasDat = true)]
         KonamiM2,
 
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Konami Python")]
@@ -2414,13 +2368,13 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "Konami Python 2", ShortName = "KP2", HasDat = true)]
         KonamiPython2,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Konami System 573", ShortName = "KS573", RedumpOrgCode = "ks573", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Konami System 573", ShortName = "KS573", HasCues = true, HasDat = true)]
         KonamiSystem573,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Konami System GV", ShortName = "KSGV", RedumpOrgCode = "ksgv", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Konami System GV", ShortName = "KSGV", HasCues = true, HasDat = true)]
         KonamiSystemGV,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Konami Twinkle", ShortName = "KT", RedumpOrgCode = "kt")]
+        [System(Category = SystemCategory.Arcade, LongName = "Konami Twinkle", ShortName = "KT")]
         KonamiTwinkle,
 
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Konami PC-based Systems")]
@@ -2445,16 +2399,16 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "Namco Purikura", ShortName = "NPURI", HasDat = true)]
         NamcoPurikura,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Namco · Sega · Nintendo Triforce", ShortName = "TRF", RedumpOrgCode = "trf", HasCues = true, HasDat = true, HasGdi = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Namco · Sega · Nintendo Triforce", ShortName = "TRF", HasCues = true, HasDat = true)]
         NamcoSegaNintendoTriforce,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Namco System 12", ShortName = "NS12", RedumpOrgCode = "ns12")]
+        [System(Category = SystemCategory.Arcade, LongName = "Namco System 12", ShortName = "NS12")]
         NamcoSystem12,
 
         [System(Category = SystemCategory.Arcade, LongName = "Namco System 22", ShortName = "NS22", HasCues = true, HasDat = true)]
         NamcoSystem22,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Namco System 246", ShortName = "NS246", RedumpOrgCode = "ns246", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Namco System 246", ShortName = "NS246", HasCues = true, HasDat = true)]
         NamcoSystem246,
 
         [System(Category = SystemCategory.Arcade, LongName = "Namco System 256", ShortName = "NS256", HasCues = true, HasDat = true)]
@@ -2473,7 +2427,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Nichibutsu X-Rate System")]
         NichibutsuXRateSystem,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Panasonic M2", ShortName = "M2", RedumpOrgCode = "m2", IsBanned = true, HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Panasonic M2", ShortName = "M2", HasCues = true, HasDat = true)]
         PanasonicM2,
 
         // TODO: Investigate whether the various PC-based systems listed would wrap into this instead
@@ -2490,23 +2444,23 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "Sega ALLS", ShortName = "ALLS", HasDat = true)]
         SegaALLS,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Sega Chihiro", ShortName = "CHIHIRO", RedumpOrgCode = "chihiro", HasCues = true, HasDat = true, HasGdi = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Chihiro", ShortName = "CHIHIRO", HasCues = true, HasDat = true)]
         SegaChihiro,
 
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Europa-R")]
         SegaEuropaR,
 
         // TODO: Split if/when Yellow, Blue, Red, Red EX, and Silver are defined
-        [System(Category = SystemCategory.Arcade, LongName = "Sega Lindbergh", ShortName = "LINDBERGH", RedumpOrgCode = "lindbergh", HasDat = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Lindbergh", ShortName = "LINDBERGH", HasDat = true)]
         SegaLindbergh,
 
         [System(Category = SystemCategory.Arcade, LongName = "Sega Lindbergh Satellite Terminal PC", ShortName = "LINDPC", HasDat = true)]
         SegaLindberghSatelliteTerminalPC,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Sega Naomi", ShortName = "NAOMI", RedumpOrgCode = "naomi", HasCues = true, HasDat = true, HasGdi = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Naomi", ShortName = "NAOMI", HasCues = true, HasDat = true)]
         SegaNaomi,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Sega Naomi 2", ShortName = "NAOMI2", RedumpOrgCode = "naomi2", HasCues = true, HasDat = true, HasGdi = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Naomi 2", ShortName = "NAOMI2", HasCues = true, HasDat = true)]
         SegaNaomi2,
 
         [System(Category = SystemCategory.Arcade, LongName = "Sega Naomi Satellite Terminal PC", ShortName = "NAOMIPC", HasCues = true, HasDat = true)]
@@ -2524,10 +2478,10 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "Sega Nu SX", ShortName = "NUSX", HasDat = true)]
         SegaNuSX,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Sega RingEdge", ShortName = "SRE", RedumpOrgCode = "sre", HasDat = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Sega RingEdge", ShortName = "SRE", HasDat = true)]
         SegaRingEdge,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Sega RingEdge 2", ShortName = "SRE2", RedumpOrgCode = "sre2", HasDat = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "Sega RingEdge 2", ShortName = "SRE2", HasDat = true)]
         SegaRingEdge2,
 
         [System(Category = SystemCategory.Arcade, LongName = "Sega RingWide", ShortName = "SRW", HasDat = true)]
@@ -2536,13 +2490,13 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega System 32")]
         SegaSystem32,
 
-        [System(Category = SystemCategory.Arcade, LongName = "Sega Titan Video", ShortName = "stv", RedumpOrgCode = "stv")]
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Titan Video", ShortName = "stv")]
         SegaTitanVideo,
 
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Seibu CATS System")]
         SeibuCATSSystem,
 
-        [System(Category = SystemCategory.Arcade, LongName = "TAB-Austria Quizard", ShortName = "QUIZARD", RedumpOrgCode = "quizard", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Arcade, LongName = "TAB-Austria Quizard", ShortName = "QUIZARD", HasCues = true, HasDat = true)]
         TABAustriaQuizard,
 
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Tsunami TsuMo Multi-Game Motion System")]
@@ -2558,37 +2512,37 @@ namespace SabreTools.RedumpLib.Data
 
         #region Other
 
-        [System(Category = SystemCategory.Other, LongName = "Audio CD", ShortName = "AUDIO-CD", RedumpOrgCode = "audio-cd", IsBanned = true, HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Other, LongName = "Audio CD", ShortName = "AUDIO-CD", HasCues = true, HasDat = true)]
         AudioCD,
 
-        [System(Category = SystemCategory.Other, LongName = "BD-Video", ShortName = "BD-VIDEO", RedumpOrgCode = "bd-video", IsBanned = true, HasDat = true)]
+        [System(Category = SystemCategory.Other, LongName = "BD-Video", ShortName = "BD-VIDEO", HasDat = true)]
         BDVideo,
 
-        [System(Category = SystemCategory.Other, LongName = "Datel PlayStation Cheat Device Updates", ShortName = "PSXGS", RedumpOrgCode = "psxgs", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Other, LongName = "Datel PlayStation Cheat Device Updates", ShortName = "PSXGS", HasCues = true, HasDat = true)]
         DatelPlayStationCheatDeviceUpdates,
 
         [System(Category = SystemCategory.Other, Available = false, LongName = "DVD-Audio")]
         DVDAudio,
 
-        [System(Category = SystemCategory.Other, LongName = "DVD-Video", ShortName = "DVD-VIDEO", RedumpOrgCode = "dvd-video", IsBanned = true, HasDat = true)]
+        [System(Category = SystemCategory.Other, LongName = "DVD-Video", ShortName = "DVD-VIDEO", HasDat = true)]
         DVDVideo,
 
-        [System(Category = SystemCategory.Other, LongName = "Enhanced CD", ShortName = "ENHANCED-CD", RedumpOrgCode = "enhanced-cd", IsBanned = true, HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Other, LongName = "Enhanced CD", ShortName = "ENHANCED-CD", HasCues = true, HasDat = true)]
         EnhancedCD,
 
-        [System(Category = SystemCategory.Other, LongName = "HD DVD-Video", ShortName = "HDDVD-VIDEO", RedumpOrgCode = "hddvd-video", IsBanned = true, HasDat = true)]
+        [System(Category = SystemCategory.Other, LongName = "HD DVD-Video", ShortName = "HDDVD-VIDEO", HasDat = true)]
         HDDVDVideo,
 
-        [System(Category = SystemCategory.Other, LongName = "Navisoft Naviken", ShortName = "NAVI", RedumpOrgCode = "navi21", IsBanned = true, HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Other, LongName = "Navisoft Naviken", ShortName = "NAVI", HasCues = true, HasDat = true)]
         NavisoftNaviken,
 
-        [System(Category = SystemCategory.Other, LongName = "Palm OS", ShortName = "PALM", RedumpOrgCode = "palm", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Other, LongName = "Palm OS", ShortName = "PALM", HasCues = true, HasDat = true)]
         PalmOS,
 
-        [System(Category = SystemCategory.Other, LongName = "Photo CD", ShortName = "PHOTO-CD", RedumpOrgCode = "photo-cd", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Other, LongName = "Photo CD", ShortName = "PHOTO-CD", HasCues = true, HasDat = true)]
         PhotoCD,
 
-        [System(Category = SystemCategory.Other, LongName = "Microsoft Pocket PC", ShortName = "PPC", RedumpOrgCode = "ppc", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Other, LongName = "Microsoft Pocket PC", ShortName = "PPC", HasCues = true, HasDat = true)]
         MicrosoftPocketPC,
 
         [System(Category = SystemCategory.Other, LongName = "MP3 Audio Disc", ShortName = "MP3", HasCues = true, HasDat = true)]
@@ -2600,7 +2554,7 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Other, Available = false, LongName = "Rainbow Disc")]
         RainbowDisc,
 
-        [System(Category = SystemCategory.Other, LongName = "Sega Prologue 21 Multimedia Karaoke System", ShortName = "SP21", RedumpOrgCode = "sp21", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Other, LongName = "Sega Prologue 21 Multimedia Karaoke System", ShortName = "SP21", HasCues = true, HasDat = true)]
         SegaPrologue21MultimediaKaraokeSystem,
 
         [System(Category = SystemCategory.Other, LongName = "Sharp Zaurus", ShortName = "ZAURUS", HasCues = true, HasDat = true)]
@@ -2612,13 +2566,13 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Other, Available = false, LongName = "Super Audio CD")]
         SuperAudioCD,
 
-        [System(Category = SystemCategory.Other, LongName = "Tao iKTV", ShortName = "IKTV", RedumpOrgCode = "iktv")]
+        [System(Category = SystemCategory.Other, LongName = "Tao iKTV", ShortName = "IKTV")]
         TaoiKTV,
 
-        [System(Category = SystemCategory.Other, LongName = "Tomy Kiss-Site", ShortName = "KSITE", RedumpOrgCode = "ksite", HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Other, LongName = "Tomy Kiss-Site", ShortName = "KSITE", HasCues = true, HasDat = true)]
         TomyKissSite,
 
-        [System(Category = SystemCategory.Other, LongName = "Video CD", ShortName = "VCD", RedumpOrgCode = "vcd", IsBanned = true, HasCues = true, HasDat = true)]
+        [System(Category = SystemCategory.Other, LongName = "Video CD", ShortName = "VCD", HasCues = true, HasDat = true)]
         VideoCD,
 
         // End of other section delimiter

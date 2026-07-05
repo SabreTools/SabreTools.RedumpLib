@@ -1712,36 +1712,6 @@ namespace SabreTools.RedumpLib.Test.Data
         ];
 
         /// <summary>
-        /// PhysicalSystem values that are dumper-only
-        /// </summary>
-        private static readonly PhysicalSystem?[] _bannedSystems =
-        [
-            // Disc-Based Consoles
-            PhysicalSystem.HasbroVideoNow,
-            PhysicalSystem.HasbroVideoNowColor,
-            PhysicalSystem.HasbroVideoNowJr,
-            PhysicalSystem.HasbroVideoNowXP,
-            PhysicalSystem.MicrosoftXboxOne,
-            PhysicalSystem.MicrosoftXboxSeriesXS,
-            PhysicalSystem.NintendoWiiU,
-            PhysicalSystem.SonyPlayStation4,
-            PhysicalSystem.SonyPlayStation5,
-
-            // Arcade
-            PhysicalSystem.KonamiM2,
-            PhysicalSystem.PanasonicM2,
-
-            // Other
-            PhysicalSystem.AudioCD,
-            PhysicalSystem.BDVideo,
-            PhysicalSystem.DVDVideo,
-            PhysicalSystem.EnhancedCD,
-            PhysicalSystem.HDDVDVideo,
-            PhysicalSystem.NavisoftNaviken,
-            PhysicalSystem.VideoCD,
-        ];
-
-        /// <summary>
         /// PhysicalSystem values that are considered markers
         /// </summary>
         private static readonly PhysicalSystem?[] _markerSystems =
@@ -2132,48 +2102,12 @@ namespace SabreTools.RedumpLib.Test.Data
         ];
 
         /// <summary>
-        /// PhysicalSystem values that have decrypted keys
-        /// </summary>
-        private static readonly PhysicalSystem?[] _systemsWithDKeys =
-        [
-            PhysicalSystem.SonyPlayStation3,
-        ];
-
-        /// <summary>
-        /// PhysicalSystem values that have GDI packs
-        /// </summary>
-        private static readonly PhysicalSystem?[] _systemsWithGdis =
-        [
-            // Disc-Based Consoles
-            PhysicalSystem.SegaDreamcast,
-
-            // Arcade
-            PhysicalSystem.NamcoSegaNintendoTriforce,
-            PhysicalSystem.SegaChihiro,
-            PhysicalSystem.SegaNaomi,
-            PhysicalSystem.SegaNaomi2,
-        ];
-
-        /// <summary>
         /// PhysicalSystem values that have keys
         /// </summary>
         private static readonly PhysicalSystem?[] _systemsWithKeys =
         [
             PhysicalSystem.NintendoWiiU,
             PhysicalSystem.SonyPlayStation3,
-        ];
-
-        /// <summary>
-        /// PhysicalSystem values that have LSD packs
-        /// </summary>
-        private static readonly PhysicalSystem?[] _systemsWithLsds =
-        [
-            // Disc-Based Consoles
-            PhysicalSystem.SonyPlayStation,
-
-            // Computers
-            PhysicalSystem.AppleMacintosh,
-            PhysicalSystem.IBMPCcompatible,
         ];
 
         /// <summary>
@@ -2487,19 +2421,6 @@ namespace SabreTools.RedumpLib.Test.Data
         }
 
         /// <summary>
-        /// Check that all banned systems are marked properly
-        /// </summary>
-        /// <param name="physicalSystem">PhysicalSystem value to check</param>
-        /// <param name="expected">The expected value to come from the check</param>
-        [Theory]
-        [MemberData(nameof(GenerateBannedSystemsTestData))]
-        public void PhysicalSystem_IsBanned(PhysicalSystem? physicalSystem, bool expected)
-        {
-            bool actual = physicalSystem.IsBanned();
-            Assert.Equal(expected, actual);
-        }
-
-        /// <summary>
         /// Check that all systems with cuesheets are marked properly
         /// </summary>
         /// <param name="physicalSystem">PhysicalSystem value to check</param>
@@ -2526,32 +2447,6 @@ namespace SabreTools.RedumpLib.Test.Data
         }
 
         /// <summary>
-        /// Check that all systems with decrypted keys are marked properly
-        /// </summary>
-        /// <param name="physicalSystem">PhysicalSystem value to check</param>
-        /// <param name="expected">The expected value to come from the check</param>
-        [Theory]
-        [MemberData(nameof(GenerateDKeySystemsTestData))]
-        public void PhysicalSystem_HasDkeys(PhysicalSystem? physicalSystem, bool expected)
-        {
-            bool actual = physicalSystem.HasDkeys();
-            Assert.Equal(expected, actual);
-        }
-
-        /// <summary>
-        /// Check that all systems with GDIs are marked properly
-        /// </summary>
-        /// <param name="physicalSystem">PhysicalSystem value to check</param>
-        /// <param name="expected">The expected value to come from the check</param>
-        [Theory]
-        [MemberData(nameof(GenerateGdiSystemsTestData))]
-        public void PhysicalSystem_HasGdi(PhysicalSystem? physicalSystem, bool expected)
-        {
-            bool actual = physicalSystem.HasGdi();
-            Assert.Equal(expected, actual);
-        }
-
-        /// <summary>
         /// Check that all systems with keys are marked properly
         /// </summary>
         /// <param name="physicalSystem">PhysicalSystem value to check</param>
@@ -2561,19 +2456,6 @@ namespace SabreTools.RedumpLib.Test.Data
         public void PhysicalSystem_HasKeys(PhysicalSystem? physicalSystem, bool expected)
         {
             bool actual = physicalSystem.HasKeys();
-            Assert.Equal(expected, actual);
-        }
-
-        /// <summary>
-        /// Check that all systems with LSDs are marked properly
-        /// </summary>
-        /// <param name="physicalSystem">PhysicalSystem value to check</param>
-        /// <param name="expected">The expected value to come from the check</param>
-        [Theory]
-        [MemberData(nameof(GenerateLsdSystemsTestData))]
-        public void PhysicalSystem_HasLsd(PhysicalSystem? physicalSystem, bool expected)
-        {
-            bool actual = physicalSystem.HasLsd();
             Assert.Equal(expected, actual);
         }
 
@@ -2673,24 +2555,6 @@ namespace SabreTools.RedumpLib.Test.Data
         }
 
         /// <summary>
-        /// Generate a test set of PhysicalSystem values that are banned
-        /// </summary>
-        /// <returns>MemberData-compatible list of PhysicalSystem values</returns>
-        public static TheoryData<PhysicalSystem?, bool> GenerateBannedSystemsTestData()
-        {
-            var testData = new TheoryData<PhysicalSystem?, bool>() { { null, false } };
-            foreach (PhysicalSystem physicalSystem in Enum.GetValues<PhysicalSystem>())
-            {
-                if (_bannedSystems.Contains(physicalSystem))
-                    testData.Add(physicalSystem, true);
-                else
-                    testData.Add(physicalSystem, false);
-            }
-
-            return testData;
-        }
-
-        /// <summary>
         /// Generate a test set of PhysicalSystem values mapped to their categories
         /// </summary>
         /// <returns>MemberData-compatible list of PhysicalSystem values</returns>
@@ -2742,42 +2606,6 @@ namespace SabreTools.RedumpLib.Test.Data
         }
 
         /// <summary>
-        /// Generate a test set of PhysicalSystem values that have decrypted keys
-        /// </summary>
-        /// <returns>MemberData-compatible list of PhysicalSystem values</returns>
-        public static TheoryData<PhysicalSystem?, bool> GenerateDKeySystemsTestData()
-        {
-            var testData = new TheoryData<PhysicalSystem?, bool>() { { null, false } };
-            foreach (PhysicalSystem physicalSystem in Enum.GetValues<PhysicalSystem>())
-            {
-                if (_systemsWithDKeys.Contains(physicalSystem))
-                    testData.Add(physicalSystem, true);
-                else
-                    testData.Add(physicalSystem, false);
-            }
-
-            return testData;
-        }
-
-        /// <summary>
-        /// Generate a test set of PhysicalSystem values that have GDIs
-        /// </summary>
-        /// <returns>MemberData-compatible list of PhysicalSystem values</returns>
-        public static TheoryData<PhysicalSystem?, bool> GenerateGdiSystemsTestData()
-        {
-            var testData = new TheoryData<PhysicalSystem?, bool>() { { null, false } };
-            foreach (PhysicalSystem physicalSystem in Enum.GetValues<PhysicalSystem>())
-            {
-                if (_systemsWithGdis.Contains(physicalSystem))
-                    testData.Add(physicalSystem, true);
-                else
-                    testData.Add(physicalSystem, false);
-            }
-
-            return testData;
-        }
-
-        /// <summary>
         /// Generate a test set of PhysicalSystem values that have keys
         /// </summary>
         /// <returns>MemberData-compatible list of PhysicalSystem values</returns>
@@ -2787,24 +2615,6 @@ namespace SabreTools.RedumpLib.Test.Data
             foreach (PhysicalSystem physicalSystem in Enum.GetValues<PhysicalSystem>())
             {
                 if (_systemsWithKeys.Contains(physicalSystem))
-                    testData.Add(physicalSystem, true);
-                else
-                    testData.Add(physicalSystem, false);
-            }
-
-            return testData;
-        }
-
-        /// <summary>
-        /// Generate a test set of PhysicalSystem values that have LSDs
-        /// </summary>
-        /// <returns>MemberData-compatible list of PhysicalSystem values</returns>
-        public static TheoryData<PhysicalSystem?, bool> GenerateLsdSystemsTestData()
-        {
-            var testData = new TheoryData<PhysicalSystem?, bool>() { { null, false } };
-            foreach (PhysicalSystem physicalSystem in Enum.GetValues<PhysicalSystem>())
-            {
-                if (_systemsWithLsds.Contains(physicalSystem))
                     testData.Add(physicalSystem, true);
                 else
                     testData.Add(physicalSystem, false);

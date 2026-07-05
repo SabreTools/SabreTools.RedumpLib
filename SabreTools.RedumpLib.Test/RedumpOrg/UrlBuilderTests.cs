@@ -2,6 +2,9 @@ using System;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.RedumpOrg;
 using Xunit;
+using DiscSubpath = SabreTools.RedumpLib.RedumpOrg.DiscSubpath;
+using PackType = SabreTools.RedumpLib.RedumpOrg.PackType;
+using PhysicalSystem = SabreTools.RedumpLib.RedumpOrg.PhysicalSystem;
 
 namespace SabreTools.RedumpLib.Test.RedumpOrg
 {
@@ -130,8 +133,10 @@ namespace SabreTools.RedumpLib.Test.RedumpOrg
         }
 
         [Theory]
+        [InlineData(PhysicalSystem.MarkerArcadeEnd)]
+        [InlineData(PhysicalSystem.MarkerComputerEnd)]
+        [InlineData(PhysicalSystem.MarkerDiscBasedConsoleEnd)]
         [InlineData(PhysicalSystem.MarkerOtherEnd)]
-        [InlineData(PhysicalSystem.RainbowDisc)]
         public void BuildListUrl_InvalidSystem_Builds(PhysicalSystem? system)
         {
             string actual = UrlBuilder.BuildListUrl("user", have: true, system: system);

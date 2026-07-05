@@ -273,7 +273,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             List<int>? partiallyMatchedIDs)
         {
             // Extract the size from the hashes
-            long size = Extensions.ExtractSizeFromHashData(tawo?.ClrMameProData);
+            long size = Data.Extensions.ExtractSizeFromHashData(tawo?.ClrMameProData);
 
             output.AppendLine("Common Disc Info:");
 

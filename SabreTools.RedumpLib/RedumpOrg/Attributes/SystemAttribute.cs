@@ -1,6 +1,7 @@
+using SabreTools.RedumpLib.Attributes;
 using SabreTools.RedumpLib.Data;
 
-namespace SabreTools.RedumpLib.Attributes
+namespace SabreTools.RedumpLib.RedumpOrg.Attributes
 {
     /// <summary>
     /// Attribute specifc to Redump System values
@@ -13,6 +14,11 @@ namespace SabreTools.RedumpLib.Attributes
         public SystemCategory Category { get; set; }
 
         /// <summary>
+        /// System is restricted to dumpers
+        /// </summary>
+        public bool IsBanned { get; set; } = false;
+
+        /// <summary>
         /// System has a CUE pack
         /// </summary>
         public bool HasCues { get; set; } = false;
@@ -23,9 +29,24 @@ namespace SabreTools.RedumpLib.Attributes
         public bool HasDat { get; set; } = false;
 
         /// <summary>
+        /// System has a decrypted keys pack
+        /// </summary>
+        public bool HasDkeys { get; set; } = false;
+
+        /// <summary>
+        /// System has a GDI pack
+        /// </summary>
+        public bool HasGdi { get; set; } = false;
+
+        /// <summary>
         /// System has a keys pack
         /// </summary>
         public bool HasKeys { get; set; } = false;
+
+        /// <summary>
+        /// System has an LSD pack
+        /// </summary>
+        public bool HasLsd { get; set; } = false;
 
         /// <summary>
         /// System has an SBI pack

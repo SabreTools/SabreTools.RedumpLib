@@ -1504,9 +1504,9 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // If we didn't have credentials
-                if (!_loggedIn && system.IsBanned())
+                if (!_loggedIn && packType == PackType.Keys)
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access, skipping...");
+                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access keys, skipping...");
                     continue;
                 }
 
@@ -1586,10 +1586,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 PackType.Cuesheets => system.HasCues(),
                 PackType.Datfile => system.HasDat(),
-                PackType.DecryptedKeys => false,
-                PackType.Gdis => false,
                 PackType.Keys => system.HasKeys(),
-                PackType.Lsds => false,
                 PackType.Sbis => system.HasSbi(),
                 _ => false,
             };

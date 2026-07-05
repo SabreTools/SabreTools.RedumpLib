@@ -128,10 +128,6 @@ namespace SabreTools.RedumpLib.RedumpOrg
                     sb.Append($"{subpath.ShortName()}/");
                     break;
 
-                // redump.info subpaths that don't have equivilent paths
-                case DiscSubpath.History:
-                    break;
-
                 // WIP and null are invalid for a disc page
                 case DiscSubpath.WIP:
                 case null:
@@ -329,7 +325,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
                 sb.Append($"status/{(int)status}/");
 
             // System / Disc Type Search
-            string? systemName = system.ShortNameAlt();
+            string? systemName = system.ShortName();
             if (systemName is not null)
             {
                 string? discTypeName = discType.LongName()?.ToLowerInvariant();
@@ -408,7 +404,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
 
             sb.Append($"{dumper}/");
 
-            string? systemName = system.ShortNameAlt();
+            string? systemName = system.ShortName();
             if (systemName is not null)
                 sb.Append($"{systemName}/");
 
@@ -455,7 +451,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
 
             sb.Append(SiteBaseUrl);
 
-            string systemName = system.ShortNameAlt() ?? string.Empty;
+            string systemName = system.ShortName() ?? string.Empty;
             switch (packType)
             {
                 case PackType.Cuesheets: sb.AppendFormat(CuesPath, systemName); break;
