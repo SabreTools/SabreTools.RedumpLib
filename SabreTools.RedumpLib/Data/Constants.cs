@@ -87,7 +87,7 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// Regex matching the current creation time for login
         /// </summary>
-        public static readonly Regex LoginCreationTimeRegex = new(@"<input type=""hidden"" name=""form_token"" value=""(.*?)"" />", RegexOptions.Compiled);
+        public static readonly Regex LoginCreationTimeRegex = new(@"<input type=""hidden"" name=""creation_time"" value=""(.*?)"" />", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching the media field on a disc page
