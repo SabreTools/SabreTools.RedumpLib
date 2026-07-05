@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.CommandLine.Inputs;
 using SabreTools.RedumpLib.Data;
-using SabreTools.RedumpLib.RedumpOrg;
 using SabreTools.RedumpLib.Web;
 
 namespace RedumpTool.Features
@@ -135,7 +134,7 @@ namespace RedumpTool.Features
             int limit = LimitInput.Value ?? -1;
 
             // Build the disc subpaths
-            DiscSubpath[] discSubpaths = SabreTools.RedumpLib.Data.Constants.AllDiscSubpaths;
+            DiscSubpath[] discSubpaths = Constants.AllDiscSubpaths;
 
             // Override individual flags if shorthand flags used
             if (onlyNew)
