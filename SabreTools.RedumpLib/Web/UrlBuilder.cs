@@ -9,8 +9,6 @@ namespace SabreTools.RedumpLib.Web
     /// </summary>
     public static class UrlBuilder
     {
-        #region Constants
-
         #region BIOS File Names
 
         /// <summary>
@@ -32,10 +30,6 @@ namespace SabreTools.RedumpLib.Web
         /// Sony PlayStation 2 BIOS datfile filename
         /// </summary>
         public const string SonyPlayStation2BIOSFilename = "Sony%20-%20PlayStation%202%20-%20BIOS%20Datfile%20%28140%29%20%282026-06-16%29.dat";
-
-        #endregion
-
-        // TODO: Add filter statements for discs
 
         #endregion
 
