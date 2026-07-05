@@ -57,10 +57,8 @@ namespace RedumpTool.Features
             Add(TimeoutInput);
             Add(ForceDownloadInput);
             Add(ForceContinueInput);
-            Add(OldSiteInput);
 
             // Discs Path
-            Add(AntiModchipInput);
             Add(BarcodeInput);
             Add(CategoryInput);
             Add(CommentsInput);
@@ -69,13 +67,9 @@ namespace RedumpTool.Features
             Add(DumperInput);
             Add(EdcInput);
             Add(EditionInput);
-            Add(ErrorsInput);
             Add(LanguageInput);
             Add(LetterInput);
-            Add(LibCryptInput);
-            Add(MediaInput);
             Add(OffsetInput);
-            Add(ProtectionInput);
             Add(QuickSearchInput);
             Add(RegionInput);
             Add(RingcodeInput);
@@ -83,15 +77,12 @@ namespace RedumpTool.Features
             Add(SortDirInput);
             Add(StatusInput);
             Add(SystemInput);
-            Add(TracksInput);
 
             // Specific
             Add(MinimumInput);
             Add(MaximumInput);
             Add(OnlyNewInput);
             Add(LimitInput);
-            Add(OnlyPagesInput);
-            Add(OnlyFilesInput);
         }
 
         /// <inheritdoc/>
@@ -105,11 +96,9 @@ namespace RedumpTool.Features
             int? timeout = TimeoutInput.Value;
             bool forceDownload = ForceDownloadInput.Value;
             bool forceContinue = ForceContinueInput.Value;
-            bool oldSite = OldSiteInput.Value;
 
             // Get discs path values
-            bool? antimodchip = AntiModchipInput.Value;
-            bool barcode = BarcodeInput.Value;
+            string? barcode = BarcodeInput.Value;
             string? categoryString = CategoryInput.Value;
             DiscCategory? category = categoryString.ToDiscCategory();
             bool comments = CommentsInput.Value;
@@ -120,21 +109,12 @@ namespace RedumpTool.Features
             bool? edcBool = EdcInput.Value;
             YesNo? edc = edcBool?.ToYesNo();
             string? edition = EditionInput.Value;
-            string? errors = ErrorsInput.Value;
             string? languageString = LanguageInput.Value;
             Language? language = languageString.ToLanguage();
             char? letter = string.IsNullOrEmpty(LetterInput.Value)
                 ? null
                 : LetterInput.Value![0];
-            bool? libcrypt = LibCryptInput.Value;
-            PhysicalMediaType? media = MediaInput.Value?.ToLowerInvariant() switch
-            {
-                "cd" => PhysicalMediaType.CDROM,
-                "dvd" => PhysicalMediaType.DVD,
-                _ => null,
-            };
             int? offset = OffsetInput.Value;
-            bool protection = ProtectionInput.Value;
             string? quicksearch = QuickSearchInput.Value;
             string? regionString = RegionInput.Value;
             Region? region = regionString.ToRegion();
@@ -147,30 +127,15 @@ namespace RedumpTool.Features
             DumpStatus? status = statusString.ToDumpStatus();
             string? systemString = SystemInput.Value;
             PhysicalSystem? system = systemString.ToPhysicalSystem();
-            int? tracks = TracksInput.Value;
 
             // Get specific values
             int minId = MinimumInput.Value ?? -1;
             int maxId = MaximumInput.Value ?? -1;
             bool onlyNew = OnlyNewInput.Value;
             int limit = LimitInput.Value ?? -1;
-            bool onlyPages = OnlyPagesInput.Value;
-            bool onlyFiles = OnlyFilesInput.Value;
 
             // Build the disc subpaths
-            DiscSubpath[]? discSubpaths;
-            if (oldSite)
-            {
-                discSubpaths = SabreTools.RedumpLib.RedumpOrg.Constants.AllDiscSubpaths;
-                if (onlyPages)
-                    discSubpaths = SabreTools.RedumpLib.RedumpOrg.Constants.DiscSubPagesOnly;
-                else if (onlyFiles)
-                    discSubpaths = SabreTools.RedumpLib.RedumpOrg.Constants.DiscFilesOnly;
-            }
-            else
-            {
-                discSubpaths = SabreTools.RedumpLib.Data.Constants.AllDiscSubpaths;
-            }
+            DiscSubpath[] discSubpaths = SabreTools.RedumpLib.Data.Constants.AllDiscSubpaths;
 
             // Override individual flags if shorthand flags used
             if (onlyNew)
@@ -183,109 +148,56 @@ namespace RedumpTool.Features
             if (!ValidateAndCreateOutputDirectory(outDir))
                 return false;
 
-            // If connecting to redump.org
-            if (oldSite)
+            // Update redump.info client properties
+            _client.Debug = DebugInput.Value;
+            if (attemptCount != null && attemptCount > 0)
+                _client.AttemptCount = attemptCount.Value;
+            if (timeout != null && timeout > 0)
+                _client.Timeout = TimeSpan.FromSeconds(timeout.Value);
+            _client.Overwrite = forceDownload;
+            _client.IgnoreErrors = forceContinue;
+
+            // Login to redump.info, if necessary
+            _client.Login(username, password).Wait();
+
+            // Start the processing
+            Task<List<int>> processingTask;
+            if (minId >= 0 && maxId >= 0)
             {
-                // Update redump.org client properties
-                _orgClient.Debug = DebugInput.Value;
-                if (attemptCount != null && attemptCount > 0)
-                    _orgClient.AttemptCount = attemptCount.Value;
-                if (timeout != null && timeout > 0)
-                    _orgClient.Timeout = TimeSpan.FromSeconds(timeout.Value);
-                _orgClient.Overwrite = forceDownload;
-                _orgClient.IgnoreErrors = forceContinue;
-
-                // Login to redump.org, if necessary
-                _orgClient.Login(username, password).Wait();
-
-                // Start the processing
-                Task<List<int>> processingTask;
-                if (minId >= 0 && maxId >= 0)
-                {
-                    processingTask = _orgClient.DownloadSiteRange(outDir, minId, maxId, discSubpaths: discSubpaths);
-                }
-                else
-                {
-                    processingTask = _orgClient.DownloadDiscsResults(outDir,
-                        antimodchip,
-                        barcode,
-                        category,
-                        mediaType,
-                        dumper,
-                        edc,
-                        edition,
-                        errors,
-                        language,
-                        letter,
-                        libcrypt,
-                        media,
-                        offset,
-                        quicksearch,
-                        region,
-                        ringcode,
-                        sort,
-                        sortDir,
-                        status,
-                        system,
-                        tracks,
-                        comments,
-                        contents,
-                        protection,
-                        limit,
-                        discSubpaths: discSubpaths);
-                }
-
-                // Retrieve the result
-                processingTask.Wait();
-                var processedIds = processingTask.Result;
-
-                // Display the processed IDs
-                return PrintProcessedIds(processedIds);
+                processingTask = _client.DownloadSiteRange(outDir, minId, maxId, discSubpaths: discSubpaths);
             }
             else
             {
-                // Update redump.info client properties
-                _client.Debug = DebugInput.Value;
-                if (attemptCount != null && attemptCount > 0)
-                    _client.AttemptCount = attemptCount.Value;
-                if (timeout != null && timeout > 0)
-                    _client.Timeout = TimeSpan.FromSeconds(timeout.Value);
-                _client.Overwrite = forceDownload;
-                _client.IgnoreErrors = forceContinue;
-
-                // Login to redump.info, if necessary
-                _client.Login(username, password).Wait();
-
-                // Start the processing
-                Task<List<int>> processingTask;
-                if (minId >= 0 && maxId >= 0)
-                {
-                    processingTask = _client.DownloadSiteRange(outDir, minId, maxId, discSubpaths: discSubpaths);
-                }
-                else
-                {
-                    processingTask = _client.DownloadDiscsResults(outDir,
-                        comments: comments ? quicksearch : null,
-                        dumper: dumper,
-                        edition: edition,
-                        letter: letter,
-                        order: sortDir,
-                        query: comments ? null : quicksearch,
-                        region: region,
-                        sort: sort,
-                        status: status,
-                        system: system,
-                        limit: limit,
-                        discSubpaths: discSubpaths);
-                }
-
-                // Retrieve the result
-                processingTask.Wait();
-                var processedIds = processingTask.Result;
-
-                // Display the processed IDs
-                return PrintProcessedIds(processedIds);
+                // TODO: Either strip this out or fix the bad logic
+                processingTask = _client.DownloadDiscsResults(outDir,
+                    barcode: barcode,
+                    category: category,
+                    comments: comments ? quicksearch : null,
+                    contents: contents ? quicksearch : null,
+                    dumper: dumper,
+                    edc: edc,
+                    edition: edition,
+                    language: language,
+                    letter: letter,
+                    media: mediaType,
+                    offset: offset,
+                    order: sortDir,
+                    query: comments || contents ? null : quicksearch,
+                    region: region,
+                    ringcode: ringcode,
+                    sort: sort,
+                    status: status,
+                    system: system,
+                    limit: limit,
+                    discSubpaths: discSubpaths);
             }
+
+            // Retrieve the result
+            processingTask.Wait();
+            var processedIds = processingTask.Result;
+
+            // Display the processed IDs
+            return PrintProcessedIds(processedIds);
         }
 
         /// <inheritdoc/>

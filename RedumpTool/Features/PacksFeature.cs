@@ -38,7 +38,6 @@ namespace RedumpTool.Features
             Add(TimeoutInput);
             Add(ForceDownloadInput);
             Add(ForceContinueInput);
-            Add(OldSiteInput);
 
             // Specific
             Add(SubfoldersInput);
@@ -55,7 +54,6 @@ namespace RedumpTool.Features
             int? timeout = TimeoutInput.Value;
             bool forceDownload = ForceDownloadInput.Value;
             bool forceContinue = ForceContinueInput.Value;
-            bool oldSite = OldSiteInput.Value;
 
             // Get specific values
             bool useSubfolders = SubfoldersInput.Value;
@@ -64,49 +62,24 @@ namespace RedumpTool.Features
             if (!ValidateAndCreateOutputDirectory(outDir))
                 return false;
 
-            // If connecting to redump.org
-            if (oldSite)
-            {
-                // Update redump.org client properties
-                _orgClient.Debug = DebugInput.Value;
-                if (attemptCount != null && attemptCount > 0)
-                    _orgClient.AttemptCount = attemptCount.Value;
-                if (timeout != null && timeout > 0)
-                    _orgClient.Timeout = TimeSpan.FromSeconds(timeout.Value);
-                _orgClient.Overwrite = forceDownload;
-                _orgClient.IgnoreErrors = forceContinue;
+            // Update redump.info client properties
+            _client.Debug = DebugInput.Value;
+            if (attemptCount != null && attemptCount > 0)
+                _client.AttemptCount = attemptCount.Value;
+            if (timeout != null && timeout > 0)
+                _client.Timeout = TimeSpan.FromSeconds(timeout.Value);
+            _client.Overwrite = forceDownload;
+            _client.IgnoreErrors = forceContinue;
 
-                // Login to redump.org, if necessary
-                _orgClient.Login(username, password).Wait();
+            // Login to redump.info, if necessary
+            _client.Login(username, password).Wait();
 
-                // Start the processing
-                var processingTask = _orgClient.DownloadAllPacks(outDir, useSubfolders);
+            // Start the processing
+            var processingTask = _client.DownloadAllPacks(outDir, useSubfolders);
 
-                // Retrieve the result
-                processingTask.Wait();
-                return processingTask.Result;
-            }
-            else
-            {
-                // Update redump.info client properties
-                _client.Debug = DebugInput.Value;
-                if (attemptCount != null && attemptCount > 0)
-                    _client.AttemptCount = attemptCount.Value;
-                if (timeout != null && timeout > 0)
-                    _client.Timeout = TimeSpan.FromSeconds(timeout.Value);
-                _client.Overwrite = forceDownload;
-                _client.IgnoreErrors = forceContinue;
-
-                // Login to redump.info, if necessary
-                _client.Login(username, password).Wait();
-
-                // Start the processing
-                var processingTask = _client.DownloadAllPacks(outDir, useSubfolders);
-
-                // Retrieve the result
-                processingTask.Wait();
-                return processingTask.Result;
-            }
+            // Retrieve the result
+            processingTask.Wait();
+            return processingTask.Result;
         }
 
         /// <inheritdoc/>

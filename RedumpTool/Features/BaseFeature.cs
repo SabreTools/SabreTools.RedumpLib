@@ -28,9 +28,6 @@ namespace RedumpTool.Features
         private const string _passwordName = "password";
         internal readonly StringInput PasswordInput = new(_passwordName, ["-p", "--password"], "Redump password");
 
-        private const string _oldSiteName = "oldsite";
-        internal readonly FlagInput OldSiteInput = new(_oldSiteName, ["--old"], "Connect to redump.org instead of redump.info");
-
         private const string _timeoutName = "timeout";
         internal readonly Int32Input TimeoutInput = new(_timeoutName, ["-t", "--timeout"], "Request timeout in whole seconds (default 30)");
 
@@ -39,11 +36,8 @@ namespace RedumpTool.Features
 
         #region Discs Path Filter Inputs
 
-        private const string _antiModchipName = "antimodchip";
-        internal readonly BooleanInput AntiModchipInput = new(_antiModchipName, ["--anti-modchip"], "Filter by anti-modchip status [true, false, null]");
-
         private const string _barcodeName = "barcode";
-        internal readonly FlagInput BarcodeInput = new(_barcodeName, ["--barcode"], "Filter by missing barcodes");
+        internal readonly StringInput BarcodeInput = new(_barcodeName, ["--barcode"], "Filter by barcode");
 
         private const string _categoryName = "category";
         internal readonly StringInput CategoryInput = new(_categoryName, ["--category"], "Filter by disc category");
@@ -66,29 +60,17 @@ namespace RedumpTool.Features
         private const string _editionName = "edition";
         internal readonly StringInput EditionInput = new(_editionName, ["--edition"], "Filter by edition");
 
-        private const string _errorsName = "errors";
-        internal readonly StringInput ErrorsInput = new(_errorsName, ["--errors"], "Filter by errors");
-
         private const string _languageName = "language";
         internal readonly StringInput LanguageInput = new(_languageName, ["--language"], "Filter by language");
 
         private const string _letterName = "letter";
         internal readonly StringInput LetterInput = new(_letterName, ["--letter"], "Filter by first letter");
 
-        private const string _libCryptName = "libcrypt";
-        internal readonly BooleanInput LibCryptInput = new(_libCryptName, ["--libcrypt"], "Filter by LibCrypt status [true, false, null]");
-
-        private const string _mediaName = "media";
-        internal readonly StringInput MediaInput = new(_mediaName, ["--media"], "Filter by media type");
-
         private const string _offsetName = "offset";
         internal readonly Int32Input OffsetInput = new(_offsetName, ["--offset"], "Filter by disc offset");
 
         private const string _pageName = "page";
         internal readonly Int32Input PageInput = new(_pageName, ["--page"], "Retrieve specific result page");
-
-        private const string _protectionName = "protection";
-        internal readonly FlagInput ProtectionInput = new(_protectionName, ["--protection"], "Filter by protection only, incompatible with --comments and --contents");
 
         private const string _quickSearchName = "quicksearch";
         internal readonly StringInput QuickSearchInput = new(_quickSearchName, ["--quicksearch"], "Filter by quicksearch");
@@ -110,9 +92,6 @@ namespace RedumpTool.Features
 
         private const string _systemName = "system";
         internal readonly StringInput SystemInput = new(_systemName, ["--system"], "Filter by system");
-
-        private const string _tracksName = "tracks";
-        internal readonly Int32Input TracksInput = new(_tracksName, ["--tracks"], "Filter by track count [1-99]");
 
         #endregion
 

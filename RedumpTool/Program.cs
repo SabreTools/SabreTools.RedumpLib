@@ -57,7 +57,6 @@ namespace RedumpTool
             commandSet.Add(new PacksFeature());
             commandSet.Add(new UserFeature());
             commandSet.Add(new QueryFeature());
-            commandSet.Add(new StatsFeature());
 
             return commandSet;
         }
