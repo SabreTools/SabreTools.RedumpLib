@@ -2,7 +2,7 @@ using System;
 using Newtonsoft.Json;
 using SabreTools.RedumpLib.Data;
 
-namespace SabreTools.RedumpLib.RedumpOrg.Sections
+namespace SabreTools.RedumpLib.RedumpOrg.Data.Sections
 {
     /// <summary>
     /// Dumpers and status section of New Disc form (Moderator only)

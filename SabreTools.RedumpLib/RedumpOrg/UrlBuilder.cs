@@ -1,6 +1,12 @@
 using System;
 using System.Text;
 using SabreTools.RedumpLib.Data;
+using SabreTools.RedumpLib.RedumpOrg.Data;
+using DiscSubpath = SabreTools.RedumpLib.RedumpOrg.Data.DiscSubpath;
+using Language = SabreTools.RedumpLib.RedumpOrg.Data.Language;
+using PackType = SabreTools.RedumpLib.RedumpOrg.Data.PackType;
+using PhysicalSystem = SabreTools.RedumpLib.RedumpOrg.Data.PhysicalSystem;
+using Region = SabreTools.RedumpLib.RedumpOrg.Data.Region;
 
 // TODO: Errors should validate number or number range (# or #-#)
 

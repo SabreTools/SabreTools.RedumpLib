@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace SabreTools.RedumpLib.RedumpOrg.Sections
+namespace SabreTools.RedumpLib.RedumpOrg.Data.Sections
 {
     /// <summary>
     /// Size &amp; checksums section of New Disc form (DVD/BD/UMD-based)

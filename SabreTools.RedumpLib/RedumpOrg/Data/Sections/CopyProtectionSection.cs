@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using SabreTools.RedumpLib.Converters;
 using SabreTools.RedumpLib.Data;
 
-namespace SabreTools.RedumpLib.RedumpOrg.Sections
+namespace SabreTools.RedumpLib.RedumpOrg.Data.Sections
 {
     /// <summary>
     /// Copy protection section of New Disc form

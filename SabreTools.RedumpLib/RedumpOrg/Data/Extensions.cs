@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using SabreTools.RedumpLib.Attributes;
-using SabreTools.RedumpLib.Data;
+using MediaType = SabreTools.RedumpLib.Data.MediaType;
 using SystemAttribute = SabreTools.RedumpLib.RedumpOrg.Attributes.SystemAttribute;
+using SystemCategory = SabreTools.RedumpLib.Data.SystemCategory;
 
-namespace SabreTools.RedumpLib.RedumpOrg
+namespace SabreTools.RedumpLib.RedumpOrg.Data
 {
     /// <summary>
     /// Information pertaining to Redump systems
@@ -42,7 +43,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
                 case MediaType.BD100:
                 case MediaType.BD128:
                     // Extract the size from the hashes
-                    long size = Data.Extensions.ExtractSizeFromHashData(info.TracksAndWriteOffsets.ClrMameProData);
+                    long size = RedumpLib.Data.Extensions.ExtractSizeFromHashData(info.TracksAndWriteOffsets.ClrMameProData);
 
                     if (info.SizeAndChecksums.Layerbreak3 != default)
                         info.CommonDiscInfo.Media = MediaType.BD128;

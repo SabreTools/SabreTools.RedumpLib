@@ -3,7 +3,7 @@ using SabreTools.RedumpLib.RedumpOrg.Attributes;
 using HumanReadableAttribute = SabreTools.RedumpLib.Attributes.HumanReadableAttribute;
 using LanguageCodeAttribute = SabreTools.RedumpLib.Attributes.LanguageCodeAttribute;
 
-namespace SabreTools.RedumpLib.RedumpOrg
+namespace SabreTools.RedumpLib.RedumpOrg.Data
 {
     /// <summary>
     /// List of all disc subpaths

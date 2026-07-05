@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using SabreTools.RedumpLib.RedumpOrg.Sections;
+using SabreTools.RedumpLib.RedumpOrg.Data.Sections;
 
-namespace SabreTools.RedumpLib.RedumpOrg
+namespace SabreTools.RedumpLib.RedumpOrg.Data
 {
     /// <summary>
     /// redump.org submission page information

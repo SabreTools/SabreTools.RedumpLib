@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Web;
+using DiscSubpath = SabreTools.RedumpLib.RedumpOrg.Data.DiscSubpath;
+using Language = SabreTools.RedumpLib.RedumpOrg.Data.Language;
+using PhysicalSystem = SabreTools.RedumpLib.RedumpOrg.Data.PhysicalSystem;
+using Region = SabreTools.RedumpLib.RedumpOrg.Data.Region;
 
 namespace SabreTools.RedumpLib.RedumpOrg
 {

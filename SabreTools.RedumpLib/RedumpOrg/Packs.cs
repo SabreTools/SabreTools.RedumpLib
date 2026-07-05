@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using SabreTools.RedumpLib.Data;
+using PackType = SabreTools.RedumpLib.RedumpOrg.Data.PackType;
+using PhysicalSystem = SabreTools.RedumpLib.RedumpOrg.Data.PhysicalSystem;
 
 namespace SabreTools.RedumpLib.RedumpOrg
 {

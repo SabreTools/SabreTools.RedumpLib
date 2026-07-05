@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using SabreTools.RedumpLib.Data;
-using SabreTools.RedumpLib.RedumpOrg.Sections;
+using SabreTools.RedumpLib.RedumpOrg.Data;
+using SabreTools.RedumpLib.RedumpOrg.Data.Sections;
+using PhysicalSystem = SabreTools.RedumpLib.RedumpOrg.Data.PhysicalSystem;
+using SubmissionInfo = SabreTools.RedumpLib.RedumpOrg.Data.SubmissionInfo;
 
-namespace SabreTools.RedumpLib.RedumpOrg
+namespace SabreTools.RedumpLib.RedumpOrg.Tools
 {
     public static class Formatter
     {
@@ -273,7 +276,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
             List<int>? partiallyMatchedIDs)
         {
             // Extract the size from the hashes
-            long size = Data.Extensions.ExtractSizeFromHashData(tawo?.ClrMameProData);
+            long size = RedumpLib.Data.Extensions.ExtractSizeFromHashData(tawo?.ClrMameProData);
 
             output.AppendLine("Common Disc Info:");
 

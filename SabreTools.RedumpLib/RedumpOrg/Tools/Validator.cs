@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
+using Constants = SabreTools.RedumpLib.RedumpOrg.Data.Constants;
+using SubmissionInfo = SabreTools.RedumpLib.RedumpOrg.Data.SubmissionInfo;
 
-namespace SabreTools.RedumpLib.RedumpOrg
+namespace SabreTools.RedumpLib.RedumpOrg.Tools
 {
     public static class Validator
     {

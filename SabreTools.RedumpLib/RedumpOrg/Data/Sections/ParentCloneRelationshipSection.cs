@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace SabreTools.RedumpLib.RedumpOrg.Sections
+namespace SabreTools.RedumpLib.RedumpOrg.Data.Sections
 {
     /// <summary>
     /// Parent/Clone relationship section of New Disc form

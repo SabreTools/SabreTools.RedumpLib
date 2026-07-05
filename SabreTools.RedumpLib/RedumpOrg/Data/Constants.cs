@@ -1,7 +1,6 @@
 using System.Text.RegularExpressions;
-using SabreTools.RedumpLib.Data;
 
-namespace SabreTools.RedumpLib.RedumpOrg
+namespace SabreTools.RedumpLib.RedumpOrg.Data
 {
     public static class Constants
     {
