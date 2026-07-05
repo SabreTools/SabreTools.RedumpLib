@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using SabreTools.CommandLine;
 using SabreTools.CommandLine.Inputs;
+using SabreTools.RedumpLib.Web;
 
 namespace RedumpTool.Features
 {
@@ -102,20 +103,14 @@ namespace RedumpTool.Features
         /// <summary>
         /// redump.info client to use for external connections
         /// </summary>
-        protected SabreTools.RedumpLib.Web.Client _client;
-
-        /// <summary>
-        /// redump.org client to use for external connections
-        /// </summary>
-        protected SabreTools.RedumpLib.RedumpOrg.Client _orgClient;
+        protected Client _client;
 
         #endregion
 
         public BaseFeature(string name, string[] flags, string description, string? detailed = null)
            : base(name, flags, description, detailed)
         {
-            _client = new SabreTools.RedumpLib.Web.Client();
-            _orgClient = new SabreTools.RedumpLib.RedumpOrg.Client();
+            _client = new Client();
         }
 
         #region Helpers
