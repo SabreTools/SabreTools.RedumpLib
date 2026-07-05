@@ -83,8 +83,10 @@ namespace SabreTools.RedumpLib.Web
         /// Indicates if the user is a staff member
         /// </summary>
         /// <remarks>Modifying to set as true does not change actual staff status</remarks>
+#pragma warning disable CS0414 // The private field 'field' is assigned but its value is never used
 #pragma warning disable IDE0052 // Remove unread private members
         private bool _staffMember = false;
+#pragma warning restore CS0414 // The private field 'field' is assigned but its value is never used
 #pragma warning restore IDE0052 // Remove unread private members
 
         #endregion
