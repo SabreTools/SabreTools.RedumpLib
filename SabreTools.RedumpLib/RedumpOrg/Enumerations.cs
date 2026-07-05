@@ -1,5 +1,5 @@
-using SabreTools.RedumpLib.RedumpOrg.Attributes;
 using SabreTools.RedumpLib.Data;
+using SabreTools.RedumpLib.RedumpOrg.Attributes;
 using HumanReadableAttribute = SabreTools.RedumpLib.Attributes.HumanReadableAttribute;
 
 namespace SabreTools.RedumpLib.RedumpOrg
@@ -353,5 +353,251 @@ namespace SabreTools.RedumpLib.RedumpOrg
         MarkerOtherEnd,
 
         #endregion
+    }
+
+    /// <summary>
+    /// List of all regions defined in Redump.org
+    /// </summary>
+    /// <remarks>
+    /// https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+    /// </remarks>
+    public enum Region
+    {
+        [HumanReadable(LongName = "Argentina", ShortName = "Ar")]
+        Argentina,
+
+        [HumanReadable(LongName = "Asia", ShortName = "A")]
+        Asia,
+
+        [HumanReadable(LongName = "Asia, Europe", ShortName = "A,E")]
+        AsiaEurope,
+
+        [HumanReadable(LongName = "Asia, USA", ShortName = "A,U")]
+        AsiaUSA,
+
+        [HumanReadable(LongName = "Australia", ShortName = "Au")]
+        Australia,
+
+        [HumanReadable(LongName = "Australia, Germany", ShortName = "Au,G")]
+        AustraliaGermany,
+
+        [HumanReadable(LongName = "Australia, New Zealand", ShortName = "Au,Nz")]
+        AustraliaNewZealand,
+
+        [HumanReadable(LongName = "Austria", ShortName = "At")]
+        Austria,
+
+        [HumanReadable(LongName = "Austria, Switzerland", ShortName = "At,Ch")]
+        AustriaSwitzerland,
+
+        [HumanReadable(LongName = "Belarus", ShortName = "By")]
+        Belarus,
+
+        [HumanReadable(LongName = "Belgium", ShortName = "Be")]
+        Belgium,
+
+        [HumanReadable(LongName = "Belgium, Netherlands", ShortName = "Be,N")]
+        BelgiumNetherlands,
+
+        [HumanReadable(LongName = "Brazil", ShortName = "B")]
+        Brazil,
+
+        [HumanReadable(LongName = "Bulgaria", ShortName = "Bg")]
+        Bulgaria,
+
+        [HumanReadable(LongName = "Canada", ShortName = "Ca")]
+        Canada,
+
+        [HumanReadable(LongName = "China", ShortName = "C")]
+        China,
+
+        [HumanReadable(LongName = "Croatia", ShortName = "Hr")]
+        Croatia,
+
+        [HumanReadable(LongName = "Czech", ShortName = "Cz")]
+        Czech,
+
+        [HumanReadable(LongName = "Denmark", ShortName = "Dk")]
+        Denmark,
+
+        [HumanReadable(LongName = "Estonia", ShortName = "Ee")]
+        Estonia,
+
+        [HumanReadable(LongName = "Europe", ShortName = "E")]
+        Europe,
+
+        [HumanReadable(LongName = "Europe, Asia", ShortName = "E,A")]
+        EuropeAsia,
+
+        [HumanReadable(LongName = "Europe, Australia", ShortName = "E,Au")]
+        EuropeAustralia,
+
+        [HumanReadable(LongName = "Europe, Canada", ShortName = "E,Ca")]
+        EuropeCanada,
+
+        [HumanReadable(LongName = "Europe, Germany", ShortName = "E,G")]
+        EuropeGermany,
+
+        [HumanReadable(LongName = "Export", ShortName = "Ex")]
+        Export,
+
+        [HumanReadable(LongName = "Finland", ShortName = "Fi")]
+        Finland,
+
+        [HumanReadable(LongName = "France", ShortName = "F")]
+        France,
+
+        [HumanReadable(LongName = "France, Spain", ShortName = "F,S")]
+        FranceSpain,
+
+        [HumanReadable(LongName = "Germany", ShortName = "G")]
+        Germany,
+
+        [HumanReadable(LongName = "Greater China", ShortName = "GC")]
+        GreaterChina,
+
+        [HumanReadable(LongName = "Greece", ShortName = "Gr")]
+        Greece,
+
+        [HumanReadable(LongName = "Hungary", ShortName = "H")]
+        Hungary,
+
+        [HumanReadable(LongName = "Iceland", ShortName = "Is")]
+        Iceland,
+
+        [HumanReadable(LongName = "India", ShortName = "In")]
+        India,
+
+        [HumanReadable(LongName = "Ireland", ShortName = "Ie")]
+        Ireland,
+
+        [HumanReadable(LongName = "Israel", ShortName = "Il")]
+        Israel,
+
+        [HumanReadable(LongName = "Italy", ShortName = "I")]
+        Italy,
+
+        [HumanReadable(LongName = "Japan", ShortName = "J")]
+        Japan,
+
+        [HumanReadable(LongName = "Japan, Asia", ShortName = "J,A")]
+        JapanAsia,
+
+        [HumanReadable(LongName = "Japan, Europe", ShortName = "J,E")]
+        JapanEurope,
+
+        [HumanReadable(LongName = "Japan, Korea", ShortName = "J,K")]
+        JapanKorea,
+
+        [HumanReadable(LongName = "Japan, USA", ShortName = "J,U")]
+        JapanUSA,
+
+        [HumanReadable(LongName = "Korea", ShortName = "K")]
+        Korea,
+
+        [HumanReadable(LongName = "Latin America", ShortName = "LAm")]
+        LatinAmerica,
+
+        [HumanReadable(LongName = "Lithuania", ShortName = "Lt")]
+        Lithuania,
+
+        [HumanReadable(LongName = "Netherlands", ShortName = "N")]
+        Netherlands,
+
+        [HumanReadable(LongName = "New Zealand", ShortName = "Nz")]
+        NewZealand,
+
+        [HumanReadable(LongName = "Norway", ShortName = "No")]
+        Norway,
+
+        [HumanReadable(LongName = "Poland", ShortName = "P")]
+        Poland,
+
+        [HumanReadable(LongName = "Portugal", ShortName = "Pt")]
+        Portugal,
+
+        [HumanReadable(LongName = "Romania", ShortName = "Ro")]
+        Romania,
+
+        [HumanReadable(LongName = "Russia", ShortName = "R")]
+        Russia,
+
+        [HumanReadable(LongName = "Scandinavia", ShortName = "Sca")]
+        Scandinavia,
+
+        [HumanReadable(LongName = "Serbia", ShortName = "Rs")]
+        Serbia,
+
+        [HumanReadable(LongName = "Singapore", ShortName = "Sg")]
+        Singapore,
+
+        [HumanReadable(LongName = "Slovakia", ShortName = "Sk")]
+        Slovakia,
+
+        [HumanReadable(LongName = "South Africa", ShortName = "Za")]
+        SouthAfrica,
+
+        [HumanReadable(LongName = "Spain", ShortName = "S")]
+        Spain,
+
+        [HumanReadable(LongName = "Spain, Portugal", ShortName = "S,Pt")]
+        SpainPortugal,
+
+        [HumanReadable(LongName = "Sweden", ShortName = "Sw")]
+        Sweden,
+
+        [HumanReadable(LongName = "Switzerland", ShortName = "Ch")]
+        Switzerland,
+
+        [HumanReadable(LongName = "Taiwan", ShortName = "Tw")]
+        Taiwan,
+
+        [HumanReadable(LongName = "Thailand", ShortName = "Th")]
+        Thailand,
+
+        [HumanReadable(LongName = "Turkey", ShortName = "Tr")]
+        Turkey,
+
+        [HumanReadable(LongName = "United Arab Emirates", ShortName = "Ae")]
+        UnitedArabEmirates,
+
+        [HumanReadable(LongName = "UK", ShortName = "Uk")]
+        UK,
+
+        [HumanReadable(LongName = "UK, Australia", ShortName = "Uk,Au")]
+        UKAustralia,
+
+        [HumanReadable(LongName = "Ukraine", ShortName = "Ua")]
+        Ukraine,
+
+        [HumanReadable(LongName = "USA", ShortName = "U")]
+        USA,
+
+        [HumanReadable(LongName = "USA, Asia", ShortName = "U,A")]
+        USAAsia,
+
+        [HumanReadable(LongName = "USA, Australia", ShortName = "U,Au")]
+        USAAustralia,
+
+        [HumanReadable(LongName = "USA, Brazil", ShortName = "U,B")]
+        USABrazil,
+
+        [HumanReadable(LongName = "USA, Canada", ShortName = "U,Ca")]
+        USACanada,
+
+        [HumanReadable(LongName = "USA, Europe", ShortName = "U,E")]
+        USAEurope,
+
+        [HumanReadable(LongName = "USA, Germany", ShortName = "U,G")]
+        USAGermany,
+
+        [HumanReadable(LongName = "USA, Japan", ShortName = "U,J")]
+        USAJapan,
+
+        [HumanReadable(LongName = "USA, Korea", ShortName = "U,K")]
+        USAKorea,
+
+        [HumanReadable(LongName = "World", ShortName = "W")]
+        World,
     }
 }

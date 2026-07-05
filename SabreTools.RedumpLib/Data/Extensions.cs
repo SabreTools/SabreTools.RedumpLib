@@ -1973,7 +1973,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="region"></param>
         /// <returns></returns>
         public static string? LongName(this Region region)
-            => (AttributeHelper<Region>.GetHumanReadableAttribute(region) as RegionCodeAttribute)?.LongName;
+            => AttributeHelper<Region>.GetHumanReadableAttribute(region)?.LongName;
 
         /// <summary>
         /// Get the Redump longnames for each known region
@@ -1981,7 +1981,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="region"></param>
         /// <returns></returns>
         public static string? LongName(this Region? region)
-            => (AttributeHelper<Region?>.GetHumanReadableAttribute(region) as RegionCodeAttribute)?.LongName;
+            => AttributeHelper<Region?>.GetHumanReadableAttribute(region)?.LongName;
 
         /// <summary>
         /// Get the Redump shortnames for each known region
@@ -1989,7 +1989,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="region"></param>
         /// <returns></returns>
         public static string? ShortName(this Region region)
-            => (AttributeHelper<Region>.GetHumanReadableAttribute(region) as RegionCodeAttribute)?.ShortName;
+            => AttributeHelper<Region>.GetHumanReadableAttribute(region)?.ShortName;
 
         /// <summary>
         /// Get the Redump shortnames for each known region
@@ -1997,23 +1997,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="region"></param>
         /// <returns></returns>
         public static string? ShortName(this Region? region)
-            => (AttributeHelper<Region?>.GetHumanReadableAttribute(region) as RegionCodeAttribute)?.ShortName;
-
-        /// <summary>
-        /// Get the Redump shortnames for each known region
-        /// </summary>
-        /// <param name="region"></param>
-        /// <returns></returns>
-        public static string? ShortNameAlt(this Region region)
-            => (AttributeHelper<Region>.GetHumanReadableAttribute(region) as RegionCodeAttribute)?.RedumpOrgCode;
-
-        /// <summary>
-        /// Get the Redump shortnames for each known region
-        /// </summary>
-        /// <param name="region"></param>
-        /// <returns></returns>
-        public static string? ShortNameAlt(this Region? region)
-            => (AttributeHelper<Region?>.GetHumanReadableAttribute(region) as RegionCodeAttribute)?.RedumpOrgCode;
+            => AttributeHelper<Region?>.GetHumanReadableAttribute(region)?.ShortName;
 
         /// <summary>
         /// Get the Region enum value for a given string
@@ -2031,11 +2015,6 @@ namespace SabreTools.RedumpLib.Data
 
             // Check short names
             int index = Array.FindIndex(redumpSystems, s => region == s.ShortName()?.ToLowerInvariant());
-            if (index > -1)
-                return redumpSystems[index];
-
-            // Check redump.org short names
-            index = Array.FindIndex(redumpSystems, s => region == s.ShortNameAlt()?.ToLowerInvariant());
             if (index > -1)
                 return redumpSystems[index];
 

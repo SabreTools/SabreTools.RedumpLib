@@ -474,7 +474,7 @@ namespace SabreTools.RedumpLib.Tools
             {
                 match = RedumpOrg.Constants.RegionRegex.Match(discData);
                 if (match.Success)
-                    info.CommonDiscInfo.Region = match.Groups[1].Value.ToRegion();
+                    info.CommonDiscInfo.Region = RedumpOrg.Extensions.ToRegion(match.Groups[1].Value);
             }
 
             // Languages

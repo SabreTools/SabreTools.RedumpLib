@@ -278,7 +278,7 @@ namespace SabreTools.RedumpLib.RedumpOrg
                 sb.Append($"quicksearch/{quicksearch}/");
 
             // Region
-            string? regionName = region.ShortNameAlt();
+            string? regionName = region.ShortName();
             if (regionName is not null)
                 sb.Append($"region/{regionName}/");
 

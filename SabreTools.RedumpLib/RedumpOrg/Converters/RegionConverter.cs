@@ -1,7 +1,6 @@
 using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SabreTools.RedumpLib.Data;
 
 namespace SabreTools.RedumpLib.RedumpOrg.Converters
 {
@@ -28,7 +27,7 @@ namespace SabreTools.RedumpLib.RedumpOrg.Converters
 
         public override void WriteJson(JsonWriter writer, Region? value, JsonSerializer serializer)
         {
-            JToken t = JToken.FromObject(value.ShortNameAlt() ?? string.Empty);
+            JToken t = JToken.FromObject(value.ShortName() ?? string.Empty);
             t.WriteTo(writer);
         }
     }

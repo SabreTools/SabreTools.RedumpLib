@@ -2718,39 +2718,6 @@ namespace SabreTools.RedumpLib.Test.Data
         #region Region
 
         /// <summary>
-        /// Region values that don't have redump.info shortnames
-        /// </summary>
-        private static readonly Region?[] _regionsWithoutInfoShortname =
-        [
-            Region.AsiaEurope,
-            Region.AsiaUSA,
-            Region.AustraliaGermany,
-            Region.AustraliaNewZealand,
-            Region.AustriaSwitzerland,
-            Region.BelgiumNetherlands,
-            Region.EuropeAsia,
-            Region.EuropeAustralia,
-            Region.EuropeCanada,
-            Region.EuropeGermany,
-            Region.FranceSpain,
-            Region.GreaterChina,
-            Region.JapanAsia,
-            Region.JapanEurope,
-            Region.JapanKorea,
-            Region.JapanUSA,
-            Region.SpainPortugal,
-            Region.UKAustralia,
-            Region.USAAsia,
-            Region.USAAustralia,
-            Region.USABrazil,
-            Region.USACanada,
-            Region.USAEurope,
-            Region.USAGermany,
-            Region.USAJapan,
-            Region.USAKorea,
-        ];
-
-        /// <summary>
         /// Check that every Region has a long name provided
         /// </summary>
         /// <param name="region">Region value to check</param>
@@ -2776,10 +2743,6 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GenerateRegionTestData))]
         public void Region_ShortName(Region? region, bool expectNull)
         {
-            // HACK: Hardcoded list of aggregate regions to ignore
-            if (_regionsWithoutInfoShortname.Contains(region))
-                expectNull = true;
-
             var actual = region.ShortName();
 
             if (expectNull)
@@ -2801,50 +2764,6 @@ namespace SabreTools.RedumpLib.Test.Data
             foreach (Region? region in fullRegions)
             {
                 var code = region.ShortName();
-                if (string.IsNullOrEmpty(code))
-                    continue;
-
-                // Throw if the code already exists
-                if (filteredRegions.ContainsKey(code))
-                    throw new DuplicateNameException($"Code {code} already in dictionary");
-
-                filteredRegions[code] = region;
-                totalCount++;
-            }
-
-            Assert.Equal(totalCount, filteredRegions.Count);
-        }
-
-        /// <summary>
-        /// Check that every Region has a short name provided
-        /// </summary>
-        /// <param name="region">Region value to check</param>
-        /// <param name="expectNull">True to expect a null value, false otherwise</param>
-        [Theory]
-        [MemberData(nameof(GenerateRegionTestData))]
-        public void Region_ShortNameAlt(Region? region, bool expectNull)
-        {
-            var actual = region.ShortNameAlt();
-
-            if (expectNull)
-                Assert.Null(actual);
-            else
-                Assert.NotNull(actual);
-        }
-
-        /// <summary>
-        /// Ensure that every Region that has a short name that is unique
-        /// </summary>
-        [Fact]
-        public void Region_ShortNameAlt_NoDuplicates()
-        {
-            var fullRegions = Enum.GetValues<Region>().Cast<Region?>().ToList();
-            var filteredRegions = new Dictionary<string, Region?>();
-
-            int totalCount = 0;
-            foreach (Region? region in fullRegions)
-            {
-                var code = region.ShortNameAlt();
                 if (string.IsNullOrEmpty(code))
                     continue;
 
