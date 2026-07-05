@@ -11,70 +11,6 @@ namespace SabreTools.RedumpLib.Web
     {
         #region Constants
 
-        /// <summary>
-        /// Redump site URL
-        /// </summary>
-        private const string SiteBaseUrl = "https://redump.info/";
-
-        #region Top-Level Paths
-
-        /// <summary>
-        /// Path for about page
-        /// </summary>
-        private const string AboutPath = "about/";
-
-        /// <summary>
-        /// Path for BIOS datfile downloads
-        /// </summary>
-        private const string BiosPath = @"static/bios/{0}/";
-
-        /// <summary>
-        /// Path for cuesheet pack downloads
-        /// </summary>
-        private const string CuesPath = @"cues/{0}";
-
-        /// <summary>
-        /// Path for datfile downloads
-        /// </summary>
-        private const string DatfilePath = @"datfile/{0}";
-
-        /// <summary>
-        /// Path for individual disc pages
-        /// </summary>
-        private const string DiscPath = @"disc/{0}/";
-
-        /// <summary>
-        /// Path for multi-disc pages
-        /// </summary>
-        private const string DiscsPath = "discs/";
-
-        /// <summary>
-        /// Path for downloads page
-        /// </summary>
-        private const string DownloadsPath = "downloads/";
-
-        /// <summary>
-        /// Path for key pack downloads
-        /// </summary>
-        private const string KeysPath = @"keys/{0}";
-
-        /// <summary>
-        /// Path for discs queue
-        /// </summary>
-        private const string QueuePath = "queue/";
-
-        /// <summary>
-        /// Path for individual queue disc pages
-        /// </summary>
-        private const string QueueDiscPath = @"queue/{0}/";
-
-        /// <summary>
-        /// Path for SBI pack downloads
-        /// </summary>
-        private const string SbiPath = @"sbi/{0}";
-
-        #endregion
-
         #region BIOS File Names
 
         /// <summary>
@@ -108,50 +44,14 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         public static string BuildAboutUrl()
         {
-            var sb = new StringBuilder();
-
-            sb.Append(SiteBaseUrl);
-            sb.Append(AboutPath);
-
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Build a /static/bios/ path URL
-        /// </summary>
-        /// <param name="system">System to retrieve static BIOS datfile for, required</param>
-        /// <remarks>Handles the non-BIOS variants of systems for compatibility</remarks>
-        public static string BuildBiosUrl(PhysicalSystem system)
-        {
-            var sb = new StringBuilder();
-
-#pragma warning disable IDE0072 // Add missing cases
-            string? filename = system switch
+            var ub = new UriBuilder
             {
-                PhysicalSystem.MicrosoftXbox => MicrosoftXboxBIOSFilename,
-                PhysicalSystem.MicrosoftXboxBIOS => MicrosoftXboxBIOSFilename,
-
-                PhysicalSystem.NintendoGameCube => NintendoGameCubeBIOSFilename,
-                PhysicalSystem.NintendoGameCubeBIOS => NintendoGameCubeBIOSFilename,
-
-                PhysicalSystem.SonyPlayStation => SonyPlayStationBIOSFilename,
-                PhysicalSystem.SonyPlayStationBIOS => SonyPlayStationBIOSFilename,
-
-                PhysicalSystem.SonyPlayStation2 => SonyPlayStation2BIOSFilename,
-                PhysicalSystem.SonyPlayStation2BIOS => SonyPlayStation2BIOSFilename,
-
-                _ => null,
+                Scheme = "https",
+                Host = "redump.info",
+                Path = "about",
             };
-#pragma warning restore IDE0072 // Add missing cases
 
-            // Ignore invalid BIOS systems
-            if (filename is null)
-                return string.Empty;
-
-            sb.Append(SiteBaseUrl);
-            sb.AppendFormat(BiosPath, filename);
-
-            return sb.ToString();
+            return ub.ToString();
         }
 
         /// <summary>
@@ -159,23 +59,22 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="id">Disc ID, required</param>
         /// <param name="subpath">Disc page subpath, null to omit</param>
+        /// TODO: Handle submit path?
         public static string BuildDiscUrl(int id, DiscSubpath? subpath = null)
         {
-            var sb = new StringBuilder();
-
-            sb.Append(SiteBaseUrl);
-            sb.AppendFormat(DiscPath, Math.Abs(id));
+            var ub = new UriBuilder
+            {
+                Scheme = "https",
+                Host = "redump.info",
+                Path = $"disc/{Math.Abs(id)}",
+            };
 
             switch (subpath)
             {
-                // Does not require trailing slash
                 case DiscSubpath.Cuesheet:
-                    sb.Append($"{subpath.ShortName()}");
-                    break;
-
-                // Requires trailing slash
                 case DiscSubpath.Edit:
-                    sb.Append($"{subpath.ShortName()}/");
+                case DiscSubpath.SBI:
+                    ub.Path += $"/{subpath.ShortName()}";
                     break;
 
                 // redump.org subpaths that don't have equivilent paths
@@ -184,7 +83,6 @@ namespace SabreTools.RedumpLib.Web
                 case DiscSubpath.Key:
                 case DiscSubpath.LSD:
                 case DiscSubpath.MD5:
-                case DiscSubpath.SBI:
                 case DiscSubpath.SFV:
                 case DiscSubpath.SHA1:
                 case DiscSubpath.WIP:
@@ -197,7 +95,7 @@ namespace SabreTools.RedumpLib.Web
                     break;
             }
 
-            return sb.ToString();
+            return ub.ToString();
         }
 
         /// <summary>
@@ -272,11 +170,287 @@ namespace SabreTools.RedumpLib.Web
             long? tracksMax = null,
             long? tracksMin = null)
         {
-            var sb = new StringBuilder();
+            var ub = new UriBuilder
+            {
+                Scheme = "https",
+                Host = "redump.info",
+                Path = "discs",
+                Query = BuildDiscsQuery(
+                    advanced,
+                    barcode,
+                    barcodeExact,
+                    category,
+                    comments,
+                    contents,
+                    dumper,
+                    edc,
+                    edition,
+                    editionExact,
+                    errorsMax,
+                    errorsMin,
+                    language,
+                    letter,
+                    media,
+                    offset,
+                    order,
+                    page,
+                    protection,
+                    query,
+                    region,
+                    ringcode,
+                    serial,
+                    serialExact,
+                    sort,
+                    status,
+                    system,
+                    title,
+                    titleExact,
+                    titleForeign,
+                    titleForeignExact,
+                    tracksMax,
+                    tracksMin
+                ),
+            };
 
-            sb.Append(SiteBaseUrl);
-            sb.Append(DiscsPath);
-            sb.Append('?');
+            return ub.ToString();
+        }
+
+        /// <summary>
+        /// Build a /downloads/ path URL
+        /// </summary>
+        /// <param name="database">Target database download</param>
+        public static string BuildDownloadsUrl(bool? database = null)
+        {
+            var ub = new UriBuilder
+            {
+                Scheme = "https",
+                Host = "redump.info",
+                Path = "downloads",
+            };
+
+            if (database == true)
+                ub.Path += "/database";
+
+            return ub.ToString();
+        }
+
+        /// <summary>
+        /// Build a direct-download path URL
+        /// </summary>
+        /// <param name="packType">Pack type</param>
+        /// <param name="system">System for download</param>
+        /// <remarks>Does not check for invalid systems</remarks>
+        /// TODO: Handle download_dat_variant?
+        public static string BuildPackUrl(PackType packType, PhysicalSystem system)
+        {
+            // Hack to support the static BIOS sets
+            if (packType == PackType.Datfile
+                && (system == PhysicalSystem.MicrosoftXboxBIOS
+                    || system == PhysicalSystem.NintendoGameCubeBIOS
+                    || system == PhysicalSystem.SonyPlayStationBIOS
+                    || system == PhysicalSystem.SonyPlayStation2BIOS))
+            {
+                return BuildBiosUrl(system);
+            }
+
+            var ub = new UriBuilder
+            {
+                Scheme = "https",
+                Host = "redump.info",
+            };
+
+            string systemName = system.ShortName() ?? string.Empty;
+            switch (packType)
+            {
+                case PackType.Cuesheets: ub.Path = $"cues/{systemName}"; break;
+                case PackType.Datfile: ub.Path = $"datfile/{systemName}"; break;
+                case PackType.Keys: ub.Path = $"keys/{systemName}"; break;
+                case PackType.Sbis: ub.Path = $"sbi/{systemName}"; break;
+
+                // Unsupported
+                case PackType.DecryptedKeys: break;
+                case PackType.Gdis: break;
+                case PackType.Lsds: break;
+                default: throw new ArgumentOutOfRangeException(nameof(packType));
+            }
+
+            return ub.ToString();
+        }
+
+        /// <summary>
+        /// Build a /queue/ path URL
+        /// </summary>
+        /// <param name="discId">Add disc ID to filter, null to omit</param>
+        /// <param name="isDiscHistory">Set disc history status, null to omit</param>
+        /// <param name="order">Add sorting direction, null to omit</param>
+        /// <param name="page">Page number, null to omit</param>
+        /// <param name="sort">Add sorting type, null to omit</param>
+        /// <param name="status">Add status to filter, null to omit</param>
+        /// <param name="submitter">Add submitter name to filter, null to omit</param>
+        /// <param name="subType">Add submission type to filter, null to omit</param>
+        /// <param name="system">Add system to filter, null to omit</param>
+        /// <remarks>Ordered according to site source code</remarks>
+        public static string BuildQueueUrl(
+            long? discId = null,
+            bool? isDiscHistory = null,
+            SortDirection? order = null,
+            long? page = null,
+            SortCategory? sort = null,
+            DumpStatus? status = null,
+            string? submitter = null,
+            SubmissionType? subType = null,
+            PhysicalSystem? system = null)
+        {
+            var ub = new UriBuilder
+            {
+                Scheme = "https",
+                Host = "redump.info",
+                Path = "queue",
+                Query = BuildQueueQuery(
+                    discId,
+                    isDiscHistory,
+                    order,
+                    page,
+                    sort,
+                    status,
+                    submitter,
+                    subType,
+                    system
+                ),
+            };
+
+            return ub.ToString();
+        }
+
+        /// <summary>
+        /// Build a /queue/ disc path URL
+        /// </summary>
+        /// <param name="id">Queue disc ID</param>
+        public static string BuildQueueDiscUrl(int id)
+        {
+            var ub = new UriBuilder
+            {
+                Scheme = "https",
+                Host = "redump.info",
+                Path = $"queue/{Math.Abs(id)}/",
+            };
+
+            return ub.ToString();
+        }
+
+        /// <summary>
+        /// Build a /static/bios/ path URL
+        /// </summary>
+        /// <param name="system">System to retrieve static BIOS datfile for, required</param>
+        /// <remarks>Handles the non-BIOS variants of systems for compatibility</remarks>
+        private static string BuildBiosUrl(PhysicalSystem system)
+        {
+#pragma warning disable IDE0072 // Add missing cases
+            string? filename = system switch
+            {
+                PhysicalSystem.MicrosoftXbox => MicrosoftXboxBIOSFilename,
+                PhysicalSystem.MicrosoftXboxBIOS => MicrosoftXboxBIOSFilename,
+
+                PhysicalSystem.NintendoGameCube => NintendoGameCubeBIOSFilename,
+                PhysicalSystem.NintendoGameCubeBIOS => NintendoGameCubeBIOSFilename,
+
+                PhysicalSystem.SonyPlayStation => SonyPlayStationBIOSFilename,
+                PhysicalSystem.SonyPlayStationBIOS => SonyPlayStationBIOSFilename,
+
+                PhysicalSystem.SonyPlayStation2 => SonyPlayStation2BIOSFilename,
+                PhysicalSystem.SonyPlayStation2BIOS => SonyPlayStation2BIOSFilename,
+
+                _ => null,
+            };
+#pragma warning restore IDE0072 // Add missing cases
+
+            // Ignore invalid BIOS systems
+            if (filename is null)
+                return string.Empty;
+
+            var ub = new UriBuilder
+            {
+                Scheme = "https",
+                Host = "redump.info",
+                Path = $"static/bios/{filename}",
+            };
+
+            return ub.ToString();
+        }
+
+        /// <summary>
+        /// Build a /discs/ path query
+        /// </summary>
+        /// <param name="advanced">Set advanced search status, null to omit</param>
+        /// <param name="barcode">Add barcode to filter, null to omit</param>
+        /// <param name="barcodeExact">Set exact barcode handling, null to omit</param>
+        /// <param name="category">Add category to filter, null to omit</param>
+        /// <param name="comments">Add comments to filter, null to omit</param>
+        /// <param name="contents">Add contents to filter, null to omit</param>
+        /// <param name="dumper">Add dumper name to filter, null to omit</param>
+        /// <param name="edc">Add EDC status to filter, null to omit</param>
+        /// <param name="edition">Add edition to filter, null to omit</param>
+        /// <param name="editionExact">Set exact edition handling, null to omit</param>
+        /// <param name="errorsMax">Add maximum error count to filter, null to omit</param>
+        /// <param name="errorsMin">Add minimum error count to filter, null to omit</param>
+        /// <param name="language">Add language to filter, null to omit</param>
+        /// <param name="letter">Starts with upper-case letter or '#' for numbers, null to omit</param>
+        /// <param name="media">Add media type to filter, null to omit</param>
+        /// <param name="offset">Add offset to filter, null to omit</param>
+        /// <param name="order">Add sorting direction, null to omit</param>
+        /// <param name="page">Page number, null to omit</param>
+        /// <param name="protection">Add protection to filter, null to omit</param>
+        /// <param name="query">Generic text query to filter, null to omit</param>
+        /// <param name="region">Add region to filter, null to omit</param>
+        /// <param name="ringcode">Add ringcode to filter, null to omit</param>
+        /// <param name="serial">Add serial to filter, null to omit</param>
+        /// <param name="serialExact">Set exact serial handling, null to omit</param>
+        /// <param name="sort">Add sorting type, null to omit</param>
+        /// <param name="status">Add status to filter, null to omit</param>
+        /// <param name="system">Add system to filter, null to omit</param>
+        /// <param name="title">Add title to filter, null to omit</param>
+        /// <param name="titleExact">Set exact title handling, null to omit</param>
+        /// <param name="titleForeign">Add foreign title to filter, null to omit</param>
+        /// <param name="titleForeignExact">Set exact foreign title handling, null to omit</param>
+        /// <param name="tracksMax">Add maximum track count to filter, null to omit</param>
+        /// <param name="tracksMin">Add minimum track count to filter, null to omit</param>
+        /// <remarks>Ordered according to site source code</remarks>
+        private static string BuildDiscsQuery(
+            bool? advanced,
+            string? barcode,
+            bool? barcodeExact,
+            DiscCategory? category,
+            string? comments,
+            string? contents,
+            string? dumper,
+            YesNo? edc,
+            string? edition,
+            bool? editionExact,
+            long? errorsMax,
+            long? errorsMin,
+            Language? language,
+            char? letter,
+            MediaType? media,
+            long? offset,
+            SortDirection? order,
+            long? page,
+            string? protection,
+            string? query,
+            Region? region,
+            string? ringcode,
+            string? serial,
+            bool? serialExact,
+            SortCategory? sort,
+            DumpStatus? status,
+            PhysicalSystem? system,
+            string? title,
+            bool? titleExact,
+            string? titleForeign,
+            bool? titleForeignExact,
+            long? tracksMax,
+            long? tracksMin)
+        {
+            var sb = new StringBuilder();
 
             // System
             string? systemName = system.ShortName();
@@ -429,64 +603,7 @@ namespace SabreTools.RedumpLib.Web
         }
 
         /// <summary>
-        /// Build a /downloads/ path URL
-        /// </summary>
-        /// <param name="database">Target database download</param>
-        public static string BuildDownloadsUrl(bool? database = null)
-        {
-            var sb = new StringBuilder();
-
-            sb.Append(SiteBaseUrl);
-            sb.Append(DownloadsPath);
-
-            if (database == true)
-                sb.Append("database");
-
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Build a direct-download path URL
-        /// </summary>
-        /// <param name="packType">Pack type</param>
-        /// <param name="system">System for download</param>
-        /// <remarks>Does not check for invalid systems</remarks>
-        /// TODO: Handle download_dat_variant?
-        public static string BuildPackUrl(PackType packType, PhysicalSystem system)
-        {
-            // Hack to support the static BIOS sets
-            if (packType == PackType.Datfile
-                && (system == PhysicalSystem.MicrosoftXboxBIOS
-                    || system == PhysicalSystem.NintendoGameCubeBIOS
-                    || system == PhysicalSystem.SonyPlayStationBIOS
-                    || system == PhysicalSystem.SonyPlayStation2BIOS))
-            {
-                return BuildBiosUrl(system);
-            }
-
-            var sb = new StringBuilder();
-
-            sb.Append(SiteBaseUrl);
-
-            string systemName = system.ShortName() ?? string.Empty;
-            switch (packType)
-            {
-                case PackType.Cuesheets: sb.AppendFormat(CuesPath, systemName); break;
-                case PackType.Datfile: sb.AppendFormat(DatfilePath, systemName); break;
-                case PackType.DecryptedKeys: break; // Not supported
-                case PackType.Gdis: break; // Not supported
-                case PackType.Keys: sb.AppendFormat(KeysPath, systemName); break;
-                case PackType.Lsds: break; // Not supported
-                case PackType.Sbis: sb.AppendFormat(SbiPath, systemName); break;
-
-                default: throw new ArgumentOutOfRangeException(nameof(packType));
-            }
-
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Build a /queue/ path URL
+        /// Build a /queue/ path query
         /// </summary>
         /// <param name="discId">Add disc ID to filter, null to omit</param>
         /// <param name="isDiscHistory">Set disc history status, null to omit</param>
@@ -498,22 +615,18 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="subType">Add submission type to filter, null to omit</param>
         /// <param name="system">Add system to filter, null to omit</param>
         /// <remarks>Ordered according to site source code</remarks>
-        public static string BuildQueueUrl(
-            long? discId = null,
-            bool? isDiscHistory = null,
-            SortDirection? order = null,
-            long? page = null,
-            SortCategory? sort = null,
-            DumpStatus? status = null,
-            string? submitter = null,
-            SubmissionType? subType = null,
-            PhysicalSystem? system = null)
+        private static string BuildQueueQuery(
+            long? discId,
+            bool? isDiscHistory,
+            SortDirection? order,
+            long? page,
+            SortCategory? sort,
+            DumpStatus? status,
+            string? submitter,
+            SubmissionType? subType,
+            PhysicalSystem? system)
         {
             var sb = new StringBuilder();
-
-            sb.Append(SiteBaseUrl);
-            sb.Append(QueuePath);
-            sb.Append('?');
 
             // Status
             string? statusName = status.LongName();
@@ -576,21 +689,6 @@ namespace SabreTools.RedumpLib.Web
             // Is Disc History
             if (isDiscHistory is not null)
                 sb.Append($"is_disc_history={isDiscHistory.ToYesNo().LongName()}&");
-
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Build a /queue/ disc path URL
-        /// </summary>
-        /// <param name="id">Queue disc ID</param>
-        /// TODO: Add form URLs, not just IDs
-        public static string BuildQueueDiscUrl(int id)
-        {
-            var sb = new StringBuilder();
-
-            sb.Append(SiteBaseUrl);
-            sb.AppendFormat(QueueDiscPath, Math.Abs(id));
 
             return sb.ToString();
         }
