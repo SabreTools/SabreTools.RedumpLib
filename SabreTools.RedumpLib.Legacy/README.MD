@@ -1,0 +1,3 @@
+# SabreTools.RedumpLib.Legacy
+
+This library comprises interaction logic for the defunct [Redump.org](http://redump.org/). There was no formal API ever published, so this version of the code could be used to do almost all interactions. Versions of **SabreTools.RedumpLib** prior to version 2.0.0 used a variant of this code. This project is included as a historical snapshot and should not expected to be updated or fixed at any point in the future.
