@@ -1714,22 +1714,6 @@ namespace SabreTools.RedumpLib.Data
     }
 
     /// <summary>
-    /// All possible language selections
-    /// </summary>
-    /// <remarks>Only used by redump.org</remarks>
-    public enum LanguageSelection
-    {
-        [HumanReadable(LongName = "Bios settings")]
-        BiosSettings,
-
-        [HumanReadable(LongName = "Language selector")]
-        LanguageSelector,
-
-        [HumanReadable(LongName = "Options menu")]
-        OptionsMenu,
-    }
-
-    /// <summary>
     /// List of all site-supported media types
     /// </summary>
     public enum MediaType

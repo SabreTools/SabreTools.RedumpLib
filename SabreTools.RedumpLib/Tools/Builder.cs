@@ -481,13 +481,13 @@ namespace SabreTools.RedumpLib.Tools
             var matches = RedumpOrg.Constants.LanguagesRegex.Matches(discData);
             if (matches.Count > 0)
             {
-                var tempLanguages = new List<Language?>();
+                var tempLanguages = new List<RedumpOrg.Language?>();
                 foreach (Match? submatch in matches)
                 {
                     if (submatch is null)
                         continue;
 
-                    var language = submatch.Groups[1].Value.ToLanguage();
+                    var language = RedumpOrg.Extensions.ToLanguage(submatch.Groups[1].Value);
                     if (language is not null)
                         tempLanguages.Add(language);
                 }

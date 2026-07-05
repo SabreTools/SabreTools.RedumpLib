@@ -1,6 +1,7 @@
 using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.RedumpOrg.Attributes;
 using HumanReadableAttribute = SabreTools.RedumpLib.Attributes.HumanReadableAttribute;
+using LanguageCodeAttribute = SabreTools.RedumpLib.Attributes.LanguageCodeAttribute;
 
 namespace SabreTools.RedumpLib.RedumpOrg
 {
@@ -42,6 +43,172 @@ namespace SabreTools.RedumpLib.RedumpOrg
         // Placeholder for the linked new disc page, not an actual subpath
         [HumanReadable(Available = false, LongName = "WIP", ShortName = "wip")]
         WIP,
+    }
+
+    /// <summary>
+    /// List of all disc langauges
+    /// </summary>
+    /// <remarks>https://www.loc.gov/standards/iso639-2/php/code_list.php</remarks>
+    public enum Language
+    {
+        [LanguageCode(LongName = "Afrikaans", TwoLetterCode = "af", ThreeLetterCode = "afr")]
+        Afrikaans,
+
+        [LanguageCode(LongName = "Albanian", TwoLetterCode = "sq", ThreeLetterCode = "alb", ThreeLetterCodeAlt = "sqi")]
+        Albanian,
+
+        [LanguageCode(LongName = "Arabic", TwoLetterCode = "ar", ThreeLetterCode = "ara")]
+        Arabic,
+
+        [LanguageCode(LongName = "Armenian", TwoLetterCode = "hy", ThreeLetterCode = "arm", ThreeLetterCodeAlt = "hye")]
+        Armenian,
+
+        [LanguageCode(LongName = "Basque", TwoLetterCode = "eu", ThreeLetterCode = "baq", ThreeLetterCodeAlt = "eus")]
+        Basque,
+
+        [LanguageCode(LongName = "Belarusian", TwoLetterCode = "be", ThreeLetterCode = "bel")]
+        Belarusian,
+
+        [LanguageCode(LongName = "Bulgarian", TwoLetterCode = "bg", ThreeLetterCode = "bul")]
+        Bulgarian,
+
+        [LanguageCode(LongName = "Catalan", TwoLetterCode = "ca", ThreeLetterCode = "cat")]
+        Catalan,
+
+        [LanguageCode(LongName = "Chinese", TwoLetterCode = "zh", ThreeLetterCode = "chi", ThreeLetterCodeAlt = "zho")]
+        Chinese,
+
+        [LanguageCode(LongName = "Croatian", TwoLetterCode = "hr", ThreeLetterCode = "hrv")]
+        Croatian,
+
+        [LanguageCode(LongName = "Czech", TwoLetterCode = "cs", ThreeLetterCode = "cze", ThreeLetterCodeAlt = "ces")]
+        Czech,
+
+        [LanguageCode(LongName = "Danish", TwoLetterCode = "da", ThreeLetterCode = "dan")]
+        Danish,
+
+        [LanguageCode(LongName = "Dutch", TwoLetterCode = "nl", ThreeLetterCode = "dut", ThreeLetterCodeAlt = "nld")]
+        Dutch,
+
+        [LanguageCode(LongName = "English", TwoLetterCode = "en", ThreeLetterCode = "eng")]
+        English,
+
+        [LanguageCode(LongName = "Estonian", TwoLetterCode = "et", ThreeLetterCode = "est")]
+        Estonian,
+
+        [LanguageCode(LongName = "Finnish", TwoLetterCode = "fi", ThreeLetterCode = "fin")]
+        Finnish,
+
+        [LanguageCode(LongName = "French", TwoLetterCode = "fr", ThreeLetterCode = "fre", ThreeLetterCodeAlt = "fra")]
+        French,
+
+        [LanguageCode(LongName = "Gaelic", TwoLetterCode = "gd", ThreeLetterCode = "gla")]
+        Gaelic,
+
+        [LanguageCode(LongName = "German", TwoLetterCode = "de", ThreeLetterCode = "ger", ThreeLetterCodeAlt = "deu")]
+        German,
+
+        [LanguageCode(LongName = "Greek", TwoLetterCode = "el", ThreeLetterCode = "gre", ThreeLetterCodeAlt = "eli")]
+        Greek,
+
+        [LanguageCode(LongName = "Hebrew", TwoLetterCode = "he", ThreeLetterCode = "heb")]
+        Hebrew,
+
+        [LanguageCode(LongName = "Hindi", TwoLetterCode = "hi", ThreeLetterCode = "hin")]
+        Hindi,
+
+        [LanguageCode(LongName = "Hungarian", TwoLetterCode = "hu", ThreeLetterCode = "hun")]
+        Hungarian,
+
+        [LanguageCode(LongName = "Icelandic", TwoLetterCode = "is", ThreeLetterCode = "ice", ThreeLetterCodeAlt = "isl")]
+        Icelandic,
+
+        [LanguageCode(LongName = "Indonesian", TwoLetterCode = "id", ThreeLetterCode = "ind")]
+        Indonesian,
+
+        [LanguageCode(LongName = "Italian", TwoLetterCode = "it", ThreeLetterCode = "ita")]
+        Italian,
+
+        [LanguageCode(LongName = "Japanese", TwoLetterCode = "ja", ThreeLetterCode = "jap")]
+        Japanese,
+
+        [LanguageCode(LongName = "Korean", TwoLetterCode = "ko", ThreeLetterCode = "kor")]
+        Korean,
+
+        [LanguageCode(LongName = "Latin", TwoLetterCode = "la", ThreeLetterCode = "lat")]
+        Latin,
+
+        [LanguageCode(LongName = "Latvian", TwoLetterCode = "lv", ThreeLetterCode = "lav")]
+        Latvian,
+
+        [LanguageCode(LongName = "Lithuanian", TwoLetterCode = "lt", ThreeLetterCode = "lit")]
+        Lithuanian,
+
+        [LanguageCode(LongName = "Macedonian", TwoLetterCode = "mk", ThreeLetterCode = "mac", ThreeLetterCodeAlt = "mkd")]
+        Macedonian,
+
+        [LanguageCode(LongName = "Norwegian", TwoLetterCode = "no", ThreeLetterCode = "nor")]
+        Norwegian,
+
+        [LanguageCode(LongName = "Polish", TwoLetterCode = "pl", ThreeLetterCode = "pol")]
+        Polish,
+
+        [LanguageCode(LongName = "Portuguese", TwoLetterCode = "pt", ThreeLetterCode = "por")]
+        Portuguese,
+
+        [LanguageCode(LongName = "Punjabi", TwoLetterCode = "pa", ThreeLetterCode = "pan")]
+        Punjabi,
+
+        [LanguageCode(LongName = "Romanian", TwoLetterCode = "ro", ThreeLetterCode = "rum", ThreeLetterCodeAlt = "ron")]
+        Romanian,
+
+        [LanguageCode(LongName = "Russian", TwoLetterCode = "ru", ThreeLetterCode = "rus")]
+        Russian,
+
+        [LanguageCode(LongName = "Serbian", TwoLetterCode = "sr", ThreeLetterCode = "srp")]
+        Serbian,
+
+        [LanguageCode(LongName = "Slovak", TwoLetterCode = "sk", ThreeLetterCode = "slo", ThreeLetterCodeAlt = "slk")]
+        Slovak,
+
+        [LanguageCode(LongName = "Slovenian", TwoLetterCode = "sl", ThreeLetterCode = "slv")]
+        Slovenian,
+
+        [LanguageCode(LongName = "Spanish", TwoLetterCode = "es", ThreeLetterCode = "spa")]
+        Spanish,
+
+        [LanguageCode(LongName = "Swedish", TwoLetterCode = "sv", ThreeLetterCode = "swe")]
+        Swedish,
+
+        [LanguageCode(LongName = "Tamil", TwoLetterCode = "ta", ThreeLetterCode = "tam")]
+        Tamil,
+
+        [LanguageCode(LongName = "Thai", TwoLetterCode = "th", ThreeLetterCode = "tha")]
+        Thai,
+
+        [LanguageCode(LongName = "Turkish", TwoLetterCode = "tr", ThreeLetterCode = "tur")]
+        Turkish,
+
+        [LanguageCode(LongName = "Ukrainian", TwoLetterCode = "uk", ThreeLetterCode = "ukr")]
+        Ukrainian,
+
+        [LanguageCode(LongName = "Vietnamese", TwoLetterCode = "vi", ThreeLetterCode = "vie")]
+        Vietnamese,
+    }
+
+    /// <summary>
+    /// All possible language selections
+    /// </summary>
+    public enum LanguageSelection
+    {
+        [HumanReadable(LongName = "Bios settings")]
+        BiosSettings,
+
+        [HumanReadable(LongName = "Language selector")]
+        LanguageSelector,
+
+        [HumanReadable(LongName = "Options menu")]
+        OptionsMenu,
     }
 
     /// <summary>

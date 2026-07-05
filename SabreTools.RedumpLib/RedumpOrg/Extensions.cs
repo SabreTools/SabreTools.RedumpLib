@@ -75,6 +75,171 @@ namespace SabreTools.RedumpLib.RedumpOrg
 
         #endregion
 
+        #region Language
+
+        /// <summary>
+        /// Get the Redump longnames for each known language
+        /// </summary>
+        public static string? LongName(this Language language)
+            => ((Language?)language).LongName();
+
+        /// <summary>
+        /// Get the Redump longnames for each known language
+        /// </summary>
+        public static string? LongName(this Language? language)
+            => AttributeHelper<Language?>.GetHumanReadableAttribute(language)?.LongName;
+
+        /// <summary>
+        /// Get the Redump shortnames for each known language
+        /// </summary>
+        public static string? ShortName(this Language language)
+            => ((Language?)language).ShortName();
+
+        /// <summary>
+        /// Get the Redump shortnames for each known language
+        /// </summary>
+        public static string? ShortName(this Language? language)
+        {
+            // Some languages need to use the alternate code instead
+#pragma warning disable IDE0072 // Add missing cases
+            return language switch
+            {
+                Language.Albanian
+                    or Language.Armenian
+                    or Language.Icelandic
+                    or Language.Macedonian
+                    or Language.Romanian
+                    or Language.Slovak => language.ThreeLetterCodeAlt(),
+                _ => language.ThreeLetterCode(),
+            };
+#pragma warning restore IDE0072 // Add missing cases
+        }
+
+        /// <summary>
+        /// Get the Language enum value for a given string
+        /// </summary>
+        /// <param name="lang">String value to convert</param>
+        /// <returns>Language represented by the string, if possible</returns>
+        public static Language? ToLanguage(this string? lang)
+        {
+            // No value means no match
+            if (lang is null || lang.Length == 0)
+                return null;
+
+            lang = lang.ToLowerInvariant();
+            var languages = (Language[])Enum.GetValues(typeof(Language));
+
+            // Check ISO 639-1 codes
+            int index = Array.FindIndex(languages, l => lang == l.TwoLetterCode());
+            if (index > -1)
+                return languages[index];
+
+            // Check standard ISO 639-2 codes
+            index = Array.FindIndex(languages, l => lang == l.ThreeLetterCode());
+            if (index > -1)
+                return languages[index];
+
+            // Check alternate ISO 639-2 codes
+            index = Array.FindIndex(languages, l => lang == l.ThreeLetterCodeAlt());
+            if (index > -1)
+                return languages[index];
+
+            return null;
+        }
+
+        /// <summary>
+        /// Get the ISO 639-2 code for each known language
+        /// </summary>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        public static string? ThreeLetterCode(this Language language)
+            => (AttributeHelper<Language>.GetHumanReadableAttribute(language) as LanguageCodeAttribute)?.ThreeLetterCode;
+
+        /// <summary>
+        /// Get the ISO 639-2 code for each known language
+        /// </summary>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        public static string? ThreeLetterCode(this Language? language)
+            => (AttributeHelper<Language?>.GetHumanReadableAttribute(language) as LanguageCodeAttribute)?.ThreeLetterCode;
+
+        /// <summary>
+        /// Get the ISO 639-2 alternate code for each known language
+        /// </summary>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        public static string? ThreeLetterCodeAlt(this Language language)
+            => (AttributeHelper<Language>.GetHumanReadableAttribute(language) as LanguageCodeAttribute)?.ThreeLetterCodeAlt;
+
+        /// <summary>
+        /// Get the ISO 639-2 alternate code for each known language
+        /// </summary>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        public static string? ThreeLetterCodeAlt(this Language? language)
+            => (AttributeHelper<Language?>.GetHumanReadableAttribute(language) as LanguageCodeAttribute)?.ThreeLetterCodeAlt;
+
+        /// <summary>
+        /// Get the ISO 639-1 code for each known language
+        /// </summary>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        public static string? TwoLetterCode(this Language language)
+            => (AttributeHelper<Language>.GetHumanReadableAttribute(language) as LanguageCodeAttribute)?.TwoLetterCode;
+
+        /// <summary>
+        /// Get the ISO 639-1 code for each known language
+        /// </summary>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        public static string? TwoLetterCode(this Language? language)
+            => (AttributeHelper<Language?>.GetHumanReadableAttribute(language) as LanguageCodeAttribute)?.TwoLetterCode;
+
+        #endregion
+
+        #region Language Selection
+
+        /// <summary>
+        /// Get the string representation of the LanguageSelection enum values
+        /// </summary>
+        /// <param name="langSelect">LanguageSelection value to convert</param>
+        /// <returns>String representing the value, if possible</returns>
+        public static string? LongName(this LanguageSelection langSelect)
+            => ((LanguageSelection?)langSelect).LongName();
+
+        /// <summary>
+        /// Get the string representation of the LanguageSelection enum values
+        /// </summary>
+        /// <param name="langSelect">LanguageSelection value to convert</param>
+        /// <returns>String representing the value, if possible</returns>
+        public static string? LongName(this LanguageSelection? langSelect)
+            => AttributeHelper<LanguageSelection?>.GetHumanReadableAttribute(langSelect)?.LongName;
+
+        /// <summary>
+        /// Get the LanguageSelection enum value for a given string
+        /// </summary>
+        /// <param name="langSelect">String value to convert</param>
+        /// <returns>LanguageSelection represented by the string, if possible</returns>
+        public static LanguageSelection? ToLanguageSelection(this string? langSelect)
+        {
+            // No value means no match
+            if (langSelect is null || langSelect.Length == 0)
+                return null;
+
+            langSelect = langSelect?.ToLowerInvariant();
+            var selects = (LanguageSelection[])Enum.GetValues(typeof(LanguageSelection));
+
+            // Check long names
+            int index = Array.FindIndex(selects, l => langSelect == l.LongName()?.ToLowerInvariant()
+                || langSelect == l.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return selects[index];
+
+            return null;
+        }
+
+        #endregion
+
         #region Physical System
 
         /// <summary>

@@ -1254,69 +1254,6 @@ namespace SabreTools.RedumpLib.Test.Data
 
         #endregion
 
-        #region Language Selection
-
-        /// <summary>
-        /// Check that every LanguageSelection has a long name provided
-        /// </summary>
-        /// <param name="languageSelection">LanguageSelection value to check</param>
-        /// <param name="expectNull">True to expect a null value, false otherwise</param>
-        [Theory]
-        [MemberData(nameof(GenerateLanguageSelectionTestData))]
-        public void LanguageSelection_LongName(LanguageSelection? languageSelection, bool expectNull)
-        {
-            var actual = languageSelection.LongName();
-
-            if (expectNull)
-                Assert.Null(actual);
-            else
-                Assert.NotNull(actual);
-        }
-
-        /// <summary>
-        /// Check that every LanguageSelection can be mapped from a string
-        /// </summary>
-        /// <param name="languageSelection">LanguageSelection value to check</param>
-        /// <param name="expectNull">True to expect a null value, false otherwise</param>
-        [Theory]
-        [MemberData(nameof(GenerateLanguageSelectionTestData))]
-        public void Region_ToLanguageSelection(LanguageSelection? languageSelection, bool expectNull)
-        {
-            string? longName = languageSelection.LongName();
-            string? longNameSpaceless = longName?.Replace(" ", string.Empty);
-
-            var actualNormal = longName.ToLanguageSelection();
-            var actualSpaceless = longNameSpaceless.ToLanguageSelection();
-
-            if (expectNull)
-            {
-                Assert.Null(actualNormal);
-                Assert.Null(actualSpaceless);
-            }
-            else
-            {
-                Assert.Equal(languageSelection, actualNormal);
-                Assert.Equal(languageSelection, actualSpaceless);
-            }
-        }
-
-        /// <summary>
-        /// Generate a test set of LanguageSelection values
-        /// </summary>
-        /// <returns>MemberData-compatible list of LanguageSelection values</returns>
-        public static TheoryData<LanguageSelection?, bool> GenerateLanguageSelectionTestData()
-        {
-            var testData = new TheoryData<LanguageSelection?, bool>() { { null, true } };
-            foreach (LanguageSelection? languageSelection in Enum.GetValues<LanguageSelection>().Cast<LanguageSelection?>())
-            {
-                testData.Add(languageSelection, false);
-            }
-
-            return testData;
-        }
-
-        #endregion
-
         #region Media Type
 
         /// <summary>
