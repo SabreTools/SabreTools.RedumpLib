@@ -2427,6 +2427,9 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Arcade, LongName = "Sega Chihiro", ShortName = "CHIHIRO", HasCues = true, HasDat = true)]
         SegaChihiro,
 
+        [System(Category = SystemCategory.Arcade, LongName = "Sega Chihiro Satellite Terminal PC", ShortName = "CHIHIROPC", HasCues = true, HasDat = true)]
+        SegaChihiroSatelliteTerminalPC,
+
         [System(Category = SystemCategory.Arcade, Available = false, LongName = "Sega Europa-R")]
         SegaEuropaR,
 

@@ -723,6 +723,12 @@ namespace SabreTools.RedumpLib.Data
                     types.Add(PhysicalMediaType.GDROM); // High density partition
                     break;
 
+                // https://www.system16.com/hardware.php?id=730
+                case PhysicalSystem.SegaChihiroSatelliteTerminalPC:
+                    types.Add(PhysicalMediaType.CDROM);
+                    types.Add(PhysicalMediaType.DVD);
+                    break;
+
                 // http://system16.com/hardware.php?id=907
                 case PhysicalSystem.SegaEuropaR:
                     types.Add(PhysicalMediaType.DVD);
