@@ -21,14 +21,35 @@ namespace RedumpTool.Features
 
         #region Inputs
 
+        private const string _discIdName = "disc-id";
+        internal readonly Int32Input DiscIDInput = new(_discIdName, ["--disc-id"], "Add disc ID to filter");
+
+        private const string _isDiscHistoryName = "is-disc-history";
+        internal readonly BooleanInput IsDiscHistoryInput = new(_isDiscHistoryName, ["--is-disc-history"], "Add disc history status to filter [true, false]");
+
         private const string _maximumName = "maximum";
         internal readonly Int32Input MaximumInput = new(_maximumName, ["-max", "--maximum"], "Upper bound for page numbers (incompatible with --onlynew)");
 
         private const string _minimumName = "minimum";
         internal readonly Int32Input MinimumInput = new(_minimumName, ["-min", "--minimum"], "Lower bound for page numbers (incompatible with --onlynew)");
 
-        private const string _onlyNewName = "onlynew";
-        internal readonly FlagInput OnlyNewInput = new(_onlyNewName, ["-n", "--onlynew"], "Use the last modified view (incompatible with min and max)");
+        private const string _orderName = "order";
+        internal readonly StringInput OrderInput = new(_orderName, ["--order"], "Add sort order to filter [asc, desc]");
+
+        private const string _sortName = "sort";
+        internal readonly StringInput SortInput = new(_sortName, ["--sort"], "Add sort category to filter [title, added, region, system, version, edition, language, serial, status, modified]");
+
+        private const string _statusName = "status";
+        internal readonly StringInput StatusInput = new(_statusName, ["--status"], "Add status to filter [grey, red, yellow, blue, green]");
+
+        private const string _submitterName = "submitter";
+        internal readonly StringInput SubmitterInput = new(_submitterName, ["--submitter"], "Add submitter to filter");
+
+        private const string _subTypeName = "sub-type";
+        internal readonly StringInput SubTypeInput = new(_subTypeName, ["--sub-type"], "Add submission type to filter [edit, new disc, verification]");
+
+        private const string _systemName = "system";
+        internal readonly StringInput SystemInput = new(_systemName, ["--system"], "Add system to filter");
 
         #endregion
 
@@ -50,7 +71,16 @@ namespace RedumpTool.Features
             // Specific
             Add(MinimumInput);
             Add(MaximumInput);
-            Add(OnlyNewInput);
+
+            // Filter
+            Add(DiscIDInput);
+            Add(IsDiscHistoryInput);
+            Add(OrderInput);
+            Add(SortInput);
+            Add(StatusInput);
+            Add(SubmitterInput);
+            Add(SubTypeInput);
+            Add(SystemInput);
         }
 
         /// <inheritdoc/>
@@ -66,18 +96,37 @@ namespace RedumpTool.Features
             bool forceContinue = ForceContinueInput.Value;
 
             // Get specific values
-            int minId = MinimumInput.Value ?? -1;
-            int maxId = MaximumInput.Value ?? -1;
-            bool onlyNew = OnlyNewInput.Value;
+            int? minId = MinimumInput.Value;
+            int? maxId = MaximumInput.Value;
+
+            // Get filter values
+            long? discId = DiscIDInput.Value;
+            bool? isDiscHistory = IsDiscHistoryInput.Value;
+            SortDirection? order = OrderInput.Value.ToSortDirection();
+            SortCategory? sort = SortInput.Value.ToSortCategory();
+            DumpStatus? status = StatusInput.Value.ToDumpStatus();
+            string? submitter = SubmitterInput.Value;
+            SubmissionType? subType = SubTypeInput.Value.ToSubmissionType();
+            PhysicalSystem? system = SystemInput.Value.ToPhysicalSystem();
 
             // Output directory validation
             if (!ValidateAndCreateOutputDirectory(outDir))
                 return false;
 
             // Range verification
-            if (!onlyNew && (minId < 0 || maxId < 0))
+            if ((minId is null) ^ (maxId is null))
             {
-                Console.WriteLine("Please enter a valid range of WIP IDs");
+                Console.WriteLine("Both a maximum and minimum ID are required");
+                return false;
+            }
+            else if (minId is not null && minId < 0)
+            {
+                Console.WriteLine($"{minId} is an invalid minimum ID");
+                return false;
+            }
+            else if (maxId is not null && maxId < 0)
+            {
+                Console.WriteLine($"{maxId} is an invalid maximum ID");
                 return false;
             }
 
@@ -95,10 +144,22 @@ namespace RedumpTool.Features
 
             // Start the processing
             Task<List<int>> processingTask;
-            if (onlyNew)
-                processingTask = _client.DownloadQueueResults(outDir, order: SortDirection.Descending, sort: SortCategory.Modified);
+            if (minId is null || maxId is null)
+            {
+                processingTask = _client.DownloadQueueResults(outDir,
+                    discId,
+                    isDiscHistory,
+                    order,
+                    sort,
+                    status,
+                    submitter,
+                    subType,
+                    system);
+            }
             else
-                processingTask = _client.DownloadQueueRange(outDir, minId, maxId);
+            {
+                processingTask = _client.DownloadQueueRange(outDir, minId.Value, maxId.Value);
+            }
 
             // Retrieve the result
             processingTask.Wait();

@@ -119,9 +119,19 @@ namespace RedumpTool
             Console.WriteLine();
 
             Console.WriteLine("queue - Download pages and related files from the submission queue");
-            Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (incompatible with --onlynew)");
-            Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (incompatible with --onlynew)");
-            Console.WriteLine("    -n, --onlynew - Use the last modified view (incompatible with min and max)");
+            Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (requires --maximum)");
+            Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (requires --minimum)");
+            Console.WriteLine();
+            Console.WriteLine("    In addition to the above options, there are advanced options that allow users to finely tune their");
+            Console.WriteLine("    site queries. All flags below are incompatible with --minimum, --maximum, and --onlynew.");
+            Console.WriteLine("        --disc-id <Value> - Add disc ID to filter");
+            Console.WriteLine("        --is-disc-history <Value> - Add disc history status to filter [true, false]");
+            Console.WriteLine("        --order <Order> - Add sort order to filter [asc, desc]");
+            Console.WriteLine("        --sort <Category> - Add sort category to filter [title, added, region, system, version, edition, language, serial, status, modified]");
+            Console.WriteLine("        --status <Status> - Add status to filter [grey, red, yellow, blue, green]");
+            Console.WriteLine("        --submitter <Value> - Add submitter to filter");
+            Console.WriteLine("        --sub-type <SubType> - Add submission type to filter [edit, new disc, verification]");
+            Console.WriteLine("        --system <System> - Add system to filter"); // TODO: Create list
             Console.WriteLine();
 
             Console.WriteLine("packs - Download available packs");

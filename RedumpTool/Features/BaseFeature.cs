@@ -82,17 +82,8 @@ namespace RedumpTool.Features
         private const string _ringcodeName = "ringcode";
         internal readonly StringInput RingcodeInput = new(_ringcodeName, ["--ringcode"], "Filter by ringcode");
 
-        private const string _sortName = "sort";
-        internal readonly StringInput SortInput = new(_sortName, ["--sort"], "Sort results by criteria [added, region, system, version, edition, languages, serial, status, modified]");
-
         private const string _sortDirName = "sortdir";
         internal readonly StringInput SortDirInput = new(_sortDirName, ["--sort-dir"], "Set sorting direction [asc, desc]");
-
-        private const string _statusName = "status";
-        internal readonly StringInput StatusInput = new(_statusName, ["--status"], "Filter by status [grey, red, yellow, blue, green]");
-
-        private const string _systemName = "system";
-        internal readonly StringInput SystemInput = new(_systemName, ["--system"], "Filter by system");
 
         #endregion
 
