@@ -5,7 +5,7 @@ using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Data.Sections;
 using Xunit;
 
-namespace SabreTools.RedumpLib.Test
+namespace SabreTools.RedumpLib.Test.Data
 {
     public class SubmissionInfoTests
     {
