@@ -118,7 +118,7 @@ namespace RedumpTool
             Console.WriteLine("        --tracks <Count> - Filter by track count [1-99]");
             Console.WriteLine();
 
-            Console.WriteLine("wip - Download pages and related files from the WIP list");
+            Console.WriteLine("queue - Download pages and related files from the submission queue");
             Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (incompatible with --onlynew)");
             Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (incompatible with --onlynew)");
             Console.WriteLine("    -n, --onlynew - Use the last modified view (incompatible with min and max)");
@@ -131,14 +131,6 @@ namespace RedumpTool
             Console.WriteLine("user - Download pages and related files for a particular user");
             Console.WriteLine("    -n, --onlynew - Use the last modified view instead of sequential parsing");
             Console.WriteLine("    -l, --list - Only list the page IDs for that user");
-            Console.WriteLine("    --limit <Limit> - Limit number of retrieved result pages");
-            Console.WriteLine("    --only-pages - Only download disc subpages (incompatible with --only-files)");
-            Console.WriteLine("    --only-files - Only download disc file attachments (incompatible with --only-pages)");
-            Console.WriteLine();
-
-            Console.WriteLine("query - Download pages and related files from a Redump-compatible quicksearch query");
-            Console.WriteLine("    -q, --query - Redump-compatible query to run");
-            Console.WriteLine("    -l, --list - Only list the page IDs for that query");
             Console.WriteLine("    --limit <Limit> - Limit number of retrieved result pages");
             Console.WriteLine("    --only-pages - Only download disc subpages (incompatible with --only-files)");
             Console.WriteLine("    --only-files - Only download disc file attachments (incompatible with --only-pages)");
