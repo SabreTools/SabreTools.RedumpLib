@@ -64,6 +64,9 @@ namespace RedumpTool.Features
         private const string _limitName = "limit";
         internal readonly Int32Input LimitInput = new(_limitName, ["--limit"], "Limit number of retrieved result pages");
 
+        private const string _listName = "list";
+        internal readonly FlagInput ListInput = new(_listName, ["-l", "--list"], "Only list the page IDs for the filters");
+
         private const string _maximumName = "maximum";
         internal readonly Int32Input MaximumInput = new(_maximumName, ["-max", "--maximum"], "Upper bound for page numbers (incompatible with --onlynew)");
 
@@ -75,9 +78,6 @@ namespace RedumpTool.Features
 
         private const string _offsetName = "offset";
         internal readonly Int32Input OffsetInput = new(_offsetName, ["--offset"], "Add offset to filter");
-
-        private const string _onlyNewName = "onlynew";
-        internal readonly FlagInput OnlyNewInput = new(_onlyNewName, ["-n", "--onlynew"], "Use the last modified view (incompatible with min and max)");
 
         private const string _orderName = "order";
         internal readonly StringInput OrderInput = new(_orderName, ["--order"], "Add sort order to filter [asc, desc]");
@@ -145,10 +145,10 @@ namespace RedumpTool.Features
             Add(ForceContinueInput);
 
             // Specific
+            Add(LimitInput);
+            Add(ListInput);
             Add(MinimumInput);
             Add(MaximumInput);
-            Add(OnlyNewInput);
-            Add(LimitInput);
 
             // Filter
             Add(BarcodeInput);
@@ -197,10 +197,10 @@ namespace RedumpTool.Features
             bool forceContinue = ForceContinueInput.Value;
 
             // Get specific values
-            int minId = MinimumInput.Value ?? -1;
-            int maxId = MaximumInput.Value ?? -1;
-            bool onlyNew = OnlyNewInput.Value;
             int limit = LimitInput.Value ?? -1;
+            int? minId = MinimumInput.Value;
+            int? maxId = MaximumInput.Value;
+            bool onlyList = ListInput.Value;
 
             // Get filter values
             string? barcode = BarcodeInput.Value;
@@ -240,16 +240,26 @@ namespace RedumpTool.Features
             // Build the disc subpaths
             DiscSubpath[] discSubpaths = Constants.AllDiscSubpaths;
 
-            // Override individual flags if shorthand flags used
-            if (onlyNew)
-            {
-                sort = SortCategory.Modified;
-                order = SortDirection.Descending;
-            }
-
             // Output directory validation
-            if (!ValidateAndCreateOutputDirectory(outDir))
+            if (!onlyList && !ValidateAndCreateOutputDirectory(outDir))
                 return false;
+
+            // Range verification
+            if ((minId is null) ^ (maxId is null))
+            {
+                Console.WriteLine("Both a maximum and minimum ID are required");
+                return false;
+            }
+            else if (minId is not null && minId < 0)
+            {
+                Console.WriteLine($"{minId} is an invalid minimum ID");
+                return false;
+            }
+            else if (maxId is not null && maxId < 0)
+            {
+                Console.WriteLine($"{maxId} is an invalid maximum ID");
+                return false;
+            }
 
             // Update redump.info client properties
             _client.Debug = DebugInput.Value;
@@ -265,11 +275,44 @@ namespace RedumpTool.Features
 
             // Start the processing
             Task<List<int>> processingTask;
-            if (minId >= 0 && maxId >= 0)
+            if ((minId is null || maxId is null) && onlyList)
             {
-                processingTask = _client.DownloadSiteRange(outDir, minId, maxId, discSubpaths: discSubpaths);
+                processingTask = _client.ListDiscsResults(
+                    advanced: true, // Hardcoded, only toggles the advanced options on page by default
+                    barcode,
+                    barcodeExact,
+                    category,
+                    comments,
+                    contents,
+                    dumper,
+                    edc,
+                    edition,
+                    editionExact,
+                    errorsMax,
+                    errorsMin,
+                    language,
+                    letter,
+                    media,
+                    offset,
+                    order,
+                    protection,
+                    query,
+                    region,
+                    ringcode,
+                    serial,
+                    serialExact,
+                    sort,
+                    status,
+                    system,
+                    title,
+                    titleExact,
+                    titleForeign,
+                    titleForeignExact,
+                    tracksMax,
+                    tracksMin,
+                    limit);
             }
-            else
+            else if ((minId is null || maxId is null) && !onlyList)
             {
                 processingTask = _client.DownloadDiscsResults(outDir,
                     advanced: true, // Hardcoded, only toggles the advanced options on page by default
@@ -306,6 +349,10 @@ namespace RedumpTool.Features
                     tracksMin,
                     limit: limit,
                     discSubpaths: discSubpaths);
+            }
+            else
+            {
+                processingTask = _client.DownloadSiteRange(outDir, minId!.Value, maxId!.Value, discSubpaths: discSubpaths);
             }
 
             // Retrieve the result

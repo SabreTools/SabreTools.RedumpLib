@@ -81,11 +81,10 @@ namespace RedumpTool
             Console.WriteLine();
 
             Console.WriteLine("site - Download pages and related files from the main site");
-            Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (incompatible with --onlynew)");
-            Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (incompatible with --onlynew)");
-            Console.WriteLine("    -n, --onlynew - Use the last modified view (incompatible with min and max)");
-            Console.WriteLine("        Internally this sets '--sort modified -sort-dir desc'");
             Console.WriteLine("    --limit <Limit> - Limit number of retrieved result pages");
+            Console.WriteLine("    -l, --list - Only list the page IDs for the filters (incompatible with --minimum and --maximum)");
+            Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (requires --maximum, incompatible with --list)");
+            Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (requires --minimum, incompatible with --list)");
             Console.WriteLine();
             Console.WriteLine("    In addition to the above options, there are advanced options that allow users to finely tune their");
             Console.WriteLine("    site queries. All flags below are incompatible with --minimum, --maximum, and --onlynew.");
@@ -123,6 +122,7 @@ namespace RedumpTool
             Console.WriteLine();
 
             Console.WriteLine("queue - Download pages and related files from the submission queue");
+            Console.WriteLine("    --limit <Limit> - Limit number of retrieved result pages");
             Console.WriteLine("    -l, --list - Only list the page IDs for the filters (incompatible with --minimum and --maximum)");
             Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (requires --maximum, incompatible with --list)");
             Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (requires --minimum, incompatible with --list)");

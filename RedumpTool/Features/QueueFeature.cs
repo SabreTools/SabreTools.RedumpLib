@@ -33,6 +33,9 @@ namespace RedumpTool.Features
         private const string _minimumName = "minimum";
         internal readonly Int32Input MinimumInput = new(_minimumName, ["-min", "--minimum"], "Lower bound for page numbers (incompatible with --onlynew)");
 
+        private const string _limitName = "limit";
+        internal readonly Int32Input LimitInput = new(_limitName, ["--limit"], "Limit number of retrieved result pages");
+
         private const string _listName = "list";
         internal readonly FlagInput ListInput = new(_listName, ["-l", "--list"], "Only list the page IDs for the filters");
 
@@ -72,6 +75,7 @@ namespace RedumpTool.Features
             Add(ForceContinueInput);
 
             // Specific
+            Add(LimitInput);
             Add(ListInput);
             Add(MinimumInput);
             Add(MaximumInput);
@@ -100,6 +104,7 @@ namespace RedumpTool.Features
             bool forceContinue = ForceContinueInput.Value;
 
             // Get specific values
+            int limit = LimitInput.Value ?? -1;
             int? minId = MinimumInput.Value;
             int? maxId = MaximumInput.Value;
             bool onlyList = ListInput.Value;
@@ -159,7 +164,8 @@ namespace RedumpTool.Features
                     status,
                     submitter,
                     subType,
-                    system);
+                    system,
+                    limit);
             }
             else if ((minId is null || maxId is null) && !onlyList)
             {
@@ -171,7 +177,8 @@ namespace RedumpTool.Features
                     status,
                     submitter,
                     subType,
-                    system);
+                    system,
+                    limit);
             }
             else
             {
