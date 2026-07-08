@@ -476,8 +476,7 @@ namespace SabreTools.RedumpLib.Tools
                     or SiteCode.VolumeLabel => true,
 
                 // Audio CD
-                SiteCode.RingNonZeroDataStart
-                    or SiteCode.RingPerfectAudioOffset => true,
+                SiteCode.RingPerfectAudioOffset => true,
 
                 // Microsoft Xbox and Xbox 360
                 SiteCode.DMIHash

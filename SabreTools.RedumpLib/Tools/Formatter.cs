@@ -24,7 +24,6 @@ namespace SabreTools.RedumpLib.Tools
             SiteCode.VolumeLabel,
             SiteCode.HighSierraVolumeDescriptor,
             SiteCode.Multisession,
-            SiteCode.RingNonZeroDataStart,
             SiteCode.RingPerfectAudioOffset,
 
             SiteCode.XMID,

@@ -3714,10 +3714,6 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "<b>Protection</b>:", LongName = "<b>Protection</b>:")]
         Protection,
 
-        // This doesn't have a site tag yet, promoted to field in redump.info
-        [HumanReadable(ShortName = "<b>Ring non-zero data start</b>:", LongName = "<b>Ring non-zero data start</b>:")]
-        RingNonZeroDataStart,
-
         // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Ring Perfect Audio Offset</b>:", LongName = "<b>Ring Perfect Audio Offset</b>:")]
         RingPerfectAudioOffset,
