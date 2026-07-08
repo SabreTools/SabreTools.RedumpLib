@@ -119,11 +119,12 @@ namespace RedumpTool
             Console.WriteLine();
 
             Console.WriteLine("queue - Download pages and related files from the submission queue");
-            Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (requires --maximum)");
-            Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (requires --minimum)");
+            Console.WriteLine("    -l, --list - Only list the page IDs for the filters (incompatible with --minimum and --maximum)");
+            Console.WriteLine("    -min <MinId>, --minimum <MinId> - Lower bound for page numbers (requires --maximum, incompatible with --list)");
+            Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (requires --minimum, incompatible with --list)");
             Console.WriteLine();
             Console.WriteLine("    In addition to the above options, there are advanced options that allow users to finely tune their");
-            Console.WriteLine("    site queries. All flags below are incompatible with --minimum, --maximum, and --onlynew.");
+            Console.WriteLine("    queries. All flags below are incompatible with --minimum and --maximum.");
             Console.WriteLine("        --disc-id <Value> - Add disc ID to filter");
             Console.WriteLine("        --is-disc-history <Value> - Add disc history status to filter [true, false]");
             Console.WriteLine("        --order <Order> - Add sort order to filter [asc, desc]");

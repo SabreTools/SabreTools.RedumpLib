@@ -33,6 +33,9 @@ namespace RedumpTool.Features
         private const string _minimumName = "minimum";
         internal readonly Int32Input MinimumInput = new(_minimumName, ["-min", "--minimum"], "Lower bound for page numbers (incompatible with --onlynew)");
 
+        private const string _listName = "list";
+        internal readonly FlagInput ListInput = new(_listName, ["-l", "--list"], "Only list the page IDs for the filters");
+
         private const string _orderName = "order";
         internal readonly StringInput OrderInput = new(_orderName, ["--order"], "Add sort order to filter [asc, desc]");
 
@@ -69,6 +72,7 @@ namespace RedumpTool.Features
             Add(ForceContinueInput);
 
             // Specific
+            Add(ListInput);
             Add(MinimumInput);
             Add(MaximumInput);
 
@@ -98,6 +102,7 @@ namespace RedumpTool.Features
             // Get specific values
             int? minId = MinimumInput.Value;
             int? maxId = MaximumInput.Value;
+            bool onlyList = ListInput.Value;
 
             // Get filter values
             long? discId = DiscIDInput.Value;
@@ -110,7 +115,7 @@ namespace RedumpTool.Features
             PhysicalSystem? system = SystemInput.Value.ToPhysicalSystem();
 
             // Output directory validation
-            if (!ValidateAndCreateOutputDirectory(outDir))
+            if (!onlyList && !ValidateAndCreateOutputDirectory(outDir))
                 return false;
 
             // Range verification
@@ -144,7 +149,19 @@ namespace RedumpTool.Features
 
             // Start the processing
             Task<List<int>> processingTask;
-            if (minId is null || maxId is null)
+            if ((minId is null || maxId is null) && onlyList)
+            {
+                processingTask = _client.ListQueueResults(
+                    discId,
+                    isDiscHistory,
+                    order,
+                    sort,
+                    status,
+                    submitter,
+                    subType,
+                    system);
+            }
+            else if ((minId is null || maxId is null) && !onlyList)
             {
                 processingTask = _client.DownloadQueueResults(outDir,
                     discId,
@@ -158,7 +175,7 @@ namespace RedumpTool.Features
             }
             else
             {
-                processingTask = _client.DownloadQueueRange(outDir, minId.Value, maxId.Value);
+                processingTask = _client.DownloadQueueRange(outDir, minId!.Value, maxId!.Value);
             }
 
             // Retrieve the result
