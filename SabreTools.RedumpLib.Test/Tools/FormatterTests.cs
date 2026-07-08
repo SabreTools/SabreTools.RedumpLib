@@ -585,7 +585,37 @@ namespace SabreTools.RedumpLib.Test.Tools
 
         #endregion
 
-        // TODO: Add DumpMetadataSection test
+        #region DumpMetadataSection
+
+        [Fact]
+        public void FormatOutputData_DumpMetadataSection_Formatted()
+        {
+            string expected = "Dump Metadata:\n\tComments: XXXXXX\n\tContents: XXXXXX\n\tProtection: XXXXXX\n\tSector Ranges: XXXXXX\n\tSBI: XXXXXX\n\tPrimary Volume Descriptor (PVD): XXXXXX\n\tHeader: XXXXXX\n\tBurst Cutting Area (BCA): XXXXXX\n\tPermanent Information & Control (PIC): XXXXXX\n\tCuesheet: XXXXXX\n\tDat:\n\nXXXXXX\n\n\n";
+
+            var builder = new StringBuilder();
+            DumpMetadataSection? section = new()
+            {
+                Comments = "XXXXXX",
+                Contents = "XXXXXX",
+                Protection = "XXXXXX",
+                SectorRanges = "XXXXXX",
+                SBI = "XXXXXX",
+                PVD = "XXXXXX",
+                Header = "XXXXXX",
+                BCA = "XXXXXX",
+                PIC = "XXXXXX",
+                Cuesheet = "XXXXXX",
+                Dat = "XXXXXX",
+            };
+
+            Formatter.FormatOutputData(builder, section);
+
+            string actual = builder.ToString();
+            Assert.Equal(expected, actual);
+        }
+
+        #endregion
+
         // TODO: Add SubmissionControlsSection test
 
         #region DumpingInfoSection
