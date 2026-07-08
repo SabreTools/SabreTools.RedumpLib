@@ -32,7 +32,6 @@ namespace RedumpTool
                 case WIPFeature wf: wf.ProcessArgs(args, 1); wf.Execute(); return;
                 case PacksFeature pf: pf.ProcessArgs(args, 1); pf.Execute(); return;
                 case UserFeature uf: uf.ProcessArgs(args, 1); uf.Execute(); return;
-                case QueryFeature qf: qf.ProcessArgs(args, 1); qf.Execute(); return;
 
                 // This is entirely broken on the site side
                 //case StatsFeature sf: sf.ProcessArgs(args, 1); sf.Execute(); return;
@@ -56,7 +55,6 @@ namespace RedumpTool
             commandSet.Add(new WIPFeature());
             commandSet.Add(new PacksFeature());
             commandSet.Add(new UserFeature());
-            commandSet.Add(new QueryFeature());
 
             return commandSet;
         }
