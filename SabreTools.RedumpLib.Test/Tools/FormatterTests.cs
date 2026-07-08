@@ -7,8 +7,6 @@ using SabreTools.RedumpLib.Data.Sections;
 using SabreTools.RedumpLib.Tools;
 using Xunit;
 
-// TODO: Fix all tests here to point to new formatter
-// TODO: Add tests for all FormatOutputData methods
 namespace SabreTools.RedumpLib.Test.Tools
 {
     public class FormatterTests
@@ -616,7 +614,30 @@ namespace SabreTools.RedumpLib.Test.Tools
 
         #endregion
 
-        // TODO: Add SubmissionControlsSection test
+        #region SubmissionControlsSection
+
+        [Fact]
+        public void FormatOutputData_SubmissionControlsSection_Formatted()
+        {
+            string expected = "Submission Controls:\n\tDump Log: XXXXXX\n\tLogs Archive URL: XXXXXX\n\tReview Comment: XXXXXX\n\tSubmission Comment: XXXXXX\n\tSubmit As: XXXXXX\n";
+
+            var builder = new StringBuilder();
+            SubmissionControlsSection? section = new()
+            {
+                DumpLog = "XXXXXX",
+                LogsArchiveURL = "XXXXXX",
+                ReviewComment = "XXXXXX",
+                SubmissionComment = "XXXXXX",
+                SubmitAs = "XXXXXX",
+            };
+
+            Formatter.FormatOutputData(builder, section);
+
+            string actual = builder.ToString();
+            Assert.Equal(expected, actual);
+        }
+
+        #endregion
 
         #region DumpingInfoSection
 
