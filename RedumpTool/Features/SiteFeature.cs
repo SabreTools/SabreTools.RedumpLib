@@ -22,32 +22,110 @@ namespace RedumpTool.Features
 
         #region Inputs
 
+        private const string _barcodeName = "barcode";
+        internal readonly StringInput BarcodeInput = new(_barcodeName, ["--barcode"], "Add barcode to filter");
+
+        private const string _barcodeExactName = "barcode-exact";
+        internal readonly BooleanInput BarcodeExactInput = new(_barcodeExactName, ["--barcode-exact"], "Add barcode exact matching to filter [true, false]");
+
+        private const string _categoryName = "category";
+        internal readonly StringInput CategoryInput = new(_categoryName, ["--category"], "Add category to filter");
+
+        private const string _commentsName = "comments";
+        internal readonly StringInput CommentsInput = new(_commentsName, ["--comments"], "Add comments to filter");
+
+        private const string _contentsName = "contents";
+        internal readonly StringInput ContentsInput = new(_contentsName, ["--contents"], "Add contents to filter");
+
+        private const string _dumperName = "dumper";
+        internal readonly StringInput DumperInput = new(_dumperName, ["--dumper"], "Add dumper to filter");
+
+        private const string _edcName = "edc";
+        internal readonly BooleanInput EdcInput = new(_edcName, ["--edc"], "Add EDC status to filter [true, false]");
+
+        private const string _editionName = "edition";
+        internal readonly StringInput EditionInput = new(_editionName, ["--edition"], "Add edition to filter");
+
+        private const string _editionExactName = "edition-exact";
+        internal readonly BooleanInput EditionExactInput = new(_editionExactName, ["--edition-exact"], "Add edition exact matching to filter [true, false]");
+
+        private const string _errorsMaxName = "errors-max";
+        internal readonly Int32Input ErrorsMaximumInput = new(_errorsMaxName, ["--errors-max"], "Add maximum error count to filter");
+
+        private const string _errorsMinName = "errors-min";
+        internal readonly Int32Input ErrorsMinimumInput = new(_errorsMinName, ["--errors-min"], "Add minimum error count to filter");
+
+        private const string _languageName = "language";
+        internal readonly StringInput LanguageInput = new(_languageName, ["--language"], "Add language to filter");
+
+        private const string _letterName = "letter";
+        internal readonly StringInput LetterInput = new(_letterName, ["--letter"], "Add title first letter to filter");
+
         private const string _limitName = "limit";
         internal readonly Int32Input LimitInput = new(_limitName, ["--limit"], "Limit number of retrieved result pages");
 
         private const string _maximumName = "maximum";
         internal readonly Int32Input MaximumInput = new(_maximumName, ["-max", "--maximum"], "Upper bound for page numbers (incompatible with --onlynew)");
 
+        private const string _mediaName = "media";
+        internal readonly StringInput MediaInput = new(_mediaName, ["--media"], "Add media type to filter");
+
         private const string _minimumName = "minimum";
         internal readonly Int32Input MinimumInput = new(_minimumName, ["-min", "--minimum"], "Lower bound for page numbers (incompatible with --onlynew)");
 
-        private const string _onlyFilesName = "onlypages";
-        internal readonly FlagInput OnlyFilesInput = new(_onlyFilesName, ["--only-files"], "Only download disc file attachments (incompatible with --only-pages)");
+        private const string _offsetName = "offset";
+        internal readonly Int32Input OffsetInput = new(_offsetName, ["--offset"], "Add offset to filter");
 
         private const string _onlyNewName = "onlynew";
         internal readonly FlagInput OnlyNewInput = new(_onlyNewName, ["-n", "--onlynew"], "Use the last modified view (incompatible with min and max)");
 
-        private const string _onlyPagesName = "onlypages";
-        internal readonly FlagInput OnlyPagesInput = new(_onlyPagesName, ["--only-pages"], "Only download disc subpages (incompatible with --only-files)");
+        private const string _orderName = "order";
+        internal readonly StringInput OrderInput = new(_orderName, ["--order"], "Add sort order to filter [asc, desc]");
+
+        private const string _protectionName = "protection";
+        internal readonly StringInput ProtectionInput = new(_protectionName, ["--protection"], "Add protection to filter");
+
+        private const string _queryName = "query";
+        internal readonly StringInput QueryInput = new(_queryName, ["--query"], "Add query to filter");
+
+        private const string _regionName = "region";
+        internal readonly StringInput RegionInput = new(_regionName, ["--region"], "Add region to filter");
+
+        private const string _ringcodeName = "ringcode";
+        internal readonly StringInput RingcodeInput = new(_ringcodeName, ["--ringcode"], "Add ringcode to filter");
+
+        private const string _serialName = "serial";
+        internal readonly StringInput SerialInput = new(_serialName, ["--serial"], "Add serial to filter");
+
+        private const string _serialExactName = "serial-exact";
+        internal readonly BooleanInput SerialExactInput = new(_serialExactName, ["--serial-exact"], "Add serial exact matching to filter [true, false]");
 
         private const string _sortName = "sort";
-        internal readonly StringInput SortInput = new(_sortName, ["--sort"], "Sort results by criteria [added, region, system, version, edition, languages, serial, status, modified]");
+        internal readonly StringInput SortInput = new(_sortName, ["--sort"], "Add sort category to filter [title, added, region, system, version, edition, language, serial, status, modified]");
 
         private const string _statusName = "status";
         internal readonly StringInput StatusInput = new(_statusName, ["--status"], "Filter by status [grey, red, yellow, blue, green]");
 
         private const string _systemName = "system";
         internal readonly StringInput SystemInput = new(_systemName, ["--system"], "Filter by system");
+
+        private const string _titleName = "title";
+        internal readonly StringInput TitleInput = new(_titleName, ["--title"], "Add title to filter");
+
+        private const string _titleExactName = "title-exact";
+        internal readonly BooleanInput TitleExactInput = new(_titleExactName, ["--title-exact"], "Add title exact matching to filter [true, false]");
+
+        private const string _titleForeignName = "title-foreign";
+        internal readonly StringInput TitleForeignInput = new(_titleForeignName, ["--title-foreign"], "Add foreign title to filter");
+
+        private const string _titleForeignExactName = "title-foreign-exact";
+        internal readonly BooleanInput TitleForeignExactInput = new(_titleForeignExactName, ["--title-foreign-exact"], "Add foreign title exact matching to filter [true, false]");
+
+        private const string _tracksMaxName = "tracks-max";
+        internal readonly Int32Input TracksMaximumInput = new(_tracksMaxName, ["--tracks-max"], "Add maximum track count to filter");
+
+        private const string _tracksMinName = "tracks-min";
+        internal readonly Int32Input TracksMinimumInput = new(_tracksMinName, ["--tracks-min"], "Add minimum track count to filter");
 
         #endregion
 
@@ -66,31 +144,44 @@ namespace RedumpTool.Features
             Add(ForceDownloadInput);
             Add(ForceContinueInput);
 
-            // Discs Path
-            Add(BarcodeInput);
-            Add(CategoryInput);
-            Add(CommentsInput);
-            Add(ContentsInput);
-            Add(DiscTypeInput);
-            Add(DumperInput);
-            Add(EdcInput);
-            Add(EditionInput);
-            Add(LanguageInput);
-            Add(LetterInput);
-            Add(OffsetInput);
-            Add(QuickSearchInput);
-            Add(RegionInput);
-            Add(RingcodeInput);
-            Add(SortInput);
-            Add(SortDirInput);
-            Add(StatusInput);
-            Add(SystemInput);
-
             // Specific
             Add(MinimumInput);
             Add(MaximumInput);
             Add(OnlyNewInput);
             Add(LimitInput);
+
+            // Filter
+            Add(BarcodeInput);
+            Add(BarcodeExactInput);
+            Add(CategoryInput);
+            Add(CommentsInput);
+            Add(ContentsInput);
+            Add(DumperInput);
+            Add(EdcInput);
+            Add(EditionInput);
+            Add(EditionExactInput);
+            Add(ErrorsMaximumInput);
+            Add(ErrorsMinimumInput);
+            Add(LanguageInput);
+            Add(LetterInput);
+            Add(MediaInput);
+            Add(OffsetInput);
+            Add(OrderInput);
+            Add(ProtectionInput);
+            Add(QueryInput);
+            Add(RegionInput);
+            Add(RingcodeInput);
+            Add(SerialInput);
+            Add(SerialExactInput);
+            Add(SortInput);
+            Add(StatusInput);
+            Add(SystemInput);
+            Add(TitleInput);
+            Add(TitleExactInput);
+            Add(TitleForeignInput);
+            Add(TitleForeignExactInput);
+            Add(TracksMaximumInput);
+            Add(TracksMinimumInput);
         }
 
         /// <inheritdoc/>
@@ -105,42 +196,46 @@ namespace RedumpTool.Features
             bool forceDownload = ForceDownloadInput.Value;
             bool forceContinue = ForceContinueInput.Value;
 
-            // Get discs path values
-            string? barcode = BarcodeInput.Value;
-            string? categoryString = CategoryInput.Value;
-            DiscCategory? category = categoryString.ToDiscCategory();
-            bool comments = CommentsInput.Value;
-            bool contents = ContentsInput.Value;
-            string? discTypeString = DiscTypeInput.Value;
-            MediaType? mediaType = discTypeString.ToMediaType();
-            string? dumper = DumperInput.Value;
-            bool? edcBool = EdcInput.Value;
-            YesNo? edc = edcBool?.ToYesNo();
-            string? edition = EditionInput.Value;
-            string? languageString = LanguageInput.Value;
-            Language? language = languageString.ToLanguage();
-            char? letter = string.IsNullOrEmpty(LetterInput.Value)
-                ? null
-                : LetterInput.Value![0];
-            int? offset = OffsetInput.Value;
-            string? quicksearch = QuickSearchInput.Value;
-            string? regionString = RegionInput.Value;
-            Region? region = regionString.ToRegion();
-            string? ringcode = RingcodeInput.Value;
-            string? sortString = SortInput.Value;
-            SortCategory? sort = sortString.ToSortCategory();
-            string? sortDirString = SortDirInput.Value;
-            SortDirection? sortDir = sortDirString.ToSortDirection();
-            string? statusString = StatusInput.Value;
-            DumpStatus? status = statusString.ToDumpStatus();
-            string? systemString = SystemInput.Value;
-            PhysicalSystem? system = systemString.ToPhysicalSystem();
-
             // Get specific values
             int minId = MinimumInput.Value ?? -1;
             int maxId = MaximumInput.Value ?? -1;
             bool onlyNew = OnlyNewInput.Value;
             int limit = LimitInput.Value ?? -1;
+
+            // Get filter values
+            string? barcode = BarcodeInput.Value;
+            bool? barcodeExact = BarcodeExactInput.Value;
+            DiscCategory? category = CategoryInput.Value.ToDiscCategory();
+            string? comments = CommentsInput.Value;
+            string? contents = ContentsInput.Value;
+            string? dumper = DumperInput.Value;
+            YesNo? edc = EdcInput.Value?.ToYesNo();
+            string? edition = EditionInput.Value;
+            bool? editionExact = EditionExactInput.Value;
+            long? errorsMax = ErrorsMaximumInput.Value;
+            long? errorsMin = ErrorsMinimumInput.Value;
+            Language? language = LanguageInput.Value.ToLanguage();
+            char? letter = string.IsNullOrEmpty(LetterInput.Value)
+                ? null
+                : LetterInput.Value![0];
+            MediaType? media = MediaInput.Value.ToMediaType();
+            int? offset = OffsetInput.Value;
+            SortDirection? order = OrderInput.Value.ToSortDirection();
+            string? protection = ProtectionInput.Value;
+            string? query = QueryInput.Value;
+            Region? region = RegionInput.Value.ToRegion();
+            string? ringcode = RingcodeInput.Value;
+            string? serial = SerialInput.Value;
+            bool? serialExact = SerialExactInput.Value;
+            SortCategory? sort = SortInput.Value.ToSortCategory();
+            DumpStatus? status = StatusInput.Value.ToDumpStatus();
+            PhysicalSystem? system = SystemInput.Value.ToPhysicalSystem();
+            string? title = TitleInput.Value;
+            bool? titleExact = TitleExactInput.Value;
+            string? titleForeign = TitleForeignInput.Value;
+            bool? titleForeignExact = TitleForeignExactInput.Value;
+            long? tracksMax = TracksMaximumInput.Value;
+            long? tracksMin = TracksMinimumInput.Value;
 
             // Build the disc subpaths
             DiscSubpath[] discSubpaths = Constants.AllDiscSubpaths;
@@ -149,7 +244,7 @@ namespace RedumpTool.Features
             if (onlyNew)
             {
                 sort = SortCategory.Modified;
-                sortDir = SortDirection.Descending;
+                order = SortDirection.Descending;
             }
 
             // Output directory validation
@@ -176,26 +271,39 @@ namespace RedumpTool.Features
             }
             else
             {
-                // TODO: Either strip this out or fix the bad logic
                 processingTask = _client.DownloadDiscsResults(outDir,
-                    barcode: barcode,
-                    category: category,
-                    comments: comments ? quicksearch : null,
-                    contents: contents ? quicksearch : null,
-                    dumper: dumper,
-                    edc: edc,
-                    edition: edition,
-                    language: language,
-                    letter: letter,
-                    media: mediaType,
-                    offset: offset,
-                    order: sortDir,
-                    query: comments || contents ? null : quicksearch,
-                    region: region,
-                    ringcode: ringcode,
-                    sort: sort,
-                    status: status,
-                    system: system,
+                    advanced: true, // Hardcoded, only toggles the advanced options on page by default
+                    barcode,
+                    barcodeExact,
+                    category,
+                    comments,
+                    contents,
+                    dumper,
+                    edc,
+                    edition,
+                    editionExact,
+                    errorsMax,
+                    errorsMin,
+                    language,
+                    letter,
+                    media,
+                    offset,
+                    order,
+                    protection,
+                    query,
+                    region,
+                    ringcode,
+                    serial,
+                    serialExact,
+                    sort,
+                    status,
+                    system,
+                    title,
+                    titleExact,
+                    titleForeign,
+                    titleForeignExact,
+                    tracksMax,
+                    tracksMin,
                     limit: limit,
                     discSubpaths: discSubpaths);
             }

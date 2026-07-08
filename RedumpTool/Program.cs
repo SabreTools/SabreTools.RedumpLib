@@ -86,36 +86,40 @@ namespace RedumpTool
             Console.WriteLine("    -n, --onlynew - Use the last modified view (incompatible with min and max)");
             Console.WriteLine("        Internally this sets '--sort modified -sort-dir desc'");
             Console.WriteLine("    --limit <Limit> - Limit number of retrieved result pages");
-            Console.WriteLine("    --only-pages - Only download disc subpages (incompatible with --only-files)");
-            Console.WriteLine("    --only-files - Only download disc file attachments (incompatible with --only-pages)");
             Console.WriteLine();
             Console.WriteLine("    In addition to the above options, there are advanced options that allow users to finely tune their");
             Console.WriteLine("    site queries. All flags below are incompatible with --minimum, --maximum, and --onlynew.");
-            Console.WriteLine("        --anti-modchip <Value> - Filter by anti-modchip status [true, false, null]");
-            Console.WriteLine("        --barcode - Filter by missing barcodes");
-            Console.WriteLine("        --category <Category> - Filter by disc category"); // TODO: Create list
-            Console.WriteLine("        --comments - Filter by comments only, incompatible with --contents and --protection");
-            Console.WriteLine("        --contents - Filter by contents only, incompatible with --comments and --protection");
-            Console.WriteLine("        --disc-type <DiscType> - Filter by disc type, requires --system [cd, dvd]");
-            Console.WriteLine("        --dumper <Dumper> - Filter by dumper");
-            Console.WriteLine("        --edc <Value> - Filter by EDC status [true, false, null]");
-            Console.WriteLine("        --edition <Edition> - Filter by edition");
-            Console.WriteLine("        --errors <Errors> - Filter by errors");
-            Console.WriteLine("        --language <Language> - Filter by language"); // TODO: Create list
-            Console.WriteLine("        --letter <First> - Filter by first letter");
-            Console.WriteLine("        --libcrypt <Value> - Filter by LibCrypt status [true, false, null]");
-            Console.WriteLine("        --media <MediaType> - Filter by media type"); // TODO: Create list
-            Console.WriteLine("        --offset <Offset> - Filter by disc offset");
-            Console.WriteLine("        --page <Page> - Retrieve specific result page");
-            Console.WriteLine("        --protection - Filter by protection only, incompatible with --comments and --contents");
-            Console.WriteLine("        --quicksearch <Query> - Filter by quicksearch");
-            Console.WriteLine("        --region <Region> - Filter by region"); // TODO: Create list
-            Console.WriteLine("        --ringcode <Ringcode> - Filter by ringcode");
-            Console.WriteLine("        --sort <Criteria> - Sort results by criteria [added, region, system, version, edition, languages, serial, status, modified]");
-            Console.WriteLine("        --sort-dir <Direction> - Set sorting direction [asc, desc]");
-            Console.WriteLine("        --status <Status> - Filter by status [grey, red, yellow, blue, green]");
-            Console.WriteLine("        --system <System> - Filter by system"); // TODO: Create list
-            Console.WriteLine("        --tracks <Count> - Filter by track count [1-99]");
+            Console.WriteLine("        --barcode - Add barcode to filter");
+            Console.WriteLine("        --barcode-exact - Add barcode exact matching to filter [true, false]");
+            Console.WriteLine("        --category - Add category to filter");
+            Console.WriteLine("        --comments - Add comments to filter");
+            Console.WriteLine("        --contents - Add contents to filter");
+            Console.WriteLine("        --dumper - Add dumper to filter");
+            Console.WriteLine("        --edc - Add EDC status to filter [true, false]");
+            Console.WriteLine("        --edition - Add edition to filter");
+            Console.WriteLine("        --edition-exact - Add edition exact matching to filter [true, false]");
+            Console.WriteLine("        --errors-max - Add maximum error count to filter");
+            Console.WriteLine("        --errors-min - Add minimum error count to filter");
+            Console.WriteLine("        --language - Add language to filter");
+            Console.WriteLine("        --letter - Add title first letter to filter");
+            Console.WriteLine("        --media - Add media type to filter");
+            Console.WriteLine("        --offset - Add offset to filter");
+            Console.WriteLine("        --order - Add sort order to filter [asc, desc]");
+            Console.WriteLine("        --protection - Add protection to filter");
+            Console.WriteLine("        --query - Add query to filter");
+            Console.WriteLine("        --region - Add region to filter");
+            Console.WriteLine("        --ringcode - Add ringcode to filter");
+            Console.WriteLine("        --serial - Add serial to filter");
+            Console.WriteLine("        --serial-exact - Add serial exact matching to filter [true, false]");
+            Console.WriteLine("        --sort - Add sort category to filter [title, added, region, system, version, edition, language, serial, status, modified]");
+            Console.WriteLine("        --status - Filter by status [grey, red, yellow, blue, green]");
+            Console.WriteLine("        --system - Filter by system");
+            Console.WriteLine("        --title - Add title to filter");
+            Console.WriteLine("        --title-exact - Add title exact matching to filter [true, false]");
+            Console.WriteLine("        --title-foreign - Add foreign title to filter");
+            Console.WriteLine("        --title-foreign-exact - Add foreign title exact matching to filter [true, false]");
+            Console.WriteLine("        --tracks-max - Add maximum track count to filter");
+            Console.WriteLine("        --tracks-min - Add minimum track count to filter");
             Console.WriteLine();
 
             Console.WriteLine("queue - Download pages and related files from the submission queue");

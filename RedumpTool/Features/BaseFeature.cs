@@ -35,58 +35,6 @@ namespace RedumpTool.Features
         private const string _usernameName = "username";
         internal readonly StringInput UsernameInput = new(_usernameName, ["-u", "--username"], "Redump username");
 
-        #region Discs Path Filter Inputs
-
-        private const string _barcodeName = "barcode";
-        internal readonly StringInput BarcodeInput = new(_barcodeName, ["--barcode"], "Filter by barcode");
-
-        private const string _categoryName = "category";
-        internal readonly StringInput CategoryInput = new(_categoryName, ["--category"], "Filter by disc category");
-
-        private const string _commentsName = "comments";
-        internal readonly FlagInput CommentsInput = new(_commentsName, ["--comments"], "Filter by comments only, incompatible with --contents and --protection");
-
-        private const string _contentsName = "contents";
-        internal readonly FlagInput ContentsInput = new(_contentsName, ["--contents"], "Filter by contents only, incompatible with --comments and --protection");
-
-        private const string _discTypeName = "disctype";
-        internal readonly StringInput DiscTypeInput = new(_discTypeName, ["--disc-type"], "Filter by disc type, requires --system [cd, dvd]");
-
-        private const string _dumperName = "dumper";
-        internal readonly StringInput DumperInput = new(_dumperName, ["--dumper"], "Filter by dumper");
-
-        private const string _edcName = "edc";
-        internal readonly BooleanInput EdcInput = new(_edcName, ["--edc"], "Filter by EDC status [true, false, null]");
-
-        private const string _editionName = "edition";
-        internal readonly StringInput EditionInput = new(_editionName, ["--edition"], "Filter by edition");
-
-        private const string _languageName = "language";
-        internal readonly StringInput LanguageInput = new(_languageName, ["--language"], "Filter by language");
-
-        private const string _letterName = "letter";
-        internal readonly StringInput LetterInput = new(_letterName, ["--letter"], "Filter by first letter");
-
-        private const string _offsetName = "offset";
-        internal readonly Int32Input OffsetInput = new(_offsetName, ["--offset"], "Filter by disc offset");
-
-        private const string _pageName = "page";
-        internal readonly Int32Input PageInput = new(_pageName, ["--page"], "Retrieve specific result page");
-
-        private const string _quickSearchName = "quicksearch";
-        internal readonly StringInput QuickSearchInput = new(_quickSearchName, ["--quicksearch"], "Filter by quicksearch");
-
-        private const string _regionName = "region";
-        internal readonly StringInput RegionInput = new(_regionName, ["--region"], "Filter by region");
-
-        private const string _ringcodeName = "ringcode";
-        internal readonly StringInput RingcodeInput = new(_ringcodeName, ["--ringcode"], "Filter by ringcode");
-
-        private const string _sortDirName = "sortdir";
-        internal readonly StringInput SortDirInput = new(_sortDirName, ["--sort-dir"], "Set sorting direction [asc, desc]");
-
-        #endregion
-
         #endregion
 
         #region Fields
