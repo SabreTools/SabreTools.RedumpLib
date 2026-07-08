@@ -3554,6 +3554,10 @@ namespace SabreTools.RedumpLib.Data
         CoverID,
 
         // This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Dice Multimedia</b>:", LongName = "<b>Dice Multimedia</b>:")]
+        DiceMultimedia,
+
+        // This doesn't have a site tag yet
         [HumanReadable(ShortName = "<b>Disc Hologram ID</b>:", LongName = "<b>Disc Hologram ID</b>:")]
         DiscHologramID,
 
@@ -3594,6 +3598,10 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "<b>Filename</b>:", LongName = "<b>Filename</b>:")]
         Filename,
 
+        // This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>Focus Multimedia</b>:", LongName = "<b>Focus Multimedia</b>:")]
+        FocusMultimedia,
+
         [HumanReadable(ShortName = "[T:FIID]", LongName = "<b>Fox Interactive ID</b>:")]
         FoxInteractiveID,
 
@@ -3606,6 +3614,10 @@ namespace SabreTools.RedumpLib.Data
 
         [HumanReadable(ShortName = "[T:G]", LongName = "<b>Genre</b>:")]
         Genre,
+
+        // This doesn't have a site tag yet
+        [HumanReadable(ShortName = "<b>GSP Software</b>:", LongName = "<b>GSP Software</b>:")]
+        GSPSoftware,
 
         [HumanReadable(ShortName = "[T:GTID]", LongName = "<b>GT Interactive ID</b>:")]
         GTInteractiveID,
