@@ -6,15 +6,15 @@ using SabreTools.RedumpLib.Web;
 
 namespace RedumpTool.Features
 {
-    internal sealed class WIPFeature : BaseFeature
+    internal sealed class QueueFeature : BaseFeature
     {
         #region Feature Definition
 
-        public const string DisplayName = "wip";
+        public const string DisplayName = "queue";
 
-        private static readonly string[] _flags = ["wip"];
+        private static readonly string[] _flags = ["queue"];
 
-        private const string _description = "Download pages and related files from the WIP list";
+        private const string _description = "Download pages and related files from the submission queue";
 
         #endregion
 
@@ -31,7 +31,7 @@ namespace RedumpTool.Features
 
         #endregion
 
-        public WIPFeature()
+        public QueueFeature()
            : base(DisplayName, _flags, _description)
         {
             RequiresInputs = false;

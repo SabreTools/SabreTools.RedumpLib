@@ -29,7 +29,7 @@ namespace RedumpTool
             {
                 case Help help: help.ProcessArgs(args, 0, commandSet); return;
                 case SiteFeature sf: sf.ProcessArgs(args, 1); sf.Execute(); return;
-                case WIPFeature wf: wf.ProcessArgs(args, 1); wf.Execute(); return;
+                case QueueFeature qf: qf.ProcessArgs(args, 1); qf.Execute(); return;
                 case PacksFeature pf: pf.ProcessArgs(args, 1); pf.Execute(); return;
                 case UserFeature uf: uf.ProcessArgs(args, 1); uf.Execute(); return;
 
@@ -52,7 +52,7 @@ namespace RedumpTool
 
             commandSet.Add(new Help(["-?", "-h", "--help"]));
             commandSet.Add(new SiteFeature());
-            commandSet.Add(new WIPFeature());
+            commandSet.Add(new QueueFeature());
             commandSet.Add(new PacksFeature());
             commandSet.Add(new UserFeature());
 
