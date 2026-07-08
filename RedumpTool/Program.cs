@@ -87,7 +87,7 @@ namespace RedumpTool
             Console.WriteLine("    -max <MaxId>, --maximum <MaxId> - Upper bound for page numbers (requires --minimum, incompatible with --list)");
             Console.WriteLine();
             Console.WriteLine("    In addition to the above options, there are advanced options that allow users to finely tune their");
-            Console.WriteLine("    site queries. All flags below are incompatible with --minimum, --maximum, and --onlynew.");
+            Console.WriteLine("    site queries. All flags below are incompatible with --minimum and --maximum.");
             Console.WriteLine("        --barcode - Add barcode to filter");
             Console.WriteLine("        --barcode-exact - Add barcode exact matching to filter [true, false]");
             Console.WriteLine("        --category - Add category to filter");
