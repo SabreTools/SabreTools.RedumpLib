@@ -14,11 +14,15 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="includeDatabase">Include database in downloads</param>
         /// <param name="useSubfolders">True to use named subfolders to store downloads, false to store directly in the output directory</param>
-        public static async Task<bool> DownloadAllPacks(this Client client, string? outDir, bool useSubfolders)
+        public static async Task<bool> DownloadAllPacks(this Client client,
+            string? outDir,
+            bool includeDatabase,
+            bool useSubfolders)
         {
             var systems = (PhysicalSystem[])Enum.GetValues(typeof(PhysicalSystem));
-            return await client.DownloadPacksForSystems(systems, outDir, useSubfolders);
+            return await client.DownloadPacksForSystems(systems, outDir, includeDatabase, useSubfolders);
         }
 
         /// <summary>
@@ -27,17 +31,19 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="system">PhysicalSystem to get all possible packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="includeDatabase">Include database in downloads</param>
         /// <param name="useSubfolders">True to use named subfolders to store downloads, false to store directly in the output directory</param>
         public static async Task<bool> DownloadPacksForSystem(this Client client,
             PhysicalSystem? system,
             string? outDir,
+            bool includeDatabase,
             bool useSubfolders)
         {
             if (system is null)
                 return false;
 
             var systems = new PhysicalSystem[] { system.Value };
-            return await client.DownloadPacksForSystems(systems, outDir, useSubfolders);
+            return await client.DownloadPacksForSystems(systems, outDir, includeDatabase, useSubfolders);
         }
 
         /// <summary>
@@ -46,10 +52,12 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="client">RedumpClient for connectivity</param>
         /// <param name="systems">Systems to download packs for</param>
         /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="includeDatabase">Include database in downloads</param>
         /// <param name="useSubfolders">True to use named subfolders to store downloads, false to store directly in the output directory</param>
         public static async Task<bool> DownloadPacksForSystems(this Client client,
             PhysicalSystem[] systems,
             string? outDir,
+            bool includeDatabase,
             bool useSubfolders)
         {
             Console.WriteLine("Downloading CUEs");
@@ -63,6 +71,12 @@ namespace SabreTools.RedumpLib.Web
 
             Console.WriteLine("Downloading SBIs");
             _ = await client.DownloadPacks(PackType.Sbis, systems, outDir, useSubfolders ? "sbi" : null);
+
+            if (includeDatabase)
+            {
+                Console.WriteLine("Downloading database export");
+                _ = await client.DownloadDatabase(outDir, useSubfolders ? "db" : null);
+            }
 
             return true;
         }

@@ -944,6 +944,43 @@ namespace SabreTools.RedumpLib.Web
         #region Download Helpers
 
         /// <summary>
+        /// Download the database
+        /// </summary>
+        /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="subfolder">Named subfolder for the pack, used optionally</param>
+        public async Task<bool> DownloadDatabase(string? outDir, string? subfolder = null)
+        {
+            try
+            {
+                if (Debug) Console.WriteLine($"DEBUG: DownloadDatabase(\"{outDir}\", {subfolder})");
+
+                // Determine the database URL
+                string dbUri = UrlBuilder.BuildDownloadsUrl(database: true);
+
+                // If no output directory is defined, use the current directory instead
+                if (string.IsNullOrEmpty(outDir))
+                {
+                    if (Debug) Console.WriteLine("DEBUG: Output directory was not provided, setting to current directory");
+                    outDir = Environment.CurrentDirectory;
+                }
+
+                // Make the call to get the pack
+                string tempfile = Path.Combine(outDir, "tmp" + Guid.NewGuid().ToString());
+                string? remoteFileName = await DownloadFile(dbUri, tempfile);
+                if (remoteFileName is null)
+                    return false;
+
+                MoveOrDelete(tempfile, remoteFileName, outDir!, subfolder);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"An exception has occurred: {ex}");
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Download a single pack
         /// </summary>
         /// <param name="packType">Pack type to use to determine the download URL</param>
@@ -1407,7 +1444,7 @@ namespace SabreTools.RedumpLib.Web
         /// Download a set of packs
         /// </summary>
         /// <param name="packType">Pack type to use to determine the download URL</param>
-        /// <param name="system">Systems to download packs for</param>
+        /// <param name="systems">Systems to download packs for</param>
         public async Task<Dictionary<PhysicalSystem, byte[]>> DownloadPacks(PackType packType, PhysicalSystem[] systems)
         {
             // Determine if the pack type is valid

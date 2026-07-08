@@ -140,6 +140,7 @@ namespace RedumpTool
             Console.WriteLine();
 
             Console.WriteLine("packs - Download available packs");
+            Console.WriteLine("    -b, --database - Include database in downloads");
             Console.WriteLine("    -s, --subfolders - Download packs to named subfolders");
             Console.WriteLine();
 

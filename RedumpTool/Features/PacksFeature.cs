@@ -18,6 +18,9 @@ namespace RedumpTool.Features
 
         #region Inputs
 
+        private const string _includeDatabseName = "include-database";
+        internal readonly FlagInput IncludeDatabaseInput = new(_includeDatabseName, ["-b", "--database"], "Include database in downloads");
+
         private const string _subfoldersName = "subfolders";
         internal readonly FlagInput SubfoldersInput = new(_subfoldersName, ["-s", "--subfolders"], "Download packs to named subfolders");
 
@@ -39,6 +42,7 @@ namespace RedumpTool.Features
             Add(ForceContinueInput);
 
             // Specific
+            Add(IncludeDatabaseInput);
             Add(SubfoldersInput);
         }
 
@@ -55,6 +59,7 @@ namespace RedumpTool.Features
             bool forceContinue = ForceContinueInput.Value;
 
             // Get specific values
+            bool includeDatabase = IncludeDatabaseInput.Value;
             bool useSubfolders = SubfoldersInput.Value;
 
             // Output directory validation
@@ -74,7 +79,7 @@ namespace RedumpTool.Features
             _client.Login(username, password).Wait();
 
             // Start the processing
-            var processingTask = _client.DownloadAllPacks(outDir, useSubfolders);
+            var processingTask = _client.DownloadAllPacks(outDir, includeDatabase, useSubfolders);
 
             // Retrieve the result
             processingTask.Wait();
