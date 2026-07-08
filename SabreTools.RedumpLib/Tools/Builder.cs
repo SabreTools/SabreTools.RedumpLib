@@ -477,8 +477,7 @@ namespace SabreTools.RedumpLib.Tools
 
                 // Audio CD
                 SiteCode.RingNonZeroDataStart
-                    or SiteCode.RingPerfectAudioOffset
-                    or SiteCode.UniversalHash => true,
+                    or SiteCode.RingPerfectAudioOffset => true,
 
                 // Microsoft Xbox and Xbox 360
                 SiteCode.DMIHash
@@ -537,7 +536,6 @@ namespace SabreTools.RedumpLib.Tools
             text = text.Replace("SSv2:", ((SiteCode?)SiteCode.SSHash).ShortName());
             text = text.Replace("<b>SSv2</b>:", ((SiteCode?)SiteCode.SSHash).ShortName());
             text = text.Replace("SS version:", ((SiteCode?)SiteCode.SSVersion).ShortName());
-            text = text.Replace("Universal Hash (SHA-1):", ((SiteCode?)SiteCode.UniversalHash).ShortName());
             text = text.Replace("XeMID:", ((SiteCode?)SiteCode.XeMID).ShortName());
             text = text.Replace("XMID:", ((SiteCode?)SiteCode.XMID).ShortName());
 

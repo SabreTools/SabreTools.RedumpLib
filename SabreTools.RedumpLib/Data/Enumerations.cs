@@ -3778,10 +3778,6 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(ShortName = "[T:UID]", LongName = "<b>Ubisoft ID</b>:")]
         UbisoftID,
 
-        // This doesn't have a site tag yet
-        [HumanReadable(ShortName = "<b>Universal Hash (SHA-1)</b>:", LongName = "<b>Universal Hash (SHA-1)</b>:")]
-        UniversalHash,
-
         [HumanReadable(ShortName = "[T:VID]", LongName = "<b>Valve ID</b>:")]
         ValveID,
 

@@ -2045,7 +2045,6 @@ namespace SabreTools.RedumpLib.Data
                 SiteCode.SSVersion => true,
                 SiteCode.SteamAppID => true,
                 SiteCode.TitleID => true,
-                SiteCode.UniversalHash => true,
                 SiteCode.VCD => true,
                 SiteCode.VFCCode => true,
                 SiteCode.VolumeLabel => true,

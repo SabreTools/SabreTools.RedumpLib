@@ -2515,7 +2515,6 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.SSVersion,
             SiteCode.SteamAppID,
             SiteCode.TitleID,
-            SiteCode.UniversalHash,
             SiteCode.VCD,
             SiteCode.VFCCode,
             SiteCode.VolumeLabel,
