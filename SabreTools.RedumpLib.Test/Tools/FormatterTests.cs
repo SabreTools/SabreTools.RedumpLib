@@ -278,7 +278,313 @@ namespace SabreTools.RedumpLib.Test.Tools
 
         #endregion
 
-        // TODO: Add RingCodesSection test
+        #region RingCodesSection
+
+        [Fact]
+        public void FormatOutputData_RingCodesSection_1Layer_Formatted()
+        {
+            string expected = "Ring Codes:\n\tLayer 0 Mastering Code: XXXXXX\n\tLayer 0 Mastering SID: XXXXXX\n\tLayer 0 Toolstamps: XXXXXX\n\tLayer 0 Mould SIDs: XXXXXX\n\tLayer 0 Additional Moulds: XXXXXX\n\tLabel Side Mastering Code: XXXXXX\n\tLabel Side Mastering SID: XXXXXX\n\tLabel Side Toolstamps: XXXXXX\n\tLabel Side Mould SIDs: XXXXXX\n\tLabel Side Additional Moulds: XXXXXX\n\tWrite Offset: XXXXXX\n\tSample Start: XXXXXX\n";
+
+            var builder = new StringBuilder();
+            RingCodesSection? section = new()
+            {
+                Layer0MasteringCode = "XXXXXX",
+                Layer0MasteringSID = "XXXXXX",
+                Layer0Toolstamps = "XXXXXX",
+                Layer0MouldSIDs = "XXXXXX",
+                Layer0AdditionalMoulds = "XXXXXX",
+
+                Layer1MasteringCode = "XXXXXX",
+                Layer1MasteringSID = "XXXXXX",
+                Layer1Toolstamps = "XXXXXX",
+                Layer1MouldSIDs = "XXXXXX",
+                Layer1AdditionalMoulds = "XXXXXX",
+
+                Layer2MasteringCode = "XXXXXX",
+                Layer2MasteringSID = "XXXXXX",
+                Layer2Toolstamps = "XXXXXX",
+                Layer2MouldSIDs = "XXXXXX",
+                Layer2AdditionalMoulds = "XXXXXX",
+
+                Layer3MasteringCode = "XXXXXX",
+                Layer3MasteringSID = "XXXXXX",
+                Layer3Toolstamps = "XXXXXX",
+                Layer3MouldSIDs = "XXXXXX",
+                Layer3AdditionalMoulds = "XXXXXX",
+
+                LabelSideMasteringCode = "XXXXXX",
+                LabelSideMasteringSID = "XXXXXX",
+                LabelSideToolstamps = "XXXXXX",
+                LabelSideMouldSIDs = "XXXXXX",
+                LabelSideAdditionalMoulds = "XXXXXX",
+
+                WriteOffset = "XXXXXX",
+                SampleStart = "XXXXXX",
+            };
+            DiscIdentifiersSection discIdentifiers = new();
+            PhysicalMediaType? mediaType = PhysicalMediaType.BluRay;
+
+            Formatter.FormatOutputData(builder,
+                section,
+                discIdentifiers,
+                mediaType);
+
+            string actual = builder.ToString();
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void FormatOutputData_RingCodesSection_2Layer_Formatted()
+        {
+            string expected = "Ring Codes:\n\tLayer 0 Mastering Code: XXXXXX\n\tLayer 0 Mastering SID: XXXXXX\n\tLayer 0 Toolstamps: XXXXXX\n\tLayer 0 Mould SIDs: XXXXXX\n\tLayer 0 Additional Moulds: XXXXXX\n\tLayer 1 Mastering Code: XXXXXX\n\tLayer 1 Mastering SID: XXXXXX\n\tLayer 1 Toolstamps: XXXXXX\n\tLayer 1 Mould SIDs: XXXXXX\n\tLayer 1 Additional Moulds: XXXXXX\n\tLabel Side Mastering Code: XXXXXX\n\tLabel Side Mastering SID: XXXXXX\n\tLabel Side Toolstamps: XXXXXX\n\tLabel Side Mould SIDs: XXXXXX\n\tLabel Side Additional Moulds: XXXXXX\n\tWrite Offset: XXXXXX\n\tSample Start: XXXXXX\n";
+
+            var builder = new StringBuilder();
+            RingCodesSection? section = new()
+            {
+                Layer0MasteringCode = "XXXXXX",
+                Layer0MasteringSID = "XXXXXX",
+                Layer0Toolstamps = "XXXXXX",
+                Layer0MouldSIDs = "XXXXXX",
+                Layer0AdditionalMoulds = "XXXXXX",
+
+                Layer1MasteringCode = "XXXXXX",
+                Layer1MasteringSID = "XXXXXX",
+                Layer1Toolstamps = "XXXXXX",
+                Layer1MouldSIDs = "XXXXXX",
+                Layer1AdditionalMoulds = "XXXXXX",
+
+                Layer2MasteringCode = "XXXXXX",
+                Layer2MasteringSID = "XXXXXX",
+                Layer2Toolstamps = "XXXXXX",
+                Layer2MouldSIDs = "XXXXXX",
+                Layer2AdditionalMoulds = "XXXXXX",
+
+                Layer3MasteringCode = "XXXXXX",
+                Layer3MasteringSID = "XXXXXX",
+                Layer3Toolstamps = "XXXXXX",
+                Layer3MouldSIDs = "XXXXXX",
+                Layer3AdditionalMoulds = "XXXXXX",
+
+                LabelSideMasteringCode = "XXXXXX",
+                LabelSideMasteringSID = "XXXXXX",
+                LabelSideToolstamps = "XXXXXX",
+                LabelSideMouldSIDs = "XXXXXX",
+                LabelSideAdditionalMoulds = "XXXXXX",
+
+                WriteOffset = "XXXXXX",
+                SampleStart = "XXXXXX",
+            };
+            DiscIdentifiersSection discIdentifiers = new()
+            {
+                Layerbreak = 1,
+            };
+            PhysicalMediaType? mediaType = PhysicalMediaType.BluRay;
+
+            Formatter.FormatOutputData(builder,
+                section,
+                discIdentifiers,
+                mediaType);
+
+            string actual = builder.ToString();
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void FormatOutputData_RingCodesSection_3Layer_Formatted()
+        {
+            string expected = "Ring Codes:\n\tLayer 0 Mastering Code: XXXXXX\n\tLayer 0 Mastering SID: XXXXXX\n\tLayer 0 Toolstamps: XXXXXX\n\tLayer 0 Mould SIDs: XXXXXX\n\tLayer 0 Additional Moulds: XXXXXX\n\tLayer 1 Mastering Code: XXXXXX\n\tLayer 1 Mastering SID: XXXXXX\n\tLayer 1 Toolstamps: XXXXXX\n\tLayer 1 Mould SIDs: XXXXXX\n\tLayer 1 Additional Moulds: XXXXXX\n\tLayer 2 Mastering Code: XXXXXX\n\tLayer 2 Mastering SID: XXXXXX\n\tLayer 2 Toolstamps: XXXXXX\n\tLayer 2 Mould SIDs: XXXXXX\n\tLayer 2 Additional Moulds: XXXXXX\n\tLabel Side Mastering Code: XXXXXX\n\tLabel Side Mastering SID: XXXXXX\n\tLabel Side Toolstamps: XXXXXX\n\tLabel Side Mould SIDs: XXXXXX\n\tLabel Side Additional Moulds: XXXXXX\n\tWrite Offset: XXXXXX\n\tSample Start: XXXXXX\n";
+
+            var builder = new StringBuilder();
+            RingCodesSection? section = new()
+            {
+                Layer0MasteringCode = "XXXXXX",
+                Layer0MasteringSID = "XXXXXX",
+                Layer0Toolstamps = "XXXXXX",
+                Layer0MouldSIDs = "XXXXXX",
+                Layer0AdditionalMoulds = "XXXXXX",
+
+                Layer1MasteringCode = "XXXXXX",
+                Layer1MasteringSID = "XXXXXX",
+                Layer1Toolstamps = "XXXXXX",
+                Layer1MouldSIDs = "XXXXXX",
+                Layer1AdditionalMoulds = "XXXXXX",
+
+                Layer2MasteringCode = "XXXXXX",
+                Layer2MasteringSID = "XXXXXX",
+                Layer2Toolstamps = "XXXXXX",
+                Layer2MouldSIDs = "XXXXXX",
+                Layer2AdditionalMoulds = "XXXXXX",
+
+                Layer3MasteringCode = "XXXXXX",
+                Layer3MasteringSID = "XXXXXX",
+                Layer3Toolstamps = "XXXXXX",
+                Layer3MouldSIDs = "XXXXXX",
+                Layer3AdditionalMoulds = "XXXXXX",
+
+                LabelSideMasteringCode = "XXXXXX",
+                LabelSideMasteringSID = "XXXXXX",
+                LabelSideToolstamps = "XXXXXX",
+                LabelSideMouldSIDs = "XXXXXX",
+                LabelSideAdditionalMoulds = "XXXXXX",
+
+                WriteOffset = "XXXXXX",
+                SampleStart = "XXXXXX",
+            };
+            DiscIdentifiersSection discIdentifiers = new()
+            {
+                Layerbreak = 1,
+                Layerbreak2 = 2,
+            };
+            PhysicalMediaType? mediaType = PhysicalMediaType.BluRay;
+
+            Formatter.FormatOutputData(builder,
+                section,
+                discIdentifiers,
+                mediaType);
+
+            string actual = builder.ToString();
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void FormatOutputData_RingCodesSection_4Layer_Formatted()
+        {
+            string expected = "Ring Codes:\n\tLayer 0 Mastering Code: XXXXXX\n\tLayer 0 Mastering SID: XXXXXX\n\tLayer 0 Toolstamps: XXXXXX\n\tLayer 0 Mould SIDs: XXXXXX\n\tLayer 0 Additional Moulds: XXXXXX\n\tLayer 1 Mastering Code: XXXXXX\n\tLayer 1 Mastering SID: XXXXXX\n\tLayer 1 Toolstamps: XXXXXX\n\tLayer 1 Mould SIDs: XXXXXX\n\tLayer 1 Additional Moulds: XXXXXX\n\tLayer 2 Mastering Code: XXXXXX\n\tLayer 2 Mastering SID: XXXXXX\n\tLayer 2 Toolstamps: XXXXXX\n\tLayer 2 Mould SIDs: XXXXXX\n\tLayer 2 Additional Moulds: XXXXXX\n\tLayer 3 Mastering Code: XXXXXX\n\tLayer 3 Mastering SID: XXXXXX\n\tLayer 3 Toolstamps: XXXXXX\n\tLayer 3 Mould SIDs: XXXXXX\n\tLayer 3 Additional Moulds: XXXXXX\n\tLabel Side Mastering Code: XXXXXX\n\tLabel Side Mastering SID: XXXXXX\n\tLabel Side Toolstamps: XXXXXX\n\tLabel Side Mould SIDs: XXXXXX\n\tLabel Side Additional Moulds: XXXXXX\n\tWrite Offset: XXXXXX\n\tSample Start: XXXXXX\n";
+
+            var builder = new StringBuilder();
+            RingCodesSection? section = new()
+            {
+                Layer0MasteringCode = "XXXXXX",
+                Layer0MasteringSID = "XXXXXX",
+                Layer0Toolstamps = "XXXXXX",
+                Layer0MouldSIDs = "XXXXXX",
+                Layer0AdditionalMoulds = "XXXXXX",
+
+                Layer1MasteringCode = "XXXXXX",
+                Layer1MasteringSID = "XXXXXX",
+                Layer1Toolstamps = "XXXXXX",
+                Layer1MouldSIDs = "XXXXXX",
+                Layer1AdditionalMoulds = "XXXXXX",
+
+                Layer2MasteringCode = "XXXXXX",
+                Layer2MasteringSID = "XXXXXX",
+                Layer2Toolstamps = "XXXXXX",
+                Layer2MouldSIDs = "XXXXXX",
+                Layer2AdditionalMoulds = "XXXXXX",
+
+                Layer3MasteringCode = "XXXXXX",
+                Layer3MasteringSID = "XXXXXX",
+                Layer3Toolstamps = "XXXXXX",
+                Layer3MouldSIDs = "XXXXXX",
+                Layer3AdditionalMoulds = "XXXXXX",
+
+                LabelSideMasteringCode = "XXXXXX",
+                LabelSideMasteringSID = "XXXXXX",
+                LabelSideToolstamps = "XXXXXX",
+                LabelSideMouldSIDs = "XXXXXX",
+                LabelSideAdditionalMoulds = "XXXXXX",
+
+                WriteOffset = "XXXXXX",
+                SampleStart = "XXXXXX",
+            };
+            DiscIdentifiersSection discIdentifiers = new()
+            {
+                Layerbreak = 1,
+                Layerbreak2 = 2,
+                Layerbreak3 = 3,
+            };
+            PhysicalMediaType? mediaType = PhysicalMediaType.BluRay;
+
+            Formatter.FormatOutputData(builder,
+                section,
+                discIdentifiers,
+                mediaType);
+
+            string actual = builder.ToString();
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void FormatOutputData_RingCodesSection_UMDAlways2Layer_Formatted()
+        {
+            string expected = "Ring Codes:\n\tLayer 0 Mastering Code: XXXXXX\n\tLayer 0 Mastering SID: XXXXXX\n\tLayer 0 Toolstamps: XXXXXX\n\tLayer 0 Mould SIDs: XXXXXX\n\tLayer 0 Additional Moulds: XXXXXX\n\tLayer 1 Mastering Code: XXXXXX\n\tLayer 1 Mastering SID: XXXXXX\n\tLayer 1 Toolstamps: XXXXXX\n\tLayer 1 Mould SIDs: XXXXXX\n\tLayer 1 Additional Moulds: XXXXXX\n\tLabel Side Mastering Code: XXXXXX\n\tLabel Side Mastering SID: XXXXXX\n\tLabel Side Toolstamps: XXXXXX\n\tLabel Side Mould SIDs: XXXXXX\n\tLabel Side Additional Moulds: XXXXXX\n\tWrite Offset: XXXXXX\n\tSample Start: XXXXXX\n";
+
+            var builder = new StringBuilder();
+            RingCodesSection? section = new()
+            {
+                Layer0MasteringCode = "XXXXXX",
+                Layer0MasteringSID = "XXXXXX",
+                Layer0Toolstamps = "XXXXXX",
+                Layer0MouldSIDs = "XXXXXX",
+                Layer0AdditionalMoulds = "XXXXXX",
+
+                Layer1MasteringCode = "XXXXXX",
+                Layer1MasteringSID = "XXXXXX",
+                Layer1Toolstamps = "XXXXXX",
+                Layer1MouldSIDs = "XXXXXX",
+                Layer1AdditionalMoulds = "XXXXXX",
+
+                Layer2MasteringCode = "XXXXXX",
+                Layer2MasteringSID = "XXXXXX",
+                Layer2Toolstamps = "XXXXXX",
+                Layer2MouldSIDs = "XXXXXX",
+                Layer2AdditionalMoulds = "XXXXXX",
+
+                Layer3MasteringCode = "XXXXXX",
+                Layer3MasteringSID = "XXXXXX",
+                Layer3Toolstamps = "XXXXXX",
+                Layer3MouldSIDs = "XXXXXX",
+                Layer3AdditionalMoulds = "XXXXXX",
+
+                LabelSideMasteringCode = "XXXXXX",
+                LabelSideMasteringSID = "XXXXXX",
+                LabelSideToolstamps = "XXXXXX",
+                LabelSideMouldSIDs = "XXXXXX",
+                LabelSideAdditionalMoulds = "XXXXXX",
+
+                WriteOffset = "XXXXXX",
+                SampleStart = "XXXXXX",
+            };
+            DiscIdentifiersSection discIdentifiers = new();
+            PhysicalMediaType? mediaType = PhysicalMediaType.UMD;
+
+            Formatter.FormatOutputData(builder,
+                section,
+                discIdentifiers,
+                mediaType);
+
+            string actual = builder.ToString();
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(null, "Ring Codes:\n")]
+        [InlineData("INVALID", "Ring Codes:\n\tWrite Offset: INVALID\n")]
+        [InlineData("-1", "Ring Codes:\n\tWrite Offset: -1\n")]
+        [InlineData("0", "Ring Codes:\n\tWrite Offset: 0\n")]
+        [InlineData("1", "Ring Codes:\n\tWrite Offset: +1\n")]
+        [InlineData("+1", "Ring Codes:\n\tWrite Offset: +1\n")]
+        public void FormatOutputData_RingCodesSection_Offsets_Formatted(string? offset, string expected)
+        {
+            var builder = new StringBuilder();
+            RingCodesSection? section = new()
+            {
+                WriteOffset = offset,
+            };
+            DiscIdentifiersSection discIdentifiers = new();
+            PhysicalMediaType? mediaType = PhysicalMediaType.BluRay;
+
+            Formatter.FormatOutputData(builder,
+                section,
+                discIdentifiers,
+                mediaType);
+
+            string actual = builder.ToString();
+            Assert.Equal(expected, actual);
+        }
+
+        #endregion
+
         // TODO: Add DumpMetadataSection test
         // TODO: Add SubmissionControlsSection test
 
