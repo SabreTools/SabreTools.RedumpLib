@@ -1755,10 +1755,6 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(LongName = "HD-DVD (DL)", ShortName = "hdvd30")]
         HDDVDDL,
 
-        // TODO: Figure out how to mark this as debug-only
-        [HumanReadable(LongName = "Max Test (4-layer)", ShortName = "test4l")]
-        MaxTest4Layer,
-
         /// <remarks>Not official</remarks>
         [HumanReadable(LongName = "MIL-CD", ShortName = "milcd")]
         MILCD,

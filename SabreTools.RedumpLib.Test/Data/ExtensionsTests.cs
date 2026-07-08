@@ -381,7 +381,6 @@ namespace SabreTools.RedumpLib.Test.Data
             MediaType.BD66,
             MediaType.BD100,
             MediaType.BD128,
-            MediaType.MaxTest4Layer,
             MediaType.CD,
             MediaType.DVD5,
             MediaType.DVD9,

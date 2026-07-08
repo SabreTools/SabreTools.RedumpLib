@@ -1044,8 +1044,7 @@ namespace SabreTools.RedumpLib.Data
                     or MediaType.BD50
                     or MediaType.BD66
                     or MediaType.BD100
-                    or MediaType.BD128
-                    or MediaType.MaxTest4Layer => PhysicalMediaType.BluRay,
+                    or MediaType.BD128 => PhysicalMediaType.BluRay,
                 MediaType.CD => PhysicalMediaType.CDROM,
                 MediaType.DVD5
                     or MediaType.DVD9 => PhysicalMediaType.DVD,

@@ -182,8 +182,6 @@ namespace SabreTools.RedumpLib.Web
                     string formToken = Constants.FormTokenRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
                     string sessionId = Constants.SessionIDRegex.Match(loginPage ?? string.Empty).Groups[1].Value;
 
-                    // TODO: Determine which of the redirect items is needed, if either
-
 #if NETCOREAPP
                     // Construct the login request
 #if NET5_0
@@ -834,8 +832,8 @@ namespace SabreTools.RedumpLib.Web
                 return ids;
             }
 
-            // Otherwise, traverse each dump on the page
-            var matches = Constants.NewDiscRegex.Matches(dumpsPage);
+            // Otherwise, traverse each item in the queue on the page
+            var matches = Constants.QueueDiscRegex.Matches(dumpsPage);
             foreach (Match? match in matches)
             {
                 if (match is null)

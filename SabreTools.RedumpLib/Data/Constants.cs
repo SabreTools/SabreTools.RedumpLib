@@ -100,10 +100,9 @@ namespace SabreTools.RedumpLib.Data
         public static readonly Regex ModifiedRegex = new(@"<tr><td><strong>Modified</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
 
         /// <summary>
-        /// Regex matching individual WIP disc links on a results page
+        /// Regex matching individual queue disc links on a results page
         /// </summary>
-        /// TODO: Determine if this has a parallel in redump.info, maybe the queue page?
-        public static readonly Regex NewDiscRegex = new(@"<a (style=.*)?href=""/newdisc/(\d+)/"">", RegexOptions.Compiled);
+        public static readonly Regex QueueDiscRegex = new(@"<a href=""/queue/(.*?)"">", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching the region field on a disc page
