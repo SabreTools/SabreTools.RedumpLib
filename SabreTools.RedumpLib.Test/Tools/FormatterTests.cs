@@ -203,6 +203,34 @@ namespace SabreTools.RedumpLib.Test.Tools
 
         #endregion
 
+        #region RegionsAndLanguagesSection
+
+        // TODO: Add tests for null region and language
+        [Fact]
+        public void FormatOutputData_RegionsAndLanguagesSection_Formatted()
+        {
+            string expected = "Regions and Languages:\n\tRegions: USA, Europe, Japan\n\tLanguages: English, French, Spanish\n";
+
+            var builder = new StringBuilder();
+            RegionsAndLanguagesSection? section = new()
+            {
+                Regions = [Region.UnitedStatesOfAmerica, Region.Europe, Region.Japan],
+                Languages = [Language.English, Language.French, Language.Spanish]
+            };
+
+            Formatter.FormatOutputData(builder, section);
+
+            string actual = builder.ToString();
+            Assert.Equal(expected, actual);
+        }
+
+        #endregion
+
+        // TODO: Add DiscIdentifiersSection test
+        // TODO: Add RingCodesSection test
+        // TODO: Add DumpMetadataSection test
+        // TODO: Add SubmissionControlsSection test
+
         #region DumpingInfoSection
 
         [Fact]
