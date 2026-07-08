@@ -64,7 +64,7 @@ namespace RedumpTool
         /// </summary>
         private static void ShowHelp()
         {
-            Console.WriteLine("RedumpTool - A Redump.org recovery tool");
+            Console.WriteLine("RedumpTool - A Redump.info reference tool");
             Console.WriteLine();
             Console.WriteLine("Usage: RedumpTool <feature> [options]");
             Console.WriteLine();
