@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.CommandLine.Inputs;
+using SabreTools.RedumpLib.Data;
 using SabreTools.RedumpLib.Web;
 
 namespace RedumpTool.Features
@@ -95,7 +96,7 @@ namespace RedumpTool.Features
             // Start the processing
             Task<List<int>> processingTask;
             if (onlyNew)
-                processingTask = _client.DownloadLastSubmitted(outDir);
+                processingTask = _client.DownloadQueueResults(outDir, order: SortDirection.Descending, sort: SortCategory.Modified);
             else
                 processingTask = _client.DownloadQueueRange(outDir, minId, maxId);
 
