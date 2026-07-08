@@ -263,7 +263,7 @@ namespace SabreTools.RedumpLib.Tools
             AddIfExists(output, Template.SystemField, section.System.LongName(), 1);
             AddIfExists(output, Template.MediaTypeField, GetFixedMediaType(
                     section.Media.ToPhysicalMediaType(),
-                    dumpMetadata?.PIC,
+                    dumpMetadata?.PICIdentifier,
                     size,
                     discIdentifiers?.Layerbreak,
                     discIdentifiers?.Layerbreak2,

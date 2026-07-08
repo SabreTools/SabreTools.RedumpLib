@@ -156,10 +156,57 @@ namespace SabreTools.RedumpLib.Test.Tools
 
         #endregion
 
+        #region DiscIdentitySection
+
+        [Fact]
+        public void FormatOutputData_DiscIdentitySection_Formatted()
+        {
+            string expected = "Disc Identity:\n\tSystem: Sony PlayStation 5\n\tMedia Type: BD-ROM-128\n\tCategory: Games\n\tTitle: XXXXXX\n\tForeign Title: XXXXXX\n\tDisc Number: XXXXXX\n\tDisc Title: XXXXXX\n\tFilename Suffix: XXXXXX\n\tFully Matching IDs: 1, 2, 3\n\tPartially Matching IDs: 4, 5, 6\n";
+
+            var builder = new StringBuilder();
+            DiscIdentitySection? section = new()
+            {
+                System = PhysicalSystem.SonyPlayStation5,
+                Media = MediaType.BD128,
+                Category = DiscCategory.Games,
+                Title = "XXXXXX",
+                ForeignTitle = "XXXXXX",
+                DiscNumber = "XXXXXX",
+                DiscTitle = "XXXXXX",
+                FilenameSuffix = "XXXXXX",
+            };
+            DiscIdentifiersSection discIdentifiers = new()
+            {
+                Layerbreak = 1,
+                Layerbreak2 = 2,
+                Layerbreak3 = 3,
+            };
+            DumpMetadataSection dumpMetadata = new()
+            {
+                PICIdentifier = "BDU",
+                Dat = @"<rom name=""name"" size=""12345"" crc=""crc"" md5=""md5"" sha1=""sha1"" />",
+            };
+
+            List<int>? fullyMatchedIDs = [1, 2, 3];
+            List<int>? partiallyMatchedIDs = [4, 5, 6];
+
+            Formatter.FormatOutputData(builder,
+                section,
+                discIdentifiers,
+                dumpMetadata,
+                fullyMatchedIDs,
+                partiallyMatchedIDs);
+
+            string actual = builder.ToString();
+            Assert.Equal(expected, actual);
+        }
+
+        #endregion
+
         #region DumpingInfoSection
 
         [Fact]
-        public void FormatOutputData_DI_Formatted()
+        public void FormatOutputData_DumpingInfoSection_Formatted()
         {
             string expected = "Dumping Info:\n\tFrontend Version: XXXXXX\n\tDumping Program: XXXXXX\n\tDate: XXXXXX\n\tParameters: XXXXXX\n\tManufacturer: XXXXXX\n\tModel: XXXXXX\n\tFirmware: XXXXXX\n\tReported Disc Type: XXXXXX\n\tC2 Error Count: XXXXXX\n";
 
