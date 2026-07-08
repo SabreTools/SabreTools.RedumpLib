@@ -226,7 +226,58 @@ namespace SabreTools.RedumpLib.Test.Tools
 
         #endregion
 
-        // TODO: Add DiscIdentifiersSection test
+        #region DiscIdentifiersSection
+
+        [Fact]
+        public void FormatOutputData_DiscIdentifiersSection_Formatted()
+        {
+            string expected = "Disc Identifiers:\n\tDisc Serials: XXXXXX\n\tEditions: XXXXXX\n\tBarcodes: XXXXXX\n\tVersion: XXXXXX\n\tError Count: XXXXXX\n\tEXE Date: XXXXXX\n\tEDC: Yes\n\tLayerbreak: 1\n\tLayerbreak 2: 2\n\tLayerbreak 3: 3\n\tDisc ID: XXXXXX\n\tDisc Key: XXXXXX\n\tUniversal Hash: XXXXXX\n";
+
+            var builder = new StringBuilder();
+            DiscIdentifiersSection? section = new()
+            {
+                DiscSerials = "XXXXXX",
+                Editions = "XXXXXX",
+                Barcodes = "XXXXXX",
+                Version = "XXXXXX",
+                ErrorCount = "XXXXXX",
+                EXEDate = "XXXXXX",
+                EDC = YesNo.Yes,
+                Layerbreak = 1,
+                Layerbreak2 = 2,
+                Layerbreak3 = 3,
+                DiscID = "XXXXXX",
+                DiscKey = "XXXXXX",
+                UniversalHash = "XXXXXX",
+            };
+
+            Formatter.FormatOutputData(builder, section);
+
+            string actual = builder.ToString();
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(null, "Disc Identifiers:\n")]
+        [InlineData(YesNo.NULL, "Disc Identifiers:\n")]
+        [InlineData(YesNo.No, "Disc Identifiers:\n\tEDC: No\n")]
+        [InlineData(YesNo.Yes, "Disc Identifiers:\n\tEDC: Yes\n")]
+        public void FormatOutputData_DiscIdentifiersSection_EDCStatus_Formatted(YesNo? yesNo, string expected)
+        {
+            var builder = new StringBuilder();
+            DiscIdentifiersSection? section = new()
+            {
+                EDC = yesNo,
+            };
+
+            Formatter.FormatOutputData(builder, section);
+
+            string actual = builder.ToString();
+            Assert.Equal(expected, actual);
+        }
+
+        #endregion
+
         // TODO: Add RingCodesSection test
         // TODO: Add DumpMetadataSection test
         // TODO: Add SubmissionControlsSection test
