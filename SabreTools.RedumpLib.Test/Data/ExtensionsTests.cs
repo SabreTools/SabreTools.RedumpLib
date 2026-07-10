@@ -1189,6 +1189,33 @@ namespace SabreTools.RedumpLib.Test.Data
         }
 
         /// <summary>
+        /// Check that every PhysicalMediaType can be mapped from a string
+        /// </summary>
+        /// <param name="mediaType">PhysicalMediaType value to check</param>
+        /// <param name="expectNone">True to expect a NONE value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GeneratePhysicalMediaTypeTestData))]
+        public void PhysicalMediaType_ToPhysicalMediaType(PhysicalMediaType? mediaType, bool expectNone)
+        {
+            string? longName = mediaType.LongName();
+            string? longNameSpaceless = longName?.Replace(" ", string.Empty);
+
+            var actualNormal = longName.ToPhysicalMediaType();
+            var actualSpaceless = longNameSpaceless.ToPhysicalMediaType();
+
+            if (expectNone)
+            {
+                Assert.Equal(PhysicalMediaType.NONE, actualNormal);
+                Assert.Equal(PhysicalMediaType.NONE, actualSpaceless);
+            }
+            else
+            {
+                Assert.Equal(mediaType, actualNormal);
+                Assert.Equal(mediaType, actualSpaceless);
+            }
+        }
+
+        /// <summary>
         /// Generate a test set of PhysicalMediaType values
         /// </summary>
         /// <returns>MemberData-compatible list of PhysicalMediaType values</returns>

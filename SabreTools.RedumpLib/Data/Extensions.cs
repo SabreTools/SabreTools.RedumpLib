@@ -1490,10 +1490,10 @@ namespace SabreTools.RedumpLib.Data
             => AttributeHelper<PackType?>.GetHumanReadableAttribute(packType)?.ShortName;
 
         /// <summary>
-        /// Get the Region enum value for a given string
+        /// Get the PackType enum value for a given string
         /// </summary>
         /// <param name="packType">String value to convert</param>
-        /// <returns>Region represented by the string, if possible</returns>
+        /// <returns>PackType represented by the string, if possible</returns>
         public static PackType? ToPackType(this string? packType)
         {
             // No value means no match
@@ -1542,6 +1542,12 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// Get the longnames for each known media type
         /// </summary>
+        public static string? LongName(this PhysicalMediaType mediaType)
+            => ((PhysicalMediaType?)mediaType).LongName();
+
+        /// <summary>
+        /// Get the longnames for each known media type
+        /// </summary>
         /// <param name="mediaType"></param>
         /// <returns></returns>
         public static string? LongName(this PhysicalMediaType? mediaType)
@@ -1550,10 +1556,44 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// Get the shortnames for each known media type
         /// </summary>
+        public static string? ShortName(this PhysicalMediaType mediaType)
+            => ((PhysicalMediaType?)mediaType).ShortName();
+
+        /// <summary>
+        /// Get the shortnames for each known media type
+        /// </summary>
         /// <param name="mediaType"></param>
         /// <returns></returns>
         public static string? ShortName(this PhysicalMediaType? mediaType)
             => AttributeHelper<PhysicalMediaType?>.GetHumanReadableAttribute(mediaType)?.ShortName;
+
+        /// <summary>
+        /// Get the PhysicalMediaType enum value for a given string
+        /// </summary>
+        /// <param name="mediaType">String value to convert</param>
+        /// <returns>PhysicalMediaType represented by the string, if possible</returns>
+        public static PhysicalMediaType ToPhysicalMediaType(this string? mediaType)
+        {
+            // No value means no match
+            if (mediaType is null || mediaType.Length == 0)
+                return PhysicalMediaType.NONE;
+
+            mediaType = mediaType.ToLowerInvariant();
+            var mediaTypes = (PhysicalMediaType[])Enum.GetValues(typeof(PhysicalMediaType));
+
+            // Check short names
+            int index = Array.FindIndex(mediaTypes, s => mediaType == s.ShortName()?.ToLowerInvariant());
+            if (index > -1)
+                return mediaTypes[index];
+
+            // Check long names
+            index = Array.FindIndex(mediaTypes, s => mediaType == s.LongName()?.ToLowerInvariant()
+                || mediaType == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return mediaTypes[index];
+
+            return PhysicalMediaType.NONE;
+        }
 
         #endregion
 
