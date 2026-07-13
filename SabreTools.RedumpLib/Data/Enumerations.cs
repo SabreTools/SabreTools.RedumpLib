@@ -1,5 +1,7 @@
 using SabreTools.RedumpLib.Attributes;
 
+// TODO: For any enums where order could change, turn into a class with helper methods like Hashing
+// TODO: For any enums where order cannot change, ensure they have numeric values attached
 namespace SabreTools.RedumpLib.Data
 {
     /// <summary>
