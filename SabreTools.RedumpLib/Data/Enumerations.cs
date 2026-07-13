@@ -44,21 +44,20 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// List of all disc subpaths
     /// </summary>
-    /// TODO: Add numeric values or convert to constants
     public enum DiscSubpath
     {
         [HumanReadable(LongName = "Cuesheet", ShortName = "cue")]
-        Cuesheet,
+        Cuesheet = 1,
 
         [HumanReadable(LongName = "Edit", ShortName = "edit")]
-        Edit,
+        Edit = 2,
 
         // Placeholder for the linked queue history page, not an actual subpath
         [HumanReadable(LongName = "History", ShortName = "history")]
-        History,
+        History = 3,
 
         [HumanReadable(LongName = "SBI", ShortName = "sbi")]
-        SBI,
+        SBI = 4,
     }
 
     /// <summary>
