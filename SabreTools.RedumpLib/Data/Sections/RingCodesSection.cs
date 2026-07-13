@@ -39,12 +39,6 @@ namespace SabreTools.RedumpLib.Data.Sections
         [JsonProperty(PropertyName = "layer_1_toolstamps", NullValueHandling = NullValueHandling.Ignore)]
         public string? Layer1Toolstamps { get; set; }
 
-        [JsonProperty(PropertyName = "layer_1_mould_sids", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Layer1MouldSIDs { get; set; }
-
-        [JsonProperty(PropertyName = "layer_1_additional_moulds", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Layer1AdditionalMoulds { get; set; }
-
         #endregion
 
         #region Layer 2
@@ -58,12 +52,6 @@ namespace SabreTools.RedumpLib.Data.Sections
         [JsonProperty(PropertyName = "layer_2_toolstamps", NullValueHandling = NullValueHandling.Ignore)]
         public string? Layer2Toolstamps { get; set; }
 
-        [JsonProperty(PropertyName = "layer_2_mould_sids", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Layer2MouldSIDs { get; set; }
-
-        [JsonProperty(PropertyName = "layer_2_additional_moulds", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Layer2AdditionalMoulds { get; set; }
-
         #endregion
 
         #region Layer 3
@@ -76,12 +64,6 @@ namespace SabreTools.RedumpLib.Data.Sections
 
         [JsonProperty(PropertyName = "layer_3_toolstamps", NullValueHandling = NullValueHandling.Ignore)]
         public string? Layer3Toolstamps { get; set; }
-
-        [JsonProperty(PropertyName = "layer_3_mould_sids", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Layer3MouldSIDs { get; set; }
-
-        [JsonProperty(PropertyName = "layer_3_additional_moulds", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Layer3AdditionalMoulds { get; set; }
 
         #endregion
 
@@ -127,20 +109,14 @@ namespace SabreTools.RedumpLib.Data.Sections
                 Layer1MasteringCode = this.Layer1MasteringCode,
                 Layer1MasteringSID = this.Layer1MasteringSID,
                 Layer1Toolstamps = this.Layer1Toolstamps,
-                Layer1MouldSIDs = this.Layer1MouldSIDs,
-                Layer1AdditionalMoulds = this.Layer1AdditionalMoulds,
 
                 Layer2MasteringCode = this.Layer2MasteringCode,
                 Layer2MasteringSID = this.Layer2MasteringSID,
                 Layer2Toolstamps = this.Layer2Toolstamps,
-                Layer2MouldSIDs = this.Layer2MouldSIDs,
-                Layer2AdditionalMoulds = this.Layer2AdditionalMoulds,
 
                 Layer3MasteringCode = this.Layer3MasteringCode,
                 Layer3MasteringSID = this.Layer3MasteringSID,
                 Layer3Toolstamps = this.Layer3Toolstamps,
-                Layer3MouldSIDs = this.Layer3MouldSIDs,
-                Layer3AdditionalMoulds = this.Layer3AdditionalMoulds,
 
                 LabelSideMasteringCode = this.LabelSideMasteringCode,
                 LabelSideMasteringSID = this.LabelSideMasteringSID,

@@ -69,18 +69,12 @@ namespace SabreTools.RedumpLib.Test.Tools
                     Layer1MasteringCode = "L1 Mastering Ring",
                     Layer1MasteringSID = "L1 Mastering SID",
                     Layer1Toolstamps = "L1 Toolstamp",
-                    Layer1MouldSIDs = "L1 Mould SID",
-                    Layer1AdditionalMoulds = "L1 Additional Mould",
                     Layer2MasteringCode = "L2 Mastering Ring",
                     Layer2MasteringSID = "L2 Mastering SID",
                     Layer2Toolstamps = "L2 Toolstamp",
-                    Layer2MouldSIDs = "L2 Mould SID",
-                    Layer2AdditionalMoulds = "L2 Additional Mould",
                     Layer3MasteringCode = "L3 Mastering Ring",
                     Layer3MasteringSID = "L3 Mastering SID",
                     Layer3Toolstamps = "L3 Toolstamp",
-                    Layer3MouldSIDs = "L3 Mould SID",
-                    Layer3AdditionalMoulds = "L3 Additional Mould",
                     LabelSideMasteringCode = "LS Mastering Ring",
                     LabelSideMasteringSID = "LS Mastering SID",
                     LabelSideToolstamps = "LS Toolstamp",
@@ -295,20 +289,14 @@ namespace SabreTools.RedumpLib.Test.Tools
                 Layer1MasteringCode = "XXXXXX",
                 Layer1MasteringSID = "XXXXXX",
                 Layer1Toolstamps = "XXXXXX",
-                Layer1MouldSIDs = "XXXXXX",
-                Layer1AdditionalMoulds = "XXXXXX",
 
                 Layer2MasteringCode = "XXXXXX",
                 Layer2MasteringSID = "XXXXXX",
                 Layer2Toolstamps = "XXXXXX",
-                Layer2MouldSIDs = "XXXXXX",
-                Layer2AdditionalMoulds = "XXXXXX",
 
                 Layer3MasteringCode = "XXXXXX",
                 Layer3MasteringSID = "XXXXXX",
                 Layer3Toolstamps = "XXXXXX",
-                Layer3MouldSIDs = "XXXXXX",
-                Layer3AdditionalMoulds = "XXXXXX",
 
                 LabelSideMasteringCode = "XXXXXX",
                 LabelSideMasteringSID = "XXXXXX",
@@ -334,7 +322,7 @@ namespace SabreTools.RedumpLib.Test.Tools
         [Fact]
         public void FormatOutputData_RingCodesSection_2Layer_Formatted()
         {
-            string expected = "Ring Codes:\n\tLayer 0 Mastering Code: XXXXXX\n\tLayer 0 Mastering SID: XXXXXX\n\tLayer 0 Toolstamps: XXXXXX\n\tLayer 0 Mould SIDs: XXXXXX\n\tLayer 0 Additional Moulds: XXXXXX\n\tLayer 1 Mastering Code: XXXXXX\n\tLayer 1 Mastering SID: XXXXXX\n\tLayer 1 Toolstamps: XXXXXX\n\tLayer 1 Mould SIDs: XXXXXX\n\tLayer 1 Additional Moulds: XXXXXX\n\tLabel Side Mastering Code: XXXXXX\n\tLabel Side Mastering SID: XXXXXX\n\tLabel Side Toolstamps: XXXXXX\n\tLabel Side Mould SIDs: XXXXXX\n\tLabel Side Additional Moulds: XXXXXX\n\tWrite Offset: XXXXXX\n\tSample Start: XXXXXX\n";
+            string expected = "Ring Codes:\n\tLayer 0 Mastering Code: XXXXXX\n\tLayer 0 Mastering SID: XXXXXX\n\tLayer 0 Toolstamps: XXXXXX\n\tLayer 0 Mould SIDs: XXXXXX\n\tLayer 0 Additional Moulds: XXXXXX\n\tLayer 1 Mastering Code: XXXXXX\n\tLayer 1 Mastering SID: XXXXXX\n\tLayer 1 Toolstamps: XXXXXX\n\tLabel Side Mastering Code: XXXXXX\n\tLabel Side Mastering SID: XXXXXX\n\tLabel Side Toolstamps: XXXXXX\n\tLabel Side Mould SIDs: XXXXXX\n\tLabel Side Additional Moulds: XXXXXX\n\tWrite Offset: XXXXXX\n\tSample Start: XXXXXX\n";
 
             var builder = new StringBuilder();
             RingCodesSection? section = new()
@@ -348,20 +336,14 @@ namespace SabreTools.RedumpLib.Test.Tools
                 Layer1MasteringCode = "XXXXXX",
                 Layer1MasteringSID = "XXXXXX",
                 Layer1Toolstamps = "XXXXXX",
-                Layer1MouldSIDs = "XXXXXX",
-                Layer1AdditionalMoulds = "XXXXXX",
 
                 Layer2MasteringCode = "XXXXXX",
                 Layer2MasteringSID = "XXXXXX",
                 Layer2Toolstamps = "XXXXXX",
-                Layer2MouldSIDs = "XXXXXX",
-                Layer2AdditionalMoulds = "XXXXXX",
 
                 Layer3MasteringCode = "XXXXXX",
                 Layer3MasteringSID = "XXXXXX",
                 Layer3Toolstamps = "XXXXXX",
-                Layer3MouldSIDs = "XXXXXX",
-                Layer3AdditionalMoulds = "XXXXXX",
 
                 LabelSideMasteringCode = "XXXXXX",
                 LabelSideMasteringSID = "XXXXXX",
@@ -390,7 +372,7 @@ namespace SabreTools.RedumpLib.Test.Tools
         [Fact]
         public void FormatOutputData_RingCodesSection_3Layer_Formatted()
         {
-            string expected = "Ring Codes:\n\tLayer 0 Mastering Code: XXXXXX\n\tLayer 0 Mastering SID: XXXXXX\n\tLayer 0 Toolstamps: XXXXXX\n\tLayer 0 Mould SIDs: XXXXXX\n\tLayer 0 Additional Moulds: XXXXXX\n\tLayer 1 Mastering Code: XXXXXX\n\tLayer 1 Mastering SID: XXXXXX\n\tLayer 1 Toolstamps: XXXXXX\n\tLayer 1 Mould SIDs: XXXXXX\n\tLayer 1 Additional Moulds: XXXXXX\n\tLayer 2 Mastering Code: XXXXXX\n\tLayer 2 Mastering SID: XXXXXX\n\tLayer 2 Toolstamps: XXXXXX\n\tLayer 2 Mould SIDs: XXXXXX\n\tLayer 2 Additional Moulds: XXXXXX\n\tLabel Side Mastering Code: XXXXXX\n\tLabel Side Mastering SID: XXXXXX\n\tLabel Side Toolstamps: XXXXXX\n\tLabel Side Mould SIDs: XXXXXX\n\tLabel Side Additional Moulds: XXXXXX\n\tWrite Offset: XXXXXX\n\tSample Start: XXXXXX\n";
+            string expected = "Ring Codes:\n\tLayer 0 Mastering Code: XXXXXX\n\tLayer 0 Mastering SID: XXXXXX\n\tLayer 0 Toolstamps: XXXXXX\n\tLayer 0 Mould SIDs: XXXXXX\n\tLayer 0 Additional Moulds: XXXXXX\n\tLayer 1 Mastering Code: XXXXXX\n\tLayer 1 Mastering SID: XXXXXX\n\tLayer 1 Toolstamps: XXXXXX\n\tLayer 2 Mastering Code: XXXXXX\n\tLayer 2 Mastering SID: XXXXXX\n\tLayer 2 Toolstamps: XXXXXX\n\tLabel Side Mastering Code: XXXXXX\n\tLabel Side Mastering SID: XXXXXX\n\tLabel Side Toolstamps: XXXXXX\n\tLabel Side Mould SIDs: XXXXXX\n\tLabel Side Additional Moulds: XXXXXX\n\tWrite Offset: XXXXXX\n\tSample Start: XXXXXX\n";
 
             var builder = new StringBuilder();
             RingCodesSection? section = new()
@@ -404,20 +386,14 @@ namespace SabreTools.RedumpLib.Test.Tools
                 Layer1MasteringCode = "XXXXXX",
                 Layer1MasteringSID = "XXXXXX",
                 Layer1Toolstamps = "XXXXXX",
-                Layer1MouldSIDs = "XXXXXX",
-                Layer1AdditionalMoulds = "XXXXXX",
 
                 Layer2MasteringCode = "XXXXXX",
                 Layer2MasteringSID = "XXXXXX",
                 Layer2Toolstamps = "XXXXXX",
-                Layer2MouldSIDs = "XXXXXX",
-                Layer2AdditionalMoulds = "XXXXXX",
 
                 Layer3MasteringCode = "XXXXXX",
                 Layer3MasteringSID = "XXXXXX",
                 Layer3Toolstamps = "XXXXXX",
-                Layer3MouldSIDs = "XXXXXX",
-                Layer3AdditionalMoulds = "XXXXXX",
 
                 LabelSideMasteringCode = "XXXXXX",
                 LabelSideMasteringSID = "XXXXXX",
@@ -447,7 +423,7 @@ namespace SabreTools.RedumpLib.Test.Tools
         [Fact]
         public void FormatOutputData_RingCodesSection_4Layer_Formatted()
         {
-            string expected = "Ring Codes:\n\tLayer 0 Mastering Code: XXXXXX\n\tLayer 0 Mastering SID: XXXXXX\n\tLayer 0 Toolstamps: XXXXXX\n\tLayer 0 Mould SIDs: XXXXXX\n\tLayer 0 Additional Moulds: XXXXXX\n\tLayer 1 Mastering Code: XXXXXX\n\tLayer 1 Mastering SID: XXXXXX\n\tLayer 1 Toolstamps: XXXXXX\n\tLayer 1 Mould SIDs: XXXXXX\n\tLayer 1 Additional Moulds: XXXXXX\n\tLayer 2 Mastering Code: XXXXXX\n\tLayer 2 Mastering SID: XXXXXX\n\tLayer 2 Toolstamps: XXXXXX\n\tLayer 2 Mould SIDs: XXXXXX\n\tLayer 2 Additional Moulds: XXXXXX\n\tLayer 3 Mastering Code: XXXXXX\n\tLayer 3 Mastering SID: XXXXXX\n\tLayer 3 Toolstamps: XXXXXX\n\tLayer 3 Mould SIDs: XXXXXX\n\tLayer 3 Additional Moulds: XXXXXX\n\tLabel Side Mastering Code: XXXXXX\n\tLabel Side Mastering SID: XXXXXX\n\tLabel Side Toolstamps: XXXXXX\n\tLabel Side Mould SIDs: XXXXXX\n\tLabel Side Additional Moulds: XXXXXX\n\tWrite Offset: XXXXXX\n\tSample Start: XXXXXX\n";
+            string expected = "Ring Codes:\n\tLayer 0 Mastering Code: XXXXXX\n\tLayer 0 Mastering SID: XXXXXX\n\tLayer 0 Toolstamps: XXXXXX\n\tLayer 0 Mould SIDs: XXXXXX\n\tLayer 0 Additional Moulds: XXXXXX\n\tLayer 1 Mastering Code: XXXXXX\n\tLayer 1 Mastering SID: XXXXXX\n\tLayer 1 Toolstamps: XXXXXX\n\tLayer 2 Mastering Code: XXXXXX\n\tLayer 2 Mastering SID: XXXXXX\n\tLayer 2 Toolstamps: XXXXXX\n\tLayer 3 Mastering Code: XXXXXX\n\tLayer 3 Mastering SID: XXXXXX\n\tLayer 3 Toolstamps: XXXXXX\n\tLabel Side Mastering Code: XXXXXX\n\tLabel Side Mastering SID: XXXXXX\n\tLabel Side Toolstamps: XXXXXX\n\tLabel Side Mould SIDs: XXXXXX\n\tLabel Side Additional Moulds: XXXXXX\n\tWrite Offset: XXXXXX\n\tSample Start: XXXXXX\n";
 
             var builder = new StringBuilder();
             RingCodesSection? section = new()
@@ -461,20 +437,14 @@ namespace SabreTools.RedumpLib.Test.Tools
                 Layer1MasteringCode = "XXXXXX",
                 Layer1MasteringSID = "XXXXXX",
                 Layer1Toolstamps = "XXXXXX",
-                Layer1MouldSIDs = "XXXXXX",
-                Layer1AdditionalMoulds = "XXXXXX",
 
                 Layer2MasteringCode = "XXXXXX",
                 Layer2MasteringSID = "XXXXXX",
                 Layer2Toolstamps = "XXXXXX",
-                Layer2MouldSIDs = "XXXXXX",
-                Layer2AdditionalMoulds = "XXXXXX",
 
                 Layer3MasteringCode = "XXXXXX",
                 Layer3MasteringSID = "XXXXXX",
                 Layer3Toolstamps = "XXXXXX",
-                Layer3MouldSIDs = "XXXXXX",
-                Layer3AdditionalMoulds = "XXXXXX",
 
                 LabelSideMasteringCode = "XXXXXX",
                 LabelSideMasteringSID = "XXXXXX",
@@ -505,7 +475,7 @@ namespace SabreTools.RedumpLib.Test.Tools
         [Fact]
         public void FormatOutputData_RingCodesSection_UMDAlways2Layer_Formatted()
         {
-            string expected = "Ring Codes:\n\tLayer 0 Mastering Code: XXXXXX\n\tLayer 0 Mastering SID: XXXXXX\n\tLayer 0 Toolstamps: XXXXXX\n\tLayer 0 Mould SIDs: XXXXXX\n\tLayer 0 Additional Moulds: XXXXXX\n\tLayer 1 Mastering Code: XXXXXX\n\tLayer 1 Mastering SID: XXXXXX\n\tLayer 1 Toolstamps: XXXXXX\n\tLayer 1 Mould SIDs: XXXXXX\n\tLayer 1 Additional Moulds: XXXXXX\n\tLabel Side Mastering Code: XXXXXX\n\tLabel Side Mastering SID: XXXXXX\n\tLabel Side Toolstamps: XXXXXX\n\tLabel Side Mould SIDs: XXXXXX\n\tLabel Side Additional Moulds: XXXXXX\n\tWrite Offset: XXXXXX\n\tSample Start: XXXXXX\n";
+            string expected = "Ring Codes:\n\tLayer 0 Mastering Code: XXXXXX\n\tLayer 0 Mastering SID: XXXXXX\n\tLayer 0 Toolstamps: XXXXXX\n\tLayer 0 Mould SIDs: XXXXXX\n\tLayer 0 Additional Moulds: XXXXXX\n\tLayer 1 Mastering Code: XXXXXX\n\tLayer 1 Mastering SID: XXXXXX\n\tLayer 1 Toolstamps: XXXXXX\n\tLabel Side Mastering Code: XXXXXX\n\tLabel Side Mastering SID: XXXXXX\n\tLabel Side Toolstamps: XXXXXX\n\tLabel Side Mould SIDs: XXXXXX\n\tLabel Side Additional Moulds: XXXXXX\n\tWrite Offset: XXXXXX\n\tSample Start: XXXXXX\n";
 
             var builder = new StringBuilder();
             RingCodesSection? section = new()
@@ -519,20 +489,14 @@ namespace SabreTools.RedumpLib.Test.Tools
                 Layer1MasteringCode = "XXXXXX",
                 Layer1MasteringSID = "XXXXXX",
                 Layer1Toolstamps = "XXXXXX",
-                Layer1MouldSIDs = "XXXXXX",
-                Layer1AdditionalMoulds = "XXXXXX",
 
                 Layer2MasteringCode = "XXXXXX",
                 Layer2MasteringSID = "XXXXXX",
                 Layer2Toolstamps = "XXXXXX",
-                Layer2MouldSIDs = "XXXXXX",
-                Layer2AdditionalMoulds = "XXXXXX",
 
                 Layer3MasteringCode = "XXXXXX",
                 Layer3MasteringSID = "XXXXXX",
                 Layer3Toolstamps = "XXXXXX",
-                Layer3MouldSIDs = "XXXXXX",
-                Layer3AdditionalMoulds = "XXXXXX",
 
                 LabelSideMasteringCode = "XXXXXX",
                 LabelSideMasteringSID = "XXXXXX",

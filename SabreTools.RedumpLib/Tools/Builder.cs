@@ -447,8 +447,6 @@ namespace SabreTools.RedumpLib.Tools
             info.RingCodes.Layer1MasteringCode = seed.RingCodes.Layer1MasteringCode;
             info.RingCodes.Layer1MasteringSID = seed.RingCodes.Layer1MasteringSID;
             info.RingCodes.Layer1Toolstamps = seed.RingCodes.Layer1Toolstamps;
-            info.RingCodes.Layer1MouldSIDs = seed.RingCodes.Layer1MouldSIDs;
-            info.RingCodes.Layer1AdditionalMoulds = seed.RingCodes.Layer1AdditionalMoulds;
 
             info.RingCodes.Layer2MasteringCode = seed.RingCodes.Layer2MasteringCode;
             info.RingCodes.Layer2MasteringSID = seed.RingCodes.Layer2MasteringSID;
@@ -457,6 +455,12 @@ namespace SabreTools.RedumpLib.Tools
             info.RingCodes.Layer3MasteringCode = seed.RingCodes.Layer3MasteringCode;
             info.RingCodes.Layer3MasteringSID = seed.RingCodes.Layer3MasteringSID;
             info.RingCodes.Layer3Toolstamps = seed.RingCodes.Layer3Toolstamps;
+
+            info.RingCodes.LabelSideMasteringCode = seed.RingCodes.LabelSideMasteringCode;
+            info.RingCodes.LabelSideMasteringSID = seed.RingCodes.LabelSideMasteringSID;
+            info.RingCodes.LabelSideToolstamps = seed.RingCodes.LabelSideToolstamps;
+            info.RingCodes.LabelSideMouldSIDs = seed.RingCodes.LabelSideMouldSIDs;
+            info.RingCodes.LabelSideAdditionalMoulds = seed.RingCodes.LabelSideAdditionalMoulds;
 
             return info;
         }

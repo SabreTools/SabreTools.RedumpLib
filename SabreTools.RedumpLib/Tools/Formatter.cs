@@ -338,20 +338,14 @@ namespace SabreTools.RedumpLib.Tools
                 AddIfExists(output, $"Layer 1 {Template.MasteringCodeField}", section.Layer1MasteringCode, 1);
                 AddIfExists(output, $"Layer 1 {Template.MasteringSIDField}", section.Layer1MasteringSID, 1);
                 AddIfExists(output, $"Layer 1 {Template.ToolstampsField}", section.Layer1Toolstamps, 1);
-                AddIfExists(output, $"Layer 1 {Template.MouldSIDsField}", section.Layer1MouldSIDs, 1);
-                AddIfExists(output, $"Layer 1 {Template.AdditionalMouldsField}", section.Layer1AdditionalMoulds, 1);
 
                 AddIfExists(output, $"Layer 2 {Template.MasteringCodeField}", section.Layer2MasteringCode, 1);
                 AddIfExists(output, $"Layer 2 {Template.MasteringSIDField}", section.Layer2MasteringSID, 1);
                 AddIfExists(output, $"Layer 2 {Template.ToolstampsField}", section.Layer2Toolstamps, 1);
-                AddIfExists(output, $"Layer 2 {Template.MouldSIDsField}", section.Layer2MouldSIDs, 1);
-                AddIfExists(output, $"Layer 2 {Template.AdditionalMouldsField}", section.Layer2AdditionalMoulds, 1);
 
                 AddIfExists(output, $"Layer 3 {Template.MasteringCodeField}", section.Layer3MasteringCode, 1);
                 AddIfExists(output, $"Layer 3 {Template.MasteringSIDField}", section.Layer3MasteringSID, 1);
                 AddIfExists(output, $"Layer 3 {Template.ToolstampsField}", section.Layer3Toolstamps, 1);
-                AddIfExists(output, $"Layer 3 {Template.MouldSIDsField}", section.Layer3MouldSIDs, 1);
-                AddIfExists(output, $"Layer 3 {Template.AdditionalMouldsField}", section.Layer3AdditionalMoulds, 1);
             }
 
             // If we have a triple-layer disc
@@ -366,14 +360,10 @@ namespace SabreTools.RedumpLib.Tools
                 AddIfExists(output, $"Layer 1 {Template.MasteringCodeField}", section.Layer1MasteringCode, 1);
                 AddIfExists(output, $"Layer 1 {Template.MasteringSIDField}", section.Layer1MasteringSID, 1);
                 AddIfExists(output, $"Layer 1 {Template.ToolstampsField}", section.Layer1Toolstamps, 1);
-                AddIfExists(output, $"Layer 1 {Template.MouldSIDsField}", section.Layer1MouldSIDs, 1);
-                AddIfExists(output, $"Layer 1 {Template.AdditionalMouldsField}", section.Layer1AdditionalMoulds, 1);
 
                 AddIfExists(output, $"Layer 2 {Template.MasteringCodeField}", section.Layer2MasteringCode, 1);
                 AddIfExists(output, $"Layer 2 {Template.MasteringSIDField}", section.Layer2MasteringSID, 1);
                 AddIfExists(output, $"Layer 2 {Template.ToolstampsField}", section.Layer2Toolstamps, 1);
-                AddIfExists(output, $"Layer 2 {Template.MouldSIDsField}", section.Layer2MouldSIDs, 1);
-                AddIfExists(output, $"Layer 2 {Template.AdditionalMouldsField}", section.Layer2AdditionalMoulds, 1);
             }
 
             // If we have a dual-layer disc or a UMD
@@ -388,8 +378,6 @@ namespace SabreTools.RedumpLib.Tools
                 AddIfExists(output, $"Layer 1 {Template.MasteringCodeField}", section.Layer1MasteringCode, 1);
                 AddIfExists(output, $"Layer 1 {Template.MasteringSIDField}", section.Layer1MasteringSID, 1);
                 AddIfExists(output, $"Layer 1 {Template.ToolstampsField}", section.Layer1Toolstamps, 1);
-                AddIfExists(output, $"Layer 1 {Template.MouldSIDsField}", section.Layer1MouldSIDs, 1);
-                AddIfExists(output, $"Layer 1 {Template.AdditionalMouldsField}", section.Layer1AdditionalMoulds, 1);
             }
 
             // If we have a single-layer disc
