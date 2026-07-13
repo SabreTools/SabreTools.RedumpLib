@@ -593,40 +593,39 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// List of all recognized sort parameters
     /// </summary>
-    /// TODO: Add numeric values or convert to constants
     public enum SortCategory
     {
         [HumanReadable(LongName = "Title", ShortName = "title")]
-        Title,
+        Title = 0,
 
         /// <remarks>Not exposed in the redump.info UI</remarks>
         [HumanReadable(LongName = "Added", ShortName = "added")]
-        Added,
+        Added = 1,
 
         [HumanReadable(LongName = "Region", ShortName = "region")]
-        Region,
+        Region = 2,
 
         [HumanReadable(LongName = "System", ShortName = "system")]
-        System,
+        System = 3,
 
         [HumanReadable(LongName = "Version", ShortName = "version")]
-        Version,
+        Version = 4,
 
         [HumanReadable(LongName = "Edition", ShortName = "edition")]
-        Edition,
+        Edition = 5,
 
         [HumanReadable(LongName = "Language", ShortName = "language")]
-        Language,
+        Language = 6,
 
         [HumanReadable(LongName = "Serial", ShortName = "serial")]
-        Serial,
+        Serial = 7,
 
         [HumanReadable(LongName = "Status", ShortName = "status")]
-        Status,
+        Status = 8,
 
         /// <remarks>Not exposed in the redump.info UI</remarks>
         [HumanReadable(LongName = "Modified", ShortName = "modified")]
-        Modified,
+        Modified = 9,
     }
 
     /// <summary>
