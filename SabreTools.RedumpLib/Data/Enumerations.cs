@@ -643,17 +643,16 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// List of all recognized submission display kinds
     /// </summary>
-    /// TODO: Add numeric values or convert to constants
     public enum SubmissionType
     {
         [HumanReadable(LongName = "Edit", ShortName = "Edit")]
-        Edit,
+        Edit = 0,
 
         [HumanReadable(LongName = "New Disc", ShortName = "New+Disc")]
-        NewDisc,
+        NewDisc = 1,
 
         [HumanReadable(LongName = "Verification", ShortName = "Verification")]
-        Verification
+        Verification = 2,
     }
 
     /// <summary>
