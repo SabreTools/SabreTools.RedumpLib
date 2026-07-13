@@ -631,14 +631,13 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// List of all recognized sort directions
     /// </summary>
-    /// TODO: Add numeric values or convert to constants
     public enum SortDirection
     {
         [HumanReadable(LongName = "Ascending", ShortName = "asc")]
-        Ascending,
+        Ascending = 0,
 
         [HumanReadable(LongName = "Descending", ShortName = "desc")]
-        Descending,
+        Descending = 1,
     }
 
     /// <summary>
