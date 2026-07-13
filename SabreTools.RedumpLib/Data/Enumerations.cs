@@ -359,25 +359,24 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// List of system categories
     /// </summary>
-    /// TODO: Add numeric values or convert to constants
     public enum SystemCategory
     {
         NONE = 0,
 
         [HumanReadable(LongName = "Disc-Based Consoles")]
-        DiscBasedConsole,
+        DiscBasedConsole = 1,
 
         [HumanReadable(LongName = "Other Consoles")]
-        OtherConsole,
+        OtherConsole = 2,
 
         [HumanReadable(LongName = "Computers")]
-        Computer,
+        Computer = 3,
 
         [HumanReadable(LongName = "Arcade")]
-        Arcade,
+        Arcade = 4,
 
         [HumanReadable(LongName = "Other")]
-        Other,
+        Other = 5,
     };
 
     /// <summary>
