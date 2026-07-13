@@ -39,7 +39,7 @@ namespace SabreTools.RedumpLib.Test.Tools
                 RegionsAndLanguages = new RegionsAndLanguagesSection()
                 {
                     Regions = [Region.World],
-                    Languages = [Language.English, Language.Spanish, Language.French],
+                    Languages = [LanguageCode.English, LanguageCode.Spanish, LanguageCode.French],
                 },
 
                 DiscIdentifiers = new DiscIdentifiersSection()
@@ -207,7 +207,7 @@ namespace SabreTools.RedumpLib.Test.Tools
             RegionsAndLanguagesSection? section = new()
             {
                 Regions = [Region.UnitedStatesOfAmerica, Region.Europe, Region.Japan],
-                Languages = [Language.English, Language.French, Language.Spanish]
+                Languages = [LanguageCode.English, LanguageCode.French, LanguageCode.Spanish]
             };
 
             Formatter.FormatOutputData(builder, section);

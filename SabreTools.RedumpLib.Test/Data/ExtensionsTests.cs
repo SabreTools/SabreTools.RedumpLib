@@ -784,58 +784,24 @@ namespace SabreTools.RedumpLib.Test.Data
 
         #endregion
 
-        #region Language
+        #region Language Code
 
         /// <summary>
-        /// Check that every Language has a long name provided
+        /// Check that every LanguageCode can be mapped from a string
         /// </summary>
-        /// <param name="language">Language value to check</param>
+        /// <param name="lang">LanguageCode value to check</param>
         /// <param name="expectNull">True to expect a null value, false otherwise</param>
         [Theory]
-        [MemberData(nameof(GenerateLanguageTestData))]
-        public void Language_LongName(Language? language, bool expectNull)
+        [MemberData(nameof(GenerateLanguageCodeTestData))]
+        public void LanguageCode_ToLanguageCode(LanguageCode? lang, bool expectNull)
         {
-            var actual = language.LongName();
+            string? twoLetterCode = lang?.TwoLetterCode;
+            string? threeLetterCode = lang?.ThreeLetterCode;
+            string? threeLetterCodeAlt = lang?.ThreeLetterCodeAlt;
 
-            if (expectNull)
-                Assert.Null(actual);
-            else
-                Assert.NotNull(actual);
-        }
-
-        /// <summary>
-        /// Check that every Language has a short name provided
-        /// </summary>
-        /// <param name="language">Language value to check</param>
-        /// <param name="expectNull">True to expect a null value, false otherwise</param>
-        [Theory]
-        [MemberData(nameof(GenerateLanguageTestData))]
-        public void Language_ShortName(Language? language, bool expectNull)
-        {
-            var actual = language.ShortName();
-
-            if (expectNull)
-                Assert.Null(actual);
-            else
-                Assert.NotNull(actual);
-        }
-
-        /// <summary>
-        /// Check that every Language can be mapped from a string
-        /// </summary>
-        /// <param name="lang">Language value to check</param>
-        /// <param name="expectNull">True to expect a null value, false otherwise</param>
-        [Theory]
-        [MemberData(nameof(GenerateLanguageTestData))]
-        public void Language_ToLanguage(Language? lang, bool expectNull)
-        {
-            string? twoLetterCode = lang.TwoLetterCode();
-            string? threeLetterCode = lang.ThreeLetterCode();
-            string? threeLetterCodeAlt = lang.ThreeLetterCodeAlt();
-
-            var actualTwoLetterCode = twoLetterCode.ToLanguage();
-            var actualThreeLetterCode = threeLetterCode.ToLanguage();
-            var actualThreeLetterCodeAlt = threeLetterCodeAlt.ToLanguage();
+            var actualTwoLetterCode = twoLetterCode.ToLanguageCode();
+            var actualThreeLetterCode = threeLetterCode.ToLanguageCode();
+            var actualThreeLetterCodeAlt = threeLetterCodeAlt.ToLanguageCode();
 
             if (expectNull)
             {
@@ -856,18 +822,17 @@ namespace SabreTools.RedumpLib.Test.Data
         }
 
         /// <summary>
-        /// Ensure that every Language that has a standard/bibliographic ISO 639-2 code is unique
+        /// Ensure that every LanguageCode that has a standard/bibliographic ISO 639-2 code is unique
         /// </summary>
         [Fact]
-        public void Language_ThreeLetterCode_NoDuplicates()
+        public void LanguageCode_ThreeLetterCode_NoDuplicates()
         {
-            var fullLanguages = Enum.GetValues<Language>().Cast<Language?>().ToList();
-            var filteredLanguages = new Dictionary<string, Language?>();
+            var filteredLanguages = new Dictionary<string, LanguageCode?>();
 
             int totalCount = 0;
-            foreach (Language? language in fullLanguages)
+            foreach (LanguageCode? language in LanguageCode.AllLanguages)
             {
-                var code = language.ThreeLetterCode();
+                var code = language.ThreeLetterCode;
                 if (string.IsNullOrEmpty(code))
                     continue;
 
@@ -883,18 +848,17 @@ namespace SabreTools.RedumpLib.Test.Data
         }
 
         /// <summary>
-        /// Ensure that every Language that has a terminology ISO 639-2 code is unique
+        /// Ensure that every LanguageCode that has a terminology ISO 639-2 code is unique
         /// </summary>
         [Fact]
-        public void Language_ThreeLetterCodeAlt_NoDuplicates()
+        public void LanguageCode_ThreeLetterCodeAlt_NoDuplicates()
         {
-            var fullLanguages = Enum.GetValues<Language>().Cast<Language?>().ToList();
-            var filteredLanguages = new Dictionary<string, Language?>();
+            var filteredLanguages = new Dictionary<string, LanguageCode?>();
 
             int totalCount = 0;
-            foreach (Language? language in fullLanguages)
+            foreach (LanguageCode? language in LanguageCode.AllLanguages)
             {
-                var code = language.ThreeLetterCodeAlt();
+                var code = language.ThreeLetterCodeAlt;
                 if (string.IsNullOrEmpty(code))
                     continue;
 
@@ -910,18 +874,17 @@ namespace SabreTools.RedumpLib.Test.Data
         }
 
         /// <summary>
-        /// Ensure that every Language that has an ISO 639-1 code is unique
+        /// Ensure that every LanguageCode that has an ISO 639-1 code is unique
         /// </summary>
         [Fact]
-        public void Language_TwoLetterCode_NoDuplicates()
+        public void LanguageCode_TwoLetterCode_NoDuplicates()
         {
-            var fullLanguages = Enum.GetValues<Language>().Cast<Language?>().ToList();
-            var filteredLanguages = new Dictionary<string, Language?>();
+            var filteredLanguages = new Dictionary<string, LanguageCode?>();
 
             int totalCount = 0;
-            foreach (Language? language in fullLanguages)
+            foreach (LanguageCode? language in LanguageCode.AllLanguages)
             {
-                var code = language.TwoLetterCode();
+                var code = language.TwoLetterCode;
                 if (string.IsNullOrEmpty(code))
                     continue;
 
@@ -937,13 +900,13 @@ namespace SabreTools.RedumpLib.Test.Data
         }
 
         /// <summary>
-        /// Generate a test set of Language values
+        /// Generate a test set of LanguageCode values
         /// </summary>
-        /// <returns>MemberData-compatible list of Language values</returns>
-        public static TheoryData<Language?, bool> GenerateLanguageTestData()
+        /// <returns>MemberData-compatible list of LanguageCode values</returns>
+        public static TheoryData<LanguageCode?, bool> GenerateLanguageCodeTestData()
         {
-            var testData = new TheoryData<Language?, bool>() { { null, true } };
-            foreach (Language? language in Enum.GetValues<Language>().Cast<Language?>())
+            var testData = new TheoryData<LanguageCode?, bool>() { { null, true } };
+            foreach (LanguageCode? language in LanguageCode.AllLanguages)
             {
                 testData.Add(language, false);
             }

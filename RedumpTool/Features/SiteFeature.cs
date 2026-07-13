@@ -214,7 +214,7 @@ namespace RedumpTool.Features
             bool? editionExact = EditionExactInput.Value;
             long? errorsMax = ErrorsMaximumInput.Value;
             long? errorsMin = ErrorsMinimumInput.Value;
-            Language? language = LanguageInput.Value.ToLanguage();
+            LanguageCode? language = LanguageInput.Value.ToLanguageCode();
             char? letter = string.IsNullOrEmpty(LetterInput.Value)
                 ? null
                 : LetterInput.Value![0];

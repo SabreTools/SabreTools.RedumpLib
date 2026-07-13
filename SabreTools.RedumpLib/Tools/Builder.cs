@@ -140,13 +140,13 @@ namespace SabreTools.RedumpLib.Tools
             var languageMatches = Constants.LanguagesRegex.Matches(discData);
             if (languageMatches.Count > 0)
             {
-                var tempLanguages = new List<Language?>();
+                var tempLanguages = new List<LanguageCode?>();
                 foreach (Match? languageMatch in languageMatches)
                 {
                     if (languageMatch is null)
                         continue;
 
-                    var language = languageMatch.Groups[1].Value.ToLanguage();
+                    var language = languageMatch.Groups[1].Value.ToLanguageCode();
                     if (language is not null)
                         tempLanguages.Add(language);
                 }

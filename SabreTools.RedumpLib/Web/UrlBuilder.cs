@@ -131,7 +131,7 @@ namespace SabreTools.RedumpLib.Web
             bool? editionExact = null,
             long? errorsMax = null,
             long? errorsMin = null,
-            Language? language = null,
+            LanguageCode? language = null,
             char? letter = null,
             MediaType? media = null,
             long? offset = null,
@@ -410,7 +410,7 @@ namespace SabreTools.RedumpLib.Web
             bool? editionExact,
             long? errorsMax,
             long? errorsMin,
-            Language? language,
+            LanguageCode? language,
             char? letter,
             MediaType? media,
             long? offset,
@@ -445,7 +445,7 @@ namespace SabreTools.RedumpLib.Web
                 sb.Append($"region={regionName}&");
 
             // Language
-            string? languageName = language.ShortName();
+            string? languageName = language?.TwoLetterCode;
             if (languageName is not null)
                 sb.Append($"language={languageName}&");
 

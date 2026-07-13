@@ -43,7 +43,7 @@ namespace SabreTools.RedumpLib.Test.Data
                 RegionsAndLanguages = new RegionsAndLanguagesSection()
                 {
                     Regions = [Region.World],
-                    Languages = [Language.English, Language.Spanish, Language.French],
+                    Languages = [LanguageCode.English, LanguageCode.Spanish, LanguageCode.French],
                 },
 
                 DiscIdentifiers = new DiscIdentifiersSection()
