@@ -1312,6 +1312,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.IBMPCcompatible,
             PhysicalSystem.NECPC88Series,
             PhysicalSystem.NECPC98Series,
+            PhysicalSystem.SGIIndigoSeries,
             PhysicalSystem.SharpX68000,
             PhysicalSystem.SunMicrosystemsUltra,
 
@@ -1465,6 +1466,7 @@ namespace SabreTools.RedumpLib.Test.Data
             [PhysicalSystem.MicrosoftMSX] = SystemCategory.Computer,
             [PhysicalSystem.NECPC88Series] = SystemCategory.Computer,
             [PhysicalSystem.NECPC98Series] = SystemCategory.Computer,
+            [PhysicalSystem.SGIIndigoSeries] = SystemCategory.Computer,
             [PhysicalSystem.SharpX68000] = SystemCategory.Computer,
             [PhysicalSystem.SinclairZXSpectrum] = SystemCategory.Computer,
             [PhysicalSystem.SunMicrosystemsUltra] = SystemCategory.Computer,
@@ -1607,6 +1609,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.IBMPCcompatible,
             PhysicalSystem.NECPC88Series,
             PhysicalSystem.NECPC98Series,
+            PhysicalSystem.SGIIndigoSeries,
             PhysicalSystem.SharpX68000,
             PhysicalSystem.SunMicrosystemsUltra,
 
@@ -1709,6 +1712,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.IBMPCcompatible,
             PhysicalSystem.NECPC88Series,
             PhysicalSystem.NECPC98Series,
+            PhysicalSystem.SGIIndigoSeries,
             PhysicalSystem.SharpX68000,
             PhysicalSystem.SunMicrosystemsUltra,
 
@@ -1836,6 +1840,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.MicrosoftMSX, // TODO: Confirm this is Windows-readable
             PhysicalSystem.NECPC88Series,
             PhysicalSystem.NECPC98Series,
+            PhysicalSystem.SGIIndigoSeries,
             PhysicalSystem.SharpX68000,
             PhysicalSystem.SinclairZXSpectrum, // TODO: Confirm this is Windows-readable
             PhysicalSystem.SunMicrosystemsUltra, // TODO: Confirm this is Windows-readable

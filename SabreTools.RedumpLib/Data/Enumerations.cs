@@ -2262,6 +2262,9 @@ namespace SabreTools.RedumpLib.Data
         [System(Category = SystemCategory.Computer, LongName = "NEC PC-98 series", ShortName = "PC-98", HasCues = true, HasDat = true)]
         NECPC98Series,
 
+        [System(Category = SystemCategory.Computer, LongName = "SGI Indigo series", ShortName = "INDIGO", HasCues = true, HasDat = true)]
+        SGIIndigoSeries,
+
         [System(Category = SystemCategory.Computer, LongName = "Sharp X68000", ShortName = "X68K", HasCues = true, HasDat = true)]
         SharpX68000,
 
