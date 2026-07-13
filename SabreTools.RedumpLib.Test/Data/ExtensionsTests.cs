@@ -1198,24 +1198,6 @@ namespace SabreTools.RedumpLib.Test.Data
         #region Physical System
 
         /// <summary>
-        /// PhysicalSystem values that are considered Audio
-        /// </summary>
-        private static readonly PhysicalSystem?[] _audioSystems =
-        [
-            PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem,
-            PhysicalSystem.AudioCD,
-            PhysicalSystem.DatelPlayStationCheatDeviceUpdates,
-            PhysicalSystem.DVDAudio,
-            PhysicalSystem.HasbroiONEducationalGamingSystem,
-            PhysicalSystem.HasbroVideoNow,
-            PhysicalSystem.HasbroVideoNowColor,
-            PhysicalSystem.HasbroVideoNowJr,
-            PhysicalSystem.HasbroVideoNowXP,
-            PhysicalSystem.PhilipsCDi,
-            PhysicalSystem.SuperAudioCD,
-        ];
-
-        /// <summary>
         /// PhysicalSystem values that are available
         /// </summary>
         private static readonly PhysicalSystem?[] _availableSystems =
@@ -1898,19 +1880,6 @@ namespace SabreTools.RedumpLib.Test.Data
         }
 
         /// <summary>
-        /// Check that all audio systems are marked properly
-        /// </summary>
-        /// <param name="physicalSystem">PhysicalSystem value to check</param>
-        /// <param name="expected">The expected value to come from the check</param>
-        [Theory]
-        [MemberData(nameof(GenerateAudioSystemsTestData))]
-        public void PhysicalSystem_IsAudio(PhysicalSystem? physicalSystem, bool expected)
-        {
-            bool actual = physicalSystem.IsAudio();
-            Assert.Equal(expected, actual);
-        }
-
-        /// <summary>
         /// Check that all marker systems are marked properly
         /// </summary>
         /// <param name="physicalSystem">PhysicalSystem value to check</param>
@@ -2049,24 +2018,6 @@ namespace SabreTools.RedumpLib.Test.Data
                     continue;
 
                 testData.Add(physicalSystem, false);
-            }
-
-            return testData;
-        }
-
-        /// <summary>
-        /// Generate a test set of PhysicalSystem values that are considered Audio
-        /// </summary>
-        /// <returns>MemberData-compatible list of PhysicalSystem values</returns>
-        public static TheoryData<PhysicalSystem?, bool> GenerateAudioSystemsTestData()
-        {
-            var testData = new TheoryData<PhysicalSystem?, bool>() { { null, false } };
-            foreach (PhysicalSystem physicalSystem in PhysicalSystem.AllSystems)
-            {
-                if (_audioSystems.Contains(physicalSystem))
-                    testData.Add(physicalSystem, true);
-                else
-                    testData.Add(physicalSystem, false);
             }
 
             return testData;

@@ -748,44 +748,6 @@ namespace SabreTools.RedumpLib.Data
         }
 
         /// <summary>
-        /// Determine if a system is considered audio-only
-        /// </summary>
-        /// <param name="system">PhysicalSystem value to check</param>
-        /// <returns>True if the system is audio-only, false otherwise</returns>
-        /// <remarks>
-        /// Philips CD-i should NOT be in this list. It's being included until there's a
-        /// reasonable distinction between CD-i and CD-i ready on the database side.
-        /// </remarks>
-        public static bool IsAudio(this PhysicalSystem? system)
-        {
-
-            if (system == PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem)
-                return true;
-            else if (system == PhysicalSystem.AudioCD)
-                return true;
-            else if (system == PhysicalSystem.DatelPlayStationCheatDeviceUpdates)
-                return true;
-            else if (system == PhysicalSystem.DVDAudio)
-                return true;
-            else if (system == PhysicalSystem.HasbroiONEducationalGamingSystem)
-                return true;
-            else if (system == PhysicalSystem.HasbroVideoNow)
-                return true;
-            else if (system == PhysicalSystem.HasbroVideoNowColor)
-                return true;
-            else if (system == PhysicalSystem.HasbroVideoNowJr)
-                return true;
-            else if (system == PhysicalSystem.HasbroVideoNowXP)
-                return true;
-            else if (system == PhysicalSystem.PhilipsCDi)
-                return true;
-            else if (system == PhysicalSystem.SuperAudioCD)
-                return true;
-
-            return false;
-        }
-
-        /// <summary>
         /// Determine if a system is considered XGD
         /// </summary>
         /// <param name="system">PhysicalSystem value to check</param>
@@ -810,7 +772,7 @@ namespace SabreTools.RedumpLib.Data
         public static List<string> ListSystems()
         {
             var knownSystems = Array.FindAll(PhysicalSystem.AllSystems, s => !s.IsMarker && s.Category != SystemCategory.NONE);
-            Array.Sort(knownSystems, (x, y) => (x.Name ?? string.Empty).CompareTo(y.Name ?? string.Empty));
+            Array.Sort(knownSystems, (x, y) => x.Name.CompareTo(y.Name));
             return [.. Array.ConvertAll(knownSystems, val => $"{val.Code} - {val.Name}")];
         }
 
