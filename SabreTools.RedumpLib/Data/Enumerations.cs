@@ -1,7 +1,5 @@
 using SabreTools.RedumpLib.Attributes;
 
-// TODO: For any enums where order could change, turn into a class with helper methods like Hashing
-// TODO: For any enums where order cannot change, ensure they have numeric values attached
 namespace SabreTools.RedumpLib.Data
 {
     /// <summary>
@@ -46,6 +44,7 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// List of all disc subpaths
     /// </summary>
+    /// TODO: Add numeric values or convert to constants
     public enum DiscSubpath
     {
         [HumanReadable(LongName = "Cuesheet", ShortName = "cue")]
@@ -86,6 +85,7 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// List of all site-supported media types
     /// </summary>
+    /// TODO: Add numeric values or convert to constants
     public enum MediaType
     {
         NONE = 0,
@@ -154,6 +154,7 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// All possible packs
     /// </summary>
+    /// TODO: Add numeric values or convert to constants
     public enum PackType
     {
         [HumanReadable(LongName = "CUES", ShortName = "cues")]
@@ -169,6 +170,7 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// All possible media types not bound to specific site limitations
     /// </summary>
+    /// TODO: Add numeric values or convert to constants
     public enum PhysicalMediaType
     {
         [HumanReadable(Available = false, LongName = "Unknown", ShortName = "unknown")]
@@ -296,6 +298,7 @@ namespace SabreTools.RedumpLib.Data
     /// <remarks>
     /// https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
     /// </remarks>
+    /// TODO: Add numeric values or convert to constants
     public enum Region
     {
         #region Aggregate Regions
@@ -1231,6 +1234,7 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// List of all Redump site codes
     /// </summary>
+    /// TODO: Add numeric values or convert to constants
     public enum SiteCode
     {
         [HumanReadable(ShortName = "[T:ACC]", LongName = "<b>Acclaim ID</b>:")]
@@ -1528,6 +1532,7 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// List of all recognized sort parameters
     /// </summary>
+    /// TODO: Add numeric values or convert to constants
     public enum SortCategory
     {
         [HumanReadable(LongName = "Title", ShortName = "title")]
@@ -1566,6 +1571,7 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// List of all recognized sort directions
     /// </summary>
+    /// TODO: Add numeric values or convert to constants
     public enum SortDirection
     {
         [HumanReadable(LongName = "Ascending", ShortName = "asc")]
@@ -1578,6 +1584,7 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// List of all recognized submission display kinds
     /// </summary>
+    /// TODO: Add numeric values or convert to constants
     public enum SubmissionType
     {
         [HumanReadable(LongName = "Edit", ShortName = "Edit")]
@@ -1593,6 +1600,7 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// List of system categories
     /// </summary>
+    /// TODO: Add numeric values or convert to constants
     public enum SystemCategory
     {
         NONE = 0,
