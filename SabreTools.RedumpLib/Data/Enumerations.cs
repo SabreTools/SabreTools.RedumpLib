@@ -154,17 +154,16 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// All possible packs
     /// </summary>
-    /// TODO: Add numeric values or convert to constants
     public enum PackType
     {
         [HumanReadable(LongName = "CUES", ShortName = "cues")]
-        Cuesheets,
+        Cuesheets = 1,
 
         [HumanReadable(LongName = "DAT", ShortName = "datfile")]
-        Datfile,
+        Datfile = 2,
 
         [HumanReadable(LongName = "SBI", ShortName = "sbi")]
-        Sbis,
+        Sbis = 3,
     }
 
     /// <summary>
