@@ -2218,52 +2218,17 @@ namespace SabreTools.RedumpLib.Test.Data
         #region Region
 
         /// <summary>
-        /// Check that every Region has a long name provided
-        /// </summary>
-        /// <param name="region">Region value to check</param>
-        /// <param name="expectNull">True to expect a null value, false otherwise</param>
-        [Theory]
-        [MemberData(nameof(GenerateRegionTestData))]
-        public void Region_LongName(Region? region, bool expectNull)
-        {
-            var actual = region.LongName();
-
-            if (expectNull)
-                Assert.Null(actual);
-            else
-                Assert.NotNull(actual);
-        }
-
-        /// <summary>
-        /// Check that every Region has a short name provided
-        /// </summary>
-        /// <param name="region">Region value to check</param>
-        /// <param name="expectNull">True to expect a null value, false otherwise</param>
-        [Theory]
-        [MemberData(nameof(GenerateRegionTestData))]
-        public void Region_ShortName(Region? region, bool expectNull)
-        {
-            var actual = region.ShortName();
-
-            if (expectNull)
-                Assert.Null(actual);
-            else
-                Assert.NotNull(actual);
-        }
-
-        /// <summary>
-        /// Ensure that every Region that has a short name that is unique
+        /// Ensure that every RegionCode that has a short name that is unique
         /// </summary>
         [Fact]
-        public void Region_ShortName_NoDuplicates()
+        public void RegionCode_ShortName_NoDuplicates()
         {
-            var fullRegions = Enum.GetValues<Region>().Cast<Region?>().ToList();
-            var filteredRegions = new Dictionary<string, Region?>();
+            var filteredRegions = new Dictionary<string, RegionCode?>();
 
             int totalCount = 0;
-            foreach (Region? region in fullRegions)
+            foreach (RegionCode? region in RegionCode.AllRegions)
             {
-                var code = region.ShortName();
+                var code = region.Code;
                 if (string.IsNullOrEmpty(code))
                     continue;
 
@@ -2279,19 +2244,19 @@ namespace SabreTools.RedumpLib.Test.Data
         }
 
         /// <summary>
-        /// Check that every Region can be mapped from a string
+        /// Check that every RegionCode can be mapped from a string
         /// </summary>
-        /// <param name="region">Region value to check</param>
+        /// <param name="region">RegionCode value to check</param>
         /// <param name="expectNull">True to expect a null value, false otherwise</param>
         [Theory]
-        [MemberData(nameof(GenerateRegionTestData))]
-        public void Region_ToRegion(Region? region, bool expectNull)
+        [MemberData(nameof(GenerateRegionCodeTestData))]
+        public void RegionCode_ToRegionCode(RegionCode? region, bool expectNull)
         {
-            string? longName = region.LongName();
+            string? longName = region?.Name;
             string? longNameSpaceless = longName?.Replace(" ", string.Empty);
 
-            var actualNormal = longName.ToRegion();
-            var actualSpaceless = longNameSpaceless.ToRegion();
+            var actualNormal = longName.ToRegionCode();
+            var actualSpaceless = longNameSpaceless.ToRegionCode();
 
             if (expectNull)
             {
@@ -2306,13 +2271,13 @@ namespace SabreTools.RedumpLib.Test.Data
         }
 
         /// <summary>
-        /// Generate a test set of Region values
+        /// Generate a test set of RegionCode values
         /// </summary>
-        /// <returns>MemberData-compatible list of Region values</returns>
-        public static TheoryData<Region?, bool> GenerateRegionTestData()
+        /// <returns>MemberData-compatible list of RegionCode values</returns>
+        public static TheoryData<RegionCode?, bool> GenerateRegionCodeTestData()
         {
-            var testData = new TheoryData<Region?, bool>() { { null, true } };
-            foreach (Region? region in Enum.GetValues<Region>().Cast<Region?>())
+            var testData = new TheoryData<RegionCode?, bool>() { { null, true } };
+            foreach (RegionCode? region in RegionCode.AllRegions)
             {
                 testData.Add(region, false);
             }

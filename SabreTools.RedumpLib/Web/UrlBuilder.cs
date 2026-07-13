@@ -139,7 +139,7 @@ namespace SabreTools.RedumpLib.Web
             long? page = null,
             string? protection = null,
             string? query = null,
-            Region? region = null,
+            RegionCode? region = null,
             string? ringcode = null,
             string? serial = null,
             bool? serialExact = null,
@@ -410,7 +410,7 @@ namespace SabreTools.RedumpLib.Web
             long? page,
             string? protection,
             string? query,
-            Region? region,
+            RegionCode? region,
             string? ringcode,
             string? serial,
             bool? serialExact,
@@ -432,7 +432,7 @@ namespace SabreTools.RedumpLib.Web
                 sb.Append($"system={systemName}&");
 
             // Region
-            string? regionName = region.ShortName();
+            string? regionName = region?.Code;
             if (regionName is not null)
                 sb.Append($"region={regionName}&");
 

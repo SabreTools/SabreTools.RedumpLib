@@ -38,7 +38,7 @@ namespace SabreTools.RedumpLib.Test.Tools
 
                 RegionsAndLanguages = new RegionsAndLanguagesSection()
                 {
-                    Regions = [Region.World],
+                    Regions = [RegionCode.World],
                     Languages = [LanguageCode.English, LanguageCode.Spanish, LanguageCode.French],
                 },
 
@@ -206,7 +206,7 @@ namespace SabreTools.RedumpLib.Test.Tools
             var builder = new StringBuilder();
             RegionsAndLanguagesSection? section = new()
             {
-                Regions = [Region.UnitedStatesOfAmerica, Region.Europe, Region.Japan],
+                Regions = [RegionCode.UnitedStatesOfAmerica, RegionCode.Europe, RegionCode.Japan],
                 Languages = [LanguageCode.English, LanguageCode.French, LanguageCode.Spanish]
             };
 

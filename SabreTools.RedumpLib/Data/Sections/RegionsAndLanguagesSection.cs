@@ -11,7 +11,7 @@ namespace SabreTools.RedumpLib.Data.Sections
     {
         [JsonProperty(PropertyName = "regions", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonConverter(typeof(RegionConverter))]
-        public Region?[]? Regions { get; set; }
+        public RegionCode?[]? Regions { get; set; }
 
         [JsonProperty(PropertyName = "languages", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonConverter(typeof(LanguageConverter))]
@@ -22,7 +22,7 @@ namespace SabreTools.RedumpLib.Data.Sections
         {
             return new RegionsAndLanguagesSection
             {
-                Regions = this.Regions?.Clone() as Region?[],
+                Regions = this.Regions?.Clone() as RegionCode?[],
                 Languages = this.Languages?.Clone() as LanguageCode?[],
             };
         }

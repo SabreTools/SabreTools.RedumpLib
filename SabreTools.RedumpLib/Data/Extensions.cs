@@ -843,64 +843,31 @@ namespace SabreTools.RedumpLib.Data
 
         #endregion
 
-        #region Region
+        #region Region Code
 
         /// <summary>
-        /// Get the Redump longnames for each known region
-        /// </summary>
-        /// <param name="region"></param>
-        /// <returns></returns>
-        public static string? LongName(this Region region)
-            => AttributeHelper<Region>.GetHumanReadableAttribute(region)?.LongName;
-
-        /// <summary>
-        /// Get the Redump longnames for each known region
-        /// </summary>
-        /// <param name="region"></param>
-        /// <returns></returns>
-        public static string? LongName(this Region? region)
-            => AttributeHelper<Region?>.GetHumanReadableAttribute(region)?.LongName;
-
-        /// <summary>
-        /// Get the Redump shortnames for each known region
-        /// </summary>
-        /// <param name="region"></param>
-        /// <returns></returns>
-        public static string? ShortName(this Region region)
-            => AttributeHelper<Region>.GetHumanReadableAttribute(region)?.ShortName;
-
-        /// <summary>
-        /// Get the Redump shortnames for each known region
-        /// </summary>
-        /// <param name="region"></param>
-        /// <returns></returns>
-        public static string? ShortName(this Region? region)
-            => AttributeHelper<Region?>.GetHumanReadableAttribute(region)?.ShortName;
-
-        /// <summary>
-        /// Get the Region enum value for a given string
+        /// Get the RegionCode value for a given string
         /// </summary>
         /// <param name="region">String value to convert</param>
         /// <returns>Region represented by the string, if possible</returns>
-        public static Region? ToRegion(this string? region)
+        public static RegionCode? ToRegionCode(this string? region)
         {
             // No value means no match
             if (region is null || region.Length == 0)
                 return null;
 
             region = region.ToLowerInvariant();
-            var redumpSystems = (Region[])Enum.GetValues(typeof(Region));
 
             // Check short names
-            int index = Array.FindIndex(redumpSystems, s => region == s.ShortName()?.ToLowerInvariant());
+            int index = Array.FindIndex(RegionCode.AllRegions, s => region == s.Code.ToLowerInvariant());
             if (index > -1)
-                return redumpSystems[index];
+                return RegionCode.AllRegions[index];
 
             // Check long names
-            index = Array.FindIndex(redumpSystems, s => region == s.LongName()?.ToLowerInvariant()
-                || region == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            index = Array.FindIndex(RegionCode.AllRegions, s => region == s.Name.ToLowerInvariant()
+                || region == s.Name.Replace(" ", string.Empty)?.ToLowerInvariant());
             if (index > -1)
-                return redumpSystems[index];
+                return RegionCode.AllRegions[index];
 
             return null;
         }

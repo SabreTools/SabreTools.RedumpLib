@@ -122,13 +122,13 @@ namespace SabreTools.RedumpLib.Tools
             var regionMatches = Constants.RegionRegex.Matches(discData);
             if (regionMatches.Count > 0)
             {
-                var tempRegions = new List<Region?>();
+                var tempRegions = new List<RegionCode?>();
                 foreach (Match? regionMatch in regionMatches)
                 {
                     if (regionMatch is null)
                         continue;
 
-                    var region = regionMatch.Groups[1].Value.ToRegion();
+                    var region = regionMatch.Groups[1].Value.ToRegionCode();
                     if (region is not null)
                         tempRegions.Add(region);
                 }

@@ -223,7 +223,7 @@ namespace RedumpTool.Features
             SortDirection? order = OrderInput.Value.ToSortDirection();
             string? protection = ProtectionInput.Value;
             string? query = QueryInput.Value;
-            Region? region = RegionInput.Value.ToRegion();
+            RegionCode? region = RegionInput.Value.ToRegionCode();
             string? ringcode = RingcodeInput.Value;
             string? serial = SerialInput.Value;
             bool? serialExact = SerialExactInput.Value;

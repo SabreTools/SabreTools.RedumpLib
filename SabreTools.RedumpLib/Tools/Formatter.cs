@@ -288,7 +288,7 @@ namespace SabreTools.RedumpLib.Tools
             output.AppendLine("Regions and Languages:");
 
             AddIfExists(output, Template.RegionsField,
-                Array.ConvertAll(section.Regions ?? [null], l => l.LongName() ?? "SPACE! (CHANGE THIS)"), 1);
+                Array.ConvertAll(section.Regions ?? [null], r => r?.Name ?? "SPACE! (CHANGE THIS)"), 1);
             AddIfExists(output, Template.LanguagesField,
                 Array.ConvertAll(section.Languages ?? [null], l => l?.Name ?? "ADD LANGUAGES HERE (ONLY IF YOU TESTED)"), 1);
         }
