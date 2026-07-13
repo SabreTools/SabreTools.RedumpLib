@@ -993,29 +993,21 @@ namespace SabreTools.RedumpLib.Web
                 if (Debug) Console.WriteLine($"DEBUG: DownloadSinglePack(\"{packType}\", {system})");
 
                 // If the system is invalid, we can't do anything
-                string? shortName = system.ShortName();
-                if (system is null || !system.IsAvailable() || string.IsNullOrEmpty(shortName))
+                if (system is null || !system.Available || string.IsNullOrEmpty(system.Code))
                 {
                     if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
                     return null;
                 }
 
-                // If we didn't have credentials
-                if (!_loggedIn && packType == PackType.Keys)
-                {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access keys, skipping...");
-                    return null;
-                }
-
                 // If the pack is not supported for the system
-                if (!PackTypeToAvailable(packType, system.Value))
+                if (!PackTypeToAvailable(packType, system))
                 {
                     if (Debug) Console.WriteLine($"DEBUG: {packType} is not available for {system}, skipping...");
                     return null;
                 }
 
                 // Determine the pack URL
-                string packUri = UrlBuilder.BuildPackUrl(packType, system.Value);
+                string packUri = UrlBuilder.BuildPackUrl(packType, system);
                 return await DownloadData(packUri);
             }
             catch (Exception ex)
@@ -1042,29 +1034,21 @@ namespace SabreTools.RedumpLib.Web
                 if (Debug) Console.WriteLine($"DEBUG: DownloadSinglePack(\"{packType}\", {system}, \"{outDir}\")");
 
                 // If the system is invalid, we can't do anything
-                string? shortName = system.ShortName();
-                if (system is null || !system.IsAvailable() || string.IsNullOrEmpty(shortName))
+                if (system is null || !system.Available || string.IsNullOrEmpty(system.Code))
                 {
                     if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
                     return false;
                 }
 
-                // If we didn't have credentials
-                if (!_loggedIn && packType == PackType.Keys)
-                {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access keys, skipping...");
-                    return false;
-                }
-
                 // If the pack is not supported for the system
-                if (!PackTypeToAvailable(packType, system.Value))
+                if (!PackTypeToAvailable(packType, system))
                 {
                     if (Debug) Console.WriteLine($"DEBUG: {packType} is not available for {system}, skipping...");
                     return false;
                 }
 
                 // Determine the pack URL
-                string packUri = UrlBuilder.BuildPackUrl(packType, system.Value);
+                string packUri = UrlBuilder.BuildPackUrl(packType, system);
 
                 // If no output directory is defined, use the current directory instead
                 if (string.IsNullOrEmpty(outDir))
@@ -1457,7 +1441,7 @@ namespace SabreTools.RedumpLib.Web
             var packsDictionary = new Dictionary<PhysicalSystem, byte[]>();
             foreach (var system in systems)
             {
-                string longName = system.LongName() ?? $"UNKNOWN_{system}";
+                string longName = system.Name ?? $"UNKNOWN_{system}";
                 if (Debug)
                     Console.WriteLine(longName);
                 else
@@ -1495,7 +1479,7 @@ namespace SabreTools.RedumpLib.Web
 
             foreach (var system in systems)
             {
-                string longName = system.LongName() ?? $"UNKNOWN_{system}";
+                string longName = system.Name ?? $"UNKNOWN_{system}";
                 if (Debug)
                     Console.WriteLine(longName);
                 else
@@ -1532,22 +1516,14 @@ namespace SabreTools.RedumpLib.Web
             foreach (var system in systems)
             {
                 // If the system is invalid, we can't do anything
-                if (!system.IsAvailable())
+                if (!system.Available)
                 {
                     if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
                     continue;
                 }
 
-                // If we didn't have credentials
-                if (!_loggedIn && packType == PackType.Keys)
-                {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} requires a user login to access keys, skipping...");
-                    continue;
-                }
-
                 // If the system is unknown, we can't do anything
-                string? longName = system.LongName();
-                if (string.IsNullOrEmpty(longName))
+                if (string.IsNullOrEmpty(system.Name))
                 {
                     if (Debug) Console.WriteLine($"DEBUG: {system} is not a recognized system, skipping...");
                     continue;
@@ -1561,9 +1537,9 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 if (Debug)
-                    Console.WriteLine(longName);
+                    Console.WriteLine(system.Name);
                 else
-                    Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
+                    Console.Write($"\r{system.Name}{new string(' ', Console.BufferWidth - system.Name.Length - 1)}");
 
                 await DownloadSinglePack(packType, system, outDir, subfolder);
             }
@@ -1619,10 +1595,9 @@ namespace SabreTools.RedumpLib.Web
         {
             return packType switch
             {
-                PackType.Cuesheets => system.HasCues(),
-                PackType.Datfile => system.HasDat(),
-                PackType.Keys => system.HasKeys(),
-                PackType.Sbis => system.HasSbi(),
+                PackType.Cuesheets => system.HasCues,
+                PackType.Datfile => system.HasDat,
+                PackType.Sbis => system.HasSbi,
                 _ => false,
             };
         }

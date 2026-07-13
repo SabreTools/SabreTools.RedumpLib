@@ -242,12 +242,11 @@ namespace SabreTools.RedumpLib.Web
                 Host = "redump.info",
             };
 
-            string systemName = system.ShortName() ?? string.Empty;
+            string systemName = system.Code ?? string.Empty;
             switch (packType)
             {
                 case PackType.Cuesheets: ub.Path = $"cues/{systemName}"; break;
                 case PackType.Datfile: ub.Path = $"datfile/{systemName}"; break;
-                case PackType.Keys: ub.Path = $"keys/{systemName}"; break;
                 case PackType.Sbis: ub.Path = $"sbi/{systemName}"; break;
 
                 // Invalid
@@ -325,24 +324,17 @@ namespace SabreTools.RedumpLib.Web
         /// <remarks>Handles the non-BIOS variants of systems for compatibility</remarks>
         private static string BuildBiosUrl(PhysicalSystem system)
         {
-#pragma warning disable IDE0072 // Add missing cases
-            string? filename = system switch
-            {
-                PhysicalSystem.MicrosoftXbox => MicrosoftXboxBIOSFilename,
-                PhysicalSystem.MicrosoftXboxBIOS => MicrosoftXboxBIOSFilename,
-
-                PhysicalSystem.NintendoGameCube => NintendoGameCubeBIOSFilename,
-                PhysicalSystem.NintendoGameCubeBIOS => NintendoGameCubeBIOSFilename,
-
-                PhysicalSystem.SonyPlayStation => SonyPlayStationBIOSFilename,
-                PhysicalSystem.SonyPlayStationBIOS => SonyPlayStationBIOSFilename,
-
-                PhysicalSystem.SonyPlayStation2 => SonyPlayStation2BIOSFilename,
-                PhysicalSystem.SonyPlayStation2BIOS => SonyPlayStation2BIOSFilename,
-
-                _ => null,
-            };
-#pragma warning restore IDE0072 // Add missing cases
+            string? filename;
+            if (system == PhysicalSystem.MicrosoftXbox || system == PhysicalSystem.MicrosoftXboxBIOS)
+                filename = MicrosoftXboxBIOSFilename;
+            else if (system == PhysicalSystem.NintendoGameCube || system == PhysicalSystem.NintendoGameCubeBIOS)
+                filename = NintendoGameCubeBIOSFilename;
+            else if (system == PhysicalSystem.SonyPlayStation || system == PhysicalSystem.SonyPlayStationBIOS)
+                filename = SonyPlayStationBIOSFilename;
+            else if (system == PhysicalSystem.SonyPlayStation2 || system == PhysicalSystem.SonyPlayStation2BIOS)
+                filename = SonyPlayStation2BIOSFilename;
+            else
+                filename = null;
 
             // Ignore invalid BIOS systems
             if (filename is null)
@@ -435,7 +427,7 @@ namespace SabreTools.RedumpLib.Web
             var sb = new StringBuilder();
 
             // System
-            string? systemName = system.ShortName();
+            string? systemName = system?.Code;
             if (systemName is not null)
                 sb.Append($"system={systemName}&");
 
@@ -598,7 +590,7 @@ namespace SabreTools.RedumpLib.Web
                 sb.Append($"sub_type={subTypeName}&");
 
             // System
-            string? systemName = system.ShortName();
+            string? systemName = system?.Code;
             if (systemName is not null)
                 sb.Append($"system={systemName}&");
 

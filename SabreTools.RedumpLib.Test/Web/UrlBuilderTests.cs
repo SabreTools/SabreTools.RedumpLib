@@ -100,7 +100,6 @@ namespace SabreTools.RedumpLib.Test.Web
         [Theory]
         [InlineData(PackType.Cuesheets, "https://redump.info/cues/ARCH")]
         [InlineData(PackType.Datfile, "https://redump.info/datfile/ARCH")]
-        [InlineData(PackType.Keys, "https://redump.info/keys/ARCH")]
         [InlineData(PackType.Sbis, "https://redump.info/sbi/ARCH")]
         public void BuildPackUrl_ValidPackType_ValidSystem_Builds(PackType packType, string expected)
         {
@@ -108,18 +107,39 @@ namespace SabreTools.RedumpLib.Test.Web
             Assert.Equal(expected, actual);
         }
 
-        [Theory]
-        [InlineData(PhysicalSystem.MicrosoftXboxBIOS, "https://redump.info/static/bios/Microsoft%20-%20Xbox%20-%20BIOS%20Images%20%289%29%20%282026-06-16%29.dat")]
-        [InlineData(PhysicalSystem.NintendoGameCubeBIOS, "https://redump.info/static/bios/Nintendo%20-%20GameCube%20-%20BIOS%20Images%20%2817%29%20%282026-06-16%29.dat")]
-        [InlineData(PhysicalSystem.SonyPlayStationBIOS, "https://redump.info/static/bios/Sony%20-%20PlayStation%20-%20BIOS%20Images%20%2824%29%20%282026-06-16%29.dat")]
-        [InlineData(PhysicalSystem.SonyPlayStation2BIOS, "https://redump.info/static/bios/Sony%20-%20PlayStation%202%20-%20BIOS%20Datfile%20%28140%29%20%282026-06-16%29.dat")]
-        public void BuildPackUrl_BIOSDatfile(PhysicalSystem system, string expected)
+        [Fact]
+        public void BuildPackUrl_BIOSDatfile()
         {
+            // Microsoft Xbox
+            PhysicalSystem system = PhysicalSystem.MicrosoftXboxBIOS;
+            string expected = "https://redump.info/static/bios/Microsoft%20-%20Xbox%20-%20BIOS%20Images%20%289%29%20%282026-06-16%29.dat";
+
             string actual = UrlBuilder.BuildPackUrl(PackType.Datfile, system);
+            Assert.Equal(expected, actual);
+
+            // Nintendo GameCube
+            system = PhysicalSystem.NintendoGameCubeBIOS;
+            expected = "https://redump.info/static/bios/Nintendo%20-%20GameCube%20-%20BIOS%20Images%20%2817%29%20%282026-06-16%29.dat";
+
+            actual = UrlBuilder.BuildPackUrl(PackType.Datfile, system);
+            Assert.Equal(expected, actual);
+
+            // Sony PlayStation
+            system = PhysicalSystem.SonyPlayStationBIOS;
+            expected = "https://redump.info/static/bios/Sony%20-%20PlayStation%20-%20BIOS%20Images%20%2824%29%20%282026-06-16%29.dat";
+
+            actual = UrlBuilder.BuildPackUrl(PackType.Datfile, system);
+            Assert.Equal(expected, actual);
+
+            // Sony PlayStation 2
+            system = PhysicalSystem.SonyPlayStation2BIOS;
+            expected = "https://redump.info/static/bios/Sony%20-%20PlayStation%202%20-%20BIOS%20Datfile%20%28140%29%20%282026-06-16%29.dat";
+
+            actual = UrlBuilder.BuildPackUrl(PackType.Datfile, system);
             Assert.Equal(expected, actual);
         }
 
-       [Fact]
+        [Fact]
         public void BuildPackUrl_InvalidPackType_Throws()
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => UrlBuilder.BuildPackUrl((PackType)int.MaxValue, PhysicalSystem.AcornArchimedesAndRiscPC));

@@ -28,7 +28,7 @@ namespace SabreTools.RedumpLib.Converters
 
         public override void WriteJson(JsonWriter writer, PhysicalSystem? value, JsonSerializer serializer)
         {
-            JToken t = JToken.FromObject(value.ShortName() ?? value.LongName() ?? string.Empty);
+            JToken t = JToken.FromObject(value?.Code ?? value?.Name ?? string.Empty);
             t.WriteTo(writer);
         }
     }

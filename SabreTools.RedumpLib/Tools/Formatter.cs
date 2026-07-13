@@ -260,7 +260,7 @@ namespace SabreTools.RedumpLib.Tools
 
             output.AppendLine("Disc Identity:");
 
-            AddIfExists(output, Template.SystemField, section.System.LongName(), 1);
+            AddIfExists(output, Template.SystemField, section.System?.Name, 1);
             AddIfExists(output, Template.MediaTypeField, GetFixedMediaType(
                     section.Media.ToPhysicalMediaType(),
                     dumpMetadata?.PICIdentifier,

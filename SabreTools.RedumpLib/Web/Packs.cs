@@ -42,7 +42,7 @@ namespace SabreTools.RedumpLib.Web
             if (system is null)
                 return false;
 
-            var systems = new PhysicalSystem[] { system.Value };
+            var systems = new PhysicalSystem[] { system };
             return await client.DownloadPacksForSystems(systems, outDir, includeDatabase, useSubfolders);
         }
 
@@ -65,9 +65,6 @@ namespace SabreTools.RedumpLib.Web
 
             Console.WriteLine("Downloading DATs");
             _ = await client.DownloadPacks(PackType.Datfile, systems, outDir, useSubfolders ? "dat" : null);
-
-            Console.WriteLine("Downloading KEYS");
-            _ = await client.DownloadPacks(PackType.Keys, systems, outDir, useSubfolders ? "keys" : null);
 
             Console.WriteLine("Downloading SBIs");
             _ = await client.DownloadPacks(PackType.Sbis, systems, outDir, useSubfolders ? "sbi" : null);

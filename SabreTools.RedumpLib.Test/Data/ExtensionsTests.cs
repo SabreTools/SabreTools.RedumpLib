@@ -419,7 +419,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GeneratePhysicalSystemMappingTestData))]
         public void MediaTypesTest(PhysicalSystem? physicalSystem)
         {
-            var actual = physicalSystem.MediaTypes();
+            var actual = physicalSystem?.MediaTypes ?? [PhysicalMediaType.NONE];
             Assert.NotEmpty(actual);
         }
 
@@ -456,7 +456,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static TheoryData<PhysicalSystem?> GeneratePhysicalSystemMappingTestData()
         {
             var testData = new TheoryData<PhysicalSystem?>() { null };
-            foreach (PhysicalSystem? physicalSystem in Enum.GetValues<PhysicalSystem>().Cast<PhysicalSystem?>())
+            foreach (PhysicalSystem? physicalSystem in PhysicalSystem.AllSystems)
             {
                 testData.Add(physicalSystem);
             }
@@ -1351,18 +1351,6 @@ namespace SabreTools.RedumpLib.Test.Data
         ];
 
         /// <summary>
-        /// PhysicalSystem values that are have reversed ringcodes
-        /// </summary>
-        private static readonly PhysicalSystem?[] _reverseRingcodeSystems =
-        [
-            PhysicalSystem.SonyPlayStation2,
-            PhysicalSystem.SonyPlayStation3,
-            PhysicalSystem.SonyPlayStation4,
-            PhysicalSystem.SonyPlayStation5,
-            PhysicalSystem.SonyPlayStationPortable,
-        ];
-
-        /// <summary>
         /// Map of PhysicalSystem values to their corresponding categories
         /// </summary>
         private static readonly Dictionary<PhysicalSystem, SystemCategory> _systemCategoryMap = new()
@@ -1736,15 +1724,6 @@ namespace SabreTools.RedumpLib.Test.Data
         ];
 
         /// <summary>
-        /// PhysicalSystem values that have keys
-        /// </summary>
-        private static readonly PhysicalSystem?[] _systemsWithKeys =
-        [
-            PhysicalSystem.NintendoWiiU,
-            PhysicalSystem.SonyPlayStation3,
-        ];
-
-        /// <summary>
         /// PhysicalSystem values that have SBI packs
         /// </summary>
         private static readonly PhysicalSystem?[] _systemsWithSbis =
@@ -1919,19 +1898,6 @@ namespace SabreTools.RedumpLib.Test.Data
         }
 
         /// <summary>
-        /// Check that all systems with reversed ringcodes are marked properly
-        /// </summary>
-        /// <param name="physicalSystem">PhysicalSystem value to check</param>
-        /// <param name="expected">The expected value to come from the check</param>
-        [Theory]
-        [MemberData(nameof(GenerateReversedRingcodeSystemsTestData))]
-        public void PhysicalSystem_HasReversedRingcodes(PhysicalSystem? physicalSystem, bool expected)
-        {
-            bool actual = physicalSystem.HasReversedRingcodes();
-            Assert.Equal(expected, actual);
-        }
-
-        /// <summary>
         /// Check that all audio systems are marked properly
         /// </summary>
         /// <param name="physicalSystem">PhysicalSystem value to check</param>
@@ -1953,7 +1919,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GenerateMarkerSystemsTestData))]
         public void PhysicalSystem_IsMarker(PhysicalSystem? physicalSystem, bool expected)
         {
-            bool actual = physicalSystem.IsMarker();
+            bool actual = physicalSystem?.IsMarker ?? false;
             Assert.Equal(expected, actual);
         }
 
@@ -1978,68 +1944,15 @@ namespace SabreTools.RedumpLib.Test.Data
         }
 
         /// <summary>
-        /// Check that every PhysicalSystem has a long name provided
-        /// </summary>
-        /// <param name="physicalSystem">PhysicalSystem value to check</param>
-        /// <param name="expectNull">True to expect a null value, false otherwise</param>
-        [Theory]
-        [MemberData(nameof(GeneratePhysicalSystemTestData))]
-        public void PhysicalSystem_LongName(PhysicalSystem? physicalSystem, bool expectNull)
-        {
-            var actual = physicalSystem.LongName();
-
-            if (expectNull)
-                Assert.Null(actual);
-            else
-                Assert.NotNull(actual);
-        }
-
-        // TODO: Re-enable the following test once non-Redump systems are accounted for
-
-        /// <summary>
-        /// Check that every PhysicalSystem has a short name provided
-        /// </summary>
-        /// <param name="physicalSystem">PhysicalSystem value to check</param>
-        /// <param name="expectNull">True to expect a null value, false otherwise</param>
-        // [Theory]
-        // [MemberData(nameof(GeneratePhysicalSystemTestData))]
-        // public void PhysicalSystem_ShortName(PhysicalSystem? physicalSystem, bool expectNull)
-        // {
-        //    string? actual = physicalSystem.ShortName();
-
-        //    if (expectNull)
-        //        Assert.Null(actual);
-        //    else
-        //        Assert.NotNull(actual);
-        // }
-
-        /// <summary>
-        /// Check that every PhysicalSystem has a short name alt provided
-        /// </summary>
-        /// <param name="physicalSystem">PhysicalSystem value to check</param>
-        /// <param name="expectNull">True to expect a null value, false otherwise</param>
-        // [Theory]
-        // [MemberData(nameof(GeneratePhysicalSystemTestData))]
-        // public void PhysicalSystem_ShortNameAlt(PhysicalSystem? physicalSystem, bool expectNull)
-        // {
-        //    string? actual = physicalSystem.ShortNameAlt();
-
-        //    if (expectNull)
-        //        Assert.Null(actual);
-        //    else
-        //        Assert.NotNull(actual);
-        // }
-
-        /// <summary>
         /// Check that all systems are mapped to a category
         /// </summary>
         /// <param name="physicalSystem">PhysicalSystem value to check</param>
         /// <param name="expected">The expected value to come from the check</param>
         [Theory]
         [MemberData(nameof(GenerateCategoriesSystemTestData))]
-        public void PhysicalSystem_GetCategory(PhysicalSystem? physicalSystem, SystemCategory expected)
+        public void PhysicalSystem_Category(PhysicalSystem? physicalSystem, SystemCategory expected)
         {
-            SystemCategory actual = physicalSystem.GetCategory();
+            SystemCategory actual = physicalSystem?.Category ?? SystemCategory.NONE;
             Assert.Equal(expected, actual);
         }
 
@@ -2052,7 +1965,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GenerateAvailableSystemsTestData))]
         public void PhysicalSystem_IsAvailable(PhysicalSystem? physicalSystem, bool expected)
         {
-            bool actual = physicalSystem.IsAvailable();
+            bool actual = physicalSystem?.Available ?? false;
             Assert.Equal(expected, actual);
         }
 
@@ -2065,7 +1978,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GenerateCuesheetSystemsTestData))]
         public void PhysicalSystem_HasCues(PhysicalSystem? physicalSystem, bool expected)
         {
-            bool actual = physicalSystem.HasCues();
+            bool actual = physicalSystem?.HasCues ?? false;
             Assert.Equal(expected, actual);
         }
 
@@ -2078,20 +1991,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GenerateDatSystemsTestData))]
         public void PhysicalSystem_HasDat(PhysicalSystem? physicalSystem, bool expected)
         {
-            bool actual = physicalSystem.HasDat();
-            Assert.Equal(expected, actual);
-        }
-
-        /// <summary>
-        /// Check that all systems with keys are marked properly
-        /// </summary>
-        /// <param name="physicalSystem">PhysicalSystem value to check</param>
-        /// <param name="expected">The expected value to come from the check</param>
-        [Theory]
-        [MemberData(nameof(GenerateKeySystemsTestData))]
-        public void PhysicalSystem_HasKeys(PhysicalSystem? physicalSystem, bool expected)
-        {
-            bool actual = physicalSystem.HasKeys();
+            bool actual = physicalSystem?.HasDat ?? false;
             Assert.Equal(expected, actual);
         }
 
@@ -2104,7 +2004,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GenerateSbiSystemsTestData))]
         public void PhysicalSystem_HasSbi(PhysicalSystem? physicalSystem, bool expected)
         {
-            bool actual = physicalSystem.HasSbi();
+            bool actual = physicalSystem?.HasSbi ?? false;
             Assert.Equal(expected, actual);
         }
 
@@ -2117,7 +2017,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GeneratePhysicalSystemTestData))]
         public void PhysicalSystem_ToPhysicalSystem(PhysicalSystem? physicalSystem, bool expectNull)
         {
-            string? longName = physicalSystem.LongName();
+            string? longName = physicalSystem?.Name;
             string? longNameSpaceless = longName?.Replace(" ", string.Empty);
 
             var actualNormal = longName.ToPhysicalSystem();
@@ -2142,10 +2042,10 @@ namespace SabreTools.RedumpLib.Test.Data
         public static TheoryData<PhysicalSystem?, bool> GeneratePhysicalSystemTestData()
         {
             var testData = new TheoryData<PhysicalSystem?, bool>() { { null, true } };
-            foreach (PhysicalSystem? physicalSystem in Enum.GetValues<PhysicalSystem>().Cast<PhysicalSystem?>())
+            foreach (PhysicalSystem? physicalSystem in PhysicalSystem.AllSystems)
             {
                 // We want to skip all markers for this
-                if (physicalSystem.IsMarker())
+                if (physicalSystem.IsMarker)
                     continue;
 
                 testData.Add(physicalSystem, false);
@@ -2161,7 +2061,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static TheoryData<PhysicalSystem?, bool> GenerateAudioSystemsTestData()
         {
             var testData = new TheoryData<PhysicalSystem?, bool>() { { null, false } };
-            foreach (PhysicalSystem physicalSystem in Enum.GetValues<PhysicalSystem>())
+            foreach (PhysicalSystem physicalSystem in PhysicalSystem.AllSystems)
             {
                 if (_audioSystems.Contains(physicalSystem))
                     testData.Add(physicalSystem, true);
@@ -2179,7 +2079,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static TheoryData<PhysicalSystem?, bool> GenerateAvailableSystemsTestData()
         {
             var testData = new TheoryData<PhysicalSystem?, bool>() { { null, false } };
-            foreach (PhysicalSystem physicalSystem in Enum.GetValues<PhysicalSystem>())
+            foreach (PhysicalSystem physicalSystem in PhysicalSystem.AllSystems)
             {
                 if (_availableSystems.Contains(physicalSystem))
                     testData.Add(physicalSystem, true);
@@ -2197,7 +2097,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static TheoryData<PhysicalSystem?, SystemCategory> GenerateCategoriesSystemTestData()
         {
             var testData = new TheoryData<PhysicalSystem?, SystemCategory>() { { null, SystemCategory.NONE } };
-            foreach (PhysicalSystem physicalSystem in Enum.GetValues<PhysicalSystem>())
+            foreach (PhysicalSystem physicalSystem in PhysicalSystem.AllSystems)
             {
                 testData.Add(physicalSystem, _systemCategoryMap[physicalSystem]);
             }
@@ -2212,7 +2112,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static TheoryData<PhysicalSystem?, bool> GenerateCuesheetSystemsTestData()
         {
             var testData = new TheoryData<PhysicalSystem?, bool>() { { null, false } };
-            foreach (PhysicalSystem physicalSystem in Enum.GetValues<PhysicalSystem>())
+            foreach (PhysicalSystem physicalSystem in PhysicalSystem.AllSystems)
             {
                 if (_systemsWithCues.Contains(physicalSystem))
                     testData.Add(physicalSystem, true);
@@ -2230,27 +2130,9 @@ namespace SabreTools.RedumpLib.Test.Data
         public static TheoryData<PhysicalSystem?, bool> GenerateDatSystemsTestData()
         {
             var testData = new TheoryData<PhysicalSystem?, bool>() { { null, false } };
-            foreach (PhysicalSystem physicalSystem in Enum.GetValues<PhysicalSystem>())
+            foreach (PhysicalSystem physicalSystem in PhysicalSystem.AllSystems)
             {
                 if (_systemsWithDats.Contains(physicalSystem))
-                    testData.Add(physicalSystem, true);
-                else
-                    testData.Add(physicalSystem, false);
-            }
-
-            return testData;
-        }
-
-        /// <summary>
-        /// Generate a test set of PhysicalSystem values that have keys
-        /// </summary>
-        /// <returns>MemberData-compatible list of PhysicalSystem values</returns>
-        public static TheoryData<PhysicalSystem?, bool> GenerateKeySystemsTestData()
-        {
-            var testData = new TheoryData<PhysicalSystem?, bool>() { { null, false } };
-            foreach (PhysicalSystem physicalSystem in Enum.GetValues<PhysicalSystem>())
-            {
-                if (_systemsWithKeys.Contains(physicalSystem))
                     testData.Add(physicalSystem, true);
                 else
                     testData.Add(physicalSystem, false);
@@ -2266,27 +2148,9 @@ namespace SabreTools.RedumpLib.Test.Data
         public static TheoryData<PhysicalSystem?, bool> GenerateMarkerSystemsTestData()
         {
             var testData = new TheoryData<PhysicalSystem?, bool>() { { null, false } };
-            foreach (PhysicalSystem physicalSystem in Enum.GetValues<PhysicalSystem>())
+            foreach (PhysicalSystem physicalSystem in PhysicalSystem.AllSystems)
             {
                 if (_markerSystems.Contains(physicalSystem))
-                    testData.Add(physicalSystem, true);
-                else
-                    testData.Add(physicalSystem, false);
-            }
-
-            return testData;
-        }
-
-        /// <summary>
-        /// Generate a test set of PhysicalSystem values that are considered markers
-        /// </summary>
-        /// <returns>MemberData-compatible list of PhysicalSystem values</returns>
-        public static TheoryData<PhysicalSystem?, bool> GenerateReversedRingcodeSystemsTestData()
-        {
-            var testData = new TheoryData<PhysicalSystem?, bool>() { { null, false } };
-            foreach (PhysicalSystem physicalSystem in Enum.GetValues<PhysicalSystem>())
-            {
-                if (_reverseRingcodeSystems.Contains(physicalSystem))
                     testData.Add(physicalSystem, true);
                 else
                     testData.Add(physicalSystem, false);
@@ -2302,7 +2166,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static TheoryData<PhysicalSystem?, bool> GenerateSbiSystemsTestData()
         {
             var testData = new TheoryData<PhysicalSystem?, bool>() { { null, false } };
-            foreach (PhysicalSystem physicalSystem in Enum.GetValues<PhysicalSystem>())
+            foreach (PhysicalSystem physicalSystem in PhysicalSystem.AllSystems)
             {
                 if (_systemsWithSbis.Contains(physicalSystem))
                     testData.Add(physicalSystem, true);
@@ -2320,7 +2184,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static TheoryData<PhysicalSystem?, bool> GenerateWindowsDetectedSystemsTestData()
         {
             var testData = new TheoryData<PhysicalSystem?, bool>() { { null, false } };
-            foreach (PhysicalSystem physicalSystem in Enum.GetValues<PhysicalSystem>())
+            foreach (PhysicalSystem physicalSystem in PhysicalSystem.AllSystems)
             {
                 if (_windowsDetectedSystems.Contains(physicalSystem))
                     testData.Add(physicalSystem, true);
@@ -2338,7 +2202,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static TheoryData<PhysicalSystem?, bool> GenerateXGDSystemsTestData()
         {
             var testData = new TheoryData<PhysicalSystem?, bool>() { { null, false } };
-            foreach (PhysicalSystem physicalSystem in Enum.GetValues<PhysicalSystem>())
+            foreach (PhysicalSystem physicalSystem in PhysicalSystem.AllSystems)
             {
                 if (_xgdSystems.Contains(physicalSystem))
                     testData.Add(physicalSystem, true);
