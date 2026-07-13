@@ -888,10 +888,6 @@ namespace SabreTools.RedumpLib.Data
                 string? shortName = val.Code?.TrimEnd(':');
                 string longName = val.HTML.TrimEnd(':');
 
-                bool isCommentCode = val.IsCommentCode;
-                bool isContentCode = val.IsContentCode;
-                bool isMultiline = val.IsMultiLine;
-
                 // Invalid codes should be skipped
                 if (shortName is null || longName is null)
                     continue;
@@ -908,11 +904,11 @@ namespace SabreTools.RedumpLib.Data
 
                 // Include special indicators, if necessary
                 var additionalInfo = new List<string>();
-                if (isCommentCode)
+                if (val.IsCommentCode)
                     additionalInfo.Add("Comment Field");
-                if (isContentCode)
+                if (val.IsContentCode)
                     additionalInfo.Add("Content Field");
-                if (isMultiline)
+                if (val.IsMultiLine)
                     additionalInfo.Add("Multiline");
                 if (additionalInfo.Count > 0)
                     siteCode += $"[{string.Join(", ", [.. additionalInfo])}]";
