@@ -68,18 +68,14 @@ namespace SabreTools.RedumpLib.Data
             code: "[T:ACC]",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode AccoladeID = new("<b>Accolade ID</b>:",
-            code: "<b>Accolade ID</b>:",
             isCommentCode: true);
 
         public static readonly SiteCode ActivisionID = new("<b>Activision ID</b>:",
             code: "[T:ACT]",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode AdditionalBCAData = new("<b>Additional BCA Data</b>:",
-            code: "<b>Additional BCA Data</b>:",
             isCommentCode: true);
 
         public static readonly SiteCode AlternativeTitle = new("<b>Alternative Title</b>:",
@@ -90,9 +86,7 @@ namespace SabreTools.RedumpLib.Data
             code: "[T:ALTF]",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode Applications = new("<b>Applications</b>:",
-            code: "<b>Applications</b>:",
             isContentCode: true);
 
         public static readonly SiteCode BandaiID = new("<b>Bandai ID</b>:",
@@ -103,68 +97,44 @@ namespace SabreTools.RedumpLib.Data
             code: "[T:BBFC]",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode BethesdaID = new("<b>Bethesda ID</b>:",
-            code: "<b>Bethesda ID</b>:",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode CDProjektID = new("<b>CD Projekt ID</b>:",
-            code: "<b>CD Projekt ID</b>:",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode CompatibleOS = new("<b>Compatible OS</b>:",
-            code: "<b>Compatible OS</b>:",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode CoverID = new("<b>Cover ID</b>:",
-            code: "<b>Cover ID</b>:",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode DiceMultimedia = new("<b>Dice Multimedia</b>:",
-            code: "<b>Dice Multimedia</b>:",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode DiscHologramID = new("<b>Disc Hologram ID</b>:",
-            code: "<b>Disc Hologram ID</b>:",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode DiscID = new("<b>Disc ID</b>:",
-            code: "<b>Disc ID</b>:",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode DiscTitleNonLatin = new("<b>Disc Title (non-Latin)</b>:",
-            code: "<b>Disc Title (non-Latin)</b>:",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode DisneyInteractiveID = new("<b>Disney Interactive ID</b>:",
-            code: "<b>Disney Interactive ID</b>",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode DMIHash = new("<b>DMI</b>:",
-            code: "<b>DMI</b>:",
             isCommentCode: true);
 
         public static readonly SiteCode DNASDiscID = new("<b>DNAS Disc ID</b>:",
             code: "[T:DNAS]",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode EditionNonLatin = new("<b>Edition (non-Latin)</b>:",
-            code: "<b>Edition (non-Latin)</b>:",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode EidosID = new("<b>Eidos ID</b>:",
-            code: "<b>Eidos ID</b>:",
             isCommentCode: true);
 
         public static readonly SiteCode ElectronicArtsID = new("<b>Electronic Arts ID</b>:",
@@ -176,15 +146,11 @@ namespace SabreTools.RedumpLib.Data
             isContentCode: true,
             isMultiLine: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode Filename = new("<b>Filename</b>:",
-            code: "<b>Filename</b>:",
             isCommentCode: true,
             isMultiLine: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode FocusMultimedia = new("<b>Focus Multimedia</b>:",
-            code: "<b>Focus Multimedia</b>:",
             isCommentCode: true);
 
         public static readonly SiteCode FoxInteractiveID = new("<b>Fox Interactive ID</b>:",
@@ -196,9 +162,7 @@ namespace SabreTools.RedumpLib.Data
             isContentCode: true,
             isMultiLine: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode Games = new("<b>Games</b>:",
-            code: "<b>Games</b>:",
             isContentCode: true,
             isMultiLine: true);
 
@@ -206,33 +170,25 @@ namespace SabreTools.RedumpLib.Data
             code: "[T:G]",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode GSPSoftware = new("<b>GSP Software</b>:",
-            code: "<b>GSP Software</b>:",
             isCommentCode: true);
 
         public static readonly SiteCode GTInteractiveID = new("<b>GT Interactive ID</b>:",
             code: "[T:GTID]",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode HighSierraVolumeDescriptor = new("<b>High Sierra Volume Descriptor</b>:",
-            code: "<b>High Sierra Volume Descriptor</b>:",
             isCommentCode: true,
             isMultiLine: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode InternalName = new("<b>Internal Name</b>:",
-            code: "<b>Internal Name</b>:",
             isCommentCode: true);
 
         public static readonly SiteCode InternalSerialName = new("<b>Internal Serial</b>:",
             code: "[T:ISN]",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode InterplayID = new("<b>Interplay ID</b>:",
-            code: "<b>Interplay ID</b>:",
             isCommentCode: true);
 
         public static readonly SiteCode ISBN = new("<b>ISBN</b>:",
@@ -263,14 +219,10 @@ namespace SabreTools.RedumpLib.Data
             code: "[T:LAID]",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode MicrosoftID = new("<b>Microsoft ID</b>:",
-            code: "<b>Microsoft ID</b>:",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode Multisession = new("<b>Multisession</b>:",
-            code: "<b>Multisession</b>:",
             isCommentCode: true,
             isMultiLine: true);
 
@@ -301,13 +253,10 @@ namespace SabreTools.RedumpLib.Data
             isMultiLine: true);
 
         public static readonly SiteCode PCMacHybrid = new("PC/Mac Hybrid",
-            code: "PC/Mac Hybrid",
             isBoolean: true,
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode PFIHash = new("<b>PFI</b>:",
-            code: "<b>PFI</b>:",
             isCommentCode: true);
 
         public static readonly SiteCode PlayableDemos = new("<b>Playable Demos</b>:",
@@ -330,12 +279,9 @@ namespace SabreTools.RedumpLib.Data
 
         // This doesn't have a site tag for some systems yet
         public static readonly SiteCode Protection = new("<b>Protection</b>:",
-            code: "<b>Protection</b>:",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode RingPerfectAudioOffset = new("<b>Ring Perfect Audio Offset</b>:",
-            code: "<b>Ring Perfect Audio Offset</b>:",
             isCommentCode: true);
 
         public static readonly SiteCode RollingDemos = new("<b>Rolling Demos</b>:",
@@ -360,35 +306,23 @@ namespace SabreTools.RedumpLib.Data
             code: "[T:S]",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode SierraID = new("<b>Sierra ID</b>:",
-            code: "<b>Sierra ID</b>:",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode SSHash = new("<b>SS</b>:",
-            code: "<b>SS</b>:",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode SSVersion = new("<b>SS version</b>:",
-            code: "<b>SS version</b>:",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode SteamAppID = new("<b>Steam AppID</b>:",
-            code: "<b>Steam App ID</b>:",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode SteamCsmCsdDepotID = new("<b>Steam Depot ID (.sis/.csm/.csd)</b>:",
-            code: "<b>Steam Depot ID (.sis/.csm/.csd)</b>:",
             isContentCode: true,
             isMultiLine: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode SteamSimSidDepotID = new("<b>Steam Depot ID (.sis/.sim/.sid)</b>:",
-            code: "<b>Steam Depot ID (.sis/.sim/.sid)</b>:",
             isContentCode: true,
             isMultiLine: true);
 
@@ -401,14 +335,10 @@ namespace SabreTools.RedumpLib.Data
             isContentCode: true,
             isMultiLine: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode TitleID = new("<b>Title ID</b>:",
-            code: "<b>Title ID</b>:",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode TwoKGamesID = new("<b>2K Games ID</b>:",
-            code: "<b>2K Games ID</b>:",
             isCommentCode: true);
 
         public static readonly SiteCode UbisoftID = new("<b>Ubisoft ID</b>:",
@@ -437,14 +367,10 @@ namespace SabreTools.RedumpLib.Data
             isBoolean: true,
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode XeMID = new("<b>XeMID</b>:",
-            code: "<b>XeMID</b>:",
             isCommentCode: true);
 
-        // This doesn't have a site tag yet
         public static readonly SiteCode XMID = new("<b>XMID</b>:",
-            code: "<b>XMID</b>:",
             isCommentCode: true);
 
         #endregion

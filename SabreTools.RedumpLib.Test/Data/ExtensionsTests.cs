@@ -2431,55 +2431,6 @@ namespace SabreTools.RedumpLib.Test.Data
         }
 
         /// <summary>
-        /// Check that every SiteCode has a long name provided
-        /// </summary>
-        /// <param name="siteCode">SiteCode value to check</param>
-        /// <param name="expectNull">True to expect a null value, false otherwise</param>
-        [Theory]
-        [MemberData(nameof(GenerateSiteCodeTestData))]
-        public void SiteCode_LongName(SiteCode? siteCode, bool expectNull)
-        {
-            var actual = siteCode?.HTML;
-
-            if (expectNull)
-                Assert.Null(actual);
-            else
-                Assert.NotNull(actual);
-        }
-
-        /// <summary>
-        /// Check that every SiteCode has a short name provided
-        /// </summary>
-        /// <param name="siteCode">SiteCode value to check</param>
-        /// <param name="expectNull">True to expect a null value, false otherwise</param>
-        [Theory]
-        [MemberData(nameof(GenerateSiteCodeTestData))]
-        public void SiteCode_ShortName(SiteCode? siteCode, bool expectNull)
-        {
-            var actual = siteCode?.Code;
-
-            if (expectNull)
-                Assert.Null(actual);
-            else
-                Assert.NotNull(actual);
-        }
-
-        /// <summary>
-        /// Generate a test set of SiteCode values
-        /// </summary>
-        /// <returns>MemberData-compatible list of SiteCode values</returns>
-        public static TheoryData<SiteCode?, bool> GenerateSiteCodeTestData()
-        {
-            var testData = new TheoryData<SiteCode?, bool>() { { null, true } };
-            foreach (SiteCode? siteCode in SiteCode.AllSiteCodes)
-            {
-                testData.Add(siteCode, false);
-            }
-
-            return testData;
-        }
-
-        /// <summary>
         /// Generate a test set of SiteCode values that are considered Boolean
         /// </summary>
         /// <returns>MemberData-compatible list of SiteCode values</returns>

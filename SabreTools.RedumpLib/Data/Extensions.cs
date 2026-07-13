@@ -847,19 +847,18 @@ namespace SabreTools.RedumpLib.Data
 
             foreach (var val in SiteCode.AllSiteCodes)
             {
-                string? shortName = val.Code?.TrimEnd(':');
                 string longName = val.HTML.TrimEnd(':');
 
                 // Invalid codes should be skipped
-                if (shortName is null || longName is null)
+                if (longName is null)
                     continue;
 
                 // Handle site tags
                 string siteCode;
-                if (shortName == longName)
+                if (val.Code is null)
                     siteCode = "***".PadRight(16, ' ');
                 else
-                    siteCode = shortName.PadRight(16, ' ');
+                    siteCode = val.Code.PadRight(16, ' ');
 
                 // Handle expanded tags
                 siteCode += longName.PadRight(32, ' ');
