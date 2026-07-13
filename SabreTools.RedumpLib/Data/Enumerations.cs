@@ -84,70 +84,69 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// List of all site-supported media types
     /// </summary>
-    /// TODO: Add numeric values or convert to constants
     public enum MediaType
     {
         NONE = 0,
 
         [HumanReadable(LongName = "BD-25", ShortName = "bd25")]
-        BD25,
+        BD25 = 1,
 
         /// <remarks>Not official</remarks>
         [HumanReadable(LongName = "BD-33", ShortName = "bd33")]
-        BD33,
+        BD33 = 2,
 
         [HumanReadable(LongName = "BD-50", ShortName = "bd50")]
-        BD50,
+        BD50 = 3,
 
         [HumanReadable(LongName = "BD-66", ShortName = "bd66")]
-        BD66,
+        BD66 = 4,
 
         [HumanReadable(LongName = "BD-100", ShortName = "bd100")]
-        BD100,
+        BD100 = 5,
 
         /// <remarks>Not official</remarks>
         [HumanReadable(LongName = "BD-128", ShortName = "bd128")]
-        BD128,
+        BD128 = 6,
 
         [HumanReadable(LongName = "CD", ShortName = "cd")]
-        CD,
+        CD = 7,
 
         [HumanReadable(LongName = "DVD-5", ShortName = "dvd5")]
-        DVD5,
+        DVD5 = 8,
 
         [HumanReadable(LongName = "DVD-9", ShortName = "dvd9")]
-        DVD9,
+        DVD9 = 9,
 
         [HumanReadable(LongName = "GD-ROM", ShortName = "gdrom")]
-        GDROM,
+        GDROM = 10,
 
         [HumanReadable(LongName = "HD-DVD (SL)", ShortName = "hdvd15")]
-        HDDVDSL,
+        HDDVDSL = 11,
 
         [HumanReadable(LongName = "HD-DVD (DL)", ShortName = "hdvd30")]
-        HDDVDDL,
+        HDDVDDL = 12,
 
         /// <remarks>Not official</remarks>
         [HumanReadable(LongName = "MIL-CD", ShortName = "milcd")]
-        MILCD,
+        MILCD = 13,
 
         [HumanReadable(LongName = "Nintendo GameCube Game Disc", ShortName = "dvd5gc")]
-        NintendoGameCubeGameDisc,
+        NintendoGameCubeGameDisc = 14,
 
         [HumanReadable(LongName = "Nintendo Wii Optical Disc (SL)", ShortName = "dvd5wii")]
-        NintendoWiiOpticalDiscSL,
+        NintendoWiiOpticalDiscSL = 15,
 
         [HumanReadable(LongName = "Nintendo Wii Optical Disc (DL)", ShortName = "dvd9wii")]
-        NintendoWiiOpticalDiscDL,
+        NintendoWiiOpticalDiscDL = 16,
 
         [HumanReadable(LongName = "Nintendo Wii U Optical Disc (SL)", ShortName = "bd25wiiu")]
-        NintendoWiiUOpticalDiscSL,
+        NintendoWiiUOpticalDiscSL = 17,
 
         [HumanReadable(LongName = "UMD (SL)", ShortName = "umd1")]
-        UMDSL,
+        UMDSL = 18,
 
         [HumanReadable(LongName = "UMD (DL)", ShortName = "umd2")]
-        UMDDL,
+        UMDDL = 19,
     }
 
     /// <summary>
