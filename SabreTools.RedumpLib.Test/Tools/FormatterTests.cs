@@ -1068,7 +1068,7 @@ namespace SabreTools.RedumpLib.Test.Tools
         public void OrderCommentTags_All_Ordered()
         {
             Dictionary<SiteCode, string> tags = [];
-            foreach (SiteCode code in Enum.GetValues<SiteCode>())
+            foreach (SiteCode code in SiteCode.AllSiteCodes)
             {
                 tags[code] = "XXXXXX";
             }
@@ -1107,7 +1107,7 @@ namespace SabreTools.RedumpLib.Test.Tools
         public void OrderContentTags_All_Ordered()
         {
             Dictionary<SiteCode, string> tags = [];
-            foreach (SiteCode code in Enum.GetValues<SiteCode>())
+            foreach (SiteCode code in SiteCode.AllSiteCodes)
             {
                 tags[code] = "XXXXXX";
             }

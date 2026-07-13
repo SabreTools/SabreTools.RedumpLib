@@ -159,7 +159,7 @@ namespace SabreTools.RedumpLib.Tools
             {
                 match = Constants.SerialRegex.Match(discData);
                 if (match.Success)
-                   info.DiscIdentifiers.DiscSerials = $"(VERIFY THIS) {WebUtility.HtmlDecode(match.Groups[1].Value)}";
+                    info.DiscIdentifiers.DiscSerials = $"(VERIFY THIS) {WebUtility.HtmlDecode(match.Groups[1].Value)}";
             }
 
             // Error Count
@@ -236,8 +236,7 @@ namespace SabreTools.RedumpLib.Tools
                                 continue;
 
                             // If the line doesn't contain this tag, just skip
-                            var shortName = siteCode.ShortName();
-                            if (shortName is null || !commentLine.Contains(shortName))
+                            if (siteCode.Code is null || !commentLine.Contains(siteCode.Code))
                                 continue;
 
                             // Mark as having found a tag
@@ -247,19 +246,19 @@ namespace SabreTools.RedumpLib.Tools
                             lastSiteCode = siteCode;
 
                             // A subset of tags can be multiline
-                            addToLast = siteCode.IsMultiLine();
+                            addToLast = siteCode.IsMultiLine;
 
                             // Skip certain site codes because of data issues
                             if (ShouldSkipSiteCode(siteCode))
                                 continue;
 
                             // If we don't already have this site code, add it to the dictionary
-                            if (!info.DumpMetadata.CommentsSpecialFields.ContainsKey(siteCode.Value))
-                                info.DumpMetadata.CommentsSpecialFields[siteCode.Value] = $"(VERIFY THIS) {commentLine.Replace(shortName, string.Empty).Trim()}";
+                            if (!info.DumpMetadata.CommentsSpecialFields.ContainsKey(siteCode))
+                                info.DumpMetadata.CommentsSpecialFields[siteCode] = $"(VERIFY THIS) {commentLine.Replace(siteCode.Code, string.Empty).Trim()}";
 
                             // Otherwise, append the value to the existing key
                             else
-                                info.DumpMetadata.CommentsSpecialFields[siteCode.Value] += $", {commentLine.Replace(shortName, string.Empty).Trim()}";
+                                info.DumpMetadata.CommentsSpecialFields[siteCode] += $", {commentLine.Replace(siteCode.Code, string.Empty).Trim()}";
 
                             break;
                         }
@@ -269,10 +268,10 @@ namespace SabreTools.RedumpLib.Tools
                         {
                             if (addToLast && lastSiteCode is not null && !ShouldSkipSiteCode(lastSiteCode))
                             {
-                                if (!string.IsNullOrEmpty(info.DumpMetadata.CommentsSpecialFields![lastSiteCode.Value]))
-                                    info.DumpMetadata.CommentsSpecialFields[lastSiteCode.Value] += "\n";
+                                if (!string.IsNullOrEmpty(info.DumpMetadata.CommentsSpecialFields![lastSiteCode]))
+                                    info.DumpMetadata.CommentsSpecialFields[lastSiteCode] += "\n";
 
-                                info.DumpMetadata.CommentsSpecialFields[lastSiteCode.Value] += commentLine;
+                                info.DumpMetadata.CommentsSpecialFields[lastSiteCode] += commentLine;
                             }
                             else if (!addToLast || lastSiteCode is null)
                             {
@@ -333,19 +332,18 @@ namespace SabreTools.RedumpLib.Tools
                                 continue;
 
                             // If the line doesn't contain this tag, just skip
-                            var shortName = siteCode.ShortName();
-                            if (shortName is null || !contentLine.Contains(shortName))
+                            if (siteCode.Code is null || !contentLine.Contains(siteCode.Code))
                                 continue;
 
                             // Cache the current site code
                             lastSiteCode = siteCode;
 
                             // If we don't already have this site code, add it to the dictionary
-                            if (!info.DumpMetadata.ContentsSpecialFields.ContainsKey(siteCode.Value))
-                                info.DumpMetadata.ContentsSpecialFields[siteCode.Value] = $"(VERIFY THIS) {contentLine.Replace(shortName, string.Empty).Trim()}";
+                            if (!info.DumpMetadata.ContentsSpecialFields.ContainsKey(siteCode))
+                                info.DumpMetadata.ContentsSpecialFields[siteCode] = $"(VERIFY THIS) {contentLine.Replace(siteCode.Code, string.Empty).Trim()}";
 
                             // A subset of tags can be multiline
-                            addToLast = siteCode.IsMultiLine();
+                            addToLast = siteCode.IsMultiLine;
 
                             // Mark as having found a tag
                             foundTag = true;
@@ -357,10 +355,10 @@ namespace SabreTools.RedumpLib.Tools
                         {
                             if (addToLast && lastSiteCode is not null && !ShouldSkipSiteCode(lastSiteCode))
                             {
-                                if (!string.IsNullOrEmpty(info.DumpMetadata.ContentsSpecialFields![lastSiteCode.Value]))
-                                    info.DumpMetadata.ContentsSpecialFields[lastSiteCode.Value] += "\n";
+                                if (!string.IsNullOrEmpty(info.DumpMetadata.ContentsSpecialFields![lastSiteCode]))
+                                    info.DumpMetadata.ContentsSpecialFields[lastSiteCode] += "\n";
 
-                                info.DumpMetadata.ContentsSpecialFields[lastSiteCode.Value] += contentLine;
+                                info.DumpMetadata.ContentsSpecialFields[lastSiteCode] += contentLine;
                             }
                             else if (!addToLast || lastSiteCode is null)
                             {
@@ -470,39 +468,49 @@ namespace SabreTools.RedumpLib.Tools
         /// </summary>
         private static bool ShouldSkipSiteCode(SiteCode? siteCode)
         {
-#pragma warning disable IDE0072
-            return siteCode switch
-            {
-                // Multiple
-                SiteCode.HighSierraVolumeDescriptor
-                    or SiteCode.InternalSerialName
-                    or SiteCode.Multisession
-                    or SiteCode.VolumeLabel => true,
+            // Multiple
+            if (siteCode == SiteCode.HighSierraVolumeDescriptor)
+                return true;
+            else if (siteCode == SiteCode.InternalSerialName)
+                return true;
+            else if (siteCode == SiteCode.Multisession)
+                return true;
+            else if (siteCode == SiteCode.VolumeLabel)
+                return true;
 
-                // Audio CD
-                SiteCode.RingPerfectAudioOffset => true,
+            // Audio CD
+            if (siteCode == SiteCode.RingPerfectAudioOffset)
+                return true;
 
-                // Microsoft Xbox and Xbox 360
-                SiteCode.DMIHash
-                    or SiteCode.PFIHash
-                    or SiteCode.SSHash
-                    or SiteCode.SSVersion
-                    or SiteCode.XMID
-                    or SiteCode.XeMID => true,
+            // Microsoft Xbox and Xbox 360
+            if (siteCode == SiteCode.DMIHash)
+                return true;
+            else if (siteCode == SiteCode.PFIHash)
+                return true;
+            else if (siteCode == SiteCode.SSHash)
+                return true;
+            else if (siteCode == SiteCode.SSVersion)
+                return true;
+            else if (siteCode == SiteCode.XMID)
+                return true;
+            else if (siteCode == SiteCode.XeMID)
+                return true;
 
-                // Microsoft Xbox One and Series X/S
-                SiteCode.Filename => true,
-                SiteCode.TitleID => true,
+            // Microsoft Xbox One and Series X/S
+            if (siteCode == SiteCode.Filename)
+                return true;
+            else if (siteCode == SiteCode.TitleID)
+                return true;
 
-                // Nintendo Gamecube
-                SiteCode.InternalName => true,
+            // Nintendo Gamecube
+            if (siteCode == SiteCode.InternalName)
+                return true;
 
-                // Protection
-                SiteCode.Protection => true,
+            // Protection
+            if (siteCode == SiteCode.Protection)
+                return true;
 
-                _ => false,
-            };
-#pragma warning restore IDE0072
+            return false;
         }
 
         #endregion
@@ -520,27 +528,26 @@ namespace SabreTools.RedumpLib.Tools
             if (text.Length == 0)
                 return text;
 
-            foreach (SiteCode? siteCode in Enum.GetValues(typeof(SiteCode)))
+            foreach (SiteCode? siteCode in SiteCode.AllSiteCodes)
             {
-                var longname = siteCode.LongName();
-                if (!string.IsNullOrEmpty(longname))
-                    text = text.Replace(longname, siteCode.ShortName());
+                if (!string.IsNullOrEmpty(siteCode.HTML))
+                    text = text.Replace(siteCode.HTML, siteCode.Code);
             }
 
             // For some outdated tags, we need to use alternate names
-            text = text.Replace("<b>Demos</b>:", ((SiteCode?)SiteCode.PlayableDemos).ShortName());
-            text = text.Replace("<b>Disney ID</b>:", ((SiteCode?)SiteCode.DisneyInteractiveID).ShortName());
-            text = text.Replace("DMI:", ((SiteCode?)SiteCode.DMIHash).ShortName());
-            text = text.Replace("<b>LucasArts ID</b>:", ((SiteCode?)SiteCode.LucasArtsID).ShortName());
-            text = text.Replace("PFI:", ((SiteCode?)SiteCode.PFIHash).ShortName());
-            text = text.Replace("SS:", ((SiteCode?)SiteCode.SSHash).ShortName());
-            text = text.Replace("SSv1:", ((SiteCode?)SiteCode.SSHash).ShortName());
-            text = text.Replace("<b>SSv1</b>:", ((SiteCode?)SiteCode.SSHash).ShortName());
-            text = text.Replace("SSv2:", ((SiteCode?)SiteCode.SSHash).ShortName());
-            text = text.Replace("<b>SSv2</b>:", ((SiteCode?)SiteCode.SSHash).ShortName());
-            text = text.Replace("SS version:", ((SiteCode?)SiteCode.SSVersion).ShortName());
-            text = text.Replace("XeMID:", ((SiteCode?)SiteCode.XeMID).ShortName());
-            text = text.Replace("XMID:", ((SiteCode?)SiteCode.XMID).ShortName());
+            text = text.Replace("<b>Demos</b>:", SiteCode.PlayableDemos.Code);
+            text = text.Replace("<b>Disney ID</b>:", SiteCode.DisneyInteractiveID.Code);
+            text = text.Replace("DMI:", SiteCode.DMIHash.Code);
+            text = text.Replace("<b>LucasArts ID</b>:", SiteCode.LucasArtsID.Code);
+            text = text.Replace("PFI:", SiteCode.PFIHash.Code);
+            text = text.Replace("SS:", SiteCode.SSHash.Code);
+            text = text.Replace("SSv1:", SiteCode.SSHash.Code);
+            text = text.Replace("<b>SSv1</b>:", SiteCode.SSHash.Code);
+            text = text.Replace("SSv2:", SiteCode.SSHash.Code);
+            text = text.Replace("<b>SSv2</b>:", SiteCode.SSHash.Code);
+            text = text.Replace("SS version:", SiteCode.SSVersion.Code);
+            text = text.Replace("XeMID:", SiteCode.XeMID.Code);
+            text = text.Replace("XMID:", SiteCode.XMID.Code);
 
             return text;
         }

@@ -2324,7 +2324,6 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.InternalSerialName,
             SiteCode.ISBN,
             SiteCode.ISSN,
-            SiteCode.LogsLink,
             SiteCode.Multisession,
             SiteCode.PCMacHybrid,
             SiteCode.PFIHash,
@@ -2437,7 +2436,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GenerateBooleanSiteCodesTestData))]
         public void SiteCode_IsBoolean(SiteCode? siteCode, bool expected)
         {
-            bool actual = siteCode.IsBoolean();
+            bool actual = siteCode?.IsBoolean ?? false;
             Assert.Equal(expected, actual);
         }
 
@@ -2450,7 +2449,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GenerateCommentSiteCodesTestData))]
         public void SiteCode_IsCommentCode(SiteCode? siteCode, bool expected)
         {
-            bool actual = siteCode.IsCommentCode();
+            bool actual = siteCode?.IsCommentCode ?? false;
             Assert.Equal(expected, actual);
         }
 
@@ -2463,7 +2462,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GenerateContentSiteCodesTestData))]
         public void SiteCode_IsContentCode(SiteCode? siteCode, bool expected)
         {
-            bool actual = siteCode.IsContentCode();
+            bool actual = siteCode?.IsContentCode ?? false;
             Assert.Equal(expected, actual);
         }
 
@@ -2476,7 +2475,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GenerateMultilineSiteCodesTestData))]
         public void SiteCode_IsMultiLine(SiteCode? siteCode, bool expected)
         {
-            bool actual = siteCode.IsMultiLine();
+            bool actual = siteCode?.IsMultiLine ?? false;
             Assert.Equal(expected, actual);
         }
 
@@ -2489,7 +2488,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GenerateSiteCodeTestData))]
         public void SiteCode_LongName(SiteCode? siteCode, bool expectNull)
         {
-            var actual = siteCode.LongName();
+            var actual = siteCode?.HTML;
 
             if (expectNull)
                 Assert.Null(actual);
@@ -2506,7 +2505,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GenerateSiteCodeTestData))]
         public void SiteCode_ShortName(SiteCode? siteCode, bool expectNull)
         {
-            var actual = siteCode.ShortName();
+            var actual = siteCode?.Code;
 
             if (expectNull)
                 Assert.Null(actual);
@@ -2521,7 +2520,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static TheoryData<SiteCode?, bool> GenerateSiteCodeTestData()
         {
             var testData = new TheoryData<SiteCode?, bool>() { { null, true } };
-            foreach (SiteCode? siteCode in Enum.GetValues<SiteCode>().Cast<SiteCode?>())
+            foreach (SiteCode? siteCode in SiteCode.AllSiteCodes)
             {
                 testData.Add(siteCode, false);
             }
@@ -2536,7 +2535,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static TheoryData<SiteCode?, bool> GenerateBooleanSiteCodesTestData()
         {
             var testData = new TheoryData<SiteCode?, bool>() { { null, false } };
-            foreach (SiteCode siteCode in Enum.GetValues<SiteCode>())
+            foreach (SiteCode siteCode in SiteCode.AllSiteCodes)
             {
                 if (_booleanSiteCodes.Contains(siteCode))
                     testData.Add(siteCode, true);
@@ -2554,7 +2553,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static TheoryData<SiteCode?, bool> GenerateCommentSiteCodesTestData()
         {
             var testData = new TheoryData<SiteCode?, bool>() { { null, false } };
-            foreach (SiteCode siteCode in Enum.GetValues<SiteCode>())
+            foreach (SiteCode siteCode in SiteCode.AllSiteCodes)
             {
                 if (_commentSiteCodes.Contains(siteCode))
                     testData.Add(siteCode, true);
@@ -2572,7 +2571,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static TheoryData<SiteCode?, bool> GenerateContentSiteCodesTestData()
         {
             var testData = new TheoryData<SiteCode?, bool>() { { null, false } };
-            foreach (SiteCode siteCode in Enum.GetValues<SiteCode>())
+            foreach (SiteCode siteCode in SiteCode.AllSiteCodes)
             {
                 if (_contentSiteCodes.Contains(siteCode))
                     testData.Add(siteCode, true);
@@ -2590,7 +2589,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static TheoryData<SiteCode?, bool> GenerateMultilineSiteCodesTestData()
         {
             var testData = new TheoryData<SiteCode?, bool>() { { null, false } };
-            foreach (SiteCode siteCode in Enum.GetValues<SiteCode>())
+            foreach (SiteCode siteCode in SiteCode.AllSiteCodes)
             {
                 if (_multilineSiteCodes.Contains(siteCode))
                     testData.Add(siteCode, true);

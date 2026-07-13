@@ -588,11 +588,10 @@ namespace SabreTools.RedumpLib.Tools
             if (value.Length == 0)
                 return string.Empty;
 
-            bool isMultiLine = code.IsMultiLine();
-            string line = $"{code.ShortName()}{(isMultiLine ? "\n" : " ")}";
+            string line = $"{code.Code}{(code.IsMultiLine ? "\n" : " ")}";
 
             // Special case for boolean fields
-            if (code.IsBoolean())
+            if (code.IsBoolean)
             {
                 if (value != true.ToString())
                     return string.Empty;
@@ -600,7 +599,7 @@ namespace SabreTools.RedumpLib.Tools
                 return line.Trim();
             }
 
-            return $"{line}{value}{(isMultiLine ? "\n" : string.Empty)}";
+            return $"{line}{value}{(code.IsMultiLine ? "\n" : string.Empty)}";
         }
 
         /// <summary>
