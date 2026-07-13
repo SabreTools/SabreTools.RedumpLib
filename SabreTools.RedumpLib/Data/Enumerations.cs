@@ -167,7 +167,6 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// All possible media types not bound to specific site limitations
     /// </summary>
-    /// TODO: Add numeric values or convert to constants
     public enum PhysicalMediaType
     {
         [HumanReadable(Available = false, LongName = "Unknown", ShortName = "unknown")]
@@ -176,115 +175,115 @@ namespace SabreTools.RedumpLib.Data
         #region Punched Media
 
         [HumanReadable(Available = false, LongName = "Aperture card", ShortName = "aperture")]
-        ApertureCard,
+        ApertureCard = 1,
 
         [HumanReadable(Available = false, LongName = "Jacquard Loom card", ShortName = "jacquard loom card")]
-        JacquardLoomCard,
+        JacquardLoomCard = 2,
 
         [HumanReadable(Available = false, LongName = "Magnetic stripe card", ShortName = "magnetic stripe")]
-        MagneticStripeCard,
+        MagneticStripeCard = 3,
 
         [HumanReadable(Available = false, LongName = "Optical phonecard", ShortName = "optical phonecard")]
-        OpticalPhonecard,
+        OpticalPhonecard = 4,
 
         [HumanReadable(Available = false, LongName = "Punched card", ShortName = "punchcard")]
-        PunchedCard,
+        PunchedCard = 5,
 
         [HumanReadable(Available = false, LongName = "Punched tape", ShortName = "punchtape")]
-        PunchedTape,
+        PunchedTape = 6,
 
         #endregion
 
         #region Tape
 
         [HumanReadable(Available = false, LongName = "Cassette Tape", ShortName = "cassette")]
-        Cassette,
+        Cassette = 7,
 
         [HumanReadable(Available = false, LongName = "Data Tape Cartridge", ShortName = "data cartridge")]
-        DataCartridge,
+        DataCartridge = 8,
 
         [HumanReadable(Available = false, LongName = "Open Reel Tape", ShortName = "open reel")]
-        OpenReel,
+        OpenReel = 9,
 
         #endregion
 
         #region Disc / Disc
 
         [HumanReadable(LongName = "BD-ROM", ShortName = "bdrom")]
-        BluRay,
+        BluRay = 10,
 
         [HumanReadable(LongName = "CD-ROM", ShortName = "cdrom")]
-        CDROM,
+        CDROM = 11,
 
         [HumanReadable(LongName = "DVD-ROM", ShortName = "dvd")]
-        DVD,
+        DVD = 12,
 
         [HumanReadable(LongName = "Floppy Disk", ShortName = "fd")]
-        FloppyDisk,
+        FloppyDisk = 13,
 
         [HumanReadable(Available = false, LongName = "Floptical", ShortName = "floptical")]
-        Floptical,
+        Floptical = 14,
 
         [HumanReadable(LongName = "GD-ROM", ShortName = "gdrom")]
-        GDROM,
+        GDROM = 15,
 
         [HumanReadable(LongName = "HD-DVD-ROM", ShortName = "hddvd")]
-        HDDVD,
+        HDDVD = 16,
 
         [HumanReadable(LongName = "Hard Disk", ShortName = "hdd")]
-        HardDisk,
+        HardDisk = 17,
 
         [HumanReadable(Available = false, LongName = "Iomega Bernoulli Disk", ShortName = "bernoulli")]
-        IomegaBernoulliDisk,
+        IomegaBernoulliDisk = 18,
 
         [HumanReadable(Available = false, LongName = "Iomega Jaz", ShortName = "jaz")]
-        IomegaJaz,
+        IomegaJaz = 19,
 
         [HumanReadable(Available = false, LongName = "Iomega Zip", ShortName = "zip")]
-        IomegaZip,
+        IomegaZip = 20,
 
         [HumanReadable(LongName = "LD-ROM / LV-ROM", ShortName = "ldrom")]
-        LaserDisc, // LD-ROM and LV-ROM variants
+        LaserDisc = 21, // LD-ROM and LV-ROM variants
 
         [HumanReadable(Available = false, LongName = "64DD Disk", ShortName = "64dd")]
-        Nintendo64DD,
+        Nintendo64DD = 22,
 
         [HumanReadable(Available = false, LongName = "Famicom Disk System Disk", ShortName = "fds")]
-        NintendoFamicomDiskSystem,
+        NintendoFamicomDiskSystem = 23,
 
         [HumanReadable(LongName = "GameCube Game Disc", ShortName = "gc")]
-        NintendoGameCubeGameDisc,
+        NintendoGameCubeGameDisc = 24,
 
         [HumanReadable(LongName = "Wii Optical Disc", ShortName = "wii")]
-        NintendoWiiOpticalDisc,
+        NintendoWiiOpticalDisc = 25,
 
         [HumanReadable(LongName = "Wii U Optical Disc", ShortName = "wiiu")]
-        NintendoWiiUOpticalDisc,
+        NintendoWiiUOpticalDisc = 26,
 
         [HumanReadable(LongName = "UMD", ShortName = "umd")]
-        UMD,
+        UMD = 27,
 
         #endregion
 
         #region Unsorted Formats
 
         [HumanReadable(Available = false, LongName = "Cartridge", ShortName = "cart")]
-        Cartridge,
+        Cartridge = 28,
 
         [HumanReadable(Available = false, LongName = "CED", ShortName = "ced")]
-        CED,
+        CED = 29,
 
         [HumanReadable(Available = false, LongName = "Compact Flash", ShortName = "cf")]
-        CompactFlash,
+        CompactFlash = 30,
 
         [HumanReadable(Available = false, LongName = "MMC", ShortName = "mmc")]
-        MMC,
+        MMC = 31,
 
         [HumanReadable(Available = false, LongName = "SD Card", ShortName = "sd")]
-        SDCard,
+        SDCard = 32,
 
         [HumanReadable(Available = false, LongName = "Flash Drive", ShortName = "fkd")]
-        FlashDrive,
+        FlashDrive = 33,
 
         #endregion
     }
