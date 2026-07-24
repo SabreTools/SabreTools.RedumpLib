@@ -144,6 +144,7 @@ namespace SabreTools.RedumpLib.Data
         {
             return mediaType switch
             {
+                PhysicalMediaType.NONE => MediaType.NONE,
                 PhysicalMediaType.BluRay => MediaType.BD50,
                 PhysicalMediaType.CDROM => MediaType.CD,
                 PhysicalMediaType.DVD => MediaType.DVD9,
@@ -156,7 +157,6 @@ namespace SabreTools.RedumpLib.Data
                 PhysicalMediaType.UMD => MediaType.UMDDL,
 
                 // Invalid cases for conversion
-                PhysicalMediaType.NONE => null,
                 PhysicalMediaType.ApertureCard => null,
                 PhysicalMediaType.JacquardLoomCard => null,
                 PhysicalMediaType.MagneticStripeCard => null,
@@ -195,6 +195,7 @@ namespace SabreTools.RedumpLib.Data
         {
             return discType switch
             {
+                MediaType.NONE => PhysicalMediaType.NONE,
                 MediaType.BD25
                     or MediaType.BD33
                     or MediaType.BD50
@@ -216,7 +217,6 @@ namespace SabreTools.RedumpLib.Data
                     or MediaType.UMDDL => PhysicalMediaType.UMD,
 
                 // Invalid cases for conversion
-                MediaType.NONE => null,
                 MediaType.MILCD => null,
                 null => null,
                 _ => null,

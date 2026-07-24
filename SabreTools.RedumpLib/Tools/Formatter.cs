@@ -326,8 +326,8 @@ namespace SabreTools.RedumpLib.Tools
         {
             output.AppendLine("Ring Codes:");
 
-            // If we have a quad-layer disc
-            if (discIdentifiers.Layerbreak3 != default)
+            // If we have a quad-layer disc or a generic media type case
+            if (discIdentifiers.Layerbreak3 != default || mediaType == PhysicalMediaType.NONE)
             {
                 AddIfExists(output, $"Layer 0 {Template.MasteringCodeField}", section.Layer0MasteringCode, 1);
                 AddIfExists(output, $"Layer 0 {Template.MasteringSIDField}", section.Layer0MasteringSID, 1);

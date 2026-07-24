@@ -375,6 +375,7 @@ namespace SabreTools.RedumpLib.Test.Data
         /// </summary>
         private static readonly MediaType?[] _mappableMediaTypes =
         [
+            MediaType.NONE,
             MediaType.BD25,
             MediaType.BD33,
             MediaType.BD50,
@@ -400,6 +401,7 @@ namespace SabreTools.RedumpLib.Test.Data
         /// </summary>
         private static readonly PhysicalMediaType?[] _mappablePhysicalMediaTypes =
         [
+            PhysicalMediaType.NONE,
             PhysicalMediaType.BluRay,
             PhysicalMediaType.CDROM,
             PhysicalMediaType.DVD,
