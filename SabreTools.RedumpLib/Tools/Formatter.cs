@@ -588,7 +588,7 @@ namespace SabreTools.RedumpLib.Tools
             if (value.Length == 0)
                 return string.Empty;
 
-            string line = $"{code.Code}{(code.IsMultiLine ? "\n" : " ")}";
+            string line = $"{code.Code ?? code.HTML}{(code.IsMultiLine ? "\n" : " ")}";
 
             // Special case for boolean fields
             if (code.IsBoolean)
