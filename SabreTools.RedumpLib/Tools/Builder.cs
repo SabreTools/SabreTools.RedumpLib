@@ -229,7 +229,7 @@ namespace SabreTools.RedumpLib.Tools
 
                         // Otherwise, we need to find what tag is in use
                         bool foundTag = false;
-                        foreach (SiteCode? siteCode in Enum.GetValues(typeof(SiteCode)))
+                        foreach (SiteCode? siteCode in SiteCode.AllSiteCodes)
                         {
                             // If we have a null site code, just skip
                             if (siteCode is null)
@@ -341,7 +341,7 @@ namespace SabreTools.RedumpLib.Tools
 
                         // Otherwise, we need to find what tag is in use
                         bool foundTag = false;
-                        foreach (SiteCode? siteCode in Enum.GetValues(typeof(SiteCode)))
+                        foreach (SiteCode? siteCode in SiteCode.AllSiteCodes)
                         {
                             // If we have a null site code, just skip
                             if (siteCode is null)
