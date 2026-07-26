@@ -250,7 +250,7 @@ namespace SabreTools.RedumpLib.Data
             if (category is null || category.Length == 0)
                 return null;
 
-            category = category?.ToLowerInvariant();
+            category = category.ToLowerInvariant();
             var categories = (DiscCategory[])Enum.GetValues(typeof(DiscCategory));
 
             // Check long names
@@ -501,7 +501,7 @@ namespace SabreTools.RedumpLib.Data
                 return (MediaType)mediaTypeInt;
 
             // Special cases
-            return (mediaType?.ToLowerInvariant()) switch
+            return mediaType switch
             {
                 "bd"
                     or "bdrom"
@@ -795,8 +795,8 @@ namespace SabreTools.RedumpLib.Data
                 return PhysicalSystem.AllSystems[index];
 
             // Check names
-            index = Array.FindIndex(PhysicalSystem.AllSystems, s => system == s.Name.ToLowerInvariant()
-                || system == s.Name.Replace(" ", string.Empty).ToLowerInvariant());
+            index = Array.FindIndex(PhysicalSystem.AllSystems, s => system.Equals(s.Name, StringComparison.InvariantCultureIgnoreCase)
+                || system.Equals(s.Name.Replace(" ", string.Empty), StringComparison.InvariantCultureIgnoreCase));
             if (index > -1)
                 return PhysicalSystem.AllSystems[index];
 
@@ -821,13 +821,13 @@ namespace SabreTools.RedumpLib.Data
             region = region.ToLowerInvariant();
 
             // Check short names
-            int index = Array.FindIndex(RegionCode.AllRegions, s => region == s.Code.ToLowerInvariant());
+            int index = Array.FindIndex(RegionCode.AllRegions, s => region.Equals(s.Code, StringComparison.InvariantCultureIgnoreCase));
             if (index > -1)
                 return RegionCode.AllRegions[index];
 
             // Check long names
-            index = Array.FindIndex(RegionCode.AllRegions, s => region == s.Name.ToLowerInvariant()
-                || region == s.Name.Replace(" ", string.Empty)?.ToLowerInvariant());
+            index = Array.FindIndex(RegionCode.AllRegions, s => region.Equals(s.Name, StringComparison.InvariantCultureIgnoreCase)
+                || region.Equals(s.Name.Replace(" ", string.Empty), StringComparison.InvariantCultureIgnoreCase));
             if (index > -1)
                 return RegionCode.AllRegions[index];
 
