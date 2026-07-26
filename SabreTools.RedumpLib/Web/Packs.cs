@@ -21,8 +21,10 @@ namespace SabreTools.RedumpLib.Web
             bool includeDatabase,
             bool useSubfolders)
         {
-            var systems = (PhysicalSystem[])Enum.GetValues(typeof(PhysicalSystem));
-            return await client.DownloadPacksForSystems(systems, outDir, includeDatabase, useSubfolders);
+            return await client.DownloadPacksForSystems(PhysicalSystem.AllSystems,
+                outDir,
+                includeDatabase,
+                useSubfolders);
         }
 
         /// <summary>
