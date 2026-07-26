@@ -235,7 +235,7 @@ namespace SabreTools.RedumpLib.Web
                     }
 
                     // "Your posts" indicates login was successful
-                    if (!responseContent.Contains(@"<a href=""./search.php?search_id=egosearch"" role=""menuitem"">"))
+                    if (!responseContent.Contains("./search.php?search_id=egosearch"))
                     {
                         Console.Error.WriteLine("Invalid credentials entered, continuing without logging in...");
                         return false;
@@ -1458,7 +1458,6 @@ namespace SabreTools.RedumpLib.Web
                 Console.Write($"\rComplete!{new string(' ', Console.BufferWidth - 10)}");
 
             Console.WriteLine();
-
             return packsDictionary;
         }
 
