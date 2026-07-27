@@ -970,6 +970,13 @@ namespace SabreTools.RedumpLib.Web
             {
                 if (Debug) Console.WriteLine($"DEBUG: DownloadDatabase(\"{outDir}\", {subfolder})");
 
+                // If the user is not logged in, this is invalid
+                if (!_loggedIn)
+                {
+                    Console.Error.WriteLine("Database download requires valid login credentials!");
+                    return false;
+                }
+
                 // Determine the database URL
                 string dbUri = UrlBuilder.BuildDownloadsUrl(database: true);
 
