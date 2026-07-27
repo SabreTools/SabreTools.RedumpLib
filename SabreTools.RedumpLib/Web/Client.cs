@@ -230,7 +230,7 @@ namespace SabreTools.RedumpLib.Web
                     // An empty response indicates an error
                     if (string.IsNullOrEmpty(responseContent))
                     {
-                        Console.Error.WriteLine($"An error occurred while trying to log in on attempt {i}: No response");
+                        Console.Error.WriteLine($"An error occurred while trying to log in on attempt {i + 1}: No response");
                         DelayHelper.DelayRandom();
                         continue;
                     }
@@ -238,7 +238,7 @@ namespace SabreTools.RedumpLib.Web
                     // A malformed form indicicates a retry is needed
                     if (responseContent.Contains("The submitted form was invalid. Try submitting again."))
                     {
-                        Console.Error.WriteLine($"An error occurred while trying to log in on attempt {i}: Invalid result");
+                        Console.Error.WriteLine($"An error occurred while trying to log in on attempt {i + 1}: Invalid result");
                         DelayHelper.DelayRandom();
                         continue;
                     }
@@ -262,7 +262,7 @@ namespace SabreTools.RedumpLib.Web
                 }
                 catch (Exception ex)
                 {
-                    Console.Error.WriteLine($"An exception occurred while trying to log in on attempt {i}: {ex}");
+                    Console.Error.WriteLine($"An exception occurred while trying to log in on attempt {i + 1}: {ex}");
                 }
             }
 
