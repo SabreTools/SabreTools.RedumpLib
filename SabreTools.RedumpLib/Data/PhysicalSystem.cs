@@ -206,6 +206,13 @@ namespace SabreTools.RedumpLib.Data
             hasDat: true,
             mediaTypes: [PhysicalMediaType.CDROM]);
 
+        // UNKNOWN
+        public static readonly PhysicalSystem IQBuildersLearningCDComputer = new("IQ Builders Learning CD Computer",
+            SystemCategory.DiscBasedConsole,
+            available: false,
+            code: "LEARNCD",
+            mediaTypes: [PhysicalMediaType.CDROM]);
+
         // https://m.service.mattel.com/us/Technical/TechnicalProductDetail?prodno=R9703&siteid=27&catid=520&from=supportlanding
         public static readonly PhysicalSystem MattelFisherPriceiXL = new("Mattel Fisher-Price iXL",
             SystemCategory.DiscBasedConsole,
@@ -330,6 +337,7 @@ namespace SabreTools.RedumpLib.Data
         public static readonly PhysicalSystem PioneerLaserActive = new("Pioneer LaserActive",
             SystemCategory.DiscBasedConsole,
             available: false,
+            code: "LASERACTIVE",
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.LaserDisc]);
 
         // https://en.wikipedia.org/wiki/Dreamcast
@@ -648,6 +656,13 @@ namespace SabreTools.RedumpLib.Data
             hasDat: true,
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.FloppyDisk]);
 
+        // https://en.wikipedia.org/wiki/Apple_II
+        public static readonly PhysicalSystem AppleII = new("Apple II",
+            SystemCategory.Computer,
+            available: false,
+            code: "APPLEII",
+            mediaTypes: [PhysicalMediaType.CDROM]);
+
         // https://en.wikipedia.org/wiki/Macintosh
         public static readonly PhysicalSystem AppleMacintosh = new("Apple Macintosh",
             SystemCategory.Computer,
@@ -668,8 +683,8 @@ namespace SabreTools.RedumpLib.Data
         // https://en.wikipedia.org/wiki/Commodore_64
         public static readonly PhysicalSystem Commodore64 = new("Commodore 64",
             SystemCategory.Computer,
-            code: "C64",
             available: false,
+            code: "C64",
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.FloppyDisk]);
 
         // https://en.wikipedia.org/wiki/Amiga
@@ -700,8 +715,8 @@ namespace SabreTools.RedumpLib.Data
         // https://en.wikipedia.org/wiki/MSX
         public static readonly PhysicalSystem MicrosoftMSX = new("Microsoft MSX",
             SystemCategory.Computer,
-            code: "MSX",
             available: false,
+            code: "MSX",
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.FloppyDisk]);
 
         // https://en.wikipedia.org/wiki/PC-8800_series
@@ -739,8 +754,8 @@ namespace SabreTools.RedumpLib.Data
         // https://en.wikipedia.org/wiki/ZX_Spectrum
         public static readonly PhysicalSystem SinclairZXSpectrum = new("Sinclair ZX Spectrum",
             SystemCategory.Computer,
-            code: "ZX-SPECTRUM",
             available: false,
+            code: "ZXS",
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.FloppyDisk]);
 
         // https://en.wikipedia.org/wiki/Sun_Microsystems
@@ -801,8 +816,8 @@ namespace SabreTools.RedumpLib.Data
         // https://amiga.resource.cx/exp/cubo
         public static readonly PhysicalSystem CDExpressCuboCD32 = new("C.D. Express Cubo CD32",
             SystemCategory.Arcade,
-            code: "CUBO",
             available: false,
+            code: "CUBO",
             mediaTypes: [PhysicalMediaType.CDROM]);
 
         // UNKNOWN
@@ -861,8 +876,8 @@ namespace SabreTools.RedumpLib.Data
         // UNKNOWN
         public static readonly PhysicalSystem JVLiTouch = new("JVL iTouch",
             SystemCategory.Arcade,
-            code: "ITOUCH",
             available: false,
+            code: "ITOUCH",
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
 
         // https://en.wikipedia.org/wiki/E-Amusement
@@ -1022,15 +1037,16 @@ namespace SabreTools.RedumpLib.Data
         // https://www.arcade-history.com/?n=the-yakyuuken-part-1&page=detail&id=33049
         public static readonly PhysicalSystem NewJatreCDi = new("New Jatre CD-i",
             SystemCategory.Arcade,
-            code: "NJ-CDI",
             available: false,
+            code: "NJ-CDI",
             mediaTypes: [PhysicalMediaType.CDROM]);
 
         // http://blog.system11.org/?p=2499
         public static readonly PhysicalSystem NichibutsuHighRateSystem = new("Nichibutsu High Rate System",
             SystemCategory.Arcade,
             available: false,
-            mediaTypes: [PhysicalMediaType.CDROM]);
+            code: "NICHI",
+            mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
 
         // http://blog.system11.org/?p=2514
         public static readonly PhysicalSystem NichibutsuSuperCD = new("Nichibutsu Super CD",
@@ -1222,6 +1238,14 @@ namespace SabreTools.RedumpLib.Data
             available: false,
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
 
+        // https://www.system16.com/hardware.php?id=796
+        // https://www.system16.com/hardware.php?id=797
+        public static readonly PhysicalSystem SonyZN = new("Sony ZN",
+            SystemCategory.Arcade,
+            available: false,
+            code: "SZN",
+            mediaTypes: [PhysicalMediaType.CDROM]);
+
         // https://www.tab.at/en/support/support/downloads
         public static readonly PhysicalSystem TABAustriaQuizard = new("TAB-Austria Quizard",
             SystemCategory.Arcade,
@@ -1250,6 +1274,20 @@ namespace SabreTools.RedumpLib.Data
 
         #region Other
 
+        // https://en.wikipedia.org/wiki/Apple_Newton
+        public static readonly PhysicalSystem AppleNewton = new("Apple Newton",
+            SystemCategory.Other,
+            available: false,
+            code: "NEWTON",
+            mediaTypes: [PhysicalMediaType.CDROM]);
+
+        // https://aquaplus.jp/piece/intr.html
+        public static readonly PhysicalSystem AquaplusPIECE = new("Aquaplus P/ECE",
+            SystemCategory.Other,
+            available: false,
+            code: "PIECE",
+            mediaTypes: [PhysicalMediaType.CDROM]);
+
         // https://en.wikipedia.org/wiki/Audio_CD
         public static readonly PhysicalSystem AudioCD = new("Audio CD",
             SystemCategory.Other,
@@ -1264,6 +1302,13 @@ namespace SabreTools.RedumpLib.Data
             code: "BD-VIDEO",
             hasDat: true,
             mediaTypes: [PhysicalMediaType.BluRay]);
+
+        // https://en.wikipedia.org/wiki/Cybiko
+        public static readonly PhysicalSystem Cybiko = new("Cybiko",
+            SystemCategory.Other,
+            available: false,
+            code: "CYBIKO",
+            mediaTypes: [PhysicalMediaType.CDROM]);
 
         // UNKNOWN
         public static readonly PhysicalSystem DatelPlayStationCheatDeviceUpdates = new("Datel PlayStation Cheat Device Updates",
@@ -1309,6 +1354,13 @@ namespace SabreTools.RedumpLib.Data
             hasDat: true,
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
 
+        // https://en.wikipedia.org/wiki/MiniDisc
+        public static readonly PhysicalSystem MiniDisc = new("MiniDisc",
+            SystemCategory.Other,
+            available: false,
+            code: "MINIDISC",
+            mediaTypes: [PhysicalMediaType.CDROM]); // TODO: Create new MiniDisc physical media type
+
         // https://en.wikipedia.org/wiki/Compressed_audio_optical_disc
         public static readonly PhysicalSystem MP3AudioDisc = new("MP3 Audio Disc",
             SystemCategory.Other,
@@ -1323,6 +1375,13 @@ namespace SabreTools.RedumpLib.Data
             code: "NAVI",
             hasCues: true,
             hasDat: true,
+            mediaTypes: [PhysicalMediaType.CDROM]);
+
+        // https://en.wikipedia.org/wiki/Java_Platform,_Micro_Edition
+        public static readonly PhysicalSystem OracleJ2ME = new("Oracle J2ME",
+            SystemCategory.Other,
+            available: false,
+            code: "J2ME",
             mediaTypes: [PhysicalMediaType.CDROM]);
 
         // UNKNOWN
@@ -1383,7 +1442,8 @@ namespace SabreTools.RedumpLib.Data
         public static readonly PhysicalSystem SuperAudioCD = new("Super Audio CD",
             SystemCategory.Other,
             available: false,
-            mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
+            code: "SACD",
+            mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]); // TODO: Create new SACD physical media type
 
         // https://www.cnet.com/products/tao-music-iktv-karaoke-station-karaoke-system-series/
         public static readonly PhysicalSystem TaoiKTV = new("Tao iKTV",
@@ -1398,6 +1458,13 @@ namespace SabreTools.RedumpLib.Data
             hasCues: true,
             hasDat: true,
             mediaTypes: [PhysicalMediaType.CDROM]);
+
+        // https://en.wikipedia.org/wiki/Ultra_HD_Blu-ray
+        public static readonly PhysicalSystem UHDBDVideo = new("UHD BD-Video",
+            SystemCategory.Other,
+            available: false,
+            code: "UHDBD-VIDEO",
+            mediaTypes: [PhysicalMediaType.BluRay]);
 
         // https://en.wikipedia.org/wiki/Video_CD
         public static readonly PhysicalSystem VideoCD = new("Video CD",
@@ -1445,6 +1512,7 @@ namespace SabreTools.RedumpLib.Data
             HasbroVideoNowColor,
             HasbroVideoNowJr,
             HasbroVideoNowXP,
+            IQBuildersLearningCDComputer,
             MattelFisherPriceiXL,
             MattelHyperScan,
             MemorexVisualInformationSystem,
@@ -1542,6 +1610,7 @@ namespace SabreTools.RedumpLib.Data
             #region Computers
 
             AcornArchimedesAndRiscPC,
+            AppleII,
             AppleMacintosh,
             AtariSTSeries,
             Commodore64,
@@ -1626,6 +1695,7 @@ namespace SabreTools.RedumpLib.Data
             SegaSystem32,
             SegaTitanVideo,
             SeibuCATSSystem,
+            SonyZN,
             TABAustriaQuizard,
             TsunamiTsuMoMultiGameMotionSystem,
             UltraCade,
@@ -1637,16 +1707,21 @@ namespace SabreTools.RedumpLib.Data
 
             #region Other
 
+            AppleNewton,
+            AquaplusPIECE,
             AudioCD,
             BDVideo,
+            Cybiko,
             DatelPlayStationCheatDeviceUpdates,
             DVDAudio,
             DVDVideo,
             EnhancedCD,
             HDDVDVideo,
             MicrosoftPocketPC,
+            MiniDisc,
             MP3AudioDisc,
             NavisoftNaviken,
+            OracleJ2ME,
             PalmOS,
             PhotoCD,
             Psion,
@@ -1657,6 +1732,7 @@ namespace SabreTools.RedumpLib.Data
             SuperAudioCD,
             TaoiKTV,
             TomyKissSite,
+            UHDBDVideo,
             VideoCD,
 
             // End of other section delimiter

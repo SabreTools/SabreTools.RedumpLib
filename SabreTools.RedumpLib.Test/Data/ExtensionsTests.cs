@@ -1358,6 +1358,7 @@ namespace SabreTools.RedumpLib.Test.Data
             [PhysicalSystem.HasbroVideoNowColor] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.HasbroVideoNowJr] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.HasbroVideoNowXP] = SystemCategory.DiscBasedConsole,
+            [PhysicalSystem.IQBuildersLearningCDComputer] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.MattelFisherPriceiXL] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.MattelHyperScan] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.MemorexVisualInformationSystem] = SystemCategory.DiscBasedConsole,
@@ -1393,6 +1394,7 @@ namespace SabreTools.RedumpLib.Test.Data
             // Computers
             [PhysicalSystem.AcornArchimedesAndRiscPC] = SystemCategory.Computer,
             [PhysicalSystem.AppleMacintosh] = SystemCategory.Computer,
+            [PhysicalSystem.AppleII] = SystemCategory.Computer,
             [PhysicalSystem.AtariSTSeries] = SystemCategory.Computer,
             [PhysicalSystem.Commodore64] = SystemCategory.Computer,
             [PhysicalSystem.CommodoreAmigaCD] = SystemCategory.Computer,
@@ -1471,22 +1473,28 @@ namespace SabreTools.RedumpLib.Test.Data
             [PhysicalSystem.SegaSystem32] = SystemCategory.Arcade,
             [PhysicalSystem.SegaTitanVideo] = SystemCategory.Arcade,
             [PhysicalSystem.SeibuCATSSystem] = SystemCategory.Arcade,
+            [PhysicalSystem.SonyZN] = SystemCategory.Arcade,
             [PhysicalSystem.TABAustriaQuizard] = SystemCategory.Arcade,
             [PhysicalSystem.TsunamiTsuMoMultiGameMotionSystem] = SystemCategory.Arcade,
             [PhysicalSystem.UltraCade] = SystemCategory.Arcade,
             [PhysicalSystem.MarkerArcadeEnd] = SystemCategory.NONE,
 
             // Other
+            [PhysicalSystem.AppleNewton] = SystemCategory.Other,
+            [PhysicalSystem.AquaplusPIECE] = SystemCategory.Other,
             [PhysicalSystem.AudioCD] = SystemCategory.Other,
             [PhysicalSystem.BDVideo] = SystemCategory.Other,
+            [PhysicalSystem.Cybiko] = SystemCategory.Other,
             [PhysicalSystem.DatelPlayStationCheatDeviceUpdates] = SystemCategory.Other,
             [PhysicalSystem.DVDAudio] = SystemCategory.Other,
             [PhysicalSystem.DVDVideo] = SystemCategory.Other,
             [PhysicalSystem.EnhancedCD] = SystemCategory.Other,
             [PhysicalSystem.HDDVDVideo] = SystemCategory.Other,
             [PhysicalSystem.MicrosoftPocketPC] = SystemCategory.Other,
+            [PhysicalSystem.MiniDisc] = SystemCategory.Other,
             [PhysicalSystem.MP3AudioDisc] = SystemCategory.Other,
             [PhysicalSystem.NavisoftNaviken] = SystemCategory.Other,
+            [PhysicalSystem.OracleJ2ME] = SystemCategory.Other,
             [PhysicalSystem.PalmOS] = SystemCategory.Other,
             [PhysicalSystem.PhotoCD] = SystemCategory.Other,
             [PhysicalSystem.Psion] = SystemCategory.Other,
@@ -1497,6 +1505,7 @@ namespace SabreTools.RedumpLib.Test.Data
             [PhysicalSystem.SuperAudioCD] = SystemCategory.Other,
             [PhysicalSystem.TaoiKTV] = SystemCategory.Other,
             [PhysicalSystem.TomyKissSite] = SystemCategory.Other,
+            [PhysicalSystem.UHDBDVideo] = SystemCategory.Other,
             [PhysicalSystem.VideoCD] = SystemCategory.Other,
             [PhysicalSystem.MarkerOtherEnd] = SystemCategory.NONE,
         };
@@ -1731,6 +1740,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.EnvizionsEVOSmartConsole,
             PhysicalSystem.FujitsuFMTownsMarty,
             PhysicalSystem.HasbroiONEducationalGamingSystem,
+            PhysicalSystem.IQBuildersLearningCDComputer, // TODO: Confirm this is Windows-readable
             PhysicalSystem.MattelFisherPriceiXL,
             PhysicalSystem.MattelHyperScan,
             PhysicalSystem.MemorexVisualInformationSystem,
@@ -1758,6 +1768,7 @@ namespace SabreTools.RedumpLib.Test.Data
 
             // Computers
             PhysicalSystem.AcornArchimedesAndRiscPC,
+            PhysicalSystem.AppleII, // TODO: Confirm this is Windows-readable
             PhysicalSystem.AtariSTSeries, // TODO: Confirm this is Windows-readable
             PhysicalSystem.Commodore64, // TODO: Confirm this is Windows-readable
             PhysicalSystem.CommodoreAmigaCD,
@@ -1831,20 +1842,26 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SegaSystem32,
             PhysicalSystem.SegaTitanVideo,
             PhysicalSystem.SeibuCATSSystem,
+            PhysicalSystem.SonyZN, // TODO: Confirm this is Windows-readable
             PhysicalSystem.TABAustriaQuizard,
             PhysicalSystem.TsunamiTsuMoMultiGameMotionSystem,
             PhysicalSystem.UltraCade,
 
             // Other
+            PhysicalSystem.AppleNewton, // TODO: Confirm this is Windows-readable
+            PhysicalSystem.AquaplusPIECE, // TODO: Confirm this is Windows-readable
             PhysicalSystem.AudioCD,
             PhysicalSystem.BDVideo,
+            PhysicalSystem.Cybiko,
             PhysicalSystem.DVDAudio,
             PhysicalSystem.DVDVideo,
             PhysicalSystem.EnhancedCD,
             PhysicalSystem.HDDVDVideo,
             PhysicalSystem.MicrosoftPocketPC,
+            PhysicalSystem.MiniDisc, // TODO: Confirm this is Windows-readable
             PhysicalSystem.MP3AudioDisc,
             PhysicalSystem.NavisoftNaviken,
+            PhysicalSystem.OracleJ2ME,
             PhysicalSystem.PalmOS,
             PhysicalSystem.PhotoCD,
             PhysicalSystem.Psion,
@@ -1854,6 +1871,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SonyElectronicBook,
             PhysicalSystem.TaoiKTV,
             PhysicalSystem.TomyKissSite,
+            PhysicalSystem.UHDBDVideo,
             PhysicalSystem.VideoCD,
         ];
 
