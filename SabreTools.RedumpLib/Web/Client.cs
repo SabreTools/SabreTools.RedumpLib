@@ -234,6 +234,13 @@ namespace SabreTools.RedumpLib.Web
                         continue;
                     }
 
+                    // A malformed form indicicates a retry is needed
+                    if (responseContent.Contains("The submitted form was invalid. Try submitting again."))
+                    {
+                        Console.Error.WriteLine($"An error occurred while trying to log in on attempt {i}: Invalid result");
+                        continue;
+                    }
+
                     // "Your posts" indicates login was successful
                     if (!responseContent.Contains("./search.php?search_id=egosearch"))
                     {
@@ -338,7 +345,14 @@ namespace SabreTools.RedumpLib.Web
                         responseStream.CopyTo(tempFileStream);
                     }
 
-                    return response.Content.Headers.ContentDisposition?.FileName?.Replace("\"", "");
+                    // If the filename can be derived from the headers
+                    string? filename = response.Content.Headers.ContentDisposition?.FileName?.Replace("\"", "");
+                    if (filename is not null)
+                        return filename;
+
+                    // Otherwise, derive from the URL itself
+                    Uri filenameUri = new Uri(uri);
+                    return Path.GetFileName(filenameUri.LocalPath);
 #elif NET40
                     await Task.Factory.StartNew(() => { _internalClient.DownloadFile(uri, fileName); return true; });
                     string? lastFilename = _internalClient.GetLastFilename();
@@ -1536,17 +1550,55 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 if (Debug)
+                {
                     Console.WriteLine(system.Name);
+                }
                 else
-                    Console.Write($"\r{system.Name}{new string(' ', Console.BufferWidth - system.Name.Length - 1)}");
+                {
+                    // If the buffer does not provide a width, just print on a new line
+                    int bufferWidth = Console.BufferWidth;
+                    if (bufferWidth == 0)
+                    {
+                        Console.WriteLine(system.Name);
+                    }
+
+                    // Otherwise, overwrite the line if possible
+                    else
+                    {
+                        int clearLength = bufferWidth - system.Name.Length - 1;
+                        if (clearLength < 0)
+                            clearLength = 0;
+
+                        Console.Write($"\r{system.Name}{new string(' ', clearLength)}");
+                    }
+                }
 
                 await DownloadSinglePack(packType, system, outDir, subfolder);
             }
 
             if (Debug)
+            {
                 Console.WriteLine("Complete!");
+            }
             else
-                Console.Write($"\rComplete!{new string(' ', Console.BufferWidth - 10)}");
+            {
+                // If the buffer does not provide a width, just print on a new line
+                int bufferWidth = Console.BufferWidth;
+                if (bufferWidth == 0)
+                {
+                    Console.WriteLine("Complete!");
+                }
+
+                // Otherwise, overwrite the line if possible
+                else
+                {
+                    int clearLength = bufferWidth - 10;
+                    if (clearLength < 0)
+                        clearLength = 0;
+
+                    Console.Write($"\rComplete!{new string(' ', clearLength)}");
+                }
+            }
 
             Console.WriteLine();
             return true;
