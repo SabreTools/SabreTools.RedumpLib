@@ -1037,8 +1037,9 @@ namespace SabreTools.RedumpLib.Data
         // https://www.arcade-history.com/?n=the-yakyuuken-part-1&page=detail&id=33049
         public static readonly PhysicalSystem NewJatreCDi = new("New Jatre CD-i",
             SystemCategory.Arcade,
-            available: false,
-            code: "NJ-CDI",
+            code: "NEWJATRE",
+            hasCues: true,
+            hasDat: true,
             mediaTypes: [PhysicalMediaType.CDROM]);
 
         // http://blog.system11.org/?p=2499
