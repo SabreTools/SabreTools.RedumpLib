@@ -231,6 +231,7 @@ namespace SabreTools.RedumpLib.Web
                     if (string.IsNullOrEmpty(responseContent))
                     {
                         Console.Error.WriteLine($"An error occurred while trying to log in on attempt {i}: No response");
+                        DelayHelper.DelayRandom();
                         continue;
                     }
 
@@ -238,6 +239,7 @@ namespace SabreTools.RedumpLib.Web
                     if (responseContent.Contains("The submitted form was invalid. Try submitting again."))
                     {
                         Console.Error.WriteLine($"An error occurred while trying to log in on attempt {i}: Invalid result");
+                        DelayHelper.DelayRandom();
                         continue;
                     }
 
