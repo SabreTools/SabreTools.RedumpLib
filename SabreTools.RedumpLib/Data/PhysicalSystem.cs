@@ -294,6 +294,7 @@ namespace SabreTools.RedumpLib.Data
         public static readonly PhysicalSystem NintendoSonySuperNESCDROMSystem = new("Nintendo-Sony Super NES CD-ROM System",
             SystemCategory.DiscBasedConsole,
             available: false,
+            code: "SUPERDISC",
             mediaTypes: [PhysicalMediaType.CDROM]);
 
         // https://en.wikipedia.org/wiki/Wii
