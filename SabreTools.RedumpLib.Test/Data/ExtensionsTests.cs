@@ -1304,6 +1304,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.TABAustriaQuizard,
 
             // Other
+            PhysicalSystem.AppleNewton,
             PhysicalSystem.AudioCD,
             PhysicalSystem.BDVideo,
             PhysicalSystem.DatelPlayStationCheatDeviceUpdates,
@@ -1582,6 +1583,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.TABAustriaQuizard,
 
             // Other
+            PhysicalSystem.AppleNewton,
             PhysicalSystem.AudioCD,
             PhysicalSystem.DatelPlayStationCheatDeviceUpdates,
             PhysicalSystem.EnhancedCD,
@@ -1700,6 +1702,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.TABAustriaQuizard,
 
             // Other
+            PhysicalSystem.AppleNewton,
             PhysicalSystem.AudioCD,
             PhysicalSystem.BDVideo,
             PhysicalSystem.DatelPlayStationCheatDeviceUpdates,
