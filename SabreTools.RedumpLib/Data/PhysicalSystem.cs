@@ -1279,8 +1279,9 @@ namespace SabreTools.RedumpLib.Data
         // https://en.wikipedia.org/wiki/Apple_Newton
         public static readonly PhysicalSystem AppleNewton = new("Apple Newton",
             SystemCategory.Other,
-            available: false,
             code: "NEWTON",
+            hasCues: true,
+            hasDat: true,
             mediaTypes: [PhysicalMediaType.CDROM]);
 
         // https://aquaplus.jp/piece/intr.html
