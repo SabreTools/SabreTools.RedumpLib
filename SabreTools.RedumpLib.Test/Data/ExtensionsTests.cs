@@ -1264,6 +1264,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SunMicrosystemsUltra,
 
             // Arcade
+            PhysicalSystem.AmericanLaserGames3DO,
             PhysicalSystem.CapcomPlaySystemIII,
             PhysicalSystem.FunworldPhotoPlay,
             PhysicalSystem.FuRyuOmronPurikura,
@@ -1356,11 +1357,12 @@ namespace SabreTools.RedumpLib.Test.Data
             [PhysicalSystem.EnvizionsEVOSmartConsole] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.FujitsuFMTownsMarty] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.HasbroiONEducationalGamingSystem] = SystemCategory.DiscBasedConsole,
+            [PhysicalSystem.HasbroRush] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.HasbroVideoNow] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.HasbroVideoNowColor] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.HasbroVideoNowJr] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.HasbroVideoNowXP] = SystemCategory.DiscBasedConsole,
-            [PhysicalSystem.IQBuildersLearningCDComputer] = SystemCategory.DiscBasedConsole,
+            [PhysicalSystem.IndremaL600] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.MattelFisherPriceiXL] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.MattelHyperScan] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.MemorexVisualInformationSystem] = SystemCategory.DiscBasedConsole,
@@ -1378,6 +1380,7 @@ namespace SabreTools.RedumpLib.Test.Data
             [PhysicalSystem.PhilipsCDi] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.PlaymajiPolymega] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.PioneerLaserActive] = SystemCategory.DiscBasedConsole,
+            [PhysicalSystem.RDIHalcyon] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.SegaDreamcast] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.SegaMegaCDSegaCD] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.SegaSaturn] = SystemCategory.DiscBasedConsole,
@@ -1388,7 +1391,9 @@ namespace SabreTools.RedumpLib.Test.Data
             [PhysicalSystem.SonyPlayStation4] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.SonyPlayStation5] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.SonyPlayStationPortable] = SystemCategory.DiscBasedConsole,
+            [PhysicalSystem.TaitoWoWoW] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.VMLabsNUON] = SystemCategory.DiscBasedConsole,
+            [PhysicalSystem.VTechIQBuildersLearningCDComputer] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.VTechVFlashVSmilePro] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.ZAPiTGamesGameWaveFamilyEntertainmentSystem] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.MarkerDiscBasedConsoleEnd] = SystemCategory.NONE,
@@ -1444,6 +1449,7 @@ namespace SabreTools.RedumpLib.Test.Data
             [PhysicalSystem.MeritIndustriesMegaTouchXL] = SystemCategory.Arcade,
             [PhysicalSystem.NamcoPurikura] = SystemCategory.Arcade,
             [PhysicalSystem.NamcoSegaNintendoTriforce] = SystemCategory.Arcade,
+            [PhysicalSystem.NamcoSystem10] = SystemCategory.Arcade,
             [PhysicalSystem.NamcoSystem12] = SystemCategory.Arcade,
             [PhysicalSystem.NamcoSystem22] = SystemCategory.Arcade,
             [PhysicalSystem.NamcoSystem246] = SystemCategory.Arcade,
@@ -1491,6 +1497,7 @@ namespace SabreTools.RedumpLib.Test.Data
             [PhysicalSystem.DVDAudio] = SystemCategory.Other,
             [PhysicalSystem.DVDVideo] = SystemCategory.Other,
             [PhysicalSystem.EnhancedCD] = SystemCategory.Other,
+            [PhysicalSystem.GameParkGP32] = SystemCategory.Other,
             [PhysicalSystem.HDDVDVideo] = SystemCategory.Other,
             [PhysicalSystem.MicrosoftPocketPC] = SystemCategory.Other,
             [PhysicalSystem.MiniDisc] = SystemCategory.Other,
@@ -1505,10 +1512,13 @@ namespace SabreTools.RedumpLib.Test.Data
             [PhysicalSystem.SharpZaurus] = SystemCategory.Other,
             [PhysicalSystem.SonyElectronicBook] = SystemCategory.Other,
             [PhysicalSystem.SuperAudioCD] = SystemCategory.Other,
+            [PhysicalSystem.Symbian] = SystemCategory.Other,
             [PhysicalSystem.TaoiKTV] = SystemCategory.Other,
+            [PhysicalSystem.TexasInstrumentsTISeries] = SystemCategory.Other,
             [PhysicalSystem.TomyKissSite] = SystemCategory.Other,
             [PhysicalSystem.UHDBDVideo] = SystemCategory.Other,
             [PhysicalSystem.VideoCD] = SystemCategory.Other,
+            [PhysicalSystem.VTechWhizKidLearningSystem] = SystemCategory.Other,
             [PhysicalSystem.MarkerOtherEnd] = SystemCategory.NONE,
         };
 
@@ -1560,6 +1570,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SunMicrosystemsUltra,
 
             // Arcade
+            PhysicalSystem.AmericanLaserGames3DO,
             PhysicalSystem.CapcomPlaySystemIII,
             PhysicalSystem.FunworldPhotoPlay,
             PhysicalSystem.IncredibleTechnologiesEagle,
@@ -1665,6 +1676,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SunMicrosystemsUltra,
 
             // Arcade
+            PhysicalSystem.AmericanLaserGames3DO,
             PhysicalSystem.CapcomPlaySystemIII,
             PhysicalSystem.FunworldPhotoPlay,
             PhysicalSystem.FuRyuOmronPurikura,
@@ -1746,7 +1758,8 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.EnvizionsEVOSmartConsole,
             PhysicalSystem.FujitsuFMTownsMarty,
             PhysicalSystem.HasbroiONEducationalGamingSystem,
-            PhysicalSystem.IQBuildersLearningCDComputer, // TODO: Confirm this is Windows-readable
+            PhysicalSystem.HasbroRush, // TODO: Confirm this is Windows-readable
+            PhysicalSystem.IndremaL600, // TODO: Confirm this is Windows-readable
             PhysicalSystem.MattelFisherPriceiXL,
             PhysicalSystem.MattelHyperScan,
             PhysicalSystem.MemorexVisualInformationSystem,
@@ -1758,6 +1771,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.NECPCFXPCFXGA,
             PhysicalSystem.NintendoSonySuperNESCDROMSystem,
             PhysicalSystem.PlaymajiPolymega,
+            PhysicalSystem.RDIHalcyon, // TODO: Confirm this is Windows-readable
             PhysicalSystem.SegaDreamcast,
             PhysicalSystem.SegaMegaCDSegaCD,
             PhysicalSystem.SegaSaturn,
@@ -1768,7 +1782,9 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SonyPlayStation4,
             PhysicalSystem.SonyPlayStation5,
             PhysicalSystem.SonyPlayStationPortable,
+            PhysicalSystem.TaitoWoWoW, // TODO: Confirm this is Windows-readable
             PhysicalSystem.VMLabsNUON,
+            PhysicalSystem.VTechIQBuildersLearningCDComputer, // TODO: Confirm this is Windows-readable
             PhysicalSystem.VTechVFlashVSmilePro,
             PhysicalSystem.ZAPiTGamesGameWaveFamilyEntertainmentSystem,
 
@@ -1819,6 +1835,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.MeritIndustriesMegaTouchXL,
             PhysicalSystem.NamcoPurikura,
             PhysicalSystem.NamcoSegaNintendoTriforce,
+            PhysicalSystem.NamcoSystem10, // TODO: Confirm this is Windows-readable
             PhysicalSystem.NamcoSystem12,
             PhysicalSystem.NamcoSystem22,
             PhysicalSystem.NamcoSystem246,
@@ -1862,6 +1879,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.DVDAudio,
             PhysicalSystem.DVDVideo,
             PhysicalSystem.EnhancedCD,
+            PhysicalSystem.GameParkGP32, // TODO: Confirm this is Windows-readable
             PhysicalSystem.HDDVDVideo,
             PhysicalSystem.MicrosoftPocketPC,
             PhysicalSystem.MiniDisc, // TODO: Confirm this is Windows-readable
@@ -1872,13 +1890,16 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.PhotoCD,
             PhysicalSystem.Psion,
             PhysicalSystem.RainbowDisc,
-            PhysicalSystem.SharpZaurus,
             PhysicalSystem.SegaPrologue21MultimediaKaraokeSystem,
+            PhysicalSystem.SharpZaurus,
             PhysicalSystem.SonyElectronicBook,
+            PhysicalSystem.Symbian, // TODO: Confirm this is Windows-readable
             PhysicalSystem.TaoiKTV,
+            PhysicalSystem.TexasInstrumentsTISeries, // TODO: Confirm this is Windows-readable
             PhysicalSystem.TomyKissSite,
             PhysicalSystem.UHDBDVideo,
             PhysicalSystem.VideoCD,
+            PhysicalSystem.VTechWhizKidLearningSystem, // TODO: Confirm this is Windows-readable
         ];
 
         /// <summary>

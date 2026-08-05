@@ -5,6 +5,7 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// Represents a single physical system type
     /// </summary>
+    /// TODO: Consider changing the categories to match Redump
     public sealed class PhysicalSystem
     {
         #region Properties
@@ -174,6 +175,13 @@ namespace SabreTools.RedumpLib.Data
             hasDat: true,
             mediaTypes: [PhysicalMediaType.CDROM]);
 
+        // https://www.unseen64.net/2018/10/04/hasbro-toaster-virtual-reality-console/
+        public static readonly PhysicalSystem HasbroRush = new("Hasbro Rush",
+            SystemCategory.DiscBasedConsole,
+            available: false,
+            code: "HRUSH",
+            mediaTypes: [PhysicalMediaType.CDROM]);
+
         // https://en.wikipedia.org/wiki/VideoNow
         public static readonly PhysicalSystem HasbroVideoNow = new("Hasbro VideoNow",
             SystemCategory.DiscBasedConsole,
@@ -206,12 +214,12 @@ namespace SabreTools.RedumpLib.Data
             hasDat: true,
             mediaTypes: [PhysicalMediaType.CDROM]);
 
-        // UNKNOWN
-        public static readonly PhysicalSystem IQBuildersLearningCDComputer = new("IQ Builders Learning CD Computer",
+        // https://en.wikipedia.org/wiki/Indrema#L600
+        public static readonly PhysicalSystem IndremaL600 = new("Indrema L600",
             SystemCategory.DiscBasedConsole,
             available: false,
-            code: "LEARNCD",
-            mediaTypes: [PhysicalMediaType.CDROM]);
+            code: "L600",
+            mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
 
         // https://m.service.mattel.com/us/Technical/TechnicalProductDetail?prodno=R9703&siteid=27&catid=520&from=supportlanding
         public static readonly PhysicalSystem MattelFisherPriceiXL = new("Mattel Fisher-Price iXL",
@@ -341,6 +349,13 @@ namespace SabreTools.RedumpLib.Data
             code: "LASERACTIVE",
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.LaserDisc]);
 
+        // https://en.wikipedia.org/wiki/Halcyon_(console)
+        public static readonly PhysicalSystem RDIHalcyon = new("RDI Halcyon",
+            SystemCategory.DiscBasedConsole,
+            available: false,
+            code: "HALCYON",
+            mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.LaserDisc]);
+
         // https://en.wikipedia.org/wiki/Dreamcast
         public static readonly PhysicalSystem SegaDreamcast = new("Sega Dreamcast",
             SystemCategory.DiscBasedConsole,
@@ -419,12 +434,26 @@ namespace SabreTools.RedumpLib.Data
             hasDat: true,
             mediaTypes: [PhysicalMediaType.UMD, PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
 
+        // https://www.unseen64.net/2015/08/10/interview-taito-wowow-console/
+        public static readonly PhysicalSystem TaitoWoWoW = new("Taito WoWoW",
+            SystemCategory.DiscBasedConsole,
+            available: false,
+            code: "WOWOW",
+            mediaTypes: [PhysicalMediaType.CDROM]);
+
         // https://en.wikipedia.org/wiki/Nuon_(DVD_technology)
         public static readonly PhysicalSystem VMLabsNUON = new("VM Labs NUON",
             SystemCategory.DiscBasedConsole,
             code: "NUON",
             hasDat: true,
             mediaTypes: [PhysicalMediaType.DVD]);
+
+        // UNKNOWN
+        public static readonly PhysicalSystem VTechIQBuildersLearningCDComputer = new("VTech IQ Builders Learning CD Computer",
+            SystemCategory.DiscBasedConsole,
+            available: false,
+            code: "IQ",
+            mediaTypes: [PhysicalMediaType.CDROM]);
 
         // https://en.wikipedia.org/wiki/V.Flash
         public static readonly PhysicalSystem VTechVFlashVSmilePro = new("VTech V.Flash & V.Smile Pro",
@@ -777,7 +806,9 @@ namespace SabreTools.RedumpLib.Data
         // https://en.wikipedia.org/wiki/Orbatak
         public static readonly PhysicalSystem AmericanLaserGames3DO = new("American Laser Games 3DO",
             SystemCategory.Arcade,
-            available: false,
+            code: "3DOARCADE",
+            hasCues: true,
+            hasDat: true,
             mediaTypes: [PhysicalMediaType.CDROM]);
 
         // http://system16.com/hardware.php?id=779
@@ -1003,6 +1034,14 @@ namespace SabreTools.RedumpLib.Data
             hasCues: true,
             hasDat: true,
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.GDROM]);
+
+        // https://en.wikipedia.org/wiki/Namco_System_10
+        // https://system16.com/hardware.php?id=540
+        public static readonly PhysicalSystem NamcoSystem10 = new("Namco System 10",
+            SystemCategory.Arcade,
+            available: false,
+            code: "NS10",
+            mediaTypes: [PhysicalMediaType.CDROM]);
 
         // http://system16.com/hardware.php?id=535
         public static readonly PhysicalSystem NamcoSystem12 = new("Namco System 12",
@@ -1231,13 +1270,14 @@ namespace SabreTools.RedumpLib.Data
         // http://system16.com/hardware.php?id=711
         public static readonly PhysicalSystem SegaTitanVideo = new("Sega Titan Video",
             SystemCategory.Arcade,
-            code: "stv",
+            code: "STV",
             mediaTypes: [PhysicalMediaType.CDROM]);
 
         // https://github.com/mamedev/mame/blob/master/src/mame/drivers/seibucats.cpp
         public static readonly PhysicalSystem SeibuCATSSystem = new("Seibu CATS System",
             SystemCategory.Arcade,
             available: false,
+            code: "CATS",
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
 
         // https://www.system16.com/hardware.php?id=796
@@ -1341,6 +1381,13 @@ namespace SabreTools.RedumpLib.Data
             hasCues: true,
             hasDat: true,
             mediaTypes: [PhysicalMediaType.CDROM]);
+
+        // https://en.wikipedia.org/wiki/GP32
+        public static readonly PhysicalSystem GameParkGP32 = new("GamePark GP32",
+            SystemCategory.Other,
+            available: false,
+            code: "GP32",
+            mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
 
         // https://en.wikipedia.org/wiki/HD_DVD
         public static readonly PhysicalSystem HDDVDVideo = new("HD DVD-Video",
@@ -1448,10 +1495,24 @@ namespace SabreTools.RedumpLib.Data
             code: "SACD",
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]); // TODO: Create new SACD physical media type
 
+        // https://en.wikipedia.org/wiki/Symbian
+        public static readonly PhysicalSystem Symbian = new("Symbian",
+            SystemCategory.Other,
+            available: false,
+            code: "SYMBIAN",
+            mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD, PhysicalMediaType.FloppyDisk]);
+
         // https://www.cnet.com/products/tao-music-iktv-karaoke-station-karaoke-system-series/
         public static readonly PhysicalSystem TaoiKTV = new("Tao iKTV",
             SystemCategory.Other,
             code: "IKTV",
+            mediaTypes: [PhysicalMediaType.CDROM]);
+
+        // https://en.wikipedia.org/wiki/Comparison_of_Texas_Instruments_graphing_calculators
+        public static readonly PhysicalSystem TexasInstrumentsTISeries = new("Texas Instruments TI series",
+            SystemCategory.Other,
+            available: false,
+            code: "TI",
             mediaTypes: [PhysicalMediaType.CDROM]);
 
         // http://ultimateconsoledatabase.com/golden/kiss_site.htm
@@ -1475,6 +1536,13 @@ namespace SabreTools.RedumpLib.Data
             code: "VCD",
             hasCues: true,
             hasDat: true,
+            mediaTypes: [PhysicalMediaType.CDROM]);
+
+        // https://www.vtechkids.com/assets/data/products/%7BB0D87C67-0225-40C5-8446-75BD5F8BC17F%7D/manuals/80-086020%20Whiz%20Kid%20CD%20Dora%20the%20Explorer.pdf
+        public static readonly PhysicalSystem VTechWhizKidLearningSystem = new("VTech Whiz Kid Learning System",
+            SystemCategory.Other,
+            available: false,
+            code: "WHIZKID",
             mediaTypes: [PhysicalMediaType.CDROM]);
 
         // End of other section delimiter
@@ -1511,11 +1579,12 @@ namespace SabreTools.RedumpLib.Data
             EnvizionsEVOSmartConsole,
             FujitsuFMTownsMarty,
             HasbroiONEducationalGamingSystem,
+            HasbroRush,
             HasbroVideoNow,
             HasbroVideoNowColor,
             HasbroVideoNowJr,
             HasbroVideoNowXP,
-            IQBuildersLearningCDComputer,
+            IndremaL600,
             MattelFisherPriceiXL,
             MattelHyperScan,
             MemorexVisualInformationSystem,
@@ -1533,6 +1602,7 @@ namespace SabreTools.RedumpLib.Data
             PhilipsCDi,
             PlaymajiPolymega,
             PioneerLaserActive,
+            RDIHalcyon,
             SegaDreamcast,
             SegaMegaCDSegaCD,
             SegaSaturn,
@@ -1543,7 +1613,9 @@ namespace SabreTools.RedumpLib.Data
             SonyPlayStation4,
             SonyPlayStation5,
             SonyPlayStationPortable,
+            TaitoWoWoW,
             VMLabsNUON,
+            VTechIQBuildersLearningCDComputer,
             VTechVFlashVSmilePro,
             ZAPiTGamesGameWaveFamilyEntertainmentSystem,
 
@@ -1667,6 +1739,7 @@ namespace SabreTools.RedumpLib.Data
             MeritIndustriesMegaTouchXL,
             NamcoPurikura,
             NamcoSegaNintendoTriforce,
+            NamcoSystem10,
             NamcoSystem12,
             NamcoSystem22,
             NamcoSystem246,
@@ -1719,6 +1792,7 @@ namespace SabreTools.RedumpLib.Data
             DVDAudio,
             DVDVideo,
             EnhancedCD,
+            GameParkGP32,
             HDDVDVideo,
             MicrosoftPocketPC,
             MiniDisc,
@@ -1733,10 +1807,13 @@ namespace SabreTools.RedumpLib.Data
             SharpZaurus,
             SonyElectronicBook,
             SuperAudioCD,
+            Symbian,
             TaoiKTV,
+            TexasInstrumentsTISeries,
             TomyKissSite,
             UHDBDVideo,
             VideoCD,
+            VTechWhizKidLearningSystem,
 
             // End of other section delimiter
             MarkerOtherEnd,
