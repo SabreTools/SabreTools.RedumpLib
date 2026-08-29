@@ -1070,7 +1070,6 @@ namespace SabreTools.RedumpLib.Data
         public static readonly PhysicalSystem NamcoSystem256 = new("Namco System 256",
             SystemCategory.Arcade,
             code: "NS256",
-            hasCues: true,
             hasDat: true,
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
 
@@ -1396,6 +1395,14 @@ namespace SabreTools.RedumpLib.Data
             hasDat: true,
             mediaTypes: [PhysicalMediaType.HDDVD]);
 
+        // https://en.wikipedia.org/wiki/HP_48_series
+        public static readonly PhysicalSystem HewlettPackardHP48Series = new("Hewlett-Packard HP 48 series",
+            SystemCategory.Other,
+            code: "HP48",
+            hasCues: true,
+            hasDat: true,
+            mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
+
         // UNKNOWN
         public static readonly PhysicalSystem MicrosoftPocketPC = new("Microsoft Pocket PC",
             SystemCategory.Other,
@@ -1511,8 +1518,9 @@ namespace SabreTools.RedumpLib.Data
         // https://en.wikipedia.org/wiki/Comparison_of_Texas_Instruments_graphing_calculators
         public static readonly PhysicalSystem TexasInstrumentsTISeries = new("Texas Instruments TI series",
             SystemCategory.Other,
-            available: false,
             code: "TI",
+            hasCues: true,
+            hasDat: true,
             mediaTypes: [PhysicalMediaType.CDROM]);
 
         // http://ultimateconsoledatabase.com/golden/kiss_site.htm
@@ -1794,6 +1802,7 @@ namespace SabreTools.RedumpLib.Data
             EnhancedCD,
             GameParkGP32,
             HDDVDVideo,
+            HewlettPackardHP48Series,
             MicrosoftPocketPC,
             MiniDisc,
             MP3AudioDisc,

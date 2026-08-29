@@ -1312,6 +1312,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.DVDVideo,
             PhysicalSystem.EnhancedCD,
             PhysicalSystem.HDDVDVideo,
+            PhysicalSystem.HewlettPackardHP48Series,
             PhysicalSystem.MicrosoftPocketPC,
             PhysicalSystem.MP3AudioDisc,
             PhysicalSystem.NavisoftNaviken,
@@ -1322,6 +1323,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SharpZaurus,
             PhysicalSystem.SonyElectronicBook,
             PhysicalSystem.TaoiKTV,
+            PhysicalSystem.TexasInstrumentsTISeries,
             PhysicalSystem.TomyKissSite,
             PhysicalSystem.VideoCD,
         ];
@@ -1499,6 +1501,7 @@ namespace SabreTools.RedumpLib.Test.Data
             [PhysicalSystem.EnhancedCD] = SystemCategory.Other,
             [PhysicalSystem.GameParkGP32] = SystemCategory.Other,
             [PhysicalSystem.HDDVDVideo] = SystemCategory.Other,
+            [PhysicalSystem.HewlettPackardHP48Series] = SystemCategory.Other,
             [PhysicalSystem.MicrosoftPocketPC] = SystemCategory.Other,
             [PhysicalSystem.MiniDisc] = SystemCategory.Other,
             [PhysicalSystem.MP3AudioDisc] = SystemCategory.Other,
@@ -1582,7 +1585,6 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.NamcoSegaNintendoTriforce,
             PhysicalSystem.NamcoSystem22,
             PhysicalSystem.NamcoSystem246,
-            PhysicalSystem.NamcoSystem256,
             PhysicalSystem.NewJatreCDi,
             PhysicalSystem.PanasonicM2,
             PhysicalSystem.PCBasedArcade,
@@ -1598,6 +1600,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.AudioCD,
             PhysicalSystem.DatelPlayStationCheatDeviceUpdates,
             PhysicalSystem.EnhancedCD,
+            PhysicalSystem.HewlettPackardHP48Series,
             PhysicalSystem.MicrosoftPocketPC,
             PhysicalSystem.MP3AudioDisc,
             PhysicalSystem.NavisoftNaviken,
@@ -1607,6 +1610,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SegaPrologue21MultimediaKaraokeSystem,
             PhysicalSystem.SharpZaurus,
             PhysicalSystem.SonyElectronicBook,
+            PhysicalSystem.TexasInstrumentsTISeries,
             PhysicalSystem.TomyKissSite,
             PhysicalSystem.VideoCD,
         ];
@@ -1721,6 +1725,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.DVDVideo,
             PhysicalSystem.EnhancedCD,
             PhysicalSystem.HDDVDVideo,
+            PhysicalSystem.HewlettPackardHP48Series,
             PhysicalSystem.MicrosoftPocketPC,
             PhysicalSystem.MP3AudioDisc,
             PhysicalSystem.NavisoftNaviken,
@@ -1730,6 +1735,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SegaPrologue21MultimediaKaraokeSystem,
             PhysicalSystem.SharpZaurus,
             PhysicalSystem.SonyElectronicBook,
+            PhysicalSystem.TexasInstrumentsTISeries,
             PhysicalSystem.TomyKissSite,
             PhysicalSystem.VideoCD,
         ];
@@ -1881,6 +1887,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.EnhancedCD,
             PhysicalSystem.GameParkGP32, // TODO: Confirm this is Windows-readable
             PhysicalSystem.HDDVDVideo,
+            PhysicalSystem.HewlettPackardHP48Series,
             PhysicalSystem.MicrosoftPocketPC,
             PhysicalSystem.MiniDisc, // TODO: Confirm this is Windows-readable
             PhysicalSystem.MP3AudioDisc,
@@ -1895,7 +1902,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalSystem.SonyElectronicBook,
             PhysicalSystem.Symbian, // TODO: Confirm this is Windows-readable
             PhysicalSystem.TaoiKTV,
-            PhysicalSystem.TexasInstrumentsTISeries, // TODO: Confirm this is Windows-readable
+            PhysicalSystem.TexasInstrumentsTISeries,
             PhysicalSystem.TomyKissSite,
             PhysicalSystem.UHDBDVideo,
             PhysicalSystem.VideoCD,
