@@ -93,6 +93,7 @@ namespace SabreTools.RedumpLib.Data
             code: "[T:BID]",
             isCommentCode: true);
 
+        // TODO: Figure out how to have multiple codes map, e.g. [T:BBFC], [T:VFC]
         public static readonly SiteCode BBFCRegistrationNumber = new("<b>BBFC Reg. No.</b>:",
             code: "[T:BBFC]",
             isCommentCode: true);
@@ -166,7 +167,7 @@ namespace SabreTools.RedumpLib.Data
             isContentCode: true,
             isMultiLine: true);
 
-        public static readonly SiteCode Genre = new("<b>Genre</b>:",
+        public static readonly SiteCode Genre = new("<b>Genre Subtitle</b>:",
             code: "[T:G]",
             isCommentCode: true);
 
@@ -215,7 +216,7 @@ namespace SabreTools.RedumpLib.Data
             code: "[T:KID]",
             isCommentCode: true);
 
-        public static readonly SiteCode LucasArtsID = new("<b>Lucas Arts ID</b>:",
+        public static readonly SiteCode LucasArtsID = new("<b>LucasArts ID</b>:",
             code: "[T:LAID]",
             isCommentCode: true);
 
@@ -273,6 +274,7 @@ namespace SabreTools.RedumpLib.Data
             isBoolean: true,
             isCommentCode: true);
 
+        // TODO: This is now deprecated
         public static readonly SiteCode PPN = new("<b>PPN</b>:",
             code: "[T:PPN]",
             isCommentCode: true);
@@ -302,7 +304,7 @@ namespace SabreTools.RedumpLib.Data
             code: "[T:SNID]",
             isCommentCode: true);
 
-        public static readonly SiteCode Series = new("<b>Series</b>:",
+        public static readonly SiteCode Series = new("<b>Series Subtitle</b>:",
             code: "[T:S]",
             isCommentCode: true);
 
@@ -349,7 +351,8 @@ namespace SabreTools.RedumpLib.Data
             code: "[T:VID]",
             isCommentCode: true);
 
-        public static readonly SiteCode VFCCode = new("<b>VFC code</b>:",
+        // TODO: Figure out how to have multiple codes map, e.g. [T:BBFC], [T:VFC]
+        public static readonly SiteCode VFCCode = new("<b>BBFC Reg. No.</b>:",
             code: "[T:VFC]",
             isCommentCode: true);
 
