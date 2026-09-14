@@ -45,6 +45,7 @@ namespace SabreTools.RedumpLib.Tools
             SiteCode.CoverID,
             SiteCode.ISBN,
             SiteCode.ISSN,
+            SiteCode.PEGIID,
             SiteCode.PPN,
             SiteCode.VFCCode,
 

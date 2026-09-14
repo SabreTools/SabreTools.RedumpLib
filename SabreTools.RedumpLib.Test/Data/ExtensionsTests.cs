@@ -2331,6 +2331,7 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.ISSN,
             SiteCode.Multisession,
             SiteCode.PCMacHybrid,
+            SiteCode.PEGIID,
             SiteCode.PFIHash,
             SiteCode.PostgapType,
             SiteCode.PPN,

@@ -257,6 +257,9 @@ namespace SabreTools.RedumpLib.Data
             isBoolean: true,
             isCommentCode: true);
 
+        public static readonly SiteCode PEGIID = new("<b>PEGI ID</b>:",
+            isCommentCode: true);
+
         public static readonly SiteCode PFIHash = new("<b>PFI</b>:",
             isCommentCode: true);
 
@@ -454,6 +457,7 @@ namespace SabreTools.RedumpLib.Data
 
             Patches,
             PCMacHybrid,
+            PEGIID,
             PFIHash,
             PlayableDemos,
             PonyCanyonID,
