@@ -354,6 +354,9 @@ namespace SabreTools.RedumpLib.Data
             code: "[T:VID]",
             isCommentCode: true);
 
+        public static readonly SiteCode VETSFBID = new("<b>VET/SFB ID</b>:",
+            isCommentCode: true);
+
         // TODO: Figure out how to have multiple codes map, e.g. [T:BBFC], [T:VFC]
         public static readonly SiteCode VFCCode = new("<b>BBFC Reg. No.</b>:",
             code: "[T:VFC]",
@@ -487,6 +490,7 @@ namespace SabreTools.RedumpLib.Data
             UbisoftID,
 
             ValveID,
+            VETSFBID,
             VFCCode,
             Videos,
             VolumeLabel,

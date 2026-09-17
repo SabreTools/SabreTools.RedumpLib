@@ -38,7 +38,9 @@ namespace SabreTools.RedumpLib.Tools
 
             SiteCode.Protection,
 
+            // The following 2 are the same now
             SiteCode.BBFCRegistrationNumber,
+            SiteCode.VFCCode,
             SiteCode.DiscHologramID,
             SiteCode.DNASDiscID,
             SiteCode.DiscID,
@@ -47,7 +49,7 @@ namespace SabreTools.RedumpLib.Tools
             SiteCode.ISSN,
             SiteCode.PEGIID,
             SiteCode.PPN,
-            SiteCode.VFCCode,
+            SiteCode.VETSFBID,
 
             SiteCode.CompatibleOS,
             SiteCode.AdditionalBCAData,

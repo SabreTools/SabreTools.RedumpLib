@@ -2343,6 +2343,7 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.SteamAppID,
             SiteCode.TitleID,
             SiteCode.VCD,
+            SiteCode.VETSFBID,
             SiteCode.VFCCode,
             SiteCode.VolumeLabel,
             SiteCode.XeMID,
