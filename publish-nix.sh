@@ -11,7 +11,9 @@ USE_ALL=false
 INCLUDE_DEBUG=false
 NO_BUILD=false
 NO_ARCHIVE=false
-while getopts "udba" OPTION; do
+HAS_VERSION=false
+VERSION="NONE"
+while getopts "udbav:" OPTION; do
     case $OPTION in
     u)
         USE_ALL=true
@@ -24,6 +26,10 @@ while getopts "udba" OPTION; do
         ;;
     a)
         NO_ARCHIVE=true
+        ;;
+    v)
+        HAS_VERSION=true
+        VERSION=${OPTARG}
         ;;
     *)
         echo "Invalid option provided"
@@ -44,6 +50,7 @@ echo "  Use all frameworks (-u)               $USE_ALL"
 echo "  Include debug builds (-d)             $INCLUDE_DEBUG"
 echo "  No build (-b)                         $NO_BUILD"
 echo "  No archive (-a)                       $NO_ARCHIVE"
+echo "  Version (-v)                          $HAS_VERSION ($VERSION)"
 echo " "
 
 # Create the build matrix arrays
@@ -113,7 +120,7 @@ then
     done
 fi
 
-    # Only create archives if requested
+# Only create archives if requested
 if [ $NO_ARCHIVE = false ]; then
     # Create Tool archives
     for FRAMEWORK in "${FRAMEWORKS[@]}"; do
@@ -140,10 +147,18 @@ if [ $NO_ARCHIVE = false ]; then
             # Only include Debug if set
             if [ $INCLUDE_DEBUG = true ]; then
                 cd $BUILD_FOLDER/RedumpTool/bin/Debug/${FRAMEWORK}/${RUNTIME}/publish/
-                zip -r $BUILD_FOLDER/RedumpTool_${FRAMEWORK}_${RUNTIME}_debug.zip .
+                if [ $HAS_VERSION = true ]; then
+                    zip -r $BUILD_FOLDER/RedumpTool_${VERSION}_${FRAMEWORK}_${RUNTIME}_debug.zip .
+                else
+                    zip -r $BUILD_FOLDER/RedumpTool_${FRAMEWORK}_${RUNTIME}_debug.zip .
+                fi
             fi
             cd $BUILD_FOLDER/RedumpTool/bin/Release/${FRAMEWORK}/${RUNTIME}/publish/
-            zip -r $BUILD_FOLDER/RedumpTool_${FRAMEWORK}_${RUNTIME}_release.zip .
+            if [ $HAS_VERSION = true ]; then
+                zip -r $BUILD_FOLDER/RedumpTool_${VERSION}_${FRAMEWORK}_${RUNTIME}_release.zip .
+            else
+                zip -r $BUILD_FOLDER/RedumpTool_${FRAMEWORK}_${RUNTIME}_release.zip .
+            fi
         done
     done
 
