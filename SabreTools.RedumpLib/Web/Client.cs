@@ -492,6 +492,7 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Process a Redump discs page as a list of possible IDs or disc page
         /// </summary>
+        /// <param name="additionalMould">Add additional mould to filter, null to omit</param>
         /// <param name="advanced">Set advanced search status, null to omit</param>
         /// <param name="barcode">Add barcode to filter, null to omit</param>
         /// <param name="barcodeExact">Set exact barcode handling, null to omit</param>
@@ -506,7 +507,10 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="errorsMin">Add minimum error count to filter, null to omit</param>
         /// <param name="language">Add language to filter, null to omit</param>
         /// <param name="letter">Starts with upper-case letter or '#' for numbers, null to omit</param>
+        /// <param name="masteringCode">Add mastering code to filter, null to omit</param>
+        /// <param name="masteringSid">Add mastering SID to filter, null to omit</param>
         /// <param name="media">Add media type to filter, null to omit</param>
+        /// <param name="mouldSid">Add mould SID to filter, null to omit</param>
         /// <param name="offset">Add offset to filter, null to omit</param>
         /// <param name="order">Add sorting direction, null to omit</param>
         /// <param name="page">Page number, null to omit</param>
@@ -523,10 +527,13 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="titleExact">Set exact title handling, null to omit</param>
         /// <param name="titleForeign">Add foreign title to filter, null to omit</param>
         /// <param name="titleForeignExact">Set exact foreign title handling, null to omit</param>
+        /// <param name="toolstamp">Add toolstamp to filter, null to omit</param>
         /// <param name="tracksMax">Add maximum track count to filter, null to omit</param>
         /// <param name="tracksMin">Add minimum track count to filter, null to omit</param>
+        /// <param name="universalHash">Add universal hash to filter, null to omit</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
         public async Task<List<int>?> CheckSingleDiscsPage(
+            string? additionalMould = null,
             bool? advanced = null,
             string? barcode = null,
             bool? barcodeExact = null,
@@ -541,7 +548,10 @@ namespace SabreTools.RedumpLib.Web
             long? errorsMin = null,
             LanguageCode? language = null,
             char? letter = null,
+            string? masteringCode = null,
+            string? masteringSid = null,
             MediaType? media = null,
+            string? mouldSid = null,
             long? offset = null,
             SortDirection? order = null,
             long? page = null,
@@ -558,14 +568,17 @@ namespace SabreTools.RedumpLib.Web
             bool? titleExact = null,
             string? titleForeign = null,
             bool? titleForeignExact = null,
+            string? toolstamp = null,
             long? tracksMax = null,
-            long? tracksMin = null)
+            long? tracksMin = null,
+            string? universalHash = null)
         {
             // Normalize the search query, if needed
             if (query is not null)
                 query = NormalizeQuery(query);
 
             string url = UrlBuilder.BuildDiscsUrl(
+                additionalMould,
                 advanced,
                 barcode,
                 barcodeExact,
@@ -580,7 +593,10 @@ namespace SabreTools.RedumpLib.Web
                 errorsMin,
                 language,
                 letter,
+                masteringCode,
+                masteringSid,
                 media,
+                mouldSid,
                 offset,
                 order,
                 page,
@@ -597,8 +613,10 @@ namespace SabreTools.RedumpLib.Web
                 titleExact,
                 titleForeign,
                 titleForeignExact,
+                toolstamp,
                 tracksMax,
-                tracksMin);
+                tracksMin,
+                universalHash);
 
             List<int> ids = [];
 
@@ -660,6 +678,7 @@ namespace SabreTools.RedumpLib.Web
         /// Process a Redump discs page as a list of possible IDs or disc page
         /// </summary>
         /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="additionalMould">Add additional mould to filter, null to omit</param>
         /// <param name="advanced">Set advanced search status, null to omit</param>
         /// <param name="barcode">Add barcode to filter, null to omit</param>
         /// <param name="barcodeExact">Set exact barcode handling, null to omit</param>
@@ -674,7 +693,10 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="errorsMin">Add minimum error count to filter, null to omit</param>
         /// <param name="language">Add language to filter, null to omit</param>
         /// <param name="letter">Starts with upper-case letter or '#' for numbers, null to omit</param>
+        /// <param name="masteringCode">Add mastering code to filter, null to omit</param>
+        /// <param name="masteringSid">Add mastering SID to filter, null to omit</param>
         /// <param name="media">Add media type to filter, null to omit</param>
+        /// <param name="mouldSid">Add mould SID to filter, null to omit</param>
         /// <param name="offset">Add offset to filter, null to omit</param>
         /// <param name="order">Add sorting direction, null to omit</param>
         /// <param name="page">Page number, null to omit</param>
@@ -691,12 +713,15 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="titleExact">Set exact title handling, null to omit</param>
         /// <param name="titleForeign">Add foreign title to filter, null to omit</param>
         /// <param name="titleForeignExact">Set exact foreign title handling, null to omit</param>
+        /// <param name="toolstamp">Add toolstamp to filter, null to omit</param>
         /// <param name="tracksMax">Add maximum track count to filter, null to omit</param>
         /// <param name="tracksMin">Add minimum track count to filter, null to omit</param>
+        /// <param name="universalHash">Add universal hash to filter, null to omit</param>
         /// <param name="discSubpaths">Set of subpaths to download if available, null for all</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
         public async Task<List<int>?> CheckSingleDiscsPage(
             string? outDir,
+            string? additionalMould = null,
             bool? advanced = null,
             string? barcode = null,
             bool? barcodeExact = null,
@@ -711,7 +736,10 @@ namespace SabreTools.RedumpLib.Web
             long? errorsMin = null,
             LanguageCode? language = null,
             char? letter = null,
+            string? masteringCode = null,
+            string? masteringSid = null,
             MediaType? media = null,
+            string? mouldSid = null,
             long? offset = null,
             SortDirection? order = null,
             long? page = null,
@@ -728,12 +756,15 @@ namespace SabreTools.RedumpLib.Web
             bool? titleExact = null,
             string? titleForeign = null,
             bool? titleForeignExact = null,
+            string? toolstamp = null,
             long? tracksMax = null,
             long? tracksMin = null,
+            string? universalHash = null,
             DiscSubpath[]? discSubpaths = null)
         {
             // Get all IDs from the page
             List<int>? ids = await CheckSingleDiscsPage(
+                additionalMould,
                 advanced,
                 barcode,
                 barcodeExact,
@@ -748,7 +779,10 @@ namespace SabreTools.RedumpLib.Web
                 errorsMin,
                 language,
                 letter,
+                masteringCode,
+                masteringSid,
                 media,
+                mouldSid,
                 offset,
                 order,
                 page,
@@ -765,8 +799,10 @@ namespace SabreTools.RedumpLib.Web
                 titleExact,
                 titleForeign,
                 titleForeignExact,
+                toolstamp,
                 tracksMax,
-                tracksMin);
+                tracksMin,
+                universalHash);
             if (ids is null)
             {
                 if (Debug) Console.WriteLine($"DEBUG: CheckSingleDiscsPage(\"{outDir}\") - Client failure");

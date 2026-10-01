@@ -54,7 +54,7 @@ namespace SabreTools.RedumpLib.Tools
                 return null;
 
             // Get all matching IDs for the hash
-            var newIds = await client.ListDiscsResults(comments: universalHash);
+            var newIds = await client.ListDiscsResults(universalHash: universalHash);
 
             // If we got null back, there was an error
             if (newIds is null)

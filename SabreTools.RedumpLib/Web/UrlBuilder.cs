@@ -84,6 +84,7 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Build a /discs/ path URL
         /// </summary>
+        /// <param name="additionalMould">Add additional mould to filter, null to omit</param>
         /// <param name="advanced">Set advanced search status, null to omit</param>
         /// <param name="barcode">Add barcode to filter, null to omit</param>
         /// <param name="barcodeExact">Set exact barcode handling, null to omit</param>
@@ -98,7 +99,10 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="errorsMin">Add minimum error count to filter, null to omit</param>
         /// <param name="language">Add language to filter, null to omit</param>
         /// <param name="letter">Starts with upper-case letter or '#' for numbers, null to omit</param>
+        /// <param name="masteringCode">Add mastering code to filter, null to omit</param>
+        /// <param name="masteringSid">Add mastering SID to filter, null to omit</param>
         /// <param name="media">Add media type to filter, null to omit</param>
+        /// <param name="mouldSid">Add mould SID to filter, null to omit</param>
         /// <param name="offset">Add offset to filter, null to omit</param>
         /// <param name="order">Add sorting direction, null to omit</param>
         /// <param name="page">Page number, null to omit</param>
@@ -115,10 +119,13 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="titleExact">Set exact title handling, null to omit</param>
         /// <param name="titleForeign">Add foreign title to filter, null to omit</param>
         /// <param name="titleForeignExact">Set exact foreign title handling, null to omit</param>
+        /// <param name="toolstamp">Add toolstamp to filter, null to omit</param>
         /// <param name="tracksMax">Add maximum track count to filter, null to omit</param>
         /// <param name="tracksMin">Add minimum track count to filter, null to omit</param>
+        /// <param name="universalHash">Add universal hash to filter, null to omit</param>
         /// <remarks>Ordered according to site source code</remarks>
         public static string BuildDiscsUrl(
+            string? additionalMould = null,
             bool? advanced = null,
             string? barcode = null,
             bool? barcodeExact = null,
@@ -133,7 +140,10 @@ namespace SabreTools.RedumpLib.Web
             long? errorsMin = null,
             LanguageCode? language = null,
             char? letter = null,
+            string? masteringCode = null,
+            string? masteringSid = null,
             MediaType? media = null,
+            string? mouldSid = null,
             long? offset = null,
             SortDirection? order = null,
             long? page = null,
@@ -150,8 +160,10 @@ namespace SabreTools.RedumpLib.Web
             bool? titleExact = null,
             string? titleForeign = null,
             bool? titleForeignExact = null,
+            string? toolstamp = null,
             long? tracksMax = null,
-            long? tracksMin = null)
+            long? tracksMin = null,
+            string? universalHash = null)
         {
             var ub = new UriBuilder
             {
@@ -159,6 +171,7 @@ namespace SabreTools.RedumpLib.Web
                 Host = "redump.info",
                 Path = "discs",
                 Query = BuildDiscsQuery(
+                    additionalMould,
                     advanced,
                     barcode,
                     barcodeExact,
@@ -173,7 +186,10 @@ namespace SabreTools.RedumpLib.Web
                     errorsMin,
                     language,
                     letter,
+                    masteringCode,
+                    masteringSid,
                     media,
+                    mouldSid,
                     offset,
                     order,
                     page,
@@ -190,8 +206,10 @@ namespace SabreTools.RedumpLib.Web
                     titleExact,
                     titleForeign,
                     titleForeignExact,
+                    toolstamp,
                     tracksMax,
-                    tracksMin
+                    tracksMin,
+                    universalHash
                 ),
             };
 
@@ -355,6 +373,7 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Build a /discs/ path query
         /// </summary>
+        /// <param name="additionalMould">Add additional mould to filter, null to omit</param>
         /// <param name="advanced">Set advanced search status, null to omit</param>
         /// <param name="barcode">Add barcode to filter, null to omit</param>
         /// <param name="barcodeExact">Set exact barcode handling, null to omit</param>
@@ -369,7 +388,10 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="errorsMin">Add minimum error count to filter, null to omit</param>
         /// <param name="language">Add language to filter, null to omit</param>
         /// <param name="letter">Starts with upper-case letter or '#' for numbers, null to omit</param>
+        /// <param name="masteringCode">Add mastering code to filter, null to omit</param>
+        /// <param name="masteringSid">Add mastering SID to filter, null to omit</param>
         /// <param name="media">Add media type to filter, null to omit</param>
+        /// <param name="mouldSid">Add mould SID to filter, null to omit</param>
         /// <param name="offset">Add offset to filter, null to omit</param>
         /// <param name="order">Add sorting direction, null to omit</param>
         /// <param name="page">Page number, null to omit</param>
@@ -386,10 +408,13 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="titleExact">Set exact title handling, null to omit</param>
         /// <param name="titleForeign">Add foreign title to filter, null to omit</param>
         /// <param name="titleForeignExact">Set exact foreign title handling, null to omit</param>
+        /// <param name="toolstamp">Add toolstamp to filter, null to omit</param>
         /// <param name="tracksMax">Add maximum track count to filter, null to omit</param>
         /// <param name="tracksMin">Add minimum track count to filter, null to omit</param>
+        /// <param name="universalHash">Add universal hash to filter, null to omit</param>
         /// <remarks>Ordered according to site source code</remarks>
         private static string BuildDiscsQuery(
+            string? additionalMould,
             bool? advanced,
             string? barcode,
             bool? barcodeExact,
@@ -404,7 +429,10 @@ namespace SabreTools.RedumpLib.Web
             long? errorsMin,
             LanguageCode? language,
             char? letter,
+            string? masteringCode,
+            string? masteringSid,
             MediaType? media,
+            string? mouldSid,
             long? offset,
             SortDirection? order,
             long? page,
@@ -421,8 +449,10 @@ namespace SabreTools.RedumpLib.Web
             bool? titleExact,
             string? titleForeign,
             bool? titleForeignExact,
+            string? toolstamp,
             long? tracksMax,
-            long? tracksMin)
+            long? tracksMin,
+            string? universalHash)
         {
             var sb = new StringBuilder();
 
@@ -494,6 +524,10 @@ namespace SabreTools.RedumpLib.Web
             if (barcode is not null && barcodeExact is not null)
                 sb.Append($"barcode_exact={barcodeExact.ToYesNo().LongName()}&");
 
+            // Universal Hash
+            if (universalHash is not null)
+                sb.Append($"universal_hash={universalHash}&");
+
             // Track Count
             if (tracksMin is not null)
                 sb.Append($"tracks_min={tracksMin}&");
@@ -521,6 +555,26 @@ namespace SabreTools.RedumpLib.Web
             // Contents
             if (contents is not null)
                 sb.Append($"contents={contents}&");
+
+            // Mastering Code
+            if (masteringCode is not null)
+                sb.Append($"mastering_code={masteringCode}&");
+
+            // Mastering SID
+            if (masteringSid is not null)
+                sb.Append($"mastering_sid={masteringSid}&");
+
+            // Toolstamp
+            if (toolstamp is not null)
+                sb.Append($"toolstamp={toolstamp}&");
+
+            // Mould SID
+            if (mouldSid is not null)
+                sb.Append($"mould_sid={mouldSid}&");
+
+            // Additional Mould
+            if (additionalMould is not null)
+                sb.Append($"additional_mould={additionalMould}&");
 
             // Ringcode
             if (ringcode is not null)

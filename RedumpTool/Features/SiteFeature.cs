@@ -22,6 +22,9 @@ namespace RedumpTool.Features
 
         #region Inputs
 
+        private const string _additionalMouldName = "additional-mould";
+        internal readonly StringInput AdditionalMouldInput = new(_additionalMouldName, ["--additional-mould"], "Add additional mould to filter");
+
         private const string _barcodeName = "barcode";
         internal readonly StringInput BarcodeInput = new(_barcodeName, ["--barcode"], "Add barcode to filter");
 
@@ -67,6 +70,12 @@ namespace RedumpTool.Features
         private const string _listName = "list";
         internal readonly FlagInput ListInput = new(_listName, ["-l", "--list"], "Only list the page IDs for the filters");
 
+        private const string _masteringCodeName = "mastering-code";
+        internal readonly StringInput MasteringCodeInput = new(_masteringCodeName, ["--mastering-code"], "Add mastering code to filter");
+
+        private const string _masteringSidName = "mastering-sid";
+        internal readonly StringInput MasteringSidInput = new(_masteringSidName, ["--mastering-sid"], "Add mastering SID to filter");
+
         private const string _maximumName = "maximum";
         internal readonly Int32Input MaximumInput = new(_maximumName, ["-max", "--maximum"], "Upper bound for page numbers (incompatible with --onlynew)");
 
@@ -75,6 +84,9 @@ namespace RedumpTool.Features
 
         private const string _minimumName = "minimum";
         internal readonly Int32Input MinimumInput = new(_minimumName, ["-min", "--minimum"], "Lower bound for page numbers (incompatible with --onlynew)");
+
+        private const string _mouldSidName = "mould-sid";
+        internal readonly StringInput MouldSidInput = new(_mouldSidName, ["--mould-sid"], "Add mould SID to filter");
 
         private const string _offsetName = "offset";
         internal readonly Int32Input OffsetInput = new(_offsetName, ["--offset"], "Add offset to filter");
@@ -121,11 +133,17 @@ namespace RedumpTool.Features
         private const string _titleForeignExactName = "title-foreign-exact";
         internal readonly BooleanInput TitleForeignExactInput = new(_titleForeignExactName, ["--title-foreign-exact"], "Add foreign title exact matching to filter [true, false]");
 
+        private const string _toolstampName = "toolstamp";
+        internal readonly StringInput ToolstampInput = new(_toolstampName, ["--toolstamp"], "Add toolstamp to filter");
+
         private const string _tracksMaxName = "tracks-max";
         internal readonly Int32Input TracksMaximumInput = new(_tracksMaxName, ["--tracks-max"], "Add maximum track count to filter");
 
         private const string _tracksMinName = "tracks-min";
         internal readonly Int32Input TracksMinimumInput = new(_tracksMinName, ["--tracks-min"], "Add minimum track count to filter");
+
+        private const string _universalHashName = "universal-hash";
+        internal readonly StringInput UniversalHashInput = new(_universalHashName, ["--universal-hash"], "Add universal hash to filter");
 
         #endregion
 
@@ -151,6 +169,7 @@ namespace RedumpTool.Features
             Add(MaximumInput);
 
             // Filter
+            Add(AdditionalMouldInput);
             Add(BarcodeInput);
             Add(BarcodeExactInput);
             Add(CategoryInput);
@@ -164,7 +183,10 @@ namespace RedumpTool.Features
             Add(ErrorsMinimumInput);
             Add(LanguageInput);
             Add(LetterInput);
+            Add(MasteringCodeInput);
+            Add(MasteringSidInput);
             Add(MediaInput);
+            Add(MouldSidInput);
             Add(OffsetInput);
             Add(OrderInput);
             Add(ProtectionInput);
@@ -180,8 +202,10 @@ namespace RedumpTool.Features
             Add(TitleExactInput);
             Add(TitleForeignInput);
             Add(TitleForeignExactInput);
+            Add(ToolstampInput);
             Add(TracksMaximumInput);
             Add(TracksMinimumInput);
+            Add(UniversalHashInput);
         }
 
         /// <inheritdoc/>
@@ -203,6 +227,7 @@ namespace RedumpTool.Features
             bool onlyList = ListInput.Value;
 
             // Get filter values
+            string? additionalMould = AdditionalMouldInput.Value;
             string? barcode = BarcodeInput.Value;
             bool? barcodeExact = BarcodeExactInput.Value;
             DiscCategory? category = CategoryInput.Value.ToDiscCategory();
@@ -218,7 +243,10 @@ namespace RedumpTool.Features
             char? letter = string.IsNullOrEmpty(LetterInput.Value)
                 ? null
                 : LetterInput.Value![0];
+            string? masteringCode = MasteringCodeInput.Value;
+            string? masteringSid = MasteringSidInput.Value;
             MediaType? media = MediaInput.Value.ToMediaType();
+            string? mouldSid = MouldSidInput.Value;
             int? offset = OffsetInput.Value;
             SortDirection? order = OrderInput.Value.ToSortDirection();
             string? protection = ProtectionInput.Value;
@@ -234,8 +262,10 @@ namespace RedumpTool.Features
             bool? titleExact = TitleExactInput.Value;
             string? titleForeign = TitleForeignInput.Value;
             bool? titleForeignExact = TitleForeignExactInput.Value;
+            string? toolstamp = ToolstampInput.Value;
             long? tracksMax = TracksMaximumInput.Value;
             long? tracksMin = TracksMinimumInput.Value;
+            string? universalHash = UniversalHashInput.Value;
 
             // Build the disc subpaths
             DiscSubpath[] discSubpaths = Constants.AllDiscSubpaths;
@@ -278,6 +308,7 @@ namespace RedumpTool.Features
             if ((minId is null || maxId is null) && onlyList)
             {
                 processingTask = _client.ListDiscsResults(
+                    additionalMould,
                     advanced: true, // Hardcoded, only toggles the advanced options on page by default
                     barcode,
                     barcodeExact,
@@ -292,7 +323,10 @@ namespace RedumpTool.Features
                     errorsMin,
                     language,
                     letter,
+                    masteringCode,
+                    masteringSid,
                     media,
+                    mouldSid,
                     offset,
                     order,
                     protection,
@@ -308,13 +342,16 @@ namespace RedumpTool.Features
                     titleExact,
                     titleForeign,
                     titleForeignExact,
+                    toolstamp,
                     tracksMax,
                     tracksMin,
+                    universalHash,
                     limit);
             }
             else if ((minId is null || maxId is null) && !onlyList)
             {
                 processingTask = _client.DownloadDiscsResults(outDir,
+                    additionalMould,
                     advanced: true, // Hardcoded, only toggles the advanced options on page by default
                     barcode,
                     barcodeExact,
@@ -329,7 +366,10 @@ namespace RedumpTool.Features
                     errorsMin,
                     language,
                     letter,
+                    masteringCode,
+                    masteringSid,
                     media,
+                    mouldSid,
                     offset,
                     order,
                     protection,
@@ -345,10 +385,12 @@ namespace RedumpTool.Features
                     titleExact,
                     titleForeign,
                     titleForeignExact,
+                    toolstamp,
                     tracksMax,
                     tracksMin,
-                    limit: limit,
-                    discSubpaths: discSubpaths);
+                    universalHash,
+                    limit,
+                    discSubpaths);
             }
             else
             {
