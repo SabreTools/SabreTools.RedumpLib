@@ -53,8 +53,8 @@ namespace SabreTools.RedumpLib.Test.Endpoints
         [InlineData("", "https://redump.info/discs?q=&page=3")]
         [InlineData("simple", "https://redump.info/discs?q=simple&page=3")]
         [InlineData("search-format", "https://redump.info/discs?q=search-format&page=3")]
-        [InlineData("invalid format", "https://redump.info/discs?q=invalid format&page=3")]
-        [InlineData("extra/path", "https://redump.info/discs?q=extra/path&page=3")]
+        [InlineData("invalid format", "https://redump.info/discs?q=invalid-format&page=3")]
+        [InlineData("extra/path", "https://redump.info/discs?q=extra-path&page=3")]
         public void BuildUrl_QuicksearchWithPages_Builds(string query, string expected)
         {
             var endpoint = new RedumpLib.Endpoints.Discs
