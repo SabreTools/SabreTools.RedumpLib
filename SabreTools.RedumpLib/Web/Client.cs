@@ -134,7 +134,7 @@ namespace SabreTools.RedumpLib.Web
         {
             try
             {
-                var cookies = _cookieContainer.GetCookies(new Uri("forum.redump.info"));
+                var cookies = _cookieContainer.GetCookies(new Uri("https://forum.redump.info"));
                 return JsonConvert.SerializeObject(cookies);
             }
             catch
@@ -188,7 +188,7 @@ namespace SabreTools.RedumpLib.Web
                     return false;
 
                 // Write the cookies to the container
-                _cookieContainer.Add(new Uri("forum.redump.info"), cookies);
+                _cookieContainer.Add(new Uri("https://forum.redump.info"), cookies);
                 return true;
             }
             catch
