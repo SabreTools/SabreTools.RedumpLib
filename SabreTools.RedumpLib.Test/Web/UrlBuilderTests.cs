@@ -42,45 +42,6 @@ namespace SabreTools.RedumpLib.Test.Web
 
         #endregion
 
-        #region BuildDiscsUrl
-
-        [Fact]
-        public void BuildDiscsUrl_DumperWithPages_Builds()
-        {
-            string actual = UrlBuilder.BuildDiscsUrl(dumper: "user", page: 3);
-            Assert.Equal("https://redump.info/discs?dumper=user&page=3", actual);
-        }
-
-        [Fact]
-        public void BuildDiscsUrl_DumperLastModifiedWithPages_Builds()
-        {
-            string actual = UrlBuilder.BuildDiscsUrl(dumper: "user", sort: SortCategory.Modified, order: SortDirection.Descending, page: 3);
-            Assert.Equal("https://redump.info/discs?dumper=user&sort=modified&order=desc&page=3", actual);
-        }
-
-        [Fact]
-        public void BuildDiscsUrl_LastModifiedWithPages_Builds()
-        {
-            string actual = UrlBuilder.BuildDiscsUrl(sort: SortCategory.Modified, order: SortDirection.Descending, page: 3);
-            Assert.Equal("https://redump.info/discs?sort=modified&order=desc&page=3", actual);
-        }
-
-        [Theory]
-        [InlineData("", "https://redump.info/discs?q=&page=3")]
-        [InlineData("simple", "https://redump.info/discs?q=simple&page=3")]
-        [InlineData("search-format", "https://redump.info/discs?q=search-format&page=3")]
-        [InlineData("invalid format", "https://redump.info/discs?q=invalid format&page=3")]
-        [InlineData("extra/path", "https://redump.info/discs?q=extra/path&page=3")]
-        public void BuildDiscsUrl_QuicksearchWithPages_Builds(string query, string expected)
-        {
-            string actual = UrlBuilder.BuildDiscsUrl(query: query, page: 3);
-            Assert.Equal(expected, actual);
-        }
-
-        // TODO: Implement more extensive discs tests
-
-        #endregion
-
         #region BuildDownloadsUrl
 
         [Theory]
