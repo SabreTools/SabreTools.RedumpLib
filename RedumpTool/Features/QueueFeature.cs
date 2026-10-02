@@ -69,6 +69,7 @@ namespace RedumpTool.Features
             Add(OutputInput);
             Add(UsernameInput);
             Add(PasswordInput);
+            Add(CookiesInput);
             Add(AttemptCountInput);
             Add(TimeoutInput);
             Add(ForceDownloadInput);
@@ -98,6 +99,7 @@ namespace RedumpTool.Features
             string? outDir = OutputInput.Value;
             string? username = UsernameInput.Value;
             string? password = PasswordInput.Value;
+            string? cookieFile = CookiesInput.Value;
             int? attemptCount = AttemptCountInput.Value;
             int? timeout = TimeoutInput.Value;
             bool forceDownload = ForceDownloadInput.Value;

@@ -14,6 +14,9 @@ namespace RedumpTool.Features
         private const string _attemptCountName = "attemptcount";
         internal readonly Int32Input AttemptCountInput = new(_attemptCountName, ["-a", "--attempts"], "Number of attempts for web requests (default 3");
 
+        private const string _cookiesName = "cookies";
+        internal readonly StringInput CookiesInput = new(_cookiesName, ["--cookies"], "Load and save a cookies file");
+
         private const string _debugName = "debug";
         internal readonly FlagInput DebugInput = new(_debugName, ["-d", "--debug"], "Enable debug mode");
 
