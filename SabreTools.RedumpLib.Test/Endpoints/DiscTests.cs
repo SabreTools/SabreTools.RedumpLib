@@ -10,7 +10,7 @@ namespace SabreTools.RedumpLib.Test.Endpoints
         [Theory]
         [InlineData(1, 1)]
         [InlineData(-1, 1)]
-        public void BuildDiscUrl_AlwaysPositive(int id, int expected)
+        public void BuildUrl_AlwaysPositive(int id, int expected)
         {
             var endpoint = new RedumpLib.Endpoints.Disc { Id = id };
             string actual = endpoint.BuildUrl();
@@ -22,7 +22,7 @@ namespace SabreTools.RedumpLib.Test.Endpoints
         [InlineData(DiscSubpath.Cuesheet, "https://redump.info/disc/1/cue")]
         [InlineData(DiscSubpath.Edit, "https://redump.info/disc/1/edit")]
         [InlineData(DiscSubpath.SBI, "https://redump.info/disc/1/sbi")]
-        public void BuildDiscUrl_Subpath_Builds(DiscSubpath? subpath, string expected)
+        public void BuildUrl_Subpath_Builds(DiscSubpath? subpath, string expected)
         {
             var endpoint = new RedumpLib.Endpoints.Disc
             {

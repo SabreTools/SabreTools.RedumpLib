@@ -3,11 +3,14 @@ using Newtonsoft.Json;
 
 namespace SabreTools.RedumpLib.Endpoints
 {
-    [JsonObject("about")]
-    public class About
+    [JsonObject("downloads")]
+    public class Downloads
     {
+        [JsonProperty("database")]
+        public bool? Database { get; set; }
+
         /// <summary>
-        /// Build a /about/ path URL
+        /// Build a /downloads/ path URL
         /// </summary>
         public string BuildUrl()
         {
@@ -15,8 +18,11 @@ namespace SabreTools.RedumpLib.Endpoints
             {
                 Scheme = "https",
                 Host = "redump.info",
-                Path = "about",
+                Path = "downloads",
             };
+
+            if (Database == true)
+                ub.Path += "/database";
 
             return ub.ToString();
         }

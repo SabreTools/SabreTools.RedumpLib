@@ -7,20 +7,6 @@ namespace SabreTools.RedumpLib.Test.Web
 {
     public class UrlBuilderTests
     {
-        #region BuildDownloadsUrl
-
-        [Theory]
-        [InlineData(null, "https://redump.info/downloads")]
-        [InlineData(true, "https://redump.info/downloads/database")]
-        [InlineData(false, "https://redump.info/downloads")]
-        public void BuildDownloadsUrl_Builds(bool? database, string expected)
-        {
-            string actual = UrlBuilder.BuildDownloadsUrl(database);
-            Assert.Equal(expected, actual);
-        }
-
-        #endregion
-
         #region BuildPackUrl
 
         [Theory]
@@ -76,32 +62,6 @@ namespace SabreTools.RedumpLib.Test.Web
         {
             string actual = UrlBuilder.BuildPackUrl(PackType.Datfile, PhysicalSystem.MarkerOtherEnd);
             Assert.Equal("https://redump.info/datfile/", actual);
-        }
-
-        #endregion
-
-        #region BuildQueueUrl
-
-        [Fact]
-        public void BuildQueueUrl_Constant()
-        {
-            string actual = UrlBuilder.BuildQueueUrl();
-            Assert.Equal("https://redump.info/queue", actual);
-        }
-
-        // TODO: Implement more extensive queue tests
-
-        #endregion
-
-        #region BuildQueueDiscUrl
-
-        [Theory]
-        [InlineData(1, 1)]
-        [InlineData(-1, 1)]
-        public void BuildQueueDiscUrl_AlwaysPositive(int id, int expected)
-        {
-            string actual = UrlBuilder.BuildQueueDiscUrl(id);
-            Assert.Equal($"https://redump.info/queue/{expected}/", actual);
         }
 
         #endregion

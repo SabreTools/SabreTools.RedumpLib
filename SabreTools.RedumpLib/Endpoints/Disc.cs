@@ -15,7 +15,7 @@ namespace SabreTools.RedumpLib.Endpoints
         public DiscSubpath? Subpath { get; set; }
 
         /// <summary>
-        /// Build a /discs/ path URL
+        /// Build a /disc/ path URL
         /// </summary>
         public string BuildUrl()
         {

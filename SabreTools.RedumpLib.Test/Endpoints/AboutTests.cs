@@ -7,7 +7,7 @@ namespace SabreTools.RedumpLib.Test.Endpoints
         #region BuildUrl
 
         [Fact]
-        public void BuildAboutUrl_Constant()
+        public void BuildUrl_Constant()
         {
             var endpoint = new RedumpLib.Endpoints.About();
 

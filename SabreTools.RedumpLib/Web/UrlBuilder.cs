@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 using SabreTools.RedumpLib.Data;
 
 namespace SabreTools.RedumpLib.Web
@@ -32,25 +31,6 @@ namespace SabreTools.RedumpLib.Web
         public const string SonyPlayStation2BIOSFilename = "Sony%20-%20PlayStation%202%20-%20BIOS%20Datfile%20%28140%29%20%282026-06-16%29.dat";
 
         #endregion
-
-        /// <summary>
-        /// Build a /downloads/ path URL
-        /// </summary>
-        /// <param name="database">Target database download</param>
-        public static string BuildDownloadsUrl(bool? database = null)
-        {
-            var ub = new UriBuilder
-            {
-                Scheme = "https",
-                Host = "redump.info",
-                Path = "downloads",
-            };
-
-            if (database == true)
-                ub.Path += "/database";
-
-            return ub.ToString();
-        }
 
         /// <summary>
         /// Build a direct-download path URL
@@ -92,67 +72,6 @@ namespace SabreTools.RedumpLib.Web
         }
 
         /// <summary>
-        /// Build a /queue/ path URL
-        /// </summary>
-        /// <param name="discId">Add disc ID to filter, null to omit</param>
-        /// <param name="isDiscHistory">Set disc history status, null to omit</param>
-        /// <param name="order">Add sorting direction, null to omit</param>
-        /// <param name="page">Page number, null to omit</param>
-        /// <param name="sort">Add sorting type, null to omit</param>
-        /// <param name="status">Add status to filter, null to omit</param>
-        /// <param name="submitter">Add submitter name to filter, null to omit</param>
-        /// <param name="subType">Add submission type to filter, null to omit</param>
-        /// <param name="system">Add system to filter, null to omit</param>
-        /// <remarks>Ordered according to site source code</remarks>
-        public static string BuildQueueUrl(
-            long? discId = null,
-            bool? isDiscHistory = null,
-            SortDirection? order = null,
-            long? page = null,
-            SortCategory? sort = null,
-            DumpStatus? status = null,
-            string? submitter = null,
-            SubmissionType? subType = null,
-            PhysicalSystem? system = null)
-        {
-            var ub = new UriBuilder
-            {
-                Scheme = "https",
-                Host = "redump.info",
-                Path = "queue",
-                Query = BuildQueueQuery(
-                    discId,
-                    isDiscHistory,
-                    order,
-                    page,
-                    sort,
-                    status,
-                    submitter,
-                    subType,
-                    system
-                ),
-            };
-
-            return ub.ToString();
-        }
-
-        /// <summary>
-        /// Build a /queue/ disc path URL
-        /// </summary>
-        /// <param name="id">Queue disc ID</param>
-        public static string BuildQueueDiscUrl(int id)
-        {
-            var ub = new UriBuilder
-            {
-                Scheme = "https",
-                Host = "redump.info",
-                Path = $"queue/{Math.Abs(id)}/",
-            };
-
-            return ub.ToString();
-        }
-
-        /// <summary>
         /// Build a /static/bios/ path URL
         /// </summary>
         /// <param name="system">System to retrieve static BIOS datfile for, required</param>
@@ -184,77 +103,5 @@ namespace SabreTools.RedumpLib.Web
 
             return ub.ToString();
         }
-
-        #region Query String Builders
-
-        /// <summary>
-        /// Build a /queue/ path query
-        /// </summary>
-        /// <param name="discId">Add disc ID to filter, null to omit</param>
-        /// <param name="isDiscHistory">Set disc history status, null to omit</param>
-        /// <param name="order">Add sorting direction, null to omit</param>
-        /// <param name="page">Page number, null to omit</param>
-        /// <param name="sort">Add sorting type, null to omit</param>
-        /// <param name="status">Add status to filter, null to omit</param>
-        /// <param name="submitter">Add submitter name to filter, null to omit</param>
-        /// <param name="subType">Add submission type to filter, null to omit</param>
-        /// <param name="system">Add system to filter, null to omit</param>
-        /// <remarks>Ordered according to site source code</remarks>
-        private static string BuildQueueQuery(
-            long? discId,
-            bool? isDiscHistory,
-            SortDirection? order,
-            long? page,
-            SortCategory? sort,
-            DumpStatus? status,
-            string? submitter,
-            SubmissionType? subType,
-            PhysicalSystem? system)
-        {
-            var sb = new StringBuilder();
-
-            // Status
-            string? statusName = status.LongName();
-            if (statusName is not null)
-                sb.Append($"status={statusName}&");
-
-            // Submission Type
-            string? subTypeName = subType.ShortName();
-            if (subTypeName is not null)
-                sb.Append($"sub_type={subTypeName}&");
-
-            // System
-            string? systemName = system?.Code;
-            if (systemName is not null)
-                sb.Append($"system={systemName}&");
-
-            // Submitter
-            if (submitter is not null)
-                sb.Append($"submitter={submitter}&");
-
-            // Disc ID
-            if (discId is not null)
-                sb.Append($"disc_id={discId}&");
-
-            // Sorting
-            if (sort is not null && Enum.IsDefined(typeof(SortCategory), sort))
-                sb.Append($"sort={sort.ShortName()}&");
-
-            // Sort Direction
-            if (order is not null && Enum.IsDefined(typeof(SortDirection), order))
-                sb.Append($"order={order.ShortName()}&");
-
-            // Page Number
-            if (page is not null)
-                sb.Append($"page={page}");
-
-            // Is Disc History
-            if (isDiscHistory is not null)
-                sb.Append($"is_disc_history={isDiscHistory.ToYesNo().LongName()}&");
-
-            return sb.ToString();
-        }
-
-        #endregion
     }
 }

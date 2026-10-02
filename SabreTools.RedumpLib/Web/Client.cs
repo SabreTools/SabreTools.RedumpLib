@@ -862,16 +862,19 @@ namespace SabreTools.RedumpLib.Web
             List<int> ids = [];
 
             // Try to retrieve the data
-            string url = UrlBuilder.BuildQueueUrl(
-                discId,
-                isDiscHistory,
-                order,
-                page,
-                sort,
-                status,
-                submitter,
-                subType,
-                system);
+            var endpoint = new Endpoints.Queue
+            {
+                Status = status,
+                SubType = subType,
+                System = system,
+                Submitter = submitter,
+                DiscId = discId,
+                Sort = sort,
+                Order = order,
+                Page = page,
+                IsDiscHistory = isDiscHistory,
+            };
+            string url = endpoint.BuildUrl();
             string? dumpsPage = await DownloadString(url);
 
             // If the web client failed, return null
@@ -1018,7 +1021,8 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // Determine the database URL
-                string dbUri = UrlBuilder.BuildDownloadsUrl(database: true);
+                var endpoint = new Endpoints.Downloads { Database = true };
+                string dbUri = endpoint.BuildUrl();
 
                 // If no output directory is defined, use the current directory instead
                 if (string.IsNullOrEmpty(outDir))
@@ -1375,7 +1379,8 @@ namespace SabreTools.RedumpLib.Web
             try
             {
                 // Try to retrieve the data
-                string discPageUri = UrlBuilder.BuildQueueDiscUrl(id);
+                var endpoint = new Endpoints.Queue { Id = id };
+                string discPageUri = endpoint.BuildUrl();
                 string? discPage = await DownloadString(discPageUri);
 
                 if (discPage is null)
@@ -1421,7 +1426,8 @@ namespace SabreTools.RedumpLib.Web
             try
             {
                 // Try to retrieve the data
-                string discPageUri = UrlBuilder.BuildQueueDiscUrl(id);
+                var endpoint = new Endpoints.Queue { Id = id };
+                string discPageUri = endpoint.BuildUrl();
                 string? discPage = await DownloadString(discPageUri);
 
                 if (discPage is null)
