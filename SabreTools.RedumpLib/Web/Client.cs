@@ -573,10 +573,6 @@ namespace SabreTools.RedumpLib.Web
             long? tracksMin = null,
             string? universalHash = null)
         {
-            // Normalize the search query, if needed
-            if (query is not null)
-                query = NormalizeQuery(query);
-
             var endpoint = new Endpoints.Discs
             {
                 System = system,
@@ -976,26 +972,6 @@ namespace SabreTools.RedumpLib.Web
             }
 
             return processed;
-        }
-
-        /// <summary>
-        /// Normalize a URL query string
-        /// </summary>
-        /// <param name="query">Query string to normalize</param>
-        /// <returns>Normalized query</returns>
-        private static string NormalizeQuery(string query)
-        {
-            // Strip quotes
-            query = query!.Trim('"', '\'');
-
-            // Special characters become dashes
-            query = query.Replace(' ', '-');
-            query = query.Replace('\\', '-');
-            query = query.Replace('/', '-');
-
-            // Lowercase is defined per language
-            query = query.ToLowerInvariant();
-            return query;
         }
 
         #endregion

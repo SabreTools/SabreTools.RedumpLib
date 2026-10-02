@@ -279,7 +279,7 @@ namespace SabreTools.RedumpLib.Endpoints
 
             // General Query
             if (Query is not null)
-                sb.Append($"q={Query}&");
+                sb.Append($"q={NormalizeQuery(Query)}&");
 
             // Sorting
             if (Sort is not null && Enum.IsDefined(typeof(SortCategory), Sort))
@@ -298,6 +298,26 @@ namespace SabreTools.RedumpLib.Endpoints
                 sb.Append($"advanced={(Advanced.Value ? "1" : "0")}&");
 
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Normalize a URL query string
+        /// </summary>
+        /// <param name="query">Query string to normalize</param>
+        /// <returns>Normalized query</returns>
+        private static string NormalizeQuery(string query)
+        {
+            // Strip quotes
+            query = query!.Trim('"', '\'');
+
+            // Special characters become dashes
+            query = query.Replace(' ', '-');
+            query = query.Replace('\\', '-');
+            query = query.Replace('/', '-');
+
+            // Lowercase is defined per language
+            query = query.ToLowerInvariant();
+            return query;
         }
     }
 }
