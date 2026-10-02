@@ -19,7 +19,12 @@ namespace SabreTools.RedumpLib.Web
         public TimeSpan Timeout { get; set; }
 
         // https://stackoverflow.com/questions/1777221/using-cookiecontainer-with-webclient-class
-        private readonly CookieContainer _container = new();
+        private readonly CookieContainer _container;
+
+        public CookieWebClient(CookieContainer container)
+        {
+            _container = container;
+        }
 
         /// <summary>
         /// Get the last downloaded filename, if possible

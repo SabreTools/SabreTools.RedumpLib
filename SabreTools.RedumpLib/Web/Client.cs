@@ -9,6 +9,7 @@ using System.Text;
 #endif
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using SabreTools.RedumpLib.Data;
 
 namespace SabreTools.RedumpLib.Web
@@ -73,6 +74,11 @@ namespace SabreTools.RedumpLib.Web
 #endif
 
         /// <summary>
+        /// Cookie container for persistence
+        /// </summary>
+        private readonly CookieContainer _cookieContainer;
+
+        /// <summary>
         /// Indicates if user is logged into Redump
         /// </summary>
         /// <remarks>Modifying to set as true does not change actual logged-in status</remarks>
@@ -104,13 +110,85 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         public Client()
         {
+            _cookieContainer = new CookieContainer();
 #if NETCOREAPP
-            _internalClient = new HttpClient(new HttpClientHandler { UseCookies = true });
+            var clientHandler = new HttpClientHandler
+            {
+                CookieContainer = _cookieContainer,
+                UseCookies = true,
+            };
+            _internalClient = new HttpClient(clientHandler);
 #else
-            _internalClient = new CookieWebClient();
+            _internalClient = new CookieWebClient(_cookieContainer);
 #endif
             Timeout = TimeSpan.FromSeconds(30);
         }
+
+        #region Cookies
+
+        /// <summary>
+        /// Save cookies to an external file
+        /// </summary>
+        /// <param name="file">File path to save cookies to</param>
+        /// <returns>True if the file could be saved, false otherwise</returns>
+        public bool SaveCookies(string file)
+        {
+            try
+            {
+                // Retrieve the cookies for the site
+                var cookies = _cookieContainer.GetCookies(new Uri("forum.redump.info"));
+
+                // Create the output directory
+                string? directory = Path.GetDirectoryName(file);
+                if (directory is not null)
+                    Directory.CreateDirectory(directory);
+
+                // Serialize the cookies and write
+                string cookiesJson = JsonConvert.SerializeObject(cookies);
+                File.WriteAllText(file, cookiesJson);
+
+                return true;
+            }
+            catch
+            {
+                // TODO: Report this error somehow
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Load cookies from an external file
+        /// </summary>
+        /// <param name="file">File path to load cookies from</param>
+        /// <returns>True if the file could be loaded, false otherwise</returns>
+        public bool LoadCookies(string file)
+        {
+            try
+            {
+                // If the file does not exist
+                if (!File.Exists(file))
+                    return false;
+
+                // Read the cookies from the file
+                string cookiesJson = File.ReadAllText(file);
+
+                // Deserialize the cookies to a cookie collection
+                var cookies = JsonConvert.DeserializeObject<CookieCollection>(cookiesJson);
+                if (cookies is null)
+                    return false;
+
+                // Write the cookies to the container
+                _cookieContainer.Add(new Uri("forum.redump.info"), cookies);
+                return true;
+            }
+            catch
+            {
+                // TODO: Report this error somehow
+                return false;
+            }
+        }
+
+        #endregion
 
         #region Credentials
 
