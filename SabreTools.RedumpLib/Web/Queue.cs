@@ -25,7 +25,8 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="system">Add system to filter, null to omit</param>
         /// <param name="limit">Limit number of retrieved result pages, non-positive for unlimited</param>
         /// <returns>All disc IDs for the given query, empty on error</returns>
-        public static async Task<List<int>> DownloadQueueResults(this Client client,
+        public static async Task<List<int>> DownloadQueueResults(
+            this Client client,
             string? outDir,
             long? discId = null,
             bool? isDiscHistory = null,
@@ -47,17 +48,20 @@ namespace SabreTools.RedumpLib.Web
                     if (limit > 0 && pageNumber > limit)
                         break;
 
-                    var pageIds = await client.CheckSingleQueuePage(
-                        outDir,
-                        discId,
-                        isDiscHistory,
-                        order,
-                        pageNumber++,
-                        sort,
-                        status,
-                        submitter,
-                        subType,
-                        system);
+                    var endpoint = new Endpoints.Queue
+                    {
+                        Status = status,
+                        SubType = subType,
+                        System = system,
+                        Submitter = submitter,
+                        DiscId = discId,
+                        Sort = sort,
+                        Order = order,
+                        Page = pageNumber++,
+                        IsDiscHistory = isDiscHistory,
+                    };
+
+                    var pageIds = await client.CheckSingleQueueEndpoint(outDir, endpoint);
                     if (pageIds is null)
                         return [];
 
@@ -159,16 +163,20 @@ namespace SabreTools.RedumpLib.Web
                     if (limit > 0 && pageNumber > limit)
                         break;
 
-                    var pageIds = await client.CheckSingleQueuePage(
-                        discId,
-                        isDiscHistory,
-                        order,
-                        pageNumber++,
-                        sort,
-                        status,
-                        submitter,
-                        subType,
-                        system);
+                    var endpoint = new Endpoints.Queue
+                    {
+                        Status = status,
+                        SubType = subType,
+                        System = system,
+                        Submitter = submitter,
+                        DiscId = discId,
+                        Sort = sort,
+                        Order = order,
+                        Page = pageNumber++,
+                        IsDiscHistory = isDiscHistory,
+                    };
+
+                    var pageIds = await client.CheckSingleQueueEndpoint(endpoint);
                     if (pageIds is null)
                         return [];
 

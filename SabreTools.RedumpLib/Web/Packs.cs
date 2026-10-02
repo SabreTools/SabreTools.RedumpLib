@@ -16,7 +16,8 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="includeDatabase">Include database in downloads</param>
         /// <param name="useSubfolders">True to use named subfolders to store downloads, false to store directly in the output directory</param>
-        public static async Task<bool> DownloadAllPacks(this Client client,
+        public static async Task<bool> DownloadAllPacks(
+            this Client client,
             string? outDir,
             bool includeDatabase,
             bool useSubfolders)
@@ -35,7 +36,8 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="includeDatabase">Include database in downloads</param>
         /// <param name="useSubfolders">True to use named subfolders to store downloads, false to store directly in the output directory</param>
-        public static async Task<bool> DownloadPacksForSystem(this Client client,
+        public static async Task<bool> DownloadPacksForSystem(
+            this Client client,
             PhysicalSystem? system,
             string? outDir,
             bool includeDatabase,
@@ -56,7 +58,8 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="includeDatabase">Include database in downloads</param>
         /// <param name="useSubfolders">True to use named subfolders to store downloads, false to store directly in the output directory</param>
-        public static async Task<bool> DownloadPacksForSystems(this Client client,
+        public static async Task<bool> DownloadPacksForSystems(
+            this Client client,
             PhysicalSystem[] systems,
             string? outDir,
             bool includeDatabase,

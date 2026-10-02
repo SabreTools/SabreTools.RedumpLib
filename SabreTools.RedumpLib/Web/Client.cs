@@ -487,135 +487,15 @@ namespace SabreTools.RedumpLib.Web
 
         #endregion
 
-        #region Single Page Helpers
+        #region Single Endpoint Helpers
 
         /// <summary>
-        /// Process a Redump discs page as a list of possible IDs or disc page
+        /// Process a Redump discs endpoint as a list of possible IDs or disc page
         /// </summary>
-        /// <param name="additionalMould">Add additional mould to filter, null to omit</param>
-        /// <param name="advanced">Set advanced search status, null to omit</param>
-        /// <param name="barcode">Add barcode to filter, null to omit</param>
-        /// <param name="barcodeExact">Set exact barcode handling, null to omit</param>
-        /// <param name="category">Add category to filter, null to omit</param>
-        /// <param name="comments">Add comments to filter, null to omit</param>
-        /// <param name="contents">Add contents to filter, null to omit</param>
-        /// <param name="dumper">Add dumper name to filter, null to omit</param>
-        /// <param name="edc">Add EDC status to filter, null to omit</param>
-        /// <param name="edition">Add edition to filter, null to omit</param>
-        /// <param name="editionExact">Set exact edition handling, null to omit</param>
-        /// <param name="errorsMax">Add maximum error count to filter, null to omit</param>
-        /// <param name="errorsMin">Add minimum error count to filter, null to omit</param>
-        /// <param name="language">Add language to filter, null to omit</param>
-        /// <param name="letter">Starts with upper-case letter or '#' for numbers, null to omit</param>
-        /// <param name="masteringCode">Add mastering code to filter, null to omit</param>
-        /// <param name="masteringSid">Add mastering SID to filter, null to omit</param>
-        /// <param name="media">Add media type to filter, null to omit</param>
-        /// <param name="mouldSid">Add mould SID to filter, null to omit</param>
-        /// <param name="offset">Add offset to filter, null to omit</param>
-        /// <param name="order">Add sorting direction, null to omit</param>
-        /// <param name="page">Page number, null to omit</param>
-        /// <param name="protection">Add protection to filter, null to omit</param>
-        /// <param name="query">Generic text query to filter, null to omit</param>
-        /// <param name="region">Add region to filter, null to omit</param>
-        /// <param name="ringcode">Add ringcode to filter, null to omit</param>
-        /// <param name="serial">Add serial to filter, null to omit</param>
-        /// <param name="serialExact">Set exact serial handling, null to omit</param>
-        /// <param name="sort">Add sorting type, null to omit</param>
-        /// <param name="status">Add status to filter, null to omit</param>
-        /// <param name="system">Add system to filter, null to omit</param>
-        /// <param name="title">Add title to filter, null to omit</param>
-        /// <param name="titleExact">Set exact title handling, null to omit</param>
-        /// <param name="titleForeign">Add foreign title to filter, null to omit</param>
-        /// <param name="titleForeignExact">Set exact foreign title handling, null to omit</param>
-        /// <param name="toolstamp">Add toolstamp to filter, null to omit</param>
-        /// <param name="tracksMax">Add maximum track count to filter, null to omit</param>
-        /// <param name="tracksMin">Add minimum track count to filter, null to omit</param>
-        /// <param name="universalHash">Add universal hash to filter, null to omit</param>
-        /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleDiscsPage(
-            string? additionalMould = null,
-            bool? advanced = null,
-            string? barcode = null,
-            bool? barcodeExact = null,
-            DiscCategory? category = null,
-            string? comments = null,
-            string? contents = null,
-            string? dumper = null,
-            YesNo? edc = null,
-            string? edition = null,
-            bool? editionExact = null,
-            long? errorsMax = null,
-            long? errorsMin = null,
-            LanguageCode? language = null,
-            char? letter = null,
-            string? masteringCode = null,
-            string? masteringSid = null,
-            MediaType? media = null,
-            string? mouldSid = null,
-            long? offset = null,
-            SortDirection? order = null,
-            long? page = null,
-            string? protection = null,
-            string? query = null,
-            RegionCode? region = null,
-            string? ringcode = null,
-            string? serial = null,
-            bool? serialExact = null,
-            SortCategory? sort = null,
-            DumpStatus? status = null,
-            PhysicalSystem? system = null,
-            string? title = null,
-            bool? titleExact = null,
-            string? titleForeign = null,
-            bool? titleForeignExact = null,
-            string? toolstamp = null,
-            long? tracksMax = null,
-            long? tracksMin = null,
-            string? universalHash = null)
+        /// <param name="endpoint">Discs endpoint to process</param>
+        /// <returns>List of IDs from the endpoint, empty on none, null on error</returns>
+        public async Task<List<int>?> CheckSingleDiscsEndpoint(Endpoints.Discs endpoint)
         {
-            var endpoint = new Endpoints.Discs
-            {
-                System = system,
-                Region = region,
-                Language = language,
-                Media = media,
-                Category = category,
-                Status = status,
-                Letter = letter,
-                Dumper = dumper,
-                Title = title,
-                TitleExact = titleExact,
-                TitleForeign = titleForeign,
-                TitleForeignExact = titleForeignExact,
-                Serial = serial,
-                SerialExact = serialExact,
-                Edition = edition,
-                EditionExact = editionExact,
-                Barcode = barcode,
-                BarcodeExact = barcodeExact,
-                UniversalHash = universalHash,
-                TracksMin = tracksMin,
-                TracksMax = tracksMax,
-                ErrorsMin = errorsMin,
-                ErrorsMax = errorsMax,
-                Edc = edc,
-                Protection = protection,
-                Comments = comments,
-                Contents = contents,
-                MasteringCode = masteringCode,
-                MasteringSid = masteringSid,
-                Toolstamp = toolstamp,
-                MouldSid = mouldSid,
-                AdditionalMould = additionalMould,
-                Ringcode = ringcode,
-                Offset = offset,
-                Query = query,
-                Sort = sort,
-                Order = order,
-                Page = page,
-                Advanced = advanced,
-            };
-
             string url = endpoint.BuildUrl();
 
             List<int> ids = [];
@@ -675,134 +555,19 @@ namespace SabreTools.RedumpLib.Web
         }
 
         /// <summary>
-        /// Process a Redump discs page as a list of possible IDs or disc page
+        /// Process a Redump discs endpoint as a list of possible IDs or disc page
         /// </summary>
         /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="additionalMould">Add additional mould to filter, null to omit</param>
-        /// <param name="advanced">Set advanced search status, null to omit</param>
-        /// <param name="barcode">Add barcode to filter, null to omit</param>
-        /// <param name="barcodeExact">Set exact barcode handling, null to omit</param>
-        /// <param name="category">Add category to filter, null to omit</param>
-        /// <param name="comments">Add comments to filter, null to omit</param>
-        /// <param name="contents">Add contents to filter, null to omit</param>
-        /// <param name="dumper">Add dumper name to filter, null to omit</param>
-        /// <param name="edc">Add EDC status to filter, null to omit</param>
-        /// <param name="edition">Add edition to filter, null to omit</param>
-        /// <param name="editionExact">Set exact edition handling, null to omit</param>
-        /// <param name="errorsMax">Add maximum error count to filter, null to omit</param>
-        /// <param name="errorsMin">Add minimum error count to filter, null to omit</param>
-        /// <param name="language">Add language to filter, null to omit</param>
-        /// <param name="letter">Starts with upper-case letter or '#' for numbers, null to omit</param>
-        /// <param name="masteringCode">Add mastering code to filter, null to omit</param>
-        /// <param name="masteringSid">Add mastering SID to filter, null to omit</param>
-        /// <param name="media">Add media type to filter, null to omit</param>
-        /// <param name="mouldSid">Add mould SID to filter, null to omit</param>
-        /// <param name="offset">Add offset to filter, null to omit</param>
-        /// <param name="order">Add sorting direction, null to omit</param>
-        /// <param name="page">Page number, null to omit</param>
-        /// <param name="protection">Add protection to filter, null to omit</param>
-        /// <param name="query">Generic text query to filter, null to omit</param>
-        /// <param name="region">Add region to filter, null to omit</param>
-        /// <param name="ringcode">Add ringcode to filter, null to omit</param>
-        /// <param name="serial">Add serial to filter, null to omit</param>
-        /// <param name="serialExact">Set exact serial handling, null to omit</param>
-        /// <param name="sort">Add sorting type, null to omit</param>
-        /// <param name="status">Add status to filter, null to omit</param>
-        /// <param name="system">Add system to filter, null to omit</param>
-        /// <param name="title">Add title to filter, null to omit</param>
-        /// <param name="titleExact">Set exact title handling, null to omit</param>
-        /// <param name="titleForeign">Add foreign title to filter, null to omit</param>
-        /// <param name="titleForeignExact">Set exact foreign title handling, null to omit</param>
-        /// <param name="toolstamp">Add toolstamp to filter, null to omit</param>
-        /// <param name="tracksMax">Add maximum track count to filter, null to omit</param>
-        /// <param name="tracksMin">Add minimum track count to filter, null to omit</param>
-        /// <param name="universalHash">Add universal hash to filter, null to omit</param>
+        /// <param name="endpoint">Discs endpoint to process</param>
         /// <param name="discSubpaths">Set of subpaths to download if available, null for all</param>
-        /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleDiscsPage(
+        /// <returns>List of IDs from the endpoint, empty on none, null on error</returns>
+        public async Task<List<int>?> CheckSingleDiscsEndpoint(
             string? outDir,
-            string? additionalMould = null,
-            bool? advanced = null,
-            string? barcode = null,
-            bool? barcodeExact = null,
-            DiscCategory? category = null,
-            string? comments = null,
-            string? contents = null,
-            string? dumper = null,
-            YesNo? edc = null,
-            string? edition = null,
-            bool? editionExact = null,
-            long? errorsMax = null,
-            long? errorsMin = null,
-            LanguageCode? language = null,
-            char? letter = null,
-            string? masteringCode = null,
-            string? masteringSid = null,
-            MediaType? media = null,
-            string? mouldSid = null,
-            long? offset = null,
-            SortDirection? order = null,
-            long? page = null,
-            string? protection = null,
-            string? query = null,
-            RegionCode? region = null,
-            string? ringcode = null,
-            string? serial = null,
-            bool? serialExact = null,
-            SortCategory? sort = null,
-            DumpStatus? status = null,
-            PhysicalSystem? system = null,
-            string? title = null,
-            bool? titleExact = null,
-            string? titleForeign = null,
-            bool? titleForeignExact = null,
-            string? toolstamp = null,
-            long? tracksMax = null,
-            long? tracksMin = null,
-            string? universalHash = null,
+            Endpoints.Discs endpoint,
             DiscSubpath[]? discSubpaths = null)
         {
             // Get all IDs from the page
-            List<int>? ids = await CheckSingleDiscsPage(
-                additionalMould,
-                advanced,
-                barcode,
-                barcodeExact,
-                category,
-                comments,
-                contents,
-                dumper,
-                edc,
-                edition,
-                editionExact,
-                errorsMax,
-                errorsMin,
-                language,
-                letter,
-                masteringCode,
-                masteringSid,
-                media,
-                mouldSid,
-                offset,
-                order,
-                page,
-                protection,
-                query,
-                region,
-                ringcode,
-                serial,
-                serialExact,
-                sort,
-                status,
-                system,
-                title,
-                titleExact,
-                titleForeign,
-                titleForeignExact,
-                toolstamp,
-                tracksMax,
-                tracksMin,
-                universalHash);
+            List<int>? ids = await CheckSingleDiscsEndpoint(endpoint);
             if (ids is null)
             {
                 if (Debug) Console.WriteLine($"DEBUG: CheckSingleDiscsPage(\"{outDir}\") - Client failure");
@@ -834,42 +599,13 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Process a Redump queue page as a list of possible IDs or disc page
         /// </summary>
-        /// <param name="discId">Add disc ID to filter, null to omit</param>
-        /// <param name="isDiscHistory">Set disc history status, null to omit</param>
-        /// <param name="order">Add sorting direction, null to omit</param>
-        /// <param name="page">Page number, null to omit</param>
-        /// <param name="sort">Add sorting type, null to omit</param>
-        /// <param name="status">Add status to filter, null to omit</param>
-        /// <param name="submitter">Add submitter name to filter, null to omit</param>
-        /// <param name="subType">Add submission type to filter, null to omit</param>
-        /// <param name="system">Add system to filter, null to omit</param>
+        /// <param name="endpoint">Queue endpoint to process</param>
         /// <returns>List of IDs from the page, empty on none, null on error</returns>
-        public async Task<List<int>?> CheckSingleQueuePage(
-            long? discId = null,
-            bool? isDiscHistory = null,
-            SortDirection? order = null,
-            long? page = null,
-            SortCategory? sort = null,
-            DumpStatus? status = null,
-            string? submitter = null,
-            SubmissionType? subType = null,
-            PhysicalSystem? system = null)
+        public async Task<List<int>?> CheckSingleQueueEndpoint(Endpoints.Queue endpoint)
         {
             List<int> ids = [];
 
             // Try to retrieve the data
-            var endpoint = new Endpoints.Queue
-            {
-                Status = status,
-                SubType = subType,
-                System = system,
-                Submitter = submitter,
-                DiscId = discId,
-                Sort = sort,
-                Order = order,
-                Page = page,
-                IsDiscHistory = isDiscHistory,
-            };
             string url = endpoint.BuildUrl();
             string? dumpsPage = await DownloadString(url);
 
@@ -913,39 +649,14 @@ namespace SabreTools.RedumpLib.Web
         /// Process a Redump queue page as a list of possible IDs or disc page
         /// </summary>
         /// <param name="outDir">Output directory to save data to</param>
-        /// <param name="discId">Add disc ID to filter, null to omit</param>
-        /// <param name="isDiscHistory">Set disc history status, null to omit</param>
-        /// <param name="order">Add sorting direction, null to omit</param>
-        /// <param name="page">Page number, null to omit</param>
-        /// <param name="sort">Add sorting type, null to omit</param>
-        /// <param name="status">Add status to filter, null to omit</param>
-        /// <param name="submitter">Add submitter name to filter, null to omit</param>
-        /// <param name="subType">Add submission type to filter, null to omit</param>
-        /// <param name="system">Add system to filter, null to omit</param>
+        /// <param name="endpoint">Queue endpoint to process</param>
         /// <returns>List of IDs that were found on success, empty on error</returns>
-        public async Task<List<int>?> CheckSingleQueuePage(
+        public async Task<List<int>?> CheckSingleQueueEndpoint(
             string? outDir,
-            long? discId = null,
-            bool? isDiscHistory = null,
-            SortDirection? order = null,
-            long? page = null,
-            SortCategory? sort = null,
-            DumpStatus? status = null,
-            string? submitter = null,
-            SubmissionType? subType = null,
-            PhysicalSystem? system = null)
+            Endpoints.Queue endpoint)
         {
             // Get all IDs from the page
-            List<int>? ids = await CheckSingleQueuePage(
-                discId,
-                isDiscHistory,
-                order,
-                page,
-                sort,
-                status,
-                submitter,
-                subType,
-                system);
+            List<int>? ids = await CheckSingleQueueEndpoint(endpoint);
             if (ids is null)
             {
                 if (Debug) Console.WriteLine($"DEBUG: CheckSingleQueuePage(\"{outDir}\") - Client failure");
