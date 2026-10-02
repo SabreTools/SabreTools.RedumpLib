@@ -127,6 +127,24 @@ namespace SabreTools.RedumpLib.Web
         #region Cookies
 
         /// <summary>
+        /// Export cookies to JSON format
+        /// </summary>
+        /// <returns>Cookies in JSON format on success, null on error</returns>
+        public string? ExportCookies()
+        {
+            try
+            {
+                var cookies = _cookieContainer.GetCookies(new Uri("forum.redump.info"));
+                return JsonConvert.SerializeObject(cookies);
+            }
+            catch
+            {
+                // TODO: Report this error somehow
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Save cookies to an external file
         /// </summary>
         /// <param name="file">File path to save cookies to</param>
@@ -135,18 +153,42 @@ namespace SabreTools.RedumpLib.Web
         {
             try
             {
-                // Retrieve the cookies for the site
-                var cookies = _cookieContainer.GetCookies(new Uri("forum.redump.info"));
-
                 // Create the output directory
                 string? directory = Path.GetDirectoryName(file);
                 if (directory is not null)
                     Directory.CreateDirectory(directory);
 
                 // Serialize the cookies and write
-                string cookiesJson = JsonConvert.SerializeObject(cookies);
+                string? cookiesJson = ExportCookies();
+                if (cookiesJson is null)
+                    return false;
+
                 File.WriteAllText(file, cookiesJson);
 
+                return true;
+            }
+            catch
+            {
+                // TODO: Report this error somehow
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Import cookies from JSON format
+        /// </summary>
+        /// <returns>True if the JSON could be loaded, false otherwise</returns>
+        public bool ImportCookies(string json)
+        {
+            try
+            {
+                // Deserialize the cookies to a cookie collection
+                var cookies = JsonConvert.DeserializeObject<CookieCollection>(json);
+                if (cookies is null)
+                    return false;
+
+                // Write the cookies to the container
+                _cookieContainer.Add(new Uri("forum.redump.info"), cookies);
                 return true;
             }
             catch
@@ -171,15 +213,7 @@ namespace SabreTools.RedumpLib.Web
 
                 // Read the cookies from the file
                 string cookiesJson = File.ReadAllText(file);
-
-                // Deserialize the cookies to a cookie collection
-                var cookies = JsonConvert.DeserializeObject<CookieCollection>(cookiesJson);
-                if (cookies is null)
-                    return false;
-
-                // Write the cookies to the container
-                _cookieContainer.Add(new Uri("forum.redump.info"), cookies);
-                return true;
+                return ImportCookies(cookiesJson);
             }
             catch
             {
