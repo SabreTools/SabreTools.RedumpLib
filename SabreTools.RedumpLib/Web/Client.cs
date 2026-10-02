@@ -1149,7 +1149,8 @@ namespace SabreTools.RedumpLib.Web
             try
             {
                 // Try to retrieve the data
-                string discPageUri = UrlBuilder.BuildDiscUrl(id);
+                var endpoint = new Endpoints.Disc { Id = id };
+                string discPageUri = endpoint.BuildUrl();
                 string? discPage = await DownloadString(discPageUri);
 
                 if (discPage is null)
@@ -1197,7 +1198,8 @@ namespace SabreTools.RedumpLib.Web
             try
             {
                 // Try to retrieve the data
-                string discPageUri = UrlBuilder.BuildDiscUrl(id);
+                var endpoint = new Endpoints.Disc { Id = id };
+                string discPageUri = endpoint.BuildUrl();
                 string? discPage = await DownloadString(discPageUri);
 
                 if (discPage is null)
@@ -1265,7 +1267,12 @@ namespace SabreTools.RedumpLib.Web
                 // View Edit History
                 if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.History)) && discPage.Contains($"<a href=\"/queue/?disc_id=/{id}"))
                 {
-                    string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.History);
+                    var subEndpoint = new Endpoints.Disc
+                    {
+                        Id = id,
+                        Subpath = DiscSubpath.History,
+                    };
+                    string uri = endpoint.BuildUrl();
                     string? changesPage = await DownloadString(uri);
                     if (!IgnoreErrors && changesPage is null)
                     {
@@ -1281,7 +1288,12 @@ namespace SabreTools.RedumpLib.Web
                 // Edit disc
                 if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.Edit)) && discPage.Contains($"<a href=\"/disc/{id}/edit/\""))
                 {
-                    string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Edit);
+                    var subEndpoint = new Endpoints.Disc
+                    {
+                        Id = id,
+                        Subpath = DiscSubpath.Edit,
+                    };
+                    string uri = endpoint.BuildUrl();
                     string? editPage = await DownloadString(uri);
                     if (!IgnoreErrors && editPage is null)
                     {
@@ -1301,7 +1313,12 @@ namespace SabreTools.RedumpLib.Web
                 // CUE
                 if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.Cuesheet)) && discPage.Contains($"<a href=\"/disc/{id}/cue\""))
                 {
-                    string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.Cuesheet);
+                    var subEndpoint = new Endpoints.Disc
+                    {
+                        Id = id,
+                        Subpath = DiscSubpath.Cuesheet,
+                    };
+                    string uri = endpoint.BuildUrl();
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.cue"));
                     if (!IgnoreErrors && remoteName is null)
                     {
@@ -1313,7 +1330,12 @@ namespace SabreTools.RedumpLib.Web
                 // SBI
                 if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.SBI)) && discPage.Contains($"<a href=\"/disc/{id}/sbi\""))
                 {
-                    string uri = UrlBuilder.BuildDiscUrl(id, DiscSubpath.SBI);
+                    var subEndpoint = new Endpoints.Disc
+                    {
+                        Id = id,
+                        Subpath = DiscSubpath.SBI,
+                    };
+                    string uri = endpoint.BuildUrl();
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sbi"));
                     if (!IgnoreErrors && remoteName is null)
                     {

@@ -34,54 +34,6 @@ namespace SabreTools.RedumpLib.Web
         #endregion
 
         /// <summary>
-        /// Build a /about/ path URL
-        /// </summary>
-        public static string BuildAboutUrl()
-        {
-            var ub = new UriBuilder
-            {
-                Scheme = "https",
-                Host = "redump.info",
-                Path = "about",
-            };
-
-            return ub.ToString();
-        }
-
-        /// <summary>
-        /// Build a /disc/ path URL
-        /// </summary>
-        /// <param name="id">Disc ID, required</param>
-        /// <param name="subpath">Disc page subpath, null to omit</param>
-        /// TODO: Handle submit path?
-        public static string BuildDiscUrl(int id, DiscSubpath? subpath = null)
-        {
-            var ub = new UriBuilder
-            {
-                Scheme = "https",
-                Host = "redump.info",
-                Path = $"disc/{Math.Abs(id)}",
-            };
-
-            switch (subpath)
-            {
-                case DiscSubpath.Cuesheet:
-                case DiscSubpath.Edit:
-                case DiscSubpath.SBI:
-                    ub.Path += $"/{subpath.ShortName()}";
-                    break;
-
-                // History and null are invalid for a disc page
-                case DiscSubpath.History:
-                case null:
-                default:
-                    break;
-            }
-
-            return ub.ToString();
-        }
-
-        /// <summary>
         /// Build a /downloads/ path URL
         /// </summary>
         /// <param name="database">Target database download</param>

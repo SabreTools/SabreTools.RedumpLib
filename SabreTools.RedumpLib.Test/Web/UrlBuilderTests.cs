@@ -7,41 +7,6 @@ namespace SabreTools.RedumpLib.Test.Web
 {
     public class UrlBuilderTests
     {
-        #region BuildAboutUrl
-
-        [Fact]
-        public void BuildAboutUrl_Constant()
-        {
-            string actual = UrlBuilder.BuildAboutUrl();
-            Assert.Equal("https://redump.info/about", actual);
-        }
-
-        #endregion
-
-        #region BuildDiscUrl
-
-        [Theory]
-        [InlineData(1, 1)]
-        [InlineData(-1, 1)]
-        public void BuildDiscUrl_AlwaysPositive(int id, int expected)
-        {
-            string actual = UrlBuilder.BuildDiscUrl(id);
-            Assert.Equal($"https://redump.info/disc/{expected}", actual);
-        }
-
-        [Theory]
-        [InlineData(null, "https://redump.info/disc/1")]
-        [InlineData(DiscSubpath.Cuesheet, "https://redump.info/disc/1/cue")]
-        [InlineData(DiscSubpath.Edit, "https://redump.info/disc/1/edit")]
-        [InlineData(DiscSubpath.SBI, "https://redump.info/disc/1/sbi")]
-        public void BuildDiscUrl_Subpath_Builds(DiscSubpath? subpath, string expected)
-        {
-            string actual = UrlBuilder.BuildDiscUrl(1, subpath);
-            Assert.Equal(expected, actual);
-        }
-
-        #endregion
-
         #region BuildDownloadsUrl
 
         [Theory]
