@@ -1074,7 +1074,13 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // Determine the pack URL
-                string packUri = UrlBuilder.BuildPackUrl(packType, system);
+                var endpoint = new Endpoints.Downloads
+                {
+                    Pack = packType,
+                    System = system,
+                };
+                string packUri = endpoint.BuildUrl();
+
                 return await DownloadData(packUri);
             }
             catch (Exception ex)
@@ -1115,7 +1121,12 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // Determine the pack URL
-                string packUri = UrlBuilder.BuildPackUrl(packType, system);
+                var endpoint = new Endpoints.Downloads
+                {
+                    Pack = packType,
+                    System = system,
+                };
+                string packUri = endpoint.BuildUrl();
 
                 // If no output directory is defined, use the current directory instead
                 if (string.IsNullOrEmpty(outDir))
