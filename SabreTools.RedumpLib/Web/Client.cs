@@ -597,10 +597,10 @@ namespace SabreTools.RedumpLib.Web
         }
 
         /// <summary>
-        /// Process a Redump queue page as a list of possible IDs or disc page
+        /// Process a Redump queue endpoint as a list of possible IDs or queue page
         /// </summary>
         /// <param name="endpoint">Queue endpoint to process</param>
-        /// <returns>List of IDs from the page, empty on none, null on error</returns>
+        /// <returns>List of IDs from the endpoint, empty on none, null on error</returns>
         public async Task<List<int>?> CheckSingleQueueEndpoint(Endpoints.Queue endpoint)
         {
             List<int> ids = [];
@@ -646,11 +646,11 @@ namespace SabreTools.RedumpLib.Web
         }
 
         /// <summary>
-        /// Process a Redump queue page as a list of possible IDs or disc page
+        /// Process a Redump queue endpoint as a list of possible IDs or queue page
         /// </summary>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="endpoint">Queue endpoint to process</param>
-        /// <returns>List of IDs that were found on success, empty on error</returns>
+        /// <returns>List of IDs from the endpoint, empty on none, null on error</returns>
         public async Task<List<int>?> CheckSingleQueueEndpoint(
             string? outDir,
             Endpoints.Queue endpoint)
