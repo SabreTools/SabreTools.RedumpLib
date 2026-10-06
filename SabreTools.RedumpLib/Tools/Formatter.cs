@@ -38,9 +38,10 @@ namespace SabreTools.RedumpLib.Tools
 
             SiteCode.Protection,
 
-            // The following 2 are the same now
             SiteCode.BBFCRegistrationNumber,
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.VFCCode,
+#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.DiscHologramID,
             SiteCode.DNASDiscID,
             SiteCode.DiscID,

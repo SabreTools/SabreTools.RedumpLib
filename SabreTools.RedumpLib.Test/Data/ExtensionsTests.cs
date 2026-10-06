@@ -2350,7 +2350,9 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.TitleID,
             SiteCode.VCD,
             SiteCode.VETSFBID,
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.VFCCode,
+#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.VolumeLabel,
             SiteCode.XeMID,
             SiteCode.XMID,

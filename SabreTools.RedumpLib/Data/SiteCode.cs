@@ -1,3 +1,5 @@
+using System;
+
 namespace SabreTools.RedumpLib.Data
 {
     /// <summary>
@@ -93,7 +95,6 @@ namespace SabreTools.RedumpLib.Data
             code: "[T:BID]",
             isCommentCode: true);
 
-        // TODO: Figure out how to have multiple codes map, e.g. [T:BBFC], [T:VFC]
         public static readonly SiteCode BBFCRegistrationNumber = new("<b>BBFC Reg. No.</b>:",
             code: "[T:BBFC]",
             isCommentCode: true);
@@ -357,7 +358,7 @@ namespace SabreTools.RedumpLib.Data
         public static readonly SiteCode VETSFBID = new("<b>VET/SFB ID</b>:",
             isCommentCode: true);
 
-        // TODO: Figure out how to have multiple codes map, e.g. [T:BBFC], [T:VFC]
+        [Obsolete("SiteCode.BBFCRegistrationNumber should be used instead")]
         public static readonly SiteCode VFCCode = new("<b>BBFC Reg. No.</b>:",
             code: "[T:VFC]",
             isCommentCode: true);
@@ -491,7 +492,9 @@ namespace SabreTools.RedumpLib.Data
 
             ValveID,
             VETSFBID,
+#pragma warning disable CS0618 // Type or member is obsolete
             VFCCode,
+#pragma warning restore CS0618 // Type or member is obsolete
             Videos,
             VolumeLabel,
             VCD,
