@@ -42,28 +42,28 @@ namespace SabreTools.RedumpLib.Test.Endpoints
 
             // Microsoft Xbox
             endpoint.System = PhysicalSystem.MicrosoftXboxBIOS;
-            string expected = "https://redump.info/static/bios/Microsoft%20-%20Xbox%20-%20BIOS%20Images%20%289%29%20%282026-06-16%29.dat";
+            string expected = "https://redump.info/bios/XBOX";
 
             string actual = endpoint.BuildUrl();
             Assert.Equal(expected, actual);
 
             // Nintendo GameCube
             endpoint.System = PhysicalSystem.NintendoGameCubeBIOS;
-            expected = "https://redump.info/static/bios/Nintendo%20-%20GameCube%20-%20BIOS%20Images%20%2817%29%20%282026-06-16%29.dat";
+            expected = "https://redump.info/bios/GC";
 
             actual = endpoint.BuildUrl();
             Assert.Equal(expected, actual);
 
             // Sony PlayStation
             endpoint.System = PhysicalSystem.SonyPlayStationBIOS;
-            expected = "https://redump.info/static/bios/Sony%20-%20PlayStation%20-%20BIOS%20Images%20%2824%29%20%282026-06-16%29.dat";
+            expected = "https://redump.info/bios/PSX";
 
             actual = endpoint.BuildUrl();
             Assert.Equal(expected, actual);
 
             // Sony PlayStation 2
             endpoint.System = PhysicalSystem.SonyPlayStation2BIOS;
-            expected = "https://redump.info/static/bios/Sony%20-%20PlayStation%202%20-%20BIOS%20Datfile%20%28140%29%20%282026-06-16%29.dat";
+            expected = "https://redump.info/bios/PS2";
 
             actual = endpoint.BuildUrl();
             Assert.Equal(expected, actual);
