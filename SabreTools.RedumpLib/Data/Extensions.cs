@@ -150,7 +150,6 @@ namespace SabreTools.RedumpLib.Data
                 PhysicalMediaType.DVD => MediaType.DVD9,
                 PhysicalMediaType.GDROM => MediaType.GDROM,
                 PhysicalMediaType.HDDVD => MediaType.HDDVDSL,
-                // PhysicalMediaType.MILCD => MediaType.MILCD, // TODO: Support this?
                 PhysicalMediaType.NintendoGameCubeGameDisc => MediaType.NintendoGameCubeGameDisc,
                 PhysicalMediaType.NintendoWiiOpticalDisc => MediaType.NintendoWiiOpticalDiscDL,
                 PhysicalMediaType.NintendoWiiUOpticalDisc => MediaType.NintendoWiiUOpticalDiscSL,
@@ -208,7 +207,6 @@ namespace SabreTools.RedumpLib.Data
                 MediaType.GDROM => PhysicalMediaType.GDROM,
                 MediaType.HDDVDSL
                     or MediaType.HDDVDDL => PhysicalMediaType.HDDVD,
-                // MediaType.MILCD => PhysicalMediaType.MILCD, // TODO: Support this?
                 MediaType.NintendoGameCubeGameDisc => PhysicalMediaType.NintendoGameCubeGameDisc,
                 MediaType.NintendoWiiOpticalDiscSL
                     or MediaType.NintendoWiiOpticalDiscDL => PhysicalMediaType.NintendoWiiOpticalDisc,
