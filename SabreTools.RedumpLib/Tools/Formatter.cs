@@ -49,7 +49,9 @@ namespace SabreTools.RedumpLib.Tools
             SiteCode.ISBN,
             SiteCode.ISSN,
             SiteCode.PEGIID,
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.PPN,
+#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.VETSFBID,
 
             SiteCode.CompatibleOS,

@@ -278,7 +278,7 @@ namespace SabreTools.RedumpLib.Data
             isBoolean: true,
             isCommentCode: true);
 
-        // TODO: This is now deprecated
+        [Obsolete("This code is not longer accepted")]
         public static readonly SiteCode PPN = new("<b>PPN</b>:",
             code: "[T:PPN]",
             isCommentCode: true);
@@ -466,7 +466,9 @@ namespace SabreTools.RedumpLib.Data
             PlayableDemos,
             PonyCanyonID,
             PostgapType,
+#pragma warning disable CS0618 // Type or member is obsolete
             PPN,
+#pragma warning restore CS0618 // Type or member is obsolete
             Protection,
 
             RingPerfectAudioOffset,

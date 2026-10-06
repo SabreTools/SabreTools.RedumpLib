@@ -2340,7 +2340,9 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.PEGIID,
             SiteCode.PFIHash,
             SiteCode.PostgapType,
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.PPN,
+#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.Protection,
             SiteCode.RingPerfectAudioOffset,
             SiteCode.Series,
