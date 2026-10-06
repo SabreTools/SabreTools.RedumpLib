@@ -68,6 +68,7 @@ namespace SabreTools.RedumpLib.Web
             Console.WriteLine("Downloading CUEs");
             _ = await client.DownloadPacks(PackType.Cuesheets, systems, outDir, useSubfolders ? "cue" : null);
 
+            // TODO: When BIOS systems are removed, create a new download for BIOS DATs
             Console.WriteLine("Downloading DATs");
             _ = await client.DownloadPacks(PackType.Datfile, systems, outDir, useSubfolders ? "dat" : null);
 

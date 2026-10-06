@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace SabreTools.RedumpLib.Data
@@ -46,6 +47,11 @@ namespace SabreTools.RedumpLib.Data
         public readonly bool HasSbi;
 
         /// <summary>
+        /// System has a BIOS DAT
+        /// </summary>
+        public readonly bool HasBios;
+
+        /// <summary>
         /// List of valid media types for the system
         /// </summary>
         /// <remarks>Order of types is used by some implementing projects</remarks>
@@ -72,6 +78,7 @@ namespace SabreTools.RedumpLib.Data
             bool hasCues = false,
             bool hasDat = false,
             bool hasSbi = false,
+            bool hasBios = false,
             List<PhysicalMediaType?>? mediaTypes = null)
         {
             Name = name;
@@ -82,6 +89,7 @@ namespace SabreTools.RedumpLib.Data
             HasCues = hasCues;
             HasDat = hasDat;
             HasSbi = hasSbi;
+            HasBios = hasBios;
             MediaTypes = mediaTypes ?? [PhysicalMediaType.NONE];
         }
 
@@ -91,25 +99,33 @@ namespace SabreTools.RedumpLib.Data
 
         #region BIOS Sets
 
+        [Obsolete("PhysicalSystem.MicrosoftXbox should be used instead")]
         public static readonly PhysicalSystem MicrosoftXboxBIOS = new("Microsoft Xbox (BIOS)",
             SystemCategory.NONE,
             code: "xbox-bios",
-            hasDat: true);
+            hasDat: true,
+            hasBios: true);
 
+        [Obsolete("PhysicalSystem.NintendoGameCube should be used instead")]
         public static readonly PhysicalSystem NintendoGameCubeBIOS = new("Nintendo GameCube (BIOS)",
             SystemCategory.NONE,
             code: "gc-bios",
-            hasDat: true);
+            hasDat: true,
+            hasBios: true);
 
+        [Obsolete("PhysicalSystem.SonyPlayStation should be used instead")]
         public static readonly PhysicalSystem SonyPlayStationBIOS = new("Sony PlayStation (BIOS)",
             SystemCategory.NONE,
             code: "psx-bios",
-            hasDat: true);
+            hasDat: true,
+            hasBios: true);
 
+        [Obsolete("PhysicalSystem.SonyPlayStation2 should be used instead")]
         public static readonly PhysicalSystem SonyPlayStation2BIOS = new("Sony PlayStation 2 (BIOS)",
             SystemCategory.NONE,
             code: "ps2-bios",
-            hasDat: true);
+            hasDat: true,
+            hasBios: true);
 
         #endregion
 
@@ -251,6 +267,7 @@ namespace SabreTools.RedumpLib.Data
             code: "XBOX",
             hasCues: true,
             hasDat: true,
+            hasBios: true,
             mediaTypes: [PhysicalMediaType.DVD, PhysicalMediaType.CDROM]);
 
         // https://en.wikipedia.org/wiki/Xbox_360
@@ -296,6 +313,7 @@ namespace SabreTools.RedumpLib.Data
             SystemCategory.DiscBasedConsole,
             code: "GC",
             hasDat: true,
+            hasBios: true,
             mediaTypes: [PhysicalMediaType.DVD, PhysicalMediaType.NintendoGameCubeGameDisc]);
 
         // https://en.wikipedia.org/wiki/Super_NES_CD-ROM
@@ -395,6 +413,7 @@ namespace SabreTools.RedumpLib.Data
             hasCues: true,
             hasDat: true,
             hasSbi: true,
+            hasBios: true,
             mediaTypes: [PhysicalMediaType.CDROM]);
 
         // https://en.wikipedia.org/wiki/PlayStation_2
@@ -403,6 +422,7 @@ namespace SabreTools.RedumpLib.Data
             code: "PS2",
             hasCues: true,
             hasDat: true,
+            hasBios: true,
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
 
         // https://en.wikipedia.org/wiki/PlayStation_3
@@ -1570,10 +1590,12 @@ namespace SabreTools.RedumpLib.Data
         [
             #region BIOS Sets
 
+#pragma warning disable CS0618 // Type or member is obsolete
             MicrosoftXboxBIOS,
             NintendoGameCubeBIOS,
             SonyPlayStationBIOS,
             SonyPlayStation2BIOS,
+#pragma warning restore CS0618 // Type or member is obsolete
 
             #endregion
 

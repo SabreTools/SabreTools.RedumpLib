@@ -31,34 +31,44 @@ namespace SabreTools.RedumpLib.Endpoints
                     Host = "redump.info",
                 };
 
-                string systemName = System?.Code ?? string.Empty;
-                switch (Pack)
+                // HACK: Make copies of the pack and system
+                var pack = Pack;
+                var system = System;
+
+                // HACK: Normalize old BIOS systems
+#pragma warning disable CS0618 // Type or member is obsolete
+                if (Pack == PackType.Datfile && System == PhysicalSystem.MicrosoftXboxBIOS)
                 {
-                    case PackType.Cuesheets:
-                        ub.Path = $"cues/{systemName}";
-                        break;
+                    pack = PackType.BiosDatfile;
+                    system = PhysicalSystem.MicrosoftXbox;
+                }
+                else if (Pack == PackType.Datfile && System == PhysicalSystem.NintendoGameCubeBIOS)
+                {
+                    pack = PackType.BiosDatfile;
+                    system = PhysicalSystem.NintendoGameCube;
+                }
+                else if (Pack == PackType.Datfile && System == PhysicalSystem.SonyPlayStationBIOS)
+                {
+                    pack = PackType.BiosDatfile;
+                    system = PhysicalSystem.SonyPlayStation;
+                }
+                else if (Pack == PackType.Datfile && System == PhysicalSystem.SonyPlayStation2BIOS)
+                {
+                    pack = PackType.BiosDatfile;
+                    system = PhysicalSystem.SonyPlayStation2;
+                }
+#pragma warning restore CS0618 // Type or member is obsolete
 
-                    case PackType.Datfile:
-                        // BIOS systems need to map back to their actual system names
-                        if (System == PhysicalSystem.MicrosoftXboxBIOS)
-                            ub.Path = $"bios/{PhysicalSystem.MicrosoftXbox.Code}";
-                        else if (System == PhysicalSystem.NintendoGameCubeBIOS)
-                            ub.Path = $"bios/{PhysicalSystem.NintendoGameCube.Code}";
-                        else if (System == PhysicalSystem.SonyPlayStationBIOS)
-                            ub.Path = $"bios/{PhysicalSystem.SonyPlayStation.Code}";
-                        else if (System == PhysicalSystem.SonyPlayStation2BIOS)
-                            ub.Path = $"bios/{PhysicalSystem.SonyPlayStation2.Code}";
-                        else
-                            ub.Path = $"datfile/{systemName}";
-
-                        break;
-
-                    case PackType.Sbis:
-                        ub.Path = $"sbi/{systemName}";
-                        break;
+                string systemName = system?.Code ?? string.Empty;
+                switch (pack)
+                {
+                    case PackType.Cuesheets: ub.Path = $"cues/{systemName}"; break;
+                    case PackType.Datfile: ub.Path = $"datfile/{systemName}"; break;
+                    case PackType.Sbis: ub.Path = $"sbi/{systemName}"; break;
+                    case PackType.BiosDatfile: ub.Path = $"bios/{systemName}"; break;
 
                     // Invalid
-                    default: throw new ArgumentOutOfRangeException(nameof(Pack));
+                    default: throw new ArgumentOutOfRangeException(nameof(pack));
                 }
 
                 return ub.ToString();

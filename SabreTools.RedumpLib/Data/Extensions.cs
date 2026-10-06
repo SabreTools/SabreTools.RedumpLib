@@ -677,6 +677,7 @@ namespace SabreTools.RedumpLib.Data
         public static bool DetectedByWindows(this PhysicalSystem? system)
         {
             // BIOS Sets
+#pragma warning disable CS0618 // Type or member is obsolete
             if (system == PhysicalSystem.MicrosoftXboxBIOS)
                 return false;
             else if (system == PhysicalSystem.NintendoGameCubeBIOS)
@@ -685,6 +686,7 @@ namespace SabreTools.RedumpLib.Data
                 return false;
             else if (system == PhysicalSystem.SonyPlayStation2BIOS)
                 return false;
+#pragma warning restore CS0618 // Type or member is obsolete
 
             // Disc-Based Consoles
             if (system == PhysicalSystem.AppleBandaiPippin)

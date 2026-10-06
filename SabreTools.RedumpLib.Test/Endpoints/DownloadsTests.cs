@@ -23,6 +23,7 @@ namespace SabreTools.RedumpLib.Test.Endpoints
         [InlineData(PackType.Cuesheets, "https://redump.info/cues/ARCH")]
         [InlineData(PackType.Datfile, "https://redump.info/datfile/ARCH")]
         [InlineData(PackType.Sbis, "https://redump.info/sbi/ARCH")]
+        [InlineData(PackType.BiosDatfile, "https://redump.info/bios/ARCH")]
         public void BuildUrl_ValidPackType_ValidSystem_Builds(PackType packType, string expected)
         {
             var endpoint = new RedumpLib.Endpoints.Downloads
@@ -38,31 +39,73 @@ namespace SabreTools.RedumpLib.Test.Endpoints
         [Fact]
         public void BuildUrl_BIOSDatfile()
         {
-            var endpoint = new RedumpLib.Endpoints.Downloads { Pack = PackType.Datfile };
+            var endpoint = new RedumpLib.Endpoints.Downloads { Pack = PackType.BiosDatfile };
 
             // Microsoft Xbox
-            endpoint.System = PhysicalSystem.MicrosoftXboxBIOS;
+            endpoint.System = PhysicalSystem.MicrosoftXbox;
             string expected = "https://redump.info/bios/XBOX";
 
             string actual = endpoint.BuildUrl();
             Assert.Equal(expected, actual);
 
             // Nintendo GameCube
-            endpoint.System = PhysicalSystem.NintendoGameCubeBIOS;
+            endpoint.System = PhysicalSystem.NintendoGameCube;
             expected = "https://redump.info/bios/GC";
 
             actual = endpoint.BuildUrl();
             Assert.Equal(expected, actual);
 
             // Sony PlayStation
-            endpoint.System = PhysicalSystem.SonyPlayStationBIOS;
+            endpoint.System = PhysicalSystem.SonyPlayStation;
             expected = "https://redump.info/bios/PSX";
 
             actual = endpoint.BuildUrl();
             Assert.Equal(expected, actual);
 
             // Sony PlayStation 2
+            endpoint.System = PhysicalSystem.SonyPlayStation2;
+            expected = "https://redump.info/bios/PS2";
+
+            actual = endpoint.BuildUrl();
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void BuildUrl_BIOSDatfile_Old()
+        {
+            var endpoint = new RedumpLib.Endpoints.Downloads { Pack = PackType.Datfile };
+
+            // Microsoft Xbox
+#pragma warning disable CS0618 // Type or member is obsolete
+            endpoint.System = PhysicalSystem.MicrosoftXboxBIOS;
+#pragma warning restore CS0618 // Type or member is obsolete
+            string expected = "https://redump.info/bios/XBOX";
+
+            string actual = endpoint.BuildUrl();
+            Assert.Equal(expected, actual);
+
+            // Nintendo GameCube
+#pragma warning disable CS0618 // Type or member is obsolete
+            endpoint.System = PhysicalSystem.NintendoGameCubeBIOS;
+#pragma warning restore CS0618 // Type or member is obsolete
+            expected = "https://redump.info/bios/GC";
+
+            actual = endpoint.BuildUrl();
+            Assert.Equal(expected, actual);
+
+            // Sony PlayStation
+#pragma warning disable CS0618 // Type or member is obsolete
+            endpoint.System = PhysicalSystem.SonyPlayStationBIOS;
+#pragma warning restore CS0618 // Type or member is obsolete
+            expected = "https://redump.info/bios/PSX";
+
+            actual = endpoint.BuildUrl();
+            Assert.Equal(expected, actual);
+
+            // Sony PlayStation 2
+#pragma warning disable CS0618 // Type or member is obsolete
             endpoint.System = PhysicalSystem.SonyPlayStation2BIOS;
+#pragma warning restore CS0618 // Type or member is obsolete
             expected = "https://redump.info/bios/PS2";
 
             actual = endpoint.BuildUrl();
