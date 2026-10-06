@@ -189,6 +189,9 @@ namespace SabreTools.RedumpLib.Web
 
                 // Write the cookies to the container
                 _cookieContainer.Add(new Uri("https://forum.redump.info"), cookies);
+
+                // Assume that this indicates a valid login
+                _loggedIn = true;
                 return true;
             }
             catch
