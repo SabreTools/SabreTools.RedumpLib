@@ -390,7 +390,6 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// All site codes
         /// </summary>
-        /// TODO: Figure out how to remove delimiters
         public static readonly SiteCode[] AllSiteCodes =
         [
             AcclaimID,
