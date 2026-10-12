@@ -58,6 +58,9 @@ namespace SabreTools.RedumpLib.Data
 
         [HumanReadable(LongName = "SBI", ShortName = "sbi")]
         SBI = 4,
+
+        [HumanReadable(LongName = "LSD", ShortName = "lsd")]
+        LSD = 5,
     }
 
     /// <summary>

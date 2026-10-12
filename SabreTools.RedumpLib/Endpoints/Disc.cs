@@ -31,6 +31,7 @@ namespace SabreTools.RedumpLib.Endpoints
                 case DiscSubpath.Cuesheet:
                 case DiscSubpath.Edit:
                 case DiscSubpath.SBI:
+                case DiscSubpath.LSD:
                     ub.Path += $"/{Subpath.ShortName()}";
                     break;
 

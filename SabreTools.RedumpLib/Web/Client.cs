@@ -1161,6 +1161,23 @@ namespace SabreTools.RedumpLib.Web
                     }
                 }
 
+                // LSD
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.LSD)) && discPage.Contains($"<a href=\"/disc/{id}/lsd\""))
+                {
+                    var subEndpoint = new Endpoints.Disc
+                    {
+                        Id = id,
+                        Subpath = DiscSubpath.LSD,
+                    };
+                    string uri = endpoint.BuildUrl();
+                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.lsd"));
+                    if (!IgnoreErrors && remoteName is null)
+                    {
+                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading LSD for {id} failed!");
+                        return false;
+                    }
+                }
+
                 #endregion
 
                 // HTML (Last in case of errors)

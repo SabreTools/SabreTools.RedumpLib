@@ -22,6 +22,7 @@ namespace SabreTools.RedumpLib.Test.Endpoints
         [InlineData(DiscSubpath.Cuesheet, "https://redump.info/disc/1/cue")]
         [InlineData(DiscSubpath.Edit, "https://redump.info/disc/1/edit")]
         [InlineData(DiscSubpath.SBI, "https://redump.info/disc/1/sbi")]
+        [InlineData(DiscSubpath.LSD, "https://redump.info/disc/1/lsd")]
         public void BuildUrl_Subpath_Builds(DiscSubpath? subpath, string expected)
         {
             var endpoint = new RedumpLib.Endpoints.Disc
