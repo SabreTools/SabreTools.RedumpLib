@@ -88,11 +88,15 @@ namespace RedumpTool
             Console.WriteLine();
             Console.WriteLine("    In addition to the above options, there are advanced options that allow users to finely tune their");
             Console.WriteLine("    site queries. All flags below are incompatible with --minimum and --maximum.");
+            Console.WriteLine("        --additional-mould - Add additional mould to filter");
             Console.WriteLine("        --barcode - Add barcode to filter");
             Console.WriteLine("        --barcode-exact - Add barcode exact matching to filter [true, false]");
             Console.WriteLine("        --category - Add category to filter");
             Console.WriteLine("        --comments - Add comments to filter");
             Console.WriteLine("        --contents - Add contents to filter");
+            Console.WriteLine("        --disc-number - Add disc number to filter");
+            Console.WriteLine("        --disc-title - Add disc title to filter");
+            Console.WriteLine("        --disc-title-exact - Add disc title exact matching to filter [true, false]");
             Console.WriteLine("        --dumper - Add dumper to filter");
             Console.WriteLine("        --edc - Add EDC status to filter [true, false]");
             Console.WriteLine("        --edition - Add edition to filter");
@@ -101,7 +105,10 @@ namespace RedumpTool
             Console.WriteLine("        --errors-min - Add minimum error count to filter");
             Console.WriteLine("        --language - Add language to filter");
             Console.WriteLine("        --letter - Add title first letter to filter");
+            Console.WriteLine("        --mastering-code - Add mastering code to filter");
+            Console.WriteLine("        --mastering-sid - Add mastering SID to filter");
             Console.WriteLine("        --media - Add media type to filter");
+            Console.WriteLine("        --mould-sid - Add mould SID to filter");
             Console.WriteLine("        --offset - Add offset to filter");
             Console.WriteLine("        --order - Add sort order to filter [asc, desc]");
             Console.WriteLine("        --protection - Add protection to filter");
@@ -117,8 +124,10 @@ namespace RedumpTool
             Console.WriteLine("        --title-exact - Add title exact matching to filter [true, false]");
             Console.WriteLine("        --title-foreign - Add foreign title to filter");
             Console.WriteLine("        --title-foreign-exact - Add foreign title exact matching to filter [true, false]");
+            Console.WriteLine("        --toolstamp - Add toolstamp to filter");
             Console.WriteLine("        --tracks-max - Add maximum track count to filter");
             Console.WriteLine("        --tracks-min - Add minimum track count to filter");
+            Console.WriteLine("        --universal-hash - Add universal hash to filter");
             Console.WriteLine();
 
             Console.WriteLine("queue - Download pages and related files from the submission queue");
