@@ -213,6 +213,7 @@ namespace SabreTools.RedumpLib.Data
                 MediaType.NintendoWiiUOpticalDiscSL => PhysicalMediaType.NintendoWiiUOpticalDisc,
                 MediaType.UMDSL
                     or MediaType.UMDDL => PhysicalMediaType.UMD,
+                MediaType.XGD => PhysicalMediaType.DVD,
 
                 // Invalid cases for conversion
                 MediaType.MILCD => null,

@@ -394,6 +394,7 @@ namespace SabreTools.RedumpLib.Test.Data
             MediaType.NintendoWiiUOpticalDiscSL,
             MediaType.UMDSL,
             MediaType.UMDDL,
+            MediaType.XGD,
         ];
 
         /// <summary>
