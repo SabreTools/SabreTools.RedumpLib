@@ -50,11 +50,6 @@ namespace SabreTools.RedumpLib.Data
         public static readonly Regex DiscRegex = new(@"<a href=""/disc/(\d+)"">", RegexOptions.Compiled);
 
         /// <summary>
-        /// Regex matching the disc key on a PS3 or Wii U disc page
-        /// </summary>
-        public static readonly Regex DiscKeyRegex = new(@"<tr><td><strong>Disc Key</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
-
-        /// <summary>
         /// Regex matching the disc number field on a disc page
         /// </summary>
         public static readonly Regex DiscNumberRegex = new(@"\((.*?)\)", RegexOptions.Compiled);

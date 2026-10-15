@@ -178,15 +178,6 @@ namespace SabreTools.RedumpLib.Tools
                     info.DiscIdentifiers.Version = $"(VERIFY THIS) {WebUtility.HtmlDecode(match.Groups[1].Value)}";
             }
 
-            // Disc Key
-            if (string.IsNullOrEmpty(info.DiscIdentifiers.DiscKey))
-            {
-                // Validate key is not NULL
-                match = Constants.DiscKeyRegex.Match(discData);
-                if (match.Success && match.Groups[1].Value != "<span class=\"null\">NULL</span>")
-                    info.DiscIdentifiers.DiscKey = match.Groups[1].Value;
-            }
-
             // TODO: Unify handling of fields that can include site codes (Comments/Contents)
 
             // Comments
