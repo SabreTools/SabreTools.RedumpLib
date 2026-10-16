@@ -33,6 +33,9 @@ namespace SabreTools.RedumpLib.Data.Sections
         [JsonProperty(PropertyName = "disc_title", NullValueHandling = NullValueHandling.Ignore)]
         public string? DiscTitle { get; set; }
 
+        [JsonProperty(PropertyName = "disc_title_foreign", NullValueHandling = NullValueHandling.Ignore)]
+        public string? ForeignDiscTitle { get; set; }
+
         /// <remarks>May be removed in the future</remarks>
         [JsonProperty(PropertyName = "filename_suffix", NullValueHandling = NullValueHandling.Ignore)]
         public string? FilenameSuffix { get; set; }
@@ -49,6 +52,7 @@ namespace SabreTools.RedumpLib.Data.Sections
                 ForeignTitle = this.ForeignTitle,
                 DiscNumber = this.DiscNumber,
                 DiscTitle = this.DiscTitle,
+                ForeignDiscTitle = this.ForeignDiscTitle,
                 FilenameSuffix = this.FilenameSuffix,
             };
         }

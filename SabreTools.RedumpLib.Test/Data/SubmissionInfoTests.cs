@@ -37,6 +37,7 @@ namespace SabreTools.RedumpLib.Test.Data
                     ForeignTitle = "Foreign Game Title",
                     DiscNumber = "1",
                     DiscTitle = "Install Disc",
+                    ForeignDiscTitle = "Foreign Install Disc",
                     FilenameSuffix = "(Alt)",
                 },
 

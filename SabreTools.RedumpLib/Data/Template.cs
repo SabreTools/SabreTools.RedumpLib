@@ -21,6 +21,7 @@
         public const string ForeignTitleField = "Foreign Title";
         public const string DiscNumberField = "Disc Number";
         public const string DiscTitleField = "Disc Title";
+        public const string ForeignDiscTitleField = "Foreign Disc Title";
         public const string FilenameSuffixField = "Filename Suffix";
 
         #endregion

@@ -33,6 +33,7 @@ namespace SabreTools.RedumpLib.Test.Tools
                     ForeignTitle = "Foreign Game Title",
                     DiscNumber = "1",
                     DiscTitle = "Install Disc",
+                    ForeignDiscTitle = "Foreign Install Disc",
                     FilenameSuffix = "(Alt)",
                 },
 
@@ -153,7 +154,7 @@ namespace SabreTools.RedumpLib.Test.Tools
         [Fact]
         public void FormatOutputData_DiscIdentitySection_Formatted()
         {
-            string expected = "Disc Identity:\n\tSystem: Sony PlayStation 5\n\tMedia Type: BD-ROM-128\n\tCategory: Games\n\tTitle: XXXXXX\n\tForeign Title: XXXXXX\n\tDisc Number: XXXXXX\n\tDisc Title: XXXXXX\n\tFilename Suffix: XXXXXX\n\tFully Matching IDs: 1, 2, 3\n\tPartially Matching IDs: 4, 5, 6\n";
+            string expected = "Disc Identity:\n\tSystem: Sony PlayStation 5\n\tMedia Type: BD-ROM-128\n\tCategory: Games\n\tTitle: XXXXXX\n\tForeign Title: XXXXXX\n\tDisc Number: XXXXXX\n\tDisc Title: XXXXXX\n\tForeign Disc Title: XXXXXX\n\tFilename Suffix: XXXXXX\n\tFully Matching IDs: 1, 2, 3\n\tPartially Matching IDs: 4, 5, 6\n";
 
             var builder = new StringBuilder();
             DiscIdentitySection? section = new()
@@ -165,6 +166,7 @@ namespace SabreTools.RedumpLib.Test.Tools
                 ForeignTitle = "XXXXXX",
                 DiscNumber = "XXXXXX",
                 DiscTitle = "XXXXXX",
+                ForeignDiscTitle = "XXXXXX",
                 FilenameSuffix = "XXXXXX",
             };
             DiscIdentifiersSection discIdentifiers = new()

@@ -447,6 +447,7 @@ namespace SabreTools.RedumpLib.Tools
             if (!string.IsNullOrEmpty(seed.DiscIdentity.ForeignTitle)) info.DiscIdentity.ForeignTitle = seed.DiscIdentity.ForeignTitle;
             if (!string.IsNullOrEmpty(seed.DiscIdentity.DiscNumber)) info.DiscIdentity.DiscNumber = seed.DiscIdentity.DiscNumber;
             if (!string.IsNullOrEmpty(seed.DiscIdentity.DiscTitle)) info.DiscIdentity.DiscTitle = seed.DiscIdentity.DiscTitle;
+            if (!string.IsNullOrEmpty(seed.DiscIdentity.ForeignDiscTitle)) info.DiscIdentity.ForeignDiscTitle = seed.DiscIdentity.ForeignDiscTitle;
 
             if (seed.RegionsAndLanguages.Regions is not null) info.RegionsAndLanguages.Regions = seed.RegionsAndLanguages.Regions;
             if (seed.RegionsAndLanguages.Languages is not null) info.RegionsAndLanguages.Languages = seed.RegionsAndLanguages.Languages;

@@ -280,6 +280,7 @@ namespace SabreTools.RedumpLib.Tools
             AddIfExists(output, Template.ForeignTitleField, section.ForeignTitle, 1);
             AddIfExists(output, Template.DiscNumberField, section.DiscNumber, 1);
             AddIfExists(output, Template.DiscTitleField, section.DiscTitle, 1);
+            AddIfExists(output, Template.ForeignDiscTitleField, section.ForeignDiscTitle, 1);
             AddIfExists(output, Template.FilenameSuffixField, section.FilenameSuffix, 1);
 
             AddIfExists(output, Template.FullyMatchingIDsField, fullyMatchedIDs, 1);
