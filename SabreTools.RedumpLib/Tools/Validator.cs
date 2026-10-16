@@ -5,6 +5,9 @@ using SabreTools.RedumpLib.Web;
 
 namespace SabreTools.RedumpLib.Tools
 {
+    /// <summary>
+    /// Validation extension methods for <see cref="Client"/>
+    /// </summary>
     public static class Validator
     {
         /// <summary>
