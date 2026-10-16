@@ -2325,7 +2325,9 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.CoverID,
             SiteCode.DiscHologramID,
             SiteCode.DiscID,
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.DiscTitleNonLatin,
+#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.DMIHash,
             SiteCode.DNASDiscID,
             SiteCode.EditionNonLatin,
@@ -2341,9 +2343,6 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.PEGIID,
             SiteCode.PFIHash,
             SiteCode.PostgapType,
-#pragma warning disable CS0618 // Type or member is obsolete
-            SiteCode.PPN,
-#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.Protection,
             SiteCode.RingPerfectAudioOffset,
             SiteCode.Series,
@@ -2353,9 +2352,6 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.TitleID,
             SiteCode.VCD,
             SiteCode.VETSFBID,
-#pragma warning disable CS0618 // Type or member is obsolete
-            SiteCode.VFCCode,
-#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.VolumeLabel,
             SiteCode.XeMID,
             SiteCode.XMID,

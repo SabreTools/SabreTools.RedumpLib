@@ -120,6 +120,7 @@ namespace SabreTools.RedumpLib.Data
         public static readonly SiteCode DiscID = new("<b>Disc ID</b>:",
             isCommentCode: true);
 
+        [Obsolete("Use SubmissionInfo.DiscIdentity.ForeignDiscTitle instead")]
         public static readonly SiteCode DiscTitleNonLatin = new("<b>Disc Title (non-Latin)</b>:",
             isCommentCode: true);
 
@@ -278,11 +279,6 @@ namespace SabreTools.RedumpLib.Data
             isBoolean: true,
             isCommentCode: true);
 
-        [Obsolete("This code is not longer accepted")]
-        public static readonly SiteCode PPN = new("<b>PPN</b>:",
-            code: "[T:PPN]",
-            isCommentCode: true);
-
         // This doesn't have a site tag for some systems yet
         public static readonly SiteCode Protection = new("<b>Protection</b>:",
             isCommentCode: true);
@@ -358,11 +354,6 @@ namespace SabreTools.RedumpLib.Data
         public static readonly SiteCode VETSFBID = new("<b>VET/SFB ID</b>:",
             isCommentCode: true);
 
-        [Obsolete("SiteCode.BBFCRegistrationNumber should be used instead")]
-        public static readonly SiteCode VFCCode = new("<b>BBFC Reg. No.</b>:",
-            code: "[T:VFC]",
-            isCommentCode: true);
-
         public static readonly SiteCode Videos = new("<b>Videos</b>:",
             code: "[T:V]",
             isContentCode: true,
@@ -411,7 +402,9 @@ namespace SabreTools.RedumpLib.Data
             DiceMultimedia,
             DiscHologramID,
             DiscID,
+#pragma warning disable CS0618 // Type or member is obsolete
             DiscTitleNonLatin,
+#pragma warning restore CS0618 // Type or member is obsolete
             DisneyInteractiveID,
             DMIHash,
             DNASDiscID,
@@ -465,9 +458,6 @@ namespace SabreTools.RedumpLib.Data
             PlayableDemos,
             PonyCanyonID,
             PostgapType,
-#pragma warning disable CS0618 // Type or member is obsolete
-            PPN,
-#pragma warning restore CS0618 // Type or member is obsolete
             Protection,
 
             RingPerfectAudioOffset,
@@ -493,9 +483,6 @@ namespace SabreTools.RedumpLib.Data
 
             ValveID,
             VETSFBID,
-#pragma warning disable CS0618 // Type or member is obsolete
-            VFCCode,
-#pragma warning restore CS0618 // Type or member is obsolete
             Videos,
             VolumeLabel,
             VCD,

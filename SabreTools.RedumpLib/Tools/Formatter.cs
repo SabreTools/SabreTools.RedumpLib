@@ -17,7 +17,9 @@ namespace SabreTools.RedumpLib.Tools
             // Identifying Info
             SiteCode.AlternativeTitle,
             SiteCode.AlternativeForeignTitle,
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.DiscTitleNonLatin,
+#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.EditionNonLatin,
             SiteCode.InternalName,
             SiteCode.InternalSerialName,
@@ -39,9 +41,6 @@ namespace SabreTools.RedumpLib.Tools
             SiteCode.Protection,
 
             SiteCode.BBFCRegistrationNumber,
-#pragma warning disable CS0618 // Type or member is obsolete
-            SiteCode.VFCCode,
-#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.DiscHologramID,
             SiteCode.DNASDiscID,
             SiteCode.DiscID,
@@ -49,9 +48,6 @@ namespace SabreTools.RedumpLib.Tools
             SiteCode.ISBN,
             SiteCode.ISSN,
             SiteCode.PEGIID,
-#pragma warning disable CS0618 // Type or member is obsolete
-            SiteCode.PPN,
-#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.VETSFBID,
 
             SiteCode.CompatibleOS,
