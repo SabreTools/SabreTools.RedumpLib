@@ -53,6 +53,12 @@ namespace SabreTools.RedumpLib.Endpoints
         [JsonProperty("disc_title_exact")]
         public bool? DiscTitleExact { get; set; }
 
+        [JsonProperty("disc_title_foreign")]
+        public string? DiscTitleForeign { get; set; }
+
+        [JsonProperty("disc_title_foreign_exact")]
+        public bool? DiscTitleForeignExact { get; set; }
+
         [JsonProperty("serial")]
         public string? Serial { get; set; }
 
@@ -217,6 +223,12 @@ namespace SabreTools.RedumpLib.Endpoints
                 sb.Append($"disc_title={DiscTitle}&");
             if (DiscTitle is not null && DiscTitleExact is not null)
                 sb.Append($"disc_title_exact={DiscTitleExact.ToYesNo().LongName()}&");
+
+            // Foreign Disc Title
+            if (DiscTitleForeign is not null)
+                sb.Append($"disc_title_foreign={DiscTitleForeign}&");
+            if (DiscTitleForeign is not null && DiscTitleForeignExact is not null)
+                sb.Append($"disc_title_foreign_exact={DiscTitleForeignExact.ToYesNo().LongName()}&");
 
             // Serial
             if (Serial is not null)

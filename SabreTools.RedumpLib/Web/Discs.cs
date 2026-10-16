@@ -22,6 +22,11 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="category">Add category to filter, null to omit</param>
         /// <param name="comments">Add comments to filter, null to omit</param>
         /// <param name="contents">Add contents to filter, null to omit</param>
+        /// <param name="discNumber">Add disc number to filter, null to omit</param>
+        /// <param name="discTitle">Add disc title to filter, null to omit</param>
+        /// <param name="discTitleExact">Set exact disc title handling, null to omit</param>
+        /// <param name="discTitleForeign">Add foreign disc title to filter, null to omit</param>
+        /// <param name="discTitleForeignExact">Set exact foreign disc title handling, null to omit</param>
         /// <param name="dumper">Add dumper name to filter, null to omit</param>
         /// <param name="edc">Add EDC status to filter, null to omit</param>
         /// <param name="edition">Add edition to filter, null to omit</param>
@@ -49,9 +54,6 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="titleExact">Set exact title handling, null to omit</param>
         /// <param name="titleForeign">Add foreign title to filter, null to omit</param>
         /// <param name="titleForeignExact">Set exact foreign title handling, null to omit</param>
-        /// <param name="discNumber">Add disc number to filter, null to omit</param>
-        /// <param name="discTitle">Add disc title to filter, null to omit</param>
-        /// <param name="discTitleExact">Set disc foreign title handling, null to omit</param>
         /// <param name="toolstamp">Add toolstamp to filter, null to omit</param>
         /// <param name="tracksMax">Add maximum track count to filter, null to omit</param>
         /// <param name="tracksMin">Add minimum track count to filter, null to omit</param>
@@ -69,6 +71,11 @@ namespace SabreTools.RedumpLib.Web
             DiscCategory? category = null,
             string? comments = null,
             string? contents = null,
+            string? discNumber = null,
+            string? discTitle = null,
+            bool? discTitleExact = null,
+            string? discTitleForeign = null,
+            bool? discTitleForeignExact = null,
             string? dumper = null,
             YesNo? edc = null,
             string? edition = null,
@@ -96,9 +103,6 @@ namespace SabreTools.RedumpLib.Web
             bool? titleExact = null,
             string? titleForeign = null,
             bool? titleForeignExact = null,
-            string? discNumber = null,
-            string? discTitle = null,
-            bool? discTitleExact = null,
             string? toolstamp = null,
             long? tracksMax = null,
             long? tracksMin = null,
@@ -133,6 +137,8 @@ namespace SabreTools.RedumpLib.Web
                         DiscNumber = discNumber,
                         DiscTitle = discTitle,
                         DiscTitleExact = discTitleExact,
+                        DiscTitleForeign = discTitleForeign,
+                        DiscTitleForeignExact = discTitleForeignExact,
                         Serial = serial,
                         SerialExact = serialExact,
                         Edition = edition,
@@ -247,6 +253,11 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="category">Add category to filter, null to omit</param>
         /// <param name="comments">Add comments to filter, null to omit</param>
         /// <param name="contents">Add contents to filter, null to omit</param>
+        /// <param name="discNumber">Add disc number to filter, null to omit</param>
+        /// <param name="discTitle">Add disc title to filter, null to omit</param>
+        /// <param name="discTitleExact">Set exact disc title handling, null to omit</param>
+        /// <param name="discTitleForeign">Add foreign disc title to filter, null to omit</param>
+        /// <param name="discTitleForeignExact">Set exact foreign disc title handling, null to omit</param>
         /// <param name="dumper">Add dumper name to filter, null to omit</param>
         /// <param name="edc">Add EDC status to filter, null to omit</param>
         /// <param name="edition">Add edition to filter, null to omit</param>
@@ -274,9 +285,6 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="titleExact">Set exact title handling, null to omit</param>
         /// <param name="titleForeign">Add foreign title to filter, null to omit</param>
         /// <param name="titleForeignExact">Set exact foreign title handling, null to omit</param>
-        /// <param name="discNumber">Add disc number to filter, null to omit</param>
-        /// <param name="discTitle">Add disc title to filter, null to omit</param>
-        /// <param name="discTitleExact">Set disc foreign title handling, null to omit</param>
         /// <param name="toolstamp">Add toolstamp to filter, null to omit</param>
         /// <param name="tracksMax">Add maximum track count to filter, null to omit</param>
         /// <param name="tracksMin">Add minimum track count to filter, null to omit</param>
@@ -292,6 +300,11 @@ namespace SabreTools.RedumpLib.Web
             DiscCategory? category = null,
             string? comments = null,
             string? contents = null,
+            string? discNumber = null,
+            string? discTitle = null,
+            bool? discTitleExact = null,
+            string? discTitleForeign = null,
+            bool? discTitleForeignExact = null,
             string? dumper = null,
             YesNo? edc = null,
             string? edition = null,
@@ -319,9 +332,6 @@ namespace SabreTools.RedumpLib.Web
             bool? titleExact = null,
             string? titleForeign = null,
             bool? titleForeignExact = null,
-            string? discNumber = null,
-            string? discTitle = null,
-            bool? discTitleExact = null,
             string? toolstamp = null,
             long? tracksMax = null,
             long? tracksMin = null,
@@ -355,6 +365,8 @@ namespace SabreTools.RedumpLib.Web
                         DiscNumber = discNumber,
                         DiscTitle = discTitle,
                         DiscTitleExact = discTitleExact,
+                        DiscTitleForeign = discTitleForeign,
+                        DiscTitleForeignExact = discTitleForeignExact,
                         Serial = serial,
                         SerialExact = serialExact,
                         Edition = edition,

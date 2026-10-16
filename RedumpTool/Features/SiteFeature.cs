@@ -48,6 +48,12 @@ namespace RedumpTool.Features
         private const string _discTitleExactName = "disc-title-exact";
         internal readonly BooleanInput DiscTitleExactInput = new(_discTitleExactName, ["--disc-title-exact"], "Add disc title exact matching to filter [true, false]");
 
+        private const string _discTitleForeignName = "disc-title-foreign";
+        internal readonly StringInput DiscTitleForeignInput = new(_discTitleForeignName, ["--disc-title-foreign"], "Add foreign disc title to filter");
+
+        private const string _discTitleForeignExactName = "disc-title-foreign-exact";
+        internal readonly BooleanInput DiscTitleForeignExactInput = new(_discTitleForeignExactName, ["--disc-title-foreign-exact"], "Add foreign disc title exact matching to filter [true, false]");
+
         private const string _dumperName = "dumper";
         internal readonly StringInput DumperInput = new(_dumperName, ["--dumper"], "Add dumper to filter");
 
@@ -249,6 +255,8 @@ namespace RedumpTool.Features
             string? discNumber = DiscNumberInput.Value;
             string? discTitle = DiscTitleInput.Value;
             bool? discTitleExact = DiscTitleExactInput.Value;
+            string? discTitleForeign = DiscTitleForeignInput.Value;
+            bool? discTitleForeignExact = DiscTitleForeignExactInput.Value;
             string? dumper = DumperInput.Value;
             YesNo? edc = EdcInput.Value?.ToYesNo();
             string? edition = EditionInput.Value;
@@ -331,6 +339,11 @@ namespace RedumpTool.Features
                     category,
                     comments,
                     contents,
+                    discNumber,
+                    discTitle,
+                    discTitleExact,
+                    discTitleForeign,
+                    discTitleForeignExact,
                     dumper,
                     edc,
                     edition,
@@ -358,9 +371,6 @@ namespace RedumpTool.Features
                     titleExact,
                     titleForeign,
                     titleForeignExact,
-                    discNumber,
-                    discTitle,
-                    discTitleExact,
                     toolstamp,
                     tracksMax,
                     tracksMin,
@@ -377,6 +387,11 @@ namespace RedumpTool.Features
                     category,
                     comments,
                     contents,
+                    discNumber,
+                    discTitle,
+                    discTitleExact,
+                    discTitleForeign,
+                    discTitleForeignExact,
                     dumper,
                     edc,
                     edition,
@@ -404,9 +419,6 @@ namespace RedumpTool.Features
                     titleExact,
                     titleForeign,
                     titleForeignExact,
-                    discNumber,
-                    discTitle,
-                    discTitleExact,
                     toolstamp,
                     tracksMax,
                     tracksMin,

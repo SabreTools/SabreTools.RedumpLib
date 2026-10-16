@@ -97,6 +97,8 @@ namespace RedumpTool
             Console.WriteLine("        --disc-number - Add disc number to filter");
             Console.WriteLine("        --disc-title - Add disc title to filter");
             Console.WriteLine("        --disc-title-exact - Add disc title exact matching to filter [true, false]");
+            Console.WriteLine("        --disc-title-foreign - Add foreign disc title to filter");
+            Console.WriteLine("        --disc-title-foreign-exact - Add foreign disc title exact matching to filter [true, false]");
             Console.WriteLine("        --dumper - Add dumper to filter");
             Console.WriteLine("        --edc - Add EDC status to filter [true, false]");
             Console.WriteLine("        --edition - Add edition to filter");
