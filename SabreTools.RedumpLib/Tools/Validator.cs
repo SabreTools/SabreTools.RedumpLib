@@ -33,10 +33,8 @@ namespace SabreTools.RedumpLib.Tools
                 return [];
 
             // Join the list of found IDs to the existing list, if possible
-            if (info.PartiallyMatchedIDs is not null && info.PartiallyMatchedIDs.Count > 0)
-                info.PartiallyMatchedIDs.AddRange(newIds);
-            else
-                info.PartiallyMatchedIDs = newIds;
+            info.PartiallyMatchedIDs ??= [];
+            info.PartiallyMatchedIDs.AddRange(newIds);
 
             return newIds;
         }
@@ -64,10 +62,8 @@ namespace SabreTools.RedumpLib.Tools
                 return [];
 
             // Join the list of found IDs to the existing list, if possible
-            if (info.PartiallyMatchedIDs is not null && info.PartiallyMatchedIDs.Count > 0)
-                info.PartiallyMatchedIDs.AddRange(newIds);
-            else
-                info.PartiallyMatchedIDs = newIds;
+            info.PartiallyMatchedIDs ??= [];
+            info.PartiallyMatchedIDs.AddRange(newIds);
 
             return newIds;
         }
