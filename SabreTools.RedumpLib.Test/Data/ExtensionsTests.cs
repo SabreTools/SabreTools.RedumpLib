@@ -1205,14 +1205,6 @@ namespace SabreTools.RedumpLib.Test.Data
         /// </summary>
         private static readonly PhysicalSystem?[] _availableSystems =
         [
-            // BIOS Sets
-#pragma warning disable CS0618 // Type or member is obsolete
-            PhysicalSystem.MicrosoftXboxBIOS,
-            PhysicalSystem.NintendoGameCubeBIOS,
-            PhysicalSystem.SonyPlayStationBIOS,
-            PhysicalSystem.SonyPlayStation2BIOS,
-#pragma warning restore CS0618 // Type or member is obsolete
-
             // Disc-Based Consoles
             PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem,
             PhysicalSystem.BandaiPlaydiaQuickInteractiveSystem,
@@ -1347,14 +1339,6 @@ namespace SabreTools.RedumpLib.Test.Data
         /// </summary>
         private static readonly Dictionary<PhysicalSystem, SystemCategory> _systemCategoryMap = new()
         {
-            // BIOS
-#pragma warning disable CS0618 // Type or member is obsolete
-            [PhysicalSystem.MicrosoftXboxBIOS] = SystemCategory.NONE,
-            [PhysicalSystem.NintendoGameCubeBIOS] = SystemCategory.NONE,
-            [PhysicalSystem.SonyPlayStationBIOS] = SystemCategory.NONE,
-            [PhysicalSystem.SonyPlayStation2BIOS] = SystemCategory.NONE,
-#pragma warning restore CS0618 // Type or member is obsolete
-
             // Disc-Based Consoles
             [PhysicalSystem.AppleBandaiPippin] = SystemCategory.DiscBasedConsole,
             [PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem] = SystemCategory.DiscBasedConsole,
@@ -1625,14 +1609,6 @@ namespace SabreTools.RedumpLib.Test.Data
         /// </summary>
         private static readonly PhysicalSystem?[] _systemsWithDats =
         [
-            // BIOS Sets
-#pragma warning disable CS0618 // Type or member is obsolete
-            PhysicalSystem.MicrosoftXboxBIOS,
-            PhysicalSystem.NintendoGameCubeBIOS,
-            PhysicalSystem.SonyPlayStationBIOS,
-            PhysicalSystem.SonyPlayStation2BIOS,
-#pragma warning restore CS0618 // Type or member is obsolete
-
             // Disc-Based Consoles
             PhysicalSystem.AppleBandaiPippin,
             PhysicalSystem.AtariJaguarCDInteractiveMultimediaSystem,

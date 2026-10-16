@@ -35,30 +35,6 @@ namespace SabreTools.RedumpLib.Endpoints
                 var pack = Pack;
                 var system = System;
 
-                // HACK: Normalize old BIOS systems
-#pragma warning disable CS0618 // Type or member is obsolete
-                if (Pack == PackType.Datfile && System == PhysicalSystem.MicrosoftXboxBIOS)
-                {
-                    pack = PackType.BiosDatfile;
-                    system = PhysicalSystem.MicrosoftXbox;
-                }
-                else if (Pack == PackType.Datfile && System == PhysicalSystem.NintendoGameCubeBIOS)
-                {
-                    pack = PackType.BiosDatfile;
-                    system = PhysicalSystem.NintendoGameCube;
-                }
-                else if (Pack == PackType.Datfile && System == PhysicalSystem.SonyPlayStationBIOS)
-                {
-                    pack = PackType.BiosDatfile;
-                    system = PhysicalSystem.SonyPlayStation;
-                }
-                else if (Pack == PackType.Datfile && System == PhysicalSystem.SonyPlayStation2BIOS)
-                {
-                    pack = PackType.BiosDatfile;
-                    system = PhysicalSystem.SonyPlayStation2;
-                }
-#pragma warning restore CS0618 // Type or member is obsolete
-
                 string systemName = system?.Code ?? string.Empty;
                 switch (pack)
                 {

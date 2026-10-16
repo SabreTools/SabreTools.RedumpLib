@@ -74,9 +74,8 @@ namespace SabreTools.RedumpLib.Web
             Console.WriteLine("Downloading SBIs");
             _ = await client.DownloadPacks(PackType.Sbis, systems, outDir, useSubfolders ? "sbi" : null);
 
-            // TODO: Enable when old BIOS systems are removed
-            // Console.WriteLine("Downloading BIOS DATs");
-            // _ = await client.DownloadPacks(PackType.BiosDatfile, systems, outDir, useSubfolders ? "bios" : null);
+            Console.WriteLine("Downloading BIOS DATs");
+            _ = await client.DownloadPacks(PackType.BiosDatfile, systems, outDir, useSubfolders ? "bios" : null);
 
             if (includeDatabase)
             {

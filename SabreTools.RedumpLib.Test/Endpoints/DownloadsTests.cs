@@ -71,48 +71,6 @@ namespace SabreTools.RedumpLib.Test.Endpoints
         }
 
         [Fact]
-        public void BuildUrl_BIOSDatfile_Old()
-        {
-            var endpoint = new RedumpLib.Endpoints.Downloads { Pack = PackType.Datfile };
-
-            // Microsoft Xbox
-#pragma warning disable CS0618 // Type or member is obsolete
-            endpoint.System = PhysicalSystem.MicrosoftXboxBIOS;
-#pragma warning restore CS0618 // Type or member is obsolete
-            string expected = "https://redump.info/bios/XBOX";
-
-            string actual = endpoint.BuildUrl();
-            Assert.Equal(expected, actual);
-
-            // Nintendo GameCube
-#pragma warning disable CS0618 // Type or member is obsolete
-            endpoint.System = PhysicalSystem.NintendoGameCubeBIOS;
-#pragma warning restore CS0618 // Type or member is obsolete
-            expected = "https://redump.info/bios/GC";
-
-            actual = endpoint.BuildUrl();
-            Assert.Equal(expected, actual);
-
-            // Sony PlayStation
-#pragma warning disable CS0618 // Type or member is obsolete
-            endpoint.System = PhysicalSystem.SonyPlayStationBIOS;
-#pragma warning restore CS0618 // Type or member is obsolete
-            expected = "https://redump.info/bios/PSX";
-
-            actual = endpoint.BuildUrl();
-            Assert.Equal(expected, actual);
-
-            // Sony PlayStation 2
-#pragma warning disable CS0618 // Type or member is obsolete
-            endpoint.System = PhysicalSystem.SonyPlayStation2BIOS;
-#pragma warning restore CS0618 // Type or member is obsolete
-            expected = "https://redump.info/bios/PS2";
-
-            actual = endpoint.BuildUrl();
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
         public void BuildUrl_InvalidPackType_Throws()
         {
             var endpoint = new RedumpLib.Endpoints.Downloads

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace SabreTools.RedumpLib.Data
@@ -96,38 +95,6 @@ namespace SabreTools.RedumpLib.Data
         #endregion
 
         #region Static Instances
-
-        #region BIOS Sets
-
-        [Obsolete("PhysicalSystem.MicrosoftXbox should be used instead")]
-        public static readonly PhysicalSystem MicrosoftXboxBIOS = new("Microsoft Xbox (BIOS)",
-            SystemCategory.NONE,
-            code: "xbox-bios",
-            hasDat: true,
-            hasBios: true);
-
-        [Obsolete("PhysicalSystem.NintendoGameCube should be used instead")]
-        public static readonly PhysicalSystem NintendoGameCubeBIOS = new("Nintendo GameCube (BIOS)",
-            SystemCategory.NONE,
-            code: "gc-bios",
-            hasDat: true,
-            hasBios: true);
-
-        [Obsolete("PhysicalSystem.SonyPlayStation should be used instead")]
-        public static readonly PhysicalSystem SonyPlayStationBIOS = new("Sony PlayStation (BIOS)",
-            SystemCategory.NONE,
-            code: "psx-bios",
-            hasDat: true,
-            hasBios: true);
-
-        [Obsolete("PhysicalSystem.SonyPlayStation2 should be used instead")]
-        public static readonly PhysicalSystem SonyPlayStation2BIOS = new("Sony PlayStation 2 (BIOS)",
-            SystemCategory.NONE,
-            code: "ps2-bios",
-            hasDat: true,
-            hasBios: true);
-
-        #endregion
 
         #region Disc-Based Consoles
 
@@ -1588,17 +1555,6 @@ namespace SabreTools.RedumpLib.Data
         /// TODO: Figure out how to remove delimiters
         public static readonly PhysicalSystem[] AllSystems =
         [
-            #region BIOS Sets
-
-#pragma warning disable CS0618 // Type or member is obsolete
-            MicrosoftXboxBIOS,
-            NintendoGameCubeBIOS,
-            SonyPlayStationBIOS,
-            SonyPlayStation2BIOS,
-#pragma warning restore CS0618 // Type or member is obsolete
-
-            #endregion
-
             #region Disc-Based Consoles
 
             AppleBandaiPippin,
