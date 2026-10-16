@@ -65,6 +65,10 @@ namespace SabreTools.RedumpLib.Web
                     if (pageIds is null)
                         return [];
 
+                    // If all page IDs are already found, assume the last page was reached
+                    if (pageIds.TrueForAll(ids.Contains))
+                        break;
+
                     ids.AddRange(pageIds);
                     if (pageIds.Count == 0)
                         break;
@@ -179,6 +183,10 @@ namespace SabreTools.RedumpLib.Web
                     var pageIds = await client.CheckSingleQueueEndpoint(endpoint);
                     if (pageIds is null)
                         return [];
+
+                    // If all page IDs are already found, assume the last page was reached
+                    if (pageIds.TrueForAll(ids.Contains))
+                        break;
 
                     ids.AddRange(pageIds);
                     if (pageIds.Count <= 1)
