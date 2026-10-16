@@ -14,7 +14,7 @@ namespace SabreTools.RedumpLib.Tools
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <param name="sha1">SHA-1 hash to check against</param>
         /// <returns>List of found values, if possible</returns>
-        public static async Task<List<int>?> ValidateSingleTrack(Client client, SubmissionInfo info, string? sha1)
+        public static async Task<List<int>?> ValidateSingleTrack(this Client client, SubmissionInfo info, string? sha1)
         {
             // Get all matching IDs for the trackClient
             var newIds = await client.ListDiscsResults(query: sha1);
@@ -42,7 +42,7 @@ namespace SabreTools.RedumpLib.Tools
         /// <param name="client">RedumpClient for making the connection</param>
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <returns>List of found values, if possible</returns>
-        public static async Task<List<int>?> ValidateUniversalHash(Client client, SubmissionInfo info)
+        public static async Task<List<int>?> ValidateUniversalHash(this Client client, SubmissionInfo info)
         {
             // If we don't have special fields
             if (info.DumpMetadata.CommentsSpecialFields is null)
