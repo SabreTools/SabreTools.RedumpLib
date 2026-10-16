@@ -16,10 +16,12 @@ namespace SabreTools.RedumpLib.Tools
         /// <returns>List of found values, if possible</returns>
         public static async Task<List<int>?> ValidateSingleTrack(this Client client, SubmissionInfo info, string? sha1)
         {
-            // Get all matching IDs for the trackClient
-            var newIds = await client.ListDiscsResults(query: sha1);
+            // If we don't have a hash
+            if (string.IsNullOrEmpty(sha1))
+                return null;
 
-            // If we got null back, there was an error
+            // Get all matching IDs for the hash, if possible
+            var newIds = await client.ListDiscsResults(query: sha1);
             if (newIds is null)
                 return null;
 
@@ -44,19 +46,13 @@ namespace SabreTools.RedumpLib.Tools
         /// <returns>List of found values, if possible</returns>
         public static async Task<List<int>?> ValidateUniversalHash(this Client client, SubmissionInfo info)
         {
-            // If we don't have special fields
-            if (info.DumpMetadata.CommentsSpecialFields is null)
-                return null;
-
             // If we don't have a universal hash
             string? universalHash = info.DiscIdentifiers.UniversalHash;
             if (string.IsNullOrEmpty(universalHash))
                 return null;
 
-            // Get all matching IDs for the hash
+            // Get all matching IDs for the hash, if possible
             var newIds = await client.ListDiscsResults(universalHash: universalHash);
-
-            // If we got null back, there was an error
             if (newIds is null)
                 return null;
 
