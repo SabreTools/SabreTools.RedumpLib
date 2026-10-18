@@ -235,7 +235,7 @@ namespace SabreTools.RedumpLib.Data
             hasCues: true,
             hasDat: true,
             hasBios: true,
-            mediaTypes: [PhysicalMediaType.DVD, PhysicalMediaType.CDROM]);
+            mediaTypes: [PhysicalMediaType.XGD, PhysicalMediaType.DVD, PhysicalMediaType.CDROM]);
 
         // https://en.wikipedia.org/wiki/Xbox_360
         public static readonly PhysicalSystem MicrosoftXbox360 = new("Microsoft Xbox 360",
@@ -243,7 +243,7 @@ namespace SabreTools.RedumpLib.Data
             code: "XBOX360",
             hasCues: true,
             hasDat: true,
-            mediaTypes: [PhysicalMediaType.DVD, PhysicalMediaType.CDROM]);
+            mediaTypes: [PhysicalMediaType.XGD, PhysicalMediaType.DVD, PhysicalMediaType.CDROM]);
 
         // https://en.wikipedia.org/wiki/Xbox_One
         public static readonly PhysicalSystem MicrosoftXboxOne = new("Microsoft Xbox One",

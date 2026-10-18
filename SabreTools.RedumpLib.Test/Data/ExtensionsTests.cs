@@ -412,6 +412,7 @@ namespace SabreTools.RedumpLib.Test.Data
             PhysicalMediaType.NintendoWiiOpticalDisc,
             PhysicalMediaType.NintendoWiiUOpticalDisc,
             PhysicalMediaType.UMD,
+            PhysicalMediaType.XGD,
         ];
 
         /// <summary>

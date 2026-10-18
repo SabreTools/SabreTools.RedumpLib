@@ -176,7 +176,6 @@ namespace SabreTools.RedumpLib.Data
     /// <summary>
     /// All possible media types not bound to specific site limitations
     /// </summary>
-    /// TODO: Should this support XGD separate to DVD?
     public enum PhysicalMediaType
     {
         [HumanReadable(Available = false, LongName = "Unknown", ShortName = "unknown")]
@@ -272,6 +271,9 @@ namespace SabreTools.RedumpLib.Data
 
         [HumanReadable(LongName = "UMD", ShortName = "umd")]
         UMD = 27,
+
+        [HumanReadable(LongName = "XGD", ShortName = "xgd")]
+        XGD = 34,
 
         #endregion
 
