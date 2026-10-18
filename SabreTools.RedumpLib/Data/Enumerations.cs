@@ -151,7 +151,7 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(LongName = "UMD (DL)", ShortName = "umd2")]
         UMDDL = 19,
 
-        [HumanReadable(LongName = "XGD", ShortName = "xgd")]
+        [HumanReadable(LongName = "Xbox Game Disc", ShortName = "xgd")]
         XGD = 20,
     }
 
