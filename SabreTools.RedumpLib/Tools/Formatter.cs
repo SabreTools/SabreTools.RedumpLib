@@ -330,7 +330,7 @@ namespace SabreTools.RedumpLib.Tools
             output.AppendLine("Ring Codes:");
 
             // If we have a quad-layer disc or a generic media type case
-            if (discIdentifiers.Layerbreak3 != default || mediaType == PhysicalMediaType.NONE)
+            if (discIdentifiers.Layerbreak3 != default || mediaType == null)
             {
                 AddIfExists(output, $"Layer 0 {Template.MasteringCodeField}", section.Layer0MasteringCode, 1);
                 AddIfExists(output, $"Layer 0 {Template.MasteringSIDField}", section.Layer0MasteringSID, 1);
@@ -622,49 +622,48 @@ namespace SabreTools.RedumpLib.Tools
             long? layerbreak2,
             long? layerbreak3)
         {
-#pragma warning disable IDE0010
-            switch (mediaType)
+            if (mediaType == PhysicalMediaType.DVD)
             {
-                case PhysicalMediaType.DVD:
-                    if (layerbreak != default && layerbreak != default(long))
-                        return $"{mediaType.LongName()}-9";
-                    else
-                        return $"{mediaType.LongName()}-5";
-
-                case PhysicalMediaType.BluRay:
-                    if (layerbreak3 != default && layerbreak3 != default(long))
-                        return $"{mediaType.LongName()}-128";
-                    else if (layerbreak2 != default && layerbreak2 != default(long))
-                        return $"{mediaType.LongName()}-100";
-                    else if (layerbreak != default && layerbreak != default(long) && picIdentifier == "BDU")
-                        return $"{mediaType.LongName()}-66";
-                    else if (layerbreak != default && layerbreak != default(long) && size > 53_687_063_712)
-                        return $"{mediaType.LongName()}-66";
-                    else if (layerbreak != default && layerbreak != default(long))
-                        return $"{mediaType.LongName()}-50";
-                    else if (picIdentifier == "BDU")
-                        return $"{mediaType.LongName()}-33";
-                    else if (size > 26_843_531_856)
-                        return $"{mediaType.LongName()}-33";
-                    else
-                        return $"{mediaType.LongName()}-25";
-
-                case PhysicalMediaType.HDDVD:
-                    if (layerbreak != default && layerbreak != default(long))
-                        return $"{mediaType.LongName()}-DL";
-                    else
-                        return $"{mediaType.LongName()}-SL";
-
-                case PhysicalMediaType.UMD:
-                    if (layerbreak != default && layerbreak != default(long))
-                        return $"{mediaType.LongName()}-DL";
-                    else
-                        return $"{mediaType.LongName()}-SL";
-
-                default:
-                    return mediaType.LongName();
+                if (layerbreak != default && layerbreak != default(long))
+                    return $"{mediaType.Name}-9";
+                else
+                    return $"{mediaType.Name}-5";
             }
-#pragma warning restore IDE0010
+            else if (mediaType == PhysicalMediaType.BluRay)
+            {
+                if (layerbreak3 != default && layerbreak3 != default(long))
+                    return $"{mediaType.Name}-128";
+                else if (layerbreak2 != default && layerbreak2 != default(long))
+                    return $"{mediaType.Name}-100";
+                else if (layerbreak != default && layerbreak != default(long) && picIdentifier == "BDU")
+                    return $"{mediaType.Name}-66";
+                else if (layerbreak != default && layerbreak != default(long) && size > 53_687_063_712)
+                    return $"{mediaType.Name}-66";
+                else if (layerbreak != default && layerbreak != default(long))
+                    return $"{mediaType.Name}-50";
+                else if (picIdentifier == "BDU")
+                    return $"{mediaType.Name}-33";
+                else if (size > 26_843_531_856)
+                    return $"{mediaType.Name}-33";
+                else
+                    return $"{mediaType.Name}-25";
+            }
+            else if (mediaType == PhysicalMediaType.HDDVD)
+            {
+                if (layerbreak != default && layerbreak != default(long))
+                    return $"{mediaType.Name}-DL";
+                else
+                    return $"{mediaType.Name}-SL";
+            }
+            else if (mediaType == PhysicalMediaType.UMD)
+            {
+                if (layerbreak != default && layerbreak != default(long))
+                    return $"{mediaType.Name}-DL";
+                else
+                    return $"{mediaType.Name}-SL";
+            }
+
+            return mediaType?.Name;
         }
 
         /// <summary>

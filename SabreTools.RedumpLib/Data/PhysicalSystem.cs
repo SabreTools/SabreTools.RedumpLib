@@ -89,7 +89,7 @@ namespace SabreTools.RedumpLib.Data
             HasDat = hasDat;
             HasSbi = hasSbi;
             HasBios = hasBios;
-            MediaTypes = mediaTypes ?? [PhysicalMediaType.NONE];
+            MediaTypes = mediaTypes ?? [null];
         }
 
         #endregion
@@ -1550,7 +1550,7 @@ namespace SabreTools.RedumpLib.Data
         #region Static Collections
 
         /// <summary>
-        /// All languages
+        /// All systems
         /// </summary>
         /// TODO: Figure out how to remove delimiters
         public static readonly PhysicalSystem[] AllSystems =

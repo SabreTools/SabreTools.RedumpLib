@@ -142,48 +142,34 @@ namespace SabreTools.RedumpLib.Data
         /// <returns>DiscType if possible, null on error</returns>
         public static MediaType? ToMediaType(this PhysicalMediaType? mediaType)
         {
-            return mediaType switch
-            {
-                PhysicalMediaType.NONE => MediaType.NONE,
-                PhysicalMediaType.BluRay => MediaType.BD50,
-                PhysicalMediaType.CDROM => MediaType.CD,
-                PhysicalMediaType.DVD => MediaType.DVD9,
-                PhysicalMediaType.GDROM => MediaType.GDROM,
-                PhysicalMediaType.HDDVD => MediaType.HDDVDSL,
-                PhysicalMediaType.NintendoGameCubeGameDisc => MediaType.NintendoGameCubeGameDisc,
-                PhysicalMediaType.NintendoWiiOpticalDisc => MediaType.NintendoWiiOpticalDiscDL,
-                PhysicalMediaType.NintendoWiiUOpticalDisc => MediaType.NintendoWiiUOpticalDiscSL,
-                PhysicalMediaType.UMD => MediaType.UMDDL,
-                PhysicalMediaType.XGD => MediaType.XGD,
+            // Supported media types
+            if (mediaType == PhysicalMediaType.BluRay)
+                return MediaType.BD50;
+            else if (mediaType == PhysicalMediaType.CDROM)
+                return MediaType.CD;
+            else if (mediaType == PhysicalMediaType.DVD)
+                return MediaType.DVD9;
+            else if (mediaType == PhysicalMediaType.GDROM)
+                return MediaType.GDROM;
+            else if (mediaType == PhysicalMediaType.HDDVD)
+                return MediaType.HDDVDSL;
+            else if (mediaType == PhysicalMediaType.NintendoGameCubeGameDisc)
+                return MediaType.NintendoGameCubeGameDisc;
+            else if (mediaType == PhysicalMediaType.NintendoWiiOpticalDisc)
+                return MediaType.NintendoWiiOpticalDiscDL;
+            else if (mediaType == PhysicalMediaType.NintendoWiiUOpticalDisc)
+                return MediaType.NintendoWiiUOpticalDiscSL;
+            else if (mediaType == PhysicalMediaType.UMD)
+                return MediaType.UMDDL;
+            else if (mediaType == PhysicalMediaType.XGD)
+                return MediaType.XGD;
 
-                // Invalid cases for conversion
-                PhysicalMediaType.ApertureCard => null,
-                PhysicalMediaType.JacquardLoomCard => null,
-                PhysicalMediaType.MagneticStripeCard => null,
-                PhysicalMediaType.OpticalPhonecard => null,
-                PhysicalMediaType.PunchedCard => null,
-                PhysicalMediaType.PunchedTape => null,
-                PhysicalMediaType.Cassette => null,
-                PhysicalMediaType.DataCartridge => null,
-                PhysicalMediaType.OpenReel => null,
-                PhysicalMediaType.FloppyDisk => null,
-                PhysicalMediaType.Floptical => null,
-                PhysicalMediaType.HardDisk => null,
-                PhysicalMediaType.IomegaBernoulliDisk => null,
-                PhysicalMediaType.IomegaJaz => null,
-                PhysicalMediaType.IomegaZip => null,
-                PhysicalMediaType.LaserDisc => null,
-                PhysicalMediaType.Nintendo64DD => null,
-                PhysicalMediaType.NintendoFamicomDiskSystem => null,
-                PhysicalMediaType.Cartridge => null,
-                PhysicalMediaType.CED => null,
-                PhysicalMediaType.CompactFlash => null,
-                PhysicalMediaType.MMC => null,
-                PhysicalMediaType.SDCard => null,
-                PhysicalMediaType.FlashDrive => null,
-                null => null,
-                _ => null,
-            };
+            // Special case for null
+            else if (mediaType is null)
+                return MediaType.NONE;
+
+            // Everything else returns null
+            return null;
         }
 
         /// <summary>
@@ -195,7 +181,7 @@ namespace SabreTools.RedumpLib.Data
         {
             return discType switch
             {
-                MediaType.NONE => PhysicalMediaType.NONE,
+                MediaType.NONE => null,
                 MediaType.BD25
                     or MediaType.BD33
                     or MediaType.BD50
@@ -596,73 +582,36 @@ namespace SabreTools.RedumpLib.Data
         /// </summary>
         public static List<string> ListMediaTypes()
         {
-            var mediaTypes = new List<string>();
-
-            foreach (var val in Enum.GetValues(typeof(PhysicalMediaType)))
-            {
-                if (val is null || ((PhysicalMediaType)val) == PhysicalMediaType.NONE)
-                    continue;
-
-                mediaTypes.Add($"{((PhysicalMediaType?)val).ShortName()} - {((PhysicalMediaType?)val).LongName()}");
-            }
-
-            return mediaTypes;
+            var knownMediaTypes = Array.FindAll(PhysicalMediaType.AllMediaTypes, s => s.Available);
+            Array.Sort(knownMediaTypes, (x, y) => x.Name.CompareTo(y.Name));
+            return [.. Array.ConvertAll(knownMediaTypes, val => $"{val.Code} - {val.Name}")];
         }
-
-        /// <summary>
-        /// Get the longnames for each known media type
-        /// </summary>
-        public static string? LongName(this PhysicalMediaType mediaType)
-            => ((PhysicalMediaType?)mediaType).LongName();
-
-        /// <summary>
-        /// Get the longnames for each known media type
-        /// </summary>
-        /// <param name="mediaType"></param>
-        /// <returns></returns>
-        public static string? LongName(this PhysicalMediaType? mediaType)
-            => AttributeHelper<PhysicalMediaType?>.GetHumanReadableAttribute(mediaType)?.LongName;
-
-        /// <summary>
-        /// Get the shortnames for each known media type
-        /// </summary>
-        public static string? ShortName(this PhysicalMediaType mediaType)
-            => ((PhysicalMediaType?)mediaType).ShortName();
-
-        /// <summary>
-        /// Get the shortnames for each known media type
-        /// </summary>
-        /// <param name="mediaType"></param>
-        /// <returns></returns>
-        public static string? ShortName(this PhysicalMediaType? mediaType)
-            => AttributeHelper<PhysicalMediaType?>.GetHumanReadableAttribute(mediaType)?.ShortName;
 
         /// <summary>
         /// Get the PhysicalMediaType enum value for a given string
         /// </summary>
         /// <param name="mediaType">String value to convert</param>
         /// <returns>PhysicalMediaType represented by the string, if possible</returns>
-        public static PhysicalMediaType ToPhysicalMediaType(this string? mediaType)
+        public static PhysicalMediaType? ToPhysicalMediaType(this string? mediaType)
         {
             // No value means no match
             if (mediaType is null || mediaType.Length == 0)
-                return PhysicalMediaType.NONE;
+                return null;
 
             mediaType = mediaType.ToLowerInvariant();
-            var mediaTypes = (PhysicalMediaType[])Enum.GetValues(typeof(PhysicalMediaType));
 
             // Check short names
-            int index = Array.FindIndex(mediaTypes, s => mediaType == s.ShortName()?.ToLowerInvariant());
+            int index = Array.FindIndex(PhysicalMediaType.AllMediaTypes, mt => mediaType == mt.Code?.ToLowerInvariant());
             if (index > -1)
-                return mediaTypes[index];
+                return PhysicalMediaType.AllMediaTypes[index];
 
             // Check long names
-            index = Array.FindIndex(mediaTypes, s => mediaType == s.LongName()?.ToLowerInvariant()
-                || mediaType == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            index = Array.FindIndex(PhysicalMediaType.AllMediaTypes, s => mediaType == s.Name.ToLowerInvariant()
+                || mediaType == s.Name.Replace(" ", string.Empty)?.ToLowerInvariant());
             if (index > -1)
-                return mediaTypes[index];
+                return PhysicalMediaType.AllMediaTypes[index];
 
-            return PhysicalMediaType.NONE;
+            return null;
         }
 
         #endregion

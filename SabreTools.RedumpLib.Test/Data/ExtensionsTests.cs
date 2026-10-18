@@ -402,7 +402,6 @@ namespace SabreTools.RedumpLib.Test.Data
         /// </summary>
         private static readonly PhysicalMediaType?[] _mappablePhysicalMediaTypes =
         [
-            PhysicalMediaType.NONE,
             PhysicalMediaType.BluRay,
             PhysicalMediaType.CDROM,
             PhysicalMediaType.DVD,
@@ -423,7 +422,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GeneratePhysicalSystemMappingTestData))]
         public void MediaTypesTest(PhysicalSystem? physicalSystem)
         {
-            var actual = physicalSystem?.MediaTypes ?? [PhysicalMediaType.NONE];
+            var actual = physicalSystem?.MediaTypes ?? [null];
             Assert.NotEmpty(actual);
         }
 
@@ -477,7 +476,9 @@ namespace SabreTools.RedumpLib.Test.Data
             var testData = new TheoryData<MediaType?, bool>() { { null, true } };
             foreach (MediaType? discType in Enum.GetValues<MediaType>().Cast<MediaType?>())
             {
-                if (_mappableMediaTypes.Contains(discType))
+                if (discType == MediaType.NONE)
+                    testData.Add(discType, true);
+                else if (_mappableMediaTypes.Contains(discType))
                     testData.Add(discType, false);
                 else
                     testData.Add(discType, true);
@@ -492,9 +493,9 @@ namespace SabreTools.RedumpLib.Test.Data
         /// <returns>MemberData-compatible list of MediaTypes</returns>
         public static TheoryData<PhysicalMediaType?, bool> GeneratePhysicalMediaTypeMappingTestData()
         {
-            var testData = new TheoryData<PhysicalMediaType?, bool>() { { null, true } };
+            var testData = new TheoryData<PhysicalMediaType?, bool>() { { null, false } };
 
-            foreach (PhysicalMediaType? mediaType in Enum.GetValues<PhysicalMediaType>().Cast<PhysicalMediaType?>())
+            foreach (PhysicalMediaType? mediaType in PhysicalMediaType.AllMediaTypes)
             {
                 if (_mappablePhysicalMediaTypes.Contains(mediaType))
                     testData.Add(mediaType, false);
@@ -1130,7 +1131,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GeneratePhysicalMediaTypeTestData))]
         public void PhysicalMediaType_LongName(PhysicalMediaType? mediaType, bool expectNull)
         {
-            var actual = mediaType.LongName();
+            var actual = mediaType?.Name;
 
             if (expectNull)
                 Assert.Null(actual);
@@ -1147,7 +1148,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GeneratePhysicalMediaTypeTestData))]
         public void PhysicalMediaType_ShortName(PhysicalMediaType? mediaType, bool expectNull)
         {
-            var actual = mediaType.ShortName();
+            var actual = mediaType?.Code;
 
             if (expectNull)
                 Assert.Null(actual);
@@ -1164,7 +1165,7 @@ namespace SabreTools.RedumpLib.Test.Data
         [MemberData(nameof(GeneratePhysicalMediaTypeTestData))]
         public void PhysicalMediaType_ToPhysicalMediaType(PhysicalMediaType? mediaType, bool expectNone)
         {
-            string? longName = mediaType.LongName();
+            string? longName = mediaType?.Name;
             string? longNameSpaceless = longName?.Replace(" ", string.Empty);
 
             var actualNormal = longName.ToPhysicalMediaType();
@@ -1172,8 +1173,8 @@ namespace SabreTools.RedumpLib.Test.Data
 
             if (expectNone)
             {
-                Assert.Equal(PhysicalMediaType.NONE, actualNormal);
-                Assert.Equal(PhysicalMediaType.NONE, actualSpaceless);
+                Assert.Null(actualNormal);
+                Assert.Null(actualSpaceless);
             }
             else
             {
@@ -1189,7 +1190,7 @@ namespace SabreTools.RedumpLib.Test.Data
         public static TheoryData<PhysicalMediaType?, bool> GeneratePhysicalMediaTypeTestData()
         {
             var testData = new TheoryData<PhysicalMediaType?, bool>() { { null, true } };
-            foreach (PhysicalMediaType? mediaType in Enum.GetValues<PhysicalMediaType>().Cast<PhysicalMediaType?>())
+            foreach (PhysicalMediaType? mediaType in PhysicalMediaType.AllMediaTypes)
             {
                 testData.Add(mediaType, false);
             }
