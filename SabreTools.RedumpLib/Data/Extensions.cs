@@ -142,6 +142,7 @@ namespace SabreTools.RedumpLib.Data
         /// <returns>DiscType if possible, null on error</returns>
         public static MediaType? ToMediaType(this PhysicalMediaType? mediaType)
         {
+            // Explicitly return NONE for the null case
             if (mediaType is null)
                 return MediaType.NONE;
 
@@ -155,9 +156,11 @@ namespace SabreTools.RedumpLib.Data
         /// <returns>MediaType if possible, null on error</returns>
         public static PhysicalMediaType? ToPhysicalMediaType(this MediaType? discType)
         {
+            // Explicitly return null for the NONE case
             if (discType == MediaType.NONE)
                 return null;
 
+            // Find the first physical media type that can map to the site media type
             return Array.Find(PhysicalMediaType.AllMediaTypes,
                 m => Array.Exists(m.MappedMediaTypes, t => t == discType));
         }
