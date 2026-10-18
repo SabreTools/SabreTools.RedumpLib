@@ -136,12 +136,17 @@ namespace SabreTools.RedumpLib.Data
         #region Cross-Enumeration
 
         /// <summary>
-        /// Convert master list of all media types to currently known Redump disc types
+        /// Convert master list of all media types to currently known Redump media types
         /// </summary>
         /// <param name="mediaType">MediaType value to check</param>
         /// <returns>DiscType if possible, null on error</returns>
         public static MediaType? ToMediaType(this PhysicalMediaType? mediaType)
-            => mediaType?.DefaultMediaType ?? MediaType.NONE;
+        {
+            if (mediaType is null)
+                return MediaType.NONE;
+
+            return mediaType.DefaultMediaType;
+        }
 
         /// <summary>
         /// Convert currently known Redump disc types to master list of all media types
