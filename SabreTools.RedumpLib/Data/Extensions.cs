@@ -141,36 +141,7 @@ namespace SabreTools.RedumpLib.Data
         /// <param name="mediaType">MediaType value to check</param>
         /// <returns>DiscType if possible, null on error</returns>
         public static MediaType? ToMediaType(this PhysicalMediaType? mediaType)
-        {
-            // Supported media types
-            if (mediaType == PhysicalMediaType.BluRay)
-                return MediaType.BD50;
-            else if (mediaType == PhysicalMediaType.CDROM)
-                return MediaType.CD;
-            else if (mediaType == PhysicalMediaType.DVD)
-                return MediaType.DVD9;
-            else if (mediaType == PhysicalMediaType.GDROM)
-                return MediaType.GDROM;
-            else if (mediaType == PhysicalMediaType.HDDVD)
-                return MediaType.HDDVDSL;
-            else if (mediaType == PhysicalMediaType.NintendoGameCubeGameDisc)
-                return MediaType.NintendoGameCubeGameDisc;
-            else if (mediaType == PhysicalMediaType.NintendoWiiOpticalDisc)
-                return MediaType.NintendoWiiOpticalDiscDL;
-            else if (mediaType == PhysicalMediaType.NintendoWiiUOpticalDisc)
-                return MediaType.NintendoWiiUOpticalDiscSL;
-            else if (mediaType == PhysicalMediaType.UMD)
-                return MediaType.UMDDL;
-            else if (mediaType == PhysicalMediaType.XGD)
-                return MediaType.XGD;
-
-            // Special case for null
-            else if (mediaType is null)
-                return MediaType.NONE;
-
-            // Everything else returns null
-            return null;
-        }
+            => mediaType?.DefaultMediaType ?? MediaType.NONE;
 
         /// <summary>
         /// Convert currently known Redump disc types to master list of all media types
