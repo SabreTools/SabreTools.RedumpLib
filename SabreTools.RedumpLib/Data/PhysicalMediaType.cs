@@ -25,7 +25,14 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// Default media type mapping
         /// </summary>
+        /// <remarks>This is used when converting from <see cref="PhysicalMediaType"/> to <see cref="MediaType"/></remarks>
         public readonly MediaType? DefaultMediaType;
+
+        /// <summary>
+        /// Media types that map to this <see cref="PhysicalMediaType"/>
+        /// </summary>
+        /// <remarks>This is used when converting from <see cref="MediaType"/> to <see cref="PhysicalMediaType"/></remarks>
+        public readonly MediaType[] MappedMediaTypes;
 
         #endregion
 
@@ -37,13 +44,15 @@ namespace SabreTools.RedumpLib.Data
         private PhysicalMediaType(string name,
             bool available = true,
             string? code = null,
-            MediaType? defaultMediaType = null)
+            MediaType? defaultMediaType = null,
+            MediaType[]? mappedMediaTypes = null)
         {
             Name = name;
 
             Available = available;
             Code = code;
             DefaultMediaType = defaultMediaType;
+            MappedMediaTypes = mappedMediaTypes ?? [];
         }
 
         #endregion
@@ -98,15 +107,18 @@ namespace SabreTools.RedumpLib.Data
 
         public static readonly PhysicalMediaType BluRay = new("BD-ROM",
             code: "bdrom",
-            defaultMediaType: MediaType.BD50);
+            defaultMediaType: MediaType.BD50,
+            mappedMediaTypes: [MediaType.BD25, MediaType.BD33, MediaType.BD50, MediaType.BD66, MediaType.BD100, MediaType.BD128]);
 
         public static readonly PhysicalMediaType CDROM = new("CD-ROM",
             code: "cdrom",
-            defaultMediaType: MediaType.CD);
+            defaultMediaType: MediaType.CD,
+            mappedMediaTypes: [MediaType.CD]);
 
         public static readonly PhysicalMediaType DVD = new("DVD-ROM",
             code: "dvd",
-            defaultMediaType: MediaType.DVD9);
+            defaultMediaType: MediaType.DVD9,
+            mappedMediaTypes: [MediaType.DVD5, MediaType.DVD9]);
 
         public static readonly PhysicalMediaType FloppyDisk = new("Floppy Disk",
             code: "fd");
@@ -117,11 +129,13 @@ namespace SabreTools.RedumpLib.Data
 
         public static readonly PhysicalMediaType GDROM = new("GD-ROM",
             code: "gdrom",
-            defaultMediaType: MediaType.GDROM);
+            defaultMediaType: MediaType.GDROM,
+            mappedMediaTypes: [MediaType.GDROM]);
 
         public static readonly PhysicalMediaType HDDVD = new("HD-DVD-ROM",
             code: "hddvd",
-            defaultMediaType: MediaType.HDDVDSL);
+            defaultMediaType: MediaType.HDDVDSL,
+            mappedMediaTypes: [MediaType.HDDVDSL, MediaType.HDDVDDL]);
 
         public static readonly PhysicalMediaType HardDisk = new("Hard Disk",
             code: "hdd");
@@ -152,23 +166,28 @@ namespace SabreTools.RedumpLib.Data
 
         public static readonly PhysicalMediaType NintendoGameCubeGameDisc = new("GameCube Game Disc",
             code: "gc",
-            defaultMediaType: MediaType.NintendoGameCubeGameDisc);
+            defaultMediaType: MediaType.NintendoGameCubeGameDisc,
+            mappedMediaTypes: [MediaType.NintendoGameCubeGameDisc]);
 
         public static readonly PhysicalMediaType NintendoWiiOpticalDisc = new("Wii Optical Disc",
             code: "wii",
-            defaultMediaType: MediaType.NintendoWiiOpticalDiscDL);
+            defaultMediaType: MediaType.NintendoWiiOpticalDiscDL,
+            mappedMediaTypes: [MediaType.NintendoWiiOpticalDiscSL, MediaType.NintendoWiiOpticalDiscDL]);
 
         public static readonly PhysicalMediaType NintendoWiiUOpticalDisc = new("Wii U Optical Disc",
             code: "wiiu",
-            defaultMediaType: MediaType.NintendoWiiUOpticalDiscSL);
+            defaultMediaType: MediaType.NintendoWiiUOpticalDiscSL,
+            mappedMediaTypes: [MediaType.NintendoWiiUOpticalDiscSL]);
 
         public static readonly PhysicalMediaType UMD = new("UMD",
             code: "umd",
-            defaultMediaType: MediaType.UMDDL);
+            defaultMediaType: MediaType.UMDDL,
+            mappedMediaTypes: [MediaType.UMDSL, MediaType.UMDDL]);
 
         public static readonly PhysicalMediaType XGD = new("Xbox Game Disc",
             code: "xgd",
-            defaultMediaType: MediaType.XGD);
+            defaultMediaType: MediaType.XGD,
+            mappedMediaTypes: [MediaType.XGD]);
 
         #endregion
 

@@ -155,34 +155,11 @@ namespace SabreTools.RedumpLib.Data
         /// <returns>MediaType if possible, null on error</returns>
         public static PhysicalMediaType? ToPhysicalMediaType(this MediaType? discType)
         {
-            return discType switch
-            {
-                MediaType.NONE => null,
-                MediaType.BD25
-                    or MediaType.BD33
-                    or MediaType.BD50
-                    or MediaType.BD66
-                    or MediaType.BD100
-                    or MediaType.BD128 => PhysicalMediaType.BluRay,
-                MediaType.CD => PhysicalMediaType.CDROM,
-                MediaType.DVD5
-                    or MediaType.DVD9 => PhysicalMediaType.DVD,
-                MediaType.GDROM => PhysicalMediaType.GDROM,
-                MediaType.HDDVDSL
-                    or MediaType.HDDVDDL => PhysicalMediaType.HDDVD,
-                MediaType.NintendoGameCubeGameDisc => PhysicalMediaType.NintendoGameCubeGameDisc,
-                MediaType.NintendoWiiOpticalDiscSL
-                    or MediaType.NintendoWiiOpticalDiscDL => PhysicalMediaType.NintendoWiiOpticalDisc,
-                MediaType.NintendoWiiUOpticalDiscSL => PhysicalMediaType.NintendoWiiUOpticalDisc,
-                MediaType.UMDSL
-                    or MediaType.UMDDL => PhysicalMediaType.UMD,
-                MediaType.XGD => PhysicalMediaType.XGD,
+            if (discType == MediaType.NONE)
+                return null;
 
-                // Invalid cases for conversion
-                MediaType.MILCD => null,
-                null => null,
-                _ => null,
-            };
+            return Array.Find(PhysicalMediaType.AllMediaTypes,
+                m => Array.Exists(m.MappedMediaTypes, t => t == discType));
         }
 
         #endregion
