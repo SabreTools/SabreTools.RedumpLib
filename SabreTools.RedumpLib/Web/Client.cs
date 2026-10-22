@@ -675,7 +675,7 @@ namespace SabreTools.RedumpLib.Web
                 }
                 catch (Exception ex)
                 {
-                    ReportError($"An exception has occurred: {ex}");
+                    ReportError(ex);
                     continue;
                 }
             }
@@ -717,7 +717,7 @@ namespace SabreTools.RedumpLib.Web
                 }
                 catch (Exception ex)
                 {
-                    ReportError($"An exception has occurred: {ex}");
+                    ReportError(ex);
                     continue;
                 }
             }
@@ -766,7 +766,7 @@ namespace SabreTools.RedumpLib.Web
                 }
                 catch (Exception ex)
                 {
-                    ReportGeneric($"An exception has occurred: {ex}");
+                    ReportError(ex);
                     continue;
                 }
             }
@@ -806,7 +806,7 @@ namespace SabreTools.RedumpLib.Web
                 }
                 catch (Exception ex)
                 {
-                    ReportError($"An exception has occurred: {ex}");
+                    ReportError(ex);
                     continue;
                 }
             }
@@ -858,7 +858,7 @@ namespace SabreTools.RedumpLib.Web
             }
             catch (Exception ex)
             {
-                ReportError($"An exception has occurred: {ex}");
+                ReportError(ex);
                 return false;
             }
         }
@@ -901,7 +901,7 @@ namespace SabreTools.RedumpLib.Web
             }
             catch (Exception ex)
             {
-                ReportError($"An exception has occurred: {ex}");
+                ReportError(ex);
                 return null;
             }
         }
@@ -962,7 +962,7 @@ namespace SabreTools.RedumpLib.Web
             }
             catch (Exception ex)
             {
-                ReportError($"An exception has occurred: {ex}");
+                ReportError(ex);
                 return false;
             }
         }
@@ -1000,7 +1000,7 @@ namespace SabreTools.RedumpLib.Web
             }
             catch (Exception ex)
             {
-                ReportError($"An exception has occurred: {ex}");
+                ReportError(ex);
                 return null;
             }
         }
@@ -1206,7 +1206,7 @@ namespace SabreTools.RedumpLib.Web
             }
             catch (Exception ex)
             {
-                ReportError($"An exception has occurred: {ex}");
+                ReportError(ex);
                 return false;
             }
         }
@@ -1243,7 +1243,7 @@ namespace SabreTools.RedumpLib.Web
             }
             catch (Exception ex)
             {
-                ReportError($"An exception has occurred: {ex}");
+                ReportError(ex);
                 return null;
             }
         }
@@ -1350,7 +1350,7 @@ namespace SabreTools.RedumpLib.Web
             }
             catch (Exception ex)
             {
-                ReportError($"An exception has occurred: {ex}");
+                ReportError(ex);
                 return false;
             }
         }
@@ -1539,6 +1539,12 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="value">Value to report</param>
         private void ReportError(string value) => _progress.Report(new WebClientEventArgs(value, error: true));
+
+        /// <summary>
+        /// Report an error progress statement
+        /// </summary>
+        /// <param name="value">Value to report</param>
+        private void ReportError(Exception value) => ReportError($"An exception has occurred: {value}");
 
         /// <summary>
         /// Report a generic progress statement
