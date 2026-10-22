@@ -68,20 +68,25 @@ namespace SabreTools.RedumpLib.Web
         {
             Console.WriteLine("Downloading CUEs");
             _ = await client.DownloadPacks(PackType.Cuesheets, systems, outDir, useSubfolders ? "cue" : null);
+            Console.WriteLine();
 
             Console.WriteLine("Downloading DATs");
             _ = await client.DownloadPacks(PackType.Datfile, systems, outDir, useSubfolders ? "dat" : null);
+            Console.WriteLine();
 
             Console.WriteLine("Downloading SBIs");
             _ = await client.DownloadPacks(PackType.Sbis, systems, outDir, useSubfolders ? "sbi" : null);
+            Console.WriteLine();
 
             Console.WriteLine("Downloading BIOS DATs");
             _ = await client.DownloadPacks(PackType.BiosDatfile, systems, outDir, useSubfolders ? "bios" : null);
+            Console.WriteLine();
 
             if (includeDatabase)
             {
                 Console.WriteLine("Downloading database export");
                 _ = await client.DownloadDatabase(outDir, useSubfolders ? "db" : null);
+                Console.WriteLine();
             }
 
             return true;

@@ -1382,11 +1382,6 @@ namespace SabreTools.RedumpLib.Web
                     packsDictionary.Add(system, pack);
             }
 
-            // Report final completion
-            ReportGeneric("Complete!");
-
-            // Empty report for padding
-            ReportGeneric("");
             return packsDictionary;
         }
 
@@ -1411,11 +1406,6 @@ namespace SabreTools.RedumpLib.Web
                 await DownloadSinglePack(packType, system, outDir);
             }
 
-            // Report final completion
-            ReportGeneric("Complete!");
-
-            // Empty report for padding
-            ReportGeneric("");
             return true;
         }
 
@@ -1462,11 +1452,6 @@ namespace SabreTools.RedumpLib.Web
                 await DownloadSinglePack(packType, system, outDir, subfolder);
             }
 
-            // Report final completion
-            ReportGeneric("Complete!");
-
-            // Empty report for padding
-            ReportGeneric("");
             return true;
         }
 
