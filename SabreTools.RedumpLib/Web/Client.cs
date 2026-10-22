@@ -836,6 +836,9 @@ namespace SabreTools.RedumpLib.Web
                     return false;
                 }
 
+                // Report the pack type and system being downloaded
+                ReportGeneric("Downloading database export");
+
                 // Determine the database URL
                 var endpoint = new Endpoints.Downloads { Database = true };
                 string dbUri = endpoint.BuildUrl();
@@ -889,6 +892,9 @@ namespace SabreTools.RedumpLib.Web
                     return null;
                 }
 
+                // Report the pack type and system being downloaded
+                ReportGeneric($"Downloading {packType} for {system?.Name}");
+
                 // Determine the pack URL
                 var endpoint = new Endpoints.Downloads
                 {
@@ -935,6 +941,9 @@ namespace SabreTools.RedumpLib.Web
                     if (Debug) ReportDebug($"{packType} is not available for {system}, skipping...");
                     return false;
                 }
+
+                // Report the pack type and system being downloaded
+                ReportGeneric($"Downloading {packType} for {system?.Name}");
 
                 // Determine the pack URL
                 var endpoint = new Endpoints.Downloads
@@ -1373,10 +1382,12 @@ namespace SabreTools.RedumpLib.Web
                 return [];
             }
 
+            // Report the pack type being downloaded
+            ReportGeneric($"Downloading {packType.LongName()} packs");
+
             var packsDictionary = new Dictionary<PhysicalSystem, byte[]>();
             foreach (var system in systems)
             {
-                ReportGeneric(system.Name);
                 byte[]? pack = await DownloadSinglePack(packType, system);
                 if (pack is not null)
                     packsDictionary.Add(system, pack);
@@ -1400,9 +1411,11 @@ namespace SabreTools.RedumpLib.Web
                 return false;
             }
 
+            // Report the pack type being downloaded
+            ReportGeneric($"Downloading {packType.LongName()} packs");
+
             foreach (var system in systems)
             {
-                ReportGeneric(system.Name);
                 await DownloadSinglePack(packType, system, outDir);
             }
 
@@ -1424,6 +1437,9 @@ namespace SabreTools.RedumpLib.Web
                 if (Debug) ReportDebug($"{packType} is not a recognized pack type, skipping...");
                 return false;
             }
+
+            // Report the pack type being downloaded
+            ReportGeneric($"Downloading {packType.LongName()} packs");
 
             foreach (var system in systems)
             {
@@ -1448,7 +1464,6 @@ namespace SabreTools.RedumpLib.Web
                     continue;
                 }
 
-                ReportGeneric(system.Name);
                 await DownloadSinglePack(packType, system, outDir, subfolder);
             }
 

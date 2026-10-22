@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
 
@@ -58,7 +57,6 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="includeDatabase">Include database in downloads</param>
         /// <param name="useSubfolders">True to use named subfolders to store downloads, false to store directly in the output directory</param>
-        /// TODO: Figure out how to remove or move these console writes
         public static async Task<bool> DownloadPacksForSystems(
             this Client client,
             PhysicalSystem[] systems,
@@ -66,28 +64,13 @@ namespace SabreTools.RedumpLib.Web
             bool includeDatabase,
             bool useSubfolders)
         {
-            Console.WriteLine("Downloading CUEs");
             _ = await client.DownloadPacks(PackType.Cuesheets, systems, outDir, useSubfolders ? "cue" : null);
-            Console.WriteLine();
-
-            Console.WriteLine("Downloading DATs");
             _ = await client.DownloadPacks(PackType.Datfile, systems, outDir, useSubfolders ? "dat" : null);
-            Console.WriteLine();
-
-            Console.WriteLine("Downloading SBIs");
             _ = await client.DownloadPacks(PackType.Sbis, systems, outDir, useSubfolders ? "sbi" : null);
-            Console.WriteLine();
-
-            Console.WriteLine("Downloading BIOS DATs");
             _ = await client.DownloadPacks(PackType.BiosDatfile, systems, outDir, useSubfolders ? "bios" : null);
-            Console.WriteLine();
 
             if (includeDatabase)
-            {
-                Console.WriteLine("Downloading database export");
                 _ = await client.DownloadDatabase(outDir, useSubfolders ? "db" : null);
-                Console.WriteLine();
-            }
 
             return true;
         }
