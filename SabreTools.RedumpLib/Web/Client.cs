@@ -74,6 +74,11 @@ namespace SabreTools.RedumpLib.Web
 #endif
 
         /// <summary>
+        /// Optional progress callback for logging
+        /// </summary>
+        private readonly IProgress<WebClientEventArgs> _progress;
+
+        /// <summary>
         /// Cookie container for persistence
         /// </summary>
         private readonly CookieContainer _cookieContainer;
@@ -108,7 +113,8 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Constructor
         /// </summary>
-        public Client()
+        /// <param name="progressHandler">Optional progress callback for logging</param>
+        public Client(EventHandler<WebClientEventArgs>? progressHandler = null)
         {
             _cookieContainer = new CookieContainer();
 #if NETCOREAPP
@@ -121,7 +127,12 @@ namespace SabreTools.RedumpLib.Web
 #else
             _internalClient = new CookieWebClient(_cookieContainer);
 #endif
+
             Timeout = TimeSpan.FromSeconds(30);
+
+            _progress = new Progress<WebClientEventArgs>();
+            if (progressHandler is not null)
+                ((Progress<WebClientEventArgs>)_progress).ProgressChanged += progressHandler;
         }
 
         #region Cookies
@@ -234,15 +245,18 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="username">redump.info username</param>
         /// <param name="password">redump.info password</param>
+        /// <param name="progressHandler">Optional progress callback for logging</param>
         /// <returns>True if the user could be logged in, false otherwise, null on error</returns>
-        public static async Task<bool?> ValidateCredentials(string? username, string? password)
+        public static async Task<bool?> ValidateCredentials(string? username,
+            string? password,
+            EventHandler<WebClientEventArgs>? progressHandler = null)
         {
             // If options are invalid or we're missing something key, just return
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return false;
 
             // Try logging in with the supplied credentials otherwise
-            var redumpClient = new Client();
+            var redumpClient = new Client(progressHandler);
             return await redumpClient.Login(username, password);
         }
 
@@ -257,23 +271,23 @@ namespace SabreTools.RedumpLib.Web
             // Check for already logged in
             if (_loggedIn)
             {
-                Console.WriteLine("Already logged in!");
+                _progress.Report("Already logged in!");
                 return true;
             }
 
             // Credentials verification
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
-                Console.WriteLine("Credentials entered, will attempt redump.info login...");
+                _progress.Report("Credentials entered, will attempt redump.info login...");
             }
             else if (!string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password))
             {
-                Console.Error.WriteLine("Only a username was specified, will not attempt redump.info login...");
+                _progress.Report("ERROR: Only a username was specified, will not attempt redump.info login...");
                 return false;
             }
             else if (string.IsNullOrEmpty(username))
             {
-                Console.WriteLine("No credentials entered, will not attempt redump.info login...");
+                _progress.Report("No credentials entered, will not attempt redump.info login...");
                 return false;
             }
 
@@ -289,7 +303,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
-                    Console.WriteLine($"Login attempt {i + 1} of {AttemptCount}");
+                    _progress.Report($"Login attempt {i + 1} of {AttemptCount}");
 
                     // Get the current information from the login page
                     var loginPage = await DownloadString(LoginUrl);
@@ -345,7 +359,7 @@ namespace SabreTools.RedumpLib.Web
                     // An empty response indicates an error
                     if (string.IsNullOrEmpty(responseContent))
                     {
-                        Console.Error.WriteLine($"An error occurred while trying to log in on attempt {i + 1}: No response");
+                        _progress.Report($"ERROR: An error occurred while trying to log in on attempt {i + 1}: No response");
                         DelayHelper.DelayRandom();
                         continue;
                     }
@@ -353,7 +367,7 @@ namespace SabreTools.RedumpLib.Web
                     // A malformed form indicicates a retry is needed
                     if (responseContent.Contains("The submitted form was invalid. Try submitting again."))
                     {
-                        Console.Error.WriteLine($"An error occurred while trying to log in on attempt {i + 1}: Invalid result");
+                        _progress.Report($"ERROR: An error occurred while trying to log in on attempt {i + 1}: Invalid result");
                         DelayHelper.DelayRandom();
                         continue;
                     }
@@ -361,12 +375,12 @@ namespace SabreTools.RedumpLib.Web
                     // "Your posts" indicates login was successful
                     if (!responseContent.Contains("./search.php?search_id=egosearch"))
                     {
-                        Console.Error.WriteLine("Invalid credentials entered, continuing without logging in...");
+                        _progress.Report("ERROR: Invalid credentials entered, continuing without logging in...");
                         return false;
                     }
 
                     // The user was able to be logged in
-                    Console.WriteLine("Credentials accepted! Logged into Redump...");
+                    _progress.Report("Credentials accepted! Logged into Redump...");
                     _loggedIn = true;
 
                     // If the user is a moderator or staff, set accordingly
@@ -377,11 +391,11 @@ namespace SabreTools.RedumpLib.Web
                 }
                 catch (Exception ex)
                 {
-                    Console.Error.WriteLine($"An exception occurred while trying to log in on attempt {i + 1}: {ex}");
+                    _progress.Report($"ERROR: An exception occurred while trying to log in on attempt {i + 1}: {ex}");
                 }
             }
 
-            Console.Error.WriteLine($"Could not login to Redump in {AttemptCount} attempts, continuing without logging in...");
+            _progress.Report($"ERROR: Could not login to Redump in {AttemptCount} attempts, continuing without logging in...");
             return false;
         }
 
@@ -399,7 +413,7 @@ namespace SabreTools.RedumpLib.Web
             // Only retry a positive number of times
             if (AttemptCount <= 0)
             {
-                Console.Error.WriteLine("Invalid number of attempts provided, must be at least 1");
+                _progress.Report("ERROR: Invalid number of attempts provided, must be at least 1");
                 return null;
             }
 
@@ -407,7 +421,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: DownloadData(\"{uri}\"), Attempt {i + 1} of {AttemptCount}");
+                    if (Debug) _progress.Report($"DEBUG: DownloadData(\"{uri}\"), Attempt {i + 1} of {AttemptCount}");
 #if NETCOREAPP
                     return await _internalClient.GetByteArrayAsync(uri);
 #elif NET40
@@ -422,7 +436,7 @@ namespace SabreTools.RedumpLib.Web
                 DelayHelper.DelayRandom();
             }
 
-            Console.Error.WriteLine($"Could not download \"{uri}\" after {AttemptCount} attempts");
+            _progress.Report($"ERROR: Could not download \"{uri}\" after {AttemptCount} attempts");
             return null;
         }
 
@@ -437,7 +451,7 @@ namespace SabreTools.RedumpLib.Web
             // Only retry a positive number of times
             if (AttemptCount <= 0)
             {
-                Console.Error.WriteLine("Invalid number of attempts provided, must be at least 1");
+                _progress.Report("ERROR: Invalid number of attempts provided, must be at least 1");
                 return null;
             }
 
@@ -445,13 +459,13 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: DownloadFile(\"{uri}\", \"{fileName}\"), Attempt {i + 1} of {AttemptCount}");
+                    if (Debug) _progress.Report($"DEBUG: DownloadFile(\"{uri}\", \"{fileName}\"), Attempt {i + 1} of {AttemptCount}");
 #if NETCOREAPP
                     // Make the call to get the file
                     var response = await _internalClient.GetAsync(uri);
                     if (response?.Content?.Headers is null || !response.IsSuccessStatusCode)
                     {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: DownloadFile failed, continuing...");
+                        if (Debug) _progress.Report($"DEBUG: DownloadFile failed, continuing...");
                         continue;
                     }
 
@@ -475,7 +489,7 @@ namespace SabreTools.RedumpLib.Web
                     string? lastFilename = _internalClient.GetLastFilename();
                     if (lastFilename is null)
                     {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: DownloadFile failed, continuing...");
+                        if (Debug) _progress.Report($"DEBUG: DownloadFile failed, continuing...");
                         continue;
                     }
 
@@ -485,7 +499,7 @@ namespace SabreTools.RedumpLib.Web
                     string? lastFilename = _internalClient.GetLastFilename();
                     if (lastFilename is null)
                     {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: DownloadFile failed, continuing...");
+                        if (Debug) _progress.Report($"DEBUG: DownloadFile failed, continuing...");
                         continue;
                     }
 
@@ -498,7 +512,7 @@ namespace SabreTools.RedumpLib.Web
                 DelayHelper.DelayRandom();
             }
 
-            Console.Error.WriteLine($"Could not download \"{uri}\" after {AttemptCount} attempts");
+            _progress.Report($"ERROR: Could not download \"{uri}\" after {AttemptCount} attempts");
             return null;
         }
 
@@ -512,7 +526,7 @@ namespace SabreTools.RedumpLib.Web
             // Only retry a positive number of times
             if (AttemptCount <= 0)
             {
-                Console.Error.WriteLine("Invalid number of attempts provided, must be at least 1");
+                _progress.Report("ERROR: Invalid number of attempts provided, must be at least 1");
                 return null;
             }
 
@@ -520,7 +534,7 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: DownloadString(\"{uri}\"), Attempt {i + 1} of {AttemptCount}");
+                    if (Debug) _progress.Report($"DEBUG: DownloadString(\"{uri}\"), Attempt {i + 1} of {AttemptCount}");
 #if NETCOREAPP
                     return await _internalClient.GetStringAsync(uri);
 #elif NET40
@@ -535,7 +549,7 @@ namespace SabreTools.RedumpLib.Web
                 DelayHelper.DelayRandom();
             }
 
-            Console.Error.WriteLine($"Could not download \"{uri}\" after {AttemptCount} attempts");
+            _progress.Report($"ERROR: Could not download \"{uri}\" after {AttemptCount} attempts");
             return null;
         }
 
@@ -549,7 +563,7 @@ namespace SabreTools.RedumpLib.Web
             // Only retry a positive number of times
             if (AttemptCount <= 0)
             {
-                Console.Error.WriteLine("Invalid number of attempts provided, must be at least 1");
+                _progress.Report("ERROR: Invalid number of attempts provided, must be at least 1");
                 return null;
             }
 
@@ -557,13 +571,13 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: GetResolvedURL(\"{uri}\"), Attempt {i + 1} of {AttemptCount}");
+                    if (Debug) _progress.Report($"DEBUG: GetResolvedURL(\"{uri}\"), Attempt {i + 1} of {AttemptCount}");
 #if NETCOREAPP
                     // Make the call to get the file
                     var response = await _internalClient.GetAsync(uri);
                     if (response?.Content?.Headers is null || !response.IsSuccessStatusCode)
                     {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: GetResolvedURL failed, continuing...");
+                        if (Debug) _progress.Report($"DEBUG: GetResolvedURL failed, continuing...");
                         continue;
                     }
 
@@ -573,7 +587,7 @@ namespace SabreTools.RedumpLib.Web
                     string? lastUrl = _internalClient.LastUrl?.AbsoluteUri;
                     if (lastUrl is null)
                     {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: GetResolvedURL failed, continuing...");
+                        if (Debug) _progress.Report($"DEBUG: GetResolvedURL failed, continuing...");
                         continue;
                     }
 
@@ -583,7 +597,7 @@ namespace SabreTools.RedumpLib.Web
                     string? lastUrl = _internalClient.LastUrl?.AbsoluteUri;
                     if (lastUrl is null)
                     {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: GetResolvedURL failed, continuing...");
+                        if (Debug) _progress.Report($"DEBUG: GetResolvedURL failed, continuing...");
                         continue;
                     }
 
@@ -596,7 +610,7 @@ namespace SabreTools.RedumpLib.Web
                 DelayHelper.DelayRandom();
             }
 
-            Console.Error.WriteLine($"Could not download \"{uri}\" after {AttemptCount} attempts");
+            _progress.Report($"ERROR: Could not download \"{uri}\" after {AttemptCount} attempts");
             return null;
         }
 
@@ -621,21 +635,21 @@ namespace SabreTools.RedumpLib.Web
             // If the web client failed, return null
             if (dumpsPage is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleDiscsPage(\"{url}\") - Client failure");
+                if (Debug) _progress.Report($"DEBUG: CheckSingleDiscsPage(\"{url}\") - Client failure");
                 return null;
             }
 
             // If we have no dumps left
             if (dumpsPage.Contains("No discs found."))
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleDiscsPage(\"{url}\") - No discs found");
+                if (Debug) _progress.Report($"DEBUG: CheckSingleDiscsPage(\"{url}\") - No discs found");
                 return ids;
             }
 
             // If we have a single disc page already
             if (dumpsPage.Contains("<h3>Disc</h3>"))
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleDiscsPage(\"{url}\") - Single disc page");
+                if (Debug) _progress.Report($"DEBUG: CheckSingleDiscsPage(\"{url}\") - Single disc page");
                 string? lastUrl = await GetResolvedURL(url);
                 if (lastUrl is not null)
                 {
@@ -661,7 +675,7 @@ namespace SabreTools.RedumpLib.Web
                 }
                 catch (Exception ex)
                 {
-                    Console.Error.WriteLine($"An exception has occurred: {ex}");
+                    _progress.Report($"ERROR: An exception has occurred: {ex}");
                     continue;
                 }
             }
@@ -685,7 +699,7 @@ namespace SabreTools.RedumpLib.Web
             List<int>? ids = await CheckSingleDiscsEndpoint(endpoint);
             if (ids is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleDiscsPage(\"{outDir}\") - Client failure");
+                if (Debug) _progress.Report($"DEBUG: CheckSingleDiscsPage(\"{outDir}\") - Client failure");
                 return null;
             }
 
@@ -703,7 +717,7 @@ namespace SabreTools.RedumpLib.Web
                 }
                 catch (Exception ex)
                 {
-                    Console.Error.WriteLine($"An exception has occurred: {ex}");
+                    _progress.Report($"ERROR: An exception has occurred: {ex}");
                     continue;
                 }
             }
@@ -727,14 +741,14 @@ namespace SabreTools.RedumpLib.Web
             // If the web client failed, return null
             if (dumpsPage is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleQueuePage() - Client failure");
+                if (Debug) _progress.Report($"DEBUG: CheckSingleQueuePage() - Client failure");
                 return null;
             }
 
             // If we have no dumps left
             if (dumpsPage.Contains("No discs found."))
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleQueuePage() - No discs found");
+                if (Debug) _progress.Report($"DEBUG: CheckSingleQueuePage() - No discs found");
                 return ids;
             }
 
@@ -752,7 +766,7 @@ namespace SabreTools.RedumpLib.Web
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"An exception has occurred: {ex}");
+                    _progress.Report($"An exception has occurred: {ex}");
                     continue;
                 }
             }
@@ -774,7 +788,7 @@ namespace SabreTools.RedumpLib.Web
             List<int>? ids = await CheckSingleQueueEndpoint(endpoint);
             if (ids is null)
             {
-                if (Debug) Console.WriteLine($"DEBUG: CheckSingleQueuePage(\"{outDir}\") - Client failure");
+                if (Debug) _progress.Report($"DEBUG: CheckSingleQueuePage(\"{outDir}\") - Client failure");
                 return null;
             }
 
@@ -792,7 +806,7 @@ namespace SabreTools.RedumpLib.Web
                 }
                 catch (Exception ex)
                 {
-                    Console.Error.WriteLine($"An exception has occurred: {ex}");
+                    _progress.Report($"ERROR: An exception has occurred: {ex}");
                     continue;
                 }
             }
@@ -813,12 +827,12 @@ namespace SabreTools.RedumpLib.Web
         {
             try
             {
-                if (Debug) Console.WriteLine($"DEBUG: DownloadDatabase(\"{outDir}\", {subfolder})");
+                if (Debug) _progress.Report($"DEBUG: DownloadDatabase(\"{outDir}\", {subfolder})");
 
                 // If the user is not logged in, this is invalid
                 if (!_loggedIn)
                 {
-                    Console.Error.WriteLine("Database download requires valid login credentials!");
+                    _progress.Report("ERROR: Database download requires valid login credentials!");
                     return false;
                 }
 
@@ -829,7 +843,7 @@ namespace SabreTools.RedumpLib.Web
                 // If no output directory is defined, use the current directory instead
                 if (string.IsNullOrEmpty(outDir))
                 {
-                    if (Debug) Console.WriteLine("DEBUG: Output directory was not provided, setting to current directory");
+                    if (Debug) _progress.Report("DEBUG: Output directory was not provided, setting to current directory");
                     outDir = Environment.CurrentDirectory;
                 }
 
@@ -844,7 +858,7 @@ namespace SabreTools.RedumpLib.Web
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"An exception has occurred: {ex}");
+                _progress.Report($"ERROR: An exception has occurred: {ex}");
                 return false;
             }
         }
@@ -859,19 +873,19 @@ namespace SabreTools.RedumpLib.Web
         {
             try
             {
-                if (Debug) Console.WriteLine($"DEBUG: DownloadSinglePack(\"{packType}\", {system})");
+                if (Debug) _progress.Report($"DEBUG: DownloadSinglePack(\"{packType}\", {system})");
 
                 // If the system is invalid, we can't do anything
                 if (system is null || !system.Available || string.IsNullOrEmpty(system.Code))
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
+                    if (Debug) _progress.Report($"DEBUG: {system} is not marked as available on Redump, skipping...");
                     return null;
                 }
 
                 // If the pack is not supported for the system
                 if (!PackTypeToAvailable(packType, system))
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: {packType} is not available for {system}, skipping...");
+                    if (Debug) _progress.Report($"DEBUG: {packType} is not available for {system}, skipping...");
                     return null;
                 }
 
@@ -887,7 +901,7 @@ namespace SabreTools.RedumpLib.Web
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"An exception has occurred: {ex}");
+                _progress.Report($"ERROR: An exception has occurred: {ex}");
                 return null;
             }
         }
@@ -906,19 +920,19 @@ namespace SabreTools.RedumpLib.Web
         {
             try
             {
-                if (Debug) Console.WriteLine($"DEBUG: DownloadSinglePack(\"{packType}\", {system}, \"{outDir}\")");
+                if (Debug) _progress.Report($"DEBUG: DownloadSinglePack(\"{packType}\", {system}, \"{outDir}\")");
 
                 // If the system is invalid, we can't do anything
                 if (system is null || !system.Available || string.IsNullOrEmpty(system.Code))
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
+                    if (Debug) _progress.Report($"DEBUG: {system} is not marked as available on Redump, skipping...");
                     return false;
                 }
 
                 // If the pack is not supported for the system
                 if (!PackTypeToAvailable(packType, system))
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: {packType} is not available for {system}, skipping...");
+                    if (Debug) _progress.Report($"DEBUG: {packType} is not available for {system}, skipping...");
                     return false;
                 }
 
@@ -933,7 +947,7 @@ namespace SabreTools.RedumpLib.Web
                 // If no output directory is defined, use the current directory instead
                 if (string.IsNullOrEmpty(outDir))
                 {
-                    if (Debug) Console.WriteLine("DEBUG: Output directory was not provided, setting to current directory");
+                    if (Debug) _progress.Report("DEBUG: Output directory was not provided, setting to current directory");
                     outDir = Environment.CurrentDirectory;
                 }
 
@@ -948,7 +962,7 @@ namespace SabreTools.RedumpLib.Web
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"An exception has occurred: {ex}");
+                _progress.Report($"ERROR: An exception has occurred: {ex}");
                 return false;
             }
         }
@@ -962,7 +976,7 @@ namespace SabreTools.RedumpLib.Web
         public async Task<string?> DownloadSingleDiscPage(int id)
         {
             string paddedId = id.ToString().PadLeft(6, '0');
-            Console.WriteLine($"Processing ID: {paddedId}");
+            _progress.Report($"Processing ID: {paddedId}");
             try
             {
                 // Try to retrieve the data
@@ -972,21 +986,21 @@ namespace SabreTools.RedumpLib.Web
 
                 if (discPage is null)
                 {
-                    Console.Error.WriteLine($"An error occurred retrieving ID {paddedId}!");
+                    _progress.Report($"ERROR: An error occurred retrieving ID {paddedId}!");
                     return null;
                 }
                 else if (discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
                 {
-                    Console.Error.WriteLine($"ID {paddedId} could not be found!");
+                    _progress.Report($"ERROR: ID {paddedId} could not be found!");
                     return null;
                 }
 
-                Console.WriteLine($"ID {paddedId} has been successfully downloaded");
+                _progress.Report($"ID {paddedId} has been successfully downloaded");
                 return discPage;
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"An exception has occurred: {ex}");
+                _progress.Report($"ERROR: An exception has occurred: {ex}");
                 return null;
             }
         }
@@ -1011,7 +1025,7 @@ namespace SabreTools.RedumpLib.Web
 
             string paddedId = id.ToString().PadLeft(6, '0');
             string paddedIdDir = Path.Combine(outDir, paddedId);
-            Console.WriteLine($"Processing ID: {paddedId}");
+            _progress.Report($"Processing ID: {paddedId}");
             try
             {
                 // Try to retrieve the data
@@ -1021,7 +1035,7 @@ namespace SabreTools.RedumpLib.Web
 
                 if (discPage is null)
                 {
-                    Console.Error.WriteLine($"An error occurred retrieving ID {paddedId}!");
+                    _progress.Report($"ERROR: An error occurred retrieving ID {paddedId}!");
                     return false;
                 }
                 else if (discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
@@ -1038,7 +1052,7 @@ namespace SabreTools.RedumpLib.Web
                         catch { }
                     }
 
-                    Console.Error.WriteLine($"ID {paddedId} could not be found!");
+                    _progress.Report($"ERROR: ID {paddedId} could not be found!");
                     return false;
                 }
 
@@ -1055,14 +1069,14 @@ namespace SabreTools.RedumpLib.Web
                     // If both pages contain the same modified date, skip it
                     if (oldResult.Success && newResult.Success && oldResult.Groups[1].Value == newResult.Groups[1].Value)
                     {
-                        Console.WriteLine($"ID {paddedId} has not been changed since last download, skipping...");
+                        _progress.Report($"ID {paddedId} has not been changed since last download, skipping...");
                         return false;
                     }
 
                     // If neither page contains a modified date, skip it
                     else if (!oldResult.Success && !newResult.Success)
                     {
-                        Console.WriteLine($"ID {paddedId} has not been changed since last download, skipping...");
+                        _progress.Report($"ID {paddedId} has not been changed since last download, skipping...");
                         return false;
                     }
                 }
@@ -1072,7 +1086,7 @@ namespace SabreTools.RedumpLib.Web
                 var hasModifiedDate = Constants.ModifiedRegex.Match(discPage);
                 if (!hasAddedDate.Success && !hasModifiedDate.Success)
                 {
-                    Console.WriteLine($"ID {paddedId} retieved an empty page, skipping...");
+                    _progress.Report($"ID {paddedId} retieved an empty page, skipping...");
                     return false;
                 }
 
@@ -1093,7 +1107,7 @@ namespace SabreTools.RedumpLib.Web
                     string? changesPage = await DownloadString(uri);
                     if (!IgnoreErrors && changesPage is null)
                     {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading changes page for {id} failed!");
+                        if (Debug) _progress.Report($"DEBUG: Downloading changes page for {id} failed!");
                         return false;
                     }
 
@@ -1114,7 +1128,7 @@ namespace SabreTools.RedumpLib.Web
                     string? editPage = await DownloadString(uri);
                     if (!IgnoreErrors && editPage is null)
                     {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading edit page for {id} failed!");
+                        if (Debug) _progress.Report($"DEBUG: Downloading edit page for {id} failed!");
                         return false;
                     }
 
@@ -1139,7 +1153,7 @@ namespace SabreTools.RedumpLib.Web
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.cue"));
                     if (!IgnoreErrors && remoteName is null)
                     {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading cuesheet for {id} failed!");
+                        if (Debug) _progress.Report($"DEBUG: Downloading cuesheet for {id} failed!");
                         return false;
                     }
                 }
@@ -1156,7 +1170,7 @@ namespace SabreTools.RedumpLib.Web
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sbi"));
                     if (!IgnoreErrors && remoteName is null)
                     {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading SBI for {id} failed!");
+                        if (Debug) _progress.Report($"DEBUG: Downloading SBI for {id} failed!");
                         return false;
                     }
                 }
@@ -1173,7 +1187,7 @@ namespace SabreTools.RedumpLib.Web
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.lsd"));
                     if (!IgnoreErrors && remoteName is null)
                     {
-                        if (Debug) Console.Error.WriteLine($"DEBUG: Downloading LSD for {id} failed!");
+                        if (Debug) _progress.Report($"DEBUG: Downloading LSD for {id} failed!");
                         return false;
                     }
                 }
@@ -1187,12 +1201,12 @@ namespace SabreTools.RedumpLib.Web
                     discStreamWriter.Flush();
                 }
 
-                Console.WriteLine($"ID {paddedId} has been successfully downloaded");
+                _progress.Report($"ID {paddedId} has been successfully downloaded");
                 return true;
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"An exception has occurred: {ex}");
+                _progress.Report($"ERROR: An exception has occurred: {ex}");
                 return false;
             }
         }
@@ -1205,7 +1219,7 @@ namespace SabreTools.RedumpLib.Web
         public async Task<string?> DownloadSingleQueuePage(int id)
         {
             string paddedId = id.ToString().PadLeft(6, '0');
-            Console.WriteLine($"Processing queue ID: {paddedId}");
+            _progress.Report($"Processing queue ID: {paddedId}");
             try
             {
                 // Try to retrieve the data
@@ -1215,21 +1229,21 @@ namespace SabreTools.RedumpLib.Web
 
                 if (discPage is null)
                 {
-                    Console.Error.WriteLine($"An error occurred retrieving ID {paddedId}!");
+                    _progress.Report($"ERROR: An error occurred retrieving ID {paddedId}!");
                     return null;
                 }
                 else if (discPage.Contains("Not found"))
                 {
-                    Console.Error.WriteLine($"ID {paddedId} could not be found!");
+                    _progress.Report($"ERROR: ID {paddedId} could not be found!");
                     return null;
                 }
 
-                Console.WriteLine($"ID {paddedId} has been successfully downloaded");
+                _progress.Report($"ID {paddedId} has been successfully downloaded");
                 return discPage;
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"An exception has occurred: {ex}");
+                _progress.Report($"ERROR: An exception has occurred: {ex}");
                 return null;
             }
         }
@@ -1246,13 +1260,13 @@ namespace SabreTools.RedumpLib.Web
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrEmpty(outDir))
             {
-                if (Debug) Console.WriteLine("DEBUG: Output directory was not provided, setting to current directory");
+                if (Debug) _progress.Report("DEBUG: Output directory was not provided, setting to current directory");
                 outDir = Environment.CurrentDirectory;
             }
 
             string paddedId = id.ToString().PadLeft(6, '0');
             string paddedIdDir = Path.Combine(outDir, paddedId);
-            Console.WriteLine($"Processing queue ID: {paddedId}");
+            _progress.Report($"Processing queue ID: {paddedId}");
             try
             {
                 // Try to retrieve the data
@@ -1262,7 +1276,7 @@ namespace SabreTools.RedumpLib.Web
 
                 if (discPage is null)
                 {
-                    Console.Error.WriteLine($"An error occurred retrieving ID {paddedId}!");
+                    _progress.Report($"ERROR: An error occurred retrieving ID {paddedId}!");
                     return false;
                 }
                 else if (discPage.Contains("Not found"))
@@ -1279,7 +1293,7 @@ namespace SabreTools.RedumpLib.Web
                         catch { }
                     }
 
-                    Console.Error.WriteLine($"ID {paddedId} could not be found!");
+                    _progress.Report($"ERROR: ID {paddedId} could not be found!");
                     return false;
                 }
 
@@ -1298,14 +1312,14 @@ namespace SabreTools.RedumpLib.Web
                     // // If both pages contain the same ID, skip it
                     // if (oldResult.Success && newResult.Success && oldResult.Groups[1].Value == newResult.Groups[1].Value)
                     // {
-                    //     Console.WriteLine($"ID {paddedId} has not been changed since last download, skipping...");
+                    //     Progress.Report($"ID {paddedId} has not been changed since last download, skipping...");
                     //     return false;
                     // }
 
                     // // If neither page contains an ID, skip it
                     // else if (!oldResult.Success && !newResult.Success)
                     // {
-                    //     Console.WriteLine($"ID {paddedId} has not been changed since last download, skipping...");
+                    //     Progress.Report($"ID {paddedId} has not been changed since last download, skipping...");
                     //     return false;
                     // }
 
@@ -1316,7 +1330,7 @@ namespace SabreTools.RedumpLib.Web
                     // If the downloaded data is invalid or otherwise empty, skip it
                     if (oldResult.Success && !newResult.Success)
                     {
-                        Console.WriteLine($"ID {paddedId} retieved an empty page, skipping...");
+                        _progress.Report($"ID {paddedId} retieved an empty page, skipping...");
                         return false;
                     }
                 }
@@ -1331,12 +1345,12 @@ namespace SabreTools.RedumpLib.Web
                     discStreamWriter.Flush();
                 }
 
-                Console.WriteLine($"ID {paddedId} has been successfully downloaded");
+                _progress.Report($"ID {paddedId} has been successfully downloaded");
                 return true;
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"An exception has occurred: {ex}");
+                _progress.Report($"ERROR: An exception has occurred: {ex}");
                 return false;
             }
         }
@@ -1355,30 +1369,24 @@ namespace SabreTools.RedumpLib.Web
             // Determine if the pack type is valid
             if (!Enum.IsDefined(typeof(PackType), packType))
             {
-                if (Debug) Console.Error.WriteLine($"DEBUG: {packType} is not a recognized pack type, skipping...");
+                if (Debug) _progress.Report($"DEBUG: {packType} is not a recognized pack type, skipping...");
                 return [];
             }
 
             var packsDictionary = new Dictionary<PhysicalSystem, byte[]>();
             foreach (var system in systems)
             {
-                string longName = system.Name ?? $"UNKNOWN_{system}";
-                if (Debug)
-                    Console.WriteLine(longName);
-                else
-                    Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
-
+                _progress.Report(system.Name);
                 byte[]? pack = await DownloadSinglePack(packType, system);
                 if (pack is not null)
                     packsDictionary.Add(system, pack);
             }
 
-            if (Debug)
-                Console.WriteLine("Complete!");
-            else
-                Console.Write($"\rComplete!{new string(' ', Console.BufferWidth - 10)}");
+            // Report final completion
+            _progress.Report("Complete!");
 
-            Console.WriteLine();
+            // Empty report for padding
+            _progress.Report("");
             return packsDictionary;
         }
 
@@ -1393,27 +1401,21 @@ namespace SabreTools.RedumpLib.Web
             // Determine if the pack type is valid
             if (!Enum.IsDefined(typeof(PackType), packType))
             {
-                if (Debug) Console.Error.WriteLine($"DEBUG: {packType} is not a recognized pack type, skipping...");
+                if (Debug) _progress.Report($"DEBUG: {packType} is not a recognized pack type, skipping...");
                 return false;
             }
 
             foreach (var system in systems)
             {
-                string longName = system.Name ?? $"UNKNOWN_{system}";
-                if (Debug)
-                    Console.WriteLine(longName);
-                else
-                    Console.Write($"\r{longName}{new string(' ', Console.BufferWidth - longName!.Length - 1)}");
-
+                _progress.Report(system.Name);
                 await DownloadSinglePack(packType, system, outDir);
             }
 
-            if (Debug)
-                Console.WriteLine("Complete!");
-            else
-                Console.Write($"\rComplete!{new string(' ', Console.BufferWidth - 10)}");
+            // Report final completion
+            _progress.Report("Complete!");
 
-            Console.WriteLine();
+            // Empty report for padding
+            _progress.Report("");
             return true;
         }
 
@@ -1429,7 +1431,7 @@ namespace SabreTools.RedumpLib.Web
             // Determine if the pack type is valid
             if (!Enum.IsDefined(typeof(PackType), packType))
             {
-                if (Debug) Console.Error.WriteLine($"DEBUG: {packType} is not a recognized pack type, skipping...");
+                if (Debug) _progress.Report($"DEBUG: {packType} is not a recognized pack type, skipping...");
                 return false;
             }
 
@@ -1438,76 +1440,33 @@ namespace SabreTools.RedumpLib.Web
                 // If the system is invalid, we can't do anything
                 if (!system.Available)
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} is not marked as available on Redump, skipping...");
+                    if (Debug) _progress.Report($"DEBUG: {system} is not marked as available on Redump, skipping...");
                     continue;
                 }
 
                 // If the system is unknown, we can't do anything
                 if (string.IsNullOrEmpty(system.Name))
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: {system} is not a recognized system, skipping...");
+                    if (Debug) _progress.Report($"DEBUG: {system} is not a recognized system, skipping...");
                     continue;
                 }
 
                 // If the pack is not supported for the system
                 if (!PackTypeToAvailable(packType, system))
                 {
-                    if (Debug) Console.WriteLine($"DEBUG: {packType} is not available for {system}, skipping...");
+                    if (Debug) _progress.Report($"DEBUG: {packType} is not available for {system}, skipping...");
                     continue;
                 }
 
-                if (Debug)
-                {
-                    Console.WriteLine(system.Name);
-                }
-                else
-                {
-                    // If the buffer does not provide a width, just print on a new line
-                    int bufferWidth = Console.BufferWidth;
-                    if (bufferWidth == 0)
-                    {
-                        Console.WriteLine(system.Name);
-                    }
-
-                    // Otherwise, overwrite the line if possible
-                    else
-                    {
-                        int clearLength = bufferWidth - system.Name.Length - 1;
-                        if (clearLength < 0)
-                            clearLength = 0;
-
-                        Console.Write($"\r{system.Name}{new string(' ', clearLength)}");
-                    }
-                }
-
+                _progress.Report(system.Name);
                 await DownloadSinglePack(packType, system, outDir, subfolder);
             }
 
-            if (Debug)
-            {
-                Console.WriteLine("Complete!");
-            }
-            else
-            {
-                // If the buffer does not provide a width, just print on a new line
-                int bufferWidth = Console.BufferWidth;
-                if (bufferWidth == 0)
-                {
-                    Console.WriteLine("Complete!");
-                }
+            // Report final completion
+            _progress.Report("Complete!");
 
-                // Otherwise, overwrite the line if possible
-                else
-                {
-                    int clearLength = bufferWidth - 10;
-                    if (clearLength < 0)
-                        clearLength = 0;
-
-                    Console.Write($"\rComplete!{new string(' ', clearLength)}");
-                }
-            }
-
-            Console.WriteLine();
+            // Empty report for padding
+            _progress.Report("");
             return true;
         }
 

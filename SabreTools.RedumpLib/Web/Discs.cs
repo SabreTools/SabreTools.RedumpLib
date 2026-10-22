@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
@@ -112,79 +111,72 @@ namespace SabreTools.RedumpLib.Web
         {
             // Keep getting discs pages until there are none left
             List<int> ids = [];
-            try
+
+            int pageNumber = 1;
+            while (true)
             {
-                int pageNumber = 1;
-                while (true)
+                if (limit > 0 && pageNumber > limit)
+                    break;
+
+                var endpoint = new Endpoints.Discs
                 {
-                    if (limit > 0 && pageNumber > limit)
-                        break;
+                    System = system,
+                    Region = region,
+                    Language = language,
+                    Media = media,
+                    Category = category,
+                    Status = status,
+                    Letter = letter,
+                    Dumper = dumper,
+                    Title = title,
+                    TitleExact = titleExact,
+                    TitleForeign = titleForeign,
+                    TitleForeignExact = titleForeignExact,
+                    DiscNumber = discNumber,
+                    DiscTitle = discTitle,
+                    DiscTitleExact = discTitleExact,
+                    DiscTitleForeign = discTitleForeign,
+                    DiscTitleForeignExact = discTitleForeignExact,
+                    Serial = serial,
+                    SerialExact = serialExact,
+                    Edition = edition,
+                    EditionExact = editionExact,
+                    Barcode = barcode,
+                    BarcodeExact = barcodeExact,
+                    UniversalHash = universalHash,
+                    TracksMin = tracksMin,
+                    TracksMax = tracksMax,
+                    ErrorsMin = errorsMin,
+                    ErrorsMax = errorsMax,
+                    Edc = edc,
+                    Protection = protection,
+                    Comments = comments,
+                    Contents = contents,
+                    MasteringCode = masteringCode,
+                    MasteringSid = masteringSid,
+                    Toolstamp = toolstamp,
+                    MouldSid = mouldSid,
+                    AdditionalMould = additionalMould,
+                    Ringcode = ringcode,
+                    Offset = offset,
+                    Query = query,
+                    Sort = sort,
+                    Order = order,
+                    Page = pageNumber++,
+                    Advanced = advanced,
+                };
 
-                    var endpoint = new Endpoints.Discs
-                    {
-                        System = system,
-                        Region = region,
-                        Language = language,
-                        Media = media,
-                        Category = category,
-                        Status = status,
-                        Letter = letter,
-                        Dumper = dumper,
-                        Title = title,
-                        TitleExact = titleExact,
-                        TitleForeign = titleForeign,
-                        TitleForeignExact = titleForeignExact,
-                        DiscNumber = discNumber,
-                        DiscTitle = discTitle,
-                        DiscTitleExact = discTitleExact,
-                        DiscTitleForeign = discTitleForeign,
-                        DiscTitleForeignExact = discTitleForeignExact,
-                        Serial = serial,
-                        SerialExact = serialExact,
-                        Edition = edition,
-                        EditionExact = editionExact,
-                        Barcode = barcode,
-                        BarcodeExact = barcodeExact,
-                        UniversalHash = universalHash,
-                        TracksMin = tracksMin,
-                        TracksMax = tracksMax,
-                        ErrorsMin = errorsMin,
-                        ErrorsMax = errorsMax,
-                        Edc = edc,
-                        Protection = protection,
-                        Comments = comments,
-                        Contents = contents,
-                        MasteringCode = masteringCode,
-                        MasteringSid = masteringSid,
-                        Toolstamp = toolstamp,
-                        MouldSid = mouldSid,
-                        AdditionalMould = additionalMould,
-                        Ringcode = ringcode,
-                        Offset = offset,
-                        Query = query,
-                        Sort = sort,
-                        Order = order,
-                        Page = pageNumber++,
-                        Advanced = advanced,
-                    };
+                var pageIds = await client.CheckSingleDiscsEndpoint(outDir, endpoint, discSubpaths);
+                if (pageIds is null)
+                    return [];
 
-                    var pageIds = await client.CheckSingleDiscsEndpoint(outDir, endpoint, discSubpaths);
-                    if (pageIds is null)
-                        return [];
+                // If all page IDs are already found, assume the last page was reached
+                if (pageIds.TrueForAll(ids.Contains))
+                    break;
 
-                    // If all page IDs are already found, assume the last page was reached
-                    if (pageIds.TrueForAll(ids.Contains))
-                        break;
-
-                    ids.AddRange(pageIds);
-                    if (pageIds.Count == 0)
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An exception occurred while trying to log in: {ex}");
-                return [];
+                ids.AddRange(pageIds);
+                if (pageIds.Count == 0)
+                    break;
             }
 
             return ids;
@@ -344,79 +336,72 @@ namespace SabreTools.RedumpLib.Web
         {
             // Keep getting discs pages until there are none left
             List<int> ids = [];
-            try
+
+            int pageNumber = 1;
+            while (true)
             {
-                int pageNumber = 1;
-                while (true)
+                if (limit > 0 && pageNumber > limit)
+                    break;
+
+                var endpoint = new Endpoints.Discs
                 {
-                    if (limit > 0 && pageNumber > limit)
-                        break;
+                    System = system,
+                    Region = region,
+                    Language = language,
+                    Media = media,
+                    Category = category,
+                    Status = status,
+                    Letter = letter,
+                    Dumper = dumper,
+                    Title = title,
+                    TitleExact = titleExact,
+                    TitleForeign = titleForeign,
+                    TitleForeignExact = titleForeignExact,
+                    DiscNumber = discNumber,
+                    DiscTitle = discTitle,
+                    DiscTitleExact = discTitleExact,
+                    DiscTitleForeign = discTitleForeign,
+                    DiscTitleForeignExact = discTitleForeignExact,
+                    Serial = serial,
+                    SerialExact = serialExact,
+                    Edition = edition,
+                    EditionExact = editionExact,
+                    Barcode = barcode,
+                    BarcodeExact = barcodeExact,
+                    UniversalHash = universalHash,
+                    TracksMin = tracksMin,
+                    TracksMax = tracksMax,
+                    ErrorsMin = errorsMin,
+                    ErrorsMax = errorsMax,
+                    Edc = edc,
+                    Protection = protection,
+                    Comments = comments,
+                    Contents = contents,
+                    MasteringCode = masteringCode,
+                    MasteringSid = masteringSid,
+                    Toolstamp = toolstamp,
+                    MouldSid = mouldSid,
+                    AdditionalMould = additionalMould,
+                    Ringcode = ringcode,
+                    Offset = offset,
+                    Query = query,
+                    Sort = sort,
+                    Order = order,
+                    Page = pageNumber++,
+                    Advanced = advanced,
+                };
 
-                    var endpoint = new Endpoints.Discs
-                    {
-                        System = system,
-                        Region = region,
-                        Language = language,
-                        Media = media,
-                        Category = category,
-                        Status = status,
-                        Letter = letter,
-                        Dumper = dumper,
-                        Title = title,
-                        TitleExact = titleExact,
-                        TitleForeign = titleForeign,
-                        TitleForeignExact = titleForeignExact,
-                        DiscNumber = discNumber,
-                        DiscTitle = discTitle,
-                        DiscTitleExact = discTitleExact,
-                        DiscTitleForeign = discTitleForeign,
-                        DiscTitleForeignExact = discTitleForeignExact,
-                        Serial = serial,
-                        SerialExact = serialExact,
-                        Edition = edition,
-                        EditionExact = editionExact,
-                        Barcode = barcode,
-                        BarcodeExact = barcodeExact,
-                        UniversalHash = universalHash,
-                        TracksMin = tracksMin,
-                        TracksMax = tracksMax,
-                        ErrorsMin = errorsMin,
-                        ErrorsMax = errorsMax,
-                        Edc = edc,
-                        Protection = protection,
-                        Comments = comments,
-                        Contents = contents,
-                        MasteringCode = masteringCode,
-                        MasteringSid = masteringSid,
-                        Toolstamp = toolstamp,
-                        MouldSid = mouldSid,
-                        AdditionalMould = additionalMould,
-                        Ringcode = ringcode,
-                        Offset = offset,
-                        Query = query,
-                        Sort = sort,
-                        Order = order,
-                        Page = pageNumber++,
-                        Advanced = advanced,
-                    };
+                var pageIds = await client.CheckSingleDiscsEndpoint(endpoint);
+                if (pageIds is null)
+                    return [];
 
-                    var pageIds = await client.CheckSingleDiscsEndpoint(endpoint);
-                    if (pageIds is null)
-                        return [];
+                // If all page IDs are already found, assume the last page was reached
+                if (pageIds.TrueForAll(ids.Contains))
+                    break;
 
-                    // If all page IDs are already found, assume the last page was reached
-                    if (pageIds.TrueForAll(ids.Contains))
-                        break;
-
-                    ids.AddRange(pageIds);
-                    if (pageIds.Count <= 1)
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An exception occurred while trying to log in: {ex}");
-                return [];
+                ids.AddRange(pageIds);
+                if (pageIds.Count <= 1)
+                    break;
             }
 
             return ids;

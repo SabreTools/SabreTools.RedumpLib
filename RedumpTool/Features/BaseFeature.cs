@@ -52,7 +52,7 @@ namespace RedumpTool.Features
         public BaseFeature(string name, string[] flags, string description, string? detailed = null)
            : base(name, flags, description, detailed)
         {
-            _client = new Client();
+            _client = new Client(ReportProgress);
         }
 
         #region Helpers
@@ -106,6 +106,11 @@ namespace RedumpTool.Features
                 return false;
             }
         }
+
+        /// <summary>
+        /// Progress reporting callback
+        /// </summary>
+        protected static void ReportProgress(object? sender, WebClientEventArgs value) => Console.WriteLine(value);
 
         #endregion
     }

@@ -58,6 +58,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="includeDatabase">Include database in downloads</param>
         /// <param name="useSubfolders">True to use named subfolders to store downloads, false to store directly in the output directory</param>
+        /// TODO: Figure out how to remove or move these console writes
         public static async Task<bool> DownloadPacksForSystems(
             this Client client,
             PhysicalSystem[] systems,
