@@ -88,6 +88,21 @@ namespace SabreTools.RedumpLib.Data
     }
 
     /// <summary>
+    /// List of all list subpaths
+    /// </summary>
+    public enum ListSubpath
+    {
+        [HumanReadable(LongName = "Have", ShortName = "have")]
+        Have = 1,
+
+        [HumanReadable(LongName = "Cuesheets", ShortName = "cues")]
+        Cuesheets = 2,
+
+        [HumanReadable(LongName = "Datfile", ShortName = "datfile")]
+        Datfile = 3,
+    }
+
+    /// <summary>
     /// List of all site-supported media types
     /// </summary>
     public enum MediaType

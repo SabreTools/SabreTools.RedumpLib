@@ -921,6 +921,113 @@ namespace SabreTools.RedumpLib.Test.Data
 
         #endregion
 
+        #region List Subpath
+
+        /// <summary>
+        /// Check that every ListSubpath has a long name provided
+        /// </summary>
+        /// <param name="listSubpath">ListSubpath value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateListSubpathTestData))]
+        public void ListSubpath_LongName(ListSubpath? listSubpath, bool expectNull)
+        {
+            var actual = listSubpath.LongName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Check that every ListSubpath has a short name provided
+        /// </summary>
+        /// <param name="listSubpath">ListSubpath value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateListSubpathTestData))]
+        public void ListSubpath_ShortName(ListSubpath? listSubpath, bool expectNull)
+        {
+            var actual = listSubpath.ShortName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Ensure that every ListSubpath that has a short name that is unique
+        /// </summary>
+        [Fact]
+        public void ListSubpath_ShortName_NoDuplicates()
+        {
+            var fullListSubpaths = Enum.GetValues<ListSubpath>().Cast<ListSubpath>().ToList();
+            var filteredListSubpaths = new Dictionary<string, ListSubpath?>();
+
+            int totalCount = 0;
+            foreach (ListSubpath? listSubpath in fullListSubpaths)
+            {
+                var code = listSubpath.ShortName();
+                if (string.IsNullOrEmpty(code))
+                    continue;
+
+                // Throw if the code already exists
+                if (filteredListSubpaths.ContainsKey(code))
+                    throw new DuplicateNameException($"Code {code} already in dictionary");
+
+                filteredListSubpaths[code] = listSubpath;
+                totalCount++;
+            }
+
+            Assert.Equal(totalCount, filteredListSubpaths.Count);
+        }
+
+        /// <summary>
+        /// Check that every ListSubpath can be mapped from a string
+        /// </summary>
+        /// <param name="listSubpath">ListSubpath value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateListSubpathTestData))]
+        public void ListSubpath_ToListSubpath(ListSubpath? listSubpath, bool expectNull)
+        {
+            string? longName = listSubpath.LongName();
+            string? longNameSpaceless = longName?.Replace(" ", string.Empty);
+
+            var actualNormal = longName.ToListSubpath();
+            var actualSpaceless = longNameSpaceless.ToListSubpath();
+
+            if (expectNull)
+            {
+                Assert.Null(actualNormal);
+                Assert.Null(actualSpaceless);
+            }
+            else
+            {
+                Assert.Equal(listSubpath, actualNormal);
+                Assert.Equal(listSubpath, actualSpaceless);
+            }
+        }
+
+        /// <summary>
+        /// Generate a test set of ListSubpath values
+        /// </summary>
+        /// <returns>MemberData-compatible list of ListSubpath values</returns>
+        public static TheoryData<ListSubpath?, bool> GenerateListSubpathTestData()
+        {
+            var testData = new TheoryData<ListSubpath?, bool>() { { null, true } };
+            foreach (ListSubpath? listSubpath in Enum.GetValues<ListSubpath>().Cast<ListSubpath?>())
+            {
+                testData.Add(listSubpath, false);
+            }
+
+            return testData;
+        }
+
+        #endregion
+
         #region Media Type
 
         /// <summary>

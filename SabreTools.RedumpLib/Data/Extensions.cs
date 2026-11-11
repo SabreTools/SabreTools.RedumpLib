@@ -241,10 +241,10 @@ namespace SabreTools.RedumpLib.Data
             => AttributeHelper<DiscSubpath?>.GetHumanReadableAttribute(discSubpath)?.ShortName;
 
         /// <summary>
-        /// Get the Region enum value for a given string
+        /// Get the DiscSubpath enum value for a given string
         /// </summary>
         /// <param name="discSubpath">String value to convert</param>
-        /// <returns>Region represented by the string, if possible</returns>
+        /// <returns>DiscSubpath represented by the string, if possible</returns>
         public static DiscSubpath? ToDiscSubpath(this string? discSubpath)
         {
             // No value means no match
@@ -368,6 +368,70 @@ namespace SabreTools.RedumpLib.Data
             index = Array.FindIndex(languages, l => lang == l.ThreeLetterCodeAlt);
             if (index > -1)
                 return languages[index];
+
+            return null;
+        }
+
+        #endregion
+
+        #region List Subpath
+
+        /// <summary>
+        /// Get the human readable name for a ListSubpath
+        /// </summary>
+        /// <param name="listSubpath"></param>
+        /// <returns></returns>
+        public static string? LongName(this ListSubpath listSubpath)
+            => AttributeHelper<ListSubpath>.GetHumanReadableAttribute(listSubpath)?.LongName;
+
+        /// <summary>
+        /// Get the human readable name for a ListSubpath
+        /// </summary>
+        /// <param name="listSubpath"></param>
+        /// <returns></returns>
+        public static string? LongName(this ListSubpath? listSubpath)
+            => AttributeHelper<ListSubpath?>.GetHumanReadableAttribute(listSubpath)?.LongName;
+
+        /// <summary>
+        /// Get the URL path part for a ListSubpath
+        /// </summary>
+        /// <param name="listSubpath"></param>
+        /// <returns></returns>
+        public static string? ShortName(this ListSubpath listSubpath)
+            => AttributeHelper<ListSubpath>.GetHumanReadableAttribute(listSubpath)?.ShortName;
+
+        /// <summary>
+        /// Get the URL path part for a ListSubpath
+        /// </summary>
+        /// <param name="listSubpath"></param>
+        /// <returns></returns>
+        public static string? ShortName(this ListSubpath? listSubpath)
+            => AttributeHelper<ListSubpath?>.GetHumanReadableAttribute(listSubpath)?.ShortName;
+
+        /// <summary>
+        /// Get the ListSubpath enum value for a given string
+        /// </summary>
+        /// <param name="listSubpath">String value to convert</param>
+        /// <returns>ListSubpath represented by the string, if possible</returns>
+        public static ListSubpath? ToListSubpath(this string? listSubpath)
+        {
+            // No value means no match
+            if (listSubpath is null || listSubpath.Length == 0)
+                return null;
+
+            listSubpath = listSubpath.ToLowerInvariant();
+            var listSubpaths = (ListSubpath[])Enum.GetValues(typeof(ListSubpath));
+
+            // Check short names
+            int index = Array.FindIndex(listSubpaths, s => listSubpath == s.ShortName()?.ToLowerInvariant());
+            if (index > -1)
+                return listSubpaths[index];
+
+            // Check long names
+            index = Array.FindIndex(listSubpaths, s => listSubpath == s.LongName()?.ToLowerInvariant()
+                || listSubpath == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return listSubpaths[index];
 
             return null;
         }
