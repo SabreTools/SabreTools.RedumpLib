@@ -4,9 +4,6 @@ using SabreTools.RedumpLib.Data;
 
 namespace SabreTools.RedumpLib.Endpoints
 {
-    // TODO: Create models for the returned API data
-    // - `discs` returns a JSON array of disc IDs
-    // - `disc` endpoint returns JSON-encoded data
     [JsonObject("api")]
     public class Api
     {
@@ -37,11 +34,14 @@ namespace SabreTools.RedumpLib.Endpoints
                 Path = "api",
             };
 
+            // `disc` endpoint returns JSON-encoded data
             if (Subpath == ApiSubpath.Disc)
             {
                 ub.Path += "/disc";
                 ub.Query = $"id={Math.Abs(Id)}";
             }
+
+            // `discs` returns a JSON array of disc IDs
             else if (Subpath == ApiSubpath.Discs)
             {
                 ub.Path += "/discs";
