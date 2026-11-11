@@ -105,6 +105,7 @@ namespace SabreTools.RedumpLib.Test.Tools
                     BCA = "BCA",
                     PIC = "PIC",
                     PICIdentifier = "XB4",
+                    DMI = "DMI",
                     Cuesheet = "Cuesheet",
                     Dat = "Datfile",
                 },
@@ -554,7 +555,7 @@ namespace SabreTools.RedumpLib.Test.Tools
         [Fact]
         public void FormatOutputData_DumpMetadataSection_Formatted()
         {
-            string expected = "Dump Metadata:\n\tComments: XXXXXX\n\tContents: XXXXXX\n\tProtection: XXXXXX\n\tSector Ranges: XXXXXX\n\tSBI: XXXXXX\n\tPrimary Volume Descriptor (PVD): XXXXXX\n\tHeader: XXXXXX\n\tBurst Cutting Area (BCA): XXXXXX\n\tPermanent Information & Control (PIC): XXXXXX\n\tCuesheet: XXXXXX\n\tDat:\n\nXXXXXX\n\n\n";
+            string expected = "Dump Metadata:\n\tComments: XXXXXX\n\tContents: XXXXXX\n\tProtection: XXXXXX\n\tSector Ranges: XXXXXX\n\tSBI: XXXXXX\n\tPrimary Volume Descriptor (PVD): XXXXXX\n\tHeader: XXXXXX\n\tBurst Cutting Area (BCA): XXXXXX\n\tPermanent Information & Control (PIC): XXXXXX\n\tDMI: XXXXXX\n\tCuesheet: XXXXXX\n\tDat:\n\nXXXXXX\n\n\n";
 
             var builder = new StringBuilder();
             DumpMetadataSection? section = new()
@@ -568,6 +569,7 @@ namespace SabreTools.RedumpLib.Test.Tools
                 Header = "XXXXXX",
                 BCA = "XXXXXX",
                 PIC = "XXXXXX",
+                DMI = "XXXXXX",
                 Cuesheet = "XXXXXX",
                 Dat = "XXXXXX",
             };

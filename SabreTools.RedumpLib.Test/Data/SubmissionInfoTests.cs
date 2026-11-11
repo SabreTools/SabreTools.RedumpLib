@@ -109,6 +109,7 @@ namespace SabreTools.RedumpLib.Test.Data
                     BCA = "BCA",
                     PIC = "PIC",
                     PICIdentifier = "XB4",
+                    DMI = "DMI",
                     Cuesheet = "Cuesheet",
                     Dat = "Datfile",
                 },

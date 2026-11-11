@@ -1184,6 +1184,23 @@ namespace SabreTools.RedumpLib.Web
                     }
                 }
 
+                // DMI
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.DMI)) && discPage.Contains($"<a href=\"/disc/{id}/dmi\""))
+                {
+                    var subEndpoint = new Endpoints.Disc
+                    {
+                        Id = id,
+                        Subpath = DiscSubpath.DMI,
+                    };
+                    string uri = endpoint.BuildUrl();
+                    string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.dmi"));
+                    if (!IgnoreErrors && remoteName is null)
+                    {
+                        if (Debug) ReportDebug($"Downloading DMI for {id} failed!");
+                        return false;
+                    }
+                }
+
                 // LSD
                 if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.LSD)) && discPage.Contains($"<a href=\"/disc/{id}/lsd\""))
                 {

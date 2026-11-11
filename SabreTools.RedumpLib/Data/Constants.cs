@@ -143,6 +143,7 @@ namespace SabreTools.RedumpLib.Data
             DiscSubpath.History,
             DiscSubpath.SBI,
             DiscSubpath.LSD,
+            DiscSubpath.DMI,
         ];
 
         #endregion

@@ -72,6 +72,7 @@
         public const string HeaderField = "Header";
         public const string BCAField = "Burst Cutting Area (BCA)";
         public const string PICField = "Permanent Information & Control (PIC)";
+        public const string DMIField = "DMI";
         public const string CuesheetField = "Cuesheet";
         public const string DatField = "Dat";
 

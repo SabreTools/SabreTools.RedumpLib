@@ -56,6 +56,9 @@ namespace SabreTools.RedumpLib.Data.Sections
         [JsonProperty(PropertyName = "pic_identifier", NullValueHandling = NullValueHandling.Ignore)]
         public string? PICIdentifier { get; set; }
 
+        [JsonProperty(PropertyName = "dmi", NullValueHandling = NullValueHandling.Ignore)]
+        public string? DMI { get; set; }
+
         [JsonProperty(PropertyName = "cue", NullValueHandling = NullValueHandling.Ignore)]
         public string? Cuesheet { get; set; }
 
@@ -102,6 +105,7 @@ namespace SabreTools.RedumpLib.Data.Sections
                 BCA = this.BCA,
                 PIC = this.PIC,
                 PICIdentifier = this.PICIdentifier,
+                DMI = this.DMI,
                 Cuesheet = this.Cuesheet,
                 Dat = this.Dat,
             };
