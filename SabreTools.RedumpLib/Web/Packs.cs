@@ -68,6 +68,7 @@ namespace SabreTools.RedumpLib.Web
             _ = await client.DownloadPacks(PackType.Datfile, systems, outDir, useSubfolders ? "dat" : null);
             _ = await client.DownloadPacks(PackType.Sbis, systems, outDir, useSubfolders ? "sbi" : null);
             _ = await client.DownloadPacks(PackType.BiosDatfile, systems, outDir, useSubfolders ? "bios" : null);
+            _ = await client.DownloadPacks(PackType.ExtrasDatfile, systems, outDir, useSubfolders ? "extras" : null);
 
             if (includeDatabase)
                 _ = await client.DownloadDatabase(outDir, useSubfolders ? "db" : null);

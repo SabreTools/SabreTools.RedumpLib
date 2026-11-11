@@ -189,6 +189,9 @@ namespace SabreTools.RedumpLib.Data
 
         [HumanReadable(LongName = "BIOS", ShortName = "bios")]
         BiosDatfile = 4,
+
+        [HumanReadable(LongName = "Extras Datfile", ShortName = "extras")]
+        ExtrasDatfile = 5,
     }
 
     /// <summary>

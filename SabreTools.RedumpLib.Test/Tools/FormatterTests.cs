@@ -108,6 +108,7 @@ namespace SabreTools.RedumpLib.Test.Tools
                     DMI = "DMI",
                     Cuesheet = "Cuesheet",
                     Dat = "Datfile",
+                    ExtrasDat = "Extras Datfile",
                 },
 
                 SubmissionControls = new SubmissionControlsSection()
@@ -555,7 +556,7 @@ namespace SabreTools.RedumpLib.Test.Tools
         [Fact]
         public void FormatOutputData_DumpMetadataSection_Formatted()
         {
-            string expected = "Dump Metadata:\n\tComments: XXXXXX\n\tContents: XXXXXX\n\tProtection: XXXXXX\n\tSector Ranges: XXXXXX\n\tSBI: XXXXXX\n\tPrimary Volume Descriptor (PVD): XXXXXX\n\tHeader: XXXXXX\n\tBurst Cutting Area (BCA): XXXXXX\n\tPermanent Information & Control (PIC): XXXXXX\n\tDMI: XXXXXX\n\tCuesheet: XXXXXX\n\tDat:\n\nXXXXXX\n\n\n";
+            string expected = "Dump Metadata:\n\tComments: XXXXXX\n\tContents: XXXXXX\n\tProtection: XXXXXX\n\tSector Ranges: XXXXXX\n\tSBI: XXXXXX\n\tPrimary Volume Descriptor (PVD): XXXXXX\n\tHeader: XXXXXX\n\tBurst Cutting Area (BCA): XXXXXX\n\tPermanent Information & Control (PIC): XXXXXX\n\tDMI: XXXXXX\n\tCuesheet: XXXXXX\n\tDat:\n\nXXXXXX\n\n\n\tExtras Dat:\n\nXXXXXX\n\n\n";
 
             var builder = new StringBuilder();
             DumpMetadataSection? section = new()
@@ -572,6 +573,7 @@ namespace SabreTools.RedumpLib.Test.Tools
                 DMI = "XXXXXX",
                 Cuesheet = "XXXXXX",
                 Dat = "XXXXXX",
+                ExtrasDat = "XXXXXX",
             };
 
             Formatter.FormatOutputData(builder, section);

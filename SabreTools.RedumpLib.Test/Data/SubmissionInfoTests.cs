@@ -112,6 +112,7 @@ namespace SabreTools.RedumpLib.Test.Data
                     DMI = "DMI",
                     Cuesheet = "Cuesheet",
                     Dat = "Datfile",
+                    ExtrasDat = "Extras Datfile",
                 },
 
                 SubmissionControls = new SubmissionControlsSection()

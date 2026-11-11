@@ -127,6 +127,7 @@ namespace SabreTools.RedumpLib.Data
         public static readonly SiteCode DisneyInteractiveID = new("<b>Disney Interactive ID</b>:",
             isCommentCode: true);
 
+        [Obsolete("Use SubmissionInfo.DumpMetadata.ExtrasDat instead")]
         public static readonly SiteCode DMIHash = new("<b>DMI</b>:",
             isCommentCode: true);
 
@@ -262,6 +263,7 @@ namespace SabreTools.RedumpLib.Data
         public static readonly SiteCode PEGIID = new("<b>PEGI ID</b>:",
             isCommentCode: true);
 
+        [Obsolete("Use SubmissionInfo.DumpMetadata.ExtrasDat instead")]
         public static readonly SiteCode PFIHash = new("<b>PFI</b>:",
             isCommentCode: true);
 
@@ -311,6 +313,7 @@ namespace SabreTools.RedumpLib.Data
         public static readonly SiteCode SierraID = new("<b>Sierra ID</b>:",
             isCommentCode: true);
 
+        [Obsolete("Use SubmissionInfo.DumpMetadata.ExtrasDat instead")]
         public static readonly SiteCode SSHash = new("<b>SS</b>:",
             isCommentCode: true);
 
@@ -406,7 +409,9 @@ namespace SabreTools.RedumpLib.Data
             DiscTitleNonLatin,
 #pragma warning restore CS0618 // Type or member is obsolete
             DisneyInteractiveID,
+#pragma warning disable CS0618 // Type or member is obsolete
             DMIHash,
+#pragma warning restore CS0618 // Type or member is obsolete
             DNASDiscID,
 
             EditionNonLatin,
@@ -454,7 +459,9 @@ namespace SabreTools.RedumpLib.Data
             Patches,
             PCMacHybrid,
             PEGIID,
+#pragma warning disable CS0618 // Type or member is obsolete
             PFIHash,
+#pragma warning restore CS0618 // Type or member is obsolete
             PlayableDemos,
             PonyCanyonID,
             PostgapType,
@@ -468,7 +475,9 @@ namespace SabreTools.RedumpLib.Data
             SelenID,
             Series,
             SierraID,
+#pragma warning disable CS0618 // Type or member is obsolete
             SSHash,
+#pragma warning restore CS0618 // Type or member is obsolete
             SSVersion,
             SteamAppID,
             SteamCsmCsdDepotID,

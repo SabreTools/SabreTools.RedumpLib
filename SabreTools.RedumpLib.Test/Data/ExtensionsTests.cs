@@ -2412,8 +2412,8 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.DiscID,
 #pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.DiscTitleNonLatin,
-#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.DMIHash,
+#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.DNASDiscID,
             SiteCode.EditionNonLatin,
             SiteCode.Filename,
@@ -2426,12 +2426,16 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.Multisession,
             SiteCode.PCMacHybrid,
             SiteCode.PEGIID,
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.PFIHash,
+#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.PostgapType,
             SiteCode.Protection,
             SiteCode.RingPerfectAudioOffset,
             SiteCode.Series,
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.SSHash,
+#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.SSVersion,
             SiteCode.SteamAppID,
             SiteCode.TitleID,

@@ -30,9 +30,11 @@ namespace SabreTools.RedumpLib.Tools
 
             SiteCode.XMID,
             SiteCode.XeMID,
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.DMIHash,
             SiteCode.PFIHash,
             SiteCode.SSHash,
+#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.SSVersion,
 
             SiteCode.Filename,
@@ -427,6 +429,7 @@ namespace SabreTools.RedumpLib.Tools
             AddIfExists(output, Template.DMIField, section.DMI, 1);
             AddIfExists(output, Template.CuesheetField, section.Cuesheet, 1);
             AddIfExists(output, Template.DatField, section.Dat + "\n", 1);
+            AddIfExists(output, Template.ExtrasDatField, section.ExtrasDat + "\n", 1);
         }
 
         /// <summary>

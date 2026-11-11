@@ -31,20 +31,17 @@ namespace SabreTools.RedumpLib.Endpoints
                     Host = "redump.info",
                 };
 
-                // HACK: Make copies of the pack and system
-                var pack = Pack;
-                var system = System;
-
-                string systemName = system?.Code ?? string.Empty;
-                switch (pack)
+                string systemName = System?.Code ?? string.Empty;
+                switch (Pack)
                 {
                     case PackType.Cuesheets: ub.Path = $"cues/{systemName}"; break;
                     case PackType.Datfile: ub.Path = $"datfile/{systemName}"; break;
                     case PackType.Sbis: ub.Path = $"sbi/{systemName}"; break;
                     case PackType.BiosDatfile: ub.Path = $"bios/{systemName}"; break;
+                    case PackType.ExtrasDatfile: ub.Path = $"extras/{systemName}"; break;
 
                     // Invalid
-                    default: throw new ArgumentOutOfRangeException(nameof(pack));
+                    default: throw new ArgumentOutOfRangeException(nameof(Pack));
                 }
 
                 return ub.ToString();

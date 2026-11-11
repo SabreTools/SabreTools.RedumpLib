@@ -24,6 +24,7 @@ namespace SabreTools.RedumpLib.Test.Endpoints
         [InlineData(PackType.Datfile, "https://redump.info/datfile/ARCH")]
         [InlineData(PackType.Sbis, "https://redump.info/sbi/ARCH")]
         [InlineData(PackType.BiosDatfile, "https://redump.info/bios/ARCH")]
+        [InlineData(PackType.ExtrasDatfile, "https://redump.info/extras/ARCH")]
         public void BuildUrl_ValidPackType_ValidSystem_Builds(PackType packType, string expected)
         {
             var endpoint = new RedumpLib.Endpoints.Downloads

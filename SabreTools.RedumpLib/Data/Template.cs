@@ -75,6 +75,7 @@
         public const string DMIField = "DMI";
         public const string CuesheetField = "Cuesheet";
         public const string DatField = "Dat";
+        public const string ExtrasDatField = "Extras Dat";
 
         #endregion
 

@@ -59,11 +59,14 @@ namespace SabreTools.RedumpLib.Data.Sections
         [JsonProperty(PropertyName = "dmi", NullValueHandling = NullValueHandling.Ignore)]
         public string? DMI { get; set; }
 
-        [JsonProperty(PropertyName = "cue", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "cuesheet", NullValueHandling = NullValueHandling.Ignore)]
         public string? Cuesheet { get; set; }
 
-        [JsonProperty(PropertyName = "files_xml", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "dat", NullValueHandling = NullValueHandling.Ignore)]
         public string? Dat { get; set; }
+
+        [JsonProperty(PropertyName = "extras", NullValueHandling = NullValueHandling.Ignore)]
+        public string? ExtrasDat { get; set; }
 
         /// <inheritdoc/>
         public object Clone()
@@ -108,6 +111,7 @@ namespace SabreTools.RedumpLib.Data.Sections
                 DMI = this.DMI,
                 Cuesheet = this.Cuesheet,
                 Dat = this.Dat,
+                ExtrasDat = this.ExtrasDat,
             };
         }
     }

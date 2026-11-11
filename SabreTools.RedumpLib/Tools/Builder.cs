@@ -516,12 +516,14 @@ namespace SabreTools.RedumpLib.Tools
                 return true;
 
             // Microsoft Xbox and Xbox 360
+#pragma warning disable CS0618 // Type or member is obsolete
             if (siteCode == SiteCode.DMIHash)
                 return true;
             else if (siteCode == SiteCode.PFIHash)
                 return true;
             else if (siteCode == SiteCode.SSHash)
                 return true;
+#pragma warning restore CS0618 // Type or member is obsolete
             else if (siteCode == SiteCode.SSVersion)
                 return true;
             else if (siteCode == SiteCode.XMID)
@@ -570,17 +572,21 @@ namespace SabreTools.RedumpLib.Tools
             // For some outdated tags, we need to use alternate names
             text = text.Replace("<b>Demos</b>:", SiteCode.PlayableDemos.Code);
             text = text.Replace("<b>Disney ID</b>:", SiteCode.DisneyInteractiveID.HTML);
-            text = text.Replace("DMI:", SiteCode.DMIHash.HTML);
             text = text.Replace("<b>LucasArts ID</b>:", SiteCode.LucasArtsID.Code);
+            text = text.Replace("SS version:", SiteCode.SSVersion.HTML);
+            text = text.Replace("XeMID:", SiteCode.XeMID.HTML);
+            text = text.Replace("XMID:", SiteCode.XMID.HTML);
+
+            // These tags are obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
+            text = text.Replace("DMI:", SiteCode.DMIHash.HTML);
             text = text.Replace("PFI:", SiteCode.PFIHash.HTML);
             text = text.Replace("SS:", SiteCode.SSHash.HTML);
             text = text.Replace("SSv1:", SiteCode.SSHash.HTML);
             text = text.Replace("<b>SSv1</b>:", SiteCode.SSHash.HTML);
             text = text.Replace("SSv2:", SiteCode.SSHash.HTML);
             text = text.Replace("<b>SSv2</b>:", SiteCode.SSHash.HTML);
-            text = text.Replace("SS version:", SiteCode.SSVersion.HTML);
-            text = text.Replace("XeMID:", SiteCode.XeMID.HTML);
-            text = text.Replace("XMID:", SiteCode.XMID.HTML);
+#pragma warning restore CS0618 // Type or member is obsolete
 
             return text;
         }

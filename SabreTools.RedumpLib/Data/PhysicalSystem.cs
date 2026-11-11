@@ -51,6 +51,11 @@ namespace SabreTools.RedumpLib.Data
         public readonly bool HasBios;
 
         /// <summary>
+        /// System has an extras pack
+        /// </summary>
+        public readonly bool HasExtras;
+
+        /// <summary>
         /// List of valid media types for the system
         /// </summary>
         /// <remarks>Order of types is used by some implementing projects</remarks>
@@ -78,6 +83,7 @@ namespace SabreTools.RedumpLib.Data
             bool hasDat = false,
             bool hasSbi = false,
             bool hasBios = false,
+            bool hasExtras = false,
             List<PhysicalMediaType?>? mediaTypes = null)
         {
             Name = name;
@@ -89,6 +95,7 @@ namespace SabreTools.RedumpLib.Data
             HasDat = hasDat;
             HasSbi = hasSbi;
             HasBios = hasBios;
+            HasExtras = hasExtras;
             MediaTypes = mediaTypes ?? [null];
         }
 
@@ -235,6 +242,7 @@ namespace SabreTools.RedumpLib.Data
             hasCues: true,
             hasDat: true,
             hasBios: true,
+            hasExtras: true,
             mediaTypes: [PhysicalMediaType.XGD, PhysicalMediaType.DVD, PhysicalMediaType.CDROM]);
 
         // https://en.wikipedia.org/wiki/Xbox_360
@@ -243,6 +251,7 @@ namespace SabreTools.RedumpLib.Data
             code: "XBOX360",
             hasCues: true,
             hasDat: true,
+            hasExtras: true,
             mediaTypes: [PhysicalMediaType.XGD, PhysicalMediaType.DVD, PhysicalMediaType.CDROM]);
 
         // https://en.wikipedia.org/wiki/Xbox_One

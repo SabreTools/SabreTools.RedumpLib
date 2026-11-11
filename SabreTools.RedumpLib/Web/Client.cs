@@ -1537,6 +1537,7 @@ namespace SabreTools.RedumpLib.Web
                 PackType.Datfile => system.HasDat,
                 PackType.Sbis => system.HasSbi,
                 PackType.BiosDatfile => system.HasBios,
+                PackType.ExtrasDatfile => system.HasExtras,
                 _ => false,
             };
         }
