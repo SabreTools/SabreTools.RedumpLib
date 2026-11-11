@@ -167,6 +167,70 @@ namespace SabreTools.RedumpLib.Data
 
         #endregion
 
+        #region API Subpath
+
+        /// <summary>
+        /// Get the human readable name for a ApiSubpath
+        /// </summary>
+        /// <param name="apiSubpath"></param>
+        /// <returns></returns>
+        public static string? LongName(this ApiSubpath apiSubpath)
+            => AttributeHelper<ApiSubpath>.GetHumanReadableAttribute(apiSubpath)?.LongName;
+
+        /// <summary>
+        /// Get the human readable name for a ApiSubpath
+        /// </summary>
+        /// <param name="apiSubpath"></param>
+        /// <returns></returns>
+        public static string? LongName(this ApiSubpath? apiSubpath)
+            => AttributeHelper<ApiSubpath?>.GetHumanReadableAttribute(apiSubpath)?.LongName;
+
+        /// <summary>
+        /// Get the URL path part for a ApiSubpath
+        /// </summary>
+        /// <param name="apiSubpath"></param>
+        /// <returns></returns>
+        public static string? ShortName(this ApiSubpath apiSubpath)
+            => AttributeHelper<ApiSubpath>.GetHumanReadableAttribute(apiSubpath)?.ShortName;
+
+        /// <summary>
+        /// Get the URL path part for a ApiSubpath
+        /// </summary>
+        /// <param name="apiSubpath"></param>
+        /// <returns></returns>
+        public static string? ShortName(this ApiSubpath? apiSubpath)
+            => AttributeHelper<ApiSubpath?>.GetHumanReadableAttribute(apiSubpath)?.ShortName;
+
+        /// <summary>
+        /// Get the ApiSubpath enum value for a given string
+        /// </summary>
+        /// <param name="apiSubpath">String value to convert</param>
+        /// <returns>ApiSubpath represented by the string, if possible</returns>
+        public static ApiSubpath? ToApiSubpath(this string? apiSubpath)
+        {
+            // No value means no match
+            if (apiSubpath is null || apiSubpath.Length == 0)
+                return null;
+
+            apiSubpath = apiSubpath.ToLowerInvariant();
+            var apiSubpaths = (ApiSubpath[])Enum.GetValues(typeof(ApiSubpath));
+
+            // Check short names
+            int index = Array.FindIndex(apiSubpaths, s => apiSubpath == s.ShortName()?.ToLowerInvariant());
+            if (index > -1)
+                return apiSubpaths[index];
+
+            // Check long names
+            index = Array.FindIndex(apiSubpaths, s => apiSubpath == s.LongName()?.ToLowerInvariant()
+                || apiSubpath == s.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return apiSubpaths[index];
+
+            return null;
+        }
+
+        #endregion
+
         #region Disc Category
 
         /// <summary>

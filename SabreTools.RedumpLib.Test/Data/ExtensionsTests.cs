@@ -508,6 +508,113 @@ namespace SabreTools.RedumpLib.Test.Data
 
         #endregion
 
+        #region API Subpath
+
+        /// <summary>
+        /// Check that every ApiSubpath has a long name provided
+        /// </summary>
+        /// <param name="apiSubpath">ApiSubpath value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateApiSubpathTestData))]
+        public void ApiSubpath_LongName(ApiSubpath? apiSubpath, bool expectNull)
+        {
+            var actual = apiSubpath.LongName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Check that every ApiSubpath has a short name provided
+        /// </summary>
+        /// <param name="apiSubpath">ApiSubpath value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateApiSubpathTestData))]
+        public void ApiSubpath_ShortName(ApiSubpath? apiSubpath, bool expectNull)
+        {
+            var actual = apiSubpath.ShortName();
+
+            if (expectNull)
+                Assert.Null(actual);
+            else
+                Assert.NotNull(actual);
+        }
+
+        /// <summary>
+        /// Ensure that every ApiSubpath that has a short name that is unique
+        /// </summary>
+        [Fact]
+        public void ApiSubpath_ShortName_NoDuplicates()
+        {
+            var fullApiSubpaths = Enum.GetValues<ApiSubpath>().Cast<ApiSubpath>().ToList();
+            var filteredApiSubpaths = new Dictionary<string, ApiSubpath?>();
+
+            int totalCount = 0;
+            foreach (ApiSubpath? apiSubpath in fullApiSubpaths)
+            {
+                var code = apiSubpath.ShortName();
+                if (string.IsNullOrEmpty(code))
+                    continue;
+
+                // Throw if the code already exists
+                if (filteredApiSubpaths.ContainsKey(code))
+                    throw new DuplicateNameException($"Code {code} already in dictionary");
+
+                filteredApiSubpaths[code] = apiSubpath;
+                totalCount++;
+            }
+
+            Assert.Equal(totalCount, filteredApiSubpaths.Count);
+        }
+
+        /// <summary>
+        /// Check that every ApiSubpath can be mapped from a string
+        /// </summary>
+        /// <param name="apiSubpath">ApiSubpath value to check</param>
+        /// <param name="expectNull">True to expect a null value, false otherwise</param>
+        [Theory]
+        [MemberData(nameof(GenerateApiSubpathTestData))]
+        public void ApiSubpath_ToApiSubpath(ApiSubpath? apiSubpath, bool expectNull)
+        {
+            string? longName = apiSubpath.LongName();
+            string? longNameSpaceless = longName?.Replace(" ", string.Empty);
+
+            var actualNormal = longName.ToApiSubpath();
+            var actualSpaceless = longNameSpaceless.ToApiSubpath();
+
+            if (expectNull)
+            {
+                Assert.Null(actualNormal);
+                Assert.Null(actualSpaceless);
+            }
+            else
+            {
+                Assert.Equal(apiSubpath, actualNormal);
+                Assert.Equal(apiSubpath, actualSpaceless);
+            }
+        }
+
+        /// <summary>
+        /// Generate a test set of ApiSubpath values
+        /// </summary>
+        /// <returns>MemberData-compatible list of ApiSubpath values</returns>
+        public static TheoryData<ApiSubpath?, bool> GenerateApiSubpathTestData()
+        {
+            var testData = new TheoryData<ApiSubpath?, bool>() { { null, true } };
+            foreach (ApiSubpath? apiSubpath in Enum.GetValues<ApiSubpath>().Cast<ApiSubpath?>())
+            {
+                testData.Add(apiSubpath, false);
+            }
+
+            return testData;
+        }
+
+        #endregion
+
         #region Disc Category
 
         /// <summary>

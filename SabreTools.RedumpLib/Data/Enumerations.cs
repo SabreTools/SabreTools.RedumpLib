@@ -3,6 +3,18 @@ using SabreTools.RedumpLib.Attributes;
 namespace SabreTools.RedumpLib.Data
 {
     /// <summary>
+    /// List of all API subpaths
+    /// </summary>
+    public enum ApiSubpath
+    {
+        [HumanReadable(LongName = "Disc", ShortName = "disc")]
+        Disc = 1,
+
+        [HumanReadable(LongName = "Discs", ShortName = "discs")]
+        Discs = 2,
+    }
+
+    /// <summary>
     /// List of all disc categories
     /// </summary>
     public enum DiscCategory
