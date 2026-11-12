@@ -200,7 +200,8 @@ namespace SabreTools.RedumpLib.Web
             List<int> ids = [];
             for (int id = minId; id <= maxId; id++)
             {
-                bool downloaded = await client.DownloadSingleDiscPage(id, outDir, rename: true, discSubpaths);
+                var endpoint = new Endpoints.Disc { Id = id };
+                bool downloaded = await client.DownloadSingleDiscPage(endpoint, outDir, rename: true, discSubpaths);
                 if (downloaded)
                 {
                     ids.Add(id);
@@ -227,7 +228,8 @@ namespace SabreTools.RedumpLib.Web
             List<int> ids = [];
             foreach (int id in siteIds)
             {
-                bool downloaded = await client.DownloadSingleDiscPage(id, outDir, rename: true, discSubpaths);
+                var endpoint = new Endpoints.Disc { Id = id };
+                bool downloaded = await client.DownloadSingleDiscPage(endpoint, outDir, rename: true, discSubpaths);
                 if (downloaded)
                 {
                     ids.Add(id);

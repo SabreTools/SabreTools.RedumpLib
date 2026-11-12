@@ -616,7 +616,7 @@ namespace SabreTools.RedumpLib.Web
 
         #endregion
 
-        #region Single Endpoint
+        #region Single List Endpoint
 
         /// <summary>
         /// Process a Redump discs endpoint as a list of possible IDs or disc page
@@ -709,7 +709,8 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
-                    bool downloaded = await DownloadSingleDiscPage(id, outDir, rename: false, discSubpaths);
+                    var discEndpoint = new Endpoints.Disc { Id = id };
+                    bool downloaded = await DownloadSingleDiscPage(discEndpoint, outDir, rename: false, discSubpaths);
                     if (!downloaded && !IgnoreErrors)
                         return processed;
 
@@ -816,7 +817,7 @@ namespace SabreTools.RedumpLib.Web
 
         #endregion
 
-        #region Single Download
+        #region Single Page Endpoint
 
         /// <summary>
         /// Download the database
@@ -979,17 +980,16 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Download an individual disc ID page, if possible
         /// </summary>
-        /// <param name="id">Redump disc ID to retrieve</param>
+        /// <param name="endpoint">Disc endpoint to process</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
         /// <remarks>This only includes the site page itself</remarks>
-        public async Task<string?> DownloadSingleDiscPage(int id)
+        public async Task<string?> DownloadSingleDiscPage(Endpoints.Disc endpoint)
         {
-            string paddedId = id.ToString().PadLeft(6, '0');
+            string paddedId = endpoint.Id.ToString().PadLeft(6, '0');
             ReportGeneric($"Processing ID: {paddedId}");
             try
             {
                 // Try to retrieve the data
-                var endpoint = new Endpoints.Disc { Id = id };
                 string discPageUri = endpoint.BuildUrl();
                 string? discPage = await DownloadString(discPageUri);
 
@@ -998,7 +998,7 @@ namespace SabreTools.RedumpLib.Web
                     ReportError($"An error occurred retrieving ID {paddedId}!");
                     return null;
                 }
-                else if (discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
+                else if (discPage.Contains($"Disc with ID \"{endpoint.Id}\" doesn't exist"))
                 {
                     ReportError($"ID {paddedId} could not be found!");
                     return null;
@@ -1017,13 +1017,13 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Download an individual disc ID data, if possible
         /// </summary>
-        /// <param name="id">Redump disc ID to retrieve</param>
+        /// <param name="endpoint">Disc endpoint to process</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
         /// <param name="discSubpaths">Set of subpaths to download if available, null for all</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
         /// <remarks>This includes all subpages and attached files</remarks>
-        public async Task<bool> DownloadSingleDiscPage(int id,
+        public async Task<bool> DownloadSingleDiscPage(Endpoints.Disc endpoint,
             string? outDir,
             bool rename,
             DiscSubpath[]? discSubpaths = null)
@@ -1032,13 +1032,12 @@ namespace SabreTools.RedumpLib.Web
             if (string.IsNullOrEmpty(outDir))
                 outDir = Environment.CurrentDirectory;
 
-            string paddedId = id.ToString().PadLeft(6, '0');
+            string paddedId = endpoint.Id.ToString().PadLeft(6, '0');
             string paddedIdDir = Path.Combine(outDir, paddedId);
             ReportGeneric($"Processing ID: {paddedId}");
             try
             {
                 // Try to retrieve the data
-                var endpoint = new Endpoints.Disc { Id = id };
                 string discPageUri = endpoint.BuildUrl();
                 string? discPage = await DownloadString(discPageUri);
 
@@ -1047,7 +1046,7 @@ namespace SabreTools.RedumpLib.Web
                     ReportError($"An error occurred retrieving ID {paddedId}!");
                     return false;
                 }
-                else if (discPage.Contains($"Disc with ID \"{id}\" doesn't exist"))
+                else if (discPage.Contains($"Disc with ID \"{endpoint.Id}\" doesn't exist"))
                 {
                     if (rename)
                     {
@@ -1105,18 +1104,18 @@ namespace SabreTools.RedumpLib.Web
                 #region Pages
 
                 // View Edit History
-                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.History)) && discPage.Contains($"<a href=\"/queue/?disc_id=/{id}"))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.History)) && discPage.Contains($"<a href=\"/queue/?disc_id=/{endpoint.Id}"))
                 {
                     var subEndpoint = new Endpoints.Disc
                     {
-                        Id = id,
+                        Id = endpoint.Id,
                         Subpath = DiscSubpath.History,
                     };
                     string uri = endpoint.BuildUrl();
                     string? changesPage = await DownloadString(uri);
                     if (!IgnoreErrors && changesPage is null)
                     {
-                        if (Debug) ReportDebug($"Downloading changes page for {id} failed!");
+                        if (Debug) ReportDebug($"Downloading changes page for {endpoint.Id} failed!");
                         return false;
                     }
 
@@ -1126,18 +1125,18 @@ namespace SabreTools.RedumpLib.Web
                 }
 
                 // Edit disc
-                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.Edit)) && discPage.Contains($"<a href=\"/disc/{id}/edit/\""))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.Edit)) && discPage.Contains($"<a href=\"/disc/{endpoint.Id}/edit/\""))
                 {
                     var subEndpoint = new Endpoints.Disc
                     {
-                        Id = id,
+                        Id = endpoint.Id,
                         Subpath = DiscSubpath.Edit,
                     };
                     string uri = endpoint.BuildUrl();
                     string? editPage = await DownloadString(uri);
                     if (!IgnoreErrors && editPage is null)
                     {
-                        if (Debug) ReportDebug($"Downloading edit page for {id} failed!");
+                        if (Debug) ReportDebug($"Downloading edit page for {endpoint.Id} failed!");
                         return false;
                     }
 
@@ -1151,69 +1150,69 @@ namespace SabreTools.RedumpLib.Web
                 #region Files
 
                 // CUE
-                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.Cuesheet)) && discPage.Contains($"<a href=\"/disc/{id}/cue\""))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.Cuesheet)) && discPage.Contains($"<a href=\"/disc/{endpoint.Id}/cue\""))
                 {
                     var subEndpoint = new Endpoints.Disc
                     {
-                        Id = id,
+                        Id = endpoint.Id,
                         Subpath = DiscSubpath.Cuesheet,
                     };
                     string uri = endpoint.BuildUrl();
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.cue"));
                     if (!IgnoreErrors && remoteName is null)
                     {
-                        if (Debug) ReportDebug($"Downloading cuesheet for {id} failed!");
+                        if (Debug) ReportDebug($"Downloading cuesheet for {endpoint.Id} failed!");
                         return false;
                     }
                 }
 
                 // SBI
-                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.SBI)) && discPage.Contains($"<a href=\"/disc/{id}/sbi\""))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.SBI)) && discPage.Contains($"<a href=\"/disc/{endpoint.Id}/sbi\""))
                 {
                     var subEndpoint = new Endpoints.Disc
                     {
-                        Id = id,
+                        Id = endpoint.Id,
                         Subpath = DiscSubpath.SBI,
                     };
                     string uri = endpoint.BuildUrl();
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.sbi"));
                     if (!IgnoreErrors && remoteName is null)
                     {
-                        if (Debug) ReportDebug($"Downloading SBI for {id} failed!");
+                        if (Debug) ReportDebug($"Downloading SBI for {endpoint.Id} failed!");
                         return false;
                     }
                 }
 
                 // DMI
-                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.DMI)) && discPage.Contains($"<a href=\"/disc/{id}/dmi\""))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.DMI)) && discPage.Contains($"<a href=\"/disc/{endpoint.Id}/dmi\""))
                 {
                     var subEndpoint = new Endpoints.Disc
                     {
-                        Id = id,
+                        Id = endpoint.Id,
                         Subpath = DiscSubpath.DMI,
                     };
                     string uri = endpoint.BuildUrl();
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.dmi"));
                     if (!IgnoreErrors && remoteName is null)
                     {
-                        if (Debug) ReportDebug($"Downloading DMI for {id} failed!");
+                        if (Debug) ReportDebug($"Downloading DMI for {endpoint.Id} failed!");
                         return false;
                     }
                 }
 
                 // LSD
-                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.LSD)) && discPage.Contains($"<a href=\"/disc/{id}/lsd\""))
+                if ((discSubpaths is null || Array.Exists(discSubpaths, s => s is DiscSubpath.LSD)) && discPage.Contains($"<a href=\"/disc/{endpoint.Id}/lsd\""))
                 {
                     var subEndpoint = new Endpoints.Disc
                     {
-                        Id = id,
+                        Id = endpoint.Id,
                         Subpath = DiscSubpath.LSD,
                     };
                     string uri = endpoint.BuildUrl();
                     string? remoteName = await DownloadFile(uri, Path.Combine(paddedIdDir, $"{paddedId}.lsd"));
                     if (!IgnoreErrors && remoteName is null)
                     {
-                        if (Debug) ReportDebug($"Downloading LSD for {id} failed!");
+                        if (Debug) ReportDebug($"Downloading LSD for {endpoint.Id} failed!");
                         return false;
                     }
                 }

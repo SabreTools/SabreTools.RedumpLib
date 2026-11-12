@@ -55,7 +55,8 @@ namespace SabreTools.RedumpLib.Tools
         /// <param name="includeAllData">True to include all pullable information, false to do bare minimum</param>
         public static async Task<bool> FillFromId(Client client, SubmissionInfo info, int id, bool includeAllData)
         {
-            var discData = await client.DownloadSingleDiscPage(id);
+            var endpoint = new Endpoints.Disc { Id = id };
+            var discData = await client.DownloadSingleDiscPage(endpoint);
             if (string.IsNullOrEmpty(discData))
                 return false;
 
