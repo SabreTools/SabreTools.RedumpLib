@@ -1238,6 +1238,87 @@ namespace SabreTools.RedumpLib.Web
         }
 
         /// <summary>
+        /// Download an individual list data, if possible
+        /// </summary>
+        /// <param name="endpoint">List endpoint to process</param>
+        /// <returns>String containing the page contents if successful, null on error</returns>
+        public async Task<byte[]?> DownloadSingleListEndpoint(Endpoints.List endpoint)
+        {
+            ReportGeneric($"Processing list for user: {endpoint.Username}");
+            try
+            {
+                // Try to retrieve the data
+                string discPageUri = endpoint.BuildUrl();
+                byte[]? discPage = await DownloadData(discPageUri);
+
+                if (discPage is null)
+                {
+                    ReportError($"An error occurred retrieving list for user {endpoint.Username}!");
+                    return null;
+                }
+
+                ReportGeneric($"List for user {endpoint.Username} has been successfully downloaded");
+                return discPage;
+            }
+            catch (Exception ex)
+            {
+                ReportError(ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Download an individual list disc ID data, if possible
+        /// </summary>
+        /// <param name="endpoint">List endpoint to process</param>
+        /// <param name="outDir">Output directory to save data to</param>
+        /// <returns>True if all data was downloaded, false otherwise</returns>
+        public async Task<bool> DownloadSingleListEndpoint(Endpoints.List endpoint,
+            string? outDir)
+        {
+            // If no output directory is defined, use the current directory instead
+            if (string.IsNullOrEmpty(outDir))
+            {
+                if (Debug) ReportDebug("Output directory was not provided, setting to current directory");
+                outDir = Environment.CurrentDirectory;
+            }
+
+            string usernameDir = Path.Combine(outDir, endpoint.Username);
+            ReportGeneric($"Processing list for user: {endpoint.Username}");
+            try
+            {
+                // Determine the output filename based on the subpath
+                string filename = endpoint.Subpath switch
+                {
+                    ListSubpath.Have when endpoint.System is null => "have.txt",
+                    ListSubpath.Have => $"have-{endpoint.System.Code ?? endpoint.System.Name}.txt",
+                    ListSubpath.Cuesheets when endpoint.System is null => "cuesheets.zip",
+                    ListSubpath.Cuesheets => $"cuesheets-{endpoint.System.Code ?? endpoint.System.Name}.zip",
+                    ListSubpath.Datfile when endpoint.System is null => "datfile.zip",
+                    ListSubpath.Datfile => $"datfile-{endpoint.System.Code ?? endpoint.System.Name}.zip",
+                    _ => "Unknown List.txt",
+                };
+
+                // Create username subdirectory
+                Directory.CreateDirectory(usernameDir);
+
+                // Try to retrieve the data
+                string listPageUri = endpoint.BuildUrl();
+                string? listPage = await DownloadFile(listPageUri, Path.Combine(usernameDir, filename));
+
+                // TODO: Should this rename the file based on the value from the server?
+
+                ReportGeneric($"List for user {endpoint.Username} has been successfully downloaded");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ReportError(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Download an individual queue ID data, if possible
         /// </summary>
         /// <param name="endpoint">Queue endpoint to process</param>
@@ -1249,22 +1330,22 @@ namespace SabreTools.RedumpLib.Web
             try
             {
                 // Try to retrieve the data
-                string discPageUri = endpoint.BuildUrl();
-                string? discPage = await DownloadString(discPageUri);
+                string queuePageUri = endpoint.BuildUrl();
+                string? queuePage = await DownloadString(queuePageUri);
 
-                if (discPage is null)
+                if (queuePage is null)
                 {
                     ReportError($"An error occurred retrieving ID {paddedId}!");
                     return null;
                 }
-                else if (discPage.Contains("Not found"))
+                else if (queuePage.Contains("Not found"))
                 {
                     ReportError($"ID {paddedId} could not be found!");
                     return null;
                 }
 
                 ReportGeneric($"ID {paddedId} has been successfully downloaded");
-                return discPage;
+                return queuePage;
             }
             catch (Exception ex)
             {
@@ -1297,15 +1378,15 @@ namespace SabreTools.RedumpLib.Web
             try
             {
                 // Try to retrieve the data
-                string discPageUri = endpoint.BuildUrl();
-                string? discPage = await DownloadString(discPageUri);
+                string queuePageUri = endpoint.BuildUrl();
+                string? queuePage = await DownloadString(queuePageUri);
 
-                if (discPage is null)
+                if (queuePage is null)
                 {
                     ReportError($"An error occurred retrieving ID {paddedId}!");
                     return false;
                 }
-                else if (discPage.Contains("Not found"))
+                else if (queuePage.Contains("Not found"))
                 {
                     if (rename)
                     {
@@ -1351,7 +1432,7 @@ namespace SabreTools.RedumpLib.Web
 
                     // Check the added date as a backup
                     var oldResult = Constants.AddedRegex.Match(oldDiscPage);
-                    var newResult = Constants.AddedRegex.Match(discPage);
+                    var newResult = Constants.AddedRegex.Match(queuePage);
 
                     // If the downloaded data is invalid or otherwise empty, skip it
                     if (oldResult.Success && !newResult.Success)
@@ -1367,7 +1448,7 @@ namespace SabreTools.RedumpLib.Web
                 // HTML
                 using (var discStreamWriter = File.CreateText(Path.Combine(paddedIdDir, "disc.html")))
                 {
-                    discStreamWriter.Write(discPage);
+                    discStreamWriter.Write(queuePage);
                     discStreamWriter.Flush();
                 }
 
