@@ -88,7 +88,7 @@ namespace SabreTools.RedumpLib.Web
             foreach (int id in queueIds)
             {
                 var endpoint = new Endpoints.Queue { Id = id };
-                bool downloaded = await client.DownloadSingleQueuePage(endpoint, outDir, rename: true);
+                bool downloaded = await client.DownloadSingleQueueEndpoint(endpoint, outDir, rename: true);
                 if (downloaded)
                 {
                     ids.Add(id);
@@ -113,7 +113,7 @@ namespace SabreTools.RedumpLib.Web
             for (int id = minId; id <= maxId; id++)
             {
                 var endpoint = new Endpoints.Queue { Id = id };
-                bool downloaded = await client.DownloadSingleQueuePage(endpoint, outDir, rename: true);
+                bool downloaded = await client.DownloadSingleQueueEndpoint(endpoint, outDir, rename: true);
                 if (downloaded)
                 {
                     ids.Add(id);

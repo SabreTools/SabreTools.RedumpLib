@@ -56,7 +56,7 @@ namespace SabreTools.RedumpLib.Tools
         public static async Task<bool> FillFromId(Client client, SubmissionInfo info, int id, bool includeAllData)
         {
             var endpoint = new Endpoints.Disc { Id = id };
-            var discData = await client.DownloadSingleDiscPage(endpoint);
+            var discData = await client.DownloadSingleDiscEndpoint(endpoint);
             if (string.IsNullOrEmpty(discData))
                 return false;
 

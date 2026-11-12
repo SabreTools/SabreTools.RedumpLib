@@ -710,7 +710,7 @@ namespace SabreTools.RedumpLib.Web
                 try
                 {
                     var discEndpoint = new Endpoints.Disc { Id = id };
-                    bool downloaded = await DownloadSingleDiscPage(discEndpoint, outDir, rename: false, discSubpaths);
+                    bool downloaded = await DownloadSingleDiscEndpoint(discEndpoint, outDir, rename: false, discSubpaths);
                     if (!downloaded && !IgnoreErrors)
                         return processed;
 
@@ -800,7 +800,7 @@ namespace SabreTools.RedumpLib.Web
                 try
                 {
                     var queueEndpoint = new Endpoints.Queue { Id = id };
-                    bool downloaded = await DownloadSingleQueuePage(queueEndpoint, outDir, rename: false);
+                    bool downloaded = await DownloadSingleQueueEndpoint(queueEndpoint, outDir, rename: false);
                     if (!downloaded && !IgnoreErrors)
                         return processed;
 
@@ -984,7 +984,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="endpoint">Disc endpoint to process</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
         /// <remarks>This only includes the site page itself</remarks>
-        public async Task<string?> DownloadSingleDiscPage(Endpoints.Disc endpoint)
+        public async Task<string?> DownloadSingleDiscEndpoint(Endpoints.Disc endpoint)
         {
             string paddedId = endpoint.Id.ToString().PadLeft(6, '0');
             ReportGeneric($"Processing ID: {paddedId}");
@@ -1024,7 +1024,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="discSubpaths">Set of subpaths to download if available, null for all</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
         /// <remarks>This includes all subpages and attached files</remarks>
-        public async Task<bool> DownloadSingleDiscPage(Endpoints.Disc endpoint,
+        public async Task<bool> DownloadSingleDiscEndpoint(Endpoints.Disc endpoint,
             string? outDir,
             bool rename,
             DiscSubpath[]? discSubpaths = null)
@@ -1242,7 +1242,7 @@ namespace SabreTools.RedumpLib.Web
         /// </summary>
         /// <param name="endpoint">Queue endpoint to process</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
-        public async Task<string?> DownloadSingleQueuePage(Endpoints.Queue endpoint)
+        public async Task<string?> DownloadSingleQueueEndpoint(Endpoints.Queue endpoint)
         {
             string paddedId = endpoint.Id.ToString().PadLeft(6, '0');
             ReportGeneric($"Processing queue ID: {paddedId}");
@@ -1280,7 +1280,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
-        public async Task<bool> DownloadSingleQueuePage(Endpoints.Queue endpoint,
+        public async Task<bool> DownloadSingleQueueEndpoint(Endpoints.Queue endpoint,
             string? outDir,
             bool rename)
         {
