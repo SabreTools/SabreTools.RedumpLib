@@ -799,7 +799,8 @@ namespace SabreTools.RedumpLib.Web
             {
                 try
                 {
-                    bool downloaded = await DownloadSingleQueuePage(id, outDir, rename: false);
+                    var queueEndpoint = new Endpoints.Queue { Id = id };
+                    bool downloaded = await DownloadSingleQueuePage(queueEndpoint, outDir, rename: false);
                     if (!downloaded && !IgnoreErrors)
                         return processed;
 
@@ -1239,16 +1240,15 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Download an individual queue ID data, if possible
         /// </summary>
-        /// <param name="id">Redump queue disc ID to retrieve</param>
+        /// <param name="endpoint">Queue endpoint to process</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
-        public async Task<string?> DownloadSingleQueuePage(int id)
+        public async Task<string?> DownloadSingleQueuePage(Endpoints.Queue endpoint)
         {
-            string paddedId = id.ToString().PadLeft(6, '0');
+            string paddedId = endpoint.Id.ToString().PadLeft(6, '0');
             ReportGeneric($"Processing queue ID: {paddedId}");
             try
             {
                 // Try to retrieve the data
-                var endpoint = new Endpoints.Queue { Id = id };
                 string discPageUri = endpoint.BuildUrl();
                 string? discPage = await DownloadString(discPageUri);
 
@@ -1276,11 +1276,13 @@ namespace SabreTools.RedumpLib.Web
         /// <summary>
         /// Download an individual queue disc ID data, if possible
         /// </summary>
-        /// <param name="id">Redump queue disc ID to retrieve</param>
+        /// <param name="endpoint">Queue endpoint to process</param>
         /// <param name="outDir">Output directory to save data to</param>
         /// <param name="rename">True to rename deleted entries, false otherwise</param>
         /// <returns>True if all data was downloaded, false otherwise</returns>
-        public async Task<bool> DownloadSingleQueuePage(int id, string? outDir, bool rename)
+        public async Task<bool> DownloadSingleQueuePage(Endpoints.Queue endpoint,
+            string? outDir,
+            bool rename)
         {
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrEmpty(outDir))
@@ -1289,13 +1291,12 @@ namespace SabreTools.RedumpLib.Web
                 outDir = Environment.CurrentDirectory;
             }
 
-            string paddedId = id.ToString().PadLeft(6, '0');
+            string paddedId = endpoint.Id.ToString().PadLeft(6, '0');
             string paddedIdDir = Path.Combine(outDir, paddedId);
             ReportGeneric($"Processing queue ID: {paddedId}");
             try
             {
                 // Try to retrieve the data
-                var endpoint = new Endpoints.Queue { Id = id };
                 string discPageUri = endpoint.BuildUrl();
                 string? discPage = await DownloadString(discPageUri);
 
