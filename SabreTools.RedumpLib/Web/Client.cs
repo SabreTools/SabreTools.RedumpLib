@@ -1325,7 +1325,14 @@ namespace SabreTools.RedumpLib.Web
         /// <returns>String containing the page contents if successful, null on error</returns>
         public async Task<string?> DownloadSingleQueueEndpoint(Endpoints.Queue endpoint)
         {
-            string paddedId = endpoint.Id.ToString().PadLeft(6, '0');
+            // Only endpoints with an ID defined are allowed
+            if (endpoint.Id is null)
+            {
+                ReportError("Queue download requires an ID to be set!");
+                return null;
+            }
+
+            string paddedId = endpoint.Id.Value.ToString().PadLeft(6, '0');
             ReportGeneric($"Processing queue ID: {paddedId}");
             try
             {
@@ -1365,6 +1372,13 @@ namespace SabreTools.RedumpLib.Web
             string? outDir,
             bool rename)
         {
+            // Only endpoints with an ID defined are allowed
+            if (endpoint.Id is null)
+            {
+                ReportError("Queue download requires an ID to be set!");
+                return false;
+            }
+
             // If no output directory is defined, use the current directory instead
             if (string.IsNullOrEmpty(outDir))
             {
@@ -1372,7 +1386,7 @@ namespace SabreTools.RedumpLib.Web
                 outDir = Environment.CurrentDirectory;
             }
 
-            string paddedId = endpoint.Id.ToString().PadLeft(6, '0');
+            string paddedId = endpoint.Id.Value.ToString().PadLeft(6, '0');
             string paddedIdDir = Path.Combine(outDir, paddedId);
             ReportGeneric($"Processing queue ID: {paddedId}");
             try
