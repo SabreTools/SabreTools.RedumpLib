@@ -635,21 +635,21 @@ namespace SabreTools.RedumpLib.Web
             // If the web client failed, return null
             if (dumpsPage is null)
             {
-                if (Debug) ReportDebug($"CheckSingleDiscsPage(\"{url}\") - Client failure");
+                if (Debug) ReportDebug($"CheckSingleDiscsEndpoint(\"{url}\") - Client failure");
                 return null;
             }
 
             // If we have no dumps left
             if (dumpsPage.Contains("No discs found."))
             {
-                if (Debug) ReportDebug($"CheckSingleDiscsPage(\"{url}\") - No discs found");
+                if (Debug) ReportDebug($"CheckSingleDiscsEndpoint(\"{url}\") - No discs found");
                 return ids;
             }
 
             // If we have a single disc page already
             if (dumpsPage.Contains("<h3>Disc</h3>"))
             {
-                if (Debug) ReportDebug($"CheckSingleDiscsPage(\"{url}\") - Single disc page");
+                if (Debug) ReportDebug($"CheckSingleDiscsEndpoint(\"{url}\") - Single disc page");
                 string? lastUrl = await GetResolvedURL(url);
                 if (lastUrl is not null)
                 {
@@ -699,7 +699,88 @@ namespace SabreTools.RedumpLib.Web
             List<int>? ids = await CheckSingleDiscsEndpoint(endpoint);
             if (ids is null)
             {
-                if (Debug) ReportDebug($"CheckSingleDiscsPage(\"{outDir}\") - Client failure");
+                if (Debug) ReportDebug($"CheckSingleDiscsEndpoint(\"{outDir}\") - Client failure");
+                return null;
+            }
+
+            // Try to download all IDs
+            List<int> processed = [];
+            foreach (int id in ids)
+            {
+                try
+                {
+                    var discEndpoint = new Endpoints.Disc { Id = id };
+                    bool downloaded = await DownloadSingleDiscEndpoint(discEndpoint, outDir, rename: false, discSubpaths);
+                    if (!downloaded && !IgnoreErrors)
+                        return processed;
+
+                    processed.Add(id);
+                }
+                catch (Exception ex)
+                {
+                    ReportError(ex);
+                    continue;
+                }
+            }
+
+            return processed;
+        }
+
+        /// <summary>
+        /// Process a Redump API discs endpoint as a list of possible IDs or disc page
+        /// </summary>
+        /// <param name="endpoint">API discs endpoint to process</param>
+        /// <returns>List of IDs from the endpoint, empty on none, null on error</returns>
+        public async Task<List<int>?> CheckSingleDiscsApiEndpoint(Endpoints.Api endpoint)
+        {
+            // Ensure that the endpoint is for discs
+            if (endpoint.Subpath != ApiSubpath.Discs)
+            {
+                ReportError("Only a discs API query is allowed!");
+                return null;
+            }
+
+            string url = endpoint.BuildUrl();
+
+            // Try to retrieve the data
+            string? dumpsPage = await DownloadString(url);
+
+            // If the web client failed, return null
+            if (dumpsPage is null)
+            {
+                if (Debug) ReportDebug($"CheckSingleDiscsApiEndpoint(\"{url}\") - Client failure");
+                return null;
+            }
+
+            // Try to deserialize the data into a list of IDs
+            try
+            {
+                return JsonConvert.DeserializeObject<List<int>?>(dumpsPage);
+            }
+            catch (Exception ex)
+            {
+                ReportError(ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Process a Redump API discs endpoint as a list of possible IDs or disc page
+        /// </summary>
+        /// <param name="outDir">Output directory to save data to</param>
+        /// <param name="endpoint">API discs endpoint to process</param>
+        /// <param name="discSubpaths">Set of subpaths to download if available, null for all</param>
+        /// <returns>List of IDs from the endpoint, empty on none, null on error</returns>
+        public async Task<List<int>?> CheckSingleDiscsApiEndpoint(
+            string? outDir,
+            Endpoints.Api endpoint,
+            DiscSubpath[]? discSubpaths = null)
+        {
+            // Get all IDs from the page
+            List<int>? ids = await CheckSingleDiscsApiEndpoint(endpoint);
+            if (ids is null)
+            {
+                if (Debug) ReportDebug($"CheckSingleDiscsApiEndpoint(\"{outDir}\") - Client failure");
                 return null;
             }
 

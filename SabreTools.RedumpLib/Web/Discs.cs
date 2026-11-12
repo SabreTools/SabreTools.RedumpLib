@@ -408,5 +408,40 @@ namespace SabreTools.RedumpLib.Web
 
             return ids;
         }
+
+        /// <summary>
+        /// List the disc IDs associated with a given discs API query
+        /// </summary>
+        /// <param name="client">RedumpClient for connectivity</param>
+        /// <param name="crc32">Use CRC-32 value for searching; incomplatible with <paramref name="md5"/> and <paramref name="sha1"/></param>
+        /// <param name="md5">Use MD5 value for searching; incomplatible with <paramref name="crc32"/> and <paramref name="sha1"/></param>
+        /// <param name="sha1">Use CRC-32 value for searching; incomplatible with <paramref name="crc32"/> and <paramref name="md5"/></param>
+        /// <returns>All disc IDs for the given query, empty on error</returns>
+        public static async Task<List<int>> ListDiscsApiResults(
+            this Client client,
+            string? crc32 = null,
+            string? md5 = null,
+            string? sha1 = null)
+        {
+            // If there is an invalid combination of hashes
+            if (crc32 is null && md5 is null && sha1 is null)
+                return [];
+            else if (crc32 is not null && (md5 is not null || sha1 is not null))
+                return [];
+            else if (md5 is not null && (crc32 is not null || sha1 is not null))
+                return [];
+            else if (sha1 is not null && (crc32 is not null || md5 is not null))
+                return [];
+
+            var endpoint = new Endpoints.Api
+            {
+                Subpath = ApiSubpath.Discs,
+                Crc32 = crc32,
+                Md5 = md5,
+                Sha1 = sha1,
+            };
+
+            return await client.CheckSingleDiscsApiEndpoint(endpoint) ?? [];
+        }
     }
 }
