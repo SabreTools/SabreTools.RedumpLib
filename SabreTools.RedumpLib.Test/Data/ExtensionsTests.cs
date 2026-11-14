@@ -2500,7 +2500,9 @@ namespace SabreTools.RedumpLib.Test.Data
         [
             SiteCode.PCMacHybrid,
             SiteCode.PostgapType,
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.VCD,
+#pragma warning restore CS0618 // Type or member is obsolete
         ];
 
         /// <summary>
@@ -2527,7 +2529,9 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.Genre,
             SiteCode.HighSierraVolumeDescriptor,
             SiteCode.InternalName,
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.InternalSerialName,
+#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.ISBN,
             SiteCode.ISSN,
             SiteCode.Multisession,
@@ -2546,9 +2550,13 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.SSVersion,
             SiteCode.SteamAppID,
             SiteCode.TitleID,
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.VCD,
+#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.VETSFBID,
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.VolumeLabel,
+#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.XeMID,
             SiteCode.XMID,
 

@@ -55,6 +55,8 @@ namespace SabreTools.RedumpLib.Test.Data
                     Version = "Original",
                     ErrorCount = "0",
                     EXEDate = "19xx-xx-xx",
+                    InternalSerial = "ISN",
+                    VolumeLabel = "CDROM",
                     EDC = YesNo.Yes,
                     Layerbreak = 0,
                     Layerbreak2 = 1,

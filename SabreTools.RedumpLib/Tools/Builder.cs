@@ -505,12 +505,16 @@ namespace SabreTools.RedumpLib.Tools
             // Multiple
             if (siteCode == SiteCode.HighSierraVolumeDescriptor)
                 return true;
+#pragma warning disable CS0618 // Type or member is obsolete
             else if (siteCode == SiteCode.InternalSerialName)
                 return true;
+#pragma warning restore CS0618 // Type or member is obsolete
             else if (siteCode == SiteCode.Multisession)
                 return true;
+#pragma warning disable CS0618 // Type or member is obsolete
             else if (siteCode == SiteCode.VolumeLabel)
                 return true;
+#pragma warning restore CS0618 // Type or member is obsolete
 
             // Audio CD
             if (siteCode == SiteCode.RingPerfectAudioOffset)

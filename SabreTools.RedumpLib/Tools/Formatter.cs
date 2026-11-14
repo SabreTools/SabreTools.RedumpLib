@@ -22,8 +22,10 @@ namespace SabreTools.RedumpLib.Tools
 #pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.EditionNonLatin,
             SiteCode.InternalName,
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.InternalSerialName,
             SiteCode.VolumeLabel,
+#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.HighSierraVolumeDescriptor,
             SiteCode.Multisession,
             SiteCode.RingPerfectAudioOffset,
@@ -59,7 +61,9 @@ namespace SabreTools.RedumpLib.Tools
             SiteCode.Genre,
             SiteCode.Series,
             SiteCode.PostgapType,
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.VCD,
+#pragma warning restore CS0618 // Type or member is obsolete
 
             // Publisher / Company IDs
             SiteCode.TwoKGamesID,
@@ -311,6 +315,8 @@ namespace SabreTools.RedumpLib.Tools
             AddIfExists(output, Template.VersionField, section.Version, 1);
             AddIfExists(output, Template.ErrorCountField, section.ErrorCount, 1);
             AddIfExists(output, Template.EXEDate, section.EXEDate, 1);
+            AddIfExists(output, Template.InternalSerialField, section.InternalSerial, 1);
+            AddIfExists(output, Template.VolumeLabelField, section.VolumeLabel, 1);
             if (section.EDC is not null && section.EDC != YesNo.NULL)
                 AddIfExists(output, Template.EDCField, section.EDC.LongName(), 1);
             AddIfExists(output, Template.LayerbreakField, section.Layerbreak, 1);

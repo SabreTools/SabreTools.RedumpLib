@@ -28,6 +28,12 @@ namespace SabreTools.RedumpLib.Data.Sections
         [JsonProperty(PropertyName = "exe_date", NullValueHandling = NullValueHandling.Ignore)]
         public string? EXEDate { get; set; }
 
+        [JsonProperty(PropertyName = "internal_serial", NullValueHandling = NullValueHandling.Ignore)]
+        public string? InternalSerial { get; set; }
+
+        [JsonProperty(PropertyName = "volume_label", NullValueHandling = NullValueHandling.Ignore)]
+        public string? VolumeLabel { get; set; }
+
         [JsonProperty(PropertyName = "edc", NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(YesNoConverter))]
         public YesNo? EDC { get; set; }
@@ -63,6 +69,8 @@ namespace SabreTools.RedumpLib.Data.Sections
                 Version = this.Version,
                 ErrorCount = this.ErrorCount,
                 EXEDate = this.EXEDate,
+                InternalSerial = this.InternalSerial,
+                VolumeLabel = this.VolumeLabel,
                 EDC = this.EDC,
                 Layerbreak = this.Layerbreak,
                 Layerbreak2 = this.Layerbreak2,

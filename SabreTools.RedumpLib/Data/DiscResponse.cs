@@ -57,6 +57,12 @@ namespace SabreTools.RedumpLib.Data
         [JsonProperty("exe_date")]
         public string? ExeDate { get; set; }
 
+        [JsonProperty("internal_serial")]
+        public string? InternalSerial { get; set; }
+
+        [JsonProperty("volume_label")]
+        public string? VolumeLabel { get; set; }
+
         [JsonProperty("error_count")]
         public string? ErrorCount { get; set; }
 

@@ -51,6 +51,8 @@ namespace SabreTools.RedumpLib.Test.Tools
                     Version = "Original",
                     ErrorCount = "0",
                     EXEDate = "19xx-xx-xx",
+                    InternalSerial = "ISN",
+                    VolumeLabel = "CDROM",
                     EDC = YesNo.Yes,
                     Layerbreak = 0,
                     Layerbreak2 = 1,
@@ -227,7 +229,7 @@ namespace SabreTools.RedumpLib.Test.Tools
         [Fact]
         public void FormatOutputData_DiscIdentifiersSection_Formatted()
         {
-            string expected = "Disc Identifiers:\n\tDisc Serials: XXXXXX\n\tEditions: XXXXXX\n\tBarcodes: XXXXXX\n\tVersion: XXXXXX\n\tError Count: XXXXXX\n\tEXE Date: XXXXXX\n\tEDC: Yes\n\tLayerbreak: 1\n\tLayerbreak 2: 2\n\tLayerbreak 3: 3\n\tDisc ID: XXXXXX\n\tDisc Key: XXXXXX\n\tUniversal Hash: XXXXXX\n";
+            string expected = "Disc Identifiers:\n\tDisc Serials: XXXXXX\n\tEditions: XXXXXX\n\tBarcodes: XXXXXX\n\tVersion: XXXXXX\n\tError Count: XXXXXX\n\tEXE Date: XXXXXX\n\tInternal Serial: XXXXXX\n\tVolume Label: XXXXXX\n\tEDC: Yes\n\tLayerbreak: 1\n\tLayerbreak 2: 2\n\tLayerbreak 3: 3\n\tDisc ID: XXXXXX\n\tDisc Key: XXXXXX\n\tUniversal Hash: XXXXXX\n";
 
             var builder = new StringBuilder();
             DiscIdentifiersSection? section = new()
@@ -238,6 +240,8 @@ namespace SabreTools.RedumpLib.Test.Tools
                 Version = "XXXXXX",
                 ErrorCount = "XXXXXX",
                 EXEDate = "XXXXXX",
+                InternalSerial = "XXXXXX",
+                VolumeLabel = "XXXXXX",
                 EDC = YesNo.Yes,
                 Layerbreak = 1,
                 Layerbreak2 = 2,
@@ -664,8 +668,8 @@ namespace SabreTools.RedumpLib.Test.Tools
         [Fact]
         public void FormatSiteTag_BooleanTrue_Formatted()
         {
-            string expected = "[T:VCD]";
-            SiteCode code = SiteCode.VCD;
+            string expected = "PC/Mac Hybrid";
+            SiteCode code = SiteCode.PCMacHybrid;
             string value = "True";
 
             string actual = Formatter.FormatSiteTag(code, value);
@@ -675,7 +679,7 @@ namespace SabreTools.RedumpLib.Test.Tools
         [Fact]
         public void FormatSiteTag_BooleanFalse_Empty()
         {
-            SiteCode code = SiteCode.VCD;
+            SiteCode code = SiteCode.PCMacHybrid;
             string value = "XXXXXX";
 
             string actual = Formatter.FormatSiteTag(code, value);

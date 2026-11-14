@@ -41,6 +41,8 @@
         public const string VersionField = "Version";
         public const string ErrorCountField = "Error Count";
         public const string EXEDate = "EXE Date";
+        public const string InternalSerialField = "Internal Serial";
+        public const string VolumeLabelField = "Volume Label";
         public const string EDCField = "EDC";
         public const string LayerbreakField = "Layerbreak";
         public const string DiscIDField = "Disc ID";

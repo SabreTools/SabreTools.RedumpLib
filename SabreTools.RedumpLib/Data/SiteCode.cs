@@ -188,6 +188,7 @@ namespace SabreTools.RedumpLib.Data
         public static readonly SiteCode InternalName = new("<b>Internal Name</b>:",
             isCommentCode: true);
 
+        [Obsolete("Use SubmissionInfo.DiscIdentifiers.InternalSerial instead")]
         public static readonly SiteCode InternalSerialName = new("<b>Internal Serial</b>:",
             code: "[T:ISN]",
             isCommentCode: true);
@@ -362,10 +363,12 @@ namespace SabreTools.RedumpLib.Data
             isContentCode: true,
             isMultiLine: true);
 
+        [Obsolete("Use SubmissionInfo.DiscIdentifiers.VolumeLabel instead")]
         public static readonly SiteCode VolumeLabel = new("<b>Volume Label</b>:",
             code: "[T:VOL]",
             isCommentCode: true);
 
+        [Obsolete("Code is being removed")]
         public static readonly SiteCode VCD = new("<b>V-CD</b>",
             code: "[T:VCD]",
             isBoolean: true,
@@ -432,7 +435,9 @@ namespace SabreTools.RedumpLib.Data
             HighSierraVolumeDescriptor,
 
             InternalName,
+#pragma warning disable CS0618 // Type or member is obsolete
             InternalSerialName,
+#pragma warning restore CS0618 // Type or member is obsolete
             InterplayID,
             ISBN,
             ISSN,
@@ -493,8 +498,10 @@ namespace SabreTools.RedumpLib.Data
             ValveID,
             VETSFBID,
             Videos,
+#pragma warning disable CS0618 // Type or member is obsolete
             VolumeLabel,
             VCD,
+#pragma warning restore CS0618 // Type or member is obsolete
 
             XeMID,
             XMID,
