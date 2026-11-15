@@ -69,7 +69,6 @@ then
 fi
 
 # Create the filter arrays
-SINGLE_FILE_CAPABLE=("net5.0" "net6.0" "net7.0" "net8.0" "net9.0" "net10.0" "net11.0")
 VALID_APPLE_FRAMEWORKS=("net6.0" "net7.0" "net8.0" "net9.0" "net10.0" "net11.0")
 VALID_CROSS_PLATFORM_FRAMEWORKS=("netcoreapp3.1" "net5.0" "net6.0" "net7.0" "net8.0" "net9.0" "net10.0" "net11.0")
 VALID_CROSS_PLATFORM_RUNTIMES=("win-arm64" "linux-x64" "linux-arm64" "osx-x64" "osx-arm64")
@@ -82,8 +81,8 @@ then
     dotnet restore
 
     # Create Nuget Package
-    dotnet pack SabreTools.RedumpLib/SabreTools.RedumpLib.csproj --output $BUILD_FOLDER
-    dotnet pack SabreTools.RedumpLib.Legacy/SabreTools.RedumpLib.Legacy.csproj --output $BUILD_FOLDER
+    dotnet pack SabreTools.RedumpLib/SabreTools.RedumpLib.csproj --output $BUILD_FOLDER -c Debug
+    dotnet pack SabreTools.RedumpLib.Legacy/SabreTools.RedumpLib.Legacy.csproj --output $BUILD_FOLDER -c Debug
 
     # Build Tool
     for FRAMEWORK in "${FRAMEWORKS[@]}"; do
