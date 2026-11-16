@@ -17,26 +17,14 @@ namespace SabreTools.RedumpLib.Tools
             // Identifying Info
             SiteCode.AlternativeTitle,
             SiteCode.AlternativeForeignTitle,
-#pragma warning disable CS0618 // Type or member is obsolete
-            SiteCode.DiscTitleNonLatin,
-#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.EditionNonLatin,
             SiteCode.InternalName,
-#pragma warning disable CS0618 // Type or member is obsolete
-            SiteCode.InternalSerialName,
-            SiteCode.VolumeLabel,
-#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.HighSierraVolumeDescriptor,
             SiteCode.Multisession,
             SiteCode.RingPerfectAudioOffset,
 
             SiteCode.XMID,
             SiteCode.XeMID,
-#pragma warning disable CS0618 // Type or member is obsolete
-            SiteCode.DMIHash,
-            SiteCode.PFIHash,
-            SiteCode.SSHash,
-#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.SSVersion,
 
             SiteCode.Filename,
@@ -61,9 +49,6 @@ namespace SabreTools.RedumpLib.Tools
             SiteCode.Genre,
             SiteCode.Series,
             SiteCode.PostgapType,
-#pragma warning disable CS0618 // Type or member is obsolete
-            SiteCode.VCD,
-#pragma warning restore CS0618 // Type or member is obsolete
 
             // Publisher / Company IDs
             SiteCode.TwoKGamesID,

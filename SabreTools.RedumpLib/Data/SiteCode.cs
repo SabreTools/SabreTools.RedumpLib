@@ -1,5 +1,3 @@
-using System;
-
 namespace SabreTools.RedumpLib.Data
 {
     /// <summary>
@@ -120,15 +118,7 @@ namespace SabreTools.RedumpLib.Data
         public static readonly SiteCode DiscID = new("<b>Disc ID</b>:",
             isCommentCode: true);
 
-        [Obsolete("Use SubmissionInfo.DiscIdentity.ForeignDiscTitle instead")]
-        public static readonly SiteCode DiscTitleNonLatin = new("<b>Disc Title (non-Latin)</b>:",
-            isCommentCode: true);
-
         public static readonly SiteCode DisneyInteractiveID = new("<b>Disney Interactive ID</b>:",
-            isCommentCode: true);
-
-        [Obsolete("Use SubmissionInfo.DumpMetadata.ExtrasDat instead")]
-        public static readonly SiteCode DMIHash = new("<b>DMI</b>:",
             isCommentCode: true);
 
         public static readonly SiteCode DNASDiscID = new("<b>DNAS Disc ID</b>:",
@@ -186,11 +176,6 @@ namespace SabreTools.RedumpLib.Data
             isMultiLine: true);
 
         public static readonly SiteCode InternalName = new("<b>Internal Name</b>:",
-            isCommentCode: true);
-
-        [Obsolete("Use SubmissionInfo.DiscIdentifiers.InternalSerial instead")]
-        public static readonly SiteCode InternalSerialName = new("<b>Internal Serial</b>:",
-            code: "[T:ISN]",
             isCommentCode: true);
 
         public static readonly SiteCode InterplayID = new("<b>Interplay ID</b>:",
@@ -264,10 +249,6 @@ namespace SabreTools.RedumpLib.Data
         public static readonly SiteCode PEGIID = new("<b>PEGI ID</b>:",
             isCommentCode: true);
 
-        [Obsolete("Use SubmissionInfo.DumpMetadata.ExtrasDat instead")]
-        public static readonly SiteCode PFIHash = new("<b>PFI</b>:",
-            isCommentCode: true);
-
         public static readonly SiteCode PlayableDemos = new("<b>Playable Demos</b>:",
             code: "[T:PD]",
             isContentCode: true,
@@ -312,10 +293,6 @@ namespace SabreTools.RedumpLib.Data
             isCommentCode: true);
 
         public static readonly SiteCode SierraID = new("<b>Sierra ID</b>:",
-            isCommentCode: true);
-
-        [Obsolete("Use SubmissionInfo.DumpMetadata.ExtrasDat instead")]
-        public static readonly SiteCode SSHash = new("<b>SS</b>:",
             isCommentCode: true);
 
         public static readonly SiteCode SSVersion = new("<b>SS version</b>:",
@@ -363,17 +340,6 @@ namespace SabreTools.RedumpLib.Data
             isContentCode: true,
             isMultiLine: true);
 
-        [Obsolete("Use SubmissionInfo.DiscIdentifiers.VolumeLabel instead")]
-        public static readonly SiteCode VolumeLabel = new("<b>Volume Label</b>:",
-            code: "[T:VOL]",
-            isCommentCode: true);
-
-        [Obsolete("Code is being removed")]
-        public static readonly SiteCode VCD = new("<b>V-CD</b>",
-            code: "[T:VCD]",
-            isBoolean: true,
-            isCommentCode: true);
-
         public static readonly SiteCode XeMID = new("<b>XeMID</b>:",
             isCommentCode: true);
 
@@ -408,13 +374,7 @@ namespace SabreTools.RedumpLib.Data
             DiceMultimedia,
             DiscHologramID,
             DiscID,
-#pragma warning disable CS0618 // Type or member is obsolete
-            DiscTitleNonLatin,
-#pragma warning restore CS0618 // Type or member is obsolete
             DisneyInteractiveID,
-#pragma warning disable CS0618 // Type or member is obsolete
-            DMIHash,
-#pragma warning restore CS0618 // Type or member is obsolete
             DNASDiscID,
 
             EditionNonLatin,
@@ -435,9 +395,6 @@ namespace SabreTools.RedumpLib.Data
             HighSierraVolumeDescriptor,
 
             InternalName,
-#pragma warning disable CS0618 // Type or member is obsolete
-            InternalSerialName,
-#pragma warning restore CS0618 // Type or member is obsolete
             InterplayID,
             ISBN,
             ISSN,
@@ -464,9 +421,6 @@ namespace SabreTools.RedumpLib.Data
             Patches,
             PCMacHybrid,
             PEGIID,
-#pragma warning disable CS0618 // Type or member is obsolete
-            PFIHash,
-#pragma warning restore CS0618 // Type or member is obsolete
             PlayableDemos,
             PonyCanyonID,
             PostgapType,
@@ -480,9 +434,6 @@ namespace SabreTools.RedumpLib.Data
             SelenID,
             Series,
             SierraID,
-#pragma warning disable CS0618 // Type or member is obsolete
-            SSHash,
-#pragma warning restore CS0618 // Type or member is obsolete
             SSVersion,
             SteamAppID,
             SteamCsmCsdDepotID,
@@ -498,10 +449,6 @@ namespace SabreTools.RedumpLib.Data
             ValveID,
             VETSFBID,
             Videos,
-#pragma warning disable CS0618 // Type or member is obsolete
-            VolumeLabel,
-            VCD,
-#pragma warning restore CS0618 // Type or member is obsolete
 
             XeMID,
             XMID,

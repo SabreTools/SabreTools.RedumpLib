@@ -2500,9 +2500,6 @@ namespace SabreTools.RedumpLib.Test.Data
         [
             SiteCode.PCMacHybrid,
             SiteCode.PostgapType,
-#pragma warning disable CS0618 // Type or member is obsolete
-            SiteCode.VCD,
-#pragma warning restore CS0618 // Type or member is obsolete
         ];
 
         /// <summary>
@@ -2519,44 +2516,25 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.CoverID,
             SiteCode.DiscHologramID,
             SiteCode.DiscID,
-#pragma warning disable CS0618 // Type or member is obsolete
-            SiteCode.DiscTitleNonLatin,
-            SiteCode.DMIHash,
-#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.DNASDiscID,
             SiteCode.EditionNonLatin,
             SiteCode.Filename,
             SiteCode.Genre,
             SiteCode.HighSierraVolumeDescriptor,
             SiteCode.InternalName,
-#pragma warning disable CS0618 // Type or member is obsolete
-            SiteCode.InternalSerialName,
-#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.ISBN,
             SiteCode.ISSN,
             SiteCode.Multisession,
             SiteCode.PCMacHybrid,
             SiteCode.PEGIID,
-#pragma warning disable CS0618 // Type or member is obsolete
-            SiteCode.PFIHash,
-#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.PostgapType,
             SiteCode.Protection,
             SiteCode.RingPerfectAudioOffset,
             SiteCode.Series,
-#pragma warning disable CS0618 // Type or member is obsolete
-            SiteCode.SSHash,
-#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.SSVersion,
             SiteCode.SteamAppID,
             SiteCode.TitleID,
-#pragma warning disable CS0618 // Type or member is obsolete
-            SiteCode.VCD,
-#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.VETSFBID,
-#pragma warning disable CS0618 // Type or member is obsolete
-            SiteCode.VolumeLabel,
-#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.XeMID,
             SiteCode.XMID,
 
