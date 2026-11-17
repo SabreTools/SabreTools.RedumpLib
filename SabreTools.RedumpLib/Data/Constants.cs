@@ -77,7 +77,7 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// Regex matching the languages field on a disc page
         /// </summary>
-        public static readonly Regex LanguagesRegex = new(@"<img class=""flag-icon"" src=""/static/flags/(.*?)\.svg"" title="".*?"" alt="".*?"" />\s*", RegexOptions.Compiled);
+        public static readonly Regex LanguagesRegex = new(@"<img class=""flag-icon"" src=""/static/flags/(.*?)\.svg"" title="".*?"" alt="".*?""", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching the current creation time for login
@@ -102,7 +102,7 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// Regex matching the region field on a disc page
         /// </summary>
-        public static readonly Regex RegionRegex = new(@"<a href=""/discs?region=(.*?)"">", RegexOptions.Compiled);
+        public static readonly Regex RegionRegex = new(@"<a href=""/discs\?region=(.*?)"">", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching the serial field on a disc page
@@ -117,7 +117,7 @@ namespace SabreTools.RedumpLib.Data
         /// <summary>
         /// Regex matching the system field on a disc page
         /// </summary>
-        public static readonly Regex SystemRegex = new(@"<a href=""/discs?system=(.*?)"">", RegexOptions.Compiled);
+        public static readonly Regex SystemRegex = new(@"<a href=""/discs\?system=(.*?)"">", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching the title field on a disc page
