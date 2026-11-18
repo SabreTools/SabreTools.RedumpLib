@@ -12,24 +12,6 @@ namespace SabreTools.RedumpLib.Data
         public static readonly Regex AddedRegex = new(@"<tr><td><strong>Added</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
 
         /// <summary>
-        /// Regex matching the barcodes field on a disc page
-        /// </summary>
-        public static readonly Regex BarcodesRegex = new(@"<tr><td><strong>Barcodes</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Regex matching the BCA field on a disc page
-        /// </summary>
-        public static readonly Regex BcaRegex = new(@"<h3>BCA</h3>"
-            + @"<div class=""table-scroll table-scroll-compact"">"
-            + @"<table class=""table-nowrap binary-table"">"
-            + "<thead><tr><th>Row</th><th>Contents</th><th>ASCII</th></tr></thead>"
-            + "<tbody>"
-            + "<tr><td><code>(?<row1number>.*?)</code></td><td><code>(?<row1contents>.*?)</code></td><td><code>(?<row1ascii>.*?)</code></td></tr>"
-            + "<tr><td><code>(?<row2number>.*?)</code></td><td><code>(?<row2contents>.*?)</code></td><td><code>(?<row2ascii>.*?)</code></td></tr>"
-            + "<tr><td><code>(?<row3number>.*?)</code></td><td><code>(?<row3contents>.*?)</code></td><td><code>(?<row3ascii>.*?)</code></td></tr>"
-            + "<tr><td><code>(?<row4number>.*?)</code></td><td><code>(?<row4contents>.*?)</code></td><td><code>(?<row4ascii>.*?)</code></td></tr>", RegexOptions.Compiled | RegexOptions.Singleline);
-
-        /// <summary>
         /// Regex matching the category field on a disc page
         /// </summary>
         public static readonly Regex CategoryRegex = new(@"<tr><td><strong>Category</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
@@ -53,11 +35,6 @@ namespace SabreTools.RedumpLib.Data
         /// Regex matching the disc number field on a disc page
         /// </summary>
         public static readonly Regex DiscNumberRegex = new(@"\((.*?)\)", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Regex matching the edition field on a disc page
-        /// </summary>
-        public static readonly Regex EditionRegex = new(@"<span class=""disc-edition-value"">(.*?)</span></td></tr>", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching the error count field on a disc page
@@ -85,11 +62,6 @@ namespace SabreTools.RedumpLib.Data
         public static readonly Regex LoginCreationTimeRegex = new(@"<input type=""hidden"" name=""creation_time"" value=""(.*?)"" />", RegexOptions.Compiled);
 
         /// <summary>
-        /// Regex matching the media field on a disc page
-        /// </summary>
-        public static readonly Regex MediaRegex = new(@"<tr><td><strong>Media</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
-
-        /// <summary>
         /// Regex matching the last modified field on a disc page
         /// </summary>
         public static readonly Regex ModifiedRegex = new(@"<tr><td><strong>Modified</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
@@ -113,11 +85,6 @@ namespace SabreTools.RedumpLib.Data
         /// Regex matching the current session ID for login
         /// </summary>
         public static readonly Regex SessionIDRegex = new(@"<input type=""hidden"" name=""sid"" value=""(.*?)"" />", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Regex matching the system field on a disc page
-        /// </summary>
-        public static readonly Regex SystemRegex = new(@"<a href=""/discs\?system=(.*?)"">", RegexOptions.Compiled);
 
         /// <summary>
         /// Regex matching the title field on a disc page
