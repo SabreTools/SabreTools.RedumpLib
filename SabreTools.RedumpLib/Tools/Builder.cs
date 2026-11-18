@@ -52,7 +52,7 @@ namespace SabreTools.RedumpLib.Tools
         /// <param name="client">Client for making the connection</param>
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <param name="id">Redump disc ID to retrieve</param>
-        /// <param name="includeAllData">True to include all pullable information, false to do bare minimum</param>
+        /// <param name="includeAllData">True to include all pullable information, false to only include data that should not vary by disc</param>
         public static async Task<bool> FillFromIdApi(Client client, SubmissionInfo info, int id, bool includeAllData)
         {
             var endpoint = new Endpoints.Api
@@ -68,6 +68,36 @@ namespace SabreTools.RedumpLib.Tools
             var discResponse = JsonConvert.DeserializeObject<DiscResponse>(apiResponse!);
             if (discResponse is null)
                 return false;
+
+            // Added
+            if (discResponse.AddedAt is not null)
+            {
+                if (DateTime.TryParse(discResponse.AddedAt, out DateTime added))
+                    info.Added = added;
+            }
+
+            // Last Modified
+            if (discResponse.ModifiedAt is not null)
+            {
+                if (DateTime.TryParse(discResponse.ModifiedAt, out DateTime lastModified))
+                    info.LastModified = lastModified;
+            }
+
+            #region Disc Identity
+
+            // System
+            if (includeAllData && discResponse.System is not null)
+                info.DiscIdentity.System = discResponse.System.ToPhysicalSystem();
+
+            // Media Type
+            if (includeAllData && discResponse.MediaType is not null)
+                info.DiscIdentity.Media = discResponse.MediaType.ToMediaType();
+
+            // Category
+            if (discResponse.Category is not null)
+                info.DiscIdentity.Category = discResponse.Category.ToDiscCategory();
+            else
+                info.DiscIdentity.Category = DiscCategory.Games;
 
             // Title, Disc Number/Letter, Disc Title
             if (discResponse.Title is not null)
@@ -117,14 +147,13 @@ namespace SabreTools.RedumpLib.Tools
             if (discResponse.TitleForeign is not null)
                 info.DiscIdentity.ForeignTitle = discResponse.TitleForeign;
 
-            // Category
-            if (discResponse.Category is not null)
-                info.DiscIdentity.Category = discResponse.Category.ToDiscCategory();
-            else
-                info.DiscIdentity.Category = DiscCategory.Games;
+            #endregion
+
+            #region Regions and Languages
 
             // Region
-            if (discResponse.Regions is not null && discResponse.Regions.Length > 0)
+            if (discResponse.Regions is not null
+                && discResponse.Regions.Length > 0)
             {
                 var tempRegions = new List<RegionCode?>();
                 foreach (var regionStr in discResponse.Regions)
@@ -138,7 +167,8 @@ namespace SabreTools.RedumpLib.Tools
             }
 
             // Languages
-            if (discResponse.Languages is not null && discResponse.Languages.Length > 0)
+            if (discResponse.Languages is not null
+                && discResponse.Languages.Length > 0)
             {
                 var tempLanguages = new List<LanguageCode?>();
                 foreach (var languageStr in discResponse.Languages)
@@ -151,6 +181,10 @@ namespace SabreTools.RedumpLib.Tools
                 info.RegionsAndLanguages.Languages = [.. tempLanguages];
             }
 
+            #endregion
+
+            #region Disc Identifiers
+
             // Disc Serials
             if (includeAllData
                 && string.IsNullOrEmpty(info.DiscIdentifiers.DiscSerials)
@@ -161,18 +195,91 @@ namespace SabreTools.RedumpLib.Tools
                 info.DiscIdentifiers.DiscSerials = $"(VERIFY THIS) {serialStr}";
             }
 
-            // Error Count
-            if (string.IsNullOrEmpty(info.DiscIdentifiers.ErrorCount) && discResponse.ErrorCount is not null)
-                info.DiscIdentifiers.ErrorCount = discResponse.ErrorCount.ToString();
+            // Editions
+            if (includeAllData
+                && string.IsNullOrEmpty(info.DiscIdentifiers.Editions)
+                && discResponse.Edition is not null
+                && discResponse.Edition.Length > 0)
+            {
+                string editionStr = string.Join(", ", discResponse.Edition);
+                info.DiscIdentifiers.Editions = $"(VERIFY THIS) {editionStr}";
+            }
+
+            // Barcodes
+            if (includeAllData
+                && string.IsNullOrEmpty(info.DiscIdentifiers.Barcodes)
+                && discResponse.Barcode is not null
+                && discResponse.Barcode.Length > 0)
+            {
+                string barcodeStr = string.Join(", ", discResponse.Barcode);
+                info.DiscIdentifiers.Barcodes = $"(VERIFY THIS) {barcodeStr}";
+            }
 
             // Version
-            if (string.IsNullOrEmpty(info.DiscIdentifiers.Version) && discResponse.Version is not null)
+            if (string.IsNullOrEmpty(info.DiscIdentifiers.Version)
+                && discResponse.Version is not null)
+            {
                 info.DiscIdentifiers.Version = discResponse.Version;
+            }
+
+            // Error Count
+            if (string.IsNullOrEmpty(info.DiscIdentifiers.ErrorCount)
+                && discResponse.ErrorCount is not null)
+            {
+                info.DiscIdentifiers.ErrorCount = discResponse.ErrorCount.ToString();
+            }
+
+            // EXE Date
+            if (includeAllData
+                && string.IsNullOrEmpty(info.DiscIdentifiers.EXEDate)
+                && discResponse.ExeDate is not null)
+            {
+                info.DiscIdentifiers.EXEDate = discResponse.ExeDate;
+            }
+
+            // Internal Serial
+            if (includeAllData
+                && string.IsNullOrEmpty(info.DiscIdentifiers.InternalSerial)
+                && discResponse.InternalSerial is not null)
+            {
+                info.DiscIdentifiers.InternalSerial = discResponse.InternalSerial;
+            }
+
+            // Volume Label
+            if (includeAllData
+                && string.IsNullOrEmpty(info.DiscIdentifiers.VolumeLabel)
+                && discResponse.VolumeLabel is not null)
+            {
+                info.DiscIdentifiers.VolumeLabel = discResponse.VolumeLabel;
+            }
+
+            // EDC
+            if (includeAllData
+                && info.DiscIdentifiers.EDC is null
+                && discResponse.Edc is not null)
+            {
+                info.DiscIdentifiers.EDC = discResponse.Edc.ToYesNo();
+            }
+
+            // TODO: Figure out the best way to pull layerbreak information from the array
+
+            // Universal Hash
+            if (includeAllData
+                && string.IsNullOrEmpty(info.DiscIdentifiers.UniversalHash)
+                && discResponse.UniversalHash is not null)
+            {
+                info.DiscIdentifiers.UniversalHash = discResponse.UniversalHash;
+            }
+
+            #endregion
+
+            #region Dump Metadata
 
             // TODO: Unify handling of fields that can include site codes (Comments/Contents)
 
             // Comments
-            if (includeAllData && discResponse.Comments is not null)
+            if (includeAllData
+                && discResponse.Comments is not null)
             {
                 // Process the old comments block
                 string oldComments = info.DumpMetadata.Comments
@@ -280,7 +387,8 @@ namespace SabreTools.RedumpLib.Tools
             }
 
             // Contents
-            if (includeAllData && discResponse.Contents is not null)
+            if (includeAllData
+                && discResponse.Contents is not null)
             {
                 // Process the old contents block
                 string oldContents = info.DumpMetadata.Contents
@@ -387,23 +495,71 @@ namespace SabreTools.RedumpLib.Tools
                 info.DumpMetadata.Contents = newContents;
             }
 
-            // Added
-            if (discResponse.AddedAt is not null)
+            // Protection
+            if (includeAllData
+                && discResponse.Protection is not null)
             {
-                if (DateTime.TryParse(discResponse.AddedAt, out DateTime added))
-                    info.Added = added;
+                // If there is protection information, add to it
+                if (info.DumpMetadata.Protection is not null)
+                    info.DumpMetadata.Protection = $"(VERIFY THIS) {info.DumpMetadata.Protection}, {discResponse.Protection}";
                 else
-                    info.Added = null;
+                    info.DumpMetadata.Protection = $"(VERIFY THIS) {discResponse.Protection}";
             }
 
-            // Last Modified
-            if (discResponse.ModifiedAt is not null)
+            // Sector Ranges
+            if (includeAllData
+                && string.IsNullOrEmpty(info.DumpMetadata.SectorRanges)
+                && discResponse.SectorRanges is not null
+                && discResponse.SectorRanges.Length > 0)
             {
-                if (DateTime.TryParse(discResponse.ModifiedAt, out DateTime lastModified))
-                    info.LastModified = lastModified;
-                else
-                    info.LastModified = null;
+                info.DumpMetadata.SectorRanges = string.Join("\n", discResponse.SectorRanges);
             }
+
+            // PVD
+            if (includeAllData
+                && string.IsNullOrEmpty(info.DumpMetadata.PVD)
+                && discResponse.Pvd is not null)
+            {
+                info.DumpMetadata.PVD = discResponse.Pvd;
+            }
+
+            // Header
+            if (includeAllData
+                && string.IsNullOrEmpty(info.DumpMetadata.Header)
+                && discResponse.Header is not null)
+            {
+                info.DumpMetadata.Header = discResponse.Header;
+            }
+
+            // BCA
+            if (includeAllData
+                && string.IsNullOrEmpty(info.DumpMetadata.BCA)
+                && discResponse.BcaMastering is not null
+                && discResponse.BcaMastering.Length > 0)
+            {
+                info.DumpMetadata.BCA = string.Join("\n", discResponse.BcaMastering);
+            }
+
+            // PIC
+            if (includeAllData
+                && string.IsNullOrEmpty(info.DumpMetadata.PIC)
+                && discResponse.Pic is not null)
+            {
+                info.DumpMetadata.PIC = discResponse.Pic;
+            }
+
+            // Cuesheet
+            if (includeAllData
+                && string.IsNullOrEmpty(info.DumpMetadata.Cuesheet)
+                && discResponse.Cue is not null)
+            {
+                info.DumpMetadata.Cuesheet = discResponse.Cue;
+            }
+
+            // TODO: Figure out how to rebuild the DAT from the outputs
+            // TODO: Figure out how to rebuild the extras DAT from the outputs
+
+            #endregion
 
             return true;
         }
@@ -414,7 +570,7 @@ namespace SabreTools.RedumpLib.Tools
         /// <param name="client">Client for making the connection</param>
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <param name="id">Redump disc ID to retrieve</param>
-        /// <param name="includeAllData">True to include all pullable information, false to do bare minimum</param>
+        /// <param name="includeAllData">True to include all pullable information, false to only include data that should not vary by disc</param>
         public static async Task<bool> FillFromIdHtml(Client client, SubmissionInfo info, int id, bool includeAllData)
         {
             var endpoint = new Endpoints.Disc { Id = id };

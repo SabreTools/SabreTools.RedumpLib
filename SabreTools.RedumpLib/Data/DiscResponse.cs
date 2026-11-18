@@ -67,7 +67,7 @@ namespace SabreTools.RedumpLib.Data
         public int? ErrorCount { get; set; }
 
         [JsonProperty("edc")]
-        public bool Edc { get; set; }
+        public bool? Edc { get; set; }
 
         [JsonProperty("layerbreaks")]
         public int[]? Layerbreaks { get; set; }
