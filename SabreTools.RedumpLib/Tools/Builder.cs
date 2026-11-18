@@ -165,53 +165,29 @@ namespace SabreTools.RedumpLib.Tools
             else
                 info.DiscIdentity.Category = DiscCategory.Games;
 
-            // Title, Disc Number/Letter, Disc Title
+            // Title
             if (discResponse.Title is not null)
-            {
-                // If we have parenthesis, title is everything before the first one
-                int firstParenLocation = discResponse.Title.IndexOf(" (");
-                if (firstParenLocation >= 0)
-                {
-#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
-                    info.DiscIdentity.Title = discResponse.Title[..firstParenLocation];
-#else
-                    info.DiscIdentity.Title = discResponse.Title.Substring(0, firstParenLocation);
-#endif
-                    var submatches = DiscNumberRegex.Matches(discResponse.Title);
-                    foreach (Match? submatch in submatches)
-                    {
-                        if (submatch is null)
-                            continue;
-
-                        var submatchValue = submatch.Groups[1].Value;
-
-                        // Disc number or letter
-                        if (submatchValue.StartsWith("Disc"))
-                        {
-#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
-                            info.DiscIdentity.DiscNumber = submatchValue["Disc ".Length..];
-#else
-                            info.DiscIdentity.DiscNumber = submatchValue.Remove(0, "Disc ".Length);
-#endif
-                        }
-
-                        // TODO: Figure out how to determine disc title vs. version (e.g. Alt)
-                        // At the moment, if the original splitting logic is used, then things like
-                        // "(Alt)" would be marked as the disc title instead of it properly going into the
-                        // filename suffix. There may not be a reasonable way of splitting this, so
-                        // only the disc number is being populated for now.
-                    }
-                }
-                // Otherwise, leave the title as-is
-                else
-                {
-                    info.DiscIdentity.Title = discResponse.Title;
-                }
-            }
+                info.DiscIdentity.Title = discResponse.Title;
 
             // Foreign Title
             if (discResponse.TitleForeign is not null)
                 info.DiscIdentity.ForeignTitle = discResponse.TitleForeign;
+
+            // Disc Number/Letter
+            if (discResponse.DiscNumber is not null)
+                info.DiscIdentity.DiscNumber = discResponse.DiscNumber;
+
+            // Disc Title
+            if (discResponse.DiscTitle is not null)
+                info.DiscIdentity.DiscTitle = discResponse.DiscTitle;
+
+            // Foreign Disc Title
+            if (discResponse.DiscTitleForeign is not null)
+                info.DiscIdentity.ForeignDiscTitle = discResponse.DiscTitleForeign;
+
+            // Filename Suffix
+            if (includeAllData && discResponse.FilenameSuffix is not null)
+                info.DiscIdentity.FilenameSuffix = discResponse.FilenameSuffix;
 
             #endregion
 
