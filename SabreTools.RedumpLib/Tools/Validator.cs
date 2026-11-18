@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SabreTools.RedumpLib.Data;
@@ -17,6 +18,7 @@ namespace SabreTools.RedumpLib.Tools
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <param name="sha1">SHA-1 hash to check against</param>
         /// <returns>List of found values, if possible</returns>
+        [Obsolete("Use ValidateSingleTrackApi instead")]
         public static async Task<List<int>?> ValidateSingleTrack(this Client client, SubmissionInfo info, string? sha1)
         {
             // If we don't have a hash
@@ -74,6 +76,7 @@ namespace SabreTools.RedumpLib.Tools
         /// <param name="client">RedumpClient for making the connection</param>
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <returns>List of found values, if possible</returns>
+        [Obsolete("Use ValidateUniversalHashApi instead")]
         public static async Task<List<int>?> ValidateUniversalHash(this Client client, SubmissionInfo info)
         {
             // If we don't have a universal hash

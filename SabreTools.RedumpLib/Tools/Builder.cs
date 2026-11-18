@@ -571,6 +571,7 @@ namespace SabreTools.RedumpLib.Tools
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <param name="includeAllData">True to include all pullable information, false to only include data that should not vary by disc</param>
+        [Obsolete("Use FillFromIdApi instead")]
         public static async Task<bool> FillFromIdHtml(Client client, SubmissionInfo info, int id, bool includeAllData)
         {
             var endpoint = new Endpoints.Disc { Id = id };
