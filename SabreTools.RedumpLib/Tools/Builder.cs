@@ -390,7 +390,7 @@ namespace SabreTools.RedumpLib.Tools
                         // If the line doesn't contain this tag, just skip
                         if (siteCode.Code is not null && !commentLine.Contains(siteCode.Code))
                             continue;
-                        else if (!commentLine.Contains(siteCode.HTML))
+                        else if (siteCode.Code is null && !commentLine.Contains(siteCode.HTML))
                             continue;
 
                         // Mark as having found a tag
@@ -499,7 +499,7 @@ namespace SabreTools.RedumpLib.Tools
                         // If the line doesn't contain this tag, just skip
                         if (siteCode.Code is not null && !contentLine.Contains(siteCode.Code))
                             continue;
-                        else if (!contentLine.Contains(siteCode.HTML))
+                        else if (siteCode.Code is null && !contentLine.Contains(siteCode.HTML))
                             continue;
 
                         // Mark as having found a tag
@@ -815,7 +815,7 @@ namespace SabreTools.RedumpLib.Tools
                             // If the line doesn't contain this tag, just skip
                             if (siteCode.Code is not null && !commentLine.Contains(siteCode.Code))
                                 continue;
-                            else if (!commentLine.Contains(siteCode.HTML))
+                            else if (siteCode.Code is null && !commentLine.Contains(siteCode.HTML))
                                 continue;
 
                             // Mark as having found a tag
@@ -927,7 +927,7 @@ namespace SabreTools.RedumpLib.Tools
                             // If the line doesn't contain this tag, just skip
                             if (siteCode.Code is not null && !contentLine.Contains(siteCode.Code))
                                 continue;
-                            else if (!contentLine.Contains(siteCode.HTML))
+                            else if (siteCode.Code is null && !contentLine.Contains(siteCode.HTML))
                                 continue;
 
                             // Mark as having found a tag
