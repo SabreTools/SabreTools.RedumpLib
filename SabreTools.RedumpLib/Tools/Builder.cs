@@ -322,7 +322,7 @@ namespace SabreTools.RedumpLib.Tools
             // EDC
             if (includeAllData
                 && info.DiscIdentifiers.EDC is null
-                && discResponse.Edc is not null)
+                && discResponse.Edc == true)
             {
                 info.DiscIdentifiers.EDC = discResponse.Edc.ToYesNo();
             }
