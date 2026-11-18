@@ -1324,7 +1324,7 @@ namespace SabreTools.RedumpLib.Web
         /// <param name="endpoint">Disc endpoint to process</param>
         /// <returns>String containing the page contents if successful, null on error</returns>
         /// <remarks>This only includes the site page itself</remarks>
-        public async Task<string?> DownloadSingleDiscApiEndpoint(Endpoints.Api endpoint)
+        public async Task<DiscResponse?> DownloadSingleDiscApiEndpoint(Endpoints.Api endpoint)
         {
             // Ensure that the endpoint is for discs
             if (endpoint.Subpath != ApiSubpath.Disc)
@@ -1338,22 +1338,30 @@ namespace SabreTools.RedumpLib.Web
             try
             {
                 // Try to retrieve the data
-                string discPageUri = endpoint.BuildUrl();
-                string? discPage = await DownloadString(discPageUri);
+                string apiEndpointUri = endpoint.BuildUrl();
+                string? apiResponse = await DownloadString(apiEndpointUri);
 
-                if (discPage is null)
+                if (apiResponse is null)
                 {
                     ReportError($"An error occurred retrieving ID {paddedId}!");
                     return null;
                 }
-                else if (discPage.Contains($"Disc with ID \"{endpoint.Id}\" doesn't exist"))
+                else if (apiResponse.Contains($"Disc with ID \"{endpoint.Id}\" doesn't exist"))
                 {
                     ReportError($"ID {paddedId} could not be found!");
                     return null;
                 }
 
+                // Attempt to deserialize the data
+                var discResponse = JsonConvert.DeserializeObject<DiscResponse>(apiResponse!);
+                if (discResponse is null)
+                {
+                    ReportError($"Data from ID {paddedId} could not be parsed!");
+                    return null;
+                }
+
                 ReportGeneric($"ID {paddedId} has been successfully downloaded");
-                return discPage;
+                return discResponse;
             }
             catch (Exception ex)
             {

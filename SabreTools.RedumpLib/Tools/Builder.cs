@@ -60,12 +60,7 @@ namespace SabreTools.RedumpLib.Tools
                 Subpath = ApiSubpath.Disc,
                 Id = id,
             };
-            var apiResponse = await client.DownloadSingleDiscApiEndpoint(endpoint);
-            if (string.IsNullOrEmpty(apiResponse))
-                return false;
-
-            // Attempt to deserialize the data
-            var discResponse = JsonConvert.DeserializeObject<DiscResponse>(apiResponse!);
+            var discResponse = await client.DownloadSingleDiscApiEndpoint(endpoint);
             if (discResponse is null)
                 return false;
 
