@@ -1082,6 +1082,38 @@ namespace SabreTools.RedumpLib.Tools
             return info;
         }
 
+        #endregion
+
+        #region Helpers
+
+        /// <summary>
+        /// Process a text block and replace with internal identifiers
+        /// </summary>
+        /// <param name="text">Text block to process</param>
+        /// <returns>Processed text block, if possible</returns>
+        internal static string ReplaceHtmlWithSiteCodes(this string text)
+        {
+            // Empty strings are ignored
+            if (text.Length == 0)
+                return text;
+
+            foreach (SiteCode? siteCode in SiteCode.AllSiteCodes)
+            {
+                if (siteCode.Code is not null)
+                    text = text.Replace(siteCode.HTML, siteCode.Code);
+            }
+
+            // For some outdated tags, we need to use alternate names
+            text = text.Replace("<b>Demos</b>:", SiteCode.PlayableDemos.Code);
+            text = text.Replace("<b>Disney ID</b>:", SiteCode.DisneyInteractiveID.HTML);
+            text = text.Replace("<b>LucasArts ID</b>:", SiteCode.LucasArtsID.Code);
+            text = text.Replace("SS version:", SiteCode.SSVersion.HTML);
+            text = text.Replace("XeMID:", SiteCode.XeMID.HTML);
+            text = text.Replace("XMID:", SiteCode.XMID.HTML);
+
+            return text;
+        }
+
         /// <summary>
         /// Determine if a site code should be skipped on pulling
         /// </summary>
@@ -1120,38 +1152,6 @@ namespace SabreTools.RedumpLib.Tools
                 return true;
 
             return false;
-        }
-
-        #endregion
-
-        #region Helpers
-
-        /// <summary>
-        /// Process a text block and replace with internal identifiers
-        /// </summary>
-        /// <param name="text">Text block to process</param>
-        /// <returns>Processed text block, if possible</returns>
-        internal static string ReplaceHtmlWithSiteCodes(this string text)
-        {
-            // Empty strings are ignored
-            if (text.Length == 0)
-                return text;
-
-            foreach (SiteCode? siteCode in SiteCode.AllSiteCodes)
-            {
-                if (siteCode.Code is not null)
-                    text = text.Replace(siteCode.HTML, siteCode.Code);
-            }
-
-            // For some outdated tags, we need to use alternate names
-            text = text.Replace("<b>Demos</b>:", SiteCode.PlayableDemos.Code);
-            text = text.Replace("<b>Disney ID</b>:", SiteCode.DisneyInteractiveID.HTML);
-            text = text.Replace("<b>LucasArts ID</b>:", SiteCode.LucasArtsID.Code);
-            text = text.Replace("SS version:", SiteCode.SSVersion.HTML);
-            text = text.Replace("XeMID:", SiteCode.XeMID.HTML);
-            text = text.Replace("XMID:", SiteCode.XMID.HTML);
-
-            return text;
         }
 
         #endregion
