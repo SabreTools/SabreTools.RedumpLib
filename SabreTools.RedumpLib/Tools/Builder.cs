@@ -15,6 +15,77 @@ namespace SabreTools.RedumpLib.Tools
 {
     public static class Builder
     {
+#pragma warning disable SYSLIB1045 // Convert to 'GeneratedRegexAttribute'.
+        #region Regular Expressions
+
+        /// <summary>
+        /// Regex matching the added field on a disc page
+        /// </summary>
+        private static readonly Regex AddedRegex = new(@"<tr><td><strong>Added</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Regex matching the category field on a disc page
+        /// </summary>
+        private static readonly Regex CategoryRegex = new(@"<tr><td><strong>Category</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Regex matching the comments field on a disc page
+        /// </summary>
+        private static readonly Regex CommentsRegex = new(@"<h3>Comments</h3><p class=""pre-wrap disc-comments"">(.*?)</p>", RegexOptions.Compiled | RegexOptions.Singleline);
+
+        /// <summary>
+        /// Regex matching the contents field on a disc page
+        /// </summary>
+        private static readonly Regex ContentsRegex = new(@"<summary><h3>Contents</h3></summary><p class=""pre-wrap disc-contents"">(.*?)</p>", RegexOptions.Compiled | RegexOptions.Singleline);
+
+        /// <summary>
+        /// Regex matching the disc number field on a disc page
+        /// </summary>
+        private static readonly Regex DiscNumberRegex = new(@"\((.*?)\)", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Regex matching the error count field on a disc page
+        /// </summary>
+        private static readonly Regex ErrorCountRegex = new(@"<tr><td><strong>Errors</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Regex matching the foreign title field on a disc page
+        /// </summary>
+        private static readonly Regex ForeignTitleRegex = new(@"<h2 class=""foreign-title"">(.*?)</h2>", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Regex matching the languages field on a disc page
+        /// </summary>
+        private static readonly Regex LanguagesRegex = new(@"<img class=""flag-icon"" src=""/static/flags/(.*?)\.svg"" title="".*?"" alt="".*?""", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Regex matching the last modified field on a disc page
+        /// </summary>
+        private static readonly Regex ModifiedRegex = new(@"<tr><td><strong>Modified</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Regex matching the region field on a disc page
+        /// </summary>
+        private static readonly Regex RegionRegex = new(@"<a href=""/discs\?region=(.*?)"">", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Regex matching the serial field on a disc page
+        /// </summary>
+        private static readonly Regex SerialRegex = new(@"<<tr><td><strong>Disc Serial</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Regex matching the title field on a disc page
+        /// </summary>
+        private static readonly Regex TitleRegex = new(@"<h2>(.*?)</h2>", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Regex matching the version field on a disc page
+        /// </summary>
+        private static readonly Regex VersionRegex = new(@"<tr><td><strong>Version</strong></td><td>(.*?)</td></tr>", RegexOptions.Compiled);
+
+        #endregion
+#pragma warning restore SYSLIB1045 // Convert to 'GeneratedRegexAttribute'.
+
         #region Creation
 
         /// <summary>
@@ -106,7 +177,7 @@ namespace SabreTools.RedumpLib.Tools
 #else
                     info.DiscIdentity.Title = discResponse.Title.Substring(0, firstParenLocation);
 #endif
-                    var submatches = Constants.DiscNumberRegex.Matches(discResponse.Title);
+                    var submatches = DiscNumberRegex.Matches(discResponse.Title);
                     foreach (Match? submatch in submatches)
                     {
                         if (submatch is null)
@@ -575,7 +646,7 @@ namespace SabreTools.RedumpLib.Tools
                 return false;
 
             // Title, Disc Number/Letter, Disc Title
-            var match = Constants.TitleRegex.Match(discData);
+            var match = TitleRegex.Match(discData);
             if (match.Success)
             {
                 string? title = WebUtility.HtmlDecode(match.Groups[1].Value);
@@ -589,7 +660,7 @@ namespace SabreTools.RedumpLib.Tools
 #else
                     info.DiscIdentity.Title = title.Substring(0, firstParenLocation);
 #endif
-                    var submatches = Constants.DiscNumberRegex.Matches(title);
+                    var submatches = DiscNumberRegex.Matches(title);
                     foreach (Match? submatch in submatches)
                     {
                         if (submatch is null)
@@ -622,19 +693,19 @@ namespace SabreTools.RedumpLib.Tools
             }
 
             // Foreign Title
-            match = Constants.ForeignTitleRegex.Match(discData);
+            match = ForeignTitleRegex.Match(discData);
             if (match.Success)
                 info.DiscIdentity.ForeignTitle = WebUtility.HtmlDecode(match.Groups[1].Value);
 
             // Category
-            match = Constants.CategoryRegex.Match(discData);
+            match = CategoryRegex.Match(discData);
             if (match.Success)
                 info.DiscIdentity.Category = match.Groups[1].Value.ToDiscCategory();
             else
                 info.DiscIdentity.Category = DiscCategory.Games;
 
             // Region
-            var regionMatches = Constants.RegionRegex.Matches(discData);
+            var regionMatches = RegionRegex.Matches(discData);
             if (regionMatches.Count > 0)
             {
                 var tempRegions = new List<RegionCode?>();
@@ -652,7 +723,7 @@ namespace SabreTools.RedumpLib.Tools
             }
 
             // Languages
-            var languageMatches = Constants.LanguagesRegex.Matches(discData);
+            var languageMatches = LanguagesRegex.Matches(discData);
             if (languageMatches.Count > 0)
             {
                 var tempLanguages = new List<LanguageCode?>();
@@ -672,7 +743,7 @@ namespace SabreTools.RedumpLib.Tools
             // Disc Serials
             if (includeAllData && string.IsNullOrEmpty(info.DiscIdentifiers.DiscSerials))
             {
-                match = Constants.SerialRegex.Match(discData);
+                match = SerialRegex.Match(discData);
                 if (match.Success)
                     info.DiscIdentifiers.DiscSerials = $"(VERIFY THIS) {WebUtility.HtmlDecode(match.Groups[1].Value)}";
             }
@@ -680,7 +751,7 @@ namespace SabreTools.RedumpLib.Tools
             // Error Count
             if (string.IsNullOrEmpty(info.DiscIdentifiers.ErrorCount))
             {
-                match = Constants.ErrorCountRegex.Match(discData);
+                match = ErrorCountRegex.Match(discData);
                 if (match.Success)
                     info.DiscIdentifiers.ErrorCount = match.Groups[1].Value;
             }
@@ -688,7 +759,7 @@ namespace SabreTools.RedumpLib.Tools
             // Version
             if (string.IsNullOrEmpty(info.DiscIdentifiers.Version))
             {
-                match = Constants.VersionRegex.Match(discData);
+                match = VersionRegex.Match(discData);
                 if (match.Success)
                     info.DiscIdentifiers.Version = $"(VERIFY THIS) {WebUtility.HtmlDecode(match.Groups[1].Value)}";
             }
@@ -698,7 +769,7 @@ namespace SabreTools.RedumpLib.Tools
             // Comments
             if (includeAllData)
             {
-                match = Constants.CommentsRegex.Match(discData);
+                match = CommentsRegex.Match(discData);
                 if (match.Success)
                 {
                     // Process the old comments block
@@ -810,7 +881,7 @@ namespace SabreTools.RedumpLib.Tools
             // Contents
             if (includeAllData)
             {
-                match = Constants.ContentsRegex.Match(discData);
+                match = ContentsRegex.Match(discData);
                 if (match.Success)
                 {
                     // Process the old contents block
@@ -920,7 +991,7 @@ namespace SabreTools.RedumpLib.Tools
             }
 
             // Added
-            match = Constants.AddedRegex.Match(discData);
+            match = AddedRegex.Match(discData);
             if (match.Success)
             {
                 if (DateTime.TryParse(match.Groups[1].Value, out DateTime added))
@@ -930,7 +1001,7 @@ namespace SabreTools.RedumpLib.Tools
             }
 
             // Last Modified
-            match = Constants.ModifiedRegex.Match(discData);
+            match = ModifiedRegex.Match(discData);
             if (match.Success)
             {
                 if (DateTime.TryParse(match.Groups[1].Value, out DateTime lastModified))
