@@ -43,16 +43,16 @@ namespace SabreTools.RedumpLib.Data
         public string? FilenameSuffix { get; set; }
 
         [JsonProperty("serial")]
-        public string? Serial { get; set; }
+        public string[]? Serial { get; set; }
 
         [JsonProperty("version")]
         public string? Version { get; set; }
 
         [JsonProperty("edition")]
-        public string? Edition { get; set; }
+        public string[]? Edition { get; set; }
 
         [JsonProperty("barcode")]
-        public string? Barcode { get; set; }
+        public string[]? Barcode { get; set; }
 
         [JsonProperty("exe_date")]
         public string? ExeDate { get; set; }
@@ -64,13 +64,13 @@ namespace SabreTools.RedumpLib.Data
         public string? VolumeLabel { get; set; }
 
         [JsonProperty("error_count")]
-        public string? ErrorCount { get; set; }
+        public int? ErrorCount { get; set; }
 
         [JsonProperty("edc")]
-        public string? Edc { get; set; }
+        public bool Edc { get; set; }
 
         [JsonProperty("layerbreaks")]
-        public string? Layerbreaks { get; set; }
+        public int[]? Layerbreaks { get; set; }
 
         [JsonProperty("protection")]
         public string? Protection { get; set; }
@@ -96,11 +96,12 @@ namespace SabreTools.RedumpLib.Data
         [JsonProperty("files")]
         public DiscResponseFile[]? Files { get; set; }
 
-        [JsonProperty("files")]
+        [JsonProperty("extras")]
         public DiscResponseExtra[]? Extras { get; set; }
 
+        // TODO: Try to map or define the structure based on https://github.com/superg/vgindex/blob/main/src/routes/disc_view.rs
         [JsonProperty("ring_codes")]
-        public string? RingCodes { get; set; }
+        public object? RingCodes { get; set; }
 
         [JsonProperty("sector_ranges")]
         public string[]? SectorRanges { get; set; }
@@ -134,7 +135,7 @@ namespace SabreTools.RedumpLib.Data
         public string? TrackNumber { get; set; }
 
         [JsonProperty("size")]
-        public string? Size { get; set; }
+        public long Size { get; set; }
 
         [JsonProperty("crc32")]
         public string? Crc32 { get; set; }
@@ -155,7 +156,7 @@ namespace SabreTools.RedumpLib.Data
         public string? Type { get; set; }
 
         [JsonProperty("size")]
-        public string? Size { get; set; }
+        public long? Size { get; set; }
 
         [JsonProperty("crc32")]
         public string? Crc32 { get; set; }

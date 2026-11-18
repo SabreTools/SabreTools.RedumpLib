@@ -1319,6 +1319,50 @@ namespace SabreTools.RedumpLib.Web
         }
 
         /// <summary>
+        /// Download an individual Redump API disc endpoint, if possible
+        /// </summary>
+        /// <param name="endpoint">Disc endpoint to process</param>
+        /// <returns>String containing the page contents if successful, null on error</returns>
+        /// <remarks>This only includes the site page itself</remarks>
+        public async Task<string?> DownloadSingleDiscApiEndpoint(Endpoints.Api endpoint)
+        {
+            // Ensure that the endpoint is for discs
+            if (endpoint.Subpath != ApiSubpath.Disc)
+            {
+                ReportError("Only a disc API query is allowed!");
+                return null;
+            }
+
+            string paddedId = endpoint.Id.ToString().PadLeft(6, '0');
+            ReportGeneric($"Processing ID: {paddedId}");
+            try
+            {
+                // Try to retrieve the data
+                string discPageUri = endpoint.BuildUrl();
+                string? discPage = await DownloadString(discPageUri);
+
+                if (discPage is null)
+                {
+                    ReportError($"An error occurred retrieving ID {paddedId}!");
+                    return null;
+                }
+                else if (discPage.Contains($"Disc with ID \"{endpoint.Id}\" doesn't exist"))
+                {
+                    ReportError($"ID {paddedId} could not be found!");
+                    return null;
+                }
+
+                ReportGeneric($"ID {paddedId} has been successfully downloaded");
+                return discPage;
+            }
+            catch (Exception ex)
+            {
+                ReportError(ex);
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Download an individual list data, if possible
         /// </summary>
         /// <param name="endpoint">List endpoint to process</param>

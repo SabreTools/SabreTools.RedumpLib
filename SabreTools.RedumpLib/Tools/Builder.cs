@@ -47,13 +47,375 @@ namespace SabreTools.RedumpLib.Tools
         }
 
         /// <summary>
+        /// Fill out an existing SubmissionInfo object based on a disc API query
+        /// </summary>
+        /// <param name="client">Client for making the connection</param>
+        /// <param name="info">Existing SubmissionInfo object to fill</param>
+        /// <param name="id">Redump disc ID to retrieve</param>
+        /// <param name="includeAllData">True to include all pullable information, false to do bare minimum</param>
+        public static async Task<bool> FillFromIdApi(Client client, SubmissionInfo info, int id, bool includeAllData)
+        {
+            var endpoint = new Endpoints.Api
+            {
+                Subpath = ApiSubpath.Disc,
+                Id = id,
+            };
+            var apiResponse = await client.DownloadSingleDiscApiEndpoint(endpoint);
+            if (string.IsNullOrEmpty(apiResponse))
+                return false;
+
+            // Attempt to deserialize the data
+            var discResponse = JsonConvert.DeserializeObject<DiscResponse>(apiResponse!);
+            if (discResponse is null)
+                return false;
+
+            // Title, Disc Number/Letter, Disc Title
+            if (discResponse.Title is not null)
+            {
+                // If we have parenthesis, title is everything before the first one
+                int firstParenLocation = discResponse.Title.IndexOf(" (");
+                if (firstParenLocation >= 0)
+                {
+#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
+                    info.DiscIdentity.Title = discResponse.Title[..firstParenLocation];
+#else
+                    info.DiscIdentity.Title = discResponse.Title.Substring(0, firstParenLocation);
+#endif
+                    var submatches = Constants.DiscNumberRegex.Matches(discResponse.Title);
+                    foreach (Match? submatch in submatches)
+                    {
+                        if (submatch is null)
+                            continue;
+
+                        var submatchValue = submatch.Groups[1].Value;
+
+                        // Disc number or letter
+                        if (submatchValue.StartsWith("Disc"))
+                        {
+#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
+                            info.DiscIdentity.DiscNumber = submatchValue["Disc ".Length..];
+#else
+                            info.DiscIdentity.DiscNumber = submatchValue.Remove(0, "Disc ".Length);
+#endif
+                        }
+
+                        // TODO: Figure out how to determine disc title vs. version (e.g. Alt)
+                        // At the moment, if the original splitting logic is used, then things like
+                        // "(Alt)" would be marked as the disc title instead of it properly going into the
+                        // filename suffix. There may not be a reasonable way of splitting this, so
+                        // only the disc number is being populated for now.
+                    }
+                }
+                // Otherwise, leave the title as-is
+                else
+                {
+                    info.DiscIdentity.Title = discResponse.Title;
+                }
+            }
+
+            // Foreign Title
+            if (discResponse.TitleForeign is not null)
+                info.DiscIdentity.ForeignTitle = discResponse.TitleForeign;
+
+            // Category
+            if (discResponse.Category is not null)
+                info.DiscIdentity.Category = discResponse.Category.ToDiscCategory();
+            else
+                info.DiscIdentity.Category = DiscCategory.Games;
+
+            // Region
+            if (discResponse.Regions is not null && discResponse.Regions.Length > 0)
+            {
+                var tempRegions = new List<RegionCode?>();
+                foreach (var regionStr in discResponse.Regions)
+                {
+                    var region = regionStr.ToRegionCode();
+                    if (region is not null)
+                        tempRegions.Add(region);
+                }
+
+                info.RegionsAndLanguages.Regions = [.. tempRegions];
+            }
+
+            // Languages
+            if (discResponse.Languages is not null && discResponse.Languages.Length > 0)
+            {
+                var tempLanguages = new List<LanguageCode?>();
+                foreach (var languageStr in discResponse.Languages)
+                {
+                    var language = languageStr.ToLanguageCode();
+                    if (language is not null)
+                        tempLanguages.Add(language);
+                }
+
+                info.RegionsAndLanguages.Languages = [.. tempLanguages];
+            }
+
+            // Disc Serials
+            if (includeAllData
+                && string.IsNullOrEmpty(info.DiscIdentifiers.DiscSerials)
+                && discResponse.Serial is not null
+                && discResponse.Serial.Length > 0)
+            {
+                string serialStr = string.Join(", ", discResponse.Serial);
+                info.DiscIdentifiers.DiscSerials = $"(VERIFY THIS) {serialStr}";
+            }
+
+            // Error Count
+            if (string.IsNullOrEmpty(info.DiscIdentifiers.ErrorCount) && discResponse.ErrorCount is not null)
+                info.DiscIdentifiers.ErrorCount = discResponse.ErrorCount.ToString();
+
+            // Version
+            if (string.IsNullOrEmpty(info.DiscIdentifiers.Version) && discResponse.Version is not null)
+                info.DiscIdentifiers.Version = discResponse.Version;
+
+            // TODO: Unify handling of fields that can include site codes (Comments/Contents)
+
+            // Comments
+            if (includeAllData && discResponse.Comments is not null)
+            {
+                // Process the old comments block
+                string oldComments = info.DumpMetadata.Comments
+                    + (string.IsNullOrEmpty(info.DumpMetadata.Comments) ? string.Empty : "\n")
+                    + discResponse.Comments
+                        .Replace("\r\n", "\n")
+                        .Replace("<br />\n", "\n")
+                        .Replace("<br />", string.Empty)
+                        .Replace("</div>", string.Empty)
+                        .Replace("[+]", string.Empty)
+                        .ReplaceHtmlWithSiteCodes();
+                oldComments = Regex.Replace(oldComments, @"<div .*?>", string.Empty, RegexOptions.Compiled);
+
+                // Create state variables
+                bool addToLast = false;
+                SiteCode? lastSiteCode = null;
+                string newComments = string.Empty;
+
+                // Process the comments block line-by-line
+                string[] commentsSeparated = oldComments.Split('\n');
+                for (int i = 0; i < commentsSeparated.Length; i++)
+                {
+                    string commentLine = commentsSeparated[i].Trim();
+
+                    // If we have an empty line, we want to treat this as intentional
+                    if (string.IsNullOrEmpty(commentLine))
+                    {
+                        addToLast = false;
+                        lastSiteCode = null;
+                        newComments += $"{commentLine}\n";
+                        continue;
+                    }
+
+                    // Otherwise, we need to find what tag is in use
+                    bool foundTag = false;
+                    foreach (SiteCode? siteCode in SiteCode.AllSiteCodes)
+                    {
+                        // If we have a null site code, just skip
+                        if (siteCode is null)
+                            continue;
+
+                        // If the line doesn't contain this tag, just skip
+                        if (siteCode.Code is not null && !commentLine.Contains(siteCode.Code))
+                            continue;
+                        else if (!commentLine.Contains(siteCode.HTML))
+                            continue;
+
+                        // Mark as having found a tag
+                        foundTag = true;
+
+                        // Cache the current site code
+                        lastSiteCode = siteCode;
+
+                        // A subset of tags can be multiline
+                        addToLast = siteCode.IsMultiLine;
+
+                        // Skip certain site codes because of data issues
+                        if (ShouldSkipSiteCode(siteCode))
+                            continue;
+
+                        // If we don't already have this site code, add it to the dictionary
+                        if (!info.DumpMetadata.CommentsSpecialFields.ContainsKey(siteCode))
+                        {
+                            // Remove both possible values
+                            string value = commentLine.Replace(siteCode.HTML, string.Empty).Trim();
+                            if (siteCode.Code is not null)
+                                value = commentLine.Replace(siteCode.Code, string.Empty).Trim();
+
+                            info.DumpMetadata.CommentsSpecialFields[siteCode] = $"(VERIFY THIS) {value}";
+                        }
+
+                        // Otherwise, append the value to the existing key
+                        else
+                        {
+                            // Remove both possible values
+                            string value = commentLine.Replace(siteCode.HTML, string.Empty).Trim();
+                            if (siteCode.Code is not null)
+                                value = commentLine.Replace(siteCode.Code, string.Empty).Trim();
+
+                            info.DumpMetadata.CommentsSpecialFields[siteCode] += $", {value}";
+                        }
+
+                        break;
+                    }
+
+                    // If we didn't find a known tag, just add the line, just in case
+                    if (!foundTag)
+                    {
+                        if (addToLast && lastSiteCode is not null && !ShouldSkipSiteCode(lastSiteCode))
+                        {
+                            if (!string.IsNullOrEmpty(info.DumpMetadata.CommentsSpecialFields![lastSiteCode]))
+                                info.DumpMetadata.CommentsSpecialFields[lastSiteCode] += "\n";
+
+                            info.DumpMetadata.CommentsSpecialFields[lastSiteCode] += commentLine;
+                        }
+                        else if (!addToLast || lastSiteCode is null)
+                        {
+                            newComments += $"{commentLine}\n";
+                        }
+                    }
+                }
+
+                // Set the new comments field
+                info.DumpMetadata.Comments = newComments;
+            }
+
+            // Contents
+            if (includeAllData && discResponse.Contents is not null)
+            {
+                // Process the old contents block
+                string oldContents = info.DumpMetadata.Contents
+                    + (string.IsNullOrEmpty(info.DumpMetadata.Contents) ? string.Empty : "\n")
+                    + discResponse.Contents
+                        .Replace("\r\n", "\n")
+                        .Replace("<br />\n", "\n")
+                        .Replace("<br />", string.Empty)
+                        .Replace("</div>", string.Empty)
+                        .Replace("[+]", string.Empty)
+                        .ReplaceHtmlWithSiteCodes();
+                oldContents = Regex.Replace(oldContents, @"<div .*?>", string.Empty, RegexOptions.Compiled);
+
+                // Create state variables
+                bool addToLast = false;
+                SiteCode? lastSiteCode = null;
+                string newContents = string.Empty;
+
+                // Process the contents block line-by-line
+                string[] contentsSeparated = oldContents.Split('\n');
+                for (int i = 0; i < contentsSeparated.Length; i++)
+                {
+                    string contentLine = contentsSeparated[i].Trim();
+
+                    // If we have an empty line, we want to treat this as intentional
+                    if (string.IsNullOrEmpty(contentLine))
+                    {
+                        addToLast = false;
+                        lastSiteCode = null;
+                        newContents += $"{contentLine}\n";
+                        continue;
+                    }
+
+                    // Otherwise, we need to find what tag is in use
+                    bool foundTag = false;
+                    foreach (SiteCode? siteCode in SiteCode.AllSiteCodes)
+                    {
+                        // If we have a null site code, just skip
+                        if (siteCode is null)
+                            continue;
+
+                        // If the line doesn't contain this tag, just skip
+                        if (siteCode.Code is not null && !contentLine.Contains(siteCode.Code))
+                            continue;
+                        else if (!contentLine.Contains(siteCode.HTML))
+                            continue;
+
+                        // Mark as having found a tag
+                        foundTag = true;
+
+                        // Cache the current site code
+                        lastSiteCode = siteCode;
+
+                        // A subset of tags can be multiline
+                        addToLast = siteCode.IsMultiLine;
+
+                        // Skip certain site codes because of data issues
+                        if (ShouldSkipSiteCode(siteCode))
+                            continue;
+
+                        // If we don't already have this site code, add it to the dictionary
+                        if (!info.DumpMetadata.ContentsSpecialFields.ContainsKey(siteCode))
+                        {
+                            // Remove both possible values
+                            string value = contentLine.Replace(siteCode.HTML, string.Empty).Trim();
+                            if (siteCode.Code is not null)
+                                value = contentLine.Replace(siteCode.Code, string.Empty).Trim();
+
+                            info.DumpMetadata.ContentsSpecialFields[siteCode] = $"(VERIFY THIS) {value}";
+                        }
+
+                        // Otherwise, append the value to the existing key
+                        else
+                        {
+                            // Remove both possible values
+                            string value = contentLine.Replace(siteCode.HTML, string.Empty).Trim();
+                            if (siteCode.Code is not null)
+                                value = contentLine.Replace(siteCode.Code, string.Empty).Trim();
+
+                            info.DumpMetadata.ContentsSpecialFields[siteCode] += $", {value}";
+                        }
+
+                        break;
+                    }
+
+                    // If we didn't find a known tag, just add the line, just in case
+                    if (!foundTag)
+                    {
+                        if (addToLast && lastSiteCode is not null && !ShouldSkipSiteCode(lastSiteCode))
+                        {
+                            if (!string.IsNullOrEmpty(info.DumpMetadata.ContentsSpecialFields![lastSiteCode]))
+                                info.DumpMetadata.ContentsSpecialFields[lastSiteCode] += "\n";
+
+                            info.DumpMetadata.ContentsSpecialFields[lastSiteCode] += contentLine;
+                        }
+                        else if (!addToLast || lastSiteCode is null)
+                        {
+                            newContents += $"{contentLine}\n";
+                        }
+                    }
+                }
+
+                // Set the new contents field
+                info.DumpMetadata.Contents = newContents;
+            }
+
+            // Added
+            if (discResponse.AddedAt is not null)
+            {
+                if (DateTime.TryParse(discResponse.AddedAt, out DateTime added))
+                    info.Added = added;
+                else
+                    info.Added = null;
+            }
+
+            // Last Modified
+            if (discResponse.ModifiedAt is not null)
+            {
+                if (DateTime.TryParse(discResponse.ModifiedAt, out DateTime lastModified))
+                    info.LastModified = lastModified;
+                else
+                    info.LastModified = null;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Fill out an existing SubmissionInfo object based on a disc page
         /// </summary>
         /// <param name="client">Client for making the connection</param>
         /// <param name="info">Existing SubmissionInfo object to fill</param>
         /// <param name="id">Redump disc ID to retrieve</param>
         /// <param name="includeAllData">True to include all pullable information, false to do bare minimum</param>
-        public static async Task<bool> FillFromId(Client client, SubmissionInfo info, int id, bool includeAllData)
+        public static async Task<bool> FillFromIdHtml(Client client, SubmissionInfo info, int id, bool includeAllData)
         {
             var endpoint = new Endpoints.Disc { Id = id };
             var discData = await client.DownloadSingleDiscEndpoint(endpoint);
