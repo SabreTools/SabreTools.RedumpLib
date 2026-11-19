@@ -554,7 +554,8 @@ namespace SabreTools.RedumpLib.Tools
                 && discResponse.SectorRanges is not null
                 && discResponse.SectorRanges.Length > 0)
             {
-                info.DumpMetadata.SectorRanges = string.Join("\n", discResponse.SectorRanges);
+                var sectorRanges = Array.ConvertAll(discResponse.SectorRanges, r => $"{r[0]}-{r[1]}");
+                info.DumpMetadata.SectorRanges = string.Join("\n", sectorRanges);
             }
 
             // PVD
