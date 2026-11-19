@@ -103,8 +103,9 @@ namespace SabreTools.RedumpLib.Data
         [JsonProperty("ring_codes")]
         public object? RingCodes { get; set; }
 
+        /// <remarks>Each range is returned as [start, end]</remarks>
         [JsonProperty("sector_ranges")]
-        public string[]? SectorRanges { get; set; }
+        public int[][]? SectorRanges { get; set; }
 
         [JsonProperty("cue")]
         public string? Cue { get; set; }
