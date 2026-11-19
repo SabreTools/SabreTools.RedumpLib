@@ -543,9 +543,9 @@ namespace SabreTools.RedumpLib.Tools
             {
                 // If there is protection information, add to it
                 if (!string.IsNullOrEmpty(info.DumpMetadata.Protection))
-                    info.DumpMetadata.Protection = $"(VERIFY THIS) {info.DumpMetadata.Protection}, {discResponse.Protection}";
+                    info.DumpMetadata.Protection = $"(VERIFY THIS) {discResponse.Protection}\n{info.DumpMetadata.Protection}";
                 else
-                    info.DumpMetadata.Protection = $"(VERIFY THIS) {discResponse.Protection}";
+                    info.DumpMetadata.Protection = $"(VERIFY THIS) {discResponse.Protection}\n";
             }
 
             // Sector Ranges
