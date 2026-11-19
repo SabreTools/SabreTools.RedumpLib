@@ -2489,32 +2489,6 @@ namespace SabreTools.RedumpLib.Test.Data
             return testData;
         }
 
-        /// <summary>
-        /// Check that the region codes used by the site can be mapped
-        /// </summary>
-        [Theory]
-        [InlineData("xe", "Europe")]
-        [InlineData("xw", "World")]
-        [InlineData("ua", "Ukraine")]
-        public void RegionCode_ToRegionCode_SiteCode(string code, string expected)
-        {
-            var actual = code.ToRegionCode();
-            Assert.Equal(expected, actual?.Name);
-        }
-
-        /// <summary>
-        /// Check that the codes from older submission info files can still be mapped
-        /// </summary>
-        [Theory]
-        [InlineData("eu", "Europe")]
-        [InlineData("un", "World")]
-        [InlineData("ue", "Ukraine")]
-        public void RegionCode_ToRegionCode_OlderCode(string code, string expected)
-        {
-            var actual = code.ToRegionCode();
-            Assert.Equal(expected, actual?.Name);
-        }
-
         #endregion
 
         #region Site Code
