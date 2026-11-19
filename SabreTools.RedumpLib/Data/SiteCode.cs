@@ -87,6 +87,7 @@ namespace SabreTools.RedumpLib.Data
             isCommentCode: true);
 
         public static readonly SiteCode Applications = new("<b>Applications</b>:",
+            code: "[T:APP]",
             isContentCode: true);
 
         public static readonly SiteCode BandaiID = new("<b>Bandai ID</b>:",
@@ -157,6 +158,7 @@ namespace SabreTools.RedumpLib.Data
             isMultiLine: true);
 
         public static readonly SiteCode Games = new("<b>Games</b>:",
+            code: "[T:GA]",
             isContentCode: true,
             isMultiLine: true);
 
