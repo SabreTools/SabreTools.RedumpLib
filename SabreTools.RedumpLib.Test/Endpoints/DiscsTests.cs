@@ -67,6 +67,23 @@ namespace SabreTools.RedumpLib.Test.Endpoints
             Assert.Equal(expected, actual);
         }
 
+        [Theory]
+        [InlineData("USA", "https://redump.info/discs?region=us&page=3")]
+        [InlineData("Europe", "https://redump.info/discs?region=xe&page=3")]
+        [InlineData("World", "https://redump.info/discs?region=xw&page=3")]
+        [InlineData("Ukraine", "https://redump.info/discs?region=ua&page=3")]
+        public void BuildUrl_RegionWithPages_Builds(string region, string expected)
+        {
+            var endpoint = new RedumpLib.Endpoints.Discs
+            {
+                Region = region.ToRegionCode(),
+                Page = 3,
+            };
+
+            string actual = endpoint.BuildUrl();
+            Assert.Equal(expected, actual);
+        }
+
         // TODO: Implement more extensive discs tests
 
         #endregion

@@ -854,7 +854,15 @@ namespace SabreTools.RedumpLib.Data
             if (index > -1)
                 return RegionCode.AllRegions[index];
 
-            return null;
+            // Codes used before the site codes
+            return region switch
+            {
+                "eu" => RegionCode.Europe,
+                "un" => RegionCode.World,
+                "ue" => RegionCode.Ukraine,
+
+                _ => null,
+            };
         }
 
         #endregion

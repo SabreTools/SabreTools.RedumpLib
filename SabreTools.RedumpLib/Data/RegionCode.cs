@@ -39,7 +39,7 @@ namespace SabreTools.RedumpLib.Data
 
         public static readonly RegionCode Asia = new("Asia", "xa");
 
-        public static readonly RegionCode Europe = new("Europe", "eu");
+        public static readonly RegionCode Europe = new("Europe", "xe");
 
         public static readonly RegionCode Export = new("Export", "xp");
 
@@ -47,7 +47,7 @@ namespace SabreTools.RedumpLib.Data
 
         public static readonly RegionCode Scandinavia = new("Scandinavia", "xs");
 
-        public static readonly RegionCode World = new("World", "un");
+        public static readonly RegionCode World = new("World", "xw");
 
         #endregion
 
@@ -637,7 +637,7 @@ namespace SabreTools.RedumpLib.Data
         // United Kingdom of Great Britain and Northern Ireland
         public static readonly RegionCode UnitedKingdom = new("UK", "gb");
 
-        public static readonly RegionCode Ukraine = new("Ukraine", "ue");
+        public static readonly RegionCode Ukraine = new("Ukraine", "ua");
 
         public static readonly RegionCode UnitedArabEmirates = new("United Arab Emirates", "ae");
 
