@@ -542,7 +542,7 @@ namespace SabreTools.RedumpLib.Tools
                 && discResponse.Protection is not null)
             {
                 // If there is protection information, add to it
-                if (info.DumpMetadata.Protection is not null)
+                if (!string.IsNullOrEmpty(info.DumpMetadata.Protection))
                     info.DumpMetadata.Protection = $"(VERIFY THIS) {info.DumpMetadata.Protection}, {discResponse.Protection}";
                 else
                     info.DumpMetadata.Protection = $"(VERIFY THIS) {discResponse.Protection}";
