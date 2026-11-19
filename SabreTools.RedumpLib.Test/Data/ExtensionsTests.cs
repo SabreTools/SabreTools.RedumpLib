@@ -2499,7 +2499,9 @@ namespace SabreTools.RedumpLib.Test.Data
         private static readonly SiteCode?[] _booleanSiteCodes =
         [
             SiteCode.PCMacHybrid,
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.PostgapType,
+#pragma warning restore CS0618 // Type or member is obsolete
         ];
 
         /// <summary>
@@ -2527,7 +2529,9 @@ namespace SabreTools.RedumpLib.Test.Data
             SiteCode.Multisession,
             SiteCode.PCMacHybrid,
             SiteCode.PEGIID,
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.PostgapType,
+#pragma warning restore CS0618 // Type or member is obsolete
             SiteCode.Protection,
             SiteCode.RingPerfectAudioOffset,
             SiteCode.Series,

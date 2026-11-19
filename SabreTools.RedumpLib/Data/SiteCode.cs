@@ -1,3 +1,5 @@
+using System;
+
 namespace SabreTools.RedumpLib.Data
 {
     /// <summary>
@@ -260,6 +262,7 @@ namespace SabreTools.RedumpLib.Data
             code: "[T:PCID]",
             isCommentCode: true);
 
+        [Obsolete("This has been removed entirely")]
         public static readonly SiteCode PostgapType = new("<b>Postgap type</b>: Form 2",
             code: "[T:PT2]",
             isBoolean: true,
@@ -304,10 +307,12 @@ namespace SabreTools.RedumpLib.Data
             isCommentCode: true);
 
         public static readonly SiteCode SteamCsmCsdDepotID = new("<b>Steam Depot ID (.sis/.csm/.csd)</b>:",
+            code: "[T:CSM]",
             isContentCode: true,
             isMultiLine: true);
 
         public static readonly SiteCode SteamSimSidDepotID = new("<b>Steam Depot ID (.sis/.sim/.sid)</b>:",
+            code: "[T:SIM]",
             isContentCode: true,
             isMultiLine: true);
 
@@ -425,7 +430,9 @@ namespace SabreTools.RedumpLib.Data
             PEGIID,
             PlayableDemos,
             PonyCanyonID,
+#pragma warning disable CS0618 // Type or member is obsolete
             PostgapType,
+#pragma warning restore CS0618 // Type or member is obsolete
             Protection,
 
             RingPerfectAudioOffset,
