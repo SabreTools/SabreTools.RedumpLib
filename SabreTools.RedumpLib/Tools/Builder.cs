@@ -261,7 +261,7 @@ namespace SabreTools.RedumpLib.Tools
             if (string.IsNullOrEmpty(info.DiscIdentifiers.Version)
                 && discResponse.Version is not null)
             {
-                info.DiscIdentifiers.Version = discResponse.Version;
+                info.DiscIdentifiers.Version = $"(VERIFY THIS) {discResponse.Version}";;
             }
 
             // Error Count
