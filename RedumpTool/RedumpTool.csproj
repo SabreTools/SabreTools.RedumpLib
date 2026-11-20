@@ -10,7 +10,7 @@
         <SelfContained>true</SelfContained>
         <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <Version>3.6.1</Version>
+        <Version>3.6.2</Version>
     </PropertyGroup>
 
     <!-- Publishing Modifications -->
