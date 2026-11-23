@@ -617,7 +617,7 @@ namespace SabreTools.RedumpLib.Tools
             if (text.Length == 0)
                 return text;
 
-            foreach (SiteCode? siteCode in SiteCode.AllSiteCodes)
+            foreach (SiteCode siteCode in SiteCode.AllSiteCodes)
             {
                 if (siteCode.Code is not null)
                     text = text.Replace(siteCode.HTML, siteCode.Code);
