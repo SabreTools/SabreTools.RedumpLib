@@ -856,13 +856,6 @@ namespace SabreTools.RedumpLib.Data
             hasDat: true,
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
 
-        // https://en.wikipedia.org/wiki/FuRyu
-        public static readonly PhysicalSystem FuRyuOmronPurikura = new("FuRyu & Omron Purikura",
-            SystemCategory.Arcade,
-            code: "FPURI",
-            hasDat: true,
-            mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
-
         // UNKNOWN
         public static readonly PhysicalSystem GlobalVRVarious = new("Global VR PC-based Systems",
             SystemCategory.Arcade,
@@ -1016,7 +1009,7 @@ namespace SabreTools.RedumpLib.Data
             available: false,
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
 
-        // UNKNOWN
+        // https://en.wikipedia.org/wiki/FuRyu
         public static readonly PhysicalSystem NamcoPurikura = new("Namco Purikura",
             SystemCategory.Arcade,
             code: "NPURI",
@@ -1710,7 +1703,6 @@ namespace SabreTools.RedumpLib.Data
             CapcomPlaySystemIII,
             CDExpressCuboCD32,
             FunworldPhotoPlay,
-            FuRyuOmronPurikura,
             GlobalVRVarious,
             GlobalVRVortek,
             GlobalVRVortekV3,
