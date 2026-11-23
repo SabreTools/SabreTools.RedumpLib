@@ -1009,13 +1009,6 @@ namespace SabreTools.RedumpLib.Data
             available: false,
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
 
-        // https://en.wikipedia.org/wiki/FuRyu
-        public static readonly PhysicalSystem NamcoPurikura = new("Namco Purikura",
-            SystemCategory.Arcade,
-            code: "NPURI",
-            hasDat: true,
-            mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
-
         // http://system16.com/hardware.php?id=545
         public static readonly PhysicalSystem NamcoSegaNintendoTriforce = new("Namco · Sega · Nintendo Triforce",
             SystemCategory.Arcade,
@@ -1112,6 +1105,13 @@ namespace SabreTools.RedumpLib.Data
         public static readonly PhysicalSystem PhotoPlayVarious = new("PhotoPlay PC-based Systems",
             SystemCategory.Arcade,
             available: false,
+            mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
+
+        // https://en.wikipedia.org/wiki/FuRyu
+        public static readonly PhysicalSystem Purikura = new("Purikura",
+            SystemCategory.Arcade,
+            code: "PURI",
+            hasDat: true,
             mediaTypes: [PhysicalMediaType.CDROM, PhysicalMediaType.DVD]);
 
         // UNKNOWN
@@ -1724,7 +1724,6 @@ namespace SabreTools.RedumpLib.Data
             MeritIndustriesMegaTouchION,
             MeritIndustriesMegaTouchMaxx,
             MeritIndustriesMegaTouchXL,
-            NamcoPurikura,
             NamcoSegaNintendoTriforce,
             NamcoSystem10,
             NamcoSystem12,
@@ -1738,6 +1737,7 @@ namespace SabreTools.RedumpLib.Data
             PanasonicM2,
             PCBasedArcade,
             PhotoPlayVarious,
+            Purikura,
             RawThrillsVarious,
             SegaALLS,
             SegaChihiro,
