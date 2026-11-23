@@ -48,9 +48,6 @@ namespace SabreTools.RedumpLib.Tools
             // Legacy Codes
             SiteCode.Genre,
             SiteCode.Series,
-#pragma warning disable CS0618 // Type or member is obsolete
-            SiteCode.PostgapType,
-#pragma warning restore CS0618 // Type or member is obsolete
 
             // Publisher / Company IDs
             SiteCode.TwoKGamesID,

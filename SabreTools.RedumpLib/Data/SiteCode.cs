@@ -1,5 +1,3 @@
-using System;
-
 namespace SabreTools.RedumpLib.Data
 {
     /// <summary>
@@ -262,12 +260,6 @@ namespace SabreTools.RedumpLib.Data
             code: "[T:PCID]",
             isCommentCode: true);
 
-        [Obsolete("This has been removed entirely")]
-        public static readonly SiteCode PostgapType = new("<b>Postgap type</b>: Form 2",
-            code: "[T:PT2]",
-            isBoolean: true,
-            isCommentCode: true);
-
         // This doesn't have a site tag for some systems yet
         public static readonly SiteCode Protection = new("<b>Protection</b>:",
             isCommentCode: true);
@@ -430,9 +422,6 @@ namespace SabreTools.RedumpLib.Data
             PEGIID,
             PlayableDemos,
             PonyCanyonID,
-#pragma warning disable CS0618 // Type or member is obsolete
-            PostgapType,
-#pragma warning restore CS0618 // Type or member is obsolete
             Protection,
 
             RingPerfectAudioOffset,
