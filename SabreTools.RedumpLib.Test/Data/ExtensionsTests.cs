@@ -2593,6 +2593,7 @@ namespace SabreTools.RedumpLib.Test.Data
         /// </summary>
         private static readonly SiteCode?[] _multilineSiteCodes =
         [
+            SiteCode.Applications,
             SiteCode.Extras,
             SiteCode.Filename,
             SiteCode.Games,
