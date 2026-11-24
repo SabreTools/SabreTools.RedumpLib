@@ -9,28 +9,28 @@ namespace SabreTools.RedumpLib.Data.Sections
     /// <remarks>These do not map to existing fields in a submission form</remarks>
     public class DumpingInfoSection : ICloneable
     {
-        [JsonProperty(PropertyName = "frontend_version", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty(PropertyName = "frontend_version", NullValueHandling = NullValueHandling.Include)]
         public string? FrontendVersion { get; set; }
 
-        [JsonProperty(PropertyName = "dumping_program", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty(PropertyName = "dumping_program", NullValueHandling = NullValueHandling.Include)]
         public string? DumpingProgram { get; set; }
 
-        [JsonProperty(PropertyName = "dumping_date", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty(PropertyName = "dumping_date", NullValueHandling = NullValueHandling.Include)]
         public string? DumpingDate { get; set; }
 
-        [JsonProperty(PropertyName = "dumping_params", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty(PropertyName = "dumping_params", NullValueHandling = NullValueHandling.Include)]
         public string? DumpingParameters { get; set; }
 
-        [JsonProperty(PropertyName = "drive_manufacturer", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty(PropertyName = "drive_manufacturer", NullValueHandling = NullValueHandling.Include)]
         public string? Manufacturer { get; set; }
 
-        [JsonProperty(PropertyName = "drive_model", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty(PropertyName = "drive_model", NullValueHandling = NullValueHandling.Include)]
         public string? Model { get; set; }
 
-        [JsonProperty(PropertyName = "drive_firmware", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty(PropertyName = "drive_firmware", NullValueHandling = NullValueHandling.Include)]
         public string? Firmware { get; set; }
 
-        [JsonProperty(PropertyName = "reported_disc_type", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty(PropertyName = "reported_disc_type", NullValueHandling = NullValueHandling.Include)]
         public string? ReportedDiscType { get; set; }
 
         [JsonProperty(PropertyName = "errors_c2", NullValueHandling = NullValueHandling.Ignore)]

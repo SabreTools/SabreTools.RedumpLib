@@ -11,7 +11,7 @@ namespace SabreTools.RedumpLib.Data.Sections
     {
         #region Layer 0
 
-        [JsonProperty(PropertyName = "layer_0_mastering_code", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty(PropertyName = "layer_0_mastering_code", NullValueHandling = NullValueHandling.Include)]
         public string? Layer0MasteringCode { get; set; }
 
         [JsonProperty(PropertyName = "layer_0_mastering_sid", NullValueHandling = NullValueHandling.Ignore)]
@@ -30,7 +30,7 @@ namespace SabreTools.RedumpLib.Data.Sections
 
         #region Layer 1
 
-        [JsonProperty(PropertyName = "layer_1_mastering_code", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty(PropertyName = "layer_1_mastering_code", NullValueHandling = NullValueHandling.Include)]
         public string? Layer1MasteringCode { get; set; }
 
         [JsonProperty(PropertyName = "layer_1_mastering_sid", NullValueHandling = NullValueHandling.Ignore)]
@@ -43,7 +43,7 @@ namespace SabreTools.RedumpLib.Data.Sections
 
         #region Layer 2
 
-        [JsonProperty(PropertyName = "layer_2_mastering_code", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty(PropertyName = "layer_2_mastering_code", NullValueHandling = NullValueHandling.Include)]
         public string? Layer2MasteringCode { get; set; }
 
         [JsonProperty(PropertyName = "layer_2_mastering_sid", NullValueHandling = NullValueHandling.Ignore)]
@@ -56,7 +56,7 @@ namespace SabreTools.RedumpLib.Data.Sections
 
         #region Layer 3
 
-        [JsonProperty(PropertyName = "layer_3_mastering_code", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty(PropertyName = "layer_3_mastering_code", NullValueHandling = NullValueHandling.Include)]
         public string? Layer3MasteringCode { get; set; }
 
         [JsonProperty(PropertyName = "layer_3_mastering_sid", NullValueHandling = NullValueHandling.Ignore)]
@@ -69,7 +69,7 @@ namespace SabreTools.RedumpLib.Data.Sections
 
         #region Label Side
 
-        [JsonProperty(PropertyName = "label_side_mastering_code", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty(PropertyName = "label_side_mastering_code", NullValueHandling = NullValueHandling.Include)]
         public string? LabelSideMasteringCode { get; set; }
 
         [JsonProperty(PropertyName = "label_side_mastering_sid", NullValueHandling = NullValueHandling.Ignore)]

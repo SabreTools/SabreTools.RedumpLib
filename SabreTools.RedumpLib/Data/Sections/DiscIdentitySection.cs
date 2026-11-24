@@ -21,10 +21,10 @@ namespace SabreTools.RedumpLib.Data.Sections
         [JsonConverter(typeof(DiscCategoryConverter))]
         public DiscCategory? Category { get; set; }
 
-        [JsonProperty(PropertyName = "title", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty(PropertyName = "title", NullValueHandling = NullValueHandling.Include)]
         public string? Title { get; set; }
 
-        [JsonProperty(PropertyName = "title_foreign", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "title_foreign", NullValueHandling = NullValueHandling.Ignore)]
         public string? ForeignTitle { get; set; }
 
         [JsonProperty(PropertyName = "disc_number", NullValueHandling = NullValueHandling.Ignore)]

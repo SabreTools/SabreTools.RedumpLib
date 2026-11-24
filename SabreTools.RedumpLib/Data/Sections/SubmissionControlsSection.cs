@@ -8,10 +8,10 @@ namespace SabreTools.RedumpLib.Data.Sections
     /// </summary>
     public class SubmissionControlsSection : ICloneable
     {
-        [JsonProperty(PropertyName = "dump_log", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty(PropertyName = "dump_log", NullValueHandling = NullValueHandling.Include)]
         public string? DumpLog { get; set; }
 
-        [JsonProperty(PropertyName = "extra_upload_url", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "extra_upload_url", NullValueHandling = NullValueHandling.Ignore)]
         public string? LogsArchiveURL { get; set; }
 
         /// <remarks>Hidden from submission</remarks>
