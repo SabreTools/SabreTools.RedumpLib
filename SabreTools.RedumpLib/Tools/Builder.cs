@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -472,9 +472,9 @@ namespace SabreTools.RedumpLib.Tools
             {
                 // If there is protection information, add to it
                 if (!string.IsNullOrEmpty(info.DumpMetadata.Protection))
-                    info.DumpMetadata.Protection = $"(VERIFY THIS) {discResponse.Protection}\n{info.DumpMetadata.Protection}";
+                    info.DumpMetadata.Protection = $"(VERIFY THIS) {discResponse.Protection}\n\n{info.DumpMetadata.Protection}";
                 else
-                    info.DumpMetadata.Protection = $"(VERIFY THIS) {discResponse.Protection}\n";
+                    info.DumpMetadata.Protection = $"(VERIFY THIS) {discResponse.Protection}\n\n";
             }
 
             // Sector Ranges
