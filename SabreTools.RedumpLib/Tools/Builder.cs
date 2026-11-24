@@ -120,7 +120,8 @@ namespace SabreTools.RedumpLib.Tools
             #region Regions and Languages
 
             // Region
-            if (discResponse.Regions is not null
+            if (includeAllData
+                && discResponse.Regions is not null
                 && discResponse.Regions.Length > 0)
             {
                 var tempRegions = new List<RegionCode?>();
@@ -135,7 +136,8 @@ namespace SabreTools.RedumpLib.Tools
             }
 
             // Languages
-            if (discResponse.Languages is not null
+            if (includeAllData
+                && discResponse.Languages is not null
                 && discResponse.Languages.Length > 0)
             {
                 var tempLanguages = new List<LanguageCode?>();
