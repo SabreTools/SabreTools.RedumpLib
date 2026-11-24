@@ -191,7 +191,8 @@ namespace SabreTools.RedumpLib.Tools
             }
 
             // Error Count
-            if (string.IsNullOrEmpty(info.DiscIdentifiers.ErrorCount)
+            if (includeAllData
+                && string.IsNullOrEmpty(info.DiscIdentifiers.ErrorCount)
                 && discResponse.ErrorCount is not null)
             {
                 info.DiscIdentifiers.ErrorCount = discResponse.ErrorCount.ToString();
