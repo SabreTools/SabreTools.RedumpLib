@@ -138,11 +138,6 @@ namespace SabreTools.RedumpLib.Test.Data
                     ReportedDiscType = "CD-R",
                     C2ErrorsCount = "0",
                 },
-
-                Artifacts = new Dictionary<string, string>()
-                {
-                    ["Sample Artifact"] = "Sample Data",
-                },
             };
 
             string json = JsonConvert.SerializeObject(submissionInfo, Formatting.Indented);

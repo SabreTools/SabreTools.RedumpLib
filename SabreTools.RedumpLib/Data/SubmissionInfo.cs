@@ -107,23 +107,11 @@ namespace SabreTools.RedumpLib.Data
         [JsonProperty(PropertyName = "dumping_info", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DumpingInfoSection DumpingInfo { get; set; } = new DumpingInfoSection();
 
-        /// <summary>
-        /// Proof-of-concept section to handle additional attachments such as encoded files
-        /// </summary>
-        [JsonProperty(PropertyName = "artifacts", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Dictionary<string, string> Artifacts { get; set; } = [];
-
         #endregion
 
         /// <inheritdoc/>
         public object Clone()
         {
-            Dictionary<string, string> artifacts = [];
-            foreach (var kvp in this.Artifacts)
-            {
-                artifacts[kvp.Key] = kvp.Value;
-            }
-
             return new SubmissionInfo
             {
                 SchemaVersion = this.SchemaVersion,
@@ -141,7 +129,6 @@ namespace SabreTools.RedumpLib.Data
                 SubmissionControls = this.SubmissionControls?.Clone() as SubmissionControlsSection ?? new SubmissionControlsSection(),
 
                 DumpingInfo = this.DumpingInfo?.Clone() as DumpingInfoSection ?? new DumpingInfoSection(),
-                Artifacts = artifacts,
             };
         }
     }

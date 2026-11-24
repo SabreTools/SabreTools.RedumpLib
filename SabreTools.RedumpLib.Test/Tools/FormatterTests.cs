@@ -134,11 +134,6 @@ namespace SabreTools.RedumpLib.Test.Tools
                     ReportedDiscType = "CD-R",
                     C2ErrorsCount = "0",
                 },
-
-                Artifacts = new Dictionary<string, string>()
-                {
-                    ["Sample Artifact"] = "Sample Data",
-                },
             };
 
             string? text = Formatter.FormatOutputData(submissionInfo, out _);
