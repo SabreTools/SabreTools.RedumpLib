@@ -43,12 +43,6 @@ namespace SabreTools.RedumpLib.Data
         [HumanReadable(LongName = "Educational")]
         Educational = 8,
 
-        [HumanReadable(LongName = "Bonus Discs")]
-        BonusDiscs = 9,
-
-        [HumanReadable(LongName = "Preproduction")]
-        Preproduction = 10,
-
         [HumanReadable(LongName = "Add-Ons")]
         AddOns = 11,
     }
@@ -76,6 +70,33 @@ namespace SabreTools.RedumpLib.Data
 
         [HumanReadable(LongName = "DMI", ShortName = "dmi")]
         DMI = 6,
+    }
+
+    /// <summary>
+    /// List of all disc tags
+    /// </summary>
+    public enum DiscTag
+    {
+        [HumanReadable(LongName = "Preproduction")]
+        Preproduction = 1,
+
+        [HumanReadable(LongName = "Bonus Discs")]
+        BonusDiscs = 2,
+
+        [HumanReadable(LongName = "Mini (8cm)")]
+        Mini = 3,
+
+        [HumanReadable(LongName = "PC/Mac Hybrid")]
+        PCMacHybrid = 4,
+
+        [HumanReadable(LongName = "Recordable Disc")]
+        RecordableDisc = 5,
+
+        [HumanReadable(LongName = "Stub/Key Disc")]
+        StubKeyDisc = 6,
+
+        [HumanReadable(LongName = "Unlicensed")]
+        Unlicensed = 7,
     }
 
     /// <summary>
