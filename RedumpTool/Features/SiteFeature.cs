@@ -27,8 +27,8 @@ namespace RedumpTool.Features
         private const string _barcodeName = "barcode";
         internal readonly StringInput BarcodeInput = new(_barcodeName, ["--barcode"], "Add barcode to filter");
 
-        private const string _barcodeExactName = "barcode-exact";
-        internal readonly BooleanInput BarcodeExactInput = new(_barcodeExactName, ["--barcode-exact"], "Add barcode exact matching to filter [true, false]");
+        private const string _barcodeModeName = "barcode-mode";
+        internal readonly StringInput BarcodeModeInput = new(_barcodeModeName, ["--barcode-mode"], "Add barcode matching mode to filter [any, all]");
 
         private const string _categoryName = "category";
         internal readonly StringInput CategoryInput = new(_categoryName, ["--category"], "Add category to filter");
@@ -45,14 +45,14 @@ namespace RedumpTool.Features
         private const string _discTitleName = "disc-title";
         internal readonly StringInput DiscTitleInput = new(_discTitleName, ["--disc-title"], "Add disc title to filter");
 
-        private const string _discTitleExactName = "disc-title-exact";
-        internal readonly BooleanInput DiscTitleExactInput = new(_discTitleExactName, ["--disc-title-exact"], "Add disc title exact matching to filter [true, false]");
+        private const string _discTitleModeName = "disc-title-mode";
+        internal readonly StringInput DiscTitleModeInput = new(_discTitleModeName, ["--disc-title-mode"], "Add disc title matching mode to filter [any, all]");
 
         private const string _discTitleForeignName = "disc-title-foreign";
         internal readonly StringInput DiscTitleForeignInput = new(_discTitleForeignName, ["--disc-title-foreign"], "Add foreign disc title to filter");
 
-        private const string _discTitleForeignExactName = "disc-title-foreign-exact";
-        internal readonly BooleanInput DiscTitleForeignExactInput = new(_discTitleForeignExactName, ["--disc-title-foreign-exact"], "Add foreign disc title exact matching to filter [true, false]");
+        private const string _discTitleForeignModeName = "disc-title-foreign-mode";
+        internal readonly StringInput DiscTitleForeignModeInput = new(_discTitleForeignModeName, ["--disc-title-foreign-mode"], "Add foreign disc title matching mode to filter [any, all]");
 
         private const string _dumperName = "dumper";
         internal readonly StringInput DumperInput = new(_dumperName, ["--dumper"], "Add dumper to filter");
@@ -63,14 +63,32 @@ namespace RedumpTool.Features
         private const string _editionName = "edition";
         internal readonly StringInput EditionInput = new(_editionName, ["--edition"], "Add edition to filter");
 
-        private const string _editionExactName = "edition-exact";
-        internal readonly BooleanInput EditionExactInput = new(_editionExactName, ["--edition-exact"], "Add edition exact matching to filter [true, false]");
+        private const string _editionModeName = "edition-mode";
+        internal readonly StringInput EditionModeInput = new(_editionModeName, ["--edition-mode"], "Add edition matching mode to filter [any, all]");
 
         private const string _errorsMaxName = "errors-max";
-        internal readonly Int32Input ErrorsMaximumInput = new(_errorsMaxName, ["--errors-max"], "Add maximum error count to filter");
+        internal readonly Int32Input ErrorsMaxInput = new(_errorsMaxName, ["--errors-max"], "Add maximum error count to filter");
 
         private const string _errorsMinName = "errors-min";
-        internal readonly Int32Input ErrorsMinimumInput = new(_errorsMinName, ["--errors-min"], "Add minimum error count to filter");
+        internal readonly Int32Input ErrorsMinInput = new(_errorsMinName, ["--errors-min"], "Add minimum error count to filter");
+
+        private const string _exeDateMaxName = "exe-date-max";
+        internal readonly StringInput ExeDateMaxInput = new(_exeDateMaxName, ["--exe-date-max"], "Add maximum EXE date to filter");
+
+        private const string _exeDateMinName = "exe-date-min";
+        internal readonly StringInput ExeDateMinInput = new(_exeDateMinName, ["--exe-date-min"], "Add minimum EXE date to filter");
+
+        private const string _filenameSuffixName = "filename-suffix";
+        internal readonly StringInput FilenameSuffixInput = new(_filenameSuffixName, ["--filename-suffix"], "Add filename suffix to filter");
+
+        private const string _filenameSuffixModeName = "filename-suffix-mode";
+        internal readonly StringInput FilenameSuffixModeInput = new(_filenameSuffixModeName, ["--filename-suffix-mode"], "Add filename suffix matching mode to filter [any, all]");
+
+        private const string _internalSerialName = "internal-serial";
+        internal readonly StringInput InternalSerialInput = new(_internalSerialName, ["--internal-serial"], "Add internal serial to filter");
+
+        private const string _internalSerialModeName = "finternal-serial-mode";
+        internal readonly StringInput InternalSerialModeInput = new(_internalSerialModeName, ["--internal-serial-mode"], "Add internal serial matching mode to filter [any, all]");
 
         private const string _languageName = "language";
         internal readonly StringInput LanguageInput = new(_languageName, ["--language"], "Add language to filter");
@@ -102,8 +120,14 @@ namespace RedumpTool.Features
         private const string _mouldSidName = "mould-sid";
         internal readonly StringInput MouldSidInput = new(_mouldSidName, ["--mould-sid"], "Add mould SID to filter");
 
-        private const string _offsetName = "offset";
-        internal readonly Int32Input OffsetInput = new(_offsetName, ["--offset"], "Add offset to filter");
+        private const string _notTagsName = "not-tags";
+        internal readonly StringListInput NotTagsInput = new(_notTagsName, ["--not-tag"], "Add not tag to filter (multiple allowed)");
+
+        private const string _offsetMaxName = "offset-max";
+        internal readonly Int32Input OffsetMaxInput = new(_offsetMaxName, ["--offset-max"], "Add maximum offset to filter");
+
+        private const string _offsetMinName = "offset-min";
+        internal readonly Int32Input OffsetMinInput = new(_offsetMinName, ["--offset-min"], "Add minimum offset to filter");
 
         private const string _orderName = "order";
         internal readonly StringInput OrderInput = new(_orderName, ["--order"], "Add sort order to filter [asc, desc]");
@@ -111,20 +135,23 @@ namespace RedumpTool.Features
         private const string _protectionName = "protection";
         internal readonly StringInput ProtectionInput = new(_protectionName, ["--protection"], "Add protection to filter");
 
+        private const string _pvdDateMaxName = "pvd-date-max";
+        internal readonly StringInput PvdDateMaxInput = new(_pvdDateMaxName, ["--pvd-date-max"], "Add maximum PVD date to filter");
+
+        private const string _pvdDateMinName = "pvd-date-min";
+        internal readonly StringInput PvdDateMinInput = new(_pvdDateMinName, ["--pvd-date-min"], "Add minimum PVD date to filter");
+
         private const string _queryName = "query";
         internal readonly StringInput QueryInput = new(_queryName, ["--query"], "Add query to filter");
 
         private const string _regionName = "region";
         internal readonly StringInput RegionInput = new(_regionName, ["--region"], "Add region to filter");
 
-        private const string _ringcodeName = "ringcode";
-        internal readonly StringInput RingcodeInput = new(_ringcodeName, ["--ringcode"], "Add ringcode to filter");
-
         private const string _serialName = "serial";
         internal readonly StringInput SerialInput = new(_serialName, ["--serial"], "Add serial to filter");
 
-        private const string _serialExactName = "serial-exact";
-        internal readonly BooleanInput SerialExactInput = new(_serialExactName, ["--serial-exact"], "Add serial exact matching to filter [true, false]");
+        private const string _serialModeName = "serial-mode";
+        internal readonly StringInput SerialModeInput = new(_serialModeName, ["--serial-mode"], "Add serial matching mode to filter [any, all]");
 
         private const string _sortName = "sort";
         internal readonly StringInput SortInput = new(_sortName, ["--sort"], "Add sort category to filter [title, added, region, system, version, edition, language, serial, status, modified]");
@@ -135,29 +162,47 @@ namespace RedumpTool.Features
         private const string _systemName = "system";
         internal readonly StringInput SystemInput = new(_systemName, ["--system"], "Filter by system");
 
+        private const string _tagsName = "tags";
+        internal readonly StringListInput TagsInput = new(_tagsName, ["--tag"], "Add tag to filter (multiple allowed)");
+
+        private const string _tagModeInput = "tag-mode";
+        internal readonly StringInput TagModeInput = new(_tagModeInput, ["--tag-mode"], "Add tag matching mode to filter [any, all]");
+
         private const string _titleName = "title";
         internal readonly StringInput TitleInput = new(_titleName, ["--title"], "Add title to filter");
 
-        private const string _titleExactName = "title-exact";
-        internal readonly BooleanInput TitleExactInput = new(_titleExactName, ["--title-exact"], "Add title exact matching to filter [true, false]");
+        private const string _titleModeName = "title-mode";
+        internal readonly StringInput TitleModeInput = new(_titleModeName, ["--title-mode"], "Add title matching mode to filter [any, all]");
 
         private const string _titleForeignName = "title-foreign";
         internal readonly StringInput TitleForeignInput = new(_titleForeignName, ["--title-foreign"], "Add foreign title to filter");
 
-        private const string _titleForeignExactName = "title-foreign-exact";
-        internal readonly BooleanInput TitleForeignExactInput = new(_titleForeignExactName, ["--title-foreign-exact"], "Add foreign title exact matching to filter [true, false]");
+        private const string _titleForeignModeName = "title-foreign-mode";
+        internal readonly StringInput TitleForeignModeInput = new(_titleForeignModeName, ["--title-foreign-mode"], "Add foreign title matching mode to filter [any, all]");
 
         private const string _toolstampName = "toolstamp";
         internal readonly StringInput ToolstampInput = new(_toolstampName, ["--toolstamp"], "Add toolstamp to filter");
 
         private const string _tracksMaxName = "tracks-max";
-        internal readonly Int32Input TracksMaximumInput = new(_tracksMaxName, ["--tracks-max"], "Add maximum track count to filter");
+        internal readonly Int32Input TracksMaxInput = new(_tracksMaxName, ["--tracks-max"], "Add maximum track count to filter");
 
         private const string _tracksMinName = "tracks-min";
-        internal readonly Int32Input TracksMinimumInput = new(_tracksMinName, ["--tracks-min"], "Add minimum track count to filter");
+        internal readonly Int32Input TracksMinInput = new(_tracksMinName, ["--tracks-min"], "Add minimum track count to filter");
 
         private const string _universalHashName = "universal-hash";
         internal readonly StringInput UniversalHashInput = new(_universalHashName, ["--universal-hash"], "Add universal hash to filter");
+
+        private const string _versionName = "version";
+        internal readonly StringInput VersionInput = new(_versionName, ["--version"], "Add version to filter");
+
+        private const string _versionModeName = "version-mode";
+        internal readonly StringInput VersionModeInput = new(_versionModeName, ["--version-mode"], "Add version matching mode to filter [any, all]");
+
+        private const string _volumeLabelName = "volume-label";
+        internal readonly StringInput VolumeLabelInput = new(_volumeLabelName, ["--volume-label"], "Add volume label to filter");
+
+        private const string _volumeLabelModeName = "volume-label-mode";
+        internal readonly StringInput VolumeLabelModeInput = new(_volumeLabelModeName, ["--volume-label-mode"], "Add volume label matching mode to filter [any, all]");
 
         #endregion
 
@@ -186,44 +231,59 @@ namespace RedumpTool.Features
             // Filter
             Add(AdditionalMouldInput);
             Add(BarcodeInput);
-            Add(BarcodeExactInput);
+            Add(BarcodeModeInput);
             Add(CategoryInput);
             Add(CommentsInput);
             Add(ContentsInput);
             Add(DiscNumberInput);
             Add(DiscTitleInput);
-            Add(DiscTitleExactInput);
+            Add(DiscTitleModeInput);
             Add(DumperInput);
             Add(EdcInput);
             Add(EditionInput);
-            Add(EditionExactInput);
-            Add(ErrorsMaximumInput);
-            Add(ErrorsMinimumInput);
+            Add(EditionModeInput);
+            Add(ErrorsMaxInput);
+            Add(ErrorsMinInput);
+            Add(ExeDateMaxInput);
+            Add(ExeDateMinInput);
+            Add(FilenameSuffixInput);
+            Add(FilenameSuffixModeInput);
+            Add(InternalSerialInput);
+            Add(InternalSerialModeInput);
             Add(LanguageInput);
             Add(LetterInput);
             Add(MasteringCodeInput);
             Add(MasteringSidInput);
             Add(MediaInput);
             Add(MouldSidInput);
-            Add(OffsetInput);
+            Add(NotTagsInput);
+            Add(OffsetMaxInput);
+            Add(OffsetMinInput);
             Add(OrderInput);
             Add(ProtectionInput);
+            Add(PvdDateMaxInput);
+            Add(PvdDateMinInput);
             Add(QueryInput);
             Add(RegionInput);
-            Add(RingcodeInput);
             Add(SerialInput);
-            Add(SerialExactInput);
+            Add(SerialModeInput);
             Add(SortInput);
             Add(StatusInput);
             Add(SystemInput);
+            Add(TagsInput);
+            Add(TagModeInput);
             Add(TitleInput);
-            Add(TitleExactInput);
+            Add(TitleModeInput);
             Add(TitleForeignInput);
-            Add(TitleForeignExactInput);
+            Add(TitleForeignModeInput);
             Add(ToolstampInput);
-            Add(TracksMaximumInput);
-            Add(TracksMinimumInput);
+            Add(TracksMaxInput);
+            Add(TracksMinInput);
             Add(UniversalHashInput);
+            Add(VersionInput);
+            Add(VersionModeInput);
+            Add(VolumeLabelInput);
+            Add(VolumeLabelModeInput);
         }
 
         /// <inheritdoc/>
@@ -248,21 +308,27 @@ namespace RedumpTool.Features
             // Get filter values
             string? additionalMould = AdditionalMouldInput.Value;
             string? barcode = BarcodeInput.Value;
-            bool? barcodeExact = BarcodeExactInput.Value;
+            string? barcodeMode = BarcodeModeInput.Value;
             DiscCategory? category = CategoryInput.Value.ToDiscCategory();
             string? comments = CommentsInput.Value;
             string? contents = ContentsInput.Value;
             string? discNumber = DiscNumberInput.Value;
             string? discTitle = DiscTitleInput.Value;
-            bool? discTitleExact = DiscTitleExactInput.Value;
+            string? discTitleMode = DiscTitleModeInput.Value;
             string? discTitleForeign = DiscTitleForeignInput.Value;
-            bool? discTitleForeignExact = DiscTitleForeignExactInput.Value;
+            string? discTitleForeignMode = DiscTitleForeignModeInput.Value;
             string? dumper = DumperInput.Value;
             YesNo? edc = EdcInput.Value?.ToYesNo();
             string? edition = EditionInput.Value;
-            bool? editionExact = EditionExactInput.Value;
-            long? errorsMax = ErrorsMaximumInput.Value;
-            long? errorsMin = ErrorsMinimumInput.Value;
+            string? editionMode = EditionModeInput.Value;
+            long? errorsMax = ErrorsMaxInput.Value;
+            long? errorsMin = ErrorsMinInput.Value;
+            string? exeDateMax = ExeDateMaxInput.Value;
+            string? exeDateMin = ExeDateMinInput.Value;
+            string? filenameSuffix = FilenameSuffixInput.Value;
+            string? filenameSuffixMode = FilenameSuffixModeInput.Value;
+            string? internalSerial = InternalSerialInput.Value;
+            string? internalSerialMode = InternalSerialModeInput.Value;
             LanguageCode? language = LanguageInput.Value.ToLanguageCode();
             char? letter = string.IsNullOrEmpty(LetterInput.Value)
                 ? null
@@ -271,25 +337,38 @@ namespace RedumpTool.Features
             string? masteringSid = MasteringSidInput.Value;
             MediaType? media = MediaInput.Value.ToMediaType();
             string? mouldSid = MouldSidInput.Value;
-            int? offset = OffsetInput.Value;
+            DiscTag[]? notTags = NotTagsInput.Value is null
+                ? null
+                : [.. NotTagsInput.Value.ConvertAll(t => t.ToDiscTag() ?? 0)];
+            int? offsetMax = OffsetMaxInput.Value;
+            int? offsetMin = OffsetMinInput.Value;
             SortDirection? order = OrderInput.Value.ToSortDirection();
             string? protection = ProtectionInput.Value;
+            string? pvdDateMax = PvdDateMaxInput.Value;
+            string? pvdDateMin = PvdDateMinInput.Value;
             string? query = QueryInput.Value;
             RegionCode? region = RegionInput.Value.ToRegionCode();
-            string? ringcode = RingcodeInput.Value;
             string? serial = SerialInput.Value;
-            bool? serialExact = SerialExactInput.Value;
+            string? serialMode = SerialModeInput.Value;
             SortCategory? sort = SortInput.Value.ToSortCategory();
             DumpStatus? status = StatusInput.Value.ToDumpStatus();
             PhysicalSystem? system = SystemInput.Value.ToPhysicalSystem();
+            DiscTag[]? tags = TagsInput.Value is null
+                ? null
+                : [.. TagsInput.Value.ConvertAll(t => t.ToDiscTag() ?? 0)];;
+            string? tagMode = TagModeInput.Value;
             string? title = TitleInput.Value;
-            bool? titleExact = TitleExactInput.Value;
+            string? titleMode = TitleModeInput.Value;
             string? titleForeign = TitleForeignInput.Value;
-            bool? titleForeignExact = TitleForeignExactInput.Value;
+            string? titleForeignMode = TitleForeignModeInput.Value;
             string? toolstamp = ToolstampInput.Value;
-            long? tracksMax = TracksMaximumInput.Value;
-            long? tracksMin = TracksMinimumInput.Value;
+            long? tracksMax = TracksMaxInput.Value;
+            long? tracksMin = TracksMinInput.Value;
             string? universalHash = UniversalHashInput.Value;
+            string? version = VersionInput.Value;
+            string? versionMode = VersionModeInput.Value;
+            string? volumeLabel = VolumeLabelInput.Value;
+            string? volumeLabelMode = VolumeLabelModeInput.Value;
 
             // Build the disc subpaths
             DiscSubpath[] discSubpaths = Constants.AllDiscSubpaths;
@@ -335,46 +414,61 @@ namespace RedumpTool.Features
                     additionalMould,
                     advanced: true, // Hardcoded, only toggles the advanced options on page by default
                     barcode,
-                    barcodeExact,
+                    barcodeMode,
                     category,
                     comments,
                     contents,
                     discNumber,
                     discTitle,
-                    discTitleExact,
+                    discTitleMode,
                     discTitleForeign,
-                    discTitleForeignExact,
+                    discTitleForeignMode,
                     dumper,
                     edc,
                     edition,
-                    editionExact,
+                    editionMode,
                     errorsMax,
                     errorsMin,
+                    exeDateMax,
+                    exeDateMin,
+                    filenameSuffix,
+                    filenameSuffixMode,
+                    internalSerial,
+                    internalSerialMode,
                     language,
                     letter,
                     masteringCode,
                     masteringSid,
                     media,
                     mouldSid,
-                    offset,
+                    notTags,
+                    offsetMax,
+                    offsetMin,
                     order,
                     protection,
+                    pvdDateMax,
+                    pvdDateMin,
                     query,
                     region,
-                    ringcode,
                     serial,
-                    serialExact,
+                    serialMode,
                     sort,
                     status,
                     system,
+                    tagMode,
+                    tags,
                     title,
-                    titleExact,
+                    titleMode,
                     titleForeign,
-                    titleForeignExact,
+                    titleForeignMode,
                     toolstamp,
                     tracksMax,
                     tracksMin,
                     universalHash,
+                    version,
+                    versionMode,
+                    volumeLabel,
+                    volumeLabelMode,
                     limit);
             }
             else if ((minId is null || maxId is null) && !onlyList)
@@ -383,46 +477,61 @@ namespace RedumpTool.Features
                     additionalMould,
                     advanced: true, // Hardcoded, only toggles the advanced options on page by default
                     barcode,
-                    barcodeExact,
+                    barcodeMode,
                     category,
                     comments,
                     contents,
                     discNumber,
                     discTitle,
-                    discTitleExact,
+                    discTitleMode,
                     discTitleForeign,
-                    discTitleForeignExact,
+                    discTitleForeignMode,
                     dumper,
                     edc,
                     edition,
-                    editionExact,
+                    editionMode,
                     errorsMax,
                     errorsMin,
+                    exeDateMax,
+                    exeDateMin,
+                    filenameSuffix,
+                    filenameSuffixMode,
+                    internalSerial,
+                    internalSerialMode,
                     language,
                     letter,
                     masteringCode,
                     masteringSid,
                     media,
                     mouldSid,
-                    offset,
+                    notTags,
+                    offsetMax,
+                    offsetMin,
                     order,
                     protection,
+                    pvdDateMax,
+                    pvdDateMin,
                     query,
                     region,
-                    ringcode,
                     serial,
-                    serialExact,
+                    serialMode,
                     sort,
                     status,
                     system,
+                    tagMode,
+                    tags,
                     title,
-                    titleExact,
+                    titleMode,
                     titleForeign,
-                    titleForeignExact,
+                    titleForeignMode,
                     toolstamp,
                     tracksMax,
                     tracksMin,
                     universalHash,
+                    version,
+                    versionMode,
+                    volumeLabel,
+                    volumeLabelMode,
                     limit,
                     discSubpaths);
             }

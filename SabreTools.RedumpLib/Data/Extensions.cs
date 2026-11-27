@@ -334,6 +334,45 @@ namespace SabreTools.RedumpLib.Data
 
         #endregion
 
+        #region Disc Tag
+
+        /// <summary>
+        /// Get the Redump longnames for each known tag
+        /// </summary>
+        public static string? LongName(this DiscTag tag)
+            => ((DiscTag?)tag).LongName();
+
+        /// <summary>
+        /// Get the Redump longnames for each known tag
+        /// </summary>
+        public static string? LongName(this DiscTag? tag)
+            => AttributeHelper<DiscTag?>.GetHumanReadableAttribute(tag)?.LongName;
+
+        /// <summary>
+        /// Get the DiscTag enum value for a given string
+        /// </summary>
+        /// <param name="tag">String value to convert</param>
+        /// <returns>DiscTag represented by the string, if possible</returns>
+        public static DiscTag? ToDiscTag(this string? tag)
+        {
+            // No value means no match
+            if (tag is null || tag.Length == 0)
+                return null;
+
+            tag = tag.ToLowerInvariant();
+            var tags = (DiscTag[])Enum.GetValues(typeof(DiscTag));
+
+            // Check long names
+            int index = Array.FindIndex(tags, t => tag == t.LongName()?.ToLowerInvariant()
+                || tag == t.LongName()?.Replace(" ", string.Empty)?.ToLowerInvariant());
+            if (index > -1)
+                return tags[index];
+
+            return null;
+        }
+
+        #endregion
+
         #region Dump Status
 
         /// <summary>

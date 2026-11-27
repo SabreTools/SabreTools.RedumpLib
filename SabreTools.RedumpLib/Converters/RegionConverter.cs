@@ -9,11 +9,11 @@ namespace SabreTools.RedumpLib.Converters
     /// <summary>
     /// Serialize Region enum values
     /// </summary>
-    public class RegionConverter : JsonConverter<RegionCode?[]>
+    public class RegionConverter : JsonConverter<RegionCode[]>
     {
         public override bool CanRead { get { return true; } }
 
-        public override RegionCode?[] ReadJson(JsonReader reader, Type objectType, RegionCode?[]? existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override RegionCode[] ReadJson(JsonReader reader, Type objectType, RegionCode[]? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             // If we have a value already, don't overwrite it
             if (hasExistingValue)
@@ -37,7 +37,7 @@ namespace SabreTools.RedumpLib.Converters
             return [.. regions];
         }
 
-        public override void WriteJson(JsonWriter writer, RegionCode?[]? value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, RegionCode[]? value, JsonSerializer serializer)
         {
             if (value is null)
                 return;
@@ -45,7 +45,7 @@ namespace SabreTools.RedumpLib.Converters
             JArray array = [];
             foreach (var val in value)
             {
-                JToken t = JToken.FromObject(val?.Code ?? string.Empty);
+                JToken t = JToken.FromObject(val.Code ?? string.Empty);
                 array.Add(t);
             }
 

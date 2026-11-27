@@ -91,6 +91,9 @@ namespace SabreTools.RedumpLib.Tools
             else
                 info.DiscIdentity.Category = DiscCategory.Games;
 
+            // Tags
+            // TODO: Support tag pulling when added to the API
+
             // Title
             if (discResponse.Title is not null)
                 info.DiscIdentity.Title = discResponse.Title;
@@ -124,7 +127,7 @@ namespace SabreTools.RedumpLib.Tools
                 && discResponse.Regions is not null
                 && discResponse.Regions.Length > 0)
             {
-                var tempRegions = new List<RegionCode?>();
+                var tempRegions = new List<RegionCode>();
                 foreach (var regionStr in discResponse.Regions)
                 {
                     var region = regionStr.ToRegionCode();
@@ -140,7 +143,7 @@ namespace SabreTools.RedumpLib.Tools
                 && discResponse.Languages is not null
                 && discResponse.Languages.Length > 0)
             {
-                var tempLanguages = new List<LanguageCode?>();
+                var tempLanguages = new List<LanguageCode>();
                 foreach (var languageStr in discResponse.Languages)
                 {
                     var language = languageStr.ToLanguageCode();

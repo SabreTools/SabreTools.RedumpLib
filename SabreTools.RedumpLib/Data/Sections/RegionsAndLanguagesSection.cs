@@ -11,19 +11,19 @@ namespace SabreTools.RedumpLib.Data.Sections
     {
         [JsonProperty(PropertyName = "regions", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonConverter(typeof(RegionConverter))]
-        public RegionCode?[]? Regions { get; set; }
+        public RegionCode[]? Regions { get; set; }
 
         [JsonProperty(PropertyName = "languages", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonConverter(typeof(LanguageConverter))]
-        public LanguageCode?[]? Languages { get; set; }
+        public LanguageCode[]? Languages { get; set; }
 
         /// <inheritdoc/>
         public object Clone()
         {
             return new RegionsAndLanguagesSection
             {
-                Regions = this.Regions?.Clone() as RegionCode?[],
-                Languages = this.Languages?.Clone() as LanguageCode?[],
+                Regions = this.Regions?.Clone() as RegionCode[],
+                Languages = this.Languages?.Clone() as LanguageCode[],
             };
         }
     }

@@ -21,6 +21,10 @@ namespace SabreTools.RedumpLib.Data.Sections
         [JsonConverter(typeof(DiscCategoryConverter))]
         public DiscCategory? Category { get; set; }
 
+        [JsonProperty(PropertyName = "tags", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonConverter(typeof(DiscTagConverter))]
+        public DiscTag[]? Tags { get; set; }
+
         [JsonProperty(PropertyName = "title", NullValueHandling = NullValueHandling.Include)]
         public string? Title { get; set; }
 
@@ -48,6 +52,7 @@ namespace SabreTools.RedumpLib.Data.Sections
                 System = this.System,
                 Media = this.Media,
                 Category = this.Category,
+                Tags = this.Tags?.Clone() as DiscTag[],
                 Title = this.Title,
                 ForeignTitle = this.ForeignTitle,
                 DiscNumber = this.DiscNumber,

@@ -17,6 +17,7 @@
         public const string SystemField = "System";
         public const string MediaTypeField = "Media Type";
         public const string CategoryField = "Category";
+        public const string TagsField = "Tags";
         public const string TitleField = "Title";
         public const string ForeignTitleField = "Foreign Title";
         public const string DiscNumberField = "Disc Number";

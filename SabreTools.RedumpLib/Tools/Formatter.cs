@@ -262,6 +262,8 @@ namespace SabreTools.RedumpLib.Tools
                     discIdentifiers?.Layerbreak3),
                 1);
             AddIfExists(output, Template.CategoryField, section.Category.LongName(), 1);
+            AddIfExists(output, Template.TagsField,
+                section.Tags is null || section.Tags.Length == 0 ? [] : Array.ConvertAll(section.Tags, r => r.LongName()), 1);
             AddIfExists(output, Template.TitleField, section.Title, 1);
             AddIfExists(output, Template.ForeignTitleField, section.ForeignTitle, 1);
             AddIfExists(output, Template.DiscNumberField, section.DiscNumber, 1);
@@ -281,9 +283,9 @@ namespace SabreTools.RedumpLib.Tools
             output.AppendLine("Regions and Languages:");
 
             AddIfExists(output, Template.RegionsField,
-                Array.ConvertAll(section.Regions ?? [null], r => r?.Name ?? "SPACE! (CHANGE THIS)"), 1);
+                section.Regions is null || section.Regions.Length == 0 ? ["SPACE! (CHANGE THIS)"] : Array.ConvertAll(section.Regions, r => r.Name), 1);
             AddIfExists(output, Template.LanguagesField,
-                Array.ConvertAll(section.Languages ?? [null], l => l?.Name ?? "ADD LANGUAGES HERE (ONLY IF YOU TESTED)"), 1);
+                section.Languages is null || section.Languages.Length == 0 ? ["ADD LANGUAGES HERE (ONLY IF YOU TESTED)"] : Array.ConvertAll(section.Languages, l => l.Name), 1);
         }
 
         /// <summary>

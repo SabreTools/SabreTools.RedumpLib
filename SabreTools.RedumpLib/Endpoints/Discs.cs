@@ -23,6 +23,16 @@ namespace SabreTools.RedumpLib.Endpoints
         [JsonProperty("category")]
         public DiscCategory? Category { get; set; }
 
+        [JsonProperty("tags")]
+        public DiscTag[]? Tags { get; set; }
+
+        // TODO: Limit this to a set of a values?
+        [JsonProperty("tag_mode")]
+        public string? TagMode { get; set; }
+
+        [JsonProperty("not_tags")]
+        public DiscTag[]? NotTags { get; set; }
+
         [JsonProperty("status")]
         public DumpStatus? Status { get; set; }
 
@@ -35,14 +45,16 @@ namespace SabreTools.RedumpLib.Endpoints
         [JsonProperty("title")]
         public string? Title { get; set; }
 
-        [JsonProperty("title_exact")]
-        public bool? TitleExact { get; set; }
+        // TODO: Limit this to a set of a values?
+        [JsonProperty("title_mode")]
+        public string? TitleMode { get; set; }
 
         [JsonProperty("title_foreign")]
         public string? TitleForeign { get; set; }
 
-        [JsonProperty("title_foreign_exact")]
-        public bool? TitleForeignExact { get; set; }
+        // TODO: Limit this to a set of a values?
+        [JsonProperty("title_foreign_mode")]
+        public string? TitleForeignMode { get; set; }
 
         [JsonProperty("disc_number")]
         public string? DiscNumber { get; set; }
@@ -50,32 +62,56 @@ namespace SabreTools.RedumpLib.Endpoints
         [JsonProperty("disc_title")]
         public string? DiscTitle { get; set; }
 
-        [JsonProperty("disc_title_exact")]
-        public bool? DiscTitleExact { get; set; }
+        // TODO: Limit this to a set of a values?
+        [JsonProperty("disc_title_mode")]
+        public string? DiscTitleMode { get; set; }
 
         [JsonProperty("disc_title_foreign")]
         public string? DiscTitleForeign { get; set; }
 
-        [JsonProperty("disc_title_foreign_exact")]
-        public bool? DiscTitleForeignExact { get; set; }
+        // TODO: Limit this to a set of a values?
+        [JsonProperty("disc_title_foreign_mode")]
+        public string? DiscTitleForeignMode { get; set; }
 
         [JsonProperty("serial")]
         public string? Serial { get; set; }
 
-        [JsonProperty("serial_exact")]
-        public bool? SerialExact { get; set; }
+        // TODO: Limit this to a set of a values?
+        [JsonProperty("serial_mode")]
+        public string? SerialMode { get; set; }
+
+        [JsonProperty("filename_suffix")]
+        public string? FilenameSuffix { get; set; }
+
+        // TODO: Limit this to a set of a values?
+        [JsonProperty("filename_suffix_mode")]
+        public string? FilenameSuffixMode { get; set; }
+
+        [JsonProperty("exe_date_min")]
+        public string? ExeDateMin { get; set; }
+
+        [JsonProperty("exe_date_max")]
+        public string? ExeDateMax { get; set; }
+
+        [JsonProperty("pvd_date_min")]
+        public string? PvdDateMin { get; set; }
+
+        [JsonProperty("pvd_date_max")]
+        public string? PvdDateMax { get; set; }
 
         [JsonProperty("edition")]
         public string? Edition { get; set; }
 
-        [JsonProperty("edition_exact")]
-        public bool? EditionExact { get; set; }
+        // TODO: Limit this to a set of a values?
+        [JsonProperty("edition_mode")]
+        public string? EditionMode { get; set; }
 
         [JsonProperty("barcode")]
         public string? Barcode { get; set; }
 
-        [JsonProperty("barcode_exact")]
-        public bool? BarcodeExact { get; set; }
+        // TODO: Limit this to a set of a values?
+        [JsonProperty("barcode_mode")]
+        public string? BarcodeMode { get; set; }
 
         [JsonProperty("universal_hash")]
         public string? UniversalHash { get; set; }
@@ -119,11 +155,32 @@ namespace SabreTools.RedumpLib.Endpoints
         [JsonProperty("additional_mould")]
         public string? AdditionalMould { get; set; }
 
-        [JsonProperty("ringcode")]
-        public string? Ringcode { get; set; }
+        [JsonProperty("offset_min")]
+        public long? OffsetMin { get; set; }
 
-        [JsonProperty("offset")]
-        public long? Offset { get; set; }
+        [JsonProperty("offset_max")]
+        public long? OffsetMax { get; set; }
+
+        [JsonProperty("volume_label")]
+        public string? VolumeLabel { get; set; }
+
+        // TODO: Limit this to a set of a values?
+        [JsonProperty("volume_label_mode")]
+        public string? VolumeLabelMode { get; set; }
+
+        [JsonProperty("internal_serial")]
+        public string? InternalSerial { get; set; }
+
+        // TODO: Limit this to a set of a values?
+        [JsonProperty("internal_serial_mode")]
+        public string? InternalSerialMode { get; set; }
+
+        [JsonProperty("version")]
+        public string? Version { get; set; }
+
+        // TODO: Limit this to a set of a values?
+        [JsonProperty("version_mode")]
+        public string? VersionMode { get; set; }
 
         [JsonProperty("q")]
         public string? Query { get; set; }
@@ -189,6 +246,10 @@ namespace SabreTools.RedumpLib.Endpoints
             if (category is not null)
                 sb.Append($"category={category}&");
 
+            // Tag Mode
+            if (TagMode is not null)
+                sb.Append($"tag_mode={TagMode}&");
+
             // Status
             string? status = Status.LongName();
             if (status is not null)
@@ -205,14 +266,14 @@ namespace SabreTools.RedumpLib.Endpoints
             // Title
             if (Title is not null)
                 sb.Append($"title={Title}&");
-            if (Title is not null && TitleExact is not null)
-                sb.Append($"title_exact={TitleExact.ToYesNo().LongName()}&");
+            if (TitleMode is not null)
+                sb.Append($"title_mode={TitleMode}&");
 
             // Foreign Title
             if (TitleForeign is not null)
                 sb.Append($"title_foreign={TitleForeign}&");
-            if (TitleForeign is not null && TitleForeignExact is not null)
-                sb.Append($"title_foreign_exact={TitleForeignExact.ToYesNo().LongName()}&");
+            if (TitleForeignMode is not null)
+                sb.Append($"title_foreign_mode={TitleForeignMode}&");
 
             // Disc Number
             if (DiscNumber is not null)
@@ -221,36 +282,54 @@ namespace SabreTools.RedumpLib.Endpoints
             // Disc Title
             if (DiscTitle is not null)
                 sb.Append($"disc_title={DiscTitle}&");
-            if (DiscTitle is not null && DiscTitleExact is not null)
-                sb.Append($"disc_title_exact={DiscTitleExact.ToYesNo().LongName()}&");
+            if (DiscTitleMode is not null)
+                sb.Append($"disc_title_mode={DiscTitleMode}&");
 
             // Foreign Disc Title
             if (DiscTitleForeign is not null)
                 sb.Append($"disc_title_foreign={DiscTitleForeign}&");
-            if (DiscTitleForeign is not null && DiscTitleForeignExact is not null)
-                sb.Append($"disc_title_foreign_exact={DiscTitleForeignExact.ToYesNo().LongName()}&");
+            if (DiscTitleForeignMode is not null)
+                sb.Append($"disc_title_foreign_mode={DiscTitleForeignMode}&");
 
             // Serial
             if (Serial is not null)
                 sb.Append($"serial={Serial}&");
-            if (Serial is not null && SerialExact is not null)
-                sb.Append($"serial_exact={SerialExact.ToYesNo().LongName()}&");
+            if (SerialMode is not null)
+                sb.Append($"serial_mode={SerialMode}&");
+
+            // Filename Suffix
+            if (FilenameSuffix is not null)
+                sb.Append($"filename_suffix={FilenameSuffix}&");
+            if (FilenameSuffixMode is not null)
+                sb.Append($"filename_suffix_mode={FilenameSuffixMode}&");
 
             // Edition
             if (Edition is not null)
                 sb.Append($"edition={Edition}&");
-            if (Edition is not null && EditionExact is not null)
-                sb.Append($"edition_exact={EditionExact.ToYesNo().LongName()}&");
+            if (Edition is not null && EditionMode is not null)
+                sb.Append($"edition_mode={EditionMode}&");
 
             // Barcode
             if (Barcode is not null)
                 sb.Append($"barcode={Barcode}&");
-            if (Barcode is not null && BarcodeExact is not null)
-                sb.Append($"barcode_exact={BarcodeExact.ToYesNo().LongName()}&");
+            if (Barcode is not null && BarcodeMode is not null)
+                sb.Append($"barcode_mode={BarcodeMode}&");
 
             // Universal Hash
             if (UniversalHash is not null)
                 sb.Append($"universal_hash={UniversalHash}&");
+
+            // EXE Date
+            if (ExeDateMin is not null)
+                sb.Append($"exe_date_min={ExeDateMin}&");
+            if (ExeDateMax is not null)
+                sb.Append($"exe_date_max={ExeDateMax}&");
+
+            // PVD Date
+            if (PvdDateMin is not null)
+                sb.Append($"pvd_date_min={PvdDateMin}&");
+            if (PvdDateMax is not null)
+                sb.Append($"pvd_date_max={PvdDateMax}&");
 
             // Track Count
             if (TracksMin is not null)
@@ -300,13 +379,23 @@ namespace SabreTools.RedumpLib.Endpoints
             if (AdditionalMould is not null)
                 sb.Append($"additional_mould={AdditionalMould}&");
 
-            // Ringcode
-            if (Ringcode is not null)
-                sb.Append($"ringcode={Ringcode}&");
-
             // Offset
-            if (Offset is not null)
-                sb.Append($"offset={Offset}&");
+            if (OffsetMin is not null)
+                sb.Append($"offset_min={OffsetMin}&");
+            if (OffsetMax is not null)
+                sb.Append($"offset_max={OffsetMax}&");
+
+            // Volume Label
+            if (VolumeLabel is not null)
+                sb.Append($"volume_label={VolumeLabel}&");
+            if (VolumeLabelMode is not null)
+                sb.Append($"volume_label_mode={VolumeLabelMode}&");
+
+            // Internal Serial
+            if (InternalSerial is not null)
+                sb.Append($"internal_serial={InternalSerial}&");
+            if (InternalSerialMode is not null)
+                sb.Append($"internal_serial_mode={InternalSerialMode}&");
 
             // General Query
             if (Query is not null)
@@ -327,6 +416,25 @@ namespace SabreTools.RedumpLib.Endpoints
             // Advanced
             if (Advanced is not null)
                 sb.Append($"advanced={(Advanced.Value ? "1" : "0")}&");
+
+            // Tags
+            if (Tags is not null && Tags.Length > 0)
+            {
+                foreach (var tag in Tags)
+                {
+                    // TODO: Should be URL encoded
+                    sb.Append($"tag={tag}&");
+                }
+            }
+
+            if (NotTags is not null && NotTags.Length > 0)
+            {
+                foreach (var tag in NotTags)
+                {
+                    // TODO: Should be URL encoded
+                    sb.Append($"not_tag={tag}&");
+                }
+            }
 
             return sb.ToString();
         }
