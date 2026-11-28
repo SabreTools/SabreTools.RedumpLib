@@ -92,7 +92,18 @@ namespace SabreTools.RedumpLib.Tools
                 info.DiscIdentity.Category = DiscCategory.Games;
 
             // Tags
-            // TODO: Support tag pulling when added to the API
+            if (discResponse.Tags is not null)
+            {
+                var tempTags = new List<DiscTag>();
+                foreach (var tagStr in discResponse.Tags)
+                {
+                    var tag = tagStr.ToDiscTag();
+                    if (tag is not null)
+                        tempTags.Add(tag.Value);
+                }
+
+                info.DiscIdentity.Tags = [.. tempTags];
+            }
 
             // Title
             if (discResponse.Title is not null)

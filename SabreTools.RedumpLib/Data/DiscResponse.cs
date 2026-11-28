@@ -21,6 +21,9 @@ namespace SabreTools.RedumpLib.Data
         [JsonProperty("category")]
         public string? Category { get; set; }
 
+        [JsonProperty("tags")]
+        public string[]? Tags { get; set; }
+
         [JsonProperty("status")]
         public string? Status { get; set; }
 
