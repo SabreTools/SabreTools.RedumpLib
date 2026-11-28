@@ -459,6 +459,29 @@ namespace SabreTools.RedumpLib.Tools
         #region Helpers
 
         /// <summary>
+        /// Normalize whitespace for consistent output
+        /// </summary>
+        /// <param name="value">Value to normalize</param>
+        /// <returns>Whitespace-normalized text</returns>
+        internal static string NormalizeWhitespace(string value)
+        {
+            // Convert to tabs
+#if NETCOREAPP
+            value = value.Replace("<tab>", "\t", StringComparison.OrdinalIgnoreCase);
+#else
+            value = value.Replace("<tab>", "\t");
+            value = value.Replace("<TAB>", "\t");
+            value = value.Replace("<Tab>", "\t");
+#endif
+            value = value.Replace("  ", "\t");
+
+            // Sanitize whitespace around tabs
+            value = Regex.Replace(value, @"\s*\t\s*", "\t", RegexOptions.Compiled);
+
+            return value;
+        }
+
+        /// <summary>
         /// Add the properly formatted key and value, if possible
         /// </summary>
         /// <param name="output">String builder representing the output</param>
@@ -478,23 +501,8 @@ namespace SabreTools.RedumpLib.Tools
             }
 
             // Skip fields that need to keep internal whitespace intact
-            if (key != "Primary Volume Descriptor (PVD)"
-                && key != "Header"
-                && key != "Cuesheet")
-            {
-                // Convert to tabs
-#if NETCOREAPP
-                value = value.Replace("<tab>", "\t", StringComparison.OrdinalIgnoreCase);
-#else
-                value = value.Replace("<tab>", "\t");
-                value = value.Replace("<TAB>", "\t");
-                value = value.Replace("<Tab>", "\t");
-#endif
-                value = value.Replace("  ", "\t");
-
-                // Sanitize whitespace around tabs
-                value = Regex.Replace(value, @"\s*\t\s*", "\t", RegexOptions.Compiled);
-            }
+            if (key != Template.PVDField && key != Template.HeaderField && key != Template.CuesheetField)
+                value = NormalizeWhitespace(value);
 
             // If the value contains a newline
             value = value.Replace("\r\n", "\n");
