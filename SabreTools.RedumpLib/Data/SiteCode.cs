@@ -1,3 +1,5 @@
+using System;
+
 namespace SabreTools.RedumpLib.Data
 {
     /// <summary>
@@ -245,6 +247,7 @@ namespace SabreTools.RedumpLib.Data
             isContentCode: true,
             isMultiLine: true);
 
+        [Obsolete("Use DiscTag.PCMacHybrid instead")]
         public static readonly SiteCode PCMacHybrid = new("PC/Mac Hybrid",
             isBoolean: true,
             isCommentCode: true);
@@ -419,7 +422,9 @@ namespace SabreTools.RedumpLib.Data
             OriginID,
 
             Patches,
+#pragma warning disable CS0618 // Type or member is obsolete
             PCMacHybrid,
+#pragma warning restore CS0618 // Type or member is obsolete
             PEGIID,
             PlayableDemos,
             PonyCanyonID,

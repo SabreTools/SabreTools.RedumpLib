@@ -664,7 +664,9 @@ namespace SabreTools.RedumpLib.Test.Tools
         public void FormatSiteTag_BooleanTrue_Formatted()
         {
             string expected = "PC/Mac Hybrid";
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode code = SiteCode.PCMacHybrid;
+#pragma warning restore CS0618 // Type or member is obsolete
             string value = "True";
 
             string actual = Formatter.FormatSiteTag(code, value);
@@ -674,7 +676,9 @@ namespace SabreTools.RedumpLib.Test.Tools
         [Fact]
         public void FormatSiteTag_BooleanFalse_Empty()
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode code = SiteCode.PCMacHybrid;
+#pragma warning restore CS0618 // Type or member is obsolete
             string value = "XXXXXX";
 
             string actual = Formatter.FormatSiteTag(code, value);

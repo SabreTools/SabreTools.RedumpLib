@@ -86,7 +86,9 @@ namespace SabreTools.RedumpLib.Tools
             SiteCode.ValveID,
 
             // Standardized Comments
+#pragma warning disable CS0618 // Type or member is obsolete
             SiteCode.PCMacHybrid,
+#pragma warning restore CS0618 // Type or member is obsolete
         ];
 
         /// <summary>
