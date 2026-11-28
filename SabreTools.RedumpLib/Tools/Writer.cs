@@ -13,69 +13,13 @@ namespace SabreTools.RedumpLib.Tools
     public static class Writer
     {
         /// <summary>
-        /// Write submission info data to a formatted text file
-        /// </summary>
-        /// <param name="info">SubmissionInfo object representing data to write</param>
-        /// <param name="outputDirectory">Output folder to use as the base path</param>
-        /// <param name="filenameSuffix">Optional suffix to append to the filename</param>
-        /// <returns>True on success, false on error</returns>
-        public static bool WriteToText(this SubmissionInfo? info, string? outputDirectory, string? filenameSuffix, out string status)
-        {
-            // Check to see if the input is valid
-            if (info is null)
-            {
-                status = "No submission information found to write!";
-                return false;
-            }
-
-            // Format the lines to be written to the output
-            string? lines = Formatter.FormatOutputData(info, out string? formatStatus);
-            if (lines is null)
-            {
-                status = formatStatus ?? "No formatted data found to write!";
-                return false;
-            }
-
-            // Now write out to a generic file
-            try
-            {
-                // Get the file path
-                var path = string.Empty;
-                if (string.IsNullOrEmpty(outputDirectory) && string.IsNullOrEmpty(filenameSuffix))
-                    path = "!submissionInfo.txt";
-                else if (string.IsNullOrEmpty(outputDirectory) && !string.IsNullOrEmpty(filenameSuffix))
-                    path = $"!submissionInfo_{filenameSuffix}.txt";
-                else if (!string.IsNullOrEmpty(outputDirectory) && string.IsNullOrEmpty(filenameSuffix))
-                    path = Path.Combine(outputDirectory, "!submissionInfo.txt");
-                else if (!string.IsNullOrEmpty(outputDirectory) && !string.IsNullOrEmpty(filenameSuffix))
-                    path = Path.Combine(outputDirectory, $"!submissionInfo_{filenameSuffix}.txt");
-
-                // Ensure the output directory has been created
-                string? parentDirectory = Path.GetDirectoryName(path);
-                if (parentDirectory is not null)
-                    Directory.CreateDirectory(parentDirectory);
-
-                using var sw = new StreamWriter(File.Open(path, FileMode.Create, FileAccess.Write), Encoding.UTF8);
-                sw.Write(lines);
-            }
-            catch (Exception ex)
-            {
-                status = $"Writing could not complete: {ex}";
-                return false;
-            }
-
-            status = "Writing complete!";
-            return true;
-        }
-
-        /// <summary>
         /// Write submission info data to a formatted JSON file
         /// </summary>
         /// <param name="info">SubmissionInfo object representing data to write</param>
         /// <param name="outputDirectory">Output folder to use as the base path</param>
         /// <param name="filenameSuffix">Optional suffix to append to the filename</param>
         /// <returns>True on success, false on error</returns>
-        public static bool WriteOutputData(this SubmissionInfo? info, string? outputDirectory, string? filenameSuffix)
+        public static bool WriteToJson(this SubmissionInfo? info, string? outputDirectory, string? filenameSuffix)
         {
             // Check to see if the input is valid
             if (info is null)
@@ -138,6 +82,62 @@ namespace SabreTools.RedumpLib.Tools
                 return false;
             }
 
+            return true;
+        }
+
+        /// <summary>
+        /// Write submission info data to a formatted text file
+        /// </summary>
+        /// <param name="info">SubmissionInfo object representing data to write</param>
+        /// <param name="outputDirectory">Output folder to use as the base path</param>
+        /// <param name="filenameSuffix">Optional suffix to append to the filename</param>
+        /// <returns>True on success, false on error</returns>
+        public static bool WriteToText(this SubmissionInfo? info, string? outputDirectory, string? filenameSuffix, out string status)
+        {
+            // Check to see if the input is valid
+            if (info is null)
+            {
+                status = "No submission information found to write!";
+                return false;
+            }
+
+            // Format the lines to be written to the output
+            string? lines = Formatter.FormatOutputData(info, out string? formatStatus);
+            if (lines is null)
+            {
+                status = formatStatus ?? "No formatted data found to write!";
+                return false;
+            }
+
+            // Now write out to a generic file
+            try
+            {
+                // Get the file path
+                var path = string.Empty;
+                if (string.IsNullOrEmpty(outputDirectory) && string.IsNullOrEmpty(filenameSuffix))
+                    path = "!submissionInfo.txt";
+                else if (string.IsNullOrEmpty(outputDirectory) && !string.IsNullOrEmpty(filenameSuffix))
+                    path = $"!submissionInfo_{filenameSuffix}.txt";
+                else if (!string.IsNullOrEmpty(outputDirectory) && string.IsNullOrEmpty(filenameSuffix))
+                    path = Path.Combine(outputDirectory, "!submissionInfo.txt");
+                else if (!string.IsNullOrEmpty(outputDirectory) && !string.IsNullOrEmpty(filenameSuffix))
+                    path = Path.Combine(outputDirectory, $"!submissionInfo_{filenameSuffix}.txt");
+
+                // Ensure the output directory has been created
+                string? parentDirectory = Path.GetDirectoryName(path);
+                if (parentDirectory is not null)
+                    Directory.CreateDirectory(parentDirectory);
+
+                using var sw = new StreamWriter(File.Open(path, FileMode.Create, FileAccess.Write), Encoding.UTF8);
+                sw.Write(lines);
+            }
+            catch (Exception ex)
+            {
+                status = $"Writing could not complete: {ex}";
+                return false;
+            }
+
+            status = "Writing complete!";
             return true;
         }
 
