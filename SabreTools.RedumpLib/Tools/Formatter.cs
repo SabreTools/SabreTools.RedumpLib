@@ -463,8 +463,12 @@ namespace SabreTools.RedumpLib.Tools
         /// </summary>
         /// <param name="value">Value to normalize</param>
         /// <returns>Whitespace-normalized text</returns>
-        internal static string NormalizeWhitespace(string value)
+        internal static string? NormalizeWhitespace(string? value)
         {
+            // Ignore null values
+            if (value is null)
+                return value;
+
             // Convert to tabs
 #if NETCOREAPP
             value = value.Replace("<tab>", "\t", StringComparison.OrdinalIgnoreCase);
@@ -502,7 +506,7 @@ namespace SabreTools.RedumpLib.Tools
 
             // Skip fields that need to keep internal whitespace intact
             if (key != Template.PVDField && key != Template.HeaderField && key != Template.CuesheetField)
-                value = NormalizeWhitespace(value);
+                value = NormalizeWhitespace(value) ?? string.Empty;
 
             // If the value contains a newline
             value = value.Replace("\r\n", "\n");

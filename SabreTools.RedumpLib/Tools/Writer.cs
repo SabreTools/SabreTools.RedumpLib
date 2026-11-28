@@ -81,6 +81,36 @@ namespace SabreTools.RedumpLib.Tools
             if (info is null)
                 return false;
 
+            // Clone the submission info to perform normalization steps
+            if (info.Clone() is not SubmissionInfo infoClone)
+                return false;
+
+            // Normalize whitespace in all ringcode fields
+            // TODO: Figure out how to make this act more like AddIfExists(StringBuilder, string, string?, int)
+            infoClone.RingCodes.Layer0MasteringCode = Formatter.NormalizeWhitespace(infoClone.RingCodes.Layer0MasteringCode);
+            infoClone.RingCodes.Layer0MasteringSID = Formatter.NormalizeWhitespace(infoClone.RingCodes.Layer0MasteringSID);
+            infoClone.RingCodes.Layer0Toolstamps = Formatter.NormalizeWhitespace(infoClone.RingCodes.Layer0Toolstamps);
+            infoClone.RingCodes.Layer0MouldSIDs = Formatter.NormalizeWhitespace(infoClone.RingCodes.Layer0MouldSIDs);
+            infoClone.RingCodes.Layer0AdditionalMoulds = Formatter.NormalizeWhitespace(infoClone.RingCodes.Layer0AdditionalMoulds);
+
+            infoClone.RingCodes.Layer1MasteringCode = Formatter.NormalizeWhitespace(infoClone.RingCodes.Layer1MasteringCode);
+            infoClone.RingCodes.Layer1MasteringSID = Formatter.NormalizeWhitespace(infoClone.RingCodes.Layer1MasteringSID);
+            infoClone.RingCodes.Layer1Toolstamps = Formatter.NormalizeWhitespace(infoClone.RingCodes.Layer1Toolstamps);
+
+            infoClone.RingCodes.Layer2MasteringCode = Formatter.NormalizeWhitespace(infoClone.RingCodes.Layer2MasteringCode);
+            infoClone.RingCodes.Layer2MasteringSID = Formatter.NormalizeWhitespace(infoClone.RingCodes.Layer2MasteringSID);
+            infoClone.RingCodes.Layer2Toolstamps = Formatter.NormalizeWhitespace(infoClone.RingCodes.Layer2Toolstamps);
+
+            infoClone.RingCodes.Layer3MasteringCode = Formatter.NormalizeWhitespace(infoClone.RingCodes.Layer3MasteringCode);
+            infoClone.RingCodes.Layer3MasteringSID = Formatter.NormalizeWhitespace(infoClone.RingCodes.Layer3MasteringSID);
+            infoClone.RingCodes.Layer3Toolstamps = Formatter.NormalizeWhitespace(infoClone.RingCodes.Layer3Toolstamps);
+
+            infoClone.RingCodes.LabelSideMasteringCode = Formatter.NormalizeWhitespace(infoClone.RingCodes.LabelSideMasteringCode);
+            infoClone.RingCodes.LabelSideMasteringSID = Formatter.NormalizeWhitespace(infoClone.RingCodes.LabelSideMasteringSID);
+            infoClone.RingCodes.LabelSideToolstamps = Formatter.NormalizeWhitespace(infoClone.RingCodes.LabelSideToolstamps);
+            infoClone.RingCodes.LabelSideMouldSIDs = Formatter.NormalizeWhitespace(infoClone.RingCodes.LabelSideMouldSIDs);
+            infoClone.RingCodes.LabelSideAdditionalMoulds = Formatter.NormalizeWhitespace(infoClone.RingCodes.LabelSideAdditionalMoulds);
+
             try
             {
                 // Get the output path
@@ -100,7 +130,7 @@ namespace SabreTools.RedumpLib.Tools
                 // Create the JSON serializer
                 var serializer = new JsonSerializer { Formatting = Formatting.Indented };
                 using var sw = new StreamWriter(fs, Encoding.UTF8);
-                serializer.Serialize(sw, info);
+                serializer.Serialize(sw, infoClone);
             }
             catch
             {
